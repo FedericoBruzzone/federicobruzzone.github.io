@@ -5,7 +5,7 @@ title: Abstract Factory pattern - Object Creational
 date: 2023-01-02
 draft: false
 description: "Provide an interface for creating families of related or dependent objects without specifying their concrete class."
-;cover: "/Abstract Factory pattern - Object Creational/img/cover.png"
+;cover: "/Abstract Factory pattern - Object Creational//cover.png"
 tags: [programming, design-patterns, computer-science, object-oriented, clean-code]
 categories: [programming, design-pattern]
 math: true
@@ -18,7 +18,7 @@ math: true
 ## A summary of GoF Design Patters
 -->
 
-![Cover](/img/design-pattern/Abstract%20Factory%20pattern%20-%20Object%20Creational/img/cover.png)
+![Cover](/design-pattern/Abstract%20Factory%20pattern%20-%20Object%20Creational/img/cover.png)
 
 By **Dmitry Zhart** ([refactoring.guru](https://refactoring.guru/))
 
@@ -34,7 +34,7 @@ Kit
 
 # Motivation
 
-![1](/img/design-pattern/Abstract%20Factory%20pattern%20-%20Object%20Creational/img/1.png)
+![1](/design-pattern/Abstract%20Factory%20pattern%20-%20Object%20Creational/img/1.png)
 
 Consider a user interface toolkit that supports multiple look-and-feel standards. Different look-and-feel define different appearances and behaviors for user interface "widgets" like scroll vars, windows, and buttons. Instantiating look-and-feel-specific classes of widgets throughout the application makes it hard to change the look and feel later.
 
@@ -58,7 +58,7 @@ Use the Abstract Factory pattern when
 
 # Structure
 
-![2](/Abstract%20Factory%20pattern%20-%20Object%20Creational/img/2.png)
+![2](/design-pattern/Abstract%20Factory%20pattern%20-%20Object%20Creational/img/2.png)
 
 # Participants
 
@@ -128,7 +128,7 @@ We will apply the Abstract Factory pattern to creating the mazes.
 
 To better understand the following code and the classes used look 
 
-[**>>> here🔗! <<<**](https://github.com/FedericoBruzzone/medium/tree/main/commoncode)
+[here🔗!](https://github.com/FedericoBruzzone/federicobruzzone.github.io/tree/main/static/design-pattern/commoncode)
 
 Class *MazeFactory* can create components of mazes. It build rooms, walls, and doors between rooms. For instance, it might be used by a program that builds mazes randomly. Programs that build mazes take a *MazeFactory* as an argument so that the programmer can specify the classes of rooms, walls, and doors to construct.
 
@@ -184,7 +184,7 @@ public class MazeGame_Factory {
 
 Now suppose we want to make a maze game in which a room can have a bomb set in it, and if the bomb goes off, it will damage the walls.
 
-We can make a subclass of *Room* ([here 🔗](https://github.com/FedericoBruzzone/medium/tree/main/commoncode)) keep track if a room has a bomb in it.
+We can make a subclass of *Room* ([here 🔗](https://github.com/FedericoBruzzone/federicobruzzone.github.io/tree/main/static/design-pattern/commoncode)) keep track if a room has a bomb in it.
 
 ```Java
 public class RoomWithABomb extends Room {

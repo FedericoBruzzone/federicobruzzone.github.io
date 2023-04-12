@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     
@@ -210,7 +210,7 @@ Motivation #  Consider a user interface toolkit that supports multiple look-and-
       
       <!-- raw HTML omitted -->
 <!-- raw HTML omitted -->
-<p><img src="/img/design-pattern/Abstract%20Factory%20pattern%20-%20Object%20Creational/img/cover.png" alt="Cover"></p>
+<p><img src="/design-pattern/Abstract%20Factory%20pattern%20-%20Object%20Creational/img/cover.png" alt="Cover"></p>
 <p>By <strong>Dmitry Zhart</strong> (<a href="https://refactoring.guru/">refactoring.guru</a>)</p>
 <hr>
 <h1 id="intent">
@@ -227,7 +227,7 @@ Motivation #  Consider a user interface toolkit that supports multiple look-and-
   Motivation
   <a href="#motivation" class="h-anchor" aria-hidden="true">#</a>
 </h1>
-<p><img src="/img/design-pattern/Abstract%20Factory%20pattern%20-%20Object%20Creational/img/1.png" alt="1"></p>
+<p><img src="/design-pattern/Abstract%20Factory%20pattern%20-%20Object%20Creational/img/1.png" alt="1"></p>
 <p>Consider a user interface toolkit that supports multiple look-and-feel standards. Different look-and-feel define different appearances and behaviors for user interface &ldquo;widgets&rdquo; like scroll vars, windows, and buttons. Instantiating look-and-feel-specific classes of widgets throughout the application makes it hard to change the look and feel later.</p>
 <p>We can solve this problem by defining an abstract WidgetFactory class that declares an interface for creating each basic kind of widget. There is also an abstract class for each kind of widget, and concrete subclasses implement widgets for specific look-and-feel standards. WidgetFactory&rsquo;s interface has an operation that returns a new widget object for each abstract widget class. Clients call these operations to obtain widget instances.</p>
 <p>There is a concrete subclass of WidgetFactory for each look-and-feel standard. Client create widgets solely through the WidgetFactory interface and have no knowledge of the classes that implement widget for a particular look and feel.</p>
@@ -255,7 +255,7 @@ Motivation #  Consider a user interface toolkit that supports multiple look-and-
   Structure
   <a href="#structure" class="h-anchor" aria-hidden="true">#</a>
 </h1>
-<p><img src="/Abstract%20Factory%20pattern%20-%20Object%20Creational/img/2.png" alt="2"></p>
+<p><img src="/design-pattern/Abstract%20Factory%20pattern%20-%20Object%20Creational/img/2.png" alt="2"></p>
 <h1 id="participants">
   Participants
   <a href="#participants" class="h-anchor" aria-hidden="true">#</a>
@@ -358,7 +358,7 @@ Motivation #  Consider a user interface toolkit that supports multiple look-and-
 </h1>
 <p>We will apply the Abstract Factory pattern to creating the mazes.</p>
 <p>To better understand the following code and the classes used look</p>
-<p><a href="https://github.com/FedericoBruzzone/medium/tree/main/commoncode"><strong>&raquo;&gt; here🔗! &laquo;&lt;</strong></a></p>
+<p><a href="https://github.com/FedericoBruzzone/federicobruzzone.github.io/tree/main/static/design-pattern/commoncode">here🔗!</a></p>
 <p>Class <em>MazeFactory</em> can create components of mazes. It build rooms, walls, and doors between rooms. For instance, it might be used by a program that builds mazes randomly. Programs that build mazes take a <em>MazeFactory</em> as an argument so that the programmer can specify the classes of rooms, walls, and doors to construct.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MazeFactory</span> <span style="color:#f92672">{</span>
 
@@ -404,7 +404,7 @@ Motivation #  Consider a user interface toolkit that supports multiple look-and-
   
 <span style="color:#f92672">}</span>
 </code></pre></div><p>Now suppose we want to make a maze game in which a room can have a bomb set in it, and if the bomb goes off, it will damage the walls.</p>
-<p>We can make a subclass of <em>Room</em> (<a href="https://github.com/FedericoBruzzone/medium/tree/main/commoncode">here 🔗</a>) keep track if a room has a bomb in it.</p>
+<p>We can make a subclass of <em>Room</em> (<a href="https://github.com/FedericoBruzzone/federicobruzzone.github.io/tree/main/static/design-pattern/commoncode">here 🔗</a>) keep track if a room has a bomb in it.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">RoomWithABomb</span> <span style="color:#66d9ef">extends</span> Room <span style="color:#f92672">{</span>
   
   <span style="color:#66d9ef">int</span> bombDamage<span style="color:#f92672">;</span>

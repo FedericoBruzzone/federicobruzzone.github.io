@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     
@@ -210,7 +210,7 @@ Motivation #  Framework use abstract classes to define and maintain relationship
       
       <!-- raw HTML omitted -->
 <!-- raw HTML omitted -->
-<p><img src="/img/design-pattern/Factory%20Method%20pattern%20-%20Class%20Creational/img/cover.png" alt="Cover"></p>
+<p><img src="/design-pattern/Factory%20Method%20pattern%20-%20Class%20Creational/img/cover.png" alt="Cover"></p>
 <p>By <strong>Dmitry Zhart</strong> (<a href="https://refactoring.guru/">refactoring.guru</a>)</p>
 <h1 id="intent">
   Intent
@@ -226,7 +226,7 @@ Motivation #  Framework use abstract classes to define and maintain relationship
   Motivation
   <a href="#motivation" class="h-anchor" aria-hidden="true">#</a>
 </h1>
-<p><img src="/img/design-pattern/Factory%20Method%20pattern%20-%20Class%20Creational/img/1.png" alt="1"></p>
+<p><img src="/design-pattern/Factory%20Method%20pattern%20-%20Class%20Creational/img/1.png" alt="1"></p>
 <p>Framework use abstract classes to define and maintain relationship between objects. A framework is often responsible for creating these objects as well. </p>
 <p>Consider a framework for applications that can present multiple documents to the user. Two key abstractions in this framework are the classes Application and the Document. Both classes are abstract, and clients have to subclass them to realize their application-specific implementations. The Application class is responsible for managing Documents and will create them as required.</p>
 <p>Because the particular Document subclass to instantiate is application-specific, the Application class can&rsquo;t predict the subclass of Document to instantiate - the Application class only knows <em>when</em> a new document should be created, not <em>what kind</em> of Document to create.</p>
@@ -252,7 +252,7 @@ Motivation #  Framework use abstract classes to define and maintain relationship
   Structure
   <a href="#structure" class="h-anchor" aria-hidden="true">#</a>
 </h1>
-<p><img src="/img/design-pattern/Factory%20Method%20pattern%20-%20Class%20Creational/img/2.png" alt="2"></p>
+<p><img src="/design-pattern/Factory%20Method%20pattern%20-%20Class%20Creational/img/2.png" alt="2"></p>
 <h1 id="participants">
   Participants
   <a href="#participants" class="h-anchor" aria-hidden="true">#</a>
@@ -317,7 +317,7 @@ Motivation #  Framework use abstract classes to define and maintain relationship
 </li>
 </ol>
 <p>With this constraints, it&rsquo;s better to use separate Manipulator object that implements the interaction and keeps track of any manipulation-specific state that&rsquo;s needed.</p>
-<p><img src="/img/design-pattern/Factory%20Method%20pattern%20-%20Class%20Creational/img/3.png" alt="3"></p>
+<p><img src="/design-pattern/Factory%20Method%20pattern%20-%20Class%20Creational/img/3.png" alt="3"></p>
 <p>The Figure class provides a CreateManipulator factory method that lets client create a Figure&rsquo;s corresponding Manipulator. Figure subclasses override this method to return an instance of the Manipulator subclass that&rsquo;s right for them. Alternatively, the Figure class may implement CreateManipulator to return a default Manipulator instance, and Figure subclasses may simply inherit default. </p>
 <p>Notice how the factory method defines the connection between the two class hierarchies. It localize knowledge of which classes belong together.</p>
 <h1 id="implementation">
@@ -346,8 +346,8 @@ Motivation #  Framework use abstract classes to define and maintain relationship
   <a href="#sample-code" class="h-anchor" aria-hidden="true">#</a>
 </h1>
 <p>To better understand the following code and the classes used look</p>
-<p><a href="https://github.com/FedericoBruzzone/medium/tree/main/commoncode"><strong>&raquo;&gt; here🔗! &laquo;&lt;</strong></a></p>
-<p>The function <a href="https://github.com/FedericoBruzzone/medium/tree/main/commoncode"><em>CreateMaze</em></a> builds and returns a maze. One problem with this function is that it hard-codes the classes of maze, rooms, doors, and walls.We&rsquo;ll introduce factory methods to let subclasses choose these components.</p>
+<p><a href="https://github.com/FedericoBruzzone/federicobruzzone.github.io/blob/main/static/design-pattern/commoncode">here🔗!</a></p>
+<p>The function <a href="https://github.com/FedericoBruzzone/federicobruzzone.github.io/blob/main/static/design-pattern/commoncode/MazeGame_First.java"><em>CreateMaze</em></a> builds and returns a maze. One problem with this function is that it hard-codes the classes of maze, rooms, doors, and walls.We&rsquo;ll introduce factory methods to let subclasses choose these components.</p>
 <p>First we&rsquo;ll define factory methods in <em>MazeGame</em> for creating the maze,room,wall, and door objects:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java"><span style="color:#f92672">import</span> commoncode.*<span style="color:#f92672">;</span>
 

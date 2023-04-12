@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     
@@ -209,7 +209,7 @@ If you did not know who Maurits Cornelis Escher was, he was an one of the greate
       <!-- raw HTML omitted -->
 <!-- raw HTML omitted -->
 <hr>
-<p><img src="/img/design-pattern/Design%20Patterns%20%E2%80%8A-%E2%80%8A%20Introduction/img/1.jpeg" alt="Cover art © 1994 M.C. Escher / Cordon Art - Baarn - Holland. All right reserved."></p>
+<p><img src="/design-pattern/Design%20Patterns%20%E2%80%8A-%E2%80%8A%20Introduction/img/1.jpeg" alt="Cover art © 1994 M.C. Escher / Cordon Art - Baarn - Holland. All right reserved."></p>
 <p><!-- raw HTML omitted -->Cover art © 1994 M.C. Escher / Cordon Art - Baarn - Holland. All right reserved.<!-- raw HTML omitted --></p>
 <p>Before I start talking about what are the design patterns I would like to dedicate a few words to this picture that you can see in the official cover of <strong>Design Pattern - Elements of Reusable Object-Oriented Software.</strong></p>
 <p>If you did not know who <strong>Maurits Cornelis Escher</strong> was, he was an one of the greatest artist of the twentieth century who made mathematically inspired woodcuts, lithographs, and mezzotints.</p>
@@ -405,7 +405,7 @@ If you did not know who Maurits Cornelis Escher was, he was an one of the greate
   Organizing the Catalog
   <a href="#organizing-thecatalog" class="h-anchor" aria-hidden="true">#</a>
 </h1>
-<p><img src="/img/design-pattern/Design%20Patterns%20%E2%80%8A-%E2%80%8A%20Introduction/img/2.png" alt="Table 1.1: Design pattern space"></p>
+<p><img src="/design-pattern/Design%20Patterns%20%E2%80%8A-%E2%80%8A%20Introduction/img/2.png" alt="Table 1.1: Design pattern space"></p>
 <p><!-- raw HTML omitted -->Table 1.1: Design pattern space<!-- raw HTML omitted --></p>
 <p>Design pattern vary in their granularity and level of abstraction. The classification helps you to learn the patterns in the catalog faster.</p>
 <p>The book classify design pattern by two criteria (Table 1.1). The first criterion, called <strong>purpose</strong> reflects what a pattern does. Patterns can have either <strong>creational</strong>, <strong>structural</strong>, or <strong>behavioral</strong> purpose. Creational patterns concern the process of object creation. Structural patterns deal with the composition of classes or object. Behavioral patterns characterize the ways in which classes or objects interact and distribute responsibility.</p>
@@ -415,7 +415,7 @@ If you did not know who Maurits Cornelis Escher was, he was an one of the greate
   How Design Patterns Solve Design Problems
   <a href="#how-design-patterns-solve-designproblems" class="h-anchor" aria-hidden="true">#</a>
 </h1>
-<p><img src="/img/design-pattern/Design%20Patterns%20%E2%80%8A-%E2%80%8A%20Introduction/img/3.png" alt="Figure 1.1: Design pattern relationship"></p>
+<p><img src="/design-pattern/Design%20Patterns%20%E2%80%8A-%E2%80%8A%20Introduction/img/3.png" alt="Figure 1.1: Design pattern relationship"></p>
 <p><!-- raw HTML omitted -->Figure 1.1: Design pattern relationship<!-- raw HTML omitted --></p>
 <h2 id="finding-appropriate-objects">
   Finding Appropriate Objects
@@ -446,15 +446,15 @@ If you did not know who Maurits Cornelis Escher was, he was an one of the greate
   <a href="#specifying-object-implementations" class="h-anchor" aria-hidden="true">#</a>
 </h2>
 <p>An object&rsquo;s implementation is defined by its <strong>class.</strong></p>
-<p><img src="/img/design-pattern/Design%20Patterns%20%E2%80%8A-%E2%80%8A%20Introduction/img/4.png" alt=""></p>
+<p><img src="/design-pattern/Design%20Patterns%20%E2%80%8A-%E2%80%8A%20Introduction/img/4.png" alt="4"></p>
 <p>Objects are created by <strong>instantiating</strong> a class. The object is said to be an <strong>instance</strong> of the class. The process of instantiating a class allocates storage for the object&rsquo;s internal data (made up of <strong>instance variables</strong>) and associates the operations with these data.</p>
-<p><img src="/img/design-pattern/Design%20Patterns%20%E2%80%8A-%E2%80%8A%20Introduction/img/5.png" alt=""></p>
+<p><img src="/design-pattern/Design%20Patterns%20%E2%80%8A-%E2%80%8A%20Introduction/img/5.png" alt="5"></p>
 <p>New classes can be defined in terms of existing classes using <strong>class inheritance</strong>. When a <strong>subclass</strong> inherits from a <strong>parent class</strong>, it includes the definitions of all the data and operations that the parent class defines.</p>
-<p><img src="/img/design-pattern/Design%20Patterns%20%E2%80%8A-%E2%80%8A%20Introduction/img/6.png" alt=""></p>
+<p><img src="/design-pattern/Design%20Patterns%20%E2%80%8A-%E2%80%8A%20Introduction/img/6.png" alt="6"></p>
 <p>An <strong>abstract class</strong> is one whose main purpose is to define a common interface for its subclasses. An abstract class will defer some or all of its implementation to operations defined in subclasses; hence an abstract class cannot be instantiated. A <strong>concrete class</strong> may <strong>override</strong> an operation defined by its parent class. Overriding gives subclasses a chance to handle requests instead of their parent classes.</p>
-<p><img src="/img/design-pattern/Design%20Patterns%20%E2%80%8A-%E2%80%8A%20Introduction/img/7.png" alt=""></p>
+<p><img src="/design-pattern/Design%20Patterns%20%E2%80%8A-%E2%80%8A%20Introduction/img/7.png" alt="7"></p>
 <p>A <strong>mixin class</strong> is a class that&rsquo;s intended to provide an optional interface or functionality to other classes. It&rsquo;s similar to an abstract class in that it&rsquo;s not intended to be instantiated. Mixin classes require multiple inheritance:</p>
-<p><img src="/img/design-pattern/Design%20Patterns%20%E2%80%8A-%E2%80%8A%20Introduction/img/8.png" alt=""></p>
+<p><img src="/design-pattern/Design%20Patterns%20%E2%80%8A-%E2%80%8A%20Introduction/img/8.png" alt="8"></p>
 <h2 id="class-versus-interface-inheritance">
   Class versus Interface Inheritance
   <a href="#class-versus-interface-inheritance" class="h-anchor" aria-hidden="true">#</a>
@@ -480,7 +480,7 @@ If you did not know who Maurits Cornelis Escher was, he was an one of the greate
 </blockquote>
 <p><strong>Delegation</strong> is a way of making composition as powerful for reuse as inheritance [Lie86, JZ91]. In delegation, <em>two</em> objects are involved in handling a request: a receiving object delegates operations to its <strong>delegate.</strong></p>
 <p>Differs from inheritance because it is no longer accessed via this or <em>self</em>. For example, instead of making class Window a subclass of Rectangle, the Window class might reuse the behavior of Rectangle by keeping a Rectangle instance variable and <em>delegating</em> Rectangle-specific behavior to it.</p>
-<p><img src="/img/design-pattern/Design%20Patterns%20%E2%80%8A-%E2%80%8A%20Introduction/img/9.png" alt=""></p>
+<p><img src="/design-pattern/Design%20Patterns%20%E2%80%8A-%E2%80%8A%20Introduction/img/9.png" alt="9"></p>
 <p>The main advantage of delegation is that it make it easy to compose behaviors at run-time and to change the way they are composed. If we want, our window can become a circular at run-time, assuming Rectangle and Circle have the same type.</p>
 <p>Delegation has a disadvantage it shares with other techniques that make software more flexible through object composition: Dynamic, highly parameterized software is harder to understand than more static software.</p>
 <p>Several design pattern use delegation. The State, Strategy, and Visitor patterns depend on it.</p>
@@ -497,7 +497,7 @@ If you did not know who Maurits Cornelis Escher was, he was an one of the greate
 <p>Consider the distinction between object <strong>aggregation</strong> and <strong>acquaintance</strong> and how differently they manifest themselves at compile- and run-times. Aggregation implies that one object owns or is responsible for another object. Generally we speak of an object having or being part of another object.</p>
 <p>Acquaintance implies that an object merely knows of another object. Sometimes acquaintance is called &ldquo;association&rdquo; or the &ldquo;using&rdquo; relationship. Acquainted objects may request operations of each other, but they aren&rsquo;t responsible for each other.</p>
 <p>In this diagrams, a plain arrowhead line denotes acquaintance. An arrowhead line with a diamond at its base denotes aggregation:</p>
-<p><img src="/img/design-pattern/Design%20Patterns%20%E2%80%8A-%E2%80%8A%20Introduction/img/10.png" alt=""></p>
+<p><img src="/design-pattern/Design%20Patterns%20%E2%80%8A-%E2%80%8A%20Introduction/img/10.png" alt="10"></p>
 <h2 id="designing-for-change">
   Designing for Change
   <a href="#designing-for-change" class="h-anchor" aria-hidden="true">#</a>

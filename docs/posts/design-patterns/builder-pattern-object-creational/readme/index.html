@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     
@@ -211,7 +211,7 @@ A solution is to configure the RTFReader class with TextConverter object that co
       
       <!-- raw HTML omitted -->
 <!-- raw HTML omitted -->
-<p><img src="/img/design-pattern/Builder%20pattern%20-%20Object%20Creational/img/cover.png" alt="Cover"></p>
+<p><img src="/design-pattern/Builder%20pattern%20-%20Object%20Creational/img/cover.png" alt="Cover"></p>
 <p>By <strong>Dmitry Zhart</strong> (<a href="https://refactoring.guru/">refactoring.guru</a>)</p>
 <hr>
 <h1 id="intent">
@@ -228,7 +228,7 @@ A solution is to configure the RTFReader class with TextConverter object that co
   Motivation
   <a href="#motivation" class="h-anchor" aria-hidden="true">#</a>
 </h1>
-<p><img src="/img/design-pattern/Builder%20pattern%20-%20Object%20Creational/img/1.png" alt="1"></p>
+<p><img src="/design-pattern/Builder%20pattern%20-%20Object%20Creational/img/1.png" alt="1"></p>
 <p>A reader for the RTF (Rich Text Format) document exchange format should be able to convert RTF to many text formats. The problem is the number of possible conversions is open-ended.</p>
 <p>A solution is to configure the RTFReader class with TextConverter object that converts RTF to another textual representation. As the RTFReader perses the RTF document, it uses the TextConverter to perform the conversion. Whenever the RTFReader recognizes an RTF token, it issues a request to the TextConverter to convert the token.</p>
 <p>Subclasses of TextConverter specialize in different conversions and formats. For example, ASCIIConverter ignores requests to convert anything except plain text.</p>
@@ -252,7 +252,7 @@ A solution is to configure the RTFReader class with TextConverter object that co
   Structure
   <a href="#structure" class="h-anchor" aria-hidden="true">#</a>
 </h1>
-<p><img src="/img/design-pattern/Builder%20pattern%20-%20Object%20Creational/img/2.png" alt="2"></p>
+<p><img src="/design-pattern/Builder%20pattern%20-%20Object%20Creational/img/2.png" alt="2"></p>
 <h1 id="participants">
   Participants
   <a href="#participants" class="h-anchor" aria-hidden="true">#</a>
@@ -320,7 +320,7 @@ A solution is to configure the RTFReader class with TextConverter object that co
 <p>The client retrieves the product from the builder.</p>
 </li>
 </ul>
-<p><img src="/img/design-pattern/Builder%20pattern%20-%20Object%20Creational/img/3.png" alt="3"></p>
+<p><img src="/design-pattern/Builder%20pattern%20-%20Object%20Creational/img/3.png" alt="3"></p>
 <h1 id="consequences">
   Consequences
   <a href="#consequences" class="h-anchor" aria-hidden="true">#</a>
@@ -359,8 +359,8 @@ A solution is to configure the RTFReader class with TextConverter object that co
   <a href="#sample-code" class="h-anchor" aria-hidden="true">#</a>
 </h1>
 <p>To better understand the following code and the classes used look</p>
-<p><a href="https://github.com/FedericoBruzzone/medium/tree/main/commoncode"><strong>&raquo;&gt; here🔗! &laquo;&lt;</strong></a></p>
-<p>We will define a variant of the <a href="https://github.com/FedericoBruzzone/medium/tree/main/commoncode"><em>CreateMaze</em></a> member function that takes a builder of class <em>MazeBuilder</em> as an argument.</p>
+<p><a href="https://github.com/FedericoBruzzone/federicobruzzone.github.io/tree/main/static/design-pattern/commoncode">here🔗!</a></p>
+<p>We will define a variant of the <a href="https://github.com/FedericoBruzzone/federicobruzzone.github.io/tree/main/static/design-pattern/commoncode"><em>CreateMaze</em></a> member function that takes a builder of class <em>MazeBuilder</em> as an argument.</p>
 <p>The <em>MazeBuilder</em> class defines the following interface for building mazes:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MazeBuilder</span> <span style="color:#f92672">{</span>
     
@@ -391,7 +391,7 @@ A solution is to configure the RTFReader class with TextConverter object that co
   <span style="color:#f92672">}</span>
 
 <span style="color:#f92672">}</span>
-</code></pre></div><p>Compare this version of <em>CreateMaze</em> with the <a href="https://github.com/FedericoBruzzone/medium/blob/main/commoncode/MazeGame_First.java">original</a>. Notice how the builder hides the internal representation of the Maze. This make it easier to change the way a maze is represented, since none of the clients of <em>MazeBuilder</em> has to be changed.</p>
+</code></pre></div><p>Compare this version of <em>CreateMaze</em> with the <a href="https://github.com/FedericoBruzzone/federicobruzzone.github.io/blob/main/static/design-pattern/commoncode/MazeGame_First.java">original</a>. Notice how the builder hides the internal representation of the Maze. This make it easier to change the way a maze is represented, since none of the clients of <em>MazeBuilder</em> has to be changed.</p>
 <p>Like the other creational patterns, the Builder pattern encapsulates how objects get created. That means we can reuse <em>MazeBuilder</em> to build different kind of mazes.</p>
 <p>Note that <em>MazeBuilder</em> does not create mazes itself; it main purpose is just to define an interface for creating mazes. It defines empty implementations primarily for convenience. Subclasses of <em>MazeBuilder</em> so the actual work.</p>
 <p>The subclass <em>StandardMazeBuilder</em> is an implementation that builds simple mazes.</p>
@@ -451,7 +451,7 @@ A solution is to configure the RTFReader class with TextConverter object that co
   <span style="color:#f92672">}</span>
 
 <span style="color:#f92672">}</span>
-</code></pre></div><p>We could have put all the <em>StandardMazeBuilder</em> operations in <em>Maze</em> and let each <em>Maze</em> build itsef. But making <em>Maze</em> smaller makes it easier to understand and modify, and <em>StandardMazeBuilder</em> is easy to separate from <em>Maze</em>.</p>
+</code></pre></div><p>We could have put all the <em>StandardMazeBuilder</em> operations in <em>Maze</em> and let each <em>Maze</em> build itself. But making <em>Maze</em> smaller makes it easier to understand and modify, and <em>StandardMazeBuilder</em> is easy to separate from <em>Maze</em>.</p>
 <h1 id="known-uses">
   Known Uses
   <a href="#known-uses" class="h-anchor" aria-hidden="true">#</a>

@@ -5,7 +5,7 @@ title: Factory Method pattern - Class Creational
 date: 2023-02-03
 draft: false
 description: "Define an interface for creating an object, but let subclasses decide which class to instantiate. Factory Method lets a class defer instantiation to subclasses."
-;cover: "/Factory Method pattern - Class Creational/img/cover.png"
+;cover: "/Factory Method pattern - Class Creational//cover.png"
 tags: [programming, design-patterns, computer-science, object-oriented, clean-code]
 categories: [programming, design-pattern]
 math: true
@@ -16,7 +16,7 @@ math: true
 
 <!-- ## A summary of GoF Design Patters -->
 
-![Cover](/img/design-pattern/Factory%20Method%20pattern%20-%20Class%20Creational/img/cover.png)
+![Cover](/design-pattern/Factory%20Method%20pattern%20-%20Class%20Creational/img/cover.png)
 
 By **Dmitry Zhart** ([refactoring.guru](https://refactoring.guru/))
 
@@ -30,7 +30,7 @@ Virtual Constructor
 
 # Motivation
 
-![1](/img/design-pattern/Factory%20Method%20pattern%20-%20Class%20Creational/img/1.png)
+![1](/design-pattern/Factory%20Method%20pattern%20-%20Class%20Creational/img/1.png)
 
 
 Framework use abstract classes to define and maintain relationship between objects. A framework is often responsible for creating these objects as well. 
@@ -55,7 +55,7 @@ Use the Factory Method pattern when
 
 # Structure
 
-![2](/img/design-pattern/Factory%20Method%20pattern%20-%20Class%20Creational/img/2.png)
+![2](/design-pattern/Factory%20Method%20pattern%20-%20Class%20Creational/img/2.png)
 
 # Participants
 
@@ -103,7 +103,7 @@ Here are two additional consequences of the Factory Method pattern:
 
 With this constraints, it's better to use separate Manipulator object that implements the interaction and keeps track of any manipulation-specific state that's needed.
 
-![3](/img/design-pattern/Factory%20Method%20pattern%20-%20Class%20Creational/img/3.png)
+![3](/design-pattern/Factory%20Method%20pattern%20-%20Class%20Creational/img/3.png)
 
 The Figure class provides a CreateManipulator factory method that lets client create a Figure's corresponding Manipulator. Figure subclasses override this method to return an instance of the Manipulator subclass that's right for them. Alternatively, the Figure class may implement CreateManipulator to return a default Manipulator instance, and Figure subclasses may simply inherit default. 
 
@@ -125,9 +125,9 @@ Notice how the factory method defines the connection between the two class hiera
 
 To better understand the following code and the classes used look 
 
-[**>>> here🔗! <<<**](https://github.com/FedericoBruzzone/medium/tree/main/commoncode)
+[here🔗!](https://github.com/FedericoBruzzone/federicobruzzone.github.io/blob/main/static/design-pattern/commoncode)
 
-The function [*CreateMaze*](https://github.com/FedericoBruzzone/medium/tree/main/commoncode) builds and returns a maze. One problem with this function is that it hard-codes the classes of maze, rooms, doors, and walls.We'll introduce factory methods to let subclasses choose these components. 
+The function [*CreateMaze*](https://github.com/FedericoBruzzone/federicobruzzone.github.io/blob/main/static/design-pattern/commoncode/MazeGame_First.java) builds and returns a maze. One problem with this function is that it hard-codes the classes of maze, rooms, doors, and walls.We'll introduce factory methods to let subclasses choose these components.
 
 First we'll define factory methods in *MazeGame* for creating the maze,room,wall, and door objects:
 

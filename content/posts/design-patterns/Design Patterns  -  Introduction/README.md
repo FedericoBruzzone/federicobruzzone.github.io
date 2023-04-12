@@ -5,7 +5,7 @@ title: Design Patterns - Introduction
 date: 2022-12-19
 draft: false
 description: " "
-;cover: "/img/design-pattern/Design%20Patterns%20%E2%80%8A-%E2%80%8A%20Introduction/img/1.jpeg"
+;cover: "/design-pattern/Design%20Patterns%20%E2%80%8A-%E2%80%8A%20Introduction/img/1.jpeg"
 tags: [programming, design-patterns, computer-science, object-oriented, clean-code]
 categories: [programming, design-pattern]
 math: true
@@ -18,7 +18,7 @@ math: true
 
 ---
 
-![Cover art © 1994 M.C. Escher / Cordon Art - Baarn - Holland. All right reserved.](/img/design-pattern/Design%20Patterns%20%E2%80%8A-%E2%80%8A%20Introduction/img/1.jpeg)
+![Cover art © 1994 M.C. Escher / Cordon Art - Baarn - Holland. All right reserved.](/design-pattern/Design%20Patterns%20%E2%80%8A-%E2%80%8A%20Introduction/img/1.jpeg)
 
 <sup>Cover art © 1994 M.C. Escher / Cordon Art - Baarn - Holland. All right reserved.</sup>
 
@@ -170,7 +170,7 @@ When design pattern are closely related to this one?
 
 # Organizing the Catalog
 
-![Table 1.1: Design pattern space](/img/design-pattern/Design%20Patterns%20%E2%80%8A-%E2%80%8A%20Introduction/img/2.png)
+![Table 1.1: Design pattern space](/design-pattern/Design%20Patterns%20%E2%80%8A-%E2%80%8A%20Introduction/img/2.png)
 
 <sup>Table 1.1: Design pattern space</sup>
 
@@ -184,7 +184,7 @@ The second criterion, called **scope**, specifies whether the pattern applies pr
 
 # How Design Patterns Solve Design Problems
 
-![Figure 1.1: Design pattern relationship](/img/design-pattern/Design%20Patterns%20%E2%80%8A-%E2%80%8A%20Introduction/img/3.png)
+![Figure 1.1: Design pattern relationship](/design-pattern/Design%20Patterns%20%E2%80%8A-%E2%80%8A%20Introduction/img/3.png)
 
 <sup>Figure 1.1: Design pattern relationship</sup>
 
@@ -222,23 +222,23 @@ For example, the Memento pattern it describes how to encapsulate and save the in
 
 An object's implementation is defined by its **class.**
 
-![](/img/design-pattern/Design%20Patterns%20%E2%80%8A-%E2%80%8A%20Introduction/img/4.png)
+![4](/design-pattern/Design%20Patterns%20%E2%80%8A-%E2%80%8A%20Introduction/img/4.png)
 
 Objects are created by **instantiating** a class. The object is said to be an **instance** of the class. The process of instantiating a class allocates storage for the object's internal data (made up of **instance variables**) and associates the operations with these data.
 
-![](/img/design-pattern/Design%20Patterns%20%E2%80%8A-%E2%80%8A%20Introduction/img/5.png)
+![5](/design-pattern/Design%20Patterns%20%E2%80%8A-%E2%80%8A%20Introduction/img/5.png)
 
 New classes can be defined in terms of existing classes using **class inheritance**. When a **subclass** inherits from a **parent class**, it includes the definitions of all the data and operations that the parent class defines.
 
-![](/img/design-pattern/Design%20Patterns%20%E2%80%8A-%E2%80%8A%20Introduction/img/6.png)
+![6](/design-pattern/Design%20Patterns%20%E2%80%8A-%E2%80%8A%20Introduction/img/6.png)
 
 An **abstract class** is one whose main purpose is to define a common interface for its subclasses. An abstract class will defer some or all of its implementation to operations defined in subclasses; hence an abstract class cannot be instantiated. A **concrete class** may **override** an operation defined by its parent class. Overriding gives subclasses a chance to handle requests instead of their parent classes.
 
-![](/img/design-pattern/Design%20Patterns%20%E2%80%8A-%E2%80%8A%20Introduction/img/7.png)
+![7](/design-pattern/Design%20Patterns%20%E2%80%8A-%E2%80%8A%20Introduction/img/7.png)
 
 A **mixin class** is a class that's intended to provide an optional interface or functionality to other classes. It's similar to an abstract class in that it's not intended to be instantiated. Mixin classes require multiple inheritance:
 
-![](/img/design-pattern/Design%20Patterns%20%E2%80%8A-%E2%80%8A%20Introduction/img/8.png)
+![8](/design-pattern/Design%20Patterns%20%E2%80%8A-%E2%80%8A%20Introduction/img/8.png)
 
 ## Class versus Interface Inheritance
 
@@ -270,7 +270,7 @@ Favoring object composition over class inheritance helps you keep each class enc
 
 Differs from inheritance because it is no longer accessed via this or *self*. For example, instead of making class Window a subclass of Rectangle, the Window class might reuse the behavior of Rectangle by keeping a Rectangle instance variable and *delegating* Rectangle-specific behavior to it.
 
-![](/img/design-pattern/Design%20Patterns%20%E2%80%8A-%E2%80%8A%20Introduction/img/9.png)
+![9](/design-pattern/Design%20Patterns%20%E2%80%8A-%E2%80%8A%20Introduction/img/9.png)
 
 The main advantage of delegation is that it make it easy to compose behaviors at run-time and to change the way they are composed. If we want, our window can become a circular at run-time, assuming Rectangle and Circle have the same type.
 
@@ -294,7 +294,7 @@ Acquaintance implies that an object merely knows of another object. Sometimes ac
 
 In this diagrams, a plain arrowhead line denotes acquaintance. An arrowhead line with a diamond at its base denotes aggregation:
 
-![](/img/design-pattern/Design%20Patterns%20%E2%80%8A-%E2%80%8A%20Introduction/img/10.png)
+![10](/design-pattern/Design%20Patterns%20%E2%80%8A-%E2%80%8A%20Introduction/img/10.png)
 
 ## Designing for Change
 

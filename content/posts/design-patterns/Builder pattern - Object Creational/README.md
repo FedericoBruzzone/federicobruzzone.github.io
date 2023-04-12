@@ -5,7 +5,7 @@ title: Builder pattern pattern - Object Creational
 date: 2023-01-13
 draft: false
 description: "Separate the construction of a complex object from its representation so that the same construction process can create different representation."
-;cover: "/Builder pattern pattern - Object Creational/img/cover.png"
+;cover: "/Builder pattern pattern - Object Creational//cover.png"
 tags: [programming, design-patterns, computer-science, object-oriented, clean-code]
 categories: [programming, design-pattern]
 math: true
@@ -16,7 +16,7 @@ math: true
 
 <!-- ## A summary of GoF Design Patters -->
 
-![Cover](/img/design-pattern/Builder%20pattern%20-%20Object%20Creational/img/cover.png)
+![Cover](/design-pattern/Builder%20pattern%20-%20Object%20Creational/img/cover.png)
 
 By **Dmitry Zhart** ([refactoring.guru](https://refactoring.guru/))
 
@@ -32,7 +32,7 @@ Separate the construction of a complex object from its representation so that th
 
 # Motivation
 
-![1](/img/design-pattern/Builder%20pattern%20-%20Object%20Creational/img/1.png)
+![1](/design-pattern/Builder%20pattern%20-%20Object%20Creational/img/1.png)
 
 A reader for the RTF (Rich Text Format) document exchange format should be able to convert RTF to many text formats. The problem is the number of possible conversions is open-ended.
 
@@ -55,7 +55,7 @@ Use the Builder pattern when
 
 # Structure
 
-![2](/img/design-pattern/Builder%20pattern%20-%20Object%20Creational/img/2.png)
+![2](/design-pattern/Builder%20pattern%20-%20Object%20Creational/img/2.png)
 
 # Participants
 
@@ -99,7 +99,7 @@ Use the Builder pattern when
 
 - The client retrieves the product from the builder.
 
-![3](/img/design-pattern/Builder%20pattern%20-%20Object%20Creational/img/3.png)
+![3](/design-pattern/Builder%20pattern%20-%20Object%20Creational/img/3.png)
 
 # Consequences
 
@@ -127,9 +127,9 @@ Here are other implementation issues to consider:
 
 To better understand the following code and the classes used look 
 
-[**>>> here🔗! <<<**](https://github.com/FedericoBruzzone/medium/tree/main/commoncode)
+[here🔗!](https://github.com/FedericoBruzzone/federicobruzzone.github.io/tree/main/static/design-pattern/commoncode)
 
-We will define a variant of the [*CreateMaze*](https://github.com/FedericoBruzzone/medium/tree/main/commoncode) member function that takes a builder of class *MazeBuilder* as an argument.
+We will define a variant of the [*CreateMaze*](https://github.com/FedericoBruzzone/federicobruzzone.github.io/tree/main/static/design-pattern/commoncode) member function that takes a builder of class *MazeBuilder* as an argument.
 
 The *MazeBuilder* class defines the following interface for building mazes:
 
@@ -171,7 +171,7 @@ public class MazeGame_Builder {
 }
 ```
 
-Compare this version of *CreateMaze* with the [original](https://github.com/FedericoBruzzone/medium/blob/main/commoncode/MazeGame_First.java). Notice how the builder hides the internal representation of the Maze. This make it easier to change the way a maze is represented, since none of the clients of *MazeBuilder* has to be changed.
+Compare this version of *CreateMaze* with the [original](https://github.com/FedericoBruzzone/federicobruzzone.github.io/blob/main/static/design-pattern/commoncode/MazeGame_First.java). Notice how the builder hides the internal representation of the Maze. This make it easier to change the way a maze is represented, since none of the clients of *MazeBuilder* has to be changed.
 
 Like the other creational patterns, the Builder pattern encapsulates how objects get created. That means we can reuse *MazeBuilder* to build different kind of mazes.
 
@@ -243,7 +243,7 @@ public class ClientBuilder {
 }
 ```
 
-We could have put all the *StandardMazeBuilder* operations in *Maze* and let each *Maze* build itsef. But making *Maze* smaller makes it easier to understand and modify, and *StandardMazeBuilder* is easy to separate from *Maze*.
+We could have put all the *StandardMazeBuilder* operations in *Maze* and let each *Maze* build itself. But making *Maze* smaller makes it easier to understand and modify, and *StandardMazeBuilder* is easy to separate from *Maze*.
 
 # Known Uses
 
