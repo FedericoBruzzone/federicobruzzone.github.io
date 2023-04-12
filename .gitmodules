@@ -1,0 +1,11 @@
+[submodule "themes/terminal"]
+    path = themes/hugo-theme-terminal
+    url = https://github.com/panr/hugo-theme-terminal.git
+
+[submodule "themes/HugoTeX"]
+    path = themes/HugoTeX
+    url = https://github.com/kaisugi/HugoTeX.git
+
+[submodule "themes/papercss-hugo-theme"]
+    path = themes/papercss-hugo-theme
+    url = https://github.com/zwbetz-gh/papercss-hugo-theme.git

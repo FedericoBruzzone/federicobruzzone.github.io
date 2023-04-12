@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on PaperCSS</title>
+    <link>https://federicobruzzone.github.io/posts/</link>
+    <description>Recent content in Posts on PaperCSS</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 08 Mar 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://federicobruzzone.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Math Typesetting</title>
+      <link>https://federicobruzzone.github.io/posts/my-first-post/</link>
+      <pubDate>Fri, 08 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://federicobruzzone.github.io/posts/my-first-post/</guid>
+      <description>Examples Block math: $$ \varphi = 1+\frac{1} {1+\frac{1} {1+\frac{1} {1+\cdots} } } $$</description>
+    </item>
+    
+  </channel>
+</rss>
