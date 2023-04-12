@@ -9,3 +9,7 @@
 [submodule "themes/papercss-hugo-theme"]
     path = themes/papercss-hugo-theme
     url = https://github.com/zwbetz-gh/papercss-hugo-theme.git
+
+[submodule "themes/hello-friend"]
+    path = themes/hello-friend
+    url = https://github.com/panr/hugo-theme-hello-friend.git

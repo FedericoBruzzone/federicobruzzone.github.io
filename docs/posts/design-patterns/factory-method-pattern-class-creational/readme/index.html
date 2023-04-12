@@ -1,0 +1,485 @@
+ <!DOCTYPE html>
+<html lang="en">
+  <head>
+    
+      <title>
+        Factory Method pattern - Class Creational ::
+        Federico Bruzzone — Website &amp; Blog
+      </title>
+    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta
+  name="description"
+  content="By Dmitry Zhart (refactoring.guru)
+Intent #  Define an interface for creating an object, but let subclasses decide which class to instantiate. Factory Method lets a class defer instantiation to subclasses.
+Also Known As #  Virtual Constructor
+Motivation #  Framework use abstract classes to define and maintain relationship between objects. A framework is often responsible for creating these objects as well. Consider a framework for applications that can present multiple documents to the user."
+/>
+<meta
+  name="keywords"
+  content=""
+/>
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://federicobruzzone.github.io/posts/design-patterns/factory-method-pattern-class-creational/readme/" />
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/style.css" />
+
+<link rel="stylesheet" href="https://federicobruzzone.github.io/style.css" />
+
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://federicobruzzone.github.io/img/apple-touch-icon-144-precomposed.png" />
+<link rel="shortcut icon" href="https://federicobruzzone.github.io/img/favicon.png" />
+
+
+<link href="/fonts/Inter-Italic.woff2" rel="preload" type="font/woff2" as="font" crossorigin="">
+<link href="/fonts/Inter-Regular.woff2" rel="preload" type="font/woff2" as="font" crossorigin="">
+<link href="/fonts/Inter-Medium.woff2" rel="preload" type="font/woff2" as="font" crossorigin="">
+<link href="/fonts/Inter-MediumItalic.woff2" rel="preload" type="font/woff2" as="font" crossorigin="">
+<link href="/fonts/Inter-Bold.woff2" rel="preload" type="font/woff2" as="font" crossorigin="">
+<link href="/fonts/Inter-BoldItalic.woff2" rel="preload" type="font/woff2" as="font" crossorigin="">
+
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Factory Method pattern - Class Creational"/>
+<meta name="twitter:description" content="Define an interface for creating an object, but let subclasses decide which class to instantiate. Factory Method lets a class defer instantiation to subclasses."/>
+
+
+
+<meta property="og:title" content="Factory Method pattern - Class Creational" />
+<meta property="og:description" content="Define an interface for creating an object, but let subclasses decide which class to instantiate. Factory Method lets a class defer instantiation to subclasses." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://federicobruzzone.github.io/posts/design-patterns/factory-method-pattern-class-creational/readme/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-02-03T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-02-03T00:00:00+00:00" /><meta property="og:site_name" content="Federico Bruzzone" />
+
+
+
+
+
+
+
+
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script> 
+
+    
+
+  </head>
+  <body class="light-theme">
+    <div class="container">
+      <header class="header">
+  <span class="header__inner">
+    <a
+  href="/"
+  class="logo"
+  style="text-decoration: none;"
+>
+  
+    <span class="logo__mark"><svg xmlns="http://www.w3.org/2000/svg" class="greater-icon" viewBox="0 0 44 44">
+  <path fill="none" d="M15 8l14.729 14.382L15 35.367" />
+</svg>
+</span>
+    <span class="logo__text"
+      >Federico Bruzzone</span
+    >
+    <span class="logo__cursor"></span>
+  
+</a>
+
+    <span class="header__right">
+      
+        <nav class="menu">
+  <ul class="menu__inner menu__inner--desktop">
+    
+      
+        
+          <li><a href="/about">About</a></li>
+        
+      
+        
+          <li><a href="/categories">Categories</a></li>
+        
+      
+      
+      
+  </ul>
+
+  <ul class="menu__inner menu__inner--mobile">
+    
+      
+        <li><a href="/about">About</a></li>
+      
+    
+      
+        <li><a href="/categories">Categories</a></li>
+      
+    
+  </ul>
+</nav>
+
+        <span class="menu-trigger">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M0 0h24v24H0z" fill="none" />
+            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
+          </svg>
+        </span>
+      
+      <span class="theme-toggle">
+        <svg
+  class="theme-toggler"
+  width="24"
+  height="24"
+  viewBox="0 0 48 48"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <path
+    d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"
+  />
+</svg>
+
+      </span>
+    </span>
+  </span>
+</header>
+
+
+      <div class="content">
+        
+  
+  
+
+  <article class="post">
+    <h1 class="post-title">Factory Method pattern - Class Creational</h1>
+    <div class="post-meta">
+      
+        <time class="post-date">
+          2023-02-03
+        </time>
+
+        
+          
+        
+      
+
+      
+        <span class="post-author"
+          >— Written by Federico Bruzzone</span
+        >
+
+
+      
+        <span class="post-read-time"
+          >— 6 min read</span
+        >
+      
+    </div>
+
+    
+      <span class="post-tags">
+        
+          <a href="https://federicobruzzone.github.io/tags/programming/">#programming</a>&nbsp;
+        
+          <a href="https://federicobruzzone.github.io/tags/design-patterns/">#design-patterns</a>&nbsp;
+        
+          <a href="https://federicobruzzone.github.io/tags/computer-science/">#computer-science</a>&nbsp;
+        
+          <a href="https://federicobruzzone.github.io/tags/object-oriented/">#object-oriented</a>&nbsp;
+        
+          <a href="https://federicobruzzone.github.io/tags/clean-code/">#clean-code</a>&nbsp;
+        
+      </span>
+    
+
+    
+
+    <div class="post-content">
+      
+      <!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p><img src="/img/design-pattern/Factory%20Method%20pattern%20-%20Class%20Creational/img/cover.png" alt="Cover"></p>
+<p>By <strong>Dmitry Zhart</strong> (<a href="https://refactoring.guru/">refactoring.guru</a>)</p>
+<h1 id="intent">
+  Intent
+  <a href="#intent" class="h-anchor" aria-hidden="true">#</a>
+</h1>
+<p>Define an interface for creating an object, but let subclasses decide which class to instantiate. Factory Method lets a class defer instantiation to subclasses.</p>
+<h1 id="also-known-as">
+  Also Known As
+  <a href="#also-known-as" class="h-anchor" aria-hidden="true">#</a>
+</h1>
+<p>Virtual Constructor</p>
+<h1 id="motivation">
+  Motivation
+  <a href="#motivation" class="h-anchor" aria-hidden="true">#</a>
+</h1>
+<p><img src="/img/design-pattern/Factory%20Method%20pattern%20-%20Class%20Creational/img/1.png" alt="1"></p>
+<p>Framework use abstract classes to define and maintain relationship between objects. A framework is often responsible for creating these objects as well. </p>
+<p>Consider a framework for applications that can present multiple documents to the user. Two key abstractions in this framework are the classes Application and the Document. Both classes are abstract, and clients have to subclass them to realize their application-specific implementations. The Application class is responsible for managing Documents and will create them as required.</p>
+<p>Because the particular Document subclass to instantiate is application-specific, the Application class can&rsquo;t predict the subclass of Document to instantiate - the Application class only knows <em>when</em> a new document should be created, not <em>what kind</em> of Document to create.</p>
+<p>The Factory Method pattern offers a solution. It encapsulates the knowledge of which Document subclass to create and moves this knowledge out of the framework.</p>
+<p>Application subclass redefine an abstract CreateDocument operation on Application to return the appropriate Document subclass. Once an Application subclass is instantiated, it can then instantiate application-specific Documents without knowing their class. We call CreateDocument a <strong>factory method</strong> because it is responsible for &ldquo;manufacturing&rdquo; an object.</p>
+<h1 id="applicability">
+  Applicability
+  <a href="#applicability" class="h-anchor" aria-hidden="true">#</a>
+</h1>
+<p>Use the Factory Method pattern when</p>
+<ul>
+<li>
+<p>a class can&rsquo;t anticipate the class of obejcts it must create.</p>
+</li>
+<li>
+<p>a class wants its subclasses to specify the objects it creates.</p>
+</li>
+<li>
+<p>classes delegate responsibility to one of several helper subclasses, and you want to localize the knowledge of which helper subclass is the delegate.</p>
+</li>
+</ul>
+<h1 id="structure">
+  Structure
+  <a href="#structure" class="h-anchor" aria-hidden="true">#</a>
+</h1>
+<p><img src="/img/design-pattern/Factory%20Method%20pattern%20-%20Class%20Creational/img/2.png" alt="2"></p>
+<h1 id="participants">
+  Participants
+  <a href="#participants" class="h-anchor" aria-hidden="true">#</a>
+</h1>
+<h2 id="product">
+  Product
+  <a href="#product" class="h-anchor" aria-hidden="true">#</a>
+</h2>
+<p><em>(Document)</em></p>
+<ul>
+<li>defines the interface of objects the factory method creates.</li>
+</ul>
+<h2 id="concreteproduct">
+  ConcreteProduct
+  <a href="#concreteproduct" class="h-anchor" aria-hidden="true">#</a>
+</h2>
+<p><em>(MyDocument)</em></p>
+<ul>
+<li>implements the Product interface</li>
+</ul>
+<h2 id="creator">
+  Creator
+  <a href="#creator" class="h-anchor" aria-hidden="true">#</a>
+</h2>
+<p><em>(Application)</em></p>
+<ul>
+<li>
+<p>declares the factory method, which returns an object of type Product. Creator may also define a default implementation of the factory method that returns a default ConcreteProduct object.</p>
+</li>
+<li>
+<p>may call the factory method to create a Product object.</p>
+</li>
+</ul>
+<h2 id="concretecreator">
+  ConcreteCreator
+  <a href="#concretecreator" class="h-anchor" aria-hidden="true">#</a>
+</h2>
+<p><em>(MyApplication</em>)</p>
+<ul>
+<li>overrides the factory method to return an instance of a ConcreteProduct.</li>
+</ul>
+<h1 id="collaborations">
+  Collaborations
+  <a href="#collaborations" class="h-anchor" aria-hidden="true">#</a>
+</h1>
+<ul>
+<li>Creator relies on its subclasses to define the factory method so that it returns an instance of the appropriate ConcreteProduct.</li>
+</ul>
+<h1 id="consequences">
+  Consequences
+  <a href="#consequences" class="h-anchor" aria-hidden="true">#</a>
+</h1>
+<p>Factory methods eliminate the need to bind application-specific classes into your code. The code only deals with the Product interface; therefore it can wok with any user-defined ConcreteProduct classes.</p>
+<p>A potential disadvantage of factory methods is that clients might have to subclass a Creator classes just to create a particular ConcreteProduct object.</p>
+<p>Here are two additional consequences of the Factory Method pattern:</p>
+<ol>
+<li>
+<p><em>Provides hooks for subclasses</em>. Creating objects inside a class with a factory method is always more flexible than crating an object directly. Factory method gives subclasses a hook for providing an extend version of an object.</p>
+</li>
+<li>
+<p><em>Connects parallel class hierarchies</em>. Parallel class hierarchies result when a class delegates some of its responsibilities to a separate class. Consider graphical figures that can be manipulated interactively; that is, thay can be stretched, moved, or rotated using the mouse. Implementing suh interactions ins&rsquo;t always easy. It often requires storing and updating information records the state of the manipulation. This state is needed only during manipulation.</p>
+</li>
+</ol>
+<p>With this constraints, it&rsquo;s better to use separate Manipulator object that implements the interaction and keeps track of any manipulation-specific state that&rsquo;s needed.</p>
+<p><img src="/img/design-pattern/Factory%20Method%20pattern%20-%20Class%20Creational/img/3.png" alt="3"></p>
+<p>The Figure class provides a CreateManipulator factory method that lets client create a Figure&rsquo;s corresponding Manipulator. Figure subclasses override this method to return an instance of the Manipulator subclass that&rsquo;s right for them. Alternatively, the Figure class may implement CreateManipulator to return a default Manipulator instance, and Figure subclasses may simply inherit default. </p>
+<p>Notice how the factory method defines the connection between the two class hierarchies. It localize knowledge of which classes belong together.</p>
+<h1 id="implementation">
+  Implementation
+  <a href="#implementation" class="h-anchor" aria-hidden="true">#</a>
+</h1>
+<ol>
+<li>
+<p><em>The two varieties</em>. The two main variations of the Factory Method pattern are (1) the case when the Creator class is an abstract class and does not provide an implementation for the factory method it declares, and (2) the case when the Creator is a concrete class and provide a default implementation for the factory method. The first case <em>requires</em> subclasses to define an implementation, because there is no reasonable default. In the second case, the concrete Creator uses the factory method primarily for flexibility.</p>
+</li>
+<li>
+<p><em>Parameterized factory methods</em>. Another variation on the pattern lets the factory method create <em>multiple</em> kinds of products. The factory method takes a parameter that identifies the kind of object to create. All objects the factory method creates will share the Product interface.</p>
+</li>
+<li>
+<p><em>Language-specific variants and issues</em>. Different languages lend themselves to other interesting variations and caveats. Smalltalk programs often use a method that returns the class of the object to be instantiated. A Creator factory method can use this value to create a product, and a ConcreteCreator may store or even compute this value. The result is an even later binding for the type of ConcreteProduct to be instantiated.</p>
+</li>
+<li>
+<p><em>Using templates to avoid subclassing</em>. Another potential problem with factory methods is that they might force you to subclass just to create the appropriate Product objects. Another way to get around this in C++ is to provide a template subclass of Creator that&rsquo;s parameterized by the Product class.</p>
+</li>
+<li>
+<p><em>Naming conventions</em>. It&rsquo;s good practice to use naming conventions that make it clear you&rsquo;re using factory methods.</p>
+</li>
+</ol>
+<h1 id="sample-code">
+  Sample Code
+  <a href="#sample-code" class="h-anchor" aria-hidden="true">#</a>
+</h1>
+<p>To better understand the following code and the classes used look</p>
+<p><a href="https://github.com/FedericoBruzzone/medium/tree/main/commoncode"><strong>&raquo;&gt; here🔗! &laquo;&lt;</strong></a></p>
+<p>The function <a href="https://github.com/FedericoBruzzone/medium/tree/main/commoncode"><em>CreateMaze</em></a> builds and returns a maze. One problem with this function is that it hard-codes the classes of maze, rooms, doors, and walls.We&rsquo;ll introduce factory methods to let subclasses choose these components.</p>
+<p>First we&rsquo;ll define factory methods in <em>MazeGame</em> for creating the maze,room,wall, and door objects:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java"><span style="color:#f92672">import</span> commoncode.*<span style="color:#f92672">;</span>
+
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MazeGame_Factory</span> <span style="color:#f92672">{</span>
+  
+  <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">MazeGame_Factory</span><span style="color:#f92672">()</span> <span style="color:#f92672">{}</span>
+  
+  <span style="color:#66d9ef">public</span> Maze <span style="color:#a6e22e">MakeMaze</span><span style="color:#f92672">()</span> 
+    <span style="color:#f92672">{</span> <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> Maze<span style="color:#f92672">();</span> <span style="color:#f92672">}</span>
+  
+  <span style="color:#66d9ef">public</span> Wall <span style="color:#a6e22e">MakeWall</span><span style="color:#f92672">()</span> 
+    <span style="color:#f92672">{</span> <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> Wall<span style="color:#f92672">();</span> <span style="color:#f92672">}</span>
+  
+  <span style="color:#66d9ef">public</span> Room <span style="color:#a6e22e">MakeRoom</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> n<span style="color:#f92672">)</span> 
+    <span style="color:#f92672">{</span> <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> Room<span style="color:#f92672">(</span>n<span style="color:#f92672">);</span> <span style="color:#f92672">}</span>
+  
+  <span style="color:#66d9ef">public</span> Door <span style="color:#a6e22e">MakeDoor</span><span style="color:#f92672">(</span>Room r1<span style="color:#f92672">,</span> Room r2<span style="color:#f92672">)</span>
+    <span style="color:#f92672">{</span> <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> Door<span style="color:#f92672">(</span>r1<span style="color:#f92672">,</span> r2<span style="color:#f92672">);</span> <span style="color:#f92672">}</span>
+  
+  <span style="color:#66d9ef">public</span> Maze <span style="color:#a6e22e">CreateMaze</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+    Maze aMaze   <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">MakeMaze</span><span style="color:#f92672">();</span>
+    Room r1      <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">MakeRoom</span><span style="color:#f92672">(</span>1<span style="color:#f92672">);</span>
+    Room r2      <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">MakeRoom</span><span style="color:#f92672">(</span>2<span style="color:#f92672">);</span>
+    Door theDoor <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">MakeDoor</span><span style="color:#f92672">(</span>r1<span style="color:#f92672">,</span> r2<span style="color:#f92672">);</span>
+
+    r1<span style="color:#f92672">.</span><span style="color:#a6e22e">SetSide</span><span style="color:#f92672">(</span>Direction<span style="color:#f92672">.</span><span style="color:#a6e22e">North</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">MakeWall</span><span style="color:#f92672">());</span>
+    r1<span style="color:#f92672">.</span><span style="color:#a6e22e">SetSide</span><span style="color:#f92672">(</span>Direction<span style="color:#f92672">.</span><span style="color:#a6e22e">East</span><span style="color:#f92672">,</span>  theDoor<span style="color:#f92672">);</span>
+    r1<span style="color:#f92672">.</span><span style="color:#a6e22e">SetSide</span><span style="color:#f92672">(</span>Direction<span style="color:#f92672">.</span><span style="color:#a6e22e">South</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">MakeWall</span><span style="color:#f92672">());</span>
+    r1<span style="color:#f92672">.</span><span style="color:#a6e22e">SetSide</span><span style="color:#f92672">(</span>Direction<span style="color:#f92672">.</span><span style="color:#a6e22e">West</span><span style="color:#f92672">,</span>  <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">MakeWall</span><span style="color:#f92672">());</span>
+
+    r2<span style="color:#f92672">.</span><span style="color:#a6e22e">SetSide</span><span style="color:#f92672">(</span>Direction<span style="color:#f92672">.</span><span style="color:#a6e22e">North</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">MakeWall</span><span style="color:#f92672">());</span>
+    r2<span style="color:#f92672">.</span><span style="color:#a6e22e">SetSide</span><span style="color:#f92672">(</span>Direction<span style="color:#f92672">.</span><span style="color:#a6e22e">East</span><span style="color:#f92672">,</span>  <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">MakeWall</span><span style="color:#f92672">());</span>
+    r2<span style="color:#f92672">.</span><span style="color:#a6e22e">SetSide</span><span style="color:#f92672">(</span>Direction<span style="color:#f92672">.</span><span style="color:#a6e22e">South</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">MakeWall</span><span style="color:#f92672">());</span>
+    r2<span style="color:#f92672">.</span><span style="color:#a6e22e">SetSide</span><span style="color:#f92672">(</span>Direction<span style="color:#f92672">.</span><span style="color:#a6e22e">West</span><span style="color:#f92672">,</span>  theDoor<span style="color:#f92672">);</span>
+
+    aMaze<span style="color:#f92672">.</span><span style="color:#a6e22e">AddRoom</span><span style="color:#f92672">(</span>r1<span style="color:#f92672">);</span>
+    aMaze<span style="color:#f92672">.</span><span style="color:#a6e22e">AddRoom</span><span style="color:#f92672">(</span>r2<span style="color:#f92672">);</span>
+
+    <span style="color:#66d9ef">return</span> aMaze<span style="color:#f92672">;</span>
+  <span style="color:#f92672">}</span>
+
+<span style="color:#f92672">}</span> 
+</code></pre></div><p>Each factory method returns a maze component of a given type. <em>MazeGame</em> provides default implementations that return the simplest kinds of maze, rooms, walls, and doors. </p>
+<p>Now we have to rewrite <em>CreateMaze</em> to use these factory methods.</p>
+<h1 id="known-uses">
+  Known Uses
+  <a href="#known-uses" class="h-anchor" aria-hidden="true">#</a>
+</h1>
+<p>Factory methods pervade toolkits and frameworks.The preceding document example is a typical use in MacApp and ET++ [WGM88]. The manipulator example is from Unidraw.</p>
+<p>Class View in the Smalltalk-80 Model/View/Controller framework has a method defaultController that creates a controller, and this might appear to be a factory method [Par90]. But subclasses of Viewspecify the class of their default controller by defining defaultControllerClass, which returns the class from which defaultController creates instances. So defaultControllerClass is the real factory method, tKat is, the method that subclasses should override.</p>
+<h1 id="related-patterns">
+  Related Patterns
+  <a href="#related-patterns" class="h-anchor" aria-hidden="true">#</a>
+</h1>
+<p>Abstract Factory is often implemented with factory methods. </p>
+<p>Factory methods are usually called within Template Methods. </p>
+<p>Prototypes don&rsquo;t require subclassing Creator. However, they often require an Initialize operation on the Product class. Creator uses Initialize to initialize the object. Factory Method doesn&rsquo;t require such an operation.</p>
+
+    </div>
+    
+      
+        <div class="pagination">
+          <div class="pagination__title">
+            <span class="pagination__title-h"
+              >Read other posts</span
+            >
+            <hr />
+          </div>
+          <div class="pagination__buttons">
+            
+            
+              <span class="button next">
+                <a href="https://federicobruzzone.github.io/posts/design-patterns/builder-pattern-object-creational/readme/">
+                  <span class="button__text">Builder pattern pattern - Object Creational</span>
+                  <span class="button__icon">→</span>
+                </a>
+              </span>
+            
+          </div>
+        </div>
+      
+    
+
+    
+      
+        
+
+      
+    
+  </article>
+
+      </div>
+
+      
+        <footer class="footer">
+  <div class="footer__inner">
+    
+      <a
+  href="/"
+  class="logo"
+  style="text-decoration: none;"
+>
+  
+    <span class="logo__mark"><svg xmlns="http://www.w3.org/2000/svg" class="greater-icon" viewBox="0 0 44 44">
+  <path fill="none" d="M15 8l14.729 14.382L15 35.367" />
+</svg>
+</span>
+    <span class="logo__text"
+      >Federico Bruzzone</span
+    >
+    <span class="logo__cursor"></span>
+  
+</a>
+
+      <div class="copyright">
+        <span>© 2023 Powered by <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a></span>
+        <span><a href="https://github.com/panr/hugo-theme-hello-friend" target="_blank">Theme</a> made by <a href="https://github.com/panr" target="_blank">panr</a></span>
+      </div>
+    
+  </div>
+</footer>
+
+
+
+
+
+<script type="text/javascript" src="/bundle.min.js"></script>
+
+
+      
+    </div>
+
+    
+  </body>
+</html>
