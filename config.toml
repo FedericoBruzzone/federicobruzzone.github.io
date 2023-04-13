@@ -54,7 +54,7 @@ math = true
     # lastModDisplay = ""
 
     [languages.en.params.logo]
-      logoText = "Federico Bruzzone"
+      logoText = "Federico Bruzzone ~/"
       logoHomeLink = "/"
     # or
     #

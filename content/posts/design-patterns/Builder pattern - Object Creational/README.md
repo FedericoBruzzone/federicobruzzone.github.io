@@ -4,7 +4,8 @@ author: Federico Bruzzone
 title: Builder pattern pattern - Object Creational
 date: 2023-01-13
 draft: false
-description: "Separate the construction of a complex object from its representation so that the same construction process can create different representation."
+description: " " 
+;description: "Separate the construction of a complex object from its representation so that the same construction process can create different representation."
 ;cover: "/Builder pattern pattern - Object Creational//cover.png"
 tags: [programming, design-patterns, computer-science, object-oriented, clean-code]
 categories: [programming, design-pattern]

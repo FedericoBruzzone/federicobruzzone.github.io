@@ -160,7 +160,7 @@ a.read-more:active {
   background: none;
   box-shadow: none;
   padding: 0;
-  margin: 20px 0;
+  margin: 0px 0;
   font-weight: bold; }
 
 .code-toolbar {
@@ -603,7 +603,7 @@ h4:hover a {
       .post-meta {
         font-size: .85rem; } }
   .post-title {
-    font-size: 2.625rem;
+    font-size: 2rem;
     margin: 0 0 20px; }
     @media (max-width: 684px) {
       .post-title {

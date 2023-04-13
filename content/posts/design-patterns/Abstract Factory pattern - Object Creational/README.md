@@ -4,7 +4,8 @@ author: Federico Bruzzone
 title: Abstract Factory pattern - Object Creational
 date: 2023-01-02
 draft: false
-description: "Provide an interface for creating families of related or dependent objects without specifying their concrete class."
+description: " " 
+;description: "Provide an interface for creating families of related or dependent objects without specifying their concrete class."
 ;cover: "/Abstract Factory pattern - Object Creational//cover.png"
 tags: [programming, design-patterns, computer-science, object-oriented, clean-code]
 categories: [programming, design-pattern]

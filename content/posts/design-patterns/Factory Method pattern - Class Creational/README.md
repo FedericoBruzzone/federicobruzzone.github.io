@@ -4,7 +4,8 @@ author: Federico Bruzzone
 title: Factory Method pattern - Class Creational
 date: 2023-02-03
 draft: false
-description: "Define an interface for creating an object, but let subclasses decide which class to instantiate. Factory Method lets a class defer instantiation to subclasses."
+description: " " 
+;description: "Define an interface for creating an object, but let subclasses decide which class to instantiate. Factory Method lets a class defer instantiation to subclasses."
 ;cover: "/Factory Method pattern - Class Creational//cover.png"
 tags: [programming, design-patterns, computer-science, object-oriented, clean-code]
 categories: [programming, design-pattern]
