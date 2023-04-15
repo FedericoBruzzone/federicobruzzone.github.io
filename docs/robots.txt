@@ -1,0 +1,2 @@
+User-agent: *
+Sitemap: https://federicobruzzone.github.io/sitemap.xml

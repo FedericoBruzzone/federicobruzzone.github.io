@@ -1,97 +1,46 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>programming on Federico Bruzzone</title>
-    
-    
-    
+    <title>programming on Jane - A super concise theme for Hugo</title>
     <link>https://federicobruzzone.github.io/categories/programming/</link>
-    <description>Recent content in programming on Federico Bruzzone</description>
+    <description>Recent content in programming on Jane - A super concise theme for Hugo</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Fri, 03 Feb 2023 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://federicobruzzone.github.io/categories/programming/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <language>en</language>
+    <lastBuildDate>Fri, 03 Feb 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://federicobruzzone.github.io/categories/programming/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Factory Method pattern - Class Creational</title>
-      <link>https://federicobruzzone.github.io/posts/design-patterns/factory-method-pattern-class-creational/readme/</link>
+      <link>https://federicobruzzone.github.io/post/design-patterns/factory-method-pattern-class-creational/readme/</link>
       <pubDate>Fri, 03 Feb 2023 00:00:00 +0000</pubDate>
       
-      <guid>https://federicobruzzone.github.io/posts/design-patterns/factory-method-pattern-class-creational/readme/</guid>
-      <description>
-        
-          
-          
-          
-        
-        
-        
-           
-          
-        
-        </description>
+      <guid>https://federicobruzzone.github.io/post/design-patterns/factory-method-pattern-class-creational/readme/</guid>
+      <description>Define an interface for creating an object, but let subclasses decide which class to instantiate. Factory Method lets a class defer instantiation to subclasses.</description>
     </item>
     
     <item>
       <title>Builder pattern pattern - Object Creational</title>
-      <link>https://federicobruzzone.github.io/posts/design-patterns/builder-pattern-object-creational/readme/</link>
+      <link>https://federicobruzzone.github.io/post/design-patterns/builder-pattern-object-creational/readme/</link>
       <pubDate>Fri, 13 Jan 2023 00:00:00 +0000</pubDate>
       
-      <guid>https://federicobruzzone.github.io/posts/design-patterns/builder-pattern-object-creational/readme/</guid>
-      <description>
-        
-          
-          
-          
-        
-        
-        
-           
-          
-        
-        </description>
+      <guid>https://federicobruzzone.github.io/post/design-patterns/builder-pattern-object-creational/readme/</guid>
+      <description>Separate the construction of a complex object from its representation so that the same construction process can create different representation.</description>
     </item>
     
     <item>
       <title>Abstract Factory pattern - Object Creational</title>
-      <link>https://federicobruzzone.github.io/posts/design-patterns/abstract-factory-pattern-object-creational/readme/</link>
+      <link>https://federicobruzzone.github.io/post/design-patterns/abstract-factory-pattern-object-creational/readme/</link>
       <pubDate>Mon, 02 Jan 2023 00:00:00 +0000</pubDate>
       
-      <guid>https://federicobruzzone.github.io/posts/design-patterns/abstract-factory-pattern-object-creational/readme/</guid>
-      <description>
-        
-          
-          
-          
-        
-        
-        
-           
-          
-        
-        </description>
+      <guid>https://federicobruzzone.github.io/post/design-patterns/abstract-factory-pattern-object-creational/readme/</guid>
+      <description>Provide an interface for creating families of related or dependent objects without specifying their concrete class.</description>
     </item>
     
     <item>
       <title>Design Patterns - Introduction</title>
-      <link>https://federicobruzzone.github.io/posts/design-patterns/design-patterns-introduction/readme/</link>
+      <link>https://federicobruzzone.github.io/post/design-patterns/design-patterns-introduction/readme/</link>
       <pubDate>Mon, 19 Dec 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://federicobruzzone.github.io/posts/design-patterns/design-patterns-introduction/readme/</guid>
-      <description>
-        
-          
-          
-          
-        
-        
-        
-           
-          
-        
-        </description>
+      <guid>https://federicobruzzone.github.io/post/design-patterns/design-patterns-introduction/readme/</guid>
+      <description></description>
     </item>
     
   </channel>

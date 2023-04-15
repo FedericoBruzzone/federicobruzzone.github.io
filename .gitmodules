@@ -13,3 +13,7 @@
 [submodule "themes/hello-friend"]
     path = themes/hello-friend
     url = https://github.com/panr/hugo-theme-hello-friend.git
+
+[submodule "themes/jane"]
+    path = themes/jane
+    url = https://github.com/xianmin/hugo-theme-jane.git
