@@ -77,7 +77,7 @@
 <meta itemprop="name" content="Factory Method pattern - Class Creational">
 <meta itemprop="description" content="Define an interface for creating an object, but let subclasses decide which class to instantiate. Factory Method lets a class defer instantiation to subclasses."><meta itemprop="datePublished" content="2023-02-03T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2023-02-03T00:00:00+00:00" />
-<meta itemprop="wordCount" content="1213">
+<meta itemprop="wordCount" content="1215">
 <meta itemprop="keywords" content="programming,design-patterns,computer-science,object-oriented,clean-code," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Factory Method pattern - Class Creational"/>
 <meta name="twitter:description" content="Define an interface for creating an object, but let subclasses decide which class to instantiate. Factory Method lets a class defer instantiation to subclasses."/>
@@ -465,7 +465,7 @@
 <p>To better understand the following code and the classes used look</p>
 <p><a href="https://github.com/FedericoBruzzone/federicobruzzone.github.io/blob/main/static/design-pattern/commoncode">here🔗!</a></p>
 <p>The function <a href="https://github.com/FedericoBruzzone/federicobruzzone.github.io/blob/main/static/design-pattern/commoncode/MazeGame_First.java"><em>CreateMaze</em></a> builds and returns a maze. One problem with this function is that it hard-codes the classes of maze, rooms, doors, and walls.We&rsquo;ll introduce factory methods to let subclasses choose these components.</p>
-<p>First we&rsquo;ll define factory methods in <em>MazeGame</em> for creating the maze,room,wall, and door objects:</p>
+<p>First we&rsquo;ll define factory methods in <em>MazeGame</em> for creating the maze, room, wall, and door objects:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java"><span style="color:#f92672">import</span> commoncode.*<span style="color:#f92672">;</span>
 
 <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MazeGame_Factory</span> <span style="color:#f92672">{</span>
