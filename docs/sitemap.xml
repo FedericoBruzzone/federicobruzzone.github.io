@@ -3,7 +3,7 @@
   
   <url>
     <loc>https://federicobruzzone.github.io/post/my-first-post/</loc>
-    <lastmod>2019-03-08T00:00:00+00:00</lastmod>
+    <lastmod>2023-04-16T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -17,6 +17,20 @@
   
   <url>
     <loc>https://federicobruzzone.github.io/external-link/</loc>
+    <lastmod>2023-04-16T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://federicobruzzone.github.io/</loc>
+    <lastmod>2023-04-16T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://federicobruzzone.github.io/post/</loc>
     <lastmod>2023-04-16T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -65,21 +79,7 @@
   </url>
   
   <url>
-    <loc>https://federicobruzzone.github.io/</loc>
-    <lastmod>2023-02-03T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
     <loc>https://federicobruzzone.github.io/tags/object-oriented/</loc>
-    <lastmod>2023-02-03T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://federicobruzzone.github.io/post/</loc>
     <lastmod>2023-02-03T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>

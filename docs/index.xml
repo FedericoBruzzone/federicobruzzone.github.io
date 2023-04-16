@@ -6,7 +6,7 @@
     <description>Recent content on Federico Bruzzone&#39;s website</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 03 Feb 2023 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 16 Apr 2023 00:00:00 +0000</lastBuildDate>
     
         <atom:link href="https://federicobruzzone.github.io/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,17 +14,146 @@
     <item>
       <title>Math Typesetting</title>
       <link>https://federicobruzzone.github.io/post/my-first-post/</link>
-      <pubDate>Fri, 08 Mar 2019 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 16 Apr 2023 00:00:00 +0000</pubDate>
       
       <guid>https://federicobruzzone.github.io/post/my-first-post/</guid>
       
-        <description>&lt;h3 id=&#34;examples&#34;&gt;Examples&lt;/h3&gt;
-
-&lt;p&gt;Block math:
-$$
-\varphi = 1+\frac{1} {1+\frac{1} {1+\frac{1} {1+\cdots} } }
+        <description>&lt;h2 id=&#34;repeating-fractions&#34;&gt;Repeating fractions&lt;/h2&gt;
+&lt;p&gt;$$
+\frac{1}{\Bigl(\sqrt{\phi \sqrt{5}}-\phi\Bigr) e^{\frac25 \pi}} \equiv 1+\frac{e^{-2\pi}} {1+\frac{e^{-4\pi}} {1+\frac{e^{-6\pi}} {1+\frac{e^{-8\pi}} {1+\cdots} } } }
 $$&lt;/p&gt;
-</description>
+&lt;h2 id=&#34;summation-notation&#34;&gt;Summation notation&lt;/h2&gt;
+&lt;p&gt;$$
+\left( \sum_{k=1}^n a_k b_k \right)^2 \leq \left( \sum_{k=1}^n a_k^2 \right) \left( \sum_{k=1}^n b_k^2 \right)
+$$&lt;/p&gt;
+&lt;h2 id=&#34;sum-of-a-series&#34;&gt;Sum of a Series&lt;/h2&gt;
+&lt;p&gt;I broke up the next two examples into separate lines so it behaves better on a mobile phone. That&amp;rsquo;s why they include \displaystyle.&lt;/p&gt;
+&lt;p&gt;$$
+\displaystyle\sum_{i=1}^{k+1}i
+$$&lt;/p&gt;
+&lt;p&gt;$$
+\displaystyle= \left(\sum_{i=1}^{k}i\right) +(k+1)
+$$&lt;/p&gt;
+&lt;p&gt;$$
+\displaystyle= \frac{k(k+1)}{2}+k+1
+$$&lt;/p&gt;
+&lt;p&gt;$$
+\displaystyle= \frac{k(k+1)+2(k+1)}{2}
+$$&lt;/p&gt;
+&lt;p&gt;$$
+\displaystyle= \frac{(k+1)(k+2)}{2}
+$$&lt;/p&gt;
+&lt;p&gt;$$
+\displaystyle= \frac{(k+1)((k+1)+1)}{2}
+$$&lt;/p&gt;
+&lt;h2 id=&#34;product-notation&#34;&gt;Product notation&lt;/h2&gt;
+&lt;p&gt;$$
+\displaystyle 1 + \frac{q^2}{(1-q)}+\frac{q^6}{(1-q)(1-q^2)}+\cdots = \displaystyle \prod_{j=0}^{\infty}\frac{1}{(1-q^{5j+2})(1-q^{5j+3})}, \displaystyle\text{ for }\lvert q\rvert &amp;lt; 1.
+$$&lt;/p&gt;
+&lt;h2 id=&#34;inline-math&#34;&gt;Inline math&lt;/h2&gt;
+&lt;p&gt;And here is some in-line math: $$ k_{n+1} = n^2 + k_n^2 - k_{n-1} $$ , followed by some more text.&lt;/p&gt;
+&lt;h2 id=&#34;greek-letters&#34;&gt;Greek Letters&lt;/h2&gt;
+&lt;p&gt;$$
+\Gamma\ \Delta\ \Theta\ \Lambda\ \Xi\ \Pi\ \Sigma\ \Upsilon\ \Phi\ \Psi\ \Omega
+\alpha\ \beta\ \gamma\ \delta\ \epsilon\ \zeta\ \eta\ \theta\ \iota\ \kappa\ \lambda\ \mu\ \nu\ \xi \ \omicron\ \pi\ \rho\ \sigma\ \tau\ \upsilon\ \phi\ \chi\ \psi\ \omega\ \varepsilon\ \vartheta\ \varpi\ \varrho\ \varsigma\ \varphi
+$$&lt;/p&gt;
+&lt;h2 id=&#34;arrows&#34;&gt;Arrows&lt;/h2&gt;
+&lt;p&gt;$$
+\gets\ \to\ \leftarrow\ \rightarrow\ \uparrow\ \Uparrow\ \downarrow\ \Downarrow\ \updownarrow\ \Updownarrow
+$$&lt;/p&gt;
+&lt;p&gt;$$
+\Leftarrow\ \Rightarrow\ \leftrightarrow\ \Leftrightarrow\ \mapsto\ \hookleftarrow
+\leftharpoonup\ \leftharpoondown\ \rightleftharpoons\ \longleftarrow\ \Longleftarrow\ \longrightarrow
+$$&lt;/p&gt;
+&lt;p&gt;$$
+\Longrightarrow\ \longleftrightarrow\ \Longleftrightarrow\ \longmapsto\ \hookrightarrow\ \rightharpoonup
+$$&lt;/p&gt;
+&lt;p&gt;$$
+\rightharpoondown\ \leadsto\ \nearrow\ \searrow\ \swarrow\ \nwarrow
+$$&lt;/p&gt;
+&lt;h2 id=&#34;symbols&#34;&gt;Symbols&lt;/h2&gt;
+&lt;p&gt;$$
+\surd\ \barwedge\ \veebar\ \odot\ \oplus\ \otimes\ \oslash\ \circledcirc\ \boxdot\ \bigtriangleup
+$$&lt;/p&gt;
+&lt;p&gt;$$
+\bigtriangledown\ \dagger\ \diamond\ \star\ \triangleleft\ \triangleright\ \angle\ \infty\ \prime\ \triangle
+$$&lt;/p&gt;
+&lt;h2 id=&#34;calculus&#34;&gt;Calculus&lt;/h2&gt;
+&lt;p&gt;$$
+\int u \frac{dv}{dx},dx=uv-\int \frac{du}{dx}v,dx
+$$&lt;/p&gt;
+&lt;p&gt;$$
+f(x) = \int_{-\infty}^\infty \hat f(\xi),e^{2 \pi i \xi x}
+$$&lt;/p&gt;
+&lt;p&gt;$$
+\oint \vec{F} \cdot d\vec{s}=0
+$$&lt;/p&gt;
+&lt;h2 id=&#34;lorenz-equations&#34;&gt;Lorenz Equations&lt;/h2&gt;
+&lt;p&gt;$$
+\begin{aligned} \dot{x} &amp;amp; = \sigma(y-x) \ \dot{y} &amp;amp; = \rho x - y - xz \ \dot{z} &amp;amp; = -\beta z + xy \end{aligned}
+$$&lt;/p&gt;
+&lt;h2 id=&#34;cross-product&#34;&gt;Cross Product&lt;/h2&gt;
+&lt;p&gt;This works in KaTeX, but the separation of fractions in this environment is not so good.&lt;/p&gt;
+&lt;p&gt;$$
+\mathbf{V}_1 \times \mathbf{V}_2 = \begin{vmatrix} \mathbf{i} &amp;amp; \mathbf{j} &amp;amp; \mathbf{k} \ \frac{\partial X}{\partial u} &amp;amp; \frac{\partial Y}{\partial u} &amp;amp; 0 \ \frac{\partial X}{\partial v} &amp;amp; \frac{\partial Y}{\partial v} &amp;amp; 0 \end{vmatrix}
+$$&lt;/p&gt;
+&lt;p&gt;Here&amp;rsquo;s a workaround: make the fractions smaller with an extra class that targets the spans with &amp;ldquo;mfrac&amp;rdquo; class (makes no difference in the MathJax case):&lt;/p&gt;
+&lt;p&gt;$$
+\mathbf{V}_1 \times \mathbf{V}_2 = \begin{vmatrix} \mathbf{i} &amp;amp; \mathbf{j} &amp;amp; \mathbf{k} \ \frac{\partial X}{\partial u} &amp;amp; \frac{\partial Y}{\partial u} &amp;amp; 0 \ \frac{\partial X}{\partial v} &amp;amp; \frac{\partial Y}{\partial v} &amp;amp; 0 \end{vmatrix}
+$$&lt;/p&gt;
+&lt;h2 id=&#34;accents&#34;&gt;Accents&lt;/h2&gt;
+&lt;p&gt;$$
+\hat{x}\ \vec{x}\ \ddot{x}
+$$&lt;/p&gt;
+&lt;h2 id=&#34;stretchy-brackets&#34;&gt;Stretchy brackets&lt;/h2&gt;
+&lt;p&gt;$$
+\left(\frac{x^2}{y^3}\right)
+$$&lt;/p&gt;
+&lt;h2 id=&#34;evaluation-at-limits&#34;&gt;Evaluation at limits&lt;/h2&gt;
+&lt;p&gt;$$
+\left.\frac{x^3}{3}\right|_0^1
+$$&lt;/p&gt;
+&lt;h2 id=&#34;case-definitions&#34;&gt;Case definitions&lt;/h2&gt;
+&lt;p&gt;$$
+f(n) = \begin{cases} \frac{n}{2}, &amp;amp; \text{if } n\text{ is even} \ 3n+1, &amp;amp; \text{if } n\text{ is odd} \end{cases}
+$$&lt;/p&gt;
+&lt;h2 id=&#34;maxwells-equations&#34;&gt;Maxwell&amp;rsquo;s Equations&lt;/h2&gt;
+&lt;p&gt;$$
+\begin{aligned} \nabla \times \vec{\mathbf{B}} -, \frac1c, \frac{\partial\vec{\mathbf{E}}}{\partial t} &amp;amp; = \frac{4\pi}{c}\vec{\mathbf{j}} \ \nabla \cdot \vec{\mathbf{E}} &amp;amp; = 4 \pi \rho \ \nabla \times \vec{\mathbf{E}}, +, \frac1c, \frac{\partial\vec{\mathbf{B}}}{\partial t} &amp;amp; = \vec{\mathbf{0}} \ \nabla \cdot \vec{\mathbf{B}} &amp;amp; = 0 \end{aligned}
+$$&lt;/p&gt;
+&lt;p&gt;These equations are quite cramped. We can add vertical spacing using (for example) [1em] after each line break (\). as you can see here:&lt;/p&gt;
+&lt;p&gt;$$
+\begin{aligned} \nabla \times \vec{\mathbf{B}} -, \frac1c, \frac{\partial\vec{\mathbf{E}}}{\partial t} &amp;amp; = \frac{4\pi}{c}\vec{\mathbf{j}} \[1em] \nabla \cdot \vec{\mathbf{E}} &amp;amp; = 4 \pi \rho \[0.5em] \nabla \times \vec{\mathbf{E}}, +, \frac1c, \frac{\partial\vec{\mathbf{B}}}{\partial t} &amp;amp; = \vec{\mathbf{0}} \[1em] \nabla \cdot \vec{\mathbf{B}} &amp;amp; = 0 \end{aligned}
+$$&lt;/p&gt;
+&lt;h2 id=&#34;statistics&#34;&gt;Statistics&lt;/h2&gt;
+&lt;p&gt;Definition of combination:&lt;/p&gt;
+&lt;p&gt;$$
+\frac{n!}{k!(n-k)!} = {^n}C_k
+{n \choose k}
+$$&lt;/p&gt;
+&lt;h2 id=&#34;fractions-on-fractions&#34;&gt;Fractions on fractions&lt;/h2&gt;
+&lt;p&gt;$$
+\frac{\frac{1}{x}+\frac{1}{y}}{y-z}
+$$&lt;/p&gt;
+&lt;h2 id=&#34;n-th-root&#34;&gt;n-th root&lt;/h2&gt;
+&lt;p&gt;$$
+\sqrt[n]{1+x+x^2+x^3+\ldots}
+$$&lt;/p&gt;
+&lt;h2 id=&#34;matrices&#34;&gt;Matrices&lt;/h2&gt;
+&lt;p&gt;$$
+\begin{pmatrix} a_{11} &amp;amp; a_{12} &amp;amp; a_{13}\ a_{21} &amp;amp; a_{22} &amp;amp; a_{23}\ a_{31} &amp;amp; a_{32} &amp;amp; a_{33} \end{pmatrix}
+\begin{bmatrix} 0 &amp;amp; \cdots &amp;amp; 0 \ \vdots &amp;amp; \ddots &amp;amp; \vdots \ 0 &amp;amp; \cdots &amp;amp; 0 \end{bmatrix}
+$$&lt;/p&gt;
+&lt;h2 id=&#34;punctuation&#34;&gt;Punctuation&lt;/h2&gt;
+&lt;p&gt;$$
+f(x) = \sqrt{1+x} \quad (x \ge -1)
+f(x) \sim x^2 \quad (x\to\infty)
+$$&lt;/p&gt;
+&lt;p&gt;Now with punctuation:&lt;/p&gt;
+&lt;p&gt;$$
+f(x) = \sqrt{1+x}, \quad x \ge -1
+f(x) \sim x^2, \quad x\to\infty
+$$&lt;/p&gt;</description>
       
     </item>
     
