@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Jane - A super concise theme for Hugo</title>
+    <title>Federico Bruzzone&#39;s website</title>
     <link>https://federicobruzzone.github.io/</link>
-    <description>Recent content on Jane - A super concise theme for Hugo</description>
+    <description>Recent content on Federico Bruzzone&#39;s website</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Fri, 03 Feb 2023 00:00:00 +0000</lastBuildDate>
@@ -24,6 +24,34 @@
 $$
 \varphi = 1+\frac{1} {1+\frac{1} {1+\frac{1} {1+\cdots} } }
 $$&lt;/p&gt;
+</description>
+      
+    </item>
+    
+    <item>
+      <title>About</title>
+      <link>https://federicobruzzone.github.io/about/</link>
+      <pubDate>Sun, 16 Apr 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://federicobruzzone.github.io/about/</guid>
+      
+        <description>&lt;blockquote&gt;
+&lt;p&gt;About&lt;/p&gt;
+&lt;/blockquote&gt;
+</description>
+      
+    </item>
+    
+    <item>
+      <title>External Link</title>
+      <link>https://federicobruzzone.github.io/external-link/</link>
+      <pubDate>Sun, 16 Apr 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://federicobruzzone.github.io/external-link/</guid>
+      
+        <description>&lt;blockquote&gt;
+&lt;p&gt;External link&lt;/p&gt;
+&lt;/blockquote&gt;
 </description>
       
     </item>
@@ -879,18 +907,6 @@ $$&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;Extending functionality by subclassing&lt;/em&gt; Customizing an object by subclassing often isn&amp;rsquo;t easy. Every new class has a fixed implementation overhead. Defining a subclass also requires an in-depth understanding of the parent class. Object composition in general and delegation in particular provide flexible alternatives to inheritance for combining behavior. New functionality can be added to an application by composing existing objects in new ways rather than by defining new subclasses of existing classes. Design patterns: Bridge, Chain of Responsibility, Composite, Decorator, Observer, Strategy.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-</description>
-      
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://federicobruzzone.github.io/about/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://federicobruzzone.github.io/about/</guid>
-      
-        <description>hello
 </description>
       
     </item>

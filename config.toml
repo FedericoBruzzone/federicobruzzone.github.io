@@ -6,7 +6,7 @@ baseurl = "https://federicobruzzone.github.io/"
 languageCode = "en-us"
 publishDir = "docs"
 
-title = "Jane - A super concise theme for Hugo"
+title = "Federico Bruzzone's website"
 enableRobotsTXT = true
 enableEmoji = true
 theme = "jane"
@@ -37,25 +37,31 @@ defaultContentLanguage = "en"           # Default language to use
   weight = 10
   identifier = "home"
   pageref = "/"
+[[menu.main]]             # config your menu              # 配置目录
+  name = "About"
+  weight = 20
+  identifier = "About"
+  pageref = "/about.md"
 [[menu.main]]
   name = "Archives"
-  weight = 20
+  weight = 30
   identifier = "archives"
   pageref = "/post/"
 [[menu.main]]
   name = "Tags"
-  weight = 30
+  weight = 40
   identifier = "tags"
   pageref = "/tags/"
 [[menu.main]]
   name = "Categories"
-  weight = 40
+  weight = 50
   identifier = "categories"
   pageref = "/categories/"
-# [[menu.main]]
-#   name = "external-link"
-#   weight = 50
-#   pageref = "https://gohugo.io"
+[[menu.main]]
+  name = "External link"
+  weight = 60
+  identifier = "external-link"
+  pageref = "/external-link.md"
 
 
 [params]
@@ -64,9 +70,9 @@ defaultContentLanguage = "en"           # Default language to use
   rssFullContent = true     # if false, Rss feed instead of the summary
 
   # site info (optional)                                  # 站点信息（可选，不需要的可以直接注释掉）
-  logoTitle = "fcb $~"        # default: the title value    # 默认值: 上面设置的title值
+  logoTitle = "Federico Bruzzone's website"        # default: the title value    # 默认值: 上面设置的title值
   keywords = ["Hugo", "theme","jane"]
-  description = "Hugo theme jane example site."
+  description = "Federico Bruzzone's website"
 
   # The date format to use; for a list of valid formats, see https://gohugo.io/functions/format/
   dateFormatToUse = "2006-01-02"
