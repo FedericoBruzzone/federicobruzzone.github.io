@@ -76,10 +76,10 @@ $global-headings: (
 
 // ========== Header ========== //
 // Font size of the logo.
-$logo-font-size: 36px !default;
+$logo-font-size: 25px !default;
 
 // Font family of the logo.
-$logo-font-family: cursive, LiSu, sans-serif !default;
+$logo-font-family: cursive; //, LiSu, sans-serif !default;
 
 // Margin of menu item.
 $menu-item-margin-left: 10px !default;
@@ -171,7 +171,7 @@ $content-table-border-color: darken($deputy-color, 3%) !default;
 
 // ========== Code ========== //
 // Color of the code.
-$code-color: #c7254e !default;
+$code-color: !default; //#c7254e !default;
 
 // Font size of code.
 $code-font-size: 0.9em !default;
@@ -181,7 +181,7 @@ $code-font-family: Menlo, Consolas, "Source Code Pro", Inconsolata, Monaco, "Cou
  monospace !default;
 
 // Color of code highlight, solarized.
-$code-highlight-color: (
+$code-highlight-color: !default; /*(
   comment: #93a1a1,
   keyword: #859900,
   number: #2aa198,
@@ -190,7 +190,7 @@ $code-highlight-color: (
   symbol: #cb4b16,
   built_in: #dc322f,
   formula: #eee8d5
-) !default;
+) !default;*/
 
 
 // Color of the code background.

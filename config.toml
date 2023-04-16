@@ -71,7 +71,7 @@ defaultContentLanguage = "en"           # Default language to use
 
   # site info (optional)                                  # 站点信息（可选，不需要的可以直接注释掉）
   logoTitle = "Federico Bruzzone's website"        # default: the title value    # 默认值: 上面设置的title值
-  keywords = ["Hugo", "theme","jane"]
+  # keywords = ["Hugo", "theme","jane"]
   description = "Federico Bruzzone's website"
 
   # The date format to use; for a list of valid formats, see https://gohugo.io/functions/format/
@@ -110,3 +110,20 @@ defaultContentLanguage = "en"           # Default language to use
     s-mastodon = "https://mstdn.social/@federicobruzzone"
     #t-youtube = "http://localhost:1313"
     #u-twitch = "http://localhost:1313"
+
+
+[markup]
+  [markup.highlight]
+    anchorLineNos = false 
+    codeFences = true
+    guessSyntax = false 
+    hl_Lines = ''
+    hl_inline = false
+    lineAnchors = ''
+    lineNoStart = 1
+    lineNos = true
+    lineNumbersInTable = true
+    noClasses = true
+    noHl = false
+    style = 'rainbow_dash'
+    tabWidth = 4
