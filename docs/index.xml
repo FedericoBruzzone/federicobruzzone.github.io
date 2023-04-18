@@ -178,9 +178,75 @@ $$&lt;/p&gt;</description>
       
       <guid>https://federicobruzzone.github.io/external-link/</guid>
       
-        <description>&lt;blockquote&gt;
-&lt;p&gt;External link&lt;/p&gt;
-&lt;/blockquote&gt;
+        <description>&lt;h2 id=&#34;blogs-and-personal-websites&#34;&gt;Blogs and personal websites&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://blog.tartanllama.xyz/&#34;&gt;Sy Brand&lt;/a&gt; by &lt;em&gt;Tartan Llama&lt;/em&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.timdbg.com/&#34;&gt;TimDbg&lt;/a&gt; by &lt;em&gt;Tim Misiak&lt;/em&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;http://www.paulgraham.com/&#34;&gt;Paul Graham&lt;/a&gt; by &lt;em&gt;Paul Graham&lt;/em&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://waitbutwhy.com/&#34;&gt;Wait but why&lt;/a&gt; by &lt;em&gt;Tim Urban&lt;/em&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://moretothat.com/&#34;&gt;More To That&lt;/a&gt; by &lt;em&gt;Lawrence Yeo&lt;/em&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://retireinprogress.com/&#34;&gt;Retire in progres&lt;/a&gt; by &lt;em&gt;Giorgio Ugazio&lt;/em&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;youtube-channels-and-podcasts&#34;&gt;Youtube channels and Podcasts&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.youtube.com/@lexfridman&#34;&gt;Lex Fridman&lt;/a&gt; by &lt;em&gt;Lex Fridman&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.youtube.com/@TsodingDaily&#34;&gt;Tsoding Daily&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.youtube.com/@3blue1brown&#34;&gt;3blue1brown&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;books&#34;&gt;Books&lt;/h2&gt;
+&lt;h3 id=&#34;computer-science&#34;&gt;Computer Science&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.amazon.it/Design-Patterns-Elements-Reusable-Object-Oriented/dp/0201633612/ref=sr_1_1?__mk_it_IT=%C3%85M%C3%85%C5%BD%C3%95%C3%91&amp;amp;crid=1GE19E9JLRL1U&amp;amp;keywords=design+patterns&amp;amp;qid=1681857194&amp;amp;s=books&amp;amp;sprefix=design+patterns%2Cstripbooks%2C82&amp;amp;sr=1-1&#34;&gt;Design Patterns: Elements of Reusable Object-Oriented Software&lt;/a&gt; by &lt;em&gt;Erich Gamma&lt;/em&gt;, &lt;em&gt;Richard Heml&lt;/em&gt;, &lt;em&gt;Ralph Johnson&lt;/em&gt;, &lt;em&gt;John Vlissides&lt;/em&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.amazon.it/Compilers-Pearson-New-International-V-Aho/dp/1292024348/ref=sr_1_1?__mk_it_IT=%C3%85M%C3%85%C5%BD%C3%95%C3%91&amp;amp;crid=1RS70ISH7YP8V&amp;amp;keywords=the+compilers&amp;amp;qid=1681857340&amp;amp;s=books&amp;amp;sprefix=the+compilers%2Cstripbooks%2C90&amp;amp;sr=1-1&#34;&gt;Compilers: Pearson New International Edition: Principles, Techniques, and Tools&lt;/a&gt; by &lt;em&gt;Aho A.V.&lt;/em&gt;, &lt;em&gt;Lam Monica&lt;/em&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.amazon.it/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882&#34;&gt;Clean Code&lt;/a&gt; by &lt;em&gt;Robert C. Martin&lt;/em&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.amazon.it/Mining-Massive-Datasets-Jure-Leskovec/dp/1108476341/ref=sr_1_1?__mk_it_IT=%C3%85M%C3%85%C5%BD%C3%95%C3%91&amp;amp;crid=FGU0LVZC3VTO&amp;amp;keywords=massive+datasets&amp;amp;qid=1681857533&amp;amp;s=books&amp;amp;sprefix=massive+datasets%2Cstripbooks%2C81&amp;amp;sr=1-1&#34;&gt;Mining of Massive Datasets&lt;/a&gt; by &lt;em&gt;Jure Leskovec&lt;/em&gt;, &lt;em&gt;Anand Rajaraman&lt;/em&gt;, &lt;em&gt;Jeffrey David Ullman&lt;/em&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;mathematics&#34;&gt;Mathematics&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.amazon.it/Golden-Ratio-Worlds-Astonishing-English-ebook/dp/B001L4Z6Q2/ref=sr_1_4?__mk_it_IT=%C3%85M%C3%85%C5%BD%C3%95%C3%91&amp;amp;crid=SIIIUKXYHYHO&amp;amp;keywords=Golden+ratio&amp;amp;qid=1681857662&amp;amp;s=books&amp;amp;sprefix=golden+ratio%2Cstripbooks%2C87&amp;amp;sr=1-4&#34;&gt;The Golden Ratio: The Story of PHI, the World&amp;rsquo;s Most Astonishing Number&lt;/a&gt; by &lt;em&gt;Mario Livio&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;personal-growth&#34;&gt;Personal Growth&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.amazon.it/Deep-Work-Focused-Success-Distracted/dp/1455586676/ref=tmm_pap_swatch_0?_encoding=UTF8&amp;amp;qid=1681856898&amp;amp;sr=1-2&#34;&gt;Deep Work&lt;/a&gt; by &lt;em&gt;Cal Newport&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;critical-thinking&#34;&gt;Critical Thinking&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.amazon.it/Thinking-Fast-Slow-Daniel-Kahneman/dp/0141033576/ref=sr_1_1?keywords=thinking+fast+and+slow&amp;amp;qid=1681857035&amp;amp;s=books&amp;amp;sprefix=thinking%2Cstripbooks%2C90&amp;amp;sr=1-1&#34;&gt;Thinking, fast and slow&lt;/a&gt; by &lt;em&gt;Daniel Kahneman&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;financial&#34;&gt;Financial&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.amazon.it/Random-Walk-Down-Wall-Street/dp/0393358380/ref=sr_1_1?keywords=a+random+walk+down+wall+street&amp;amp;qid=1681856978&amp;amp;s=books&amp;amp;sprefix=a+rand%2Cstripbooks%2C87&amp;amp;sr=1-1&#34;&gt;A Random Walk Down Wall Street&lt;/a&gt; by &lt;em&gt;Burton G. Malkiel&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
 </description>
       
     </item>
