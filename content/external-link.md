@@ -22,6 +22,10 @@ mathjax: true
 
 ---
 
+- [stuffwithstuff](https://stuffwithstuff.com/) by *Bob Nystrom*
+
+- [Art of Assembly Language](https://www.plantation-productions.com/Webster/www.artofasm.com/Linux/HTML/AoATOC.html)
+
 - [Wait but why](https://waitbutwhy.com/) by *Tim Urban*
 
 - [More To That](https://moretothat.com/) by *Lawrence Yeo*
@@ -37,6 +41,8 @@ mathjax: true
 - [Tsoding Daily](https://www.youtube.com/@TsodingDaily)
 
 - [3blue1brown](https://www.youtube.com/@3blue1brown)
+
+- [Reducible](https://www.youtube.com/@Reducible)
 
 ## Books
 
