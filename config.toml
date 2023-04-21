@@ -58,10 +58,10 @@ defaultContentLanguage = "en"           # Default language to use
   identifier = "categories"
   pageref = "/categories/"
 [[menu.main]]
-  name = "External link"
+  name = "External links"
   weight = 60
-  identifier = "external-link"
-  pageref = "/external-link.md"
+  identifier = "external-links"
+  pageref = "/external-links.md"
 
 
 [params]
