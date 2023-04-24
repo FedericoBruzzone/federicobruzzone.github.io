@@ -43,7 +43,7 @@ $dark-gray: #8a8a8a !default;
 $global-font-color: rgba(0, 0, 0, .84) !default;
 
 // Font size attribute applied to '<html>' and '<body>'.
-$global-font-size: 18px !default;
+$global-font-size: 14px !default; // 18px 
 
 // Global width of '<body>'.
 $global-body-width: 1080px !default;
@@ -52,13 +52,13 @@ $global-body-width: 1080px !default;
 $global-container-padding: 0 20px !default;
 
 // Default line height for all type. `$global-lineheight` is 24px while `$global-font-size` is 16px.
-$global-lineheight: 1.8 !default;
+$global-lineheight: 1.4 !default; // 1.8
 
 // Font family of the site.
-$global-font-family: 'Source Sans Pro', 'Helvetica Neue', Arial, sans-serif !default;
+$global-font-family: Monospace; // 'Source Sans Pro', 'Helvetica Neue', Arial, sans-serif !default;
 
 // Serif font family of the site.
-$global-serif-font-family: Athelas, STHeiti, Microsoft Yahei, serif !default;
+$global-serif-font-family: Monospace; //Athelas, STHeiti, Microsoft Yahei, serif !default;
 
 // Background color of the site.
 $global-background: $white !default;
@@ -174,11 +174,11 @@ $content-table-border-color: darken($deputy-color, 3%) !default;
 $code-color: !default; //#c7254e !default;
 
 // Font size of code.
-$code-font-size: 0.9em !default;
+$code-font-size: 0.8em !default; // 0.9em
 
 // Font family of the code.
-$code-font-family: Menlo, Consolas, "Source Code Pro", Inconsolata, Monaco, "Courier New",
- monospace !default;
+$code-font-family: Monospace; //Menlo, Consolas, "Source Code Pro", Inconsolata, Monaco, "Courier New", monospace !default;
+
 
 // Color of code highlight, solarized.
 $code-highlight-color: !default; /*(

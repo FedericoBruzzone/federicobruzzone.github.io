@@ -41,7 +41,7 @@ defaultContentLanguage = "en"           # Default language to use
   name = "About"
   weight = 20
   identifier = "About"
-  pageref = "/about.md"
+  pageref = "/about.html"
 [[menu.main]]
   name = "Archives"
   weight = 30

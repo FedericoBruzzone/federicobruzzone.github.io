@@ -128,7 +128,7 @@ To better understand the following code and the classes used look
 
 [here🔗!](https://github.com/FedericoBruzzone/federicobruzzone.github.io/blob/main/static/design-pattern/commoncode)
 
-The function [*CreateMaze*](https://github.com/FedericoBruzzone/federicobruzzone.github.io/blob/main/static/design-pattern/commoncode/MazeGame_First.java) builds and returns a maze. One problem with this function is that it hard-codes the classes of maze, rooms, doors, and walls.We'll introduce factory methods to let subclasses choose these components.
+The function [*CreateMaze*](https://github.com/FedericoBruzzone/federicobruzzone.github.io/blob/main/static/design-pattern/commoncode/MazeGame_First.java) builds and returns a maze. One problem with this function is that it hard-codes the classes of maze, rooms, doors, and walls. We'll introduce factory methods to let subclasses choose these components.
 
 First we'll define factory methods in *MazeGame* for creating the maze, room, wall, and door objects:
 
