@@ -26,6 +26,8 @@ mathjax: true
 
 - [Art of Assembly Language](https://www.plantation-productions.com/Webster/www.artofasm.com/Linux/HTML/AoATOC.html)
 
+- [surma.dev](https://surma.dev/) by *Surma*
+
 - [Wait but why](https://waitbutwhy.com/) by *Tim Urban*
 
 - [More To That](https://moretothat.com/) by *Lawrence Yeo*
