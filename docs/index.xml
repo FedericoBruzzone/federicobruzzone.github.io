@@ -183,7 +183,7 @@ $$&lt;/p&gt;</description>
 &lt;ul&gt;
     &lt;li&gt;
         &lt;p&gt;
-            GitHub: &lt;a href=https://github.com/jdhao&gt;https://github.com/federicobruzzone&lt;/a&gt;
+            GitHub: &lt;a href=https://github.com/federicobruzzone&gt;https://github.com/federicobruzzone&lt;/a&gt;
         &lt;/p&gt;
         &lt;p align=center&gt;&lt;img src=https://ghchart.rshah.org/federicobruzzone width=800&gt;&lt;/p&gt;
     &lt;/li&gt;
@@ -390,94 +390,94 @@ $$&lt;/p&gt;</description>
 &lt;h2 id=&#34;sample-code&#34;&gt;Sample Code&lt;/h2&gt;
 &lt;p&gt;To better understand the following code and the classes used look&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/FedericoBruzzone/federicobruzzone.github.io/blob/main/static/design-pattern/commoncode&#34;&gt;here🔗!&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;The function &lt;a href=&#34;https://github.com/FedericoBruzzone/federicobruzzone.github.io/blob/main/static/design-pattern/commoncode/MazeGame_First.java&#34;&gt;&lt;em&gt;CreateMaze&lt;/em&gt;&lt;/a&gt; builds and returns a maze. One problem with this function is that it hard-codes the classes of maze, rooms, doors, and walls.We&amp;rsquo;ll introduce factory methods to let subclasses choose these components.&lt;/p&gt;
+&lt;p&gt;The function &lt;a href=&#34;https://github.com/FedericoBruzzone/federicobruzzone.github.io/blob/main/static/design-pattern/commoncode/MazeGame_First.java&#34;&gt;&lt;em&gt;CreateMaze&lt;/em&gt;&lt;/a&gt; builds and returns a maze. One problem with this function is that it hard-codes the classes of maze, rooms, doors, and walls. We&amp;rsquo;ll introduce factory methods to let subclasses choose these components.&lt;/p&gt;
 &lt;p&gt;First we&amp;rsquo;ll define factory methods in &lt;em&gt;MazeGame&lt;/em&gt; for creating the maze, room, wall, and door objects:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
 &lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;12
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;13
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;14
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;15
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;16
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;17
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;18
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;19
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;20
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;21
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;22
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;23
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;24
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;25
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;26
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;27
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;28
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;29
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;30
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;31
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;32
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;33
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;34
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;35
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;36
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;37
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;38
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;39
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;40
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;41
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 1
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 2
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 3
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 4
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 5
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 6
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 7
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 8
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 9
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;10
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;11
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;12
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;13
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;14
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;15
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;16
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;17
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;18
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;19
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;20
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;21
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;22
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;23
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;24
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;25
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;26
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;27
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;28
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;29
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;30
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;31
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;32
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;33
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;34
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;35
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;36
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;37
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;38
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;39
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;40
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;41
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-Java&#34; data-lang=&#34;Java&#34;&gt;&lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;import&lt;/span&gt; commoncode.*&lt;span style=&#34;color:#2c5dcd&#34;&gt;;&lt;/span&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-Java&#34; data-lang=&#34;Java&#34;&gt;&lt;span style=&#34;color:#f00&#34;&gt;import&lt;/span&gt; commoncode.*;
 
-&lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;text-decoration:underline&#34;&gt;MazeGame_Factory&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd&#34;&gt;{&lt;/span&gt;
+&lt;span style=&#34;color:#f00&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#f00&#34;&gt;class&lt;/span&gt; MazeGame_Factory {
   
-  &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#ff8000;font-weight:bold&#34;&gt;MazeGame_Factory&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd&#34;&gt;{}&lt;/span&gt;
+  &lt;span style=&#34;color:#f00&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#ff0&#34;&gt;MazeGame_Factory&lt;/span&gt;() {}
   
-  &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;public&lt;/span&gt; Maze &lt;span style=&#34;color:#ff8000;font-weight:bold&#34;&gt;MakeMaze&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;()&lt;/span&gt; 
-    &lt;span style=&#34;color:#2c5dcd&#34;&gt;{&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;new&lt;/span&gt; Maze&lt;span style=&#34;color:#2c5dcd&#34;&gt;();&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd&#34;&gt;}&lt;/span&gt;
+  &lt;span style=&#34;color:#f00&#34;&gt;public&lt;/span&gt; Maze &lt;span style=&#34;color:#ff0&#34;&gt;MakeMaze&lt;/span&gt;() 
+    { &lt;span style=&#34;color:#f00&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#f00&#34;&gt;new&lt;/span&gt; Maze(); }
   
-  &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;public&lt;/span&gt; Wall &lt;span style=&#34;color:#ff8000;font-weight:bold&#34;&gt;MakeWall&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;()&lt;/span&gt; 
-    &lt;span style=&#34;color:#2c5dcd&#34;&gt;{&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;new&lt;/span&gt; Wall&lt;span style=&#34;color:#2c5dcd&#34;&gt;();&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd&#34;&gt;}&lt;/span&gt;
+  &lt;span style=&#34;color:#f00&#34;&gt;public&lt;/span&gt; Wall &lt;span style=&#34;color:#ff0&#34;&gt;MakeWall&lt;/span&gt;() 
+    { &lt;span style=&#34;color:#f00&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#f00&#34;&gt;new&lt;/span&gt; Wall(); }
   
-  &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;public&lt;/span&gt; Room &lt;span style=&#34;color:#ff8000;font-weight:bold&#34;&gt;MakeRoom&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#5918bb;font-weight:bold&#34;&gt;int&lt;/span&gt; n&lt;span style=&#34;color:#2c5dcd&#34;&gt;)&lt;/span&gt; 
-    &lt;span style=&#34;color:#2c5dcd&#34;&gt;{&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;new&lt;/span&gt; Room&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;n&lt;span style=&#34;color:#2c5dcd&#34;&gt;);&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd&#34;&gt;}&lt;/span&gt;
+  &lt;span style=&#34;color:#f00&#34;&gt;public&lt;/span&gt; Room &lt;span style=&#34;color:#ff0&#34;&gt;MakeRoom&lt;/span&gt;(&lt;span style=&#34;color:#ee82ee&#34;&gt;int&lt;/span&gt; n) 
+    { &lt;span style=&#34;color:#f00&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#f00&#34;&gt;new&lt;/span&gt; Room(n); }
   
-  &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;public&lt;/span&gt; Door &lt;span style=&#34;color:#ff8000;font-weight:bold&#34;&gt;MakeDoor&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;Room r1&lt;span style=&#34;color:#2c5dcd&#34;&gt;,&lt;/span&gt; Room r2&lt;span style=&#34;color:#2c5dcd&#34;&gt;)&lt;/span&gt;
-    &lt;span style=&#34;color:#2c5dcd&#34;&gt;{&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;new&lt;/span&gt; Door&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;r1&lt;span style=&#34;color:#2c5dcd&#34;&gt;,&lt;/span&gt; r2&lt;span style=&#34;color:#2c5dcd&#34;&gt;);&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd&#34;&gt;}&lt;/span&gt;
+  &lt;span style=&#34;color:#f00&#34;&gt;public&lt;/span&gt; Door &lt;span style=&#34;color:#ff0&#34;&gt;MakeDoor&lt;/span&gt;(Room r1, Room r2)
+    { &lt;span style=&#34;color:#f00&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#f00&#34;&gt;new&lt;/span&gt; Door(r1, r2); }
   
-  &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;public&lt;/span&gt; Maze &lt;span style=&#34;color:#ff8000;font-weight:bold&#34;&gt;CreateMaze&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd&#34;&gt;{&lt;/span&gt;
-    Maze aMaze   &lt;span style=&#34;color:#2c5dcd&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;this&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;MakeMaze&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;();&lt;/span&gt;
-    Room r1      &lt;span style=&#34;color:#2c5dcd&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;this&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;MakeRoom&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;1&lt;span style=&#34;color:#2c5dcd&#34;&gt;);&lt;/span&gt;
-    Room r2      &lt;span style=&#34;color:#2c5dcd&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;this&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;MakeRoom&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;2&lt;span style=&#34;color:#2c5dcd&#34;&gt;);&lt;/span&gt;
-    Door theDoor &lt;span style=&#34;color:#2c5dcd&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;this&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;MakeDoor&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;r1&lt;span style=&#34;color:#2c5dcd&#34;&gt;,&lt;/span&gt; r2&lt;span style=&#34;color:#2c5dcd&#34;&gt;);&lt;/span&gt;
+  &lt;span style=&#34;color:#f00&#34;&gt;public&lt;/span&gt; Maze &lt;span style=&#34;color:#ff0&#34;&gt;CreateMaze&lt;/span&gt;() {
+    Maze aMaze   = &lt;span style=&#34;color:#f00&#34;&gt;this&lt;/span&gt;.MakeMaze();
+    Room r1      = &lt;span style=&#34;color:#f00&#34;&gt;this&lt;/span&gt;.MakeRoom(1);
+    Room r2      = &lt;span style=&#34;color:#f00&#34;&gt;this&lt;/span&gt;.MakeRoom(2);
+    Door theDoor = &lt;span style=&#34;color:#f00&#34;&gt;this&lt;/span&gt;.MakeDoor(r1, r2);
 
-    r1&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;SetSide&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;Direction&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;North&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;this&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;MakeWall&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;());&lt;/span&gt;
-    r1&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;SetSide&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;Direction&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;East&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;,&lt;/span&gt;  theDoor&lt;span style=&#34;color:#2c5dcd&#34;&gt;);&lt;/span&gt;
-    r1&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;SetSide&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;Direction&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;South&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;this&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;MakeWall&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;());&lt;/span&gt;
-    r1&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;SetSide&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;Direction&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;West&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;,&lt;/span&gt;  &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;this&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;MakeWall&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;());&lt;/span&gt;
+    r1.SetSide(Direction.North, &lt;span style=&#34;color:#f00&#34;&gt;this&lt;/span&gt;.MakeWall());
+    r1.SetSide(Direction.East,  theDoor);
+    r1.SetSide(Direction.South, &lt;span style=&#34;color:#f00&#34;&gt;this&lt;/span&gt;.MakeWall());
+    r1.SetSide(Direction.West,  &lt;span style=&#34;color:#f00&#34;&gt;this&lt;/span&gt;.MakeWall());
 
-    r2&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;SetSide&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;Direction&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;North&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;this&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;MakeWall&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;());&lt;/span&gt;
-    r2&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;SetSide&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;Direction&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;East&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;,&lt;/span&gt;  &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;this&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;MakeWall&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;());&lt;/span&gt;
-    r2&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;SetSide&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;Direction&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;South&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;this&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;MakeWall&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;());&lt;/span&gt;
-    r2&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;SetSide&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;Direction&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;West&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;,&lt;/span&gt;  theDoor&lt;span style=&#34;color:#2c5dcd&#34;&gt;);&lt;/span&gt;
+    r2.SetSide(Direction.North, &lt;span style=&#34;color:#f00&#34;&gt;this&lt;/span&gt;.MakeWall());
+    r2.SetSide(Direction.East,  &lt;span style=&#34;color:#f00&#34;&gt;this&lt;/span&gt;.MakeWall());
+    r2.SetSide(Direction.South, &lt;span style=&#34;color:#f00&#34;&gt;this&lt;/span&gt;.MakeWall());
+    r2.SetSide(Direction.West,  theDoor);
 
-    aMaze&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;AddRoom&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;r1&lt;span style=&#34;color:#2c5dcd&#34;&gt;);&lt;/span&gt;
-    aMaze&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;AddRoom&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;r2&lt;span style=&#34;color:#2c5dcd&#34;&gt;);&lt;/span&gt;
+    aMaze.AddRoom(r1);
+    aMaze.AddRoom(r2);
 
-    &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;return&lt;/span&gt; aMaze&lt;span style=&#34;color:#2c5dcd&#34;&gt;;&lt;/span&gt;
-  &lt;span style=&#34;color:#2c5dcd&#34;&gt;}&lt;/span&gt;
+    &lt;span style=&#34;color:#f00&#34;&gt;return&lt;/span&gt; aMaze;
+  }
 
-&lt;span style=&#34;color:#2c5dcd&#34;&gt;}&lt;/span&gt; 
+} 
 &lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;Each factory method returns a maze component of a given type. &lt;em&gt;MazeGame&lt;/em&gt; provides default implementations that return the simplest kinds of maze, rooms, walls, and doors. &lt;/p&gt;
@@ -610,197 +610,197 @@ $$&lt;/p&gt;</description>
 &lt;p&gt;&lt;a href=&#34;https://github.com/FedericoBruzzone/federicobruzzone.github.io/tree/main/static/design-pattern/commoncode&#34;&gt;here🔗!&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;We will define a variant of the &lt;a href=&#34;https://github.com/FedericoBruzzone/federicobruzzone.github.io/tree/main/static/design-pattern/commoncode&#34;&gt;&lt;em&gt;CreateMaze&lt;/em&gt;&lt;/a&gt; member function that takes a builder of class &lt;em&gt;MazeBuilder&lt;/em&gt; as an argument.&lt;/p&gt;
 &lt;p&gt;The &lt;em&gt;MazeBuilder&lt;/em&gt; class defines the following interface for building mazes:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
 &lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;12
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;13
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 1
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 2
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 3
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 4
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 5
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 6
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 7
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 8
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 9
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;10
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;11
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;12
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;13
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-Java&#34; data-lang=&#34;Java&#34;&gt;&lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;text-decoration:underline&#34;&gt;MazeBuilder&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd&#34;&gt;{&lt;/span&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-Java&#34; data-lang=&#34;Java&#34;&gt;&lt;span style=&#34;color:#f00&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#f00&#34;&gt;class&lt;/span&gt; MazeBuilder {
     
-  &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;protected&lt;/span&gt; &lt;span style=&#34;color:#ff8000;font-weight:bold&#34;&gt;MazeBuilder&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd&#34;&gt;{}&lt;/span&gt;
+  &lt;span style=&#34;color:#f00&#34;&gt;protected&lt;/span&gt; &lt;span style=&#34;color:#ff0&#34;&gt;MazeBuilder&lt;/span&gt;() {}
     
-  &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#5918bb;font-weight:bold&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#ff8000;font-weight:bold&#34;&gt;BuildMaze&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd&#34;&gt;{}&lt;/span&gt;
+  &lt;span style=&#34;color:#f00&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#ee82ee&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#ff0&#34;&gt;BuildMaze&lt;/span&gt;() {}
 
-  &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#5918bb;font-weight:bold&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#ff8000;font-weight:bold&#34;&gt;BuildRoom&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#5918bb;font-weight:bold&#34;&gt;int&lt;/span&gt; room&lt;span style=&#34;color:#2c5dcd&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd&#34;&gt;{}&lt;/span&gt;
+  &lt;span style=&#34;color:#f00&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#ee82ee&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#ff0&#34;&gt;BuildRoom&lt;/span&gt;(&lt;span style=&#34;color:#ee82ee&#34;&gt;int&lt;/span&gt; room) {}
 
-  &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#5918bb;font-weight:bold&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#ff8000;font-weight:bold&#34;&gt;BuildDoor&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#5918bb;font-weight:bold&#34;&gt;int&lt;/span&gt; roomFrom&lt;span style=&#34;color:#2c5dcd&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#5918bb;font-weight:bold&#34;&gt;int&lt;/span&gt; roomTo&lt;span style=&#34;color:#2c5dcd&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd&#34;&gt;{}&lt;/span&gt;
+  &lt;span style=&#34;color:#f00&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#ee82ee&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#ff0&#34;&gt;BuildDoor&lt;/span&gt;(&lt;span style=&#34;color:#ee82ee&#34;&gt;int&lt;/span&gt; roomFrom, &lt;span style=&#34;color:#ee82ee&#34;&gt;int&lt;/span&gt; roomTo) {}
  
-  &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;public&lt;/span&gt; Maze &lt;span style=&#34;color:#ff8000;font-weight:bold&#34;&gt;GetMaze&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd&#34;&gt;{&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;null&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;;&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd&#34;&gt;}&lt;/span&gt;
+  &lt;span style=&#34;color:#f00&#34;&gt;public&lt;/span&gt; Maze &lt;span style=&#34;color:#ff0&#34;&gt;GetMaze&lt;/span&gt;() { &lt;span style=&#34;color:#f00&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#f00&#34;&gt;null&lt;/span&gt;; }
 
-&lt;span style=&#34;color:#2c5dcd&#34;&gt;}&lt;/span&gt;
+}
 &lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;This interface can create three thing: (1) the maze, (2) rooms with a particular room number and (3) doors between numbered rooms. The &lt;em&gt;GetMaze&lt;/em&gt; operation returns the maze to the client. &lt;/p&gt;
 &lt;p&gt;All the maze-building operations of &lt;em&gt;MazeBuilder&lt;/em&gt; do nothing by default.&lt;/p&gt;
 &lt;p&gt;Given the &lt;em&gt;MazeBuilder&lt;/em&gt; interface, we can change the &lt;em&gt;CreateMaze&lt;/em&gt; member function to take this builder as a parameter.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
 &lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;12
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;13
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 1
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 2
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 3
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 4
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 5
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 6
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 7
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 8
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 9
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;10
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;11
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;12
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;13
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-Java&#34; data-lang=&#34;Java&#34;&gt;&lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;text-decoration:underline&#34;&gt;MazeGame_Builder&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd&#34;&gt;{&lt;/span&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-Java&#34; data-lang=&#34;Java&#34;&gt;&lt;span style=&#34;color:#f00&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#f00&#34;&gt;class&lt;/span&gt; MazeGame_Builder {
     
-  &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;public&lt;/span&gt; Maze &lt;span style=&#34;color:#ff8000;font-weight:bold&#34;&gt;CreateMaze&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;MazeBuilder builder&lt;span style=&#34;color:#2c5dcd&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd&#34;&gt;{&lt;/span&gt;
-    builder&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;BuildMaze&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;();&lt;/span&gt;
+  &lt;span style=&#34;color:#f00&#34;&gt;public&lt;/span&gt; Maze &lt;span style=&#34;color:#ff0&#34;&gt;CreateMaze&lt;/span&gt;(MazeBuilder builder) {
+    builder.BuildMaze();
     
-    builder&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;BuildRoom&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;1&lt;span style=&#34;color:#2c5dcd&#34;&gt;);&lt;/span&gt;
-    builder&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;BuildRoom&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;2&lt;span style=&#34;color:#2c5dcd&#34;&gt;);&lt;/span&gt;
-    builder&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;BuildDoor&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;1&lt;span style=&#34;color:#2c5dcd&#34;&gt;,&lt;/span&gt; 2&lt;span style=&#34;color:#2c5dcd&#34;&gt;);&lt;/span&gt;
+    builder.BuildRoom(1);
+    builder.BuildRoom(2);
+    builder.BuildDoor(1, 2);
     
-    &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;return&lt;/span&gt; builder&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;GetMaze&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;();&lt;/span&gt;
-  &lt;span style=&#34;color:#2c5dcd&#34;&gt;}&lt;/span&gt;
+    &lt;span style=&#34;color:#f00&#34;&gt;return&lt;/span&gt; builder.GetMaze();
+  }
 
-&lt;span style=&#34;color:#2c5dcd&#34;&gt;}&lt;/span&gt;
+}
 &lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;Compare this version of &lt;em&gt;CreateMaze&lt;/em&gt; with the &lt;a href=&#34;https://github.com/FedericoBruzzone/federicobruzzone.github.io/blob/main/static/design-pattern/commoncode/MazeGame_First.java&#34;&gt;original&lt;/a&gt;. Notice how the builder hides the internal representation of the Maze. This make it easier to change the way a maze is represented, since none of the clients of &lt;em&gt;MazeBuilder&lt;/em&gt; has to be changed.&lt;/p&gt;
 &lt;p&gt;Like the other creational patterns, the Builder pattern encapsulates how objects get created. That means we can reuse &lt;em&gt;MazeBuilder&lt;/em&gt; to build different kind of mazes.&lt;/p&gt;
 &lt;p&gt;Note that &lt;em&gt;MazeBuilder&lt;/em&gt; does not create mazes itself; it main purpose is just to define an interface for creating mazes. It defines empty implementations primarily for convenience. Subclasses of &lt;em&gt;MazeBuilder&lt;/em&gt; so the actual work.&lt;/p&gt;
 &lt;p&gt;The subclass &lt;em&gt;StandardMazeBuilder&lt;/em&gt; is an implementation that builds simple mazes.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
 &lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;12
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;13
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;14
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;15
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;16
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;17
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;18
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;19
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;20
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;21
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;22
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;23
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;24
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;25
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;26
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;27
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;28
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;29
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;30
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;31
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;32
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;33
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;34
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;35
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;36
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;37
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;38
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;39
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;40
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;41
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;42
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 1
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 2
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 3
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 4
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 5
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 6
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 7
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 8
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 9
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;10
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;11
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;12
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;13
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;14
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;15
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;16
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;17
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;18
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;19
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;20
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;21
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;22
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;23
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;24
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;25
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;26
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;27
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;28
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;29
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;30
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;31
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;32
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;33
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;34
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;35
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;36
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;37
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;38
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;39
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;40
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;41
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;42
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-Java&#34; data-lang=&#34;Java&#34;&gt;&lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;text-decoration:underline&#34;&gt;StandardMazeBuilder&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;extends&lt;/span&gt; MazeBuilder &lt;span style=&#34;color:#2c5dcd&#34;&gt;{&lt;/span&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-Java&#34; data-lang=&#34;Java&#34;&gt;&lt;span style=&#34;color:#f00&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#f00&#34;&gt;class&lt;/span&gt; StandardMazeBuilder &lt;span style=&#34;color:#f00&#34;&gt;extends&lt;/span&gt; MazeBuilder {
     
-  &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;private&lt;/span&gt; Maze _currentMaze&lt;span style=&#34;color:#2c5dcd&#34;&gt;;&lt;/span&gt;
+  &lt;span style=&#34;color:#f00&#34;&gt;private&lt;/span&gt; Maze _currentMaze;
 
-  &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#ff8000;font-weight:bold&#34;&gt;StandardMazeBuilder&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd&#34;&gt;{&lt;/span&gt;
-    &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;this&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;_currentMaze&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;null&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;;&lt;/span&gt;
-  &lt;span style=&#34;color:#2c5dcd&#34;&gt;}&lt;/span&gt;
+  &lt;span style=&#34;color:#f00&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#ff0&#34;&gt;StandardMazeBuilder&lt;/span&gt;() {
+    &lt;span style=&#34;color:#f00&#34;&gt;this&lt;/span&gt;._currentMaze = &lt;span style=&#34;color:#f00&#34;&gt;null&lt;/span&gt;;
+  }
 
-  &lt;span style=&#34;color:#ff8000;font-weight:bold&#34;&gt;@Override&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#5918bb;font-weight:bold&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#ff8000;font-weight:bold&#34;&gt;BuildMaze&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd&#34;&gt;{&lt;/span&gt;
-    &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;this&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;_currentMaze&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;new&lt;/span&gt; Maze&lt;span style=&#34;color:#2c5dcd&#34;&gt;();&lt;/span&gt;
-  &lt;span style=&#34;color:#2c5dcd&#34;&gt;}&lt;/span&gt;
+  @Override &lt;span style=&#34;color:#f00&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#ee82ee&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#ff0&#34;&gt;BuildMaze&lt;/span&gt;() {
+    &lt;span style=&#34;color:#f00&#34;&gt;this&lt;/span&gt;._currentMaze = &lt;span style=&#34;color:#f00&#34;&gt;new&lt;/span&gt; Maze();
+  }
 
-  &lt;span style=&#34;color:#ff8000;font-weight:bold&#34;&gt;@Override&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#5918bb;font-weight:bold&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#ff8000;font-weight:bold&#34;&gt;BuildRoom&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#5918bb;font-weight:bold&#34;&gt;int&lt;/span&gt; n&lt;span style=&#34;color:#2c5dcd&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd&#34;&gt;{&lt;/span&gt;
-    &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;_currentMaze&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;RoomNo&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;n&lt;span style=&#34;color:#2c5dcd&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;null&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd&#34;&gt;{&lt;/span&gt;
-      Room room &lt;span style=&#34;color:#2c5dcd&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;new&lt;/span&gt; Room&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;n&lt;span style=&#34;color:#2c5dcd&#34;&gt;);&lt;/span&gt;
-      &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;this&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;_currentMaze&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;AddRoom&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;room&lt;span style=&#34;color:#2c5dcd&#34;&gt;);&lt;/span&gt;
+  @Override &lt;span style=&#34;color:#f00&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#ee82ee&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#ff0&#34;&gt;BuildRoom&lt;/span&gt;(&lt;span style=&#34;color:#ee82ee&#34;&gt;int&lt;/span&gt; n) {
+    &lt;span style=&#34;color:#f00&#34;&gt;if&lt;/span&gt; (_currentMaze.RoomNo(n) != &lt;span style=&#34;color:#f00&#34;&gt;null&lt;/span&gt;) {
+      Room room = &lt;span style=&#34;color:#f00&#34;&gt;new&lt;/span&gt; Room(n);
+      &lt;span style=&#34;color:#f00&#34;&gt;this&lt;/span&gt;._currentMaze.AddRoom(room);
 
-      room&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;SetSide&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;Direction&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;North&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;new&lt;/span&gt; Wall&lt;span style=&#34;color:#2c5dcd&#34;&gt;());&lt;/span&gt;
-      room&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;SetSide&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;Direction&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;South&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;new&lt;/span&gt; Wall&lt;span style=&#34;color:#2c5dcd&#34;&gt;());&lt;/span&gt;
-      room&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;SetSide&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;Direction&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;East&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;,&lt;/span&gt;  &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;new&lt;/span&gt; Wall&lt;span style=&#34;color:#2c5dcd&#34;&gt;());&lt;/span&gt;
-      room&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;SetSide&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;Direction&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;West&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;,&lt;/span&gt;  &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;new&lt;/span&gt; Wall&lt;span style=&#34;color:#2c5dcd&#34;&gt;());&lt;/span&gt;
-    &lt;span style=&#34;color:#2c5dcd&#34;&gt;}&lt;/span&gt;
-  &lt;span style=&#34;color:#2c5dcd&#34;&gt;}&lt;/span&gt;
+      room.SetSide(Direction.North, &lt;span style=&#34;color:#f00&#34;&gt;new&lt;/span&gt; Wall());
+      room.SetSide(Direction.South, &lt;span style=&#34;color:#f00&#34;&gt;new&lt;/span&gt; Wall());
+      room.SetSide(Direction.East,  &lt;span style=&#34;color:#f00&#34;&gt;new&lt;/span&gt; Wall());
+      room.SetSide(Direction.West,  &lt;span style=&#34;color:#f00&#34;&gt;new&lt;/span&gt; Wall());
+    }
+  }
 
-  &lt;span style=&#34;color:#ff8000;font-weight:bold&#34;&gt;@Override&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#5918bb;font-weight:bold&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#ff8000;font-weight:bold&#34;&gt;BuildDoor&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#5918bb;font-weight:bold&#34;&gt;int&lt;/span&gt; n1&lt;span style=&#34;color:#2c5dcd&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#5918bb;font-weight:bold&#34;&gt;int&lt;/span&gt; n2&lt;span style=&#34;color:#2c5dcd&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd&#34;&gt;{&lt;/span&gt;
-    Room r1 &lt;span style=&#34;color:#2c5dcd&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;this&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;_currentMaze&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;RoomNo&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;n1&lt;span style=&#34;color:#2c5dcd&#34;&gt;);&lt;/span&gt;
-    Room r2 &lt;span style=&#34;color:#2c5dcd&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;this&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;_currentMaze&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;RoomNo&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;n2&lt;span style=&#34;color:#2c5dcd&#34;&gt;);&lt;/span&gt;
-    Door d &lt;span style=&#34;color:#2c5dcd&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;new&lt;/span&gt; Door&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;r1&lt;span style=&#34;color:#2c5dcd&#34;&gt;,&lt;/span&gt; r2&lt;span style=&#34;color:#2c5dcd&#34;&gt;);&lt;/span&gt;
+  @Override &lt;span style=&#34;color:#f00&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#ee82ee&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#ff0&#34;&gt;BuildDoor&lt;/span&gt;(&lt;span style=&#34;color:#ee82ee&#34;&gt;int&lt;/span&gt; n1, &lt;span style=&#34;color:#ee82ee&#34;&gt;int&lt;/span&gt; n2) {
+    Room r1 = &lt;span style=&#34;color:#f00&#34;&gt;this&lt;/span&gt;._currentMaze.RoomNo(n1);
+    Room r2 = &lt;span style=&#34;color:#f00&#34;&gt;this&lt;/span&gt;._currentMaze.RoomNo(n2);
+    Door d = &lt;span style=&#34;color:#f00&#34;&gt;new&lt;/span&gt; Door(r1, r2);
 
-    r1&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;SetSide&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;this&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;CommonWall&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;r1&lt;span style=&#34;color:#2c5dcd&#34;&gt;,&lt;/span&gt; r2&lt;span style=&#34;color:#2c5dcd&#34;&gt;),&lt;/span&gt; d&lt;span style=&#34;color:#2c5dcd&#34;&gt;);&lt;/span&gt;
-    r2&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;SetSide&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;this&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;CommonWall&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;r2&lt;span style=&#34;color:#2c5dcd&#34;&gt;,&lt;/span&gt; r1&lt;span style=&#34;color:#2c5dcd&#34;&gt;),&lt;/span&gt; d&lt;span style=&#34;color:#2c5dcd&#34;&gt;);&lt;/span&gt;
-  &lt;span style=&#34;color:#2c5dcd&#34;&gt;}&lt;/span&gt;
+    r1.SetSide(&lt;span style=&#34;color:#f00&#34;&gt;this&lt;/span&gt;.CommonWall(r1, r2), d);
+    r2.SetSide(&lt;span style=&#34;color:#f00&#34;&gt;this&lt;/span&gt;.CommonWall(r2, r1), d);
+  }
 
-  &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;private&lt;/span&gt; Direction &lt;span style=&#34;color:#ff8000;font-weight:bold&#34;&gt;CommonWall&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;Room r1&lt;span style=&#34;color:#2c5dcd&#34;&gt;,&lt;/span&gt; Room r2&lt;span style=&#34;color:#2c5dcd&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd&#34;&gt;{&lt;/span&gt; 
-    &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;null&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;;&lt;/span&gt;
-  &lt;span style=&#34;color:#2c5dcd&#34;&gt;}&lt;/span&gt;
+  &lt;span style=&#34;color:#f00&#34;&gt;private&lt;/span&gt; Direction &lt;span style=&#34;color:#ff0&#34;&gt;CommonWall&lt;/span&gt;(Room r1, Room r2) { 
+    &lt;span style=&#34;color:#f00&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#f00&#34;&gt;null&lt;/span&gt;;
+  }
 
-  &lt;span style=&#34;color:#ff8000;font-weight:bold&#34;&gt;@Override&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;public&lt;/span&gt; Maze &lt;span style=&#34;color:#ff8000;font-weight:bold&#34;&gt;GetMaze&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd&#34;&gt;{&lt;/span&gt;
-    &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;this&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;_currentMaze&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;;&lt;/span&gt;
-  &lt;span style=&#34;color:#2c5dcd&#34;&gt;}&lt;/span&gt;
+  @Override &lt;span style=&#34;color:#f00&#34;&gt;public&lt;/span&gt; Maze &lt;span style=&#34;color:#ff0&#34;&gt;GetMaze&lt;/span&gt;() {
+    &lt;span style=&#34;color:#f00&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#f00&#34;&gt;this&lt;/span&gt;._currentMaze;
+  }
 
-&lt;span style=&#34;color:#2c5dcd&#34;&gt;}&lt;/span&gt;
+}
 &lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;&lt;em&gt;CommonWall&lt;/em&gt; is a utility operation that determines the direction of the common wall between two rooms.&lt;/p&gt;
 &lt;p&gt;Clients can now use &lt;em&gt;CreateMaze&lt;/em&gt; in conjunction with &lt;em&gt;StandardMazeBuilder&lt;/em&gt; to create a maze:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
 &lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;12
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 1
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 2
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 3
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 4
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 5
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 6
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 7
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 8
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 9
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;10
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;11
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;12
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-Java&#34; data-lang=&#34;Java&#34;&gt;&lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;text-decoration:underline&#34;&gt;ClientBuilder&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd&#34;&gt;{&lt;/span&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-Java&#34; data-lang=&#34;Java&#34;&gt;&lt;span style=&#34;color:#f00&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#f00&#34;&gt;class&lt;/span&gt; ClientBuilder {
   
-  &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;static&lt;/span&gt; &lt;span style=&#34;color:#5918bb;font-weight:bold&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#ff8000;font-weight:bold&#34;&gt;main&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;String&lt;span style=&#34;color:#2c5dcd&#34;&gt;[]&lt;/span&gt; args&lt;span style=&#34;color:#2c5dcd&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd&#34;&gt;{&lt;/span&gt;
-    Maze maze&lt;span style=&#34;color:#2c5dcd&#34;&gt;;&lt;/span&gt;
-    MazeGame_Builder game &lt;span style=&#34;color:#2c5dcd&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;new&lt;/span&gt; MazeGame_Builder&lt;span style=&#34;color:#2c5dcd&#34;&gt;();&lt;/span&gt;
-    StandardMazeBuilder builder &lt;span style=&#34;color:#2c5dcd&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;new&lt;/span&gt; StandardMazeBuilder&lt;span style=&#34;color:#2c5dcd&#34;&gt;();&lt;/span&gt;
+  &lt;span style=&#34;color:#f00&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#f00&#34;&gt;static&lt;/span&gt; &lt;span style=&#34;color:#ee82ee&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#ff0&#34;&gt;main&lt;/span&gt;(String[] args) {
+    Maze maze;
+    MazeGame_Builder game = &lt;span style=&#34;color:#f00&#34;&gt;new&lt;/span&gt; MazeGame_Builder();
+    StandardMazeBuilder builder = &lt;span style=&#34;color:#f00&#34;&gt;new&lt;/span&gt; StandardMazeBuilder();
 
-    game&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;CreateMaze&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;builder&lt;span style=&#34;color:#2c5dcd&#34;&gt;);&lt;/span&gt;
-    maze &lt;span style=&#34;color:#2c5dcd&#34;&gt;=&lt;/span&gt; builder&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;GetMaze&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;();&lt;/span&gt;
-  &lt;span style=&#34;color:#2c5dcd&#34;&gt;}&lt;/span&gt;
+    game.CreateMaze(builder);
+    maze = builder.GetMaze();
+  }
 
-&lt;span style=&#34;color:#2c5dcd&#34;&gt;}&lt;/span&gt;
+}
 &lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;We could have put all the &lt;em&gt;StandardMazeBuilder&lt;/em&gt; operations in &lt;em&gt;Maze&lt;/em&gt; and let each &lt;em&gt;Maze&lt;/em&gt; build itself. But making &lt;em&gt;Maze&lt;/em&gt; smaller makes it easier to understand and modify, and &lt;em&gt;StandardMazeBuilder&lt;/em&gt; is easy to separate from &lt;em&gt;Maze&lt;/em&gt;.&lt;/p&gt;
@@ -940,226 +940,226 @@ $$&lt;/p&gt;</description>
 &lt;p&gt;To better understand the following code and the classes used look&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/FedericoBruzzone/federicobruzzone.github.io/tree/main/static/design-pattern/commoncode&#34;&gt;here🔗!&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;Class &lt;em&gt;MazeFactory&lt;/em&gt; can create components of mazes. It build rooms, walls, and doors between rooms. For instance, it might be used by a program that builds mazes randomly. Programs that build mazes take a &lt;em&gt;MazeFactory&lt;/em&gt; as an argument so that the programmer can specify the classes of rooms, walls, and doors to construct.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
 &lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;12
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;13
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;14
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;15
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;16
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;17
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 1
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 2
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 3
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 4
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 5
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 6
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 7
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 8
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 9
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;10
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;11
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;12
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;13
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;14
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;15
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;16
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;17
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;text-decoration:underline&#34;&gt;MazeFactory&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd&#34;&gt;{&lt;/span&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;color:#f00&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#f00&#34;&gt;class&lt;/span&gt; MazeFactory {
 
-  &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#ff8000;font-weight:bold&#34;&gt;MazeFactory&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd&#34;&gt;{}&lt;/span&gt;
+  &lt;span style=&#34;color:#f00&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#ff0&#34;&gt;MazeFactory&lt;/span&gt;() {}
 
-  &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;public&lt;/span&gt; Maze &lt;span style=&#34;color:#ff8000;font-weight:bold&#34;&gt;MakeMaze&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;()&lt;/span&gt; 
-    &lt;span style=&#34;color:#2c5dcd&#34;&gt;{&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;new&lt;/span&gt; Maze&lt;span style=&#34;color:#2c5dcd&#34;&gt;();&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd&#34;&gt;}&lt;/span&gt;
+  &lt;span style=&#34;color:#f00&#34;&gt;public&lt;/span&gt; Maze &lt;span style=&#34;color:#ff0&#34;&gt;MakeMaze&lt;/span&gt;() 
+    { &lt;span style=&#34;color:#f00&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#f00&#34;&gt;new&lt;/span&gt; Maze(); }
 
-  &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;public&lt;/span&gt; Wall &lt;span style=&#34;color:#ff8000;font-weight:bold&#34;&gt;MakeWall&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;()&lt;/span&gt; 
-    &lt;span style=&#34;color:#2c5dcd&#34;&gt;{&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;new&lt;/span&gt; Wall&lt;span style=&#34;color:#2c5dcd&#34;&gt;();&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd&#34;&gt;}&lt;/span&gt;
+  &lt;span style=&#34;color:#f00&#34;&gt;public&lt;/span&gt; Wall &lt;span style=&#34;color:#ff0&#34;&gt;MakeWall&lt;/span&gt;() 
+    { &lt;span style=&#34;color:#f00&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#f00&#34;&gt;new&lt;/span&gt; Wall(); }
 
-  &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;public&lt;/span&gt; Room &lt;span style=&#34;color:#ff8000;font-weight:bold&#34;&gt;MakeRoom&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#5918bb;font-weight:bold&#34;&gt;int&lt;/span&gt; n&lt;span style=&#34;color:#2c5dcd&#34;&gt;)&lt;/span&gt; 
-    &lt;span style=&#34;color:#2c5dcd&#34;&gt;{&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;new&lt;/span&gt; Room&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;n&lt;span style=&#34;color:#2c5dcd&#34;&gt;);&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd&#34;&gt;}&lt;/span&gt;
+  &lt;span style=&#34;color:#f00&#34;&gt;public&lt;/span&gt; Room &lt;span style=&#34;color:#ff0&#34;&gt;MakeRoom&lt;/span&gt;(&lt;span style=&#34;color:#ee82ee&#34;&gt;int&lt;/span&gt; n) 
+    { &lt;span style=&#34;color:#f00&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#f00&#34;&gt;new&lt;/span&gt; Room(n); }
 
-  &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;public&lt;/span&gt; Door &lt;span style=&#34;color:#ff8000;font-weight:bold&#34;&gt;MakeDoor&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;Room r1&lt;span style=&#34;color:#2c5dcd&#34;&gt;,&lt;/span&gt; Room r2&lt;span style=&#34;color:#2c5dcd&#34;&gt;)&lt;/span&gt;
-    &lt;span style=&#34;color:#2c5dcd&#34;&gt;{&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;new&lt;/span&gt; Door&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;r1&lt;span style=&#34;color:#2c5dcd&#34;&gt;,&lt;/span&gt; r2&lt;span style=&#34;color:#2c5dcd&#34;&gt;);&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd&#34;&gt;}&lt;/span&gt;
+  &lt;span style=&#34;color:#f00&#34;&gt;public&lt;/span&gt; Door &lt;span style=&#34;color:#ff0&#34;&gt;MakeDoor&lt;/span&gt;(Room r1, Room r2)
+    { &lt;span style=&#34;color:#f00&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#f00&#34;&gt;new&lt;/span&gt; Door(r1, r2); }
 
-&lt;span style=&#34;color:#2c5dcd&#34;&gt;}&lt;/span&gt;
+}
 &lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;Here is a version of &lt;em&gt;CreateMaze&lt;/em&gt; that take &lt;em&gt;MazeFactory&lt;/em&gt; as a parameter. &lt;em&gt;CreateMaze&lt;/em&gt; builds a small maze consisting of two rooms with a door between them.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
 &lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;12
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;13
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;14
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;15
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;16
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;17
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;18
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;19
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;20
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;21
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;22
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;23
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;24
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;25
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 1
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 2
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 3
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 4
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 5
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 6
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 7
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 8
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 9
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;10
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;11
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;12
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;13
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;14
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;15
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;16
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;17
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;18
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;19
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;20
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;21
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;22
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;23
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;24
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;25
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-Java&#34; data-lang=&#34;Java&#34;&gt;&lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;text-decoration:underline&#34;&gt;MazeGame_Factory&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd&#34;&gt;{&lt;/span&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-Java&#34; data-lang=&#34;Java&#34;&gt;&lt;span style=&#34;color:#f00&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#f00&#34;&gt;class&lt;/span&gt; MazeGame_Factory {
 
-  &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;public&lt;/span&gt; Maze &lt;span style=&#34;color:#ff8000;font-weight:bold&#34;&gt;CreateMaze&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;MazeFactory factory&lt;span style=&#34;color:#2c5dcd&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd&#34;&gt;{&lt;/span&gt;
-    Maze aMaze   &lt;span style=&#34;color:#2c5dcd&#34;&gt;=&lt;/span&gt; factory&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;MakeMaze&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;();&lt;/span&gt;
-    Room r1      &lt;span style=&#34;color:#2c5dcd&#34;&gt;=&lt;/span&gt; factory&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;MakeRoom&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;1&lt;span style=&#34;color:#2c5dcd&#34;&gt;);&lt;/span&gt;
-    Room r2      &lt;span style=&#34;color:#2c5dcd&#34;&gt;=&lt;/span&gt; factory&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;MakeRoom&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;2&lt;span style=&#34;color:#2c5dcd&#34;&gt;);&lt;/span&gt;
-    Door theDoor &lt;span style=&#34;color:#2c5dcd&#34;&gt;=&lt;/span&gt; factory&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;MakeDoor&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;r1&lt;span style=&#34;color:#2c5dcd&#34;&gt;,&lt;/span&gt; r2&lt;span style=&#34;color:#2c5dcd&#34;&gt;);&lt;/span&gt;
+  &lt;span style=&#34;color:#f00&#34;&gt;public&lt;/span&gt; Maze &lt;span style=&#34;color:#ff0&#34;&gt;CreateMaze&lt;/span&gt;(MazeFactory factory) {
+    Maze aMaze   = factory.MakeMaze();
+    Room r1      = factory.MakeRoom(1);
+    Room r2      = factory.MakeRoom(2);
+    Door theDoor = factory.MakeDoor(r1, r2);
 
-    r1&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;SetSide&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;Direction&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;North&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;,&lt;/span&gt; factory&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;MakeWall&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;());&lt;/span&gt;
-    r1&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;SetSide&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;Direction&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;East&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;,&lt;/span&gt;  theDoor&lt;span style=&#34;color:#2c5dcd&#34;&gt;);&lt;/span&gt;
-    r1&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;SetSide&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;Direction&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;South&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;,&lt;/span&gt; factory&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;MakeWall&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;());&lt;/span&gt;
-    r1&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;SetSide&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;Direction&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;West&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;,&lt;/span&gt;  factory&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;MakeWall&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;());&lt;/span&gt;
+    r1.SetSide(Direction.North, factory.MakeWall());
+    r1.SetSide(Direction.East,  theDoor);
+    r1.SetSide(Direction.South, factory.MakeWall());
+    r1.SetSide(Direction.West,  factory.MakeWall());
 
-    r2&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;SetSide&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;Direction&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;North&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;,&lt;/span&gt; factory&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;MakeWall&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;());&lt;/span&gt;
-    r2&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;SetSide&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;Direction&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;East&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;,&lt;/span&gt;  factory&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;MakeWall&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;());&lt;/span&gt;
-    r2&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;SetSide&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;Direction&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;South&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;,&lt;/span&gt; factory&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;MakeWall&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;());&lt;/span&gt;
-    r2&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;SetSide&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;Direction&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;West&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;,&lt;/span&gt;  theDoor&lt;span style=&#34;color:#2c5dcd&#34;&gt;);&lt;/span&gt;
+    r2.SetSide(Direction.North, factory.MakeWall());
+    r2.SetSide(Direction.East,  factory.MakeWall());
+    r2.SetSide(Direction.South, factory.MakeWall());
+    r2.SetSide(Direction.West,  theDoor);
 
-    aMaze&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;AddRoom&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;r1&lt;span style=&#34;color:#2c5dcd&#34;&gt;);&lt;/span&gt;
-    aMaze&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;AddRoom&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;r2&lt;span style=&#34;color:#2c5dcd&#34;&gt;);&lt;/span&gt;
+    aMaze.AddRoom(r1);
+    aMaze.AddRoom(r2);
 
-    &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;return&lt;/span&gt; aMaze&lt;span style=&#34;color:#2c5dcd&#34;&gt;;&lt;/span&gt;
-  &lt;span style=&#34;color:#2c5dcd&#34;&gt;}&lt;/span&gt;     
+    &lt;span style=&#34;color:#f00&#34;&gt;return&lt;/span&gt; aMaze;
+  }     
   
-&lt;span style=&#34;color:#2c5dcd&#34;&gt;}&lt;/span&gt;
+}
 &lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;Now suppose we want to make a maze game in which a room can have a bomb set in it, and if the bomb goes off, it will damage the walls.&lt;/p&gt;
 &lt;p&gt;We can make a subclass of &lt;em&gt;Room&lt;/em&gt; (&lt;a href=&#34;https://github.com/FedericoBruzzone/federicobruzzone.github.io/tree/main/static/design-pattern/commoncode&#34;&gt;here 🔗&lt;/a&gt;) keep track if a room has a bomb in it.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
 &lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;12
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;13
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 1
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 2
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 3
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 4
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 5
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 6
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 7
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 8
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 9
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;10
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;11
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;12
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;13
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-Java&#34; data-lang=&#34;Java&#34;&gt;&lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;text-decoration:underline&#34;&gt;RoomWithABomb&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;extends&lt;/span&gt; Room &lt;span style=&#34;color:#2c5dcd&#34;&gt;{&lt;/span&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-Java&#34; data-lang=&#34;Java&#34;&gt;&lt;span style=&#34;color:#f00&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#f00&#34;&gt;class&lt;/span&gt; RoomWithABomb &lt;span style=&#34;color:#f00&#34;&gt;extends&lt;/span&gt; Room {
   
-  &lt;span style=&#34;color:#5918bb;font-weight:bold&#34;&gt;int&lt;/span&gt; bombDamage&lt;span style=&#34;color:#2c5dcd&#34;&gt;;&lt;/span&gt;
+  &lt;span style=&#34;color:#ee82ee&#34;&gt;int&lt;/span&gt; bombDamage;
 
-  &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#ff8000;font-weight:bold&#34;&gt;RoomWithABomb&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#5918bb;font-weight:bold&#34;&gt;int&lt;/span&gt; roomNo&lt;span style=&#34;color:#2c5dcd&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd&#34;&gt;{&lt;/span&gt;
-    &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;super&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;roomNo&lt;span style=&#34;color:#2c5dcd&#34;&gt;);&lt;/span&gt;
-  &lt;span style=&#34;color:#2c5dcd&#34;&gt;}&lt;/span&gt;  
+  &lt;span style=&#34;color:#f00&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#ff0&#34;&gt;RoomWithABomb&lt;/span&gt;(&lt;span style=&#34;color:#ee82ee&#34;&gt;int&lt;/span&gt; roomNo) {
+    &lt;span style=&#34;color:#f00&#34;&gt;super&lt;/span&gt;(roomNo);
+  }  
 
-  &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#5918bb;font-weight:bold&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#ff8000;font-weight:bold&#34;&gt;setBombDamage&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#5918bb;font-weight:bold&#34;&gt;int&lt;/span&gt; bombDamage&lt;span style=&#34;color:#2c5dcd&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd&#34;&gt;{&lt;/span&gt;
-    &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;this&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;bombDamage&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd&#34;&gt;=&lt;/span&gt; bombDamage&lt;span style=&#34;color:#2c5dcd&#34;&gt;;&lt;/span&gt;
-  &lt;span style=&#34;color:#2c5dcd&#34;&gt;}&lt;/span&gt; 
+  &lt;span style=&#34;color:#f00&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#ee82ee&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#ff0&#34;&gt;setBombDamage&lt;/span&gt;(&lt;span style=&#34;color:#ee82ee&#34;&gt;int&lt;/span&gt; bombDamage) {
+    &lt;span style=&#34;color:#f00&#34;&gt;this&lt;/span&gt;.bombDamage = bombDamage;
+  } 
 
-&lt;span style=&#34;color:#2c5dcd&#34;&gt;}&lt;/span&gt;
+}
 &lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;We also need a subclass of &lt;em&gt;Wall&lt;/em&gt; to keep track of the damage.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
 &lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;12
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;13
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 1
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 2
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 3
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 4
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 5
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 6
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 7
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 8
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 9
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;10
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;11
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;12
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;13
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-Java&#34; data-lang=&#34;Java&#34;&gt;&lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;text-decoration:underline&#34;&gt;BombedWall&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;extends&lt;/span&gt; Wall &lt;span style=&#34;color:#2c5dcd&#34;&gt;{&lt;/span&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-Java&#34; data-lang=&#34;Java&#34;&gt;&lt;span style=&#34;color:#f00&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#f00&#34;&gt;class&lt;/span&gt; BombedWall &lt;span style=&#34;color:#f00&#34;&gt;extends&lt;/span&gt; Wall {
   
-  &lt;span style=&#34;color:#5918bb;font-weight:bold&#34;&gt;int&lt;/span&gt; wallDamage &lt;span style=&#34;color:#2c5dcd&#34;&gt;=&lt;/span&gt; 0&lt;span style=&#34;color:#2c5dcd&#34;&gt;;&lt;/span&gt;
+  &lt;span style=&#34;color:#ee82ee&#34;&gt;int&lt;/span&gt; wallDamage = 0;
   
-  &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#ff8000;font-weight:bold&#34;&gt;BombedWall&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd&#34;&gt;{&lt;/span&gt;
-    &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;super&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;();&lt;/span&gt;
-  &lt;span style=&#34;color:#2c5dcd&#34;&gt;}&lt;/span&gt;  
+  &lt;span style=&#34;color:#f00&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#ff0&#34;&gt;BombedWall&lt;/span&gt;() {
+    &lt;span style=&#34;color:#f00&#34;&gt;super&lt;/span&gt;();
+  }  
 
-  &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#5918bb;font-weight:bold&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#ff8000;font-weight:bold&#34;&gt;hitWall&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#5918bb;font-weight:bold&#34;&gt;int&lt;/span&gt; bombDamage&lt;span style=&#34;color:#2c5dcd&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd&#34;&gt;{&lt;/span&gt;
-    &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;this&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;wallDamage&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd&#34;&gt;=&lt;/span&gt; bombDamage&lt;span style=&#34;color:#2c5dcd&#34;&gt;;&lt;/span&gt;
-  &lt;span style=&#34;color:#2c5dcd&#34;&gt;}&lt;/span&gt;
+  &lt;span style=&#34;color:#f00&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#ee82ee&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#ff0&#34;&gt;hitWall&lt;/span&gt;(&lt;span style=&#34;color:#ee82ee&#34;&gt;int&lt;/span&gt; bombDamage) {
+    &lt;span style=&#34;color:#f00&#34;&gt;this&lt;/span&gt;.wallDamage = bombDamage;
+  }
 
-&lt;span style=&#34;color:#2c5dcd&#34;&gt;}&lt;/span&gt;
+}
 &lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;The last class we defined is &lt;em&gt;BombedMazefactory&lt;/em&gt;, a subclass of &lt;em&gt;MazeFactory&lt;/em&gt; (defined above). This class only need to override two functions:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
 &lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 1
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 2
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 3
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 4
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 5
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 6
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 7
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 8
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 9
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;10
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-Java&#34; data-lang=&#34;Java&#34;&gt;
-&lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;text-decoration:underline&#34;&gt;BombedMazeFactory&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;extends&lt;/span&gt; MazeFactory &lt;span style=&#34;color:#2c5dcd&#34;&gt;{&lt;/span&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-Java&#34; data-lang=&#34;Java&#34;&gt;
+&lt;span style=&#34;color:#f00&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#f00&#34;&gt;class&lt;/span&gt; BombedMazeFactory &lt;span style=&#34;color:#f00&#34;&gt;extends&lt;/span&gt; MazeFactory {
      
-  &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;public&lt;/span&gt; Wall &lt;span style=&#34;color:#ff8000;font-weight:bold&#34;&gt;MakeWall&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;()&lt;/span&gt; 
-    &lt;span style=&#34;color:#2c5dcd&#34;&gt;{&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;new&lt;/span&gt; BombedWall&lt;span style=&#34;color:#2c5dcd&#34;&gt;();&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd&#34;&gt;}&lt;/span&gt;
+  &lt;span style=&#34;color:#f00&#34;&gt;public&lt;/span&gt; Wall &lt;span style=&#34;color:#ff0&#34;&gt;MakeWall&lt;/span&gt;() 
+    { &lt;span style=&#34;color:#f00&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#f00&#34;&gt;new&lt;/span&gt; BombedWall(); }
 
-  &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;public&lt;/span&gt; Room &lt;span style=&#34;color:#ff8000;font-weight:bold&#34;&gt;MakeRoom&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#5918bb;font-weight:bold&#34;&gt;int&lt;/span&gt; n&lt;span style=&#34;color:#2c5dcd&#34;&gt;)&lt;/span&gt; 
-    &lt;span style=&#34;color:#2c5dcd&#34;&gt;{&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;new&lt;/span&gt; RoomWithABomb&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;n&lt;span style=&#34;color:#2c5dcd&#34;&gt;);&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd&#34;&gt;}&lt;/span&gt;
+  &lt;span style=&#34;color:#f00&#34;&gt;public&lt;/span&gt; Room &lt;span style=&#34;color:#ff0&#34;&gt;MakeRoom&lt;/span&gt;(&lt;span style=&#34;color:#ee82ee&#34;&gt;int&lt;/span&gt; n) 
+    { &lt;span style=&#34;color:#f00&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#f00&#34;&gt;new&lt;/span&gt; RoomWithABomb(n); }
 
-&lt;span style=&#34;color:#2c5dcd&#34;&gt;}&lt;/span&gt;
+}
 &lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;To build a simple maze that can contains bomb or not, we simply call &lt;em&gt;CreateMaze&lt;/em&gt; with a &lt;em&gt;BombedMazeFactory&lt;/em&gt; or &lt;em&gt;MazeFactory&lt;/em&gt;.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
 &lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;12
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 1
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 2
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 3
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 4
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 5
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 6
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 7
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 8
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 9
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;10
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;11
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;12
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-Java&#34; data-lang=&#34;Java&#34;&gt;&lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;text-decoration:underline&#34;&gt;MainAbstractFactory&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd&#34;&gt;{&lt;/span&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-Java&#34; data-lang=&#34;Java&#34;&gt;&lt;span style=&#34;color:#f00&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#f00&#34;&gt;class&lt;/span&gt; MainAbstractFactory {
 
-  &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;static&lt;/span&gt; &lt;span style=&#34;color:#5918bb;font-weight:bold&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#ff8000;font-weight:bold&#34;&gt;main&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;String&lt;span style=&#34;color:#2c5dcd&#34;&gt;[]&lt;/span&gt; args&lt;span style=&#34;color:#2c5dcd&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd&#34;&gt;{&lt;/span&gt;
-    MazeGame_Factory game &lt;span style=&#34;color:#2c5dcd&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;new&lt;/span&gt; MazeGame_Factory&lt;span style=&#34;color:#2c5dcd&#34;&gt;();&lt;/span&gt;
+  &lt;span style=&#34;color:#f00&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#f00&#34;&gt;static&lt;/span&gt; &lt;span style=&#34;color:#ee82ee&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#ff0&#34;&gt;main&lt;/span&gt;(String[] args) {
+    MazeGame_Factory game = &lt;span style=&#34;color:#f00&#34;&gt;new&lt;/span&gt; MazeGame_Factory();
 
-    MazeFactory factory &lt;span style=&#34;color:#2c5dcd&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;new&lt;/span&gt; MazeFactory&lt;span style=&#34;color:#2c5dcd&#34;&gt;();&lt;/span&gt;
-    BombedMazeFactory bombedFactory &lt;span style=&#34;color:#2c5dcd&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#2c5dcd;font-weight:bold&#34;&gt;new&lt;/span&gt; BombedMazeFactory&lt;span style=&#34;color:#2c5dcd&#34;&gt;();&lt;/span&gt;
+    MazeFactory factory = &lt;span style=&#34;color:#f00&#34;&gt;new&lt;/span&gt; MazeFactory();
+    BombedMazeFactory bombedFactory = &lt;span style=&#34;color:#f00&#34;&gt;new&lt;/span&gt; BombedMazeFactory();
 
-    game&lt;span style=&#34;color:#2c5dcd&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd;font-style:italic&#34;&gt;CreateMaze&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;(&lt;/span&gt;bombedFactory &lt;span style=&#34;color:#0080ff;font-style:italic&#34;&gt;/* factory */&lt;/span&gt;&lt;span style=&#34;color:#2c5dcd&#34;&gt;);&lt;/span&gt;
-  &lt;span style=&#34;color:#2c5dcd&#34;&gt;}&lt;/span&gt;  
+    game.CreateMaze(bombedFactory &lt;span style=&#34;color:#0f0&#34;&gt;/* factory */&lt;/span&gt;);
+  }  
   
-&lt;span style=&#34;color:#2c5dcd&#34;&gt;}&lt;/span&gt;
+}
 &lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;Notice that the &lt;em&gt;MazeFactory&lt;/em&gt; is just a collection of factory methods. This is the most common way to implement the Abstract Factory pattern. Also note that MazeFactory is not an abstract class; it acts as both AbstractFactory &lt;em&gt;and&lt;/em&gt; ConcreteFactory.&lt;/p&gt;

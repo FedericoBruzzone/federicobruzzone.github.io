@@ -125,5 +125,5 @@ defaultContentLanguage = "en"           # Default language to use
     lineNumbersInTable = true
     noClasses = true
     noHl = false
-    style = 'rainbow_dash'
+    style =  'rrt'# 'dracula' 'rainbow_dash'
     tabWidth = 4

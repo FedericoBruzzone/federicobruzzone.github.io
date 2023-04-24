@@ -58,7 +58,7 @@
 
 
 
-<link rel="stylesheet" href="/sass/jane.min.4259e276030fc4dad3e84cbbbf5b922af22acdb430a7e5d0168740977def8b5d.css" integrity="sha256-QlnidgMPxNrT6Ey7v1uSKvIqzbQwp&#43;XQFodAl33vi10=" media="screen" crossorigin="anonymous">
+<link rel="stylesheet" href="/sass/jane.min.f5862640dfb0c055ceaf181989c6e06abf9062b4bee3ec8df72a577763a7e54c.css" integrity="sha256-9YYmQN&#43;wwFXOrxgZicbgar&#43;QYrS&#43;4&#43;yN9ypXd2On5Uw=" media="screen" crossorigin="anonymous">
 
 
 
@@ -76,7 +76,7 @@
 <meta itemprop="name" content="Factory Method pattern - Class Creational">
 <meta itemprop="description" content="Define an interface for creating an object, but let subclasses decide which class to instantiate. Factory Method lets a class defer instantiation to subclasses."><meta itemprop="datePublished" content="2023-02-03T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2023-02-03T00:00:00+00:00" />
-<meta itemprop="wordCount" content="1256">
+<meta itemprop="wordCount" content="1257">
 <meta itemprop="keywords" content="programming,design-patterns,computer-science,object-oriented,clean-code," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Factory Method pattern - Class Creational"/>
 <meta name="twitter:description" content="Define an interface for creating an object, but let subclasses decide which class to instantiate. Factory Method lets a class defer instantiation to subclasses."/>
@@ -463,94 +463,94 @@
 <h2 id="sample-code">Sample Code</h2>
 <p>To better understand the following code and the classes used look</p>
 <p><a href="https://github.com/FedericoBruzzone/federicobruzzone.github.io/blob/main/static/design-pattern/commoncode">here🔗!</a></p>
-<p>The function <a href="https://github.com/FedericoBruzzone/federicobruzzone.github.io/blob/main/static/design-pattern/commoncode/MazeGame_First.java"><em>CreateMaze</em></a> builds and returns a maze. One problem with this function is that it hard-codes the classes of maze, rooms, doors, and walls.We&rsquo;ll introduce factory methods to let subclasses choose these components.</p>
+<p>The function <a href="https://github.com/FedericoBruzzone/federicobruzzone.github.io/blob/main/static/design-pattern/commoncode/MazeGame_First.java"><em>CreateMaze</em></a> builds and returns a maze. One problem with this function is that it hard-codes the classes of maze, rooms, doors, and walls. We&rsquo;ll introduce factory methods to let subclasses choose these components.</p>
 <p>First we&rsquo;ll define factory methods in <em>MazeGame</em> for creating the maze, room, wall, and door objects:</p>
-<div class="highlight"><div style="color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<div class="highlight"><div style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41
+<pre tabindex="0" style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">31
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">32
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">33
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">34
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">35
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">36
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">37
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">38
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">39
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">40
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">41
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java"><span style="color:#2c5dcd;font-weight:bold">import</span> commoncode.*<span style="color:#2c5dcd">;</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java"><span style="color:#f00">import</span> commoncode.*;
 
-<span style="color:#2c5dcd;font-weight:bold">public</span> <span style="color:#2c5dcd;font-weight:bold">class</span> <span style="text-decoration:underline">MazeGame_Factory</span> <span style="color:#2c5dcd">{</span>
+<span style="color:#f00">public</span> <span style="color:#f00">class</span> MazeGame_Factory {
   
-  <span style="color:#2c5dcd;font-weight:bold">public</span> <span style="color:#ff8000;font-weight:bold">MazeGame_Factory</span><span style="color:#2c5dcd">()</span> <span style="color:#2c5dcd">{}</span>
+  <span style="color:#f00">public</span> <span style="color:#ff0">MazeGame_Factory</span>() {}
   
-  <span style="color:#2c5dcd;font-weight:bold">public</span> Maze <span style="color:#ff8000;font-weight:bold">MakeMaze</span><span style="color:#2c5dcd">()</span> 
-    <span style="color:#2c5dcd">{</span> <span style="color:#2c5dcd;font-weight:bold">return</span> <span style="color:#2c5dcd;font-weight:bold">new</span> Maze<span style="color:#2c5dcd">();</span> <span style="color:#2c5dcd">}</span>
+  <span style="color:#f00">public</span> Maze <span style="color:#ff0">MakeMaze</span>() 
+    { <span style="color:#f00">return</span> <span style="color:#f00">new</span> Maze(); }
   
-  <span style="color:#2c5dcd;font-weight:bold">public</span> Wall <span style="color:#ff8000;font-weight:bold">MakeWall</span><span style="color:#2c5dcd">()</span> 
-    <span style="color:#2c5dcd">{</span> <span style="color:#2c5dcd;font-weight:bold">return</span> <span style="color:#2c5dcd;font-weight:bold">new</span> Wall<span style="color:#2c5dcd">();</span> <span style="color:#2c5dcd">}</span>
+  <span style="color:#f00">public</span> Wall <span style="color:#ff0">MakeWall</span>() 
+    { <span style="color:#f00">return</span> <span style="color:#f00">new</span> Wall(); }
   
-  <span style="color:#2c5dcd;font-weight:bold">public</span> Room <span style="color:#ff8000;font-weight:bold">MakeRoom</span><span style="color:#2c5dcd">(</span><span style="color:#5918bb;font-weight:bold">int</span> n<span style="color:#2c5dcd">)</span> 
-    <span style="color:#2c5dcd">{</span> <span style="color:#2c5dcd;font-weight:bold">return</span> <span style="color:#2c5dcd;font-weight:bold">new</span> Room<span style="color:#2c5dcd">(</span>n<span style="color:#2c5dcd">);</span> <span style="color:#2c5dcd">}</span>
+  <span style="color:#f00">public</span> Room <span style="color:#ff0">MakeRoom</span>(<span style="color:#ee82ee">int</span> n) 
+    { <span style="color:#f00">return</span> <span style="color:#f00">new</span> Room(n); }
   
-  <span style="color:#2c5dcd;font-weight:bold">public</span> Door <span style="color:#ff8000;font-weight:bold">MakeDoor</span><span style="color:#2c5dcd">(</span>Room r1<span style="color:#2c5dcd">,</span> Room r2<span style="color:#2c5dcd">)</span>
-    <span style="color:#2c5dcd">{</span> <span style="color:#2c5dcd;font-weight:bold">return</span> <span style="color:#2c5dcd;font-weight:bold">new</span> Door<span style="color:#2c5dcd">(</span>r1<span style="color:#2c5dcd">,</span> r2<span style="color:#2c5dcd">);</span> <span style="color:#2c5dcd">}</span>
+  <span style="color:#f00">public</span> Door <span style="color:#ff0">MakeDoor</span>(Room r1, Room r2)
+    { <span style="color:#f00">return</span> <span style="color:#f00">new</span> Door(r1, r2); }
   
-  <span style="color:#2c5dcd;font-weight:bold">public</span> Maze <span style="color:#ff8000;font-weight:bold">CreateMaze</span><span style="color:#2c5dcd">()</span> <span style="color:#2c5dcd">{</span>
-    Maze aMaze   <span style="color:#2c5dcd">=</span> <span style="color:#2c5dcd;font-weight:bold">this</span><span style="color:#2c5dcd">.</span><span style="color:#2c5dcd;font-style:italic">MakeMaze</span><span style="color:#2c5dcd">();</span>
-    Room r1      <span style="color:#2c5dcd">=</span> <span style="color:#2c5dcd;font-weight:bold">this</span><span style="color:#2c5dcd">.</span><span style="color:#2c5dcd;font-style:italic">MakeRoom</span><span style="color:#2c5dcd">(</span>1<span style="color:#2c5dcd">);</span>
-    Room r2      <span style="color:#2c5dcd">=</span> <span style="color:#2c5dcd;font-weight:bold">this</span><span style="color:#2c5dcd">.</span><span style="color:#2c5dcd;font-style:italic">MakeRoom</span><span style="color:#2c5dcd">(</span>2<span style="color:#2c5dcd">);</span>
-    Door theDoor <span style="color:#2c5dcd">=</span> <span style="color:#2c5dcd;font-weight:bold">this</span><span style="color:#2c5dcd">.</span><span style="color:#2c5dcd;font-style:italic">MakeDoor</span><span style="color:#2c5dcd">(</span>r1<span style="color:#2c5dcd">,</span> r2<span style="color:#2c5dcd">);</span>
+  <span style="color:#f00">public</span> Maze <span style="color:#ff0">CreateMaze</span>() {
+    Maze aMaze   = <span style="color:#f00">this</span>.MakeMaze();
+    Room r1      = <span style="color:#f00">this</span>.MakeRoom(1);
+    Room r2      = <span style="color:#f00">this</span>.MakeRoom(2);
+    Door theDoor = <span style="color:#f00">this</span>.MakeDoor(r1, r2);
 
-    r1<span style="color:#2c5dcd">.</span><span style="color:#2c5dcd;font-style:italic">SetSide</span><span style="color:#2c5dcd">(</span>Direction<span style="color:#2c5dcd">.</span><span style="color:#2c5dcd;font-style:italic">North</span><span style="color:#2c5dcd">,</span> <span style="color:#2c5dcd;font-weight:bold">this</span><span style="color:#2c5dcd">.</span><span style="color:#2c5dcd;font-style:italic">MakeWall</span><span style="color:#2c5dcd">());</span>
-    r1<span style="color:#2c5dcd">.</span><span style="color:#2c5dcd;font-style:italic">SetSide</span><span style="color:#2c5dcd">(</span>Direction<span style="color:#2c5dcd">.</span><span style="color:#2c5dcd;font-style:italic">East</span><span style="color:#2c5dcd">,</span>  theDoor<span style="color:#2c5dcd">);</span>
-    r1<span style="color:#2c5dcd">.</span><span style="color:#2c5dcd;font-style:italic">SetSide</span><span style="color:#2c5dcd">(</span>Direction<span style="color:#2c5dcd">.</span><span style="color:#2c5dcd;font-style:italic">South</span><span style="color:#2c5dcd">,</span> <span style="color:#2c5dcd;font-weight:bold">this</span><span style="color:#2c5dcd">.</span><span style="color:#2c5dcd;font-style:italic">MakeWall</span><span style="color:#2c5dcd">());</span>
-    r1<span style="color:#2c5dcd">.</span><span style="color:#2c5dcd;font-style:italic">SetSide</span><span style="color:#2c5dcd">(</span>Direction<span style="color:#2c5dcd">.</span><span style="color:#2c5dcd;font-style:italic">West</span><span style="color:#2c5dcd">,</span>  <span style="color:#2c5dcd;font-weight:bold">this</span><span style="color:#2c5dcd">.</span><span style="color:#2c5dcd;font-style:italic">MakeWall</span><span style="color:#2c5dcd">());</span>
+    r1.SetSide(Direction.North, <span style="color:#f00">this</span>.MakeWall());
+    r1.SetSide(Direction.East,  theDoor);
+    r1.SetSide(Direction.South, <span style="color:#f00">this</span>.MakeWall());
+    r1.SetSide(Direction.West,  <span style="color:#f00">this</span>.MakeWall());
 
-    r2<span style="color:#2c5dcd">.</span><span style="color:#2c5dcd;font-style:italic">SetSide</span><span style="color:#2c5dcd">(</span>Direction<span style="color:#2c5dcd">.</span><span style="color:#2c5dcd;font-style:italic">North</span><span style="color:#2c5dcd">,</span> <span style="color:#2c5dcd;font-weight:bold">this</span><span style="color:#2c5dcd">.</span><span style="color:#2c5dcd;font-style:italic">MakeWall</span><span style="color:#2c5dcd">());</span>
-    r2<span style="color:#2c5dcd">.</span><span style="color:#2c5dcd;font-style:italic">SetSide</span><span style="color:#2c5dcd">(</span>Direction<span style="color:#2c5dcd">.</span><span style="color:#2c5dcd;font-style:italic">East</span><span style="color:#2c5dcd">,</span>  <span style="color:#2c5dcd;font-weight:bold">this</span><span style="color:#2c5dcd">.</span><span style="color:#2c5dcd;font-style:italic">MakeWall</span><span style="color:#2c5dcd">());</span>
-    r2<span style="color:#2c5dcd">.</span><span style="color:#2c5dcd;font-style:italic">SetSide</span><span style="color:#2c5dcd">(</span>Direction<span style="color:#2c5dcd">.</span><span style="color:#2c5dcd;font-style:italic">South</span><span style="color:#2c5dcd">,</span> <span style="color:#2c5dcd;font-weight:bold">this</span><span style="color:#2c5dcd">.</span><span style="color:#2c5dcd;font-style:italic">MakeWall</span><span style="color:#2c5dcd">());</span>
-    r2<span style="color:#2c5dcd">.</span><span style="color:#2c5dcd;font-style:italic">SetSide</span><span style="color:#2c5dcd">(</span>Direction<span style="color:#2c5dcd">.</span><span style="color:#2c5dcd;font-style:italic">West</span><span style="color:#2c5dcd">,</span>  theDoor<span style="color:#2c5dcd">);</span>
+    r2.SetSide(Direction.North, <span style="color:#f00">this</span>.MakeWall());
+    r2.SetSide(Direction.East,  <span style="color:#f00">this</span>.MakeWall());
+    r2.SetSide(Direction.South, <span style="color:#f00">this</span>.MakeWall());
+    r2.SetSide(Direction.West,  theDoor);
 
-    aMaze<span style="color:#2c5dcd">.</span><span style="color:#2c5dcd;font-style:italic">AddRoom</span><span style="color:#2c5dcd">(</span>r1<span style="color:#2c5dcd">);</span>
-    aMaze<span style="color:#2c5dcd">.</span><span style="color:#2c5dcd;font-style:italic">AddRoom</span><span style="color:#2c5dcd">(</span>r2<span style="color:#2c5dcd">);</span>
+    aMaze.AddRoom(r1);
+    aMaze.AddRoom(r2);
 
-    <span style="color:#2c5dcd;font-weight:bold">return</span> aMaze<span style="color:#2c5dcd">;</span>
-  <span style="color:#2c5dcd">}</span>
+    <span style="color:#f00">return</span> aMaze;
+  }
 
-<span style="color:#2c5dcd">}</span> 
+} 
 </code></pre></td></tr></table>
 </div>
 </div><p>Each factory method returns a maze component of a given type. <em>MazeGame</em> provides default implementations that return the simplest kinds of maze, rooms, walls, and doors. </p>

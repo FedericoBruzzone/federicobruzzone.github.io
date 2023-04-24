@@ -58,7 +58,7 @@
 
 
 
-<link rel="stylesheet" href="/sass/jane.min.4259e276030fc4dad3e84cbbbf5b922af22acdb430a7e5d0168740977def8b5d.css" integrity="sha256-QlnidgMPxNrT6Ey7v1uSKvIqzbQwp&#43;XQFodAl33vi10=" media="screen" crossorigin="anonymous">
+<link rel="stylesheet" href="/sass/jane.min.f5862640dfb0c055ceaf181989c6e06abf9062b4bee3ec8df72a577763a7e54c.css" integrity="sha256-9YYmQN&#43;wwFXOrxgZicbgar&#43;QYrS&#43;4&#43;yN9ypXd2On5Uw=" media="screen" crossorigin="anonymous">
 
 
 
@@ -476,197 +476,197 @@
 <p><a href="https://github.com/FedericoBruzzone/federicobruzzone.github.io/tree/main/static/design-pattern/commoncode">here🔗!</a></p>
 <p>We will define a variant of the <a href="https://github.com/FedericoBruzzone/federicobruzzone.github.io/tree/main/static/design-pattern/commoncode"><em>CreateMaze</em></a> member function that takes a builder of class <em>MazeBuilder</em> as an argument.</p>
 <p>The <em>MazeBuilder</em> class defines the following interface for building mazes:</p>
-<div class="highlight"><div style="color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<div class="highlight"><div style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+<pre tabindex="0" style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">13
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java"><span style="color:#2c5dcd;font-weight:bold">public</span> <span style="color:#2c5dcd;font-weight:bold">class</span> <span style="text-decoration:underline">MazeBuilder</span> <span style="color:#2c5dcd">{</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java"><span style="color:#f00">public</span> <span style="color:#f00">class</span> MazeBuilder {
     
-  <span style="color:#2c5dcd;font-weight:bold">protected</span> <span style="color:#ff8000;font-weight:bold">MazeBuilder</span><span style="color:#2c5dcd">()</span> <span style="color:#2c5dcd">{}</span>
+  <span style="color:#f00">protected</span> <span style="color:#ff0">MazeBuilder</span>() {}
     
-  <span style="color:#2c5dcd;font-weight:bold">public</span> <span style="color:#5918bb;font-weight:bold">void</span> <span style="color:#ff8000;font-weight:bold">BuildMaze</span><span style="color:#2c5dcd">()</span> <span style="color:#2c5dcd">{}</span>
+  <span style="color:#f00">public</span> <span style="color:#ee82ee">void</span> <span style="color:#ff0">BuildMaze</span>() {}
 
-  <span style="color:#2c5dcd;font-weight:bold">public</span> <span style="color:#5918bb;font-weight:bold">void</span> <span style="color:#ff8000;font-weight:bold">BuildRoom</span><span style="color:#2c5dcd">(</span><span style="color:#5918bb;font-weight:bold">int</span> room<span style="color:#2c5dcd">)</span> <span style="color:#2c5dcd">{}</span>
+  <span style="color:#f00">public</span> <span style="color:#ee82ee">void</span> <span style="color:#ff0">BuildRoom</span>(<span style="color:#ee82ee">int</span> room) {}
 
-  <span style="color:#2c5dcd;font-weight:bold">public</span> <span style="color:#5918bb;font-weight:bold">void</span> <span style="color:#ff8000;font-weight:bold">BuildDoor</span><span style="color:#2c5dcd">(</span><span style="color:#5918bb;font-weight:bold">int</span> roomFrom<span style="color:#2c5dcd">,</span> <span style="color:#5918bb;font-weight:bold">int</span> roomTo<span style="color:#2c5dcd">)</span> <span style="color:#2c5dcd">{}</span>
+  <span style="color:#f00">public</span> <span style="color:#ee82ee">void</span> <span style="color:#ff0">BuildDoor</span>(<span style="color:#ee82ee">int</span> roomFrom, <span style="color:#ee82ee">int</span> roomTo) {}
  
-  <span style="color:#2c5dcd;font-weight:bold">public</span> Maze <span style="color:#ff8000;font-weight:bold">GetMaze</span><span style="color:#2c5dcd">()</span> <span style="color:#2c5dcd">{</span> <span style="color:#2c5dcd;font-weight:bold">return</span> <span style="color:#2c5dcd;font-weight:bold">null</span><span style="color:#2c5dcd">;</span> <span style="color:#2c5dcd">}</span>
+  <span style="color:#f00">public</span> Maze <span style="color:#ff0">GetMaze</span>() { <span style="color:#f00">return</span> <span style="color:#f00">null</span>; }
 
-<span style="color:#2c5dcd">}</span>
+}
 </code></pre></td></tr></table>
 </div>
 </div><p>This interface can create three thing: (1) the maze, (2) rooms with a particular room number and (3) doors between numbered rooms. The <em>GetMaze</em> operation returns the maze to the client. </p>
 <p>All the maze-building operations of <em>MazeBuilder</em> do nothing by default.</p>
 <p>Given the <em>MazeBuilder</em> interface, we can change the <em>CreateMaze</em> member function to take this builder as a parameter.</p>
-<div class="highlight"><div style="color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<div class="highlight"><div style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+<pre tabindex="0" style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">13
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java"><span style="color:#2c5dcd;font-weight:bold">public</span> <span style="color:#2c5dcd;font-weight:bold">class</span> <span style="text-decoration:underline">MazeGame_Builder</span> <span style="color:#2c5dcd">{</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java"><span style="color:#f00">public</span> <span style="color:#f00">class</span> MazeGame_Builder {
     
-  <span style="color:#2c5dcd;font-weight:bold">public</span> Maze <span style="color:#ff8000;font-weight:bold">CreateMaze</span><span style="color:#2c5dcd">(</span>MazeBuilder builder<span style="color:#2c5dcd">)</span> <span style="color:#2c5dcd">{</span>
-    builder<span style="color:#2c5dcd">.</span><span style="color:#2c5dcd;font-style:italic">BuildMaze</span><span style="color:#2c5dcd">();</span>
+  <span style="color:#f00">public</span> Maze <span style="color:#ff0">CreateMaze</span>(MazeBuilder builder) {
+    builder.BuildMaze();
     
-    builder<span style="color:#2c5dcd">.</span><span style="color:#2c5dcd;font-style:italic">BuildRoom</span><span style="color:#2c5dcd">(</span>1<span style="color:#2c5dcd">);</span>
-    builder<span style="color:#2c5dcd">.</span><span style="color:#2c5dcd;font-style:italic">BuildRoom</span><span style="color:#2c5dcd">(</span>2<span style="color:#2c5dcd">);</span>
-    builder<span style="color:#2c5dcd">.</span><span style="color:#2c5dcd;font-style:italic">BuildDoor</span><span style="color:#2c5dcd">(</span>1<span style="color:#2c5dcd">,</span> 2<span style="color:#2c5dcd">);</span>
+    builder.BuildRoom(1);
+    builder.BuildRoom(2);
+    builder.BuildDoor(1, 2);
     
-    <span style="color:#2c5dcd;font-weight:bold">return</span> builder<span style="color:#2c5dcd">.</span><span style="color:#2c5dcd;font-style:italic">GetMaze</span><span style="color:#2c5dcd">();</span>
-  <span style="color:#2c5dcd">}</span>
+    <span style="color:#f00">return</span> builder.GetMaze();
+  }
 
-<span style="color:#2c5dcd">}</span>
+}
 </code></pre></td></tr></table>
 </div>
 </div><p>Compare this version of <em>CreateMaze</em> with the <a href="https://github.com/FedericoBruzzone/federicobruzzone.github.io/blob/main/static/design-pattern/commoncode/MazeGame_First.java">original</a>. Notice how the builder hides the internal representation of the Maze. This make it easier to change the way a maze is represented, since none of the clients of <em>MazeBuilder</em> has to be changed.</p>
 <p>Like the other creational patterns, the Builder pattern encapsulates how objects get created. That means we can reuse <em>MazeBuilder</em> to build different kind of mazes.</p>
 <p>Note that <em>MazeBuilder</em> does not create mazes itself; it main purpose is just to define an interface for creating mazes. It defines empty implementations primarily for convenience. Subclasses of <em>MazeBuilder</em> so the actual work.</p>
 <p>The subclass <em>StandardMazeBuilder</em> is an implementation that builds simple mazes.</p>
-<div class="highlight"><div style="color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<div class="highlight"><div style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42
+<pre tabindex="0" style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">31
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">32
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">33
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">34
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">35
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">36
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">37
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">38
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">39
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">40
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">41
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">42
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java"><span style="color:#2c5dcd;font-weight:bold">public</span> <span style="color:#2c5dcd;font-weight:bold">class</span> <span style="text-decoration:underline">StandardMazeBuilder</span> <span style="color:#2c5dcd;font-weight:bold">extends</span> MazeBuilder <span style="color:#2c5dcd">{</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java"><span style="color:#f00">public</span> <span style="color:#f00">class</span> StandardMazeBuilder <span style="color:#f00">extends</span> MazeBuilder {
     
-  <span style="color:#2c5dcd;font-weight:bold">private</span> Maze _currentMaze<span style="color:#2c5dcd">;</span>
+  <span style="color:#f00">private</span> Maze _currentMaze;
 
-  <span style="color:#2c5dcd;font-weight:bold">public</span> <span style="color:#ff8000;font-weight:bold">StandardMazeBuilder</span><span style="color:#2c5dcd">()</span> <span style="color:#2c5dcd">{</span>
-    <span style="color:#2c5dcd;font-weight:bold">this</span><span style="color:#2c5dcd">.</span><span style="color:#2c5dcd;font-style:italic">_currentMaze</span> <span style="color:#2c5dcd">=</span> <span style="color:#2c5dcd;font-weight:bold">null</span><span style="color:#2c5dcd">;</span>
-  <span style="color:#2c5dcd">}</span>
+  <span style="color:#f00">public</span> <span style="color:#ff0">StandardMazeBuilder</span>() {
+    <span style="color:#f00">this</span>._currentMaze = <span style="color:#f00">null</span>;
+  }
 
-  <span style="color:#ff8000;font-weight:bold">@Override</span> <span style="color:#2c5dcd;font-weight:bold">public</span> <span style="color:#5918bb;font-weight:bold">void</span> <span style="color:#ff8000;font-weight:bold">BuildMaze</span><span style="color:#2c5dcd">()</span> <span style="color:#2c5dcd">{</span>
-    <span style="color:#2c5dcd;font-weight:bold">this</span><span style="color:#2c5dcd">.</span><span style="color:#2c5dcd;font-style:italic">_currentMaze</span> <span style="color:#2c5dcd">=</span> <span style="color:#2c5dcd;font-weight:bold">new</span> Maze<span style="color:#2c5dcd">();</span>
-  <span style="color:#2c5dcd">}</span>
+  @Override <span style="color:#f00">public</span> <span style="color:#ee82ee">void</span> <span style="color:#ff0">BuildMaze</span>() {
+    <span style="color:#f00">this</span>._currentMaze = <span style="color:#f00">new</span> Maze();
+  }
 
-  <span style="color:#ff8000;font-weight:bold">@Override</span> <span style="color:#2c5dcd;font-weight:bold">public</span> <span style="color:#5918bb;font-weight:bold">void</span> <span style="color:#ff8000;font-weight:bold">BuildRoom</span><span style="color:#2c5dcd">(</span><span style="color:#5918bb;font-weight:bold">int</span> n<span style="color:#2c5dcd">)</span> <span style="color:#2c5dcd">{</span>
-    <span style="color:#2c5dcd;font-weight:bold">if</span> <span style="color:#2c5dcd">(</span>_currentMaze<span style="color:#2c5dcd">.</span><span style="color:#2c5dcd;font-style:italic">RoomNo</span><span style="color:#2c5dcd">(</span>n<span style="color:#2c5dcd">)</span> <span style="color:#2c5dcd">!=</span> <span style="color:#2c5dcd;font-weight:bold">null</span><span style="color:#2c5dcd">)</span> <span style="color:#2c5dcd">{</span>
-      Room room <span style="color:#2c5dcd">=</span> <span style="color:#2c5dcd;font-weight:bold">new</span> Room<span style="color:#2c5dcd">(</span>n<span style="color:#2c5dcd">);</span>
-      <span style="color:#2c5dcd;font-weight:bold">this</span><span style="color:#2c5dcd">.</span><span style="color:#2c5dcd;font-style:italic">_currentMaze</span><span style="color:#2c5dcd">.</span><span style="color:#2c5dcd;font-style:italic">AddRoom</span><span style="color:#2c5dcd">(</span>room<span style="color:#2c5dcd">);</span>
+  @Override <span style="color:#f00">public</span> <span style="color:#ee82ee">void</span> <span style="color:#ff0">BuildRoom</span>(<span style="color:#ee82ee">int</span> n) {
+    <span style="color:#f00">if</span> (_currentMaze.RoomNo(n) != <span style="color:#f00">null</span>) {
+      Room room = <span style="color:#f00">new</span> Room(n);
+      <span style="color:#f00">this</span>._currentMaze.AddRoom(room);
 
-      room<span style="color:#2c5dcd">.</span><span style="color:#2c5dcd;font-style:italic">SetSide</span><span style="color:#2c5dcd">(</span>Direction<span style="color:#2c5dcd">.</span><span style="color:#2c5dcd;font-style:italic">North</span><span style="color:#2c5dcd">,</span> <span style="color:#2c5dcd;font-weight:bold">new</span> Wall<span style="color:#2c5dcd">());</span>
-      room<span style="color:#2c5dcd">.</span><span style="color:#2c5dcd;font-style:italic">SetSide</span><span style="color:#2c5dcd">(</span>Direction<span style="color:#2c5dcd">.</span><span style="color:#2c5dcd;font-style:italic">South</span><span style="color:#2c5dcd">,</span> <span style="color:#2c5dcd;font-weight:bold">new</span> Wall<span style="color:#2c5dcd">());</span>
-      room<span style="color:#2c5dcd">.</span><span style="color:#2c5dcd;font-style:italic">SetSide</span><span style="color:#2c5dcd">(</span>Direction<span style="color:#2c5dcd">.</span><span style="color:#2c5dcd;font-style:italic">East</span><span style="color:#2c5dcd">,</span>  <span style="color:#2c5dcd;font-weight:bold">new</span> Wall<span style="color:#2c5dcd">());</span>
-      room<span style="color:#2c5dcd">.</span><span style="color:#2c5dcd;font-style:italic">SetSide</span><span style="color:#2c5dcd">(</span>Direction<span style="color:#2c5dcd">.</span><span style="color:#2c5dcd;font-style:italic">West</span><span style="color:#2c5dcd">,</span>  <span style="color:#2c5dcd;font-weight:bold">new</span> Wall<span style="color:#2c5dcd">());</span>
-    <span style="color:#2c5dcd">}</span>
-  <span style="color:#2c5dcd">}</span>
+      room.SetSide(Direction.North, <span style="color:#f00">new</span> Wall());
+      room.SetSide(Direction.South, <span style="color:#f00">new</span> Wall());
+      room.SetSide(Direction.East,  <span style="color:#f00">new</span> Wall());
+      room.SetSide(Direction.West,  <span style="color:#f00">new</span> Wall());
+    }
+  }
 
-  <span style="color:#ff8000;font-weight:bold">@Override</span> <span style="color:#2c5dcd;font-weight:bold">public</span> <span style="color:#5918bb;font-weight:bold">void</span> <span style="color:#ff8000;font-weight:bold">BuildDoor</span><span style="color:#2c5dcd">(</span><span style="color:#5918bb;font-weight:bold">int</span> n1<span style="color:#2c5dcd">,</span> <span style="color:#5918bb;font-weight:bold">int</span> n2<span style="color:#2c5dcd">)</span> <span style="color:#2c5dcd">{</span>
-    Room r1 <span style="color:#2c5dcd">=</span> <span style="color:#2c5dcd;font-weight:bold">this</span><span style="color:#2c5dcd">.</span><span style="color:#2c5dcd;font-style:italic">_currentMaze</span><span style="color:#2c5dcd">.</span><span style="color:#2c5dcd;font-style:italic">RoomNo</span><span style="color:#2c5dcd">(</span>n1<span style="color:#2c5dcd">);</span>
-    Room r2 <span style="color:#2c5dcd">=</span> <span style="color:#2c5dcd;font-weight:bold">this</span><span style="color:#2c5dcd">.</span><span style="color:#2c5dcd;font-style:italic">_currentMaze</span><span style="color:#2c5dcd">.</span><span style="color:#2c5dcd;font-style:italic">RoomNo</span><span style="color:#2c5dcd">(</span>n2<span style="color:#2c5dcd">);</span>
-    Door d <span style="color:#2c5dcd">=</span> <span style="color:#2c5dcd;font-weight:bold">new</span> Door<span style="color:#2c5dcd">(</span>r1<span style="color:#2c5dcd">,</span> r2<span style="color:#2c5dcd">);</span>
+  @Override <span style="color:#f00">public</span> <span style="color:#ee82ee">void</span> <span style="color:#ff0">BuildDoor</span>(<span style="color:#ee82ee">int</span> n1, <span style="color:#ee82ee">int</span> n2) {
+    Room r1 = <span style="color:#f00">this</span>._currentMaze.RoomNo(n1);
+    Room r2 = <span style="color:#f00">this</span>._currentMaze.RoomNo(n2);
+    Door d = <span style="color:#f00">new</span> Door(r1, r2);
 
-    r1<span style="color:#2c5dcd">.</span><span style="color:#2c5dcd;font-style:italic">SetSide</span><span style="color:#2c5dcd">(</span><span style="color:#2c5dcd;font-weight:bold">this</span><span style="color:#2c5dcd">.</span><span style="color:#2c5dcd;font-style:italic">CommonWall</span><span style="color:#2c5dcd">(</span>r1<span style="color:#2c5dcd">,</span> r2<span style="color:#2c5dcd">),</span> d<span style="color:#2c5dcd">);</span>
-    r2<span style="color:#2c5dcd">.</span><span style="color:#2c5dcd;font-style:italic">SetSide</span><span style="color:#2c5dcd">(</span><span style="color:#2c5dcd;font-weight:bold">this</span><span style="color:#2c5dcd">.</span><span style="color:#2c5dcd;font-style:italic">CommonWall</span><span style="color:#2c5dcd">(</span>r2<span style="color:#2c5dcd">,</span> r1<span style="color:#2c5dcd">),</span> d<span style="color:#2c5dcd">);</span>
-  <span style="color:#2c5dcd">}</span>
+    r1.SetSide(<span style="color:#f00">this</span>.CommonWall(r1, r2), d);
+    r2.SetSide(<span style="color:#f00">this</span>.CommonWall(r2, r1), d);
+  }
 
-  <span style="color:#2c5dcd;font-weight:bold">private</span> Direction <span style="color:#ff8000;font-weight:bold">CommonWall</span><span style="color:#2c5dcd">(</span>Room r1<span style="color:#2c5dcd">,</span> Room r2<span style="color:#2c5dcd">)</span> <span style="color:#2c5dcd">{</span> 
-    <span style="color:#2c5dcd;font-weight:bold">return</span> <span style="color:#2c5dcd;font-weight:bold">null</span><span style="color:#2c5dcd">;</span>
-  <span style="color:#2c5dcd">}</span>
+  <span style="color:#f00">private</span> Direction <span style="color:#ff0">CommonWall</span>(Room r1, Room r2) { 
+    <span style="color:#f00">return</span> <span style="color:#f00">null</span>;
+  }
 
-  <span style="color:#ff8000;font-weight:bold">@Override</span> <span style="color:#2c5dcd;font-weight:bold">public</span> Maze <span style="color:#ff8000;font-weight:bold">GetMaze</span><span style="color:#2c5dcd">()</span> <span style="color:#2c5dcd">{</span>
-    <span style="color:#2c5dcd;font-weight:bold">return</span> <span style="color:#2c5dcd;font-weight:bold">this</span><span style="color:#2c5dcd">.</span><span style="color:#2c5dcd;font-style:italic">_currentMaze</span><span style="color:#2c5dcd">;</span>
-  <span style="color:#2c5dcd">}</span>
+  @Override <span style="color:#f00">public</span> Maze <span style="color:#ff0">GetMaze</span>() {
+    <span style="color:#f00">return</span> <span style="color:#f00">this</span>._currentMaze;
+  }
 
-<span style="color:#2c5dcd">}</span>
+}
 </code></pre></td></tr></table>
 </div>
 </div><p><em>CommonWall</em> is a utility operation that determines the direction of the common wall between two rooms.</p>
 <p>Clients can now use <em>CreateMaze</em> in conjunction with <em>StandardMazeBuilder</em> to create a maze:</p>
-<div class="highlight"><div style="color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<div class="highlight"><div style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+<pre tabindex="0" style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">12
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java"><span style="color:#2c5dcd;font-weight:bold">public</span> <span style="color:#2c5dcd;font-weight:bold">class</span> <span style="text-decoration:underline">ClientBuilder</span> <span style="color:#2c5dcd">{</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java"><span style="color:#f00">public</span> <span style="color:#f00">class</span> ClientBuilder {
   
-  <span style="color:#2c5dcd;font-weight:bold">public</span> <span style="color:#2c5dcd;font-weight:bold">static</span> <span style="color:#5918bb;font-weight:bold">void</span> <span style="color:#ff8000;font-weight:bold">main</span><span style="color:#2c5dcd">(</span>String<span style="color:#2c5dcd">[]</span> args<span style="color:#2c5dcd">)</span> <span style="color:#2c5dcd">{</span>
-    Maze maze<span style="color:#2c5dcd">;</span>
-    MazeGame_Builder game <span style="color:#2c5dcd">=</span> <span style="color:#2c5dcd;font-weight:bold">new</span> MazeGame_Builder<span style="color:#2c5dcd">();</span>
-    StandardMazeBuilder builder <span style="color:#2c5dcd">=</span> <span style="color:#2c5dcd;font-weight:bold">new</span> StandardMazeBuilder<span style="color:#2c5dcd">();</span>
+  <span style="color:#f00">public</span> <span style="color:#f00">static</span> <span style="color:#ee82ee">void</span> <span style="color:#ff0">main</span>(String[] args) {
+    Maze maze;
+    MazeGame_Builder game = <span style="color:#f00">new</span> MazeGame_Builder();
+    StandardMazeBuilder builder = <span style="color:#f00">new</span> StandardMazeBuilder();
 
-    game<span style="color:#2c5dcd">.</span><span style="color:#2c5dcd;font-style:italic">CreateMaze</span><span style="color:#2c5dcd">(</span>builder<span style="color:#2c5dcd">);</span>
-    maze <span style="color:#2c5dcd">=</span> builder<span style="color:#2c5dcd">.</span><span style="color:#2c5dcd;font-style:italic">GetMaze</span><span style="color:#2c5dcd">();</span>
-  <span style="color:#2c5dcd">}</span>
+    game.CreateMaze(builder);
+    maze = builder.GetMaze();
+  }
 
-<span style="color:#2c5dcd">}</span>
+}
 </code></pre></td></tr></table>
 </div>
 </div><p>We could have put all the <em>StandardMazeBuilder</em> operations in <em>Maze</em> and let each <em>Maze</em> build itself. But making <em>Maze</em> smaller makes it easier to understand and modify, and <em>StandardMazeBuilder</em> is easy to separate from <em>Maze</em>.</p>
