@@ -32,7 +32,7 @@ mathjax: true
 
 - [More To That](https://moretothat.com/) by *Lawrence Yeo*
 
-- [Retire in progres](https://retireinprogress.com/) by *Giorgio Ugazio*
+- [Retire in progress](https://retireinprogress.com/) by *Giorgio Ugazio*
 
 ## Youtube channels and Podcasts
 
