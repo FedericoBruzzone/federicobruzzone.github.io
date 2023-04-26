@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>
-          Factory Method pattern - Class Creational - Federico Bruzzone&#39;s website
+          Make Vim as your C/C&#43;&#43; IDE - Federico Bruzzone&#39;s website
         </title>
     
 
@@ -29,7 +29,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 
 <meta name="author" content="Federico Bruzzone" />
-  <meta name="description" content="Define an interface for creating an object, but let subclasses decide which class to instantiate. Factory Method lets a class defer instantiation to subclasses." />
+  <meta name="description" content="In this blog post you will find a &amp;lsquo;simple&amp;rsquo; guide to configure Vim as your C/C&#43;&#43; IDE. This procedure can be similar for VSCode and Fleet editor." />
 
 
 
@@ -40,7 +40,7 @@
 <meta name="generator" content="Hugo 0.92.2" />
 
 
-<link rel="canonical" href="https://federicobruzzone.github.io/post/design-patterns/factory-method-pattern-class-creational/readme/" />
+<link rel="canonical" href="https://federicobruzzone.github.io/post/vim/make-vim-as-your-cc&#43;&#43;-ide/" />
 
 
 
@@ -66,20 +66,20 @@
 
 
 
-<meta property="og:title" content="Factory Method pattern - Class Creational" />
-<meta property="og:description" content="Define an interface for creating an object, but let subclasses decide which class to instantiate. Factory Method lets a class defer instantiation to subclasses." />
+<meta property="og:title" content="Make Vim as your C/C&#43;&#43; IDE" />
+<meta property="og:description" content="In this blog post you will find a &lsquo;simple&rsquo; guide to configure Vim as your C/C&#43;&#43; IDE. This procedure can be similar for VSCode and Fleet editor." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://federicobruzzone.github.io/post/design-patterns/factory-method-pattern-class-creational/readme/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2023-02-03T00:00:00+00:00" />
-<meta property="article:modified_time" content="2023-02-03T00:00:00+00:00" />
+<meta property="og:url" content="https://federicobruzzone.github.io/post/vim/make-vim-as-your-cc&#43;&#43;-ide/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-04-26T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-04-26T00:00:00+00:00" />
 
-<meta itemprop="name" content="Factory Method pattern - Class Creational">
-<meta itemprop="description" content="Define an interface for creating an object, but let subclasses decide which class to instantiate. Factory Method lets a class defer instantiation to subclasses."><meta itemprop="datePublished" content="2023-02-03T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2023-02-03T00:00:00+00:00" />
-<meta itemprop="wordCount" content="1257">
-<meta itemprop="keywords" content="programming,design-patterns,computer-science,object-oriented,clean-code," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Factory Method pattern - Class Creational"/>
-<meta name="twitter:description" content="Define an interface for creating an object, but let subclasses decide which class to instantiate. Factory Method lets a class defer instantiation to subclasses."/>
+<meta itemprop="name" content="Make Vim as your C/C&#43;&#43; IDE">
+<meta itemprop="description" content="In this blog post you will find a &lsquo;simple&rsquo; guide to configure Vim as your C/C&#43;&#43; IDE. This procedure can be similar for VSCode and Fleet editor."><meta itemprop="datePublished" content="2023-04-26T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2023-04-26T00:00:00+00:00" />
+<meta itemprop="wordCount" content="678">
+<meta itemprop="keywords" content="programming,vim,computer-science,editor,IDE," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Make Vim as your C/C&#43;&#43; IDE"/>
+<meta name="twitter:description" content="In this blog post you will find a &lsquo;simple&rsquo; guide to configure Vim as your C/C&#43;&#43; IDE. This procedure can be similar for VSCode and Fleet editor."/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -99,7 +99,7 @@
 
     <div id="mobile-navbar" class="mobile-navbar">
   <div class="mobile-header-logo">
-    <a href="/" class="logo">Federico Bruzzone's website</a>
+    <a href="/" class="logo">F C B</a>
   </div>
   <div class="mobile-navbar-icon">
     <span></span>
@@ -228,7 +228,7 @@
       <div class="logo-wrapper">
   <a href="/" class="logo">
     
-      Federico Bruzzone's website
+      F C B
     
   </a>
 </div>
@@ -320,7 +320,7 @@
       <article class="post">
         
         <header class="post-header">
-          <h1 class="post-title">Factory Method pattern - Class Creational</h1>
+          <h1 class="post-title">Make Vim as your C/C&#43;&#43; IDE</h1>
           
 
           <div class="post-meta">
@@ -335,8 +335,8 @@
   </div>
 
   <div class="post-meta-time">
-    <time datetime="2023-02-03">
-      2023-02-03
+    <time datetime="2023-04-26">
+      2023-04-26
     </time>
   </div>
 
@@ -348,7 +348,8 @@
 
     <div class="post-meta-category">
         <a href="https://federicobruzzone.github.io/categories/programming/"> programming </a>
-          <a href="https://federicobruzzone.github.io/categories/design-pattern/"> design-pattern </a>
+          <a href="https://federicobruzzone.github.io/categories/vim/"> vim </a>
+          <a href="https://federicobruzzone.github.io/categories/editor/"> editor </a>
           
       </div>
 
@@ -368,103 +369,38 @@
         <div class="post-content">
           <!-- raw HTML omitted -->
 <!-- raw HTML omitted -->
-<p><img src="/design-pattern/Factory%20Method%20pattern%20-%20Class%20Creational/img/cover.png" alt="Cover"></p>
-<p>By <strong>Dmitry Zhart</strong> (<a href="https://refactoring.guru/">refactoring.guru</a>)</p>
-<h2 id="intent">Intent</h2>
-<p>Define an interface for creating an object, but let subclasses decide which class to instantiate. Factory Method lets a class defer instantiation to subclasses.</p>
-<h2 id="also-known-as">Also Known As</h2>
-<p>Virtual Constructor</p>
-<h2 id="motivation">Motivation</h2>
-<p><img src="/design-pattern/Factory%20Method%20pattern%20-%20Class%20Creational/img/1.png" alt="1"></p>
-<p>Framework use abstract classes to define and maintain relationship between objects. A framework is often responsible for creating these objects as well. </p>
-<p>Consider a framework for applications that can present multiple documents to the user. Two key abstractions in this framework are the classes Application and the Document. Both classes are abstract, and clients have to subclass them to realize their application-specific implementations. The Application class is responsible for managing Documents and will create them as required.</p>
-<p>Because the particular Document subclass to instantiate is application-specific, the Application class can&rsquo;t predict the subclass of Document to instantiate - the Application class only knows <em>when</em> a new document should be created, not <em>what kind</em> of Document to create.</p>
-<p>The Factory Method pattern offers a solution. It encapsulates the knowledge of which Document subclass to create and moves this knowledge out of the framework.</p>
-<p>Application subclass redefine an abstract CreateDocument operation on Application to return the appropriate Document subclass. Once an Application subclass is instantiated, it can then instantiate application-specific Documents without knowing their class. We call CreateDocument a <strong>factory method</strong> because it is responsible for &ldquo;manufacturing&rdquo; an object.</p>
-<h2 id="applicability">Applicability</h2>
-<p>Use the Factory Method pattern when</p>
-<ul>
-<li>
-<p>a class can&rsquo;t anticipate the class of obejcts it must create.</p>
-</li>
-<li>
-<p>a class wants its subclasses to specify the objects it creates.</p>
-</li>
-<li>
-<p>classes delegate responsibility to one of several helper subclasses, and you want to localize the knowledge of which helper subclass is the delegate.</p>
-</li>
-</ul>
-<h2 id="structure">Structure</h2>
-<p><img src="/design-pattern/Factory%20Method%20pattern%20-%20Class%20Creational/img/2.png" alt="2"></p>
-<h2 id="participants">Participants</h2>
-<h3 id="product">Product</h3>
-<p><em>(Document)</em></p>
-<ul>
-<li>defines the interface of objects the factory method creates.</li>
-</ul>
-<h3 id="concreteproduct">ConcreteProduct</h3>
-<p><em>(MyDocument)</em></p>
-<ul>
-<li>implements the Product interface</li>
-</ul>
-<h3 id="creator">Creator</h3>
-<p><em>(Application)</em></p>
-<ul>
-<li>
-<p>declares the factory method, which returns an object of type Product. Creator may also define a default implementation of the factory method that returns a default ConcreteProduct object.</p>
-</li>
-<li>
-<p>may call the factory method to create a Product object.</p>
-</li>
-</ul>
-<h3 id="concretecreator">ConcreteCreator</h3>
-<p><em>(MyApplication</em>)</p>
-<ul>
-<li>overrides the factory method to return an instance of a ConcreteProduct.</li>
-</ul>
-<h2 id="collaborations">Collaborations</h2>
-<ul>
-<li>Creator relies on its subclasses to define the factory method so that it returns an instance of the appropriate ConcreteProduct.</li>
-</ul>
-<h2 id="consequences">Consequences</h2>
-<p>Factory methods eliminate the need to bind application-specific classes into your code. The code only deals with the Product interface; therefore it can wok with any user-defined ConcreteProduct classes.</p>
-<p>A potential disadvantage of factory methods is that clients might have to subclass a Creator classes just to create a particular ConcreteProduct object.</p>
-<p>Here are two additional consequences of the Factory Method pattern:</p>
+<p><strong>This procedure can be similar for VSCode and Fleet editor.</strong></p>
+<p>It happened to me in the past that I had to configure <em>Vim</em> to manage C projects, and after lots of useless attempts I gave up settings it up.</p>
+<p>I am currently attending a university course called Advanced in Operating Systems. I am using a STM32 microcontroller and ST provides an Eclipse 2010 based IDE, but as a <em>Vim</em> programmer writing even 10 lines of code on this IDE made me frustrated. So, I decided to try again, and as you can imagine if you are reading this blog post I succeeded!</p>
+<h2 id="requirements">Requirements</h2>
 <ol>
 <li>
-<p><em>Provides hooks for subclasses</em>. Creating objects inside a class with a factory method is always more flexible than crating an object directly. Factory method gives subclasses a hook for providing an extend version of an object.</p>
+<p>Make sure use Vim &gt;= 8.1.1719 or Neovim &gt;= 0.4.0 and make</p>
 </li>
 <li>
-<p><em>Connects parallel class hierarchies</em>. Parallel class hierarchies result when a class delegates some of its responsibilities to a separate class. Consider graphical figures that can be manipulated interactively; that is, thay can be stretched, moved, or rotated using the mouse. Implementing suh interactions ins&rsquo;t always easy. It often requires storing and updating information records the state of the manipulation. This state is needed only during manipulation.</p>
+<p>Install nodejs &gt;= 14.14:</p>
 </li>
 </ol>
-<p>With this constraints, it&rsquo;s better to use separate Manipulator object that implements the interaction and keeps track of any manipulation-specific state that&rsquo;s needed.</p>
-<p><img src="/design-pattern/Factory%20Method%20pattern%20-%20Class%20Creational/img/3.png" alt="3"></p>
-<p>The Figure class provides a CreateManipulator factory method that lets client create a Figure&rsquo;s corresponding Manipulator. Figure subclasses override this method to return an instance of the Manipulator subclass that&rsquo;s right for them. Alternatively, the Figure class may implement CreateManipulator to return a default Manipulator instance, and Figure subclasses may simply inherit default. </p>
-<p>Notice how the factory method defines the connection between the two class hierarchies. It localize knowledge of which classes belong together.</p>
-<h2 id="implementation">Implementation</h2>
-<ol>
-<li>
-<p><em>The two varieties</em>. The two main variations of the Factory Method pattern are (1) the case when the Creator class is an abstract class and does not provide an implementation for the factory method it declares, and (2) the case when the Creator is a concrete class and provide a default implementation for the factory method. The first case <em>requires</em> subclasses to define an implementation, because there is no reasonable default. In the second case, the concrete Creator uses the factory method primarily for flexibility.</p>
-</li>
-<li>
-<p><em>Parameterized factory methods</em>. Another variation on the pattern lets the factory method create <em>multiple</em> kinds of products. The factory method takes a parameter that identifies the kind of object to create. All objects the factory method creates will share the Product interface.</p>
-</li>
-<li>
-<p><em>Language-specific variants and issues</em>. Different languages lend themselves to other interesting variations and caveats. Smalltalk programs often use a method that returns the class of the object to be instantiated. A Creator factory method can use this value to create a product, and a ConcreteCreator may store or even compute this value. The result is an even later binding for the type of ConcreteProduct to be instantiated.</p>
-</li>
-<li>
-<p><em>Using templates to avoid subclassing</em>. Another potential problem with factory methods is that they might force you to subclass just to create the appropriate Product objects. Another way to get around this in C++ is to provide a template subclass of Creator that&rsquo;s parameterized by the Product class.</p>
-</li>
-<li>
-<p><em>Naming conventions</em>. It&rsquo;s good practice to use naming conventions that make it clear you&rsquo;re using factory methods.</p>
-</li>
-</ol>
-<h2 id="sample-code">Sample Code</h2>
-<p>To better understand the following code and the classes used look</p>
-<p><a href="https://github.com/FedericoBruzzone/federicobruzzone.github.io/blob/main/static/design-pattern/commoncode">here🔗!</a></p>
-<p>The function <a href="https://github.com/FedericoBruzzone/federicobruzzone.github.io/blob/main/static/design-pattern/commoncode/MazeGame_First.java"><em>CreateMaze</em></a> builds and returns a maze. One problem with this function is that it hard-codes the classes of maze, rooms, doors, and walls. We&rsquo;ll introduce factory methods to let subclasses choose these components.</p>
-<p>First we&rsquo;ll define factory methods in <em>MazeGame</em> for creating the maze, room, wall, and door objects:</p>
+<p><code>curl -sL install-node.vercel.app/lts | bash </code></p>
+<h2 id="configuration">Configuration</h2>
+<h3 id="coc">coc</h3>
+<p><a href="https://github.com/neoclide/coc.nvim">coc GitHub</a></p>
+<p>Firstly, you should have a <a href="https://github.com/neoclide/coc.nvim"><code>coc.nvim</code></a> plug-in installed. I am currently using <strong>vim-plug</strong> as plug-ins manager, but you can use any other.</p>
+<p>In my case I added to my <code>.vimrc</code> file</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Vim" data-lang="Vim">Plug <span style="color:#87ceeb">&#39;https://github.com/neoclide/coc.nvim&#39;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>and run <code>:PlugInstall</code></p>
+<p>After that restart <strong>Vim</strong>and make sure you have installed two important extension which are <code>coc-json</code> and <code>coc-tsserver</code> using <code>:CocList extensions</code>, if not run <code>:CocInstall coc-json coc-tsserver</code></p>
+<h3 id="coc-clangd">coc-clangd</h3>
+<p><a href="https://github.com/clangd/coc-clangd">coc-clangd GitHub</a></p>
+<p>As you can imagine, <a href="https://github.com/clangd/coc-clangd"><code>coc-clangd</code></a> is an extension of <code>coc.nvim</code> like the previous two, and you can install it just running <code>:CocInstall coc-clangd</code>, after that <code>coc-clangd</code> will try to find <code>clangd</code> from your <code>$PATH</code>, if not found, you can run <code>:CocCommand clangd.install</code> to install the latest release from GitHub.</p>
+<p>At this point, you should be able to add to create <code>~/.vim/coc-settings.json</code> file and add</p>
 <div class="highlight"><div style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 1
@@ -486,82 +422,80 @@
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">17
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">18
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">19
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">20
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">21
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">22
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">23
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">24
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">25
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">26
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">27
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">28
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">29
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">30
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">31
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">32
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">33
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">34
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">35
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">36
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">37
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">38
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">39
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">40
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">41
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java"><span style="color:#f00">import</span> commoncode.*;
-
-<span style="color:#f00">public</span> <span style="color:#f00">class</span> MazeGame_Factory {
-  
-  <span style="color:#f00">public</span> <span style="color:#ff0">MazeGame_Factory</span>() {}
-  
-  <span style="color:#f00">public</span> Maze <span style="color:#ff0">MakeMaze</span>() 
-    { <span style="color:#f00">return</span> <span style="color:#f00">new</span> Maze(); }
-  
-  <span style="color:#f00">public</span> Wall <span style="color:#ff0">MakeWall</span>() 
-    { <span style="color:#f00">return</span> <span style="color:#f00">new</span> Wall(); }
-  
-  <span style="color:#f00">public</span> Room <span style="color:#ff0">MakeRoom</span>(<span style="color:#ee82ee">int</span> n) 
-    { <span style="color:#f00">return</span> <span style="color:#f00">new</span> Room(n); }
-  
-  <span style="color:#f00">public</span> Door <span style="color:#ff0">MakeDoor</span>(Room r1, Room r2)
-    { <span style="color:#f00">return</span> <span style="color:#f00">new</span> Door(r1, r2); }
-  
-  <span style="color:#f00">public</span> Maze <span style="color:#ff0">CreateMaze</span>() {
-    Maze aMaze   = <span style="color:#f00">this</span>.MakeMaze();
-    Room r1      = <span style="color:#f00">this</span>.MakeRoom(1);
-    Room r2      = <span style="color:#f00">this</span>.MakeRoom(2);
-    Door theDoor = <span style="color:#f00">this</span>.MakeDoor(r1, r2);
-
-    r1.SetSide(Direction.North, <span style="color:#f00">this</span>.MakeWall());
-    r1.SetSide(Direction.East,  theDoor);
-    r1.SetSide(Direction.South, <span style="color:#f00">this</span>.MakeWall());
-    r1.SetSide(Direction.West,  <span style="color:#f00">this</span>.MakeWall());
-
-    r2.SetSide(Direction.North, <span style="color:#f00">this</span>.MakeWall());
-    r2.SetSide(Direction.East,  <span style="color:#f00">this</span>.MakeWall());
-    r2.SetSide(Direction.South, <span style="color:#f00">this</span>.MakeWall());
-    r2.SetSide(Direction.West,  theDoor);
-
-    aMaze.AddRoom(r1);
-    aMaze.AddRoom(r2);
-
-    <span style="color:#f00">return</span> aMaze;
-  }
-
-} 
+<pre tabindex="0" style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+  &#34;languageserver&#34;: {
+    &#34;ccls&#34;: {
+      &#34;command&#34;: <span style="color:#87ceeb">&#34;ccls&#34;</span>,
+      &#34;args&#34;: [<span style="color:#87ceeb">&#34;--log-file=/tmp/ccls.log&#34;</span>, <span style="color:#87ceeb">&#34;-v=1&#34;</span>],
+      &#34;filetypes&#34;: [<span style="color:#87ceeb">&#34;c&#34;</span>, <span style="color:#87ceeb">&#34;cc&#34;</span>, <span style="color:#87ceeb">&#34;cpp&#34;</span>, <span style="color:#87ceeb">&#34;c++&#34;</span>, <span style="color:#87ceeb">&#34;objc&#34;</span>, <span style="color:#87ceeb">&#34;objcpp&#34;</span>],
+      &#34;rootPatterns&#34;: [<span style="color:#87ceeb">&#34;.ccls&#34;</span>, <span style="color:#87ceeb">&#34;compile_commands.json&#34;</span>],
+      &#34;initializationOptions&#34;: { 
+         &#34;cache&#34;: {
+           &#34;directory&#34;: <span style="color:#87ceeb">&#34;/tmp/ccls&#34;</span>
+         },
+         &#34;client&#34;: {
+          &#34;snippetSupport&#34;: <span style="color:#f00">true</span>
+         }
+       }
+    }
+  },
+  &#34;clangd.path&#34;: <span style="color:#87ceeb">&#34;~/.config/coc/extensions/coc-clangd-data/install/15.0.6/clangd_15.0.6/bin/clangd&#34;</span>,
+}
 </code></pre></td></tr></table>
 </div>
-</div><p>Each factory method returns a maze component of a given type. <em>MazeGame</em> provides default implementations that return the simplest kinds of maze, rooms, walls, and doors. </p>
-<p>Now we have to rewrite <em>CreateMaze</em> to use these factory methods.</p>
-<h2 id="known-uses">Known Uses</h2>
-<p>Factory methods pervade toolkits and frameworks.The preceding document example is a typical use in MacApp and ET++ [WGM88]. The manipulator example is from Unidraw.</p>
-<p>Class View in the Smalltalk-80 Model/View/Controller framework has a method defaultController that creates a controller, and this might appear to be a factory method [Par90]. But subclasses of Viewspecify the class of their default controller by defining defaultControllerClass, which returns the class from which defaultController creates instances. So defaultControllerClass is the real factory method, tKat is, the method that subclasses should override.</p>
-<h2 id="related-patterns">Related Patterns</h2>
-<p>Abstract Factory is often implemented with factory methods. </p>
-<p>Factory methods are usually called within Template Methods. </p>
-<p>Prototypes don&rsquo;t require subclassing Creator. However, they often require an Initialize operation on the Product class. Creator uses Initialize to initialize the object. Factory Method doesn&rsquo;t require such an operation.</p>
+</div><p>Obviusly, you should change the value of &ldquo;clangd.path&rdquo; field with your version, it may be something like <code>&quot;clangd.path&quot;: &quot;~/.config/coc/extensions/coc-clangd-data/install/&lt;version&gt;/clangd_&lt;version&gt;/bin/clangd&quot;</code> (note &lt;version&gt; on the string).</p>
+<p>I do not want to bore you eplaining whole fileds of the json file, the only thing I would like to say you is that that code is used to specify the type of language server and its behaviour.</p>
+<h3 id="ccls">ccls</h3>
+<p><a href="https://github.com/MaskRay/ccls">ccls GitHub</a></p>
+<p>Basically, <code>ccls</code>, which originates from <code>cquery</code>, is a C/C++/Objective-C language server.</p>
+<ul>
+<li>
+<p>code completition (with both signature help and snippets)</p>
+</li>
+<li>
+<p>definition/reference, and other cross references</p>
+</li>
+<li>
+<p>diagnostics and code actions</p>
+</li>
+<li>
+<p>semantic highlighting and preprocessor skipped regions</p>
+</li>
+<li>
+<p>diagnostics and code actions</p>
+</li>
+<li>
+<p>semantic highlighting and preprocessor skipped regions</p>
+</li>
+</ul>
+<p>and the other many usefull things.</p>
+<p>You must install it because as you can see the language server specified in <code>coc-settings.json</code> is <code>ccls</code>.</p>
+<p>You can do it using your package manager, in my case</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Bash" data-lang="Bash">sudo apt-get install ccls
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>Setup</strong></p>
+<p>Typically, <code>ccls</code> indexes an entire project. In order for this to work properly, <code>ccls</code> needs to be able to obtain the source file list and their compilation command lines.</p>
+<p><strong>How <code>ccls</code> obtains sources and compilation commands</strong></p>
+<p>There are two main ways this happens:</p>
+<ol>
+<li>Provide <code>compile_commands.json</code> at the project root</li>
+<li>Provide a .ccls file.</li>
+</ol>
+<p>If neither exists, then when <code>ccls</code> starts it will not index anything: instead it will wait for LSP clients to open files and index only those files.</p>
+<p>I prefer use the first one, and to do that if you are using <code>Makefile</code> as build system for your C/C++ project you can generate <code>compile_commands.json</code> automatically with <a href="https://github.com/rizsotto/Bear">bear</a> command, I will explain in detail how in the next paragraph.</p>
+<p>If you are not using <code>Makefile</code> as build system, there are lots of ways to generate this file, for example with <code>CMake</code>, <code>compiledb</code>, <code>scan-build</code> and so on. I suggest you to take a look <a href="https://github.com/MaskRay/ccls/wiki/Project-Setup">here</a>.</p>
+<h3 id="bear">bear</h3>
+<p><a href="https://github.com/rizsotto/Bear">bear GitHub</a></p>
+<p>Bear is a tool that generates a compilation database for clang tooling. The compilation database is our <code>compile_commands.json</code>, a simple json file.</p>
+<p>The JSON compilation database is used in the clang project to provide information on how a single compilation unit is processed. With this, it is easy to re-run the compilation with alternate programs.</p>
 
         </div>
 
@@ -575,7 +509,7 @@
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-      2023-02-03
+      2023-04-26
       
     </span>
   </p>
@@ -595,10 +529,10 @@
         <footer class="post-footer">
           <div class="post-tags">
               <a href="https://federicobruzzone.github.io/tags/programming/">programming</a>
-                <a href="https://federicobruzzone.github.io/tags/design-patterns/">design-patterns</a>
+                <a href="https://federicobruzzone.github.io/tags/vim/">vim</a>
                 <a href="https://federicobruzzone.github.io/tags/computer-science/">computer-science</a>
-                <a href="https://federicobruzzone.github.io/tags/object-oriented/">object-oriented</a>
-                <a href="https://federicobruzzone.github.io/tags/clean-code/">clean-code</a>
+                <a href="https://federicobruzzone.github.io/tags/editor/">editor</a>
+                <a href="https://federicobruzzone.github.io/tags/ide/">IDE</a>
                 
             </div>
 
@@ -606,7 +540,7 @@
           
           <nav class="post-nav">
             
-              <a class="prev" href="/post/my-first-post/">
+              <a class="prev" href="/post/math/">
                 
                 <i class="iconfont">
                   <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
@@ -620,8 +554,8 @@
                 <span class="prev-text nav-mobile">Prev</span>
               </a>
             
-              <a class="next" href="/post/design-patterns/builder-pattern-object-creational/readme/">
-                <span class="next-text nav-default">Builder pattern pattern - Object Creational</span>
+              <a class="next" href="/post/design-patterns/factory-method-pattern-class-creational/">
+                <span class="next-text nav-default">Factory Method pattern - Class Creational</span>
                 <span class="prev-text nav-mobile">Next</span>
                 
                 <i class="iconfont">
@@ -671,25 +605,15 @@
     <div class="toc-content custom-scrollbar">
       <nav id="TableOfContents">
   <ul>
-    <li><a href="#intent">Intent</a></li>
-    <li><a href="#also-known-as">Also Known As</a></li>
-    <li><a href="#motivation">Motivation</a></li>
-    <li><a href="#applicability">Applicability</a></li>
-    <li><a href="#structure">Structure</a></li>
-    <li><a href="#participants">Participants</a>
+    <li><a href="#requirements">Requirements</a></li>
+    <li><a href="#configuration">Configuration</a>
       <ul>
-        <li><a href="#product">Product</a></li>
-        <li><a href="#concreteproduct">ConcreteProduct</a></li>
-        <li><a href="#creator">Creator</a></li>
-        <li><a href="#concretecreator">ConcreteCreator</a></li>
+        <li><a href="#coc">coc</a></li>
+        <li><a href="#coc-clangd">coc-clangd</a></li>
+        <li><a href="#ccls">ccls</a></li>
+        <li><a href="#bear">bear</a></li>
       </ul>
     </li>
-    <li><a href="#collaborations">Collaborations</a></li>
-    <li><a href="#consequences">Consequences</a></li>
-    <li><a href="#implementation">Implementation</a></li>
-    <li><a href="#sample-code">Sample Code</a></li>
-    <li><a href="#known-uses">Known Uses</a></li>
-    <li><a href="#related-patterns">Related Patterns</a></li>
   </ul>
 </nav>
     </div>

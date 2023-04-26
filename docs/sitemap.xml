@@ -2,8 +2,99 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://federicobruzzone.github.io/post/my-first-post/</loc>
+    <loc>https://federicobruzzone.github.io/post/math/</loc>
     <lastmod>2023-04-16T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://federicobruzzone.github.io/categories/</loc>
+    <lastmod>2023-04-26T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://federicobruzzone.github.io/tags/computer-science/</loc>
+    <lastmod>2023-04-26T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://federicobruzzone.github.io/tags/editor/</loc>
+    <lastmod>2023-04-26T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://federicobruzzone.github.io/categories/editor/</loc>
+    <lastmod>2023-04-26T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://federicobruzzone.github.io/</loc>
+    <lastmod>2023-04-26T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://federicobruzzone.github.io/tags/ide/</loc>
+    <lastmod>2023-04-26T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://federicobruzzone.github.io/post/vim/make-vim-as-your-cc&#43;&#43;-ide/</loc>
+    <lastmod>2023-04-26T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://federicobruzzone.github.io/post/</loc>
+    <lastmod>2023-04-26T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://federicobruzzone.github.io/tags/programming/</loc>
+    <lastmod>2023-04-26T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://federicobruzzone.github.io/categories/programming/</loc>
+    <lastmod>2023-04-26T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://federicobruzzone.github.io/tags/</loc>
+    <lastmod>2023-04-26T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://federicobruzzone.github.io/tags/vim/</loc>
+    <lastmod>2023-04-26T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://federicobruzzone.github.io/categories/vim/</loc>
+    <lastmod>2023-04-26T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -23,35 +114,7 @@
   </url>
   
   <url>
-    <loc>https://federicobruzzone.github.io/</loc>
-    <lastmod>2023-04-16T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://federicobruzzone.github.io/post/</loc>
-    <lastmod>2023-04-16T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://federicobruzzone.github.io/categories/</loc>
-    <lastmod>2023-02-03T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
     <loc>https://federicobruzzone.github.io/tags/clean-code/</loc>
-    <lastmod>2023-02-03T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://federicobruzzone.github.io/tags/computer-science/</loc>
     <lastmod>2023-02-03T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -72,7 +135,7 @@
   </url>
   
   <url>
-    <loc>https://federicobruzzone.github.io/post/design-patterns/factory-method-pattern-class-creational/readme/</loc>
+    <loc>https://federicobruzzone.github.io/post/design-patterns/factory-method-pattern-class-creational/</loc>
     <lastmod>2023-02-03T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -86,42 +149,21 @@
   </url>
   
   <url>
-    <loc>https://federicobruzzone.github.io/tags/programming/</loc>
-    <lastmod>2023-02-03T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://federicobruzzone.github.io/categories/programming/</loc>
-    <lastmod>2023-02-03T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://federicobruzzone.github.io/tags/</loc>
-    <lastmod>2023-02-03T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://federicobruzzone.github.io/post/design-patterns/builder-pattern-object-creational/readme/</loc>
+    <loc>https://federicobruzzone.github.io/post/design-patterns/builder-pattern-object-creational/</loc>
     <lastmod>2023-01-13T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://federicobruzzone.github.io/post/design-patterns/abstract-factory-pattern-object-creational/readme/</loc>
+    <loc>https://federicobruzzone.github.io/post/design-patterns/abstract-factory-pattern-object-creational/</loc>
     <lastmod>2023-01-02T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://federicobruzzone.github.io/post/design-patterns/design-patterns-introduction/readme/</loc>
+    <loc>https://federicobruzzone.github.io/post/design-patterns/design-patterns-introduction/</loc>
     <lastmod>2022-12-19T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>

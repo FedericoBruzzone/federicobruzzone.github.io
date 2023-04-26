@@ -6,22 +6,58 @@
     <description>Recent content in Tags on Federico Bruzzone&#39;s website</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 03 Feb 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://federicobruzzone.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 26 Apr 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://federicobruzzone.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>computer-science</title>
+      <link>https://federicobruzzone.github.io/tags/computer-science/</link>
+      <pubDate>Wed, 26 Apr 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://federicobruzzone.github.io/tags/computer-science/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>editor</title>
+      <link>https://federicobruzzone.github.io/tags/editor/</link>
+      <pubDate>Wed, 26 Apr 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://federicobruzzone.github.io/tags/editor/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>IDE</title>
+      <link>https://federicobruzzone.github.io/tags/ide/</link>
+      <pubDate>Wed, 26 Apr 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://federicobruzzone.github.io/tags/ide/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>programming</title>
+      <link>https://federicobruzzone.github.io/tags/programming/</link>
+      <pubDate>Wed, 26 Apr 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://federicobruzzone.github.io/tags/programming/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>vim</title>
+      <link>https://federicobruzzone.github.io/tags/vim/</link>
+      <pubDate>Wed, 26 Apr 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://federicobruzzone.github.io/tags/vim/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>clean-code</title>
       <link>https://federicobruzzone.github.io/tags/clean-code/</link>
       <pubDate>Fri, 03 Feb 2023 00:00:00 +0000</pubDate>
       
       <guid>https://federicobruzzone.github.io/tags/clean-code/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>computer-science</title>
-      <link>https://federicobruzzone.github.io/tags/computer-science/</link>
-      <pubDate>Fri, 03 Feb 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://federicobruzzone.github.io/tags/computer-science/</guid>
       <description></description>
     </item>
     
@@ -40,15 +76,6 @@
       <pubDate>Fri, 03 Feb 2023 00:00:00 +0000</pubDate>
       
       <guid>https://federicobruzzone.github.io/tags/object-oriented/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>programming</title>
-      <link>https://federicobruzzone.github.io/tags/programming/</link>
-      <pubDate>Fri, 03 Feb 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://federicobruzzone.github.io/tags/programming/</guid>
       <description></description>
     </item>
     

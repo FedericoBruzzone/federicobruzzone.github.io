@@ -6,17 +6,17 @@
     <description>Recent content on Federico Bruzzone&#39;s website</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 16 Apr 2023 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 26 Apr 2023 00:00:00 +0000</lastBuildDate>
     
         <atom:link href="https://federicobruzzone.github.io/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Math Typesetting</title>
-      <link>https://federicobruzzone.github.io/post/my-first-post/</link>
+      <link>https://federicobruzzone.github.io/post/math/</link>
       <pubDate>Sun, 16 Apr 2023 00:00:00 +0000</pubDate>
       
-      <guid>https://federicobruzzone.github.io/post/my-first-post/</guid>
+      <guid>https://federicobruzzone.github.io/post/math/</guid>
       
         <description>&lt;h2 id=&#34;repeating-fractions&#34;&gt;Repeating fractions&lt;/h2&gt;
 &lt;p&gt;$$
@@ -158,6 +158,146 @@ $$&lt;/p&gt;</description>
     </item>
     
     <item>
+      <title>Make Vim as your C/C&#43;&#43; IDE</title>
+      <link>https://federicobruzzone.github.io/post/vim/make-vim-as-your-cc&#43;&#43;-ide/</link>
+      <pubDate>Wed, 26 Apr 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://federicobruzzone.github.io/post/vim/make-vim-as-your-cc&#43;&#43;-ide/</guid>
+      
+        <description>&lt;!-- raw HTML omitted --&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;p&gt;&lt;strong&gt;This procedure can be similar for VSCode and Fleet editor.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;It happened to me in the past that I had to configure &lt;em&gt;Vim&lt;/em&gt; to manage C projects, and after lots of useless attempts I gave up settings it up.&lt;/p&gt;
+&lt;p&gt;I am currently attending a university course called Advanced in Operating Systems. I am using a STM32 microcontroller and ST provides an Eclipse 2010 based IDE, but as a &lt;em&gt;Vim&lt;/em&gt; programmer writing even 10 lines of code on this IDE made me frustrated. So, I decided to try again, and as you can imagine if you are reading this blog post I succeeded!&lt;/p&gt;
+&lt;h2 id=&#34;requirements&#34;&gt;Requirements&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Make sure use Vim &amp;gt;= 8.1.1719 or Neovim &amp;gt;= 0.4.0 and make&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Install nodejs &amp;gt;= 14.14:&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;code&gt;curl -sL install-node.vercel.app/lts | bash &lt;/code&gt;&lt;/p&gt;
+&lt;h2 id=&#34;configuration&#34;&gt;Configuration&lt;/h2&gt;
+&lt;h3 id=&#34;coc&#34;&gt;coc&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/neoclide/coc.nvim&#34;&gt;coc GitHub&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Firstly, you should have a &lt;a href=&#34;https://github.com/neoclide/coc.nvim&#34;&gt;&lt;code&gt;coc.nvim&lt;/code&gt;&lt;/a&gt; plug-in installed. I am currently using &lt;strong&gt;vim-plug&lt;/strong&gt; as plug-ins manager, but you can use any other.&lt;/p&gt;
+&lt;p&gt;In my case I added to my &lt;code&gt;.vimrc&lt;/code&gt; file&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-Vim&#34; data-lang=&#34;Vim&#34;&gt;Plug &lt;span style=&#34;color:#87ceeb&#34;&gt;&amp;#39;https://github.com/neoclide/coc.nvim&amp;#39;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;and run &lt;code&gt;:PlugInstall&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;After that restart &lt;strong&gt;Vim&lt;/strong&gt;and make sure you have installed two important extension which are &lt;code&gt;coc-json&lt;/code&gt; and &lt;code&gt;coc-tsserver&lt;/code&gt; using &lt;code&gt;:CocList extensions&lt;/code&gt;, if not run &lt;code&gt;:CocInstall coc-json coc-tsserver&lt;/code&gt;&lt;/p&gt;
+&lt;h3 id=&#34;coc-clangd&#34;&gt;coc-clangd&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/clangd/coc-clangd&#34;&gt;coc-clangd GitHub&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;As you can imagine, &lt;a href=&#34;https://github.com/clangd/coc-clangd&#34;&gt;&lt;code&gt;coc-clangd&lt;/code&gt;&lt;/a&gt; is an extension of &lt;code&gt;coc.nvim&lt;/code&gt; like the previous two, and you can install it just running &lt;code&gt;:CocInstall coc-clangd&lt;/code&gt;, after that &lt;code&gt;coc-clangd&lt;/code&gt; will try to find &lt;code&gt;clangd&lt;/code&gt; from your &lt;code&gt;$PATH&lt;/code&gt;, if not found, you can run &lt;code&gt;:CocCommand clangd.install&lt;/code&gt; to install the latest release from GitHub.&lt;/p&gt;
+&lt;p&gt;At this point, you should be able to add to create &lt;code&gt;~/.vim/coc-settings.json&lt;/code&gt; file and add&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 1
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 2
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 3
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 4
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 5
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 6
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 7
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 8
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 9
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;10
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;11
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;12
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;13
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;14
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;15
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;16
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;17
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;18
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;19
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-json&#34; data-lang=&#34;json&#34;&gt;{
+  &amp;#34;languageserver&amp;#34;: {
+    &amp;#34;ccls&amp;#34;: {
+      &amp;#34;command&amp;#34;: &lt;span style=&#34;color:#87ceeb&#34;&gt;&amp;#34;ccls&amp;#34;&lt;/span&gt;,
+      &amp;#34;args&amp;#34;: [&lt;span style=&#34;color:#87ceeb&#34;&gt;&amp;#34;--log-file=/tmp/ccls.log&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#87ceeb&#34;&gt;&amp;#34;-v=1&amp;#34;&lt;/span&gt;],
+      &amp;#34;filetypes&amp;#34;: [&lt;span style=&#34;color:#87ceeb&#34;&gt;&amp;#34;c&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#87ceeb&#34;&gt;&amp;#34;cc&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#87ceeb&#34;&gt;&amp;#34;cpp&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#87ceeb&#34;&gt;&amp;#34;c++&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#87ceeb&#34;&gt;&amp;#34;objc&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#87ceeb&#34;&gt;&amp;#34;objcpp&amp;#34;&lt;/span&gt;],
+      &amp;#34;rootPatterns&amp;#34;: [&lt;span style=&#34;color:#87ceeb&#34;&gt;&amp;#34;.ccls&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#87ceeb&#34;&gt;&amp;#34;compile_commands.json&amp;#34;&lt;/span&gt;],
+      &amp;#34;initializationOptions&amp;#34;: { 
+         &amp;#34;cache&amp;#34;: {
+           &amp;#34;directory&amp;#34;: &lt;span style=&#34;color:#87ceeb&#34;&gt;&amp;#34;/tmp/ccls&amp;#34;&lt;/span&gt;
+         },
+         &amp;#34;client&amp;#34;: {
+          &amp;#34;snippetSupport&amp;#34;: &lt;span style=&#34;color:#f00&#34;&gt;true&lt;/span&gt;
+         }
+       }
+    }
+  },
+  &amp;#34;clangd.path&amp;#34;: &lt;span style=&#34;color:#87ceeb&#34;&gt;&amp;#34;~/.config/coc/extensions/coc-clangd-data/install/15.0.6/clangd_15.0.6/bin/clangd&amp;#34;&lt;/span&gt;,
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Obviusly, you should change the value of &amp;ldquo;clangd.path&amp;rdquo; field with your version, it may be something like &lt;code&gt;&amp;quot;clangd.path&amp;quot;: &amp;quot;~/.config/coc/extensions/coc-clangd-data/install/&amp;lt;version&amp;gt;/clangd_&amp;lt;version&amp;gt;/bin/clangd&amp;quot;&lt;/code&gt; (note &amp;lt;version&amp;gt; on the string).&lt;/p&gt;
+&lt;p&gt;I do not want to bore you eplaining whole fileds of the json file, the only thing I would like to say you is that that code is used to specify the type of language server and its behaviour.&lt;/p&gt;
+&lt;h3 id=&#34;ccls&#34;&gt;ccls&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/MaskRay/ccls&#34;&gt;ccls GitHub&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Basically, &lt;code&gt;ccls&lt;/code&gt;, which originates from &lt;code&gt;cquery&lt;/code&gt;, is a C/C++/Objective-C language server.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;code completition (with both signature help and snippets)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;definition/reference, and other cross references&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;diagnostics and code actions&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;semantic highlighting and preprocessor skipped regions&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;diagnostics and code actions&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;semantic highlighting and preprocessor skipped regions&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;and the other many usefull things.&lt;/p&gt;
+&lt;p&gt;You must install it because as you can see the language server specified in &lt;code&gt;coc-settings.json&lt;/code&gt; is &lt;code&gt;ccls&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;You can do it using your package manager, in my case&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-Bash&#34; data-lang=&#34;Bash&#34;&gt;sudo apt-get install ccls
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;Setup&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Typically, &lt;code&gt;ccls&lt;/code&gt; indexes an entire project. In order for this to work properly, &lt;code&gt;ccls&lt;/code&gt; needs to be able to obtain the source file list and their compilation command lines.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;How &lt;code&gt;ccls&lt;/code&gt; obtains sources and compilation commands&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;There are two main ways this happens:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Provide &lt;code&gt;compile_commands.json&lt;/code&gt; at the project root&lt;/li&gt;
+&lt;li&gt;Provide a .ccls file.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;If neither exists, then when &lt;code&gt;ccls&lt;/code&gt; starts it will not index anything: instead it will wait for LSP clients to open files and index only those files.&lt;/p&gt;
+&lt;p&gt;I prefer use the first one, and to do that if you are using &lt;code&gt;Makefile&lt;/code&gt; as build system for your C/C++ project you can generate &lt;code&gt;compile_commands.json&lt;/code&gt; automatically with &lt;a href=&#34;https://github.com/rizsotto/Bear&#34;&gt;bear&lt;/a&gt; command, I will explain in detail how in the next paragraph.&lt;/p&gt;
+&lt;p&gt;If you are not using &lt;code&gt;Makefile&lt;/code&gt; as build system, there are lots of ways to generate this file, for example with &lt;code&gt;CMake&lt;/code&gt;, &lt;code&gt;compiledb&lt;/code&gt;, &lt;code&gt;scan-build&lt;/code&gt; and so on. I suggest you to take a look &lt;a href=&#34;https://github.com/MaskRay/ccls/wiki/Project-Setup&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id=&#34;bear&#34;&gt;bear&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/rizsotto/Bear&#34;&gt;bear GitHub&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Bear is a tool that generates a compilation database for clang tooling. The compilation database is our &lt;code&gt;compile_commands.json&lt;/code&gt;, a simple json file.&lt;/p&gt;
+&lt;p&gt;The JSON compilation database is used in the clang project to provide information on how a single compilation unit is processed. With this, it is easy to re-run the compilation with alternate programs.&lt;/p&gt;
+</description>
+      
+    </item>
+    
+    <item>
       <title>About</title>
       <link>https://federicobruzzone.github.io/about/</link>
       <pubDate>Sun, 16 Apr 2023 00:00:00 +0000</pubDate>
@@ -231,7 +371,7 @@ $$&lt;/p&gt;</description>
 &lt;p&gt;&lt;a href=&#34;https://moretothat.com/&#34;&gt;More To That&lt;/a&gt; by &lt;em&gt;Lawrence Yeo&lt;/em&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;&lt;a href=&#34;https://retireinprogress.com/&#34;&gt;Retire in progres&lt;/a&gt; by &lt;em&gt;Giorgio Ugazio&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://retireinprogress.com/&#34;&gt;Retire in progress&lt;/a&gt; by &lt;em&gt;Giorgio Ugazio&lt;/em&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;youtube-channels-and-podcasts&#34;&gt;Youtube channels and Podcasts&lt;/h2&gt;
@@ -288,10 +428,10 @@ $$&lt;/p&gt;</description>
     
     <item>
       <title>Factory Method pattern - Class Creational</title>
-      <link>https://federicobruzzone.github.io/post/design-patterns/factory-method-pattern-class-creational/readme/</link>
+      <link>https://federicobruzzone.github.io/post/design-patterns/factory-method-pattern-class-creational/</link>
       <pubDate>Fri, 03 Feb 2023 00:00:00 +0000</pubDate>
       
-      <guid>https://federicobruzzone.github.io/post/design-patterns/factory-method-pattern-class-creational/readme/</guid>
+      <guid>https://federicobruzzone.github.io/post/design-patterns/factory-method-pattern-class-creational/</guid>
       
         <description>&lt;!-- raw HTML omitted --&gt;
 &lt;!-- raw HTML omitted --&gt;
@@ -495,10 +635,10 @@ $$&lt;/p&gt;</description>
     
     <item>
       <title>Builder pattern pattern - Object Creational</title>
-      <link>https://federicobruzzone.github.io/post/design-patterns/builder-pattern-object-creational/readme/</link>
+      <link>https://federicobruzzone.github.io/post/design-patterns/builder-pattern-object-creational/</link>
       <pubDate>Fri, 13 Jan 2023 00:00:00 +0000</pubDate>
       
-      <guid>https://federicobruzzone.github.io/post/design-patterns/builder-pattern-object-creational/readme/</guid>
+      <guid>https://federicobruzzone.github.io/post/design-patterns/builder-pattern-object-creational/</guid>
       
         <description>&lt;!-- raw HTML omitted --&gt;
 &lt;!-- raw HTML omitted --&gt;
@@ -828,10 +968,10 @@ $$&lt;/p&gt;</description>
     
     <item>
       <title>Abstract Factory pattern - Object Creational</title>
-      <link>https://federicobruzzone.github.io/post/design-patterns/abstract-factory-pattern-object-creational/readme/</link>
+      <link>https://federicobruzzone.github.io/post/design-patterns/abstract-factory-pattern-object-creational/</link>
       <pubDate>Mon, 02 Jan 2023 00:00:00 +0000</pubDate>
       
-      <guid>https://federicobruzzone.github.io/post/design-patterns/abstract-factory-pattern-object-creational/readme/</guid>
+      <guid>https://federicobruzzone.github.io/post/design-patterns/abstract-factory-pattern-object-creational/</guid>
       
         <description>&lt;!-- raw HTML omitted --&gt;
 &lt;!-- raw HTML omitted --&gt;
@@ -1174,10 +1314,10 @@ $$&lt;/p&gt;</description>
     
     <item>
       <title>Design Patterns - Introduction</title>
-      <link>https://federicobruzzone.github.io/post/design-patterns/design-patterns-introduction/readme/</link>
+      <link>https://federicobruzzone.github.io/post/design-patterns/design-patterns-introduction/</link>
       <pubDate>Mon, 19 Dec 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://federicobruzzone.github.io/post/design-patterns/design-patterns-introduction/readme/</guid>
+      <guid>https://federicobruzzone.github.io/post/design-patterns/design-patterns-introduction/</guid>
       
         <description>&lt;!-- raw HTML omitted --&gt;
 &lt;!-- raw HTML omitted --&gt;
