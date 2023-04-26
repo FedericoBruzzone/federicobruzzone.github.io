@@ -2,8 +2,8 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://federicobruzzone.github.io/post/math/</loc>
-    <lastmod>2023-04-16T00:00:00+00:00</lastmod>
+    <loc>https://federicobruzzone.github.io/post/vim/make-vim-as-your-cc&#43;&#43;-ide/</loc>
+    <lastmod>2023-04-26T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -45,13 +45,6 @@
   
   <url>
     <loc>https://federicobruzzone.github.io/tags/ide/</loc>
-    <lastmod>2023-04-26T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://federicobruzzone.github.io/post/vim/make-vim-as-your-cc&#43;&#43;-ide/</loc>
     <lastmod>2023-04-26T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>

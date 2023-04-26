@@ -3,6 +3,7 @@
 author: Federico Bruzzone
 title: Math Typesetting
 date: 2023-04-16
+draft: true
 ;math: true
 mathjax: true
 summary: " "

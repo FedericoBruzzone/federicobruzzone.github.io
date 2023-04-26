@@ -29,7 +29,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 
 <meta name="author" content="Federico Bruzzone" />
-  <meta name="description" content="In this blog post you will find a &amp;lsquo;simple&amp;rsquo; guide to configure Vim as your C/C&#43;&#43; IDE. This procedure can be similar for VSCode and Fleet editor." />
+  <meta name="description" content="In this blog post you will find a simple guide to configure Vim as your C/C&#43;&#43; IDE. This procedure can be very similar for VSCode and Fleet editors." />
 
 
 
@@ -67,19 +67,19 @@
 
 
 <meta property="og:title" content="Make Vim as your C/C&#43;&#43; IDE" />
-<meta property="og:description" content="In this blog post you will find a &lsquo;simple&rsquo; guide to configure Vim as your C/C&#43;&#43; IDE. This procedure can be similar for VSCode and Fleet editor." />
+<meta property="og:description" content="In this blog post you will find a simple guide to configure Vim as your C/C&#43;&#43; IDE. This procedure can be very similar for VSCode and Fleet editors." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://federicobruzzone.github.io/post/vim/make-vim-as-your-cc&#43;&#43;-ide/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2023-04-26T00:00:00+00:00" />
 <meta property="article:modified_time" content="2023-04-26T00:00:00+00:00" />
 
 <meta itemprop="name" content="Make Vim as your C/C&#43;&#43; IDE">
-<meta itemprop="description" content="In this blog post you will find a &lsquo;simple&rsquo; guide to configure Vim as your C/C&#43;&#43; IDE. This procedure can be similar for VSCode and Fleet editor."><meta itemprop="datePublished" content="2023-04-26T00:00:00+00:00" />
+<meta itemprop="description" content="In this blog post you will find a simple guide to configure Vim as your C/C&#43;&#43; IDE. This procedure can be very similar for VSCode and Fleet editors."><meta itemprop="datePublished" content="2023-04-26T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2023-04-26T00:00:00+00:00" />
-<meta itemprop="wordCount" content="678">
+<meta itemprop="wordCount" content="1196">
 <meta itemprop="keywords" content="programming,vim,computer-science,editor,IDE," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Make Vim as your C/C&#43;&#43; IDE"/>
-<meta name="twitter:description" content="In this blog post you will find a &lsquo;simple&rsquo; guide to configure Vim as your C/C&#43;&#43; IDE. This procedure can be similar for VSCode and Fleet editor."/>
+<meta name="twitter:description" content="In this blog post you will find a simple guide to configure Vim as your C/C&#43;&#43; IDE. This procedure can be very similar for VSCode and Fleet editors."/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -369,9 +369,11 @@
         <div class="post-content">
           <!-- raw HTML omitted -->
 <!-- raw HTML omitted -->
-<p><strong>This procedure can be similar for VSCode and Fleet editor.</strong></p>
-<p>It happened to me in the past that I had to configure <em>Vim</em> to manage C projects, and after lots of useless attempts I gave up settings it up.</p>
-<p>I am currently attending a university course called Advanced in Operating Systems. I am using a STM32 microcontroller and ST provides an Eclipse 2010 based IDE, but as a <em>Vim</em> programmer writing even 10 lines of code on this IDE made me frustrated. So, I decided to try again, and as you can imagine if you are reading this blog post I succeeded!</p>
+<blockquote>
+<p>This procedure can be very similar for <code>VSCode</code> and <code>Fleet</code> editors. In this case, you should only create the <code>compile_commands.json</code> file, and this procedure is illustrated in the <a href="#bear"><code>bear</code></a> subsection, but I suggest you read the whole post.</p>
+</blockquote>
+<p>It happened to me in the past that I had to configure <em>Vim</em> to manage C projects with some external library, and after lots of useless attempts, I gave up setting it up.</p>
+<p>I am currently attending a university course called Advanced in Operating Systems. I am using a STM32 microcontroller and ST provides an &ldquo;Eclipse 2010 based&rdquo; IDE with lots of proprietary libraries, but as a <em>Vim</em> programmer writing even 10 lines of code on this IDE made me frustrated. So, I decided to try again, and as you can imagine if you are reading this blog post, I succeeded!</p>
 <h2 id="requirements">Requirements</h2>
 <ol>
 <li>
@@ -383,10 +385,10 @@
 </ol>
 <p><code>curl -sL install-node.vercel.app/lts | bash </code></p>
 <h2 id="configuration">Configuration</h2>
-<h3 id="coc">coc</h3>
+<h3 id="coc">coc </h3>
 <p><a href="https://github.com/neoclide/coc.nvim">coc GitHub</a></p>
-<p>Firstly, you should have a <a href="https://github.com/neoclide/coc.nvim"><code>coc.nvim</code></a> plug-in installed. I am currently using <strong>vim-plug</strong> as plug-ins manager, but you can use any other.</p>
-<p>In my case I added to my <code>.vimrc</code> file</p>
+<p>Firstly, you should have a <a href="https://github.com/neoclide/coc.nvim"><code>coc.nvim</code></a> plug-in installed. I am currently using <strong>vim-plug</strong> as plug-in manager, but you can use any other.</p>
+<p>In my case, I added it to my <code>.vimrc</code> file </p>
 <div class="highlight"><div style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">1
@@ -396,11 +398,11 @@
 </code></pre></td></tr></table>
 </div>
 </div><p>and run <code>:PlugInstall</code></p>
-<p>After that restart <strong>Vim</strong>and make sure you have installed two important extension which are <code>coc-json</code> and <code>coc-tsserver</code> using <code>:CocList extensions</code>, if not run <code>:CocInstall coc-json coc-tsserver</code></p>
+<p>After that restart <strong>Vim</strong>and make sure you have installed two important extensions, which are <code>coc-json</code> and <code>coc-tsserver</code> using <code>:CocList extensions</code>, if not run <code>:CocInstall coc-json coc-tsserver</code></p>
 <h3 id="coc-clangd">coc-clangd</h3>
 <p><a href="https://github.com/clangd/coc-clangd">coc-clangd GitHub</a></p>
-<p>As you can imagine, <a href="https://github.com/clangd/coc-clangd"><code>coc-clangd</code></a> is an extension of <code>coc.nvim</code> like the previous two, and you can install it just running <code>:CocInstall coc-clangd</code>, after that <code>coc-clangd</code> will try to find <code>clangd</code> from your <code>$PATH</code>, if not found, you can run <code>:CocCommand clangd.install</code> to install the latest release from GitHub.</p>
-<p>At this point, you should be able to add to create <code>~/.vim/coc-settings.json</code> file and add</p>
+<p>As you can imagine, <a href="https://github.com/clangd/coc-clangd"><code>coc-clangd</code></a> is an extension of <code>coc.nvim</code> like the previous two, and you can install it just by running <code>:CocInstall coc-clangd</code>, after that <code>coc-clangd</code> will try to find <code>clangd</code> from your <code>$PATH</code>, if not found, you can run <code>:CocCommand clangd.install</code> to install the latest release from GitHub.</p>
+<p>At this point, you should be able to create <code>~/.vim/coc-settings.json</code> file and add the code below to it</p>
 <div class="highlight"><div style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 1
@@ -445,11 +447,12 @@
 }
 </code></pre></td></tr></table>
 </div>
-</div><p>Obviusly, you should change the value of &ldquo;clangd.path&rdquo; field with your version, it may be something like <code>&quot;clangd.path&quot;: &quot;~/.config/coc/extensions/coc-clangd-data/install/&lt;version&gt;/clangd_&lt;version&gt;/bin/clangd&quot;</code> (note &lt;version&gt; on the string).</p>
-<p>I do not want to bore you eplaining whole fileds of the json file, the only thing I would like to say you is that that code is used to specify the type of language server and its behaviour.</p>
+</div><p>Obviusly, you should change the value of the &ldquo;clangd.path&rdquo; field with your version, it may be something like <code>&quot;clangd.path&quot;: &quot;~/.config/coc/extensions/coc-clangd-data/install/&lt;version&gt;/clangd_&lt;version&gt;/bin/clangd&quot;</code> (note &lt;version&gt; on the string).</p>
+<p>I do not want to bore you by explaining whole fields of the json file, the only thing I would like to say to you is that this code is used to specify the type of language server (<code>ccls</code> in this case) and its behavior.</p>
 <h3 id="ccls">ccls</h3>
 <p><a href="https://github.com/MaskRay/ccls">ccls GitHub</a></p>
-<p>Basically, <code>ccls</code>, which originates from <code>cquery</code>, is a C/C++/Objective-C language server.</p>
+<p>Basically, <a href="https://github.com/MaskRay/ccls"><code>ccls</code></a>, which originates from <code>cquery</code>, is a C/C++/Objective-C language server.</p>
+<p>It provides:</p>
 <ul>
 <li>
 <p>code completition (with both signature help and snippets)</p>
@@ -471,7 +474,7 @@
 </li>
 </ul>
 <p>and the other many usefull things.</p>
-<p>You must install it because as you can see the language server specified in <code>coc-settings.json</code> is <code>ccls</code>.</p>
+<p>You must install it because, as you can see in the <code>coc-settings.json</code>, the language server specified is <code>ccls</code>.</p>
 <p>You can do it using your package manager, in my case</p>
 <div class="highlight"><div style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
@@ -486,16 +489,216 @@
 <p><strong>How <code>ccls</code> obtains sources and compilation commands</strong></p>
 <p>There are two main ways this happens:</p>
 <ol>
-<li>Provide <code>compile_commands.json</code> at the project root</li>
-<li>Provide a .ccls file.</li>
+<li>
+<p>Provide <code>compile_commands.json</code> at the project root</p>
+</li>
+<li>
+<p>Provide a .ccls file.</p>
+</li>
 </ol>
 <p>If neither exists, then when <code>ccls</code> starts it will not index anything: instead it will wait for LSP clients to open files and index only those files.</p>
 <p>I prefer use the first one, and to do that if you are using <code>Makefile</code> as build system for your C/C++ project you can generate <code>compile_commands.json</code> automatically with <a href="https://github.com/rizsotto/Bear">bear</a> command, I will explain in detail how in the next paragraph.</p>
 <p>If you are not using <code>Makefile</code> as build system, there are lots of ways to generate this file, for example with <code>CMake</code>, <code>compiledb</code>, <code>scan-build</code> and so on. I suggest you to take a look <a href="https://github.com/MaskRay/ccls/wiki/Project-Setup">here</a>.</p>
 <h3 id="bear">bear</h3>
 <p><a href="https://github.com/rizsotto/Bear">bear GitHub</a></p>
-<p>Bear is a tool that generates a compilation database for clang tooling. The compilation database is our <code>compile_commands.json</code>, a simple json file.</p>
+<p><a href="https://github.com/rizsotto/Bear">Bear</a> is a tool that generates a compilation database for clang tooling. The compilation database is our <code>compile_commands.json</code>, a simple json file.</p>
 <p>The JSON compilation database is used in the clang project to provide information on how a single compilation unit is processed. With this, it is easy to re-run the compilation with alternate programs.</p>
+<p>Some build system natively supports the generation of JSON compilation database. For projects which does not use such build tool, Bear generates the JSON file during the build process.</p>
+<p>You can install it using your package manager, in my case</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Bash" data-lang="Bash">sudo apt-get install bear
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="use-case">Use case</h2>
+<p>Consider this simple C project, but it can be extended to much larger projects.</p>
+<p>I assure you that it works exactly as in the case I am going to illustrate now, the only important thing is to write your makefile correctly, but this is also obvious because otherwise your project would not compile. :D</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">.
+├── inc/
+│   └── main.h
+├── src/
+│   └── main.c
+└── Makefile
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C" data-lang="C"><span style="color:#0f0">// main.h
+</span><span style="color:#0f0"></span>
+<span style="color:#e5e5e5">#define TEST &#34;test&#34;
+</span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">22
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C" data-lang="C"><span style="color:#0f0">// main.c
+</span><span style="color:#0f0"></span>
+<span style="color:#e5e5e5">#include</span> <span style="color:#e5e5e5">&#34;main.h&#34;</span><span style="color:#e5e5e5">
+</span><span style="color:#e5e5e5">#include</span> <span style="color:#e5e5e5">&lt;stdio.h&gt;</span><span style="color:#e5e5e5">
+</span><span style="color:#e5e5e5"></span>
+<span style="color:#ee82ee">int</span> <span style="color:#ff0">main</span>() {
+    <span style="color:#ee82ee">int</span> *ptrarray[<span style="color:#f60">4</span>];
+    <span style="color:#ee82ee">int</span> w = <span style="color:#f60">100</span>, x = <span style="color:#f60">200</span>, y = <span style="color:#f60">300</span>, z = <span style="color:#f60">400</span>;
+
+    ptrarray[<span style="color:#f60">0</span>] = &amp;w;
+    ptrarray[<span style="color:#f60">1</span>] = &amp;x;
+    ptrarray[<span style="color:#f60">2</span>] = &amp;y;
+    ptrarray[<span style="color:#f60">3</span>] = &amp;z;
+
+    <span style="color:#f00">for</span> (<span style="color:#ee82ee">int</span> i = <span style="color:#f60">0</span>; i&lt; <span style="color:#f60">4</span>; i++) {
+         printf(<span style="color:#87ceeb">&#34;The value %d has the adddress %d</span><span style="color:#87ceeb">\n</span><span style="color:#87ceeb">&#34;</span>, *ptrarray[i], ptrarray[i]);
+    }
+
+    printf(<span style="color:#87ceeb">&#34;I am printing a variable of main.h file %d&#34;</span>, &amp;TEST);
+    
+    <span style="color:#f00">return</span> <span style="color:#f60">0</span>;
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>It is a silly file that prints the values and memory area of the elements of an array.</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">11
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Make" data-lang="Make"><span style="color:#eedd82">CC</span> = gcc
+<span style="color:#eedd82">CFLAGS</span> = -Wall
+
+<span style="color:#eedd82">INC_DIR</span> = inc
+<span style="color:#eedd82">SRC_DIR</span> = src
+
+<span style="color:#eedd82">SRC_FILES</span> = <span style="color:#f00">$(</span>wildcard <span style="color:#f00">$(</span>SRC_DIR<span style="color:#f00">)</span>/*.c<span style="color:#f00">)</span>
+<span style="color:#eedd82">INC_FILES</span> = <span style="color:#f00">$(</span>wildcard <span style="color:#f00">$(</span>INC_DIR<span style="color:#f00">)</span>/*.h<span style="color:#f00">)</span>
+
+<span style="color:#ff0">main</span>: <span style="color:#f00">$(</span><span style="color:#eedd82">SRC_FILES</span><span style="color:#f00">)</span> <span style="color:#f00">$(</span><span style="color:#eedd82">INC_FILES</span><span style="color:#f00">)</span>
+	<span style="color:#f00">$(</span>CC<span style="color:#f00">)</span> <span style="color:#f00">$(</span>CFLAGS<span style="color:#f00">)</span> <span style="color:#f00">$(</span>SRC_FILES<span style="color:#f00">)</span> -o main -I<span style="color:#f00">$(</span>INC_DIR<span style="color:#f00">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>But, the main problem is that <em>Vim</em>, specially <code>ccls</code> and <code>coc</code> tells me that I have an error in line 1 of the <code>main.c</code>, and as you can imagine, the error is <code>main.h file not found</code>, and this problem is difficult to manage manually, also having external libraries .  </p>
+<p>This problem is also blocking all the LSP features, for example go-to-definition, go-to-implementation etc&hellip;</p>
+<p>To solve this problem, we just have to run the </p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">bear -- make
+</code></pre></td></tr></table>
+</div>
+</div><p>command, and it will generate the <code>compile_commands.json</code> and there will be no more errors.</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">.
+├── inc/
+│   └── main.h
+├── src/
+│   └── main.c
+├── compile_commands.json
+├── main*
+└── Makefile
+</code></pre></td></tr></table>
+</div>
+</div><p>and <code>compile_commands.json</code> will something like this</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">16
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">[
+  {
+    &#34;arguments&#34;: [
+      <span style="color:#87ceeb">&#34;/usr/bin/gcc&#34;</span>,
+      <span style="color:#87ceeb">&#34;-c&#34;</span>,
+      <span style="color:#87ceeb">&#34;-Wall&#34;</span>,
+      <span style="color:#87ceeb">&#34;-Iinc&#34;</span>,
+      <span style="color:#87ceeb">&#34;-o&#34;</span>,
+      <span style="color:#87ceeb">&#34;main&#34;</span>,
+      <span style="color:#87ceeb">&#34;src/main.c&#34;</span>
+    ],
+    &#34;directory&#34;: <span style="color:#87ceeb">&#34;/home/c_project&#34;</span>,
+    &#34;file&#34;: <span style="color:#87ceeb">&#34;/home/c_project/src/main.c&#34;</span>,
+    &#34;output&#34;: <span style="color:#87ceeb">&#34;/home/c_project/main&#34;</span>
+  }
+]
+</code></pre></td></tr></table>
+</div>
+</div><p>For bigger projects, so for example the one I am currently working on for the Advanced in OS course that uses a lot of external libraries, this file can reach even 600 lines.</p>
 
         </div>
 
@@ -540,19 +743,6 @@
           
           <nav class="post-nav">
             
-              <a class="prev" href="/post/math/">
-                
-                <i class="iconfont">
-                  <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
-  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-  width="18" height="18">
-  <path d="M691.908486 949.511495l75.369571-89.491197c10.963703-12.998035 10.285251-32.864502-1.499144-44.378743L479.499795 515.267417 757.434875 204.940602c11.338233-12.190647 11.035334-32.285311-0.638543-44.850487l-80.46666-86.564541c-11.680017-12.583596-30.356378-12.893658-41.662889-0.716314L257.233596 494.235404c-11.332093 12.183484-11.041474 32.266891 0.657986 44.844348l80.46666 86.564541c1.772366 1.910513 3.706415 3.533476 5.750981 4.877077l306.620399 321.703933C662.505829 963.726242 680.945807 962.528973 691.908486 949.511495z"></path>
-</svg>
-
-                </i>
-                <span class="prev-text nav-default">Math Typesetting</span>
-                <span class="prev-text nav-mobile">Prev</span>
-              </a>
             
               <a class="next" href="/post/design-patterns/factory-method-pattern-class-creational/">
                 <span class="next-text nav-default">Factory Method pattern - Class Creational</span>
@@ -608,12 +798,13 @@
     <li><a href="#requirements">Requirements</a></li>
     <li><a href="#configuration">Configuration</a>
       <ul>
-        <li><a href="#coc">coc</a></li>
+        <li><a href="#coc">coc </a></li>
         <li><a href="#coc-clangd">coc-clangd</a></li>
         <li><a href="#ccls">ccls</a></li>
         <li><a href="#bear">bear</a></li>
       </ul>
     </li>
+    <li><a href="#use-case">Use case</a></li>
   </ul>
 </nav>
     </div>
