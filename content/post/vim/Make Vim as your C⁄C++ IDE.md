@@ -214,15 +214,16 @@ main: $(SRC_FILES) $(INC_FILES)
 	$(CC) $(CFLAGS) $(SRC_FILES) -o main -I$(INC_DIR)
 ```
 
-But, the main problem is that *Vim*, specially `ccls` and `coc` tells me that I have an error in line 1 of the `main.c`, and as you can imagine, the error is `main.h file not found`, and this problem is difficult to manage manually, also having external libraries .  
+But, the main problem is that *Vim*, specially `ccls` and `coc` tells me that I have an error in line 1 of the `main.c`, and as you can imagine, the error is `main.h file not found`, and this problem is difficult to manage manually, and it becomes even more difficult to manage if the project uses external libraries.  
 
 This problem is also blocking all the LSP features, for example go-to-definition, go-to-implementation etc...
 
-To solve this problem, we just have to run the  
+To solve it, we just have to run the  
 
 ```bash 
 bear -- make
 ``` 
+
 command, and it will generate the `compile_commands.json` and there will be no more errors.
 
 ```bash
@@ -236,7 +237,7 @@ command, and it will generate the `compile_commands.json` and there will be no m
 └── Makefile
 ```
 
-and `compile_commands.json` will something like this
+and `compile_commands.json` will be something like this
 
 ```json
 [
