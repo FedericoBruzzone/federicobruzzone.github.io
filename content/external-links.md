@@ -20,8 +20,6 @@ mathjax: true
 
 - [Paul Graham](http://www.paulgraham.com/) by *Paul Graham*
 
----
-
 - [stuffwithstuff](https://stuffwithstuff.com/) by *Bob Nystrom*
 
 - [Art of Assembly Language](https://www.plantation-productions.com/Webster/www.artofasm.com/Linux/HTML/AoATOC.html)
@@ -37,8 +35,6 @@ mathjax: true
 ## Youtube channels and Podcasts
 
 - [Lex Fridman](https://www.youtube.com/@lexfridman) by *Lex Fridman*
-
----
 
 - [Tsoding Daily](https://www.youtube.com/@TsodingDaily)
 
@@ -57,6 +53,12 @@ mathjax: true
 - [Clean Code](https://www.amazon.it/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882) by *Robert C. Martin*
 
 - [Mining of Massive Datasets](https://www.amazon.it/Mining-Massive-Datasets-Jure-Leskovec/dp/1108476341/ref=sr_1_1?__mk_it_IT=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=FGU0LVZC3VTO&keywords=massive+datasets&qid=1681857533&s=books&sprefix=massive+datasets%2Cstripbooks%2C81&sr=1-1) by *Jure Leskovec*, *Anand Rajaraman*, *Jeffrey David Ullman* 
+
+- [Java Reflection in Action](https://www.amazon.it/Java-Reflection-Action-Ira-Forman/dp/1932394184/ref=sr_1_1?__mk_it_IT=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=1R3J46CTI8PC2&keywords=java+reflection+in+action&qid=1683041661&sprefix=java+reflection+in+action%2Caps%2C299&sr=8-1) by *Ira R. Forman*, *Nate Forman*
+
+- [Aspectj in Action: Practical Aspect-Oriented Programming](https://www.amazon.it/Aspectj-Action-Practical-Aspect-Oriented-Programming/dp/1930110936/ref=sr_1_1?__mk_it_IT=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=3RDDUA2VG0PVL&keywords=java+aspecti+in+action&qid=1683041777&sprefix=java+aspectj+in+action%2Caps%2C97&sr=8-1) by *Ramnivas Laddad*
+
+- [CPython Internals: Your Guide to the Python 3 Interpreter](https://www.amazon.it/CPython-Internals-Guide-Python-Interpreter/dp/1775093344/ref=sr_1_3?__mk_it_IT=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=3A0ATYIFTF4G8&keywords=python+internals&qid=1683041838&sprefix=python+internals%2Caps%2C113&sr=8-3) by *Anthony Shaw*
 
 ### Mathematics
 
