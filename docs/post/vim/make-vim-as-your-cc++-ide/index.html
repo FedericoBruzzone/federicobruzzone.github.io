@@ -76,7 +76,7 @@
 <meta itemprop="name" content="Make Vim as your C/C&#43;&#43; IDE">
 <meta itemprop="description" content="In this blog post you will find a simple guide to configure Vim as your C/C&#43;&#43; IDE. This procedure can be very similar for VSCode and Fleet editors."><meta itemprop="datePublished" content="2023-04-26T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2023-04-26T00:00:00+00:00" />
-<meta itemprop="wordCount" content="1196">
+<meta itemprop="wordCount" content="1205">
 <meta itemprop="keywords" content="programming,vim,computer-science,editor,IDE," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Make Vim as your C/C&#43;&#43; IDE"/>
 <meta name="twitter:description" content="In this blog post you will find a simple guide to configure Vim as your C/C&#43;&#43; IDE. This procedure can be very similar for VSCode and Fleet editors."/>
@@ -625,9 +625,9 @@
 	<span style="color:#f00">$(</span>CC<span style="color:#f00">)</span> <span style="color:#f00">$(</span>CFLAGS<span style="color:#f00">)</span> <span style="color:#f00">$(</span>SRC_FILES<span style="color:#f00">)</span> -o main -I<span style="color:#f00">$(</span>INC_DIR<span style="color:#f00">)</span>
 </code></pre></td></tr></table>
 </div>
-</div><p>But, the main problem is that <em>Vim</em>, specially <code>ccls</code> and <code>coc</code> tells me that I have an error in line 1 of the <code>main.c</code>, and as you can imagine, the error is <code>main.h file not found</code>, and this problem is difficult to manage manually, also having external libraries .  </p>
+</div><p>But, the main problem is that <em>Vim</em>, specially <code>ccls</code> and <code>coc</code> tells me that I have an error in line 1 of the <code>main.c</code>, and as you can imagine, the error is <code>main.h file not found</code>, and this problem is difficult to manage manually, and it becomes even more difficult to manage if the project uses external libraries.  </p>
 <p>This problem is also blocking all the LSP features, for example go-to-definition, go-to-implementation etc&hellip;</p>
-<p>To solve this problem, we just have to run the </p>
+<p>To solve it, we just have to run the </p>
 <div class="highlight"><div style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">1
@@ -659,7 +659,7 @@
 └── Makefile
 </code></pre></td></tr></table>
 </div>
-</div><p>and <code>compile_commands.json</code> will something like this</p>
+</div><p>and <code>compile_commands.json</code> will be something like this</p>
 <div class="highlight"><div style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 1
