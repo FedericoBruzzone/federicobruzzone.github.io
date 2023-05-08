@@ -6,7 +6,7 @@
     <description>Recent content on Federico Bruzzone&#39;s website</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 26 Apr 2023 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 08 May 2023 00:00:00 +0000</lastBuildDate>
     
         <atom:link href="https://federicobruzzone.github.io/index.xml" rel="self" type="application/rss+xml" />
     
@@ -350,6 +350,247 @@
 &lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;For bigger projects, so for example the one I am currently working on for the Advanced in OS course that uses a lot of external libraries, this file can reach even 600 lines.&lt;/p&gt;
+</description>
+      
+    </item>
+    
+    <item>
+      <title>Prototype - Class Creational</title>
+      <link>https://federicobruzzone.github.io/post/design-patterns/prototype-object-creational/</link>
+      <pubDate>Mon, 08 May 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://federicobruzzone.github.io/post/design-patterns/prototype-object-creational/</guid>
+      
+        <description>&lt;!-- raw HTML omitted --&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;p&gt;&lt;img src=&#34;https://federicobruzzone.github.io/design-pattern/Prototype%20-%20Object%20Creational/img/cover.png&#34; alt=&#34;Cover&#34;&gt;&lt;/p&gt;
+&lt;p&gt;By &lt;strong&gt;Dmitry Zhart&lt;/strong&gt; (&lt;a href=&#34;https://refactoring.guru/&#34;&gt;refactoring.guru&lt;/a&gt;)&lt;/p&gt;
+&lt;h2 id=&#34;intent&#34;&gt;Intent&lt;/h2&gt;
+&lt;p&gt;Specify the kinds of objects to create using a prototypical instance, and create new objects by copying this prototype.&lt;/p&gt;
+&lt;h2 id=&#34;also-known-as&#34;&gt;Also Known As&lt;/h2&gt;
+&lt;p&gt;&amp;hellip;&lt;/p&gt;
+&lt;h2 id=&#34;motivation&#34;&gt;Motivation&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;https://federicobruzzone.github.io/design-pattern/Prototype%20-%20Object%20Creational/img/1.png&#34; alt=&#34;1&#34;&gt;&lt;/p&gt;
+&lt;p&gt;You could build an editor for music scores by customizing a general framework for graphical editors and adding new objects that represent notes, rests, and staves. The editor framework may have a palette of tools for adding these music objects to the score.&lt;/p&gt;
+&lt;p&gt;Let&amp;rsquo;s assume the framework provides an abstract Graphic class for graphical components, like notes and staves. Moreover, it&amp;rsquo;ll provide an abstract Tool class for defining tools like those in the palette. The framework also predefines a Graphic-Tool subclass for tools that create instances of graphical objects and add them to the document.&lt;/p&gt;
+&lt;p&gt;But GraphicTool presents a problem to the framework designer. The classes for notes and staves are specific to our application, but the GraphicTool class belongs to the framework. GraphicTool doesn&amp;rsquo;t know how to create instances of our music classes to add to the score.&lt;/p&gt;
+&lt;p&gt;The solution lies in making GraphicTool create a new Graphic by copying or &amp;ldquo;cloning&amp;rdquo; an instance of a Graphic subclass. We call this instance a &lt;strong&gt;prototype&lt;/strong&gt;. GraphicTool is parameterized by the prototype it should clone and add to the document.&lt;/p&gt;
+&lt;p&gt;We can use the Prototype pattern to reduce the number of classes even further. We have separate classes for whole notes and half notes, but that&amp;rsquo;s probably unnecessary. Instead they could be instances of the same class initialized with different bitmaps and durations.&lt;/p&gt;
+&lt;h2 id=&#34;applicability&#34;&gt;Applicability&lt;/h2&gt;
+&lt;p&gt;Use the Prototype pattern when a system should be independent of how its
+products are created, composed, and represented; &lt;em&gt;and&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;when the classes to instantiate are specified at run-time, for example, by dynamic loading; &lt;em&gt;or&lt;/em&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;to avoid building a class hierarchy offactories that parallels the class hierarchy of products; &lt;em&gt;or&lt;/em&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;when instances of a class can have one of only a few different combinations
+of state. It may be more convenient to install a corresponding number of
+prototypes and clone them rather than instantiating the class manually, each
+time with the appropriate state.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;structure&#34;&gt;Structure&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;https://federicobruzzone.github.io/design-pattern/Prototype%20-%20Object%20Creational/img/2.png&#34; alt=&#34;2&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;collaborations&#34;&gt;Collaborations&lt;/h2&gt;
+&lt;h3 id=&#34;prototype&#34;&gt;Prototype&lt;/h3&gt;
+&lt;p&gt;&lt;em&gt;(Graphic)&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;declares an interface for cloning itself.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;concreteprototype&#34;&gt;ConcretePrototype&lt;/h3&gt;
+&lt;p&gt;&lt;em&gt;(Staff, WholeNote, HalfNote)&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;implements an operation for cloning itself.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;client&#34;&gt;Client&lt;/h3&gt;
+&lt;p&gt;&lt;em&gt;(GraphicTool)&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;creates a new object by asking a prototype to clone itself.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;collaborations-1&#34;&gt;Collaborations&lt;/h2&gt;
+&lt;p&gt;A client asks a prototype to clone itself.&lt;/p&gt;
+&lt;h2 id=&#34;consequences&#34;&gt;Consequences&lt;/h2&gt;
+&lt;p&gt;Prototype has many of the same consequences that Abstract Factory and Builder have: It hides the concrete product classes from the client. Moreover, these patterns let a client work with application-specific classes without modification.&lt;/p&gt;
+&lt;p&gt;Additional benefits of the Prototype pattern:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;em&gt;Adding and removing products at run-time&lt;/em&gt;: Prototypes let you incorporate a new concrete product class into a system simply by registering a prototypical instance with the client.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;em&gt;Specifying new objects by varying values&lt;/em&gt;: Highly dynamic systems let you define new behavior through object composition by specifying values for an object&amp;rsquo;s variables. You effectively define new kinds of objects by instantiating existing classes andregistering the instances as prototypes of client objects. A client can exhibit new behavior by delegating responsibility to the prototype.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;em&gt;Specifying new objects by varying structure&lt;/em&gt;: Many applications build objects from parts and subparts.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;em&gt;Reduced subclassing&lt;/em&gt;: Factory Method often produces a hierarchy of Creator classes that parallels the product class hierarchy. The Prototype pattern lets you clone a prototype instead of asking a factory method to make a new object.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;em&gt;Configuring an application with classes dynamically&lt;/em&gt;: Some run-time environments let you load classes into an application dynamically. An application that wants to create instances of a dynamically loaded class won&amp;rsquo;t be able to reference its constructor statically. Instead, the run-time environment creates an instance of each class automatically when it&amp;rsquo;s loaded, and it registers the instance with a prototype manager&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;implementation&#34;&gt;Implementation&lt;/h2&gt;
+&lt;p&gt;Prototype is particularly useful with static languages like C++, where classes are not objects, and little or no type information is available at run-time.&lt;/p&gt;
+&lt;p&gt;Consider the following issues when implementing prototypes:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;em&gt;Using a prototype manager&lt;/em&gt;: When the number of prototypes in a system in not fixed, keep the registry of available prototypes. A prototype manager is an associative store that returns the prototype matching a given key.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;em&gt;Implementing the Clone operation&lt;/em&gt;:  The hardest part of the Prototype pattern is implementing the Clone operation correctly. Most languages provide some support for cloning objects, but using inheritance or copy-constructor don&amp;rsquo;t solve the &amp;ldquo;shallow copy versus deep copy&amp;rdquo; problem. A shallow copy is simple and often sufficient, but cloning prototypes with complex structures usually requires a deep copy. If objects in the system provide Save and Load operations, then you can use them to provide a default implementation of Clone.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;em&gt;Initializing clones&lt;/em&gt;: You generally can&amp;rsquo;t pass these values in the Clone operation, because their number will vary between classes of prototypes. It might be the case that your prototype classes already define operations for (re)setting key pieces of state.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;sample-code&#34;&gt;Sample Code&lt;/h2&gt;
+&lt;p&gt;To better understand the following code and the classes used look&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/FedericoBruzzone/federicobruzzone.github.io/blob/main/static/design-pattern/commoncode&#34;&gt;here🔗!&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;We&amp;rsquo;ll define a &lt;em&gt;MazePrototypeFactory&lt;/em&gt; subclass of the &lt;em&gt;MazeFactory&lt;/em&gt; class.  MazePrototypeFactory will be initialized with prototypes of the objects it will create so that we don&amp;rsquo;t have to subclass it just to change the classes of walls or rooms it creates.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;em&gt;MazePrototypeFactory&lt;/em&gt; augments the &lt;em&gt;MazeFactory&lt;/em&gt; interface with a constructor that takes the prototypes as arguments.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The new constructor simply initializes its prototypes.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The member functions for creating walls, rooms, and doors are similar: Each clones a prototype and then initializes it. Here are the definitions of &lt;em&gt;MakeWall&lt;/em&gt; and &lt;em&gt;MakeDoor&lt;/em&gt;:&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 1
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 2
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 3
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 4
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 5
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 6
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 7
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 8
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 9
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;10
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;11
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;12
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;13
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;14
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;15
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;16
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;17
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;18
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;19
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;20
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;21
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;22
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;23
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;24
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;25
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;26
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;27
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;28
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;29
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;30
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;31
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;32
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;33
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;34
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;35
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;36
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;37
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;38
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;39
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;40
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-Java&#34; data-lang=&#34;Java&#34;&gt;&lt;span style=&#34;color:#f00&#34;&gt;import&lt;/span&gt; commoncode.*;
+
+&lt;span style=&#34;color:#f00&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#f00&#34;&gt;class&lt;/span&gt; MazePrototypeFactory &lt;span style=&#34;color:#f00&#34;&gt;extends&lt;/span&gt; MazeFactory {
+    
+    &lt;span style=&#34;color:#f00&#34;&gt;private&lt;/span&gt; Maze _prototypeMaze = &lt;span style=&#34;color:#f00&#34;&gt;null&lt;/span&gt;;
+    &lt;span style=&#34;color:#f00&#34;&gt;private&lt;/span&gt; Room _prototypeRoom = &lt;span style=&#34;color:#f00&#34;&gt;null&lt;/span&gt;;
+    &lt;span style=&#34;color:#f00&#34;&gt;private&lt;/span&gt; Wall _prototypeWall = &lt;span style=&#34;color:#f00&#34;&gt;null&lt;/span&gt;;
+    &lt;span style=&#34;color:#f00&#34;&gt;private&lt;/span&gt; Door _prototypeDoor = &lt;span style=&#34;color:#f00&#34;&gt;null&lt;/span&gt;;
+
+    &lt;span style=&#34;color:#f00&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#ff0&#34;&gt;MazePrototypeFactory&lt;/span&gt;(Maze m, Wall w, Room r, Door d) {
+        &lt;span style=&#34;color:#f00&#34;&gt;this&lt;/span&gt;._prototypeMaze = m;
+        &lt;span style=&#34;color:#f00&#34;&gt;this&lt;/span&gt;._prototypeWall = w;
+        &lt;span style=&#34;color:#f00&#34;&gt;this&lt;/span&gt;._prototypeRoom = r;
+        &lt;span style=&#34;color:#f00&#34;&gt;this&lt;/span&gt;._prototypeDoor = d;
+    }
+
+    @Override
+    &lt;span style=&#34;color:#f00&#34;&gt;public&lt;/span&gt; Maze &lt;span style=&#34;color:#ff0&#34;&gt;MakeMaze&lt;/span&gt;() {
+        &lt;span style=&#34;color:#f00&#34;&gt;return&lt;/span&gt; _prototypeMaze.clone();
+    }
+
+    @Override
+    &lt;span style=&#34;color:#f00&#34;&gt;public&lt;/span&gt; Wall &lt;span style=&#34;color:#ff0&#34;&gt;MakeWall&lt;/span&gt;() {
+        &lt;span style=&#34;color:#f00&#34;&gt;return&lt;/span&gt; _prototypeWall.clone();
+    }
+
+    @Override
+    &lt;span style=&#34;color:#f00&#34;&gt;public&lt;/span&gt; Room &lt;span style=&#34;color:#ff0&#34;&gt;MakeRoom&lt;/span&gt;(&lt;span style=&#34;color:#ee82ee&#34;&gt;int&lt;/span&gt; n) {
+        Room room = _prototypeRoom.clone();
+        room.initializer(n);
+        &lt;span style=&#34;color:#f00&#34;&gt;return&lt;/span&gt; room;
+    }
+
+    @Override
+    &lt;span style=&#34;color:#f00&#34;&gt;public&lt;/span&gt; Door &lt;span style=&#34;color:#ff0&#34;&gt;MakeDoor&lt;/span&gt;(Room r1, Room r2) {
+        Door door =  _prototypeDoor.clone();
+        door.initializer(r1, r2);
+        &lt;span style=&#34;color:#f00&#34;&gt;return&lt;/span&gt; door;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;We can use &lt;em&gt;MazePrototypeFactory&lt;/em&gt; to create a prototypical or default maze just by initializing it with prototypes of basic maze components.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 1
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 2
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 3
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 4
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 5
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 6
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 7
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 8
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt; 9
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;10
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;11
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;12
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;13
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;14
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79&#34;&gt;15
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-Java&#34; data-lang=&#34;Java&#34;&gt;&lt;span style=&#34;color:#f00&#34;&gt;import&lt;/span&gt; commoncode.*;
+
+&lt;span style=&#34;color:#f00&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#f00&#34;&gt;class&lt;/span&gt; MainPrototypeFactory {
+    &lt;span style=&#34;color:#f00&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#f00&#34;&gt;static&lt;/span&gt; &lt;span style=&#34;color:#ee82ee&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#ff0&#34;&gt;main&lt;/span&gt;(String[] args) {
+        MazeGame_Factory game;
+    
+        MazePrototypeFactory simpleMazeFactory = &lt;span style=&#34;color:#f00&#34;&gt;new&lt;/span&gt; MazePrototypeFactory(
+            &lt;span style=&#34;color:#f00&#34;&gt;new&lt;/span&gt; Maze(), 
+            &lt;span style=&#34;color:#f00&#34;&gt;new&lt;/span&gt; Wall(), 
+            &lt;span style=&#34;color:#f00&#34;&gt;new&lt;/span&gt; Room(1), 
+            &lt;span style=&#34;color:#f00&#34;&gt;new&lt;/span&gt; Door(1, 2));
+
+        Maze maze = game.CreateMaze(simpleMazeFactory);
+      } 
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;known-uses&#34;&gt;Known Uses&lt;/h2&gt;
+&lt;p&gt;The first widely known application of the pattern in an object- oriented language was in ThingLab, where users could form a composite object and then promote it to a prototype by installing it in a library of reusable objects&lt;/p&gt;
+&lt;p&gt;The first widely known application of the pattern in an object-oriented language was in ThingLab, where users could form a composite object and then promote it to a prototype by installing it in a library of reusable objects&lt;/p&gt;
+&lt;h2 id=&#34;related-patterns&#34;&gt;Related Patterns&lt;/h2&gt;
+&lt;p&gt;Prototype and Abstract Factory are competing patterns in some ways, as we discuss at the end of this chapter. They can also be used together, however. An Abstract Factory might store a set of prototypes from which to clone and return product objects.&lt;/p&gt;
+&lt;p&gt;Designs that make heavy use of the Composite and Decorator patterns often can benefit from Prototype as well.&lt;/p&gt;
 </description>
       
     </item>

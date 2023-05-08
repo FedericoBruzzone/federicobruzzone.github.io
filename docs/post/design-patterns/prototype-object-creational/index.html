@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>
-          Factory Method pattern - Class Creational - Federico Bruzzone&#39;s website
+          Prototype - Class Creational - Federico Bruzzone&#39;s website
         </title>
     
 
@@ -29,7 +29,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 
 <meta name="author" content="Federico Bruzzone" />
-  <meta name="description" content="Define an interface for creating an object, but let subclasses decide which class to instantiate. Factory Method lets a class defer instantiation to subclasses." />
+  <meta name="description" content="Specify the kinds of objects to create using a prototypical instance, and create new objects by copying this prototype." />
 
 
 
@@ -40,7 +40,7 @@
 <meta name="generator" content="Hugo 0.92.2" />
 
 
-<link rel="canonical" href="https://federicobruzzone.github.io/post/design-patterns/factory-method-pattern-class-creational/" />
+<link rel="canonical" href="https://federicobruzzone.github.io/post/design-patterns/prototype-object-creational/" />
 
 
 
@@ -66,20 +66,20 @@
 
 
 
-<meta property="og:title" content="Factory Method pattern - Class Creational" />
-<meta property="og:description" content="Define an interface for creating an object, but let subclasses decide which class to instantiate. Factory Method lets a class defer instantiation to subclasses." />
+<meta property="og:title" content="Prototype - Class Creational" />
+<meta property="og:description" content="Specify the kinds of objects to create using a prototypical instance, and create new objects by copying this prototype." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://federicobruzzone.github.io/post/design-patterns/factory-method-pattern-class-creational/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2023-02-03T00:00:00+00:00" />
-<meta property="article:modified_time" content="2023-02-03T00:00:00+00:00" />
+<meta property="og:url" content="https://federicobruzzone.github.io/post/design-patterns/prototype-object-creational/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-05-08T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-05-08T00:00:00+00:00" />
 
-<meta itemprop="name" content="Factory Method pattern - Class Creational">
-<meta itemprop="description" content="Define an interface for creating an object, but let subclasses decide which class to instantiate. Factory Method lets a class defer instantiation to subclasses."><meta itemprop="datePublished" content="2023-02-03T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2023-02-03T00:00:00+00:00" />
-<meta itemprop="wordCount" content="1257">
+<meta itemprop="name" content="Prototype - Class Creational">
+<meta itemprop="description" content="Specify the kinds of objects to create using a prototypical instance, and create new objects by copying this prototype."><meta itemprop="datePublished" content="2023-05-08T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2023-05-08T00:00:00+00:00" />
+<meta itemprop="wordCount" content="1260">
 <meta itemprop="keywords" content="programming,design-patterns,computer-science,object-oriented,clean-code," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Factory Method pattern - Class Creational"/>
-<meta name="twitter:description" content="Define an interface for creating an object, but let subclasses decide which class to instantiate. Factory Method lets a class defer instantiation to subclasses."/>
+<meta name="twitter:title" content="Prototype - Class Creational"/>
+<meta name="twitter:description" content="Specify the kinds of objects to create using a prototypical instance, and create new objects by copying this prototype."/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -320,7 +320,7 @@
       <article class="post">
         
         <header class="post-header">
-          <h1 class="post-title">Factory Method pattern - Class Creational</h1>
+          <h1 class="post-title">Prototype - Class Creational</h1>
           
 
           <div class="post-meta">
@@ -335,8 +335,8 @@
   </div>
 
   <div class="post-meta-time">
-    <time datetime="2023-02-03">
-      2023-02-03
+    <time datetime="2023-05-08">
+      2023-05-08
     </time>
   </div>
 
@@ -368,103 +368,105 @@
         <div class="post-content">
           <!-- raw HTML omitted -->
 <!-- raw HTML omitted -->
-<p><img src="/design-pattern/Factory%20Method%20pattern%20-%20Class%20Creational/img/cover.png" alt="Cover"></p>
+<p><img src="/design-pattern/Prototype%20-%20Object%20Creational/img/cover.png" alt="Cover"></p>
 <p>By <strong>Dmitry Zhart</strong> (<a href="https://refactoring.guru/">refactoring.guru</a>)</p>
 <h2 id="intent">Intent</h2>
-<p>Define an interface for creating an object, but let subclasses decide which class to instantiate. Factory Method lets a class defer instantiation to subclasses.</p>
+<p>Specify the kinds of objects to create using a prototypical instance, and create new objects by copying this prototype.</p>
 <h2 id="also-known-as">Also Known As</h2>
-<p>Virtual Constructor</p>
+<p>&hellip;</p>
 <h2 id="motivation">Motivation</h2>
-<p><img src="/design-pattern/Factory%20Method%20pattern%20-%20Class%20Creational/img/1.png" alt="1"></p>
-<p>Framework use abstract classes to define and maintain relationship between objects. A framework is often responsible for creating these objects as well. </p>
-<p>Consider a framework for applications that can present multiple documents to the user. Two key abstractions in this framework are the classes Application and the Document. Both classes are abstract, and clients have to subclass them to realize their application-specific implementations. The Application class is responsible for managing Documents and will create them as required.</p>
-<p>Because the particular Document subclass to instantiate is application-specific, the Application class can&rsquo;t predict the subclass of Document to instantiate - the Application class only knows <em>when</em> a new document should be created, not <em>what kind</em> of Document to create.</p>
-<p>The Factory Method pattern offers a solution. It encapsulates the knowledge of which Document subclass to create and moves this knowledge out of the framework.</p>
-<p>Application subclass redefine an abstract CreateDocument operation on Application to return the appropriate Document subclass. Once an Application subclass is instantiated, it can then instantiate application-specific Documents without knowing their class. We call CreateDocument a <strong>factory method</strong> because it is responsible for &ldquo;manufacturing&rdquo; an object.</p>
+<p><img src="/design-pattern/Prototype%20-%20Object%20Creational/img/1.png" alt="1"></p>
+<p>You could build an editor for music scores by customizing a general framework for graphical editors and adding new objects that represent notes, rests, and staves. The editor framework may have a palette of tools for adding these music objects to the score.</p>
+<p>Let&rsquo;s assume the framework provides an abstract Graphic class for graphical components, like notes and staves. Moreover, it&rsquo;ll provide an abstract Tool class for defining tools like those in the palette. The framework also predefines a Graphic-Tool subclass for tools that create instances of graphical objects and add them to the document.</p>
+<p>But GraphicTool presents a problem to the framework designer. The classes for notes and staves are specific to our application, but the GraphicTool class belongs to the framework. GraphicTool doesn&rsquo;t know how to create instances of our music classes to add to the score.</p>
+<p>The solution lies in making GraphicTool create a new Graphic by copying or &ldquo;cloning&rdquo; an instance of a Graphic subclass. We call this instance a <strong>prototype</strong>. GraphicTool is parameterized by the prototype it should clone and add to the document.</p>
+<p>We can use the Prototype pattern to reduce the number of classes even further. We have separate classes for whole notes and half notes, but that&rsquo;s probably unnecessary. Instead they could be instances of the same class initialized with different bitmaps and durations.</p>
 <h2 id="applicability">Applicability</h2>
-<p>Use the Factory Method pattern when</p>
+<p>Use the Prototype pattern when a system should be independent of how its
+products are created, composed, and represented; <em>and</em></p>
 <ul>
 <li>
-<p>a class can&rsquo;t anticipate the class of obejcts it must create.</p>
+<p>when the classes to instantiate are specified at run-time, for example, by dynamic loading; <em>or</em></p>
 </li>
 <li>
-<p>a class wants its subclasses to specify the objects it creates.</p>
+<p>to avoid building a class hierarchy offactories that parallels the class hierarchy of products; <em>or</em></p>
 </li>
 <li>
-<p>classes delegate responsibility to one of several helper subclasses, and you want to localize the knowledge of which helper subclass is the delegate.</p>
+<p>when instances of a class can have one of only a few different combinations
+of state. It may be more convenient to install a corresponding number of
+prototypes and clone them rather than instantiating the class manually, each
+time with the appropriate state.</p>
 </li>
 </ul>
 <h2 id="structure">Structure</h2>
-<p><img src="/design-pattern/Factory%20Method%20pattern%20-%20Class%20Creational/img/2.png" alt="2"></p>
-<h2 id="participants">Participants</h2>
-<h3 id="product">Product</h3>
-<p><em>(Document)</em></p>
-<ul>
-<li>defines the interface of objects the factory method creates.</li>
-</ul>
-<h3 id="concreteproduct">ConcreteProduct</h3>
-<p><em>(MyDocument)</em></p>
-<ul>
-<li>implements the Product interface</li>
-</ul>
-<h3 id="creator">Creator</h3>
-<p><em>(Application)</em></p>
-<ul>
-<li>
-<p>declares the factory method, which returns an object of type Product. Creator may also define a default implementation of the factory method that returns a default ConcreteProduct object.</p>
-</li>
-<li>
-<p>may call the factory method to create a Product object.</p>
-</li>
-</ul>
-<h3 id="concretecreator">ConcreteCreator</h3>
-<p><em>(MyApplication</em>)</p>
-<ul>
-<li>overrides the factory method to return an instance of a ConcreteProduct.</li>
-</ul>
+<p><img src="/design-pattern/Prototype%20-%20Object%20Creational/img/2.png" alt="2"></p>
 <h2 id="collaborations">Collaborations</h2>
+<h3 id="prototype">Prototype</h3>
+<p><em>(Graphic)</em></p>
 <ul>
-<li>Creator relies on its subclasses to define the factory method so that it returns an instance of the appropriate ConcreteProduct.</li>
+<li>declares an interface for cloning itself.</li>
 </ul>
+<h3 id="concreteprototype">ConcretePrototype</h3>
+<p><em>(Staff, WholeNote, HalfNote)</em></p>
+<ul>
+<li>implements an operation for cloning itself.</li>
+</ul>
+<h3 id="client">Client</h3>
+<p><em>(GraphicTool)</em></p>
+<ul>
+<li>creates a new object by asking a prototype to clone itself.</li>
+</ul>
+<h2 id="collaborations-1">Collaborations</h2>
+<p>A client asks a prototype to clone itself.</p>
 <h2 id="consequences">Consequences</h2>
-<p>Factory methods eliminate the need to bind application-specific classes into your code. The code only deals with the Product interface; therefore it can wok with any user-defined ConcreteProduct classes.</p>
-<p>A potential disadvantage of factory methods is that clients might have to subclass a Creator classes just to create a particular ConcreteProduct object.</p>
-<p>Here are two additional consequences of the Factory Method pattern:</p>
+<p>Prototype has many of the same consequences that Abstract Factory and Builder have: It hides the concrete product classes from the client. Moreover, these patterns let a client work with application-specific classes without modification.</p>
+<p>Additional benefits of the Prototype pattern:</p>
 <ol>
 <li>
-<p><em>Provides hooks for subclasses</em>. Creating objects inside a class with a factory method is always more flexible than crating an object directly. Factory method gives subclasses a hook for providing an extend version of an object.</p>
+<p><em>Adding and removing products at run-time</em>: Prototypes let you incorporate a new concrete product class into a system simply by registering a prototypical instance with the client.</p>
 </li>
 <li>
-<p><em>Connects parallel class hierarchies</em>. Parallel class hierarchies result when a class delegates some of its responsibilities to a separate class. Consider graphical figures that can be manipulated interactively; that is, thay can be stretched, moved, or rotated using the mouse. Implementing suh interactions ins&rsquo;t always easy. It often requires storing and updating information records the state of the manipulation. This state is needed only during manipulation.</p>
+<p><em>Specifying new objects by varying values</em>: Highly dynamic systems let you define new behavior through object composition by specifying values for an object&rsquo;s variables. You effectively define new kinds of objects by instantiating existing classes andregistering the instances as prototypes of client objects. A client can exhibit new behavior by delegating responsibility to the prototype.</p>
+</li>
+<li>
+<p><em>Specifying new objects by varying structure</em>: Many applications build objects from parts and subparts.</p>
+</li>
+<li>
+<p><em>Reduced subclassing</em>: Factory Method often produces a hierarchy of Creator classes that parallels the product class hierarchy. The Prototype pattern lets you clone a prototype instead of asking a factory method to make a new object.</p>
+</li>
+<li>
+<p><em>Configuring an application with classes dynamically</em>: Some run-time environments let you load classes into an application dynamically. An application that wants to create instances of a dynamically loaded class won&rsquo;t be able to reference its constructor statically. Instead, the run-time environment creates an instance of each class automatically when it&rsquo;s loaded, and it registers the instance with a prototype manager</p>
 </li>
 </ol>
-<p>With this constraints, it&rsquo;s better to use separate Manipulator object that implements the interaction and keeps track of any manipulation-specific state that&rsquo;s needed.</p>
-<p><img src="/design-pattern/Factory%20Method%20pattern%20-%20Class%20Creational/img/3.png" alt="3"></p>
-<p>The Figure class provides a CreateManipulator factory method that lets client create a Figure&rsquo;s corresponding Manipulator. Figure subclasses override this method to return an instance of the Manipulator subclass that&rsquo;s right for them. Alternatively, the Figure class may implement CreateManipulator to return a default Manipulator instance, and Figure subclasses may simply inherit default. </p>
-<p>Notice how the factory method defines the connection between the two class hierarchies. It localize knowledge of which classes belong together.</p>
 <h2 id="implementation">Implementation</h2>
+<p>Prototype is particularly useful with static languages like C++, where classes are not objects, and little or no type information is available at run-time.</p>
+<p>Consider the following issues when implementing prototypes:</p>
 <ol>
 <li>
-<p><em>The two varieties</em>. The two main variations of the Factory Method pattern are (1) the case when the Creator class is an abstract class and does not provide an implementation for the factory method it declares, and (2) the case when the Creator is a concrete class and provide a default implementation for the factory method. The first case <em>requires</em> subclasses to define an implementation, because there is no reasonable default. In the second case, the concrete Creator uses the factory method primarily for flexibility.</p>
+<p><em>Using a prototype manager</em>: When the number of prototypes in a system in not fixed, keep the registry of available prototypes. A prototype manager is an associative store that returns the prototype matching a given key.</p>
 </li>
 <li>
-<p><em>Parameterized factory methods</em>. Another variation on the pattern lets the factory method create <em>multiple</em> kinds of products. The factory method takes a parameter that identifies the kind of object to create. All objects the factory method creates will share the Product interface.</p>
+<p><em>Implementing the Clone operation</em>:  The hardest part of the Prototype pattern is implementing the Clone operation correctly. Most languages provide some support for cloning objects, but using inheritance or copy-constructor don&rsquo;t solve the &ldquo;shallow copy versus deep copy&rdquo; problem. A shallow copy is simple and often sufficient, but cloning prototypes with complex structures usually requires a deep copy. If objects in the system provide Save and Load operations, then you can use them to provide a default implementation of Clone.</p>
 </li>
 <li>
-<p><em>Language-specific variants and issues</em>. Different languages lend themselves to other interesting variations and caveats. Smalltalk programs often use a method that returns the class of the object to be instantiated. A Creator factory method can use this value to create a product, and a ConcreteCreator may store or even compute this value. The result is an even later binding for the type of ConcreteProduct to be instantiated.</p>
-</li>
-<li>
-<p><em>Using templates to avoid subclassing</em>. Another potential problem with factory methods is that they might force you to subclass just to create the appropriate Product objects. Another way to get around this in C++ is to provide a template subclass of Creator that&rsquo;s parameterized by the Product class.</p>
-</li>
-<li>
-<p><em>Naming conventions</em>. It&rsquo;s good practice to use naming conventions that make it clear you&rsquo;re using factory methods.</p>
+<p><em>Initializing clones</em>: You generally can&rsquo;t pass these values in the Clone operation, because their number will vary between classes of prototypes. It might be the case that your prototype classes already define operations for (re)setting key pieces of state.</p>
 </li>
 </ol>
 <h2 id="sample-code">Sample Code</h2>
 <p>To better understand the following code and the classes used look</p>
 <p><a href="https://github.com/FedericoBruzzone/federicobruzzone.github.io/blob/main/static/design-pattern/commoncode">here🔗!</a></p>
-<p>The function <a href="https://github.com/FedericoBruzzone/federicobruzzone.github.io/blob/main/static/design-pattern/commoncode/MazeGame_First.java"><em>CreateMaze</em></a> builds and returns a maze. One problem with this function is that it hard-codes the classes of maze, rooms, doors, and walls. We&rsquo;ll introduce factory methods to let subclasses choose these components.</p>
-<p>First we&rsquo;ll define factory methods in <em>MazeGame</em> for creating the maze, room, wall, and door objects:</p>
+<p>We&rsquo;ll define a <em>MazePrototypeFactory</em> subclass of the <em>MazeFactory</em> class.  MazePrototypeFactory will be initialized with prototypes of the objects it will create so that we don&rsquo;t have to subclass it just to change the classes of walls or rooms it creates.</p>
+<ul>
+<li>
+<p><em>MazePrototypeFactory</em> augments the <em>MazeFactory</em> interface with a constructor that takes the prototypes as arguments.</p>
+</li>
+<li>
+<p>The new constructor simply initializes its prototypes.</p>
+</li>
+<li>
+<p>The member functions for creating walls, rooms, and doors are similar: Each clones a prototype and then initializes it. Here are the definitions of <em>MakeWall</em> and <em>MakeDoor</em>:</p>
+</li>
+</ul>
 <div class="highlight"><div style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 1
@@ -507,61 +509,93 @@
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">38
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">39
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">40
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">41
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java"><span style="color:#f00">import</span> commoncode.*;
 
-<span style="color:#f00">public</span> <span style="color:#f00">class</span> MazeGame_Factory {
-  
-  <span style="color:#f00">public</span> <span style="color:#ff0">MazeGame_Factory</span>() {}
-  
-  <span style="color:#f00">public</span> Maze <span style="color:#ff0">MakeMaze</span>() 
-    { <span style="color:#f00">return</span> <span style="color:#f00">new</span> Maze(); }
-  
-  <span style="color:#f00">public</span> Wall <span style="color:#ff0">MakeWall</span>() 
-    { <span style="color:#f00">return</span> <span style="color:#f00">new</span> Wall(); }
-  
-  <span style="color:#f00">public</span> Room <span style="color:#ff0">MakeRoom</span>(<span style="color:#ee82ee">int</span> n) 
-    { <span style="color:#f00">return</span> <span style="color:#f00">new</span> Room(n); }
-  
-  <span style="color:#f00">public</span> Door <span style="color:#ff0">MakeDoor</span>(Room r1, Room r2)
-    { <span style="color:#f00">return</span> <span style="color:#f00">new</span> Door(r1, r2); }
-  
-  <span style="color:#f00">public</span> Maze <span style="color:#ff0">CreateMaze</span>() {
-    Maze aMaze   = <span style="color:#f00">this</span>.MakeMaze();
-    Room r1      = <span style="color:#f00">this</span>.MakeRoom(1);
-    Room r2      = <span style="color:#f00">this</span>.MakeRoom(2);
-    Door theDoor = <span style="color:#f00">this</span>.MakeDoor(r1, r2);
+<span style="color:#f00">public</span> <span style="color:#f00">class</span> MazePrototypeFactory <span style="color:#f00">extends</span> MazeFactory {
+    
+    <span style="color:#f00">private</span> Maze _prototypeMaze = <span style="color:#f00">null</span>;
+    <span style="color:#f00">private</span> Room _prototypeRoom = <span style="color:#f00">null</span>;
+    <span style="color:#f00">private</span> Wall _prototypeWall = <span style="color:#f00">null</span>;
+    <span style="color:#f00">private</span> Door _prototypeDoor = <span style="color:#f00">null</span>;
 
-    r1.SetSide(Direction.North, <span style="color:#f00">this</span>.MakeWall());
-    r1.SetSide(Direction.East,  theDoor);
-    r1.SetSide(Direction.South, <span style="color:#f00">this</span>.MakeWall());
-    r1.SetSide(Direction.West,  <span style="color:#f00">this</span>.MakeWall());
+    <span style="color:#f00">public</span> <span style="color:#ff0">MazePrototypeFactory</span>(Maze m, Wall w, Room r, Door d) {
+        <span style="color:#f00">this</span>._prototypeMaze = m;
+        <span style="color:#f00">this</span>._prototypeWall = w;
+        <span style="color:#f00">this</span>._prototypeRoom = r;
+        <span style="color:#f00">this</span>._prototypeDoor = d;
+    }
 
-    r2.SetSide(Direction.North, <span style="color:#f00">this</span>.MakeWall());
-    r2.SetSide(Direction.East,  <span style="color:#f00">this</span>.MakeWall());
-    r2.SetSide(Direction.South, <span style="color:#f00">this</span>.MakeWall());
-    r2.SetSide(Direction.West,  theDoor);
+    @Override
+    <span style="color:#f00">public</span> Maze <span style="color:#ff0">MakeMaze</span>() {
+        <span style="color:#f00">return</span> _prototypeMaze.clone();
+    }
 
-    aMaze.AddRoom(r1);
-    aMaze.AddRoom(r2);
+    @Override
+    <span style="color:#f00">public</span> Wall <span style="color:#ff0">MakeWall</span>() {
+        <span style="color:#f00">return</span> _prototypeWall.clone();
+    }
 
-    <span style="color:#f00">return</span> aMaze;
-  }
+    @Override
+    <span style="color:#f00">public</span> Room <span style="color:#ff0">MakeRoom</span>(<span style="color:#ee82ee">int</span> n) {
+        Room room = _prototypeRoom.clone();
+        room.initializer(n);
+        <span style="color:#f00">return</span> room;
+    }
 
-} 
+    @Override
+    <span style="color:#f00">public</span> Door <span style="color:#ff0">MakeDoor</span>(Room r1, Room r2) {
+        Door door =  _prototypeDoor.clone();
+        door.initializer(r1, r2);
+        <span style="color:#f00">return</span> door;
+    }
+}
 </code></pre></td></tr></table>
 </div>
-</div><p>Each factory method returns a maze component of a given type. <em>MazeGame</em> provides default implementations that return the simplest kinds of maze, rooms, walls, and doors. </p>
-<p>Now we have to rewrite <em>CreateMaze</em> to use these factory methods.</p>
-<h2 id="known-uses">Known Uses</h2>
-<p>Factory methods pervade toolkits and frameworks.The preceding document example is a typical use in MacApp and ET++ [WGM88]. The manipulator example is from Unidraw.</p>
-<p>Class View in the Smalltalk-80 Model/View/Controller framework has a method defaultController that creates a controller, and this might appear to be a factory method [Par90]. But subclasses of Viewspecify the class of their default controller by defining defaultControllerClass, which returns the class from which defaultController creates instances. So defaultControllerClass is the real factory method, tKat is, the method that subclasses should override.</p>
+</div><p>We can use <em>MazePrototypeFactory</em> to create a prototypical or default maze just by initializing it with prototypes of basic maze components.</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">15
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java"><span style="color:#f00">import</span> commoncode.*;
+
+<span style="color:#f00">public</span> <span style="color:#f00">class</span> MainPrototypeFactory {
+    <span style="color:#f00">public</span> <span style="color:#f00">static</span> <span style="color:#ee82ee">void</span> <span style="color:#ff0">main</span>(String[] args) {
+        MazeGame_Factory game;
+    
+        MazePrototypeFactory simpleMazeFactory = <span style="color:#f00">new</span> MazePrototypeFactory(
+            <span style="color:#f00">new</span> Maze(), 
+            <span style="color:#f00">new</span> Wall(), 
+            <span style="color:#f00">new</span> Room(1), 
+            <span style="color:#f00">new</span> Door(1, 2));
+
+        Maze maze = game.CreateMaze(simpleMazeFactory);
+      } 
+}
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="known-uses">Known Uses</h2>
+<p>The first widely known application of the pattern in an object- oriented language was in ThingLab, where users could form a composite object and then promote it to a prototype by installing it in a library of reusable objects</p>
+<p>The first widely known application of the pattern in an object-oriented language was in ThingLab, where users could form a composite object and then promote it to a prototype by installing it in a library of reusable objects</p>
 <h2 id="related-patterns">Related Patterns</h2>
-<p>Abstract Factory is often implemented with factory methods. </p>
-<p>Factory methods are usually called within Template Methods. </p>
-<p>Prototypes don&rsquo;t require subclassing Creator. However, they often require an Initialize operation on the Product class. Creator uses Initialize to initialize the object. Factory Method doesn&rsquo;t require such an operation.</p>
+<p>Prototype and Abstract Factory are competing patterns in some ways, as we discuss at the end of this chapter. They can also be used together, however. An Abstract Factory might store a set of prototypes from which to clone and return product objects.</p>
+<p>Designs that make heavy use of the Composite and Decorator patterns often can benefit from Prototype as well.</p>
 
         </div>
 
@@ -575,7 +609,7 @@
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-      2023-02-03
+      2023-05-08
       
     </span>
   </p>
@@ -606,7 +640,7 @@
           
           <nav class="post-nav">
             
-              <a class="prev" href="/post/design-patterns/prototype-object-creational/">
+              <a class="prev" href="/post/vim/make-vim-as-your-cc&#43;&#43;-ide/">
                 
                 <i class="iconfont">
                   <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
@@ -616,12 +650,12 @@
 </svg>
 
                 </i>
-                <span class="prev-text nav-default">Prototype - Class Creational</span>
+                <span class="prev-text nav-default">Make Vim as your C/C&#43;&#43; IDE</span>
                 <span class="prev-text nav-mobile">Prev</span>
               </a>
             
-              <a class="next" href="/post/design-patterns/builder-pattern-object-creational/">
-                <span class="next-text nav-default">Builder pattern pattern - Object Creational</span>
+              <a class="next" href="/post/design-patterns/factory-method-pattern-class-creational/">
+                <span class="next-text nav-default">Factory Method pattern - Class Creational</span>
                 <span class="prev-text nav-mobile">Next</span>
                 
                 <i class="iconfont">
@@ -676,15 +710,14 @@
     <li><a href="#motivation">Motivation</a></li>
     <li><a href="#applicability">Applicability</a></li>
     <li><a href="#structure">Structure</a></li>
-    <li><a href="#participants">Participants</a>
+    <li><a href="#collaborations">Collaborations</a>
       <ul>
-        <li><a href="#product">Product</a></li>
-        <li><a href="#concreteproduct">ConcreteProduct</a></li>
-        <li><a href="#creator">Creator</a></li>
-        <li><a href="#concretecreator">ConcreteCreator</a></li>
+        <li><a href="#prototype">Prototype</a></li>
+        <li><a href="#concreteprototype">ConcretePrototype</a></li>
+        <li><a href="#client">Client</a></li>
       </ul>
     </li>
-    <li><a href="#collaborations">Collaborations</a></li>
+    <li><a href="#collaborations-1">Collaborations</a></li>
     <li><a href="#consequences">Consequences</a></li>
     <li><a href="#implementation">Implementation</a></li>
     <li><a href="#sample-code">Sample Code</a></li>

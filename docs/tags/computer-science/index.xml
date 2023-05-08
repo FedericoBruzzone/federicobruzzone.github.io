@@ -6,7 +6,7 @@
     <description>Recent content in computer-science on Federico Bruzzone&#39;s website</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 26 Apr 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://federicobruzzone.github.io/tags/computer-science/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 08 May 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://federicobruzzone.github.io/tags/computer-science/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Make Vim as your C/C&#43;&#43; IDE</title>
       <link>https://federicobruzzone.github.io/post/vim/make-vim-as-your-cc&#43;&#43;-ide/</link>
@@ -14,6 +14,15 @@
       
       <guid>https://federicobruzzone.github.io/post/vim/make-vim-as-your-cc&#43;&#43;-ide/</guid>
       <description>In this blog post you will find a simple guide to configure Vim as your C/C++ IDE. This procedure can be very similar for VSCode and Fleet editors.</description>
+    </item>
+    
+    <item>
+      <title>Prototype - Class Creational</title>
+      <link>https://federicobruzzone.github.io/post/design-patterns/prototype-object-creational/</link>
+      <pubDate>Mon, 08 May 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://federicobruzzone.github.io/post/design-patterns/prototype-object-creational/</guid>
+      <description>Specify the kinds of objects to create using a prototypical instance, and create new objects by copying this prototype.</description>
     </item>
     
     <item>

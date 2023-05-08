@@ -6,7 +6,25 @@
     <description>Recent content in Categories on Federico Bruzzone&#39;s website</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 26 Apr 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://federicobruzzone.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 08 May 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://federicobruzzone.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>design-pattern</title>
+      <link>https://federicobruzzone.github.io/categories/design-pattern/</link>
+      <pubDate>Mon, 08 May 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://federicobruzzone.github.io/categories/design-pattern/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>programming</title>
+      <link>https://federicobruzzone.github.io/categories/programming/</link>
+      <pubDate>Mon, 08 May 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://federicobruzzone.github.io/categories/programming/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>editor</title>
       <link>https://federicobruzzone.github.io/categories/editor/</link>
@@ -17,29 +35,11 @@
     </item>
     
     <item>
-      <title>programming</title>
-      <link>https://federicobruzzone.github.io/categories/programming/</link>
-      <pubDate>Wed, 26 Apr 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://federicobruzzone.github.io/categories/programming/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>vim</title>
       <link>https://federicobruzzone.github.io/categories/vim/</link>
       <pubDate>Wed, 26 Apr 2023 00:00:00 +0000</pubDate>
       
       <guid>https://federicobruzzone.github.io/categories/vim/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>design-pattern</title>
-      <link>https://federicobruzzone.github.io/categories/design-pattern/</link>
-      <pubDate>Fri, 03 Feb 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://federicobruzzone.github.io/categories/design-pattern/</guid>
       <description></description>
     </item>
     
