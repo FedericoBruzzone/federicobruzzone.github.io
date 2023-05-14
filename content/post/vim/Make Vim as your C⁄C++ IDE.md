@@ -20,6 +20,9 @@ weight: 1
 ## A summary of GoF Design Patters
 -->
 
+
+![Cover](/vim/Make%20Vim%20as%20your%20C⁄C++%20IDE/img/cover.png)
+
 > This procedure can be very similar for `VSCode` and `Fleet` editors. In this case, you should only create the `compile_commands.json` file, and this procedure is illustrated in the [`bear`](#bear) subsection, but I suggest you read the whole post.
 
 It happened to me in the past that I had to configure *Vim* to manage C projects with some external library, and after lots of useless attempts, I gave up setting it up.

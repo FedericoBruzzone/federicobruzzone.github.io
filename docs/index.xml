@@ -20,6 +20,7 @@
       
         <description>&lt;!-- raw HTML omitted --&gt;
 &lt;!-- raw HTML omitted --&gt;
+&lt;p&gt;&lt;img src=&#34;https://federicobruzzone.github.io/vim/Make%20Vim%20as%20your%20C%E2%81%84C++%20IDE/img/cover.png&#34; alt=&#34;Cover&#34;&gt;&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;This procedure can be very similar for &lt;code&gt;VSCode&lt;/code&gt; and &lt;code&gt;Fleet&lt;/code&gt; editors. In this case, you should only create the &lt;code&gt;compile_commands.json&lt;/code&gt; file, and this procedure is illustrated in the &lt;a href=&#34;#bear&#34;&gt;&lt;code&gt;bear&lt;/code&gt;&lt;/a&gt; subsection, but I suggest you read the whole post.&lt;/p&gt;
 &lt;/blockquote&gt;
