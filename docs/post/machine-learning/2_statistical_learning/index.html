@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>
-          Introduction - Machine Learning pt.1 - Federico Bruzzone&#39;s website
+          Statistical Learning - Machine Learning pt.2 - Federico Bruzzone&#39;s website
         </title>
     
 
@@ -29,7 +29,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 
 <meta name="author" content="Federico Bruzzone" />
-  <meta name="description" content="Statistical Methods for Machine Learning - Questions &amp;amp; Answers pt.1. Introduction, k-nn and tree predictor." />
+  <meta name="description" content="Statistical Methods for Machine Learning - Questions &amp;amp; Answers pt.2. Statistical learning" />
 
 
 
@@ -40,7 +40,7 @@
 <meta name="generator" content="Hugo 0.92.2" />
 
 
-<link rel="canonical" href="https://federicobruzzone.github.io/post/machine-learning/1_introduction/" />
+<link rel="canonical" href="https://federicobruzzone.github.io/post/machine-learning/2_statistical_learning/" />
 
 
 
@@ -66,20 +66,20 @@
 
 
 
-<meta property="og:title" content="Introduction - Machine Learning pt.1" />
-<meta property="og:description" content="Statistical Methods for Machine Learning - Questions &amp; Answers pt.1. Introduction, k-nn and tree predictor." />
+<meta property="og:title" content="Statistical Learning - Machine Learning pt.2" />
+<meta property="og:description" content="Statistical Methods for Machine Learning - Questions &amp; Answers pt.2. Statistical learning" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://federicobruzzone.github.io/post/machine-learning/1_introduction/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2023-06-06T00:00:00+00:00" />
-<meta property="article:modified_time" content="2023-06-06T00:00:00+00:00" />
+<meta property="og:url" content="https://federicobruzzone.github.io/post/machine-learning/2_statistical_learning/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-06-07T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-06-07T00:00:00+00:00" />
 
-<meta itemprop="name" content="Introduction - Machine Learning pt.1">
-<meta itemprop="description" content="Statistical Methods for Machine Learning - Questions &amp; Answers pt.1. Introduction, k-nn and tree predictor."><meta itemprop="datePublished" content="2023-06-06T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2023-06-06T00:00:00+00:00" />
-<meta itemprop="wordCount" content="961">
+<meta itemprop="name" content="Statistical Learning - Machine Learning pt.2">
+<meta itemprop="description" content="Statistical Methods for Machine Learning - Questions &amp; Answers pt.2. Statistical learning"><meta itemprop="datePublished" content="2023-06-07T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2023-06-07T00:00:00+00:00" />
+<meta itemprop="wordCount" content="1232">
 <meta itemprop="keywords" content="computer-science,machine-learning,statistics,math,linear-algebra," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Introduction - Machine Learning pt.1"/>
-<meta name="twitter:description" content="Statistical Methods for Machine Learning - Questions &amp; Answers pt.1. Introduction, k-nn and tree predictor."/>
+<meta name="twitter:title" content="Statistical Learning - Machine Learning pt.2"/>
+<meta name="twitter:description" content="Statistical Methods for Machine Learning - Questions &amp; Answers pt.2. Statistical learning"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -320,7 +320,7 @@
       <article class="post">
         
         <header class="post-header">
-          <h1 class="post-title">Introduction - Machine Learning pt.1</h1>
+          <h1 class="post-title">Statistical Learning - Machine Learning pt.2</h1>
           
 
           <div class="post-meta">
@@ -335,8 +335,8 @@
   </div>
 
   <div class="post-meta-time">
-    <time datetime="2023-06-06">
-      2023-06-06
+    <time datetime="2023-06-07">
+      2023-06-07
     </time>
   </div>
 
@@ -366,81 +366,113 @@
 
         
         <div class="post-content">
-          <h2 id="introduction">Introduction</h2>
-<h3 id="write-the-formula-for-the-square-loss-the-zero-one-loss-and-the-logarithmic-loss">Write the formula for the square loss, the zero-one loss, and the logarithmic loss.</h3>
-<p><strong>Absolute loss</strong>: $\ell(y, \hat{y}) = |y-\hat{y}|$</p>
-<p><strong>Square loss</strong>: $\ell(y, \hat{y}) = (y-\hat{y})^2$</p>
-<p><strong>Zero-one loss</strong>: $\ell(y, \hat{y}) = \begin{cases}
-0 &amp; \text{if } y = \hat{y}\\
-1 &amp; \text{if } y \neq \hat{y}
-\end{cases}$</p>
-<p><strong>Logarithmic loss</strong>: $\ell(y, \hat{y}) = \begin{cases}
-\ln\frac{1}{\hat{y}} &amp; \text{if } y = 1\\
-\ln\frac{1}{1-\hat{y}} &amp; \text{if } y = 0
-\end{cases}$</p>
+          <h2 id="statistical-learning">Statistical Learning</h2>
+<h3 id="write-the-formula-for-the-statistical-risk-of-a-predictor-h-with-respect-to-a-generic-loss-function-and-data-distribution">Write the formula for the statistical risk of a predictor $h$ with respect to a generic loss function and data distribution.</h3>
+<p>The performance of a predictor $h : \mathcal{X} \rightarrow \mathcal{Y}$ with respect to $(\mathcal{D}, \ell)$ is evluated via the $\textbf{statistical risk}$, defined by:
+$$
+\ell_{\mathcal{D}}(h) = \mathbb{E}_{(\boldsymbol{x}, y) \sim \mathcal{D}}[\ell(Y, h(\boldsymbol{X}))]
+$$
+This is the expected value of the loss function on a randon example $(\boldsymbol{X}, Y)$ drawn from $\mathcal{D}$.</p>
 <hr>
-<h3 id="what-does-a-learning-algorithm-receive-in-input-and-what-does-it-produce-in-output">What does a learning algorithm receive in input? and what does it produce in output?</h3>
-<p>A <strong>learning algorithm</strong> training set as an input and output a predictor.</p>
-<p>A <strong>training set</strong> is a set of example $\mathcal{S} = {(\boldsymbol{x}_1, y_1), \dots, (\boldsymbol{x}_n, y_n)}$ where $\boldsymbol{x}_i \in \mathcal{X}$ and $y_i \in \mathcal{Y}$ for $i = 1, \dots, n$. training and test set are often prepared together, through a single round of data collection and annotation.</p>
-<p>A <strong>predictor</strong> is a function $f: \mathcal{X} \rightarrow \mathcal{Y}$ mapping data points to labels.</p>
-<hr>
-<h3 id="write-the-mathematical-formula-defining-the-training-error-of-a-predictor-h">Write the mathematical formula defining the training error of a predictor $h$.</h3>
-<p>$$\ell_{s}(f) = \frac{1}{n} \sum_{i=1}^n \ell(y_i, h(\boldsymbol{x}_i))$$</p>
-<hr>
-<h3 id="write-the-mathematical-formula-defining-the-erm-algorithm-over-a-class-mathcalh-of-predictors-define-the-main-quantities-occurring-in-the-formula">Write the mathematical formula defining the erm algorithm over a class $\mathcal{h}$ of predictors. define the main quantities occurring in the formula.</h3>
-<p>Let $\mathcal{F}$ be a given set of predictors and $\ell$ a loss function. the <strong>ERM</strong> (Empirical Risk Minimization) is a learning algorithm that outputs a predictor $\hat{f}$ that minimizes the training error.</p>
-<p>$$\hat{f} \in \mathop{argmin}_{f \in \mathcal{f}} \left( \ell_{s}(f) \right)$$</p>
-<p>ERM obviously fails when no predictor in $\mathcal{F}$  has a low test error.
-this suggests the we should run ERM with a large $\mathcal{F}$, so that there is a good chance that a predictor with low test error exists in $\mathcal{F}$.</p>
-<p>In order not to fail erm, the training set should contain at least $\log_{2}|\mathcal{F}|$ distinct data points. equivalently, $|\mathcal{F}|$ should be smaller than $2^{m}$, where $m$ is the training set size.</p>
-<hr>
-<h3 id="explain-in-words-how-overfitting-and-underfitting-are-defined-in-terms-of-behavior-of-an-algorithm-on-training-and-test-set">Explain in words how overfitting and underfitting are defined in terms of behavior of an algorithm on training and test set.</h3>
-<p>We may give specific names to the two ways of failing of erm (i.e., returning a predictor with high test error) for a generic learning algorithm $\mathcal{A}$:</p>
-<ul>
-<li>if $\mathcal{A}$ fails by returning predictors with high training error, then we say that $\mathcal{A}$ is <strong>underfitting</strong>,</li>
-<li>if $\mathcal{A}$ fails by returning predictors with low training error, then we say that $\mathcal{A}$ is <strong>overfitting</strong>.</li>
-</ul>
-<hr>
-<h3 id="name-and-describe-three-reasons-why-labels-may-be-noisy">Name and describe three reasons why labels may be noisy.</h3>
-<p>Namely, when labels $y$ are not deterministically associated with data points $\boldsymbol{x}$. noise may occur for at least three (not mutually exclusive) reasons.</p>
-<ol>
-<li><strong>Human in the loop</strong>: the labels are assigned by a human annotator who decides the &ldquo;true&rdquo; label for each data point. in this case, different annotators may have different opinions.</li>
-<li><strong>Epistemic uncertainty</strong>: each data point is represented by a feature vector $\boldsymbol{x}$ that does not contain enough information to uniquely determine the label.</li>
-<li><strong>Aleatoric uncertainty</strong>: the feature vector $\boldsymbol{x}$ representing a data point is obtained through noisy measurements. the label associated with a given $\boldsymbol{x}$ is then stochastic because the same $\boldsymbol{x}$ could have been generated by different data points.</li>
-</ol>
-<p>noisy labels cause overfitting because they may mislead the algorithm with regard to what is the &ldquo;true&rdquo; label for a given data point.</p>
-<h2 id="k-nn">$k$-NN</h2>
-<h3 id="is-k-nn-more-likely-to-overfit-when-k-is-large-or-small">Is $k$-NN more likely to overfit when $k$ is large or small?</h3>
-<p>The learning algorithm suffers from high test error for small values of $k$ (overfitting) and for large values of $k$ (underfitting).</p>
-<hr>
-<h2 id="tree-predictor">Tree predictor</h2>
-<h3 id="write-a-short-pseudo-code-for-building-a-tree-classifier-based-on-a-training-set">Write a short pseudo-code for building a tree classifier based on a training set.</h3>
-<p>We now describe a generic method to construct a binary tree given a training set $s$.</p>
-<ol>
-<li><strong>Anitialization</strong>: create $t$ with only the root $\ell$ and let $S_{\ell} = S$. let the label associated with the root be the most frequent label in $S_{\ell}$.</li>
-<li><strong>Main loop</strong>: pick a leaf $\ell$ and replace it with an internal node $v$ creating two children $\ell^{'}$ and $\ell^{''}$. pick an attribute $i$ and a test $f : \mathcal{x}_i \rightarrow \{1,2\}$. Associate the test $f$ with $v$ and partition $S_{\ell}$ in the two subsets</li>
-</ol>
-<p>$$S_{\ell^{'}} = \{(\boldsymbol{x}_t, y_t) \in S_{\ell} : f(x_{t,i}) = 1\}\ \textmd{and}\ S_{\ell^{''}} = \{(\boldsymbol{x}_t, y_t)\in S_{\ell} : f(x_{t,i}) = 2\}$$</p>
-<p>Let the labels associated with $S_{\ell^{'}}$ and $S_{\ell^{''}}$ be the most frequent labels in $S_{\ell^{'}}$ and $S_{\ell^{''}}$ respectively.</p>
-<hr>
-<h3 id="what-is-the-property-of-a-splitting-criterion-psi-ensuring-that-the-training-error-of-a-tree-classifier-does-not-increase-after-a-split-bonus-points-if-you-justify-your-answer-with-a-proof">What is the property of a splitting criterion $\psi$ ensuring that the training error of a tree classifier does not increase after a split? bonus points if you justify your answer with a proof.</h3>
-<p>To answer this question is sufficient to observe that $\psi$ (i.e, $\psi(x) = \min{\{x, 1 - x\}}$) is a concave function.
-We can then apply jensen’s inequality, stating that $\psi(\alpha a + (1-\alpha)b) \geq \alpha\psi(a) + (1 - \alpha)\psi(b)$ for all $a,b \in \mathbb{r}$ and $\alpha \in [0,1]$.</p>
-<p>hence, via jensen&rsquo;s inequality, we can study how the training error changes when $\ell$ is replaces by two new leaves $\ell^{'}$ and $\ell^{''}$.</p>
-<p>$$
-\psi \left( \frac{N_{\ell}^+}{N_{\ell}}\right){N_{\ell}} = \psi \left( \frac{N_{\ell^{'}}^+}{N_{\ell^{'}}}\frac{N_{\ell^{'}}}{N_{\ell}} + \frac{N_{\ell^{''}}^+}{N_{\ell^{''}}}\frac{N_{\ell^{''}}}{N_{\ell}}\right){N_{\ell}} \geq \psi\left( \frac{N_{\ell^{'}}^+}{N_{\ell^{'}}}\right)\frac{N_{\ell^{'}}^+}{N_{\ell}}N_{\ell} + \psi\left( \frac{N_{\ell^{''}}^+}{N_{\ell^{''}}}\right)\frac{N_{\ell^{''}}^+}{N_{\ell}}N_{\ell}
+<h3 id="write-the-formula-for-the-bayes-optimal-predictor-for-a-generic-loss-function-and-data-distribution">Write the formula for the Bayes optimal predictor for a generic loss function and data distribution.</h3>
+<p>The best possible predictor $f^{*}: \mathcal{X} \rightarrow \mathcal{Y}$ given $\mathcal{D}$ is known as the $\textbf{Bayes optimal predictor}$, and is defined by:
+$$
+f^{*}(\boldsymbol{x}) = \underset{\hat{y} \in \mathcal{Y}}{\textmd{argmin}}\ \mathbb{E}[\ell(Y, \hat{y})\ |\ \boldsymbol{X} = \boldsymbol{x}]
 $$</p>
-<p>meaning that a split never increaseses the training error.</p>
 <hr>
-<h3 id="write-the-formula-for-at-least-two-splitting-criteria-psi-used-in-practice-to-build-tree-classifiers">Write the formula for at least two splitting criteria $\psi$ used in practice to build tree classifiers.</h3>
-<p>Ee use another type of splitting criterion $\psi$ because the one described in the previous question has strictly negative second derivative. Define $p, r, q$ where $p$ is the parent node, $r$ and $q$ are the children nodes, and they are on the same side with respect to the $\alpha$ and $p = \alpha r + (1 - \alpha)q$.
-In this case, $\psi(p) - \alpha\psi(r) + (1 - \alpha)\psi(q) = 0$ beacuse $\psi$ is a straight line.</p>
-<p>Some example of functions $\psi$ used in practice are</p>
+<h3 id="write-the-formula-for-bayes-optimal-predictor-and-bayes-risk-for-the-zero-one-loss">Write the formula for Bayes optimal predictor and Bayes risk for the zero-one loss.</h3>
+<p>On binary classification, where $\mathcal{Y} = \{-1, +1\}$ . Let $\eta(\boldsymbol{x})$ be the probability of $Y = 1$ conditioned on $\textbf{X} = \boldsymbol{x}$. We view $\eta(\boldsymbol{x}) = \mathbb{P}(Y = +1\ |\ \textbf{X} = \boldsymbol{x})$ as the value on $\boldsymbol{x}$ of a function $\eta : \mathcal{X} \rightarrow [0,1]$.
+Let $\mathbb{I}\{A\} \in \{0,1\}$ be the indicator function of the event $A$; that is, $\mathbb{I}\{A\} = 1$ if $A$ occurs and $\mathbb{I}\{A\} = 0$ otherwise.\
+The statistical risk with respect to the zero-one loss $\ell(y, \hat{y}) = \mathbb{I}{y \neq \hat{y}}$ is therefore defined by:
+$$
+\ell_{\mathcal{D}}(h) = \mathbb{E}[\mathbb{I}{Y \neq h(\boldsymbol{X})}] = \mathbb{P}(Y \neq h(\boldsymbol{X}))
+$$</p>
+<p>The Bayes optimal predictor $f^{*} : \mathcal{X} \rightarrow {-1, +1}$ for binary classification is derived as follows:</p>
+<p>\begin{equation}
+\begin{aligned}
+f^{*}(\boldsymbol{x}) &amp; = \underset{\hat{y} \in \{-1,+1\}}{\text{argmin}}\ \mathbb{E}[\ell(Y, \hat{y})\ |\ \boldsymbol{X} = \boldsymbol{x}] \\
+&amp; = \underset{\hat{y} \in \{-1,+1\}}{\text{argmin}}\ (\mathbb{P}(Y = +1\ |\ \boldsymbol{X} = \boldsymbol{x})\mathbb{I}\{\hat{y} = -1\} + \mathbb{P}(Y = -1\ |\ \boldsymbol{X} = \boldsymbol{x})\mathbb{I}\{\hat{y} = +1\}) \\                                <br>
+&amp; = \underset{\hat{y} \in \{-1,+1\}}{\text{argmin}} (\eta(\boldsymbol{x})\mathbb{I}\{\hat{y} = -1\} + (1-\eta(\boldsymbol{x}))\mathbb{I}\{\hat{y} = +1\}) \\
+&amp; = \begin{cases}
+-1 &amp; \text{if}\ \eta(\boldsymbol{x}) &lt; 1/2 \\
++1 &amp; \text{if}\ \eta(\boldsymbol{x}) \geq 1/2                                \end{cases}
+\end{aligned}
+\end{equation}</p>
+<p>Hence, the Bayes optimal classifier predicts the label whose probability is the highest when conditioned on the instance. Finally, it is easy to verify that the Bayes risk in this case is $\ell_{\mathcal{D}}(f^{*}) = \mathbb{E}[\textmd{min}{\eta(\textbf{X}), 1-\eta(\textbf{X})}]$\</p>
+<hr>
+<h3 id="can-the-bayes-risk-for-the-zero-one-loss-be-zero-if-yes-then-explain-how">Can the Bayes risk for the zero-one loss be zero? If yes, then explain how.</h3>
+<p>In the case of the zero-one loss, where the penalty is 1 for each incorrect prediction and 0 for each correct prediction, a Bayes risk of zero implies that the error rate is zero.</p>
+<p>To achieve a Bayes risk of zero, two conditions must be met:</p>
 <ol>
-<li><strong>gini function</strong>: $\psi(p) = 2p(1-p)$</li>
-<li><strong>scaled entropy</strong>: $\psi(p) = -\frac{p}{2}\log_2(p) - \frac{1-p}{2}\log_2(1-p)$</li>
-<li>$\psi(p) = \sqrt{p(1-p)}$</li>
+<li>
+<p>$\textbf{Perfectly separable data}$: The classes in the data must be completely separable without any overlap. This means that there should be a decision boundary that can perfectly separate the instances of different classes. If such a decision boundary exists, it is possible to classify all instances correctly, resulting in an error rate of zero.</p>
+</li>
+<li>
+<p>$\textbf{Knowledge of the true underlying distribution}$: To construct a decision rule that achieves a Bayes risk of zero, you would need to know the true distribution from which the data is generated. With this knowledge, you can design a decision rule that assigns each instance to its correct class with certainty, leading to a perfect classification and zero error rate.</p>
+</li>
 </ol>
+<hr>
+<h3 id="write-the-formula-for-bayes-optimal-predictor-and-bayes-risk-for-the-square-loss">Write the formula for Bayes optimal predictor and Bayes risk for the square loss.</h3>
+<p>We can compute the Bayes optimal predictor for the quadratic loss function $\ell(y, \hat{y}) = (y - \hat{y})^{2}$ when $\mathcal{Y} \equiv \mathbb{R}$</p>
+<p>\begin{equation}
+\begin{aligned}
+f^{*}(\boldsymbol{x}) &amp; = \underset{\hat{y} \in \mathbb{R}}{\textmd{argmin}}\ \mathbb{E}[(Y - \hat{y})^{2}\ |\ \boldsymbol{X} = \boldsymbol{x}] \\
+&amp; = \underset{\hat{y} \in \mathbb{R}}{\textmd{argmin}}\ \left( \mathbb{E}[Y^{2}\ |\ \boldsymbol{X} = \boldsymbol{x}] + \hat{y}^{2} - 2\hat{y} \mathbb{E}[Y\ |\ \boldsymbol{X} = \boldsymbol{x}]\right) \\
+&amp; = \mathbb{E}[Y\ |\ \boldsymbol{X} = \boldsymbol{x}] \\
+\end{aligned}
+\end{equation}</p>
+<p>The Bayes optimal prediction for the quadratic loss function is the expected value of the label conditioned on the instance.</p>
+<p>Substituting in the conditional risk formula $\ell_{\mathcal{D}}(h) = \mathbb{E}[(Y - f^{*}(\boldsymbol{X}))^{2}\ |\ \boldsymbol{X} = \boldsymbol{x}]$ the Bayes optimal predictor $f^{*}(\boldsymbol{x}) = \mathbb{E}[Y\ |\ \boldsymbol{X} = \boldsymbol{x}]$ we obtain:
+$$
+\mathbb{E}[(Y - f^{*}(\boldsymbol{X}))^{2}\ |\ \boldsymbol{X} = \boldsymbol{x}] = \mathbb{E}[(Y - \mathbb{E}[Y\ |\ \boldsymbol{x}])^{2}\ |\ \boldsymbol{X} = \boldsymbol{x}] = \textmd{Var}[Y\ |\ \boldsymbol{X} = \boldsymbol{x}]
+$$</p>
+<hr>
+<h3 id="explain-in-mathematical-terms-the-relationship-between-test-error-and-statistical-risk">Explain in mathematical terms the relationship between test error and statistical risk.</h3>
+<p>It should be clear that, given an arbitrary predictor $h$, we cannot directly compute its risk $\ell_{\mathcal{D}}(h)$ with respect to $D$ because $D$ is typically unknown.
+We thus consider the problem of estimating the risk of a given predictor $h$. In order to compute this estimate, we can use the $\textbf{test set}$ $S^\prime = {(x^\prime_{1} , y^\prime_{1}), \dots , (x^\prime_{n}, y^\prime_{n})}$. We can then estimate $\ell_{\mathcal{D}}(h)$ with the \textbf{test error}, which is the average loss of $h$ on the test set,
+$$
+\ell_{S^\prime}(h) = \frac{1}{n}\sum_{t=1}^{n} \ell(y^\prime_{t}, h(\boldsymbol{x}^\prime_{t}))
+$$
+Under the assumption that the test set is generated through independent draws from $D$, the test error corresponds to the \textbf{sample mean} of the risk. Indeed, for each $t = 1, \dots, n$ the example $(X^\prime_{t} , Y^\prime_{t})$ is an independent draw from $D$. Therefore,
+$$
+\mathbb{E}[\ell(Y^\prime_{t}, h(\boldsymbol{X}^\prime_{t}))] = \ell_{\mathcal{D}}(h) \quad \textmd{for all}\ t = 1, \dots, n
+$$
+Note that the above equalities rely on the assumption that $h$ does not depend on the test set. If it did, then the above equalities would not be necessarily true. This fact is important in the analysis of learning algorithms.</p>
+<h3 id="state-the-chernoff-hoeffding-bounds">State the Chernoff-Hoeffding bounds.</h3>
+<p>Let $Z_1, \dots, Z_n$ be indipendent and identically distributed random variables with expectation $\mu$ and such that $0 \leq Z_i \leq 1$ for all $i = 1, \dots, n$. Then, for any $\epsilon &gt; 0$,</p>
+<p>$$
+\mathbb{P}\left(\frac{1}{n}\sum_{t=1}^{n} Z_t &gt; \mu + \epsilon\right) \leq e^{-2n\epsilon^{2}}
+\quad and \quad
+\mathbb{P}\left(\frac{1}{n}\sum_{t=1}^{n} Z_t &lt; \mu - \epsilon\right) \leq e^{-2n\epsilon^{2}}
+$$</p>
+<p>Using the Chernoff-Hoeffding bound with $Z_t = \ell(y_t, h(\boldsymbol{x}_t)) \in [0, 1]$ we can compute a confidence interval for the risk as follows (where the test error is written as $\ell$ instead of $\ell_{S^\prime}$):</p>
+<p>\begin{equation}
+\begin{aligned}
+\mathbb{P}\left(|\ell_{\mathcal{D}}(h) - \ell(h)| &gt; \epsilon\right) &amp; = \mathbb{P}\left(\ell_{\mathcal{D}}(h) - \ell(h) &gt; \epsilon\ \cup\ \ell(h) - \ell_{\mathcal{D}}(h) &gt; \epsilon\right) \\
+&amp; = \mathbb{P}\left(\ell_{\mathcal{D}}(h) - \ell(h) &gt; \epsilon\right) + \mathbb{P}\left(\ell(h) - \ell_{\mathcal{D}}(h) &gt; \epsilon\right) \\
+&amp; \leq 2e^{-2n\epsilon^{2}}
+\end{aligned}
+\end{equation}</p>
+<hr>
+<h3 id="write-the-bias-variance-decomposition-for-a-generic-learning-algorithm-a-and-associate-the-resulting-components-to-overfitting-and-underfitting">Write the bias-variance decomposition for a generic learning algorithm A and associate the resulting components to overfitting and underfitting.</h3>
+<p>Fix a training set $S$ and let $h_S = A(S)$. The following is called the $\textbf{bias-variance decomposition}$:</p>
+<p>\begin{equation}
+\begin{aligned}
+\ell_{D}(h_{S}) &amp; = \ell_{D}(h_S) - \ell_{D}(h^{*}) &amp;&amp; \text{estimation/variance error (large when overfitting)} \\
+&amp; + \ell_{D}(h^{*}) - \ell_{D}(f^{*}) &amp;&amp; \text{approximation/bias error (large when underfitting)} \\
+&amp; + \ell_{D}(f^{*}) &amp;&amp; \text{Bayes error (unavoidable)}
+\end{aligned}
+\end{equation}</p>
+<p>where $f^*$ is the Bayes optimal predictor for $(\mathcal{D}, \ell)$.</p>
+<hr>
+<h3 id="write-the-upper-bound-on-the-estimation-error-of-erm-run-on-a-finite-class-mathcalh-of-predictors">Write the upper bound on the estimation error of ERM run on a finite class $\mathcal{H}$ of predictors.</h3>
+<p>We now study the case $|\mathcal{H}| &lt; \infty$, that is when the model space contains a finite number of predictors.</p>
+<p>Note that the event $\exists h \in \mathcal{H} : |\ell_{\mathcal{D}}(h) - \ell_{S}(h)| &gt; \epsilon / 2$ is the union over $h \in \mathcal{H}$ of the events $|\ell_{\mathcal{D}}(h) - \ell_{S}(h)| &gt; \epsilon / 2$.</p>
+<p>Therefore, by the union bound, we have that its probability is bounded by $|\mathcal{H}|$ times the probability of the event $|\ell_{\mathcal{D}}(h) - \ell_{S}(h)| &gt; \epsilon / 2$ for a single predictor $h \in \mathcal{H}$ is $\leq |\mathcal{H}|2e^{-m\epsilon^2/2}$.</p>
+<p>In conclusion, we have that
+$$
+\mathbb{P}(\ell_{D}(h_S) - \ell_{D}(h^*) &gt; \epsilon) \leq 2|\mathcal{H}|e^{-m\epsilon^2/2}
+$$</p>
 
         </div>
 
@@ -454,7 +486,7 @@ In this case, $\psi(p) - \alpha\psi(r) + (1 - \alpha)\psi(q) = 0$ beacuse $\psi$
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-      2023-06-06
+      2023-06-07
       
     </span>
   </p>
@@ -485,7 +517,7 @@ In this case, $\psi(p) - \alpha\psi(r) + (1 - \alpha)\psi(q) = 0$ beacuse $\psi$
           
           <nav class="post-nav">
             
-              <a class="prev" href="/post/machine-learning/2_statistical_learning/">
+              <a class="prev" href="/post/vim/make-vim-as-your-cc&#43;&#43;-ide/">
                 
                 <i class="iconfont">
                   <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
@@ -495,12 +527,12 @@ In this case, $\psi(p) - \alpha\psi(r) + (1 - \alpha)\psi(q) = 0$ beacuse $\psi$
 </svg>
 
                 </i>
-                <span class="prev-text nav-default">Statistical Learning - Machine Learning pt.2</span>
+                <span class="prev-text nav-default">Make Vim as your C/C&#43;&#43; IDE</span>
                 <span class="prev-text nav-mobile">Prev</span>
               </a>
             
-              <a class="next" href="/post/design-patterns/prototype-object-creational/">
-                <span class="next-text nav-default">Prototype - Class Creational</span>
+              <a class="next" href="/post/machine-learning/1_introduction/">
+                <span class="next-text nav-default">Introduction - Machine Learning pt.1</span>
                 <span class="prev-text nav-mobile">Next</span>
                 
                 <i class="iconfont">
@@ -550,26 +582,17 @@ In this case, $\psi(p) - \alpha\psi(r) + (1 - \alpha)\psi(q) = 0$ beacuse $\psi$
     <div class="toc-content custom-scrollbar">
       <nav id="TableOfContents">
   <ul>
-    <li><a href="#introduction">Introduction</a>
+    <li><a href="#statistical-learning">Statistical Learning</a>
       <ul>
-        <li><a href="#write-the-formula-for-the-square-loss-the-zero-one-loss-and-the-logarithmic-loss">Write the formula for the square loss, the zero-one loss, and the logarithmic loss.</a></li>
-        <li><a href="#what-does-a-learning-algorithm-receive-in-input-and-what-does-it-produce-in-output">What does a learning algorithm receive in input? and what does it produce in output?</a></li>
-        <li><a href="#write-the-mathematical-formula-defining-the-training-error-of-a-predictor-h">Write the mathematical formula defining the training error of a predictor $h$.</a></li>
-        <li><a href="#write-the-mathematical-formula-defining-the-erm-algorithm-over-a-class-mathcalh-of-predictors-define-the-main-quantities-occurring-in-the-formula">Write the mathematical formula defining the erm algorithm over a class $\mathcal{h}$ of predictors. define the main quantities occurring in the formula.</a></li>
-        <li><a href="#explain-in-words-how-overfitting-and-underfitting-are-defined-in-terms-of-behavior-of-an-algorithm-on-training-and-test-set">Explain in words how overfitting and underfitting are defined in terms of behavior of an algorithm on training and test set.</a></li>
-        <li><a href="#name-and-describe-three-reasons-why-labels-may-be-noisy">Name and describe three reasons why labels may be noisy.</a></li>
-      </ul>
-    </li>
-    <li><a href="#k-nn">$k$-NN</a>
-      <ul>
-        <li><a href="#is-k-nn-more-likely-to-overfit-when-k-is-large-or-small">Is $k$-NN more likely to overfit when $k$ is large or small?</a></li>
-      </ul>
-    </li>
-    <li><a href="#tree-predictor">Tree predictor</a>
-      <ul>
-        <li><a href="#write-a-short-pseudo-code-for-building-a-tree-classifier-based-on-a-training-set">Write a short pseudo-code for building a tree classifier based on a training set.</a></li>
-        <li><a href="#what-is-the-property-of-a-splitting-criterion-psi-ensuring-that-the-training-error-of-a-tree-classifier-does-not-increase-after-a-split-bonus-points-if-you-justify-your-answer-with-a-proof">What is the property of a splitting criterion $\psi$ ensuring that the training error of a tree classifier does not increase after a split? bonus points if you justify your answer with a proof.</a></li>
-        <li><a href="#write-the-formula-for-at-least-two-splitting-criteria-psi-used-in-practice-to-build-tree-classifiers">Write the formula for at least two splitting criteria $\psi$ used in practice to build tree classifiers.</a></li>
+        <li><a href="#write-the-formula-for-the-statistical-risk-of-a-predictor-h-with-respect-to-a-generic-loss-function-and-data-distribution">Write the formula for the statistical risk of a predictor $h$ with respect to a generic loss function and data distribution.</a></li>
+        <li><a href="#write-the-formula-for-the-bayes-optimal-predictor-for-a-generic-loss-function-and-data-distribution">Write the formula for the Bayes optimal predictor for a generic loss function and data distribution.</a></li>
+        <li><a href="#write-the-formula-for-bayes-optimal-predictor-and-bayes-risk-for-the-zero-one-loss">Write the formula for Bayes optimal predictor and Bayes risk for the zero-one loss.</a></li>
+        <li><a href="#can-the-bayes-risk-for-the-zero-one-loss-be-zero-if-yes-then-explain-how">Can the Bayes risk for the zero-one loss be zero? If yes, then explain how.</a></li>
+        <li><a href="#write-the-formula-for-bayes-optimal-predictor-and-bayes-risk-for-the-square-loss">Write the formula for Bayes optimal predictor and Bayes risk for the square loss.</a></li>
+        <li><a href="#explain-in-mathematical-terms-the-relationship-between-test-error-and-statistical-risk">Explain in mathematical terms the relationship between test error and statistical risk.</a></li>
+        <li><a href="#state-the-chernoff-hoeffding-bounds">State the Chernoff-Hoeffding bounds.</a></li>
+        <li><a href="#write-the-bias-variance-decomposition-for-a-generic-learning-algorithm-a-and-associate-the-resulting-components-to-overfitting-and-underfitting">Write the bias-variance decomposition for a generic learning algorithm A and associate the resulting components to overfitting and underfitting.</a></li>
+        <li><a href="#write-the-upper-bound-on-the-estimation-error-of-erm-run-on-a-finite-class-mathcalh-of-predictors">Write the upper bound on the estimation error of ERM run on a finite class $\mathcal{H}$ of predictors.</a></li>
       </ul>
     </li>
   </ul>

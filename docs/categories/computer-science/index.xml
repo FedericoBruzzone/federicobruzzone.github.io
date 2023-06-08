@@ -6,14 +6,23 @@
     <description>Recent content in computer-science on Federico Bruzzone&#39;s website</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 06 Jun 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://federicobruzzone.github.io/categories/computer-science/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 07 Jun 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://federicobruzzone.github.io/categories/computer-science/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Statistical Learning - Machine Learning pt.2</title>
+      <link>https://federicobruzzone.github.io/post/machine-learning/2_statistical_learning/</link>
+      <pubDate>Wed, 07 Jun 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://federicobruzzone.github.io/post/machine-learning/2_statistical_learning/</guid>
+      <description>Statistical Methods for Machine Learning - Questions &amp;amp; Answers pt.2. Statistical learning</description>
+    </item>
+    
     <item>
       <title>Introduction - Machine Learning pt.1</title>
       <link>https://federicobruzzone.github.io/post/machine-learning/1_introduction/</link>
       <pubDate>Tue, 06 Jun 2023 00:00:00 +0000</pubDate>
       
       <guid>https://federicobruzzone.github.io/post/machine-learning/1_introduction/</guid>
-      <description>Statistical methods for Machine Learning - Questions &amp;amp; Answers pt.1. Introduction, k-nn and tree predictor.</description>
+      <description>Statistical Methods for Machine Learning - Questions &amp;amp; Answers pt.1. Introduction, k-nn and tree predictor.</description>
     </item>
     
   </channel>

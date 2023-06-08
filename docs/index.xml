@@ -6,7 +6,7 @@
     <description>Recent content on Federico Bruzzone&#39;s website</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 06 Jun 2023 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 07 Jun 2023 00:00:00 +0000</lastBuildDate>
     
         <atom:link href="https://federicobruzzone.github.io/index.xml" rel="self" type="application/rss+xml" />
     
@@ -356,6 +356,124 @@
     </item>
     
     <item>
+      <title>Statistical Learning - Machine Learning pt.2</title>
+      <link>https://federicobruzzone.github.io/post/machine-learning/2_statistical_learning/</link>
+      <pubDate>Wed, 07 Jun 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://federicobruzzone.github.io/post/machine-learning/2_statistical_learning/</guid>
+      
+        <description>&lt;h2 id=&#34;statistical-learning&#34;&gt;Statistical Learning&lt;/h2&gt;
+&lt;h3 id=&#34;write-the-formula-for-the-statistical-risk-of-a-predictor-h-with-respect-to-a-generic-loss-function-and-data-distribution&#34;&gt;Write the formula for the statistical risk of a predictor $h$ with respect to a generic loss function and data distribution.&lt;/h3&gt;
+&lt;p&gt;The performance of a predictor $h : \mathcal{X} \rightarrow \mathcal{Y}$ with respect to $(\mathcal{D}, \ell)$ is evluated via the $\textbf{statistical risk}$, defined by:
+$$
+\ell_{\mathcal{D}}(h) = \mathbb{E}_{(\boldsymbol{x}, y) \sim \mathcal{D}}[\ell(Y, h(\boldsymbol{X}))]
+$$
+This is the expected value of the loss function on a randon example $(\boldsymbol{X}, Y)$ drawn from $\mathcal{D}$.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;write-the-formula-for-the-bayes-optimal-predictor-for-a-generic-loss-function-and-data-distribution&#34;&gt;Write the formula for the Bayes optimal predictor for a generic loss function and data distribution.&lt;/h3&gt;
+&lt;p&gt;The best possible predictor $f^{*}: \mathcal{X} \rightarrow \mathcal{Y}$ given $\mathcal{D}$ is known as the $\textbf{Bayes optimal predictor}$, and is defined by:
+$$
+f^{*}(\boldsymbol{x}) = \underset{\hat{y} \in \mathcal{Y}}{\textmd{argmin}}\ \mathbb{E}[\ell(Y, \hat{y})\ |\ \boldsymbol{X} = \boldsymbol{x}]
+$$&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;write-the-formula-for-bayes-optimal-predictor-and-bayes-risk-for-the-zero-one-loss&#34;&gt;Write the formula for Bayes optimal predictor and Bayes risk for the zero-one loss.&lt;/h3&gt;
+&lt;p&gt;On binary classification, where $\mathcal{Y} = \{-1, +1\}$ . Let $\eta(\boldsymbol{x})$ be the probability of $Y = 1$ conditioned on $\textbf{X} = \boldsymbol{x}$. We view $\eta(\boldsymbol{x}) = \mathbb{P}(Y = +1\ |\ \textbf{X} = \boldsymbol{x})$ as the value on $\boldsymbol{x}$ of a function $\eta : \mathcal{X} \rightarrow [0,1]$.
+Let $\mathbb{I}\{A\} \in \{0,1\}$ be the indicator function of the event $A$; that is, $\mathbb{I}\{A\} = 1$ if $A$ occurs and $\mathbb{I}\{A\} = 0$ otherwise.\
+The statistical risk with respect to the zero-one loss $\ell(y, \hat{y}) = \mathbb{I}{y \neq \hat{y}}$ is therefore defined by:
+$$
+\ell_{\mathcal{D}}(h) = \mathbb{E}[\mathbb{I}{Y \neq h(\boldsymbol{X})}] = \mathbb{P}(Y \neq h(\boldsymbol{X}))
+$$&lt;/p&gt;
+&lt;p&gt;The Bayes optimal predictor $f^{*} : \mathcal{X} \rightarrow {-1, +1}$ for binary classification is derived as follows:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+\begin{aligned}
+f^{*}(\boldsymbol{x}) &amp;amp; = \underset{\hat{y} \in \{-1,+1\}}{\text{argmin}}\ \mathbb{E}[\ell(Y, \hat{y})\ |\ \boldsymbol{X} = \boldsymbol{x}] \\
+&amp;amp; = \underset{\hat{y} \in \{-1,+1\}}{\text{argmin}}\ (\mathbb{P}(Y = +1\ |\ \boldsymbol{X} = \boldsymbol{x})\mathbb{I}\{\hat{y} = -1\} + \mathbb{P}(Y = -1\ |\ \boldsymbol{X} = \boldsymbol{x})\mathbb{I}\{\hat{y} = +1\}) \\                                &lt;br&gt;
+&amp;amp; = \underset{\hat{y} \in \{-1,+1\}}{\text{argmin}} (\eta(\boldsymbol{x})\mathbb{I}\{\hat{y} = -1\} + (1-\eta(\boldsymbol{x}))\mathbb{I}\{\hat{y} = +1\}) \\
+&amp;amp; = \begin{cases}
+-1 &amp;amp; \text{if}\ \eta(\boldsymbol{x}) &amp;lt; 1/2 \\
++1 &amp;amp; \text{if}\ \eta(\boldsymbol{x}) \geq 1/2                                \end{cases}
+\end{aligned}
+\end{equation}&lt;/p&gt;
+&lt;p&gt;Hence, the Bayes optimal classifier predicts the label whose probability is the highest when conditioned on the instance. Finally, it is easy to verify that the Bayes risk in this case is $\ell_{\mathcal{D}}(f^{*}) = \mathbb{E}[\textmd{min}{\eta(\textbf{X}), 1-\eta(\textbf{X})}]$\&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;can-the-bayes-risk-for-the-zero-one-loss-be-zero-if-yes-then-explain-how&#34;&gt;Can the Bayes risk for the zero-one loss be zero? If yes, then explain how.&lt;/h3&gt;
+&lt;p&gt;In the case of the zero-one loss, where the penalty is 1 for each incorrect prediction and 0 for each correct prediction, a Bayes risk of zero implies that the error rate is zero.&lt;/p&gt;
+&lt;p&gt;To achieve a Bayes risk of zero, two conditions must be met:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;$\textbf{Perfectly separable data}$: The classes in the data must be completely separable without any overlap. This means that there should be a decision boundary that can perfectly separate the instances of different classes. If such a decision boundary exists, it is possible to classify all instances correctly, resulting in an error rate of zero.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;$\textbf{Knowledge of the true underlying distribution}$: To construct a decision rule that achieves a Bayes risk of zero, you would need to know the true distribution from which the data is generated. With this knowledge, you can design a decision rule that assigns each instance to its correct class with certainty, leading to a perfect classification and zero error rate.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;write-the-formula-for-bayes-optimal-predictor-and-bayes-risk-for-the-square-loss&#34;&gt;Write the formula for Bayes optimal predictor and Bayes risk for the square loss.&lt;/h3&gt;
+&lt;p&gt;We can compute the Bayes optimal predictor for the quadratic loss function $\ell(y, \hat{y}) = (y - \hat{y})^{2}$ when $\mathcal{Y} \equiv \mathbb{R}$&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+\begin{aligned}
+f^{*}(\boldsymbol{x}) &amp;amp; = \underset{\hat{y} \in \mathbb{R}}{\textmd{argmin}}\ \mathbb{E}[(Y - \hat{y})^{2}\ |\ \boldsymbol{X} = \boldsymbol{x}] \\
+&amp;amp; = \underset{\hat{y} \in \mathbb{R}}{\textmd{argmin}}\ \left( \mathbb{E}[Y^{2}\ |\ \boldsymbol{X} = \boldsymbol{x}] + \hat{y}^{2} - 2\hat{y} \mathbb{E}[Y\ |\ \boldsymbol{X} = \boldsymbol{x}]\right) \\
+&amp;amp; = \mathbb{E}[Y\ |\ \boldsymbol{X} = \boldsymbol{x}] \\
+\end{aligned}
+\end{equation}&lt;/p&gt;
+&lt;p&gt;The Bayes optimal prediction for the quadratic loss function is the expected value of the label conditioned on the instance.&lt;/p&gt;
+&lt;p&gt;Substituting in the conditional risk formula $\ell_{\mathcal{D}}(h) = \mathbb{E}[(Y - f^{*}(\boldsymbol{X}))^{2}\ |\ \boldsymbol{X} = \boldsymbol{x}]$ the Bayes optimal predictor $f^{*}(\boldsymbol{x}) = \mathbb{E}[Y\ |\ \boldsymbol{X} = \boldsymbol{x}]$ we obtain:
+$$
+\mathbb{E}[(Y - f^{*}(\boldsymbol{X}))^{2}\ |\ \boldsymbol{X} = \boldsymbol{x}] = \mathbb{E}[(Y - \mathbb{E}[Y\ |\ \boldsymbol{x}])^{2}\ |\ \boldsymbol{X} = \boldsymbol{x}] = \textmd{Var}[Y\ |\ \boldsymbol{X} = \boldsymbol{x}]
+$$&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;explain-in-mathematical-terms-the-relationship-between-test-error-and-statistical-risk&#34;&gt;Explain in mathematical terms the relationship between test error and statistical risk.&lt;/h3&gt;
+&lt;p&gt;It should be clear that, given an arbitrary predictor $h$, we cannot directly compute its risk $\ell_{\mathcal{D}}(h)$ with respect to $D$ because $D$ is typically unknown.
+We thus consider the problem of estimating the risk of a given predictor $h$. In order to compute this estimate, we can use the $\textbf{test set}$ $S^\prime = {(x^\prime_{1} , y^\prime_{1}), \dots , (x^\prime_{n}, y^\prime_{n})}$. We can then estimate $\ell_{\mathcal{D}}(h)$ with the \textbf{test error}, which is the average loss of $h$ on the test set,
+$$
+\ell_{S^\prime}(h) = \frac{1}{n}\sum_{t=1}^{n} \ell(y^\prime_{t}, h(\boldsymbol{x}^\prime_{t}))
+$$
+Under the assumption that the test set is generated through independent draws from $D$, the test error corresponds to the \textbf{sample mean} of the risk. Indeed, for each $t = 1, \dots, n$ the example $(X^\prime_{t} , Y^\prime_{t})$ is an independent draw from $D$. Therefore,
+$$
+\mathbb{E}[\ell(Y^\prime_{t}, h(\boldsymbol{X}^\prime_{t}))] = \ell_{\mathcal{D}}(h) \quad \textmd{for all}\ t = 1, \dots, n
+$$
+Note that the above equalities rely on the assumption that $h$ does not depend on the test set. If it did, then the above equalities would not be necessarily true. This fact is important in the analysis of learning algorithms.&lt;/p&gt;
+&lt;h3 id=&#34;state-the-chernoff-hoeffding-bounds&#34;&gt;State the Chernoff-Hoeffding bounds.&lt;/h3&gt;
+&lt;p&gt;Let $Z_1, \dots, Z_n$ be indipendent and identically distributed random variables with expectation $\mu$ and such that $0 \leq Z_i \leq 1$ for all $i = 1, \dots, n$. Then, for any $\epsilon &amp;gt; 0$,&lt;/p&gt;
+&lt;p&gt;$$
+\mathbb{P}\left(\frac{1}{n}\sum_{t=1}^{n} Z_t &amp;gt; \mu + \epsilon\right) \leq e^{-2n\epsilon^{2}}
+\quad and \quad
+\mathbb{P}\left(\frac{1}{n}\sum_{t=1}^{n} Z_t &amp;lt; \mu - \epsilon\right) \leq e^{-2n\epsilon^{2}}
+$$&lt;/p&gt;
+&lt;p&gt;Using the Chernoff-Hoeffding bound with $Z_t = \ell(y_t, h(\boldsymbol{x}_t)) \in [0, 1]$ we can compute a confidence interval for the risk as follows (where the test error is written as $\ell$ instead of $\ell_{S^\prime}$):&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+\begin{aligned}
+\mathbb{P}\left(|\ell_{\mathcal{D}}(h) - \ell(h)| &amp;gt; \epsilon\right) &amp;amp; = \mathbb{P}\left(\ell_{\mathcal{D}}(h) - \ell(h) &amp;gt; \epsilon\ \cup\ \ell(h) - \ell_{\mathcal{D}}(h) &amp;gt; \epsilon\right) \\
+&amp;amp; = \mathbb{P}\left(\ell_{\mathcal{D}}(h) - \ell(h) &amp;gt; \epsilon\right) + \mathbb{P}\left(\ell(h) - \ell_{\mathcal{D}}(h) &amp;gt; \epsilon\right) \\
+&amp;amp; \leq 2e^{-2n\epsilon^{2}}
+\end{aligned}
+\end{equation}&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;write-the-bias-variance-decomposition-for-a-generic-learning-algorithm-a-and-associate-the-resulting-components-to-overfitting-and-underfitting&#34;&gt;Write the bias-variance decomposition for a generic learning algorithm A and associate the resulting components to overfitting and underfitting.&lt;/h3&gt;
+&lt;p&gt;Fix a training set $S$ and let $h_S = A(S)$. The following is called the $\textbf{bias-variance decomposition}$:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+\begin{aligned}
+\ell_{D}(h_{S}) &amp;amp; = \ell_{D}(h_S) - \ell_{D}(h^{*}) &amp;amp;&amp;amp; \text{estimation/variance error (large when overfitting)} \\
+&amp;amp; + \ell_{D}(h^{*}) - \ell_{D}(f^{*}) &amp;amp;&amp;amp; \text{approximation/bias error (large when underfitting)} \\
+&amp;amp; + \ell_{D}(f^{*}) &amp;amp;&amp;amp; \text{Bayes error (unavoidable)}
+\end{aligned}
+\end{equation}&lt;/p&gt;
+&lt;p&gt;where $f^*$ is the Bayes optimal predictor for $(\mathcal{D}, \ell)$.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;write-the-upper-bound-on-the-estimation-error-of-erm-run-on-a-finite-class-mathcalh-of-predictors&#34;&gt;Write the upper bound on the estimation error of ERM run on a finite class $\mathcal{H}$ of predictors.&lt;/h3&gt;
+&lt;p&gt;We now study the case $|\mathcal{H}| &amp;lt; \infty$, that is when the model space contains a finite number of predictors.&lt;/p&gt;
+&lt;p&gt;Note that the event $\exists h \in \mathcal{H} : |\ell_{\mathcal{D}}(h) - \ell_{S}(h)| &amp;gt; \epsilon / 2$ is the union over $h \in \mathcal{H}$ of the events $|\ell_{\mathcal{D}}(h) - \ell_{S}(h)| &amp;gt; \epsilon / 2$.&lt;/p&gt;
+&lt;p&gt;Therefore, by the union bound, we have that its probability is bounded by $|\mathcal{H}|$ times the probability of the event $|\ell_{\mathcal{D}}(h) - \ell_{S}(h)| &amp;gt; \epsilon / 2$ for a single predictor $h \in \mathcal{H}$ is $\leq |\mathcal{H}|2e^{-m\epsilon^2/2}$.&lt;/p&gt;
+&lt;p&gt;In conclusion, we have that
+$$
+\mathbb{P}(\ell_{D}(h_S) - \ell_{D}(h^*) &amp;gt; \epsilon) \leq 2|\mathcal{H}|e^{-m\epsilon^2/2}
+$$&lt;/p&gt;
+</description>
+      
+    </item>
+    
+    <item>
       <title>Introduction - Machine Learning pt.1</title>
       <link>https://federicobruzzone.github.io/post/machine-learning/1_introduction/</link>
       <pubDate>Tue, 06 Jun 2023 00:00:00 +0000</pubDate>
@@ -408,6 +526,7 @@ this suggests the we should run ERM with a large $\mathcal{F}$, so that there is
 &lt;h2 id=&#34;k-nn&#34;&gt;$k$-NN&lt;/h2&gt;
 &lt;h3 id=&#34;is-k-nn-more-likely-to-overfit-when-k-is-large-or-small&#34;&gt;Is $k$-NN more likely to overfit when $k$ is large or small?&lt;/h3&gt;
 &lt;p&gt;The learning algorithm suffers from high test error for small values of $k$ (overfitting) and for large values of $k$ (underfitting).&lt;/p&gt;
+&lt;hr&gt;
 &lt;h2 id=&#34;tree-predictor&#34;&gt;Tree predictor&lt;/h2&gt;
 &lt;h3 id=&#34;write-a-short-pseudo-code-for-building-a-tree-classifier-based-on-a-training-set&#34;&gt;Write a short pseudo-code for building a tree classifier based on a training set.&lt;/h3&gt;
 &lt;p&gt;We now describe a generic method to construct a binary tree given a training set $s$.&lt;/p&gt;
@@ -417,6 +536,7 @@ this suggests the we should run ERM with a large $\mathcal{F}$, so that there is
 &lt;/ol&gt;
 &lt;p&gt;$$S_{\ell^{&#39;}} = \{(\boldsymbol{x}_t, y_t) \in S_{\ell} : f(x_{t,i}) = 1\}\ \textmd{and}\ S_{\ell^{&#39;&#39;}} = \{(\boldsymbol{x}_t, y_t)\in S_{\ell} : f(x_{t,i}) = 2\}$$&lt;/p&gt;
 &lt;p&gt;Let the labels associated with $S_{\ell^{&#39;}}$ and $S_{\ell^{&#39;&#39;}}$ be the most frequent labels in $S_{\ell^{&#39;}}$ and $S_{\ell^{&#39;&#39;}}$ respectively.&lt;/p&gt;
+&lt;hr&gt;
 &lt;h3 id=&#34;what-is-the-property-of-a-splitting-criterion-psi-ensuring-that-the-training-error-of-a-tree-classifier-does-not-increase-after-a-split-bonus-points-if-you-justify-your-answer-with-a-proof&#34;&gt;What is the property of a splitting criterion $\psi$ ensuring that the training error of a tree classifier does not increase after a split? bonus points if you justify your answer with a proof.&lt;/h3&gt;
 &lt;p&gt;To answer this question is sufficient to observe that $\psi$ (i.e, $\psi(x) = \min{\{x, 1 - x\}}$) is a concave function.
 We can then apply jensen’s inequality, stating that $\psi(\alpha a + (1-\alpha)b) \geq \alpha\psi(a) + (1 - \alpha)\psi(b)$ for all $a,b \in \mathbb{r}$ and $\alpha \in [0,1]$.&lt;/p&gt;
@@ -425,6 +545,7 @@ We can then apply jensen’s inequality, stating that $\psi(\alpha a + (1-\alpha
 \psi \left( \frac{N_{\ell}^+}{N_{\ell}}\right){N_{\ell}} = \psi \left( \frac{N_{\ell^{&#39;}}^+}{N_{\ell^{&#39;}}}\frac{N_{\ell^{&#39;}}}{N_{\ell}} + \frac{N_{\ell^{&#39;&#39;}}^+}{N_{\ell^{&#39;&#39;}}}\frac{N_{\ell^{&#39;&#39;}}}{N_{\ell}}\right){N_{\ell}} \geq \psi\left( \frac{N_{\ell^{&#39;}}^+}{N_{\ell^{&#39;}}}\right)\frac{N_{\ell^{&#39;}}^+}{N_{\ell}}N_{\ell} + \psi\left( \frac{N_{\ell^{&#39;&#39;}}^+}{N_{\ell^{&#39;&#39;}}}\right)\frac{N_{\ell^{&#39;&#39;}}^+}{N_{\ell}}N_{\ell}
 $$&lt;/p&gt;
 &lt;p&gt;meaning that a split never increaseses the training error.&lt;/p&gt;
+&lt;hr&gt;
 &lt;h3 id=&#34;write-the-formula-for-at-least-two-splitting-criteria-psi-used-in-practice-to-build-tree-classifiers&#34;&gt;Write the formula for at least two splitting criteria $\psi$ used in practice to build tree classifiers.&lt;/h3&gt;
 &lt;p&gt;Ee use another type of splitting criterion $\psi$ because the one described in the previous question has strictly negative second derivative. Define $p, r, q$ where $p$ is the parent node, $r$ and $q$ are the children nodes, and they are on the same side with respect to the $\alpha$ and $p = \alpha r + (1 - \alpha)q$.
 In this case, $\psi(p) - \alpha\psi(r) + (1 - \alpha)\psi(q) = 0$ beacuse $\psi$ is a straight line.&lt;/p&gt;
