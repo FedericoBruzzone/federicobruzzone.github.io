@@ -387,12 +387,12 @@
 <h3 id="write-the-mathematical-formula-defining-the-training-error-of-a-predictor-h">Write the mathematical formula defining the training error of a predictor $h$.</h3>
 <p>$$\ell_{s}(f) = \frac{1}{n} \sum_{i=1}^n \ell(y_i, h(\boldsymbol{x}_i))$$</p>
 <hr>
-<h3 id="write-the-mathematical-formula-defining-the-erm-algorithm-over-a-class-mathcalh-of-predictors-define-the-main-quantities-occurring-in-the-formula">Write the mathematical formula defining the erm algorithm over a class $\mathcal{h}$ of predictors. define the main quantities occurring in the formula.</h3>
-<p>Let $\mathcal{F}$ be a given set of predictors and $\ell$ a loss function. the <strong>ERM</strong> (Empirical Risk Minimization) is a learning algorithm that outputs a predictor $\hat{f}$ that minimizes the training error.</p>
+<h3 id="write-the-mathematical-formula-defining-the-erm-algorithm-over-a-class-mathcalh-of-predictors-define-the-main-quantities-occurring-in-the-formula">Write the mathematical formula defining the ERM algorithm over a class $\mathcal{h}$ of predictors. Define the main quantities occurring in the formula.</h3>
+<p>Let $\mathcal{F}$ be a given set of predictors and $\ell$ a loss function. The <strong>ERM</strong> (Empirical Risk Minimization) is a learning algorithm that outputs a predictor $\hat{f}$ that minimizes the training error.</p>
 <p>$$\hat{f} \in \mathop{argmin}_{f \in \mathcal{f}} \left( \ell_{s}(f) \right)$$</p>
-<p>ERM obviously fails when no predictor in $\mathcal{F}$  has a low test error.
+<p>ERM obviously fails when no predictor in $\mathcal{F}$ has a low test error.
 this suggests the we should run ERM with a large $\mathcal{F}$, so that there is a good chance that a predictor with low test error exists in $\mathcal{F}$.</p>
-<p>In order not to fail erm, the training set should contain at least $\log_{2}|\mathcal{F}|$ distinct data points. equivalently, $|\mathcal{F}|$ should be smaller than $2^{m}$, where $m$ is the training set size.</p>
+<p>In order not to fail ERM, the training set should contain at least $\log_{2}|\mathcal{F}|$ distinct data points. equivalently, $|\mathcal{F}|$ should be smaller than $2^{m}$, where $m$ is the training set size.</p>
 <hr>
 <h3 id="explain-in-words-how-overfitting-and-underfitting-are-defined-in-terms-of-behavior-of-an-algorithm-on-training-and-test-set">Explain in words how overfitting and underfitting are defined in terms of behavior of an algorithm on training and test set.</h3>
 <p>We may give specific names to the two ways of failing of erm (i.e., returning a predictor with high test error) for a generic learning algorithm $\mathcal{A}$:</p>
@@ -555,7 +555,7 @@ In this case, $\psi(p) - \alpha\psi(r) + (1 - \alpha)\psi(q) = 0$ beacuse $\psi$
         <li><a href="#write-the-formula-for-the-square-loss-the-zero-one-loss-and-the-logarithmic-loss">Write the formula for the square loss, the zero-one loss, and the logarithmic loss.</a></li>
         <li><a href="#what-does-a-learning-algorithm-receive-in-input-and-what-does-it-produce-in-output">What does a learning algorithm receive in input? and what does it produce in output?</a></li>
         <li><a href="#write-the-mathematical-formula-defining-the-training-error-of-a-predictor-h">Write the mathematical formula defining the training error of a predictor $h$.</a></li>
-        <li><a href="#write-the-mathematical-formula-defining-the-erm-algorithm-over-a-class-mathcalh-of-predictors-define-the-main-quantities-occurring-in-the-formula">Write the mathematical formula defining the erm algorithm over a class $\mathcal{h}$ of predictors. define the main quantities occurring in the formula.</a></li>
+        <li><a href="#write-the-mathematical-formula-defining-the-erm-algorithm-over-a-class-mathcalh-of-predictors-define-the-main-quantities-occurring-in-the-formula">Write the mathematical formula defining the ERM algorithm over a class $\mathcal{h}$ of predictors. Define the main quantities occurring in the formula.</a></li>
         <li><a href="#explain-in-words-how-overfitting-and-underfitting-are-defined-in-terms-of-behavior-of-an-algorithm-on-training-and-test-set">Explain in words how overfitting and underfitting are defined in terms of behavior of an algorithm on training and test set.</a></li>
         <li><a href="#name-and-describe-three-reasons-why-labels-may-be-noisy">Name and describe three reasons why labels may be noisy.</a></li>
       </ul>

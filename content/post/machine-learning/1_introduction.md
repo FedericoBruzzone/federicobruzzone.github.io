@@ -55,16 +55,16 @@ $$\ell_{s}(f) = \frac{1}{n} \sum_{i=1}^n \ell(y\_i, h(\boldsymbol{x}_i))$$
 
 ---
 
-### Write the mathematical formula defining the erm algorithm over a class $\mathcal{h}$ of predictors. define the main quantities occurring in the formula.
+### Write the mathematical formula defining the ERM algorithm over a class $\mathcal{h}$ of predictors. Define the main quantities occurring in the formula.
 
-Let $\mathcal{F}$ be a given set of predictors and $\ell$ a loss function. the **ERM** (Empirical Risk Minimization) is a learning algorithm that outputs a predictor $\hat{f}$ that minimizes the training error.
+Let $\mathcal{F}$ be a given set of predictors and $\ell$ a loss function. The **ERM** (Empirical Risk Minimization) is a learning algorithm that outputs a predictor $\hat{f}$ that minimizes the training error.
 
 $$\hat{f} \in \mathop{argmin}\_{f \in \mathcal{f}} \left( \ell_{s}(f) \right)$$
 
-ERM obviously fails when no predictor in $\mathcal{F}$  has a low test error.
+ERM obviously fails when no predictor in $\mathcal{F}$ has a low test error.
 this suggests the we should run ERM with a large $\mathcal{F}$, so that there is a good chance that a predictor with low test error exists in $\mathcal{F}$.
 
-In order not to fail erm, the training set should contain at least $\log_{2}|\mathcal{F}|$ distinct data points. equivalently, $|\mathcal{F}|$ should be smaller than $2^{m}$, where $m$ is the training set size.
+In order not to fail ERM, the training set should contain at least $\log_{2}|\mathcal{F}|$ distinct data points. equivalently, $|\mathcal{F}|$ should be smaller than $2^{m}$, where $m$ is the training set size.
 
 ---
 

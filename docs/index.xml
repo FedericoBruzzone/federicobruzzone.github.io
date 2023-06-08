@@ -501,12 +501,12 @@ $$&lt;/p&gt;
 &lt;h3 id=&#34;write-the-mathematical-formula-defining-the-training-error-of-a-predictor-h&#34;&gt;Write the mathematical formula defining the training error of a predictor $h$.&lt;/h3&gt;
 &lt;p&gt;$$\ell_{s}(f) = \frac{1}{n} \sum_{i=1}^n \ell(y_i, h(\boldsymbol{x}_i))$$&lt;/p&gt;
 &lt;hr&gt;
-&lt;h3 id=&#34;write-the-mathematical-formula-defining-the-erm-algorithm-over-a-class-mathcalh-of-predictors-define-the-main-quantities-occurring-in-the-formula&#34;&gt;Write the mathematical formula defining the erm algorithm over a class $\mathcal{h}$ of predictors. define the main quantities occurring in the formula.&lt;/h3&gt;
-&lt;p&gt;Let $\mathcal{F}$ be a given set of predictors and $\ell$ a loss function. the &lt;strong&gt;ERM&lt;/strong&gt; (Empirical Risk Minimization) is a learning algorithm that outputs a predictor $\hat{f}$ that minimizes the training error.&lt;/p&gt;
+&lt;h3 id=&#34;write-the-mathematical-formula-defining-the-erm-algorithm-over-a-class-mathcalh-of-predictors-define-the-main-quantities-occurring-in-the-formula&#34;&gt;Write the mathematical formula defining the ERM algorithm over a class $\mathcal{h}$ of predictors. Define the main quantities occurring in the formula.&lt;/h3&gt;
+&lt;p&gt;Let $\mathcal{F}$ be a given set of predictors and $\ell$ a loss function. The &lt;strong&gt;ERM&lt;/strong&gt; (Empirical Risk Minimization) is a learning algorithm that outputs a predictor $\hat{f}$ that minimizes the training error.&lt;/p&gt;
 &lt;p&gt;$$\hat{f} \in \mathop{argmin}_{f \in \mathcal{f}} \left( \ell_{s}(f) \right)$$&lt;/p&gt;
-&lt;p&gt;ERM obviously fails when no predictor in $\mathcal{F}$  has a low test error.
+&lt;p&gt;ERM obviously fails when no predictor in $\mathcal{F}$ has a low test error.
 this suggests the we should run ERM with a large $\mathcal{F}$, so that there is a good chance that a predictor with low test error exists in $\mathcal{F}$.&lt;/p&gt;
-&lt;p&gt;In order not to fail erm, the training set should contain at least $\log_{2}|\mathcal{F}|$ distinct data points. equivalently, $|\mathcal{F}|$ should be smaller than $2^{m}$, where $m$ is the training set size.&lt;/p&gt;
+&lt;p&gt;In order not to fail ERM, the training set should contain at least $\log_{2}|\mathcal{F}|$ distinct data points. equivalently, $|\mathcal{F}|$ should be smaller than $2^{m}$, where $m$ is the training set size.&lt;/p&gt;
 &lt;hr&gt;
 &lt;h3 id=&#34;explain-in-words-how-overfitting-and-underfitting-are-defined-in-terms-of-behavior-of-an-algorithm-on-training-and-test-set&#34;&gt;Explain in words how overfitting and underfitting are defined in terms of behavior of an algorithm on training and test set.&lt;/h3&gt;
 &lt;p&gt;We may give specific names to the two ways of failing of erm (i.e., returning a predictor with high test error) for a generic learning algorithm $\mathcal{A}$:&lt;/p&gt;
