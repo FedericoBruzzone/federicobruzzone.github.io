@@ -7,7 +7,7 @@ draft: false
 tags: [computer-science, machine-learning, statistics, math, linear-algebra]
 categories: [computer-science, machine-learning]
 
-summary: "Statistical methods for Machine Learning - Questions & Answers pt.1. Introduction, k-nn and tree predictor."
+summary: "Statistical Methods for Machine Learning - Questions & Answers pt.1. Introduction, k-nn and tree predictor."
 katex: true
 mathjax: true
 math: true
@@ -95,6 +95,8 @@ noisy labels cause overfitting because they may mislead the algorithm with regar
 
 The learning algorithm suffers from high test error for small values of $k$ (overfitting) and for large values of $k$ (underfitting).
 
+---
+
 ## Tree predictor
 
 ### Write a short pseudo-code for building a tree classifier based on a training set.
@@ -108,6 +110,8 @@ $$S\_{\ell^{'}} = \\{(\boldsymbol{x}\_t, y\_t) \in S\_{\ell} : f(x\_{t,i}) = 1\\
 
 Let the labels associated with $S_{\ell^{'}}$ and $S_{\ell^{''}}$ be the most frequent labels in $S_{\ell^{'}}$ and $S_{\ell^{''}}$ respectively.
 
+---
+
 ### What is the property of a splitting criterion $\psi$ ensuring that the training error of a tree classifier does not increase after a split? bonus points if you justify your answer with a proof.
 
 To answer this question is sufficient to observe that $\psi$ (i.e, $\psi(x) = \min{\\{x, 1 - x\\}}$) is a concave function.
@@ -120,6 +124,8 @@ $$
 $$
 
 meaning that a split never increaseses the training error.
+
+---
 
 ### Write the formula for at least two splitting criteria $\psi$ used in practice to build tree classifiers.
 

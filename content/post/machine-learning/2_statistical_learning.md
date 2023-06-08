@@ -1,13 +1,13 @@
 ---
 
-author: federico bruzzone
-title: introduction - machine learning pt.1 
-date: 2023-06-06
-draft: true 
+author: Federico Bruzzone
+title: Statistical Learning - Machine Learning pt.2 
+date: 2023-06-07
+draft: false 
 tags: [computer-science, machine-learning, statistics, math, linear-algebra]
 categories: [computer-science, machine-learning]
 
-summary: "statistical methods for machine learning - questions & answers pt.2. Statistical learning"
+summary: "Statistical Methods for Machine Learning - Questions & Answers pt.2. Statistical learning"
 katex: true
 mathjax: true
 math: true
@@ -19,116 +19,150 @@ math: true
 
 ---
 
-## introduction
+## Statistical Learning
 
-### write the formula for the square loss, the zero-one loss, and the logarithmic loss.
+### Write the formula for the statistical risk of a predictor $h$ with respect to a generic loss function and data distribution.
 
-**absolute loss**: $\ell(y, \hat{y}) = |y-\hat{y}|$
-    
-**square loss**: $\ell(y, \hat{y}) = (y-\hat{y})^2$
-    
-**zero-one loss**: $\ell(y, \hat{y}) = \begin{cases} 
-0 & \text{if } y = \hat{y}\\\ 
-1 & \text{if } y \neq \hat{y}
-\end{cases}$
-    
-**logarithmic loss**: $\ell(y, \hat{y}) = \begin{cases} 
-\ln\frac{1}{\hat{y}} & \text{if } y = 1\\\ 
-\ln\frac{1}{1-\hat{y}} & \text{if } y = 0 
-\end{cases}$
+The performance of a predictor $h : \mathcal{X} \rightarrow \mathcal{Y}$ with respect to $(\mathcal{D}, \ell)$ is evluated via the $\textbf{statistical risk}$, defined by:
+$$
+    \ell_{\mathcal{D}}(h) = \mathbb{E}_{(\boldsymbol{x}, y) \sim \mathcal{D}}[\ell(Y, h(\boldsymbol{X}))]
+$$
+This is the expected value of the loss function on a randon example $(\boldsymbol{X}, Y)$ drawn from $\mathcal{D}$.
 
 ---
 
-### what does a learning algorithm receive in input? and what does it produce in output?
+### Write the formula for the Bayes optimal predictor for a generic loss function and data distribution.
 
-a **learning algorithm** training set as an input and output a predictor.
-
-a **training set** is a set of example $\mathcal{s} = \{(\boldsymbol{x}_1, y_1), \dots, (\boldsymbol{x}_n, y_n)\}$ where $\boldsymbol{x}_i \in \mathcal{x}$ and $y_i \in \mathcal{y}$ for $i = 1, \dots, n$. training and test set are often prepared together, through a single round of data collection and annotation. 
-
-a **predictor** is a function $f: \mathcal{x} \rightarrow \mathcal{y}$ mapping data points to labels.
-
----
-
-### write the mathematical formula defining the training error of a predictor $h$.
-
-$$\ell_{s}(f) = \frac{1}{n} \sum_{i=1}^n \ell(y\_i, h(\boldsymbol{x}_i))$$
+The best possible predictor $f^{\*}: \mathcal{X} \rightarrow \mathcal{Y}$ given $\mathcal{D}$ is known as the $\textbf{Bayes optimal predictor}$, and is defined by:
+$$
+f^{*}(\boldsymbol{x}) = \underset{\hat{y} \in \mathcal{Y}}{\textmd{argmin}}\ \mathbb{E}[\ell(Y, \hat{y})\ |\ \boldsymbol{X} = \boldsymbol{x}]
+$$
 
 ---
 
-### write the mathematical formula defining the erm algorithm over a class $\mathcal{h}$ of predictors. define the main quantities occurring in the formula.
+### Write the formula for Bayes optimal predictor and Bayes risk for the zero-one loss.
 
-let $\mathcal{f}$ be a given set of predictors and $\ell$ a loss function. the **erm** (empirical risk minimization) is a learning algorithm that outputs a predictor $\hat{f}$ that minimizes the training error.
+On binary classification, where $\mathcal{Y} = \\{-1, +1\\}$ . Let $\eta(\boldsymbol{x})$ be the probability of $Y = 1$ conditioned on $\textbf{X} = \boldsymbol{x}$. We view $\eta(\boldsymbol{x}) = \mathbb{P}(Y = +1\ |\ \textbf{X} = \boldsymbol{x})$ as the value on $\boldsymbol{x}$ of a function $\eta : \mathcal{X} \rightarrow [0,1]$.
+Let $\mathbb{I}\\{A\\} \in \\{0,1\\}$ be the indicator function of the event $A$; that is, $\mathbb{I}\\{A\\} = 1$ if $A$ occurs and $\mathbb{I}\\{A\\} = 0$ otherwise.\\
+The statistical risk with respect to the zero-one loss $\ell(y, \hat{y}) = \mathbb{I}\{y \neq \hat{y}\}$ is therefore defined by:
+$$
+\ell_{\mathcal{D}}(h) = \mathbb{E}[\mathbb{I}\{Y \neq h(\boldsymbol{X})\}] = \mathbb{P}(Y \neq h(\boldsymbol{X}))
+$$
 
-$$\hat{f} \in \mathop{argmin}\_{f \in \mathcal{f}} \left( \ell_{s}(f) \right)$$
+The Bayes optimal predictor $f^{*} : \mathcal{X} \rightarrow \{-1, +1\}$ for binary classification is derived as follows:
 
-erm obviously fails when no predictor in $\mathcal{f}$  has a low test error.
-this suggests the we should run erm with a large $\mathcal{f}$, so that there is a good chance that a predictor with low test error exists in $\mathcal{f}$.
-
-in order not to fail erm, the training set should contain at least $\log_{2}|\mathcal{f}|$ distinct data points. equivalently, $|\mathcal{f}|$ should be smaller than $2^{m}$, where $m$ is the training set size.
-
----
-
-
-### explain in words how overfitting and underfitting are defined in terms of behavior of an algorithm on training and test set. 
-
-we may give specific names to the two ways of failing of erm (i.e., returning a predictor with high test error) for a generic learning algorithm $\mathcal{a}$: 
-
-
-- if $\mathcal{a}$ fails by returning predictors with high training error, then we say that $\mathcal{a}$ is **underfitting**,
-- if $\mathcal{a}$ fails by returning predictors with low training error, then we say that $\mathcal{a}$ is **overfitting**.
-
----
-
-### name and describe three reasons why labels may be noisy. 
-
-namely, when labels $y$ are not deterministically associated with data points $\boldsymbol{x}$. noise may occur for at least three (not mutually exclusive) reasons. 
-
-1. **human in the loop**: the labels are assigned by a human annotator who decides the "true" label for each data point. in this case, different annotators may have different opinions.
-2. **epistemic uncertainty**: each data point is represented by a feature vector $\boldsymbol{x}$ that does not contain enough information to uniquely determine the label.             
-3. **aleatoric uncertainty**: the feature vector $\boldsymbol{x}$ representing a data point is obtained through noisy measurements. the label associated with a given $\boldsymbol{x}$ is then stochastic because the same $\boldsymbol{x}$ could have been generated by different data points.
-
-noisy labels cause overfitting because they may mislead the algorithm with regard to what is the "true" label for a given data point.
-
-## $k$-nn
-
-### is $k$-nn more likely to overfit when $k$ is large or small?
-
-the learning algorithm suffers from high test error for small values of $k$ (overfitting) and for large values of $k$ (underfitting).
-
-## tree predictor
-
-### write a short pseudo-code for building a tree classifier based on a training set.
-
-we now describe a generic method to construct a binary tree given a training set $s$.
-    
-1. **initialization**: create $t$ with only the root $\ell$ and let $s_{\ell} = s$. let the label associated with the root be the most frequent label in $s_{\ell}$.
-2. **main loop**: pick a leaf $\ell$ and replace it with an internal node $v$ creating two children $\ell^{'}$ and $\ell^{''}$. pick an attribute $i$ and a test $f : \mathcal{x}\_i \rightarrow \\{1,2\\}$. associate the test $f$ with $v$ and partition $s_{\ell}$ in the two subsets
+\begin{equation}
+\begin{aligned}
+f^{\*}(\boldsymbol{x}) & = \underset{\hat{y} \in \\{-1,+1\\}}{\text{argmin}}\ \mathbb{E}[\ell(Y, \hat{y})\ |\ \boldsymbol{X} = \boldsymbol{x}] \\\
+& = \underset{\hat{y} \in \\{-1,+1\\}}{\text{argmin}}\ (\mathbb{P}(Y = +1\ |\ \boldsymbol{X} = \boldsymbol{x})\mathbb{I}\\{\hat{y} = -1\\} + \mathbb{P}(Y = -1\ |\ \boldsymbol{X} = \boldsymbol{x})\mathbb{I}\\{\hat{y} = +1\\}) \\\                                   
+& = \underset{\hat{y} \in \\{-1,+1\\}}{\text{argmin}} (\eta(\boldsymbol{x})\mathbb{I}\\{\hat{y} = -1\\} + (1-\eta(\boldsymbol{x}))\mathbb{I}\\{\hat{y} = +1\\}) \\\
+& = \begin{cases}
+-1 & \text{if}\ \eta(\boldsymbol{x}) < 1/2 \\\
++1 & \text{if}\ \eta(\boldsymbol{x}) \geq 1/2                                \end{cases}
+\end{aligned}
+\end{equation}
         
-$$s\_{\ell^{'}} = \\{(\boldsymbol{x}\_t, y\_t) \in s\_{\ell} : f(x\_{t,i}) = 1\\}\ \textmd{and}\ s\_{\ell^{''}} = \\{(\boldsymbol{x}\_t, y\_t)\in s\_{\ell} : f(x\_{t,i}) = 2\\}$$
+Hence, the Bayes optimal classifier predicts the label whose probability is the highest when conditioned on the instance. Finally, it is easy to verify that the Bayes risk in this case is $\ell_{\mathcal{D}}(f^{*}) = \mathbb{E}[\textmd{min}\{\eta(\textbf{X}), 1-\eta(\textbf{X})\}]$\\
 
-let the labels associated with $s_{\ell^{'}}$ and$s_{\ell^{''}}$ be the most frequent labels in $s_{\ell^{'}}$ and $s_{\ell^{''}}$ respectively.
+---
 
-### what is the property of a splitting criterion $\psi$ ensuring that the training error of a tree classifier does not increase after a split? bonus points if you justify your answer with a proof.
+### Can the Bayes risk for the zero-one loss be zero? If yes, then explain how.
 
-to answer this question is sufficient to observe that $\psi$ (i.e, $\psi(x) = \min{\{x, 1 - x\}}$) is a concave function.\\
-    we can then apply jensen’s inequality, stating that $\psi(\alpha a + (1-\alpha)b) \geq \alpha\psi(a) + (1 - \alpha)\psi(b)$ for all $a,b \in \mathbb{r}$ and $\alpha \in [0,1]$.
+In the case of the zero-one loss, where the penalty is 1 for each incorrect prediction and 0 for each correct prediction, a Bayes risk of zero implies that the error rate is zero.
 
-hence, via jensen's inequality, we can study how the training error changes when $\ell$ is replaces by two new leaves $\ell^{'}$ and $\ell^{''}$.
-    
+To achieve a Bayes risk of zero, two conditions must be met:
+
+1. $\textbf{Perfectly separable data}$: The classes in the data must be completely separable without any overlap. This means that there should be a decision boundary that can perfectly separate the instances of different classes. If such a decision boundary exists, it is possible to classify all instances correctly, resulting in an error rate of zero.
+
+2. $\textbf{Knowledge of the true underlying distribution}$: To construct a decision rule that achieves a Bayes risk of zero, you would need to know the true distribution from which the data is generated. With this knowledge, you can design a decision rule that assigns each instance to its correct class with certainty, leading to a perfect classification and zero error rate.
+
+---
+
+### Write the formula for Bayes optimal predictor and Bayes risk for the square loss.
+
+
+We can compute the Bayes optimal predictor for the quadratic loss function $\ell(y, \hat{y}) = (y - \hat{y})^{2}$ when $\mathcal{Y} \equiv \mathbb{R}$
+
+\begin{equation} 
+\begin{aligned}
+f^{\*}(\boldsymbol{x}) & = \underset{\hat{y} \in \mathbb{R}}{\textmd{argmin}}\ \mathbb{E}[(Y - \hat{y})^{2}\ |\ \boldsymbol{X} = \boldsymbol{x}] \\\
+& = \underset{\hat{y} \in \mathbb{R}}{\textmd{argmin}}\ \left( \mathbb{E}[Y^{2}\ |\ \boldsymbol{X} = \boldsymbol{x}] + \hat{y}^{2} - 2\hat{y} \mathbb{E}[Y\ |\ \boldsymbol{X} = \boldsymbol{x}]\right) \\\ 
+& = \mathbb{E}[Y\ |\ \boldsymbol{X} = \boldsymbol{x}] \\\
+\end{aligned}
+\end{equation}
+
+The Bayes optimal prediction for the quadratic loss function is the expected value of the label conditioned on the instance.
+
+Substituting in the conditional risk formula $\ell_{\mathcal{D}}(h) = \mathbb{E}[(Y - f^{\*}(\boldsymbol{X}))^{2}\ |\ \boldsymbol{X} = \boldsymbol{x}]$ the Bayes optimal predictor $f^{\*}(\boldsymbol{x}) = \mathbb{E}[Y\ |\ \boldsymbol{X} = \boldsymbol{x}]$ we obtain:
 $$
-\psi \left( \frac{n_{\ell}^+}{n_{\ell}}\right){n_{\ell}} = \psi \left( \frac{n_{\ell^{'}}^+}{n_{\ell^{'}}}\frac{n_{\ell^{'}}}{n_{\ell}} + \frac{n_{\ell^{''}}^+}{n_{\ell^{''}}}\frac{n_{\ell^{''}}}{n_{\ell}}\right){n_{\ell}} \geq \psi\left( \frac{n_{\ell^{'}}^+}{n_{\ell^{'}}}\right)\frac{n_{\ell^{'}}^+}{n_{\ell}}n_{\ell} + \psi\left( \frac{n_{\ell^{''}}^+}{n_{\ell^{''}}}\right)\frac{n_{\ell^{''}}^+}{n_{\ell}}n_{\ell}
+\mathbb{E}[(Y - f^{*}(\boldsymbol{X}))^{2}\ |\ \boldsymbol{X} = \boldsymbol{x}] = \mathbb{E}[(Y - \mathbb{E}[Y\ |\ \boldsymbol{x}])^{2}\ |\ \boldsymbol{X} = \boldsymbol{x}] = \textmd{Var}[Y\ |\ \boldsymbol{X} = \boldsymbol{x}]
 $$
 
-meaning that a split never increaseses the training error.
+---
 
-### write the formula for at least two splitting criteria $\psi$ used in practice to build tree classifiers.
+### Explain in mathematical terms the relationship between test error and statistical risk.
 
-we use another type of splitting criterion $\psi$ because the one described in the previous question has strictly negative second derivative. define $p, r, q$ where $p$ is the parent node, $r$ and $q$ are the children nodes, and they are on the same side with respect to the $\alpha$ and $p = \alpha r + (1 - \alpha)q$.
-in this case, $\psi(p) - \alpha\psi(r) + (1 - \alpha)\psi(q) = 0$ beacuse $\psi$ is a straight line.
+It should be clear that, given an arbitrary predictor $h$, we cannot directly compute its risk $\ell_{\mathcal{D}}(h)$ with respect to $D$ because $D$ is typically unknown.
+We thus consider the problem of estimating the risk of a given predictor $h$. In order to compute this estimate, we can use the $\textbf{test set}$ $S^\prime = \{(x^\prime_{1} , y^\prime_{1}), \dots , (x^\prime_{n}, y^\prime_{n})\}$. We can then estimate $\ell_{\mathcal{D}}(h)$ with the \textbf{test error}, which is the average loss of $h$ on the test set,
+$$
+\ell_{S^\prime}(h) = \frac{1}{n}\sum_{t=1}^{n} \ell(y^\prime_{t}, h(\boldsymbol{x}^\prime_{t}))
+$$
+Under the assumption that the test set is generated through independent draws from $D$, the test error corresponds to the \textbf{sample mean} of the risk. Indeed, for each $t = 1, \dots, n$ the example $(X^\prime_{t} , Y^\prime_{t})$ is an independent draw from $D$. Therefore,
+$$
+\mathbb{E}[\ell(Y^\prime_{t}, h(\boldsymbol{X}^\prime_{t}))] = \ell_{\mathcal{D}}(h) \quad \textmd{for all}\ t = 1, \dots, n
+$$
+Note that the above equalities rely on the assumption that $h$ does not depend on the test set. If it did, then the above equalities would not be necessarily true. This fact is important in the analysis of learning algorithms.
 
-some example of functions $\psi$ used in practice are 
-1. **gini function**: $\psi(p) = 2p(1-p)$
-2. **scaled entropy**: $\psi(p) = -\frac{p}{2}\log_2(p) - \frac{1-p}{2}\log_2(1-p)$
-3. $\psi(p) = \sqrt{p(1-p)}$
+### State the Chernoff-Hoeffding bounds.
+
+Let $Z_1, \dots, Z_n$ be indipendent and identically distributed random variables with expectation $\mu$ and such that $0 \leq Z_i \leq 1$ for all $i = 1, \dots, n$. Then, for any $\epsilon > 0$,
+
+$$
+\mathbb{P}\left(\frac{1}{n}\sum_{t=1}^{n} Z_t > \mu + \epsilon\right) \leq e^{-2n\epsilon^{2}}
+\quad and \quad
+\mathbb{P}\left(\frac{1}{n}\sum_{t=1}^{n} Z_t < \mu - \epsilon\right) \leq e^{-2n\epsilon^{2}}
+$$
+
+Using the Chernoff-Hoeffding bound with $Z\_t = \ell(y\_t, h(\boldsymbol{x}\_t)) \in [0, 1]$ we can compute a confidence interval for the risk as follows (where the test error is written as $\ell$ instead of $\ell_{S^\prime}$):
+
+\begin{equation}
+\begin{aligned}
+\mathbb{P}\left(|\ell_{\mathcal{D}}(h) - \ell(h)| > \epsilon\right) & = \mathbb{P}\left(\ell_{\mathcal{D}}(h) - \ell(h) > \epsilon\ \cup\ \ell(h) - \ell_{\mathcal{D}}(h) > \epsilon\right) \\\
+                                                                            & = \mathbb{P}\left(\ell_{\mathcal{D}}(h) - \ell(h) > \epsilon\right) + \mathbb{P}\left(\ell(h) - \ell_{\mathcal{D}}(h) > \epsilon\right) \\\
+                                                                            & \leq 2e^{-2n\epsilon^{2}}
+\end{aligned}
+\end{equation}
+
+---
+
+### Write the bias-variance decomposition for a generic learning algorithm A and associate the resulting components to overfitting and underfitting.
+
+Fix a training set $S$ and let $h_S = A(S)$. The following is called the $\textbf{bias-variance decomposition}$:
+
+\begin{equation} 
+\begin{aligned}
+\ell\_{D}(h\_{S}) & = \ell\_{D}(h\_S) - \ell\_{D}(h^{*}) && \text{estimation/variance error (large when overfitting)} \\\ 
+& + \ell\_{D}(h^{\*}) - \ell\_{D}(f^{\*}) && \text{approximation/bias error (large when underfitting)} \\\
+& + \ell\_{D}(f^{\*}) && \text{Bayes error (unavoidable)} 
+\end{aligned}
+\end{equation}
+
+where $f^*$ is the Bayes optimal predictor for $(\mathcal{D}, \ell)$.
+
+---
+
+### Write the upper bound on the estimation error of ERM run on a finite class $\mathcal{H}$ of predictors.
+
+We now study the case $|\mathcal{H}| < \infty$, that is when the model space contains a finite number of predictors.
+
+Note that the event $\exists h \in \mathcal{H} : |\ell_{\mathcal{D}}(h) - \ell_{S}(h)| > \epsilon / 2$ is the union over $h \in \mathcal{H}$ of the events $|\ell_{\mathcal{D}}(h) - \ell_{S}(h)| > \epsilon / 2$.
+
+Therefore, by the union bound, we have that its probability is bounded by $|\mathcal{H}|$ times the probability of the event $|\ell_{\mathcal{D}}(h) - \ell_{S}(h)| > \epsilon / 2$ for a single predictor $h \in \mathcal{H}$ is $\leq |\mathcal{H}|2e^{-m\epsilon^2/2}$.
+
+In conclusion, we have that
+$$
+\mathbb{P}(\ell_{D}(h_S) - \ell_{D}(h^*) > \epsilon) \leq 2|\mathcal{H}|e^{-m\epsilon^2/2}
+$$
+
 
 
