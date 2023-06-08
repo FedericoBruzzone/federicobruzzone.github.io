@@ -10,20 +10,90 @@
   
   <url>
     <loc>https://federicobruzzone.github.io/categories/</loc>
-    <lastmod>2023-05-08T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://federicobruzzone.github.io/tags/clean-code/</loc>
-    <lastmod>2023-05-08T00:00:00+00:00</lastmod>
+    <lastmod>2023-06-06T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://federicobruzzone.github.io/tags/computer-science/</loc>
+    <lastmod>2023-06-06T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://federicobruzzone.github.io/categories/computer-science/</loc>
+    <lastmod>2023-06-06T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://federicobruzzone.github.io/</loc>
+    <lastmod>2023-06-06T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://federicobruzzone.github.io/post/machine-learning/1_introduction/</loc>
+    <lastmod>2023-06-06T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://federicobruzzone.github.io/tags/linear-algebra/</loc>
+    <lastmod>2023-06-06T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://federicobruzzone.github.io/tags/machine-learning/</loc>
+    <lastmod>2023-06-06T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://federicobruzzone.github.io/categories/machine-learning/</loc>
+    <lastmod>2023-06-06T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://federicobruzzone.github.io/tags/math/</loc>
+    <lastmod>2023-06-06T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://federicobruzzone.github.io/post/</loc>
+    <lastmod>2023-06-06T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://federicobruzzone.github.io/tags/statistics/</loc>
+    <lastmod>2023-06-06T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://federicobruzzone.github.io/tags/</loc>
+    <lastmod>2023-06-06T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://federicobruzzone.github.io/tags/clean-code/</loc>
     <lastmod>2023-05-08T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -44,21 +114,7 @@
   </url>
   
   <url>
-    <loc>https://federicobruzzone.github.io/</loc>
-    <lastmod>2023-05-08T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
     <loc>https://federicobruzzone.github.io/tags/object-oriented/</loc>
-    <lastmod>2023-05-08T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://federicobruzzone.github.io/post/</loc>
     <lastmod>2023-05-08T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -80,13 +136,6 @@
   
   <url>
     <loc>https://federicobruzzone.github.io/post/design-patterns/prototype-object-creational/</loc>
-    <lastmod>2023-05-08T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://federicobruzzone.github.io/tags/</loc>
     <lastmod>2023-05-08T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>

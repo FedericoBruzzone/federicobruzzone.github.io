@@ -6,7 +6,7 @@
     <description>Recent content on Federico Bruzzone&#39;s website</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 08 May 2023 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 06 Jun 2023 00:00:00 +0000</lastBuildDate>
     
         <atom:link href="https://federicobruzzone.github.io/index.xml" rel="self" type="application/rss+xml" />
     
@@ -356,6 +356,89 @@
     </item>
     
     <item>
+      <title>Introduction - Machine Learning pt.1</title>
+      <link>https://federicobruzzone.github.io/post/machine-learning/1_introduction/</link>
+      <pubDate>Tue, 06 Jun 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://federicobruzzone.github.io/post/machine-learning/1_introduction/</guid>
+      
+        <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
+&lt;h3 id=&#34;write-the-formula-for-the-square-loss-the-zero-one-loss-and-the-logarithmic-loss&#34;&gt;Write the formula for the square loss, the zero-one loss, and the logarithmic loss.&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Absolute loss&lt;/strong&gt;: $\ell(y, \hat{y}) = |y-\hat{y}|$&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Square loss&lt;/strong&gt;: $\ell(y, \hat{y}) = (y-\hat{y})^2$&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Zero-one loss&lt;/strong&gt;: $\ell(y, \hat{y}) = \begin{cases}
+0 &amp;amp; \text{if } y = \hat{y}\\
+1 &amp;amp; \text{if } y \neq \hat{y}
+\end{cases}$&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Logarithmic loss&lt;/strong&gt;: $\ell(y, \hat{y}) = \begin{cases}
+\ln\frac{1}{\hat{y}} &amp;amp; \text{if } y = 1\\
+\ln\frac{1}{1-\hat{y}} &amp;amp; \text{if } y = 0
+\end{cases}$&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;what-does-a-learning-algorithm-receive-in-input-and-what-does-it-produce-in-output&#34;&gt;What does a learning algorithm receive in input? and what does it produce in output?&lt;/h3&gt;
+&lt;p&gt;A &lt;strong&gt;learning algorithm&lt;/strong&gt; training set as an input and output a predictor.&lt;/p&gt;
+&lt;p&gt;A &lt;strong&gt;training set&lt;/strong&gt; is a set of example $\mathcal{S} = {(\boldsymbol{x}_1, y_1), \dots, (\boldsymbol{x}_n, y_n)}$ where $\boldsymbol{x}_i \in \mathcal{X}$ and $y_i \in \mathcal{Y}$ for $i = 1, \dots, n$. training and test set are often prepared together, through a single round of data collection and annotation.&lt;/p&gt;
+&lt;p&gt;A &lt;strong&gt;predictor&lt;/strong&gt; is a function $f: \mathcal{X} \rightarrow \mathcal{Y}$ mapping data points to labels.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;write-the-mathematical-formula-defining-the-training-error-of-a-predictor-h&#34;&gt;Write the mathematical formula defining the training error of a predictor $h$.&lt;/h3&gt;
+&lt;p&gt;$$\ell_{s}(f) = \frac{1}{n} \sum_{i=1}^n \ell(y_i, h(\boldsymbol{x}_i))$$&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;write-the-mathematical-formula-defining-the-erm-algorithm-over-a-class-mathcalh-of-predictors-define-the-main-quantities-occurring-in-the-formula&#34;&gt;Write the mathematical formula defining the erm algorithm over a class $\mathcal{h}$ of predictors. define the main quantities occurring in the formula.&lt;/h3&gt;
+&lt;p&gt;Let $\mathcal{F}$ be a given set of predictors and $\ell$ a loss function. the &lt;strong&gt;ERM&lt;/strong&gt; (Empirical Risk Minimization) is a learning algorithm that outputs a predictor $\hat{f}$ that minimizes the training error.&lt;/p&gt;
+&lt;p&gt;$$\hat{f} \in \mathop{argmin}_{f \in \mathcal{f}} \left( \ell_{s}(f) \right)$$&lt;/p&gt;
+&lt;p&gt;ERM obviously fails when no predictor in $\mathcal{F}$  has a low test error.
+this suggests the we should run ERM with a large $\mathcal{F}$, so that there is a good chance that a predictor with low test error exists in $\mathcal{F}$.&lt;/p&gt;
+&lt;p&gt;In order not to fail erm, the training set should contain at least $\log_{2}|\mathcal{F}|$ distinct data points. equivalently, $|\mathcal{F}|$ should be smaller than $2^{m}$, where $m$ is the training set size.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;explain-in-words-how-overfitting-and-underfitting-are-defined-in-terms-of-behavior-of-an-algorithm-on-training-and-test-set&#34;&gt;Explain in words how overfitting and underfitting are defined in terms of behavior of an algorithm on training and test set.&lt;/h3&gt;
+&lt;p&gt;We may give specific names to the two ways of failing of erm (i.e., returning a predictor with high test error) for a generic learning algorithm $\mathcal{A}$:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;if $\mathcal{A}$ fails by returning predictors with high training error, then we say that $\mathcal{A}$ is &lt;strong&gt;underfitting&lt;/strong&gt;,&lt;/li&gt;
+&lt;li&gt;if $\mathcal{A}$ fails by returning predictors with low training error, then we say that $\mathcal{A}$ is &lt;strong&gt;overfitting&lt;/strong&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;name-and-describe-three-reasons-why-labels-may-be-noisy&#34;&gt;Name and describe three reasons why labels may be noisy.&lt;/h3&gt;
+&lt;p&gt;Namely, when labels $y$ are not deterministically associated with data points $\boldsymbol{x}$. noise may occur for at least three (not mutually exclusive) reasons.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Human in the loop&lt;/strong&gt;: the labels are assigned by a human annotator who decides the &amp;ldquo;true&amp;rdquo; label for each data point. in this case, different annotators may have different opinions.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Epistemic uncertainty&lt;/strong&gt;: each data point is represented by a feature vector $\boldsymbol{x}$ that does not contain enough information to uniquely determine the label.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Aleatoric uncertainty&lt;/strong&gt;: the feature vector $\boldsymbol{x}$ representing a data point is obtained through noisy measurements. the label associated with a given $\boldsymbol{x}$ is then stochastic because the same $\boldsymbol{x}$ could have been generated by different data points.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;noisy labels cause overfitting because they may mislead the algorithm with regard to what is the &amp;ldquo;true&amp;rdquo; label for a given data point.&lt;/p&gt;
+&lt;h2 id=&#34;k-nn&#34;&gt;$k$-NN&lt;/h2&gt;
+&lt;h3 id=&#34;is-k-nn-more-likely-to-overfit-when-k-is-large-or-small&#34;&gt;Is $k$-NN more likely to overfit when $k$ is large or small?&lt;/h3&gt;
+&lt;p&gt;The learning algorithm suffers from high test error for small values of $k$ (overfitting) and for large values of $k$ (underfitting).&lt;/p&gt;
+&lt;h2 id=&#34;tree-predictor&#34;&gt;Tree predictor&lt;/h2&gt;
+&lt;h3 id=&#34;write-a-short-pseudo-code-for-building-a-tree-classifier-based-on-a-training-set&#34;&gt;Write a short pseudo-code for building a tree classifier based on a training set.&lt;/h3&gt;
+&lt;p&gt;We now describe a generic method to construct a binary tree given a training set $s$.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Anitialization&lt;/strong&gt;: create $t$ with only the root $\ell$ and let $S_{\ell} = S$. let the label associated with the root be the most frequent label in $S_{\ell}$.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Main loop&lt;/strong&gt;: pick a leaf $\ell$ and replace it with an internal node $v$ creating two children $\ell^{&#39;}$ and $\ell^{&#39;&#39;}$. pick an attribute $i$ and a test $f : \mathcal{x}_i \rightarrow \{1,2\}$. Associate the test $f$ with $v$ and partition $S_{\ell}$ in the two subsets&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;$$S_{\ell^{&#39;}} = \{(\boldsymbol{x}_t, y_t) \in S_{\ell} : f(x_{t,i}) = 1\}\ \textmd{and}\ S_{\ell^{&#39;&#39;}} = \{(\boldsymbol{x}_t, y_t)\in S_{\ell} : f(x_{t,i}) = 2\}$$&lt;/p&gt;
+&lt;p&gt;Let the labels associated with $S_{\ell^{&#39;}}$ and $S_{\ell^{&#39;&#39;}}$ be the most frequent labels in $S_{\ell^{&#39;}}$ and $S_{\ell^{&#39;&#39;}}$ respectively.&lt;/p&gt;
+&lt;h3 id=&#34;what-is-the-property-of-a-splitting-criterion-psi-ensuring-that-the-training-error-of-a-tree-classifier-does-not-increase-after-a-split-bonus-points-if-you-justify-your-answer-with-a-proof&#34;&gt;What is the property of a splitting criterion $\psi$ ensuring that the training error of a tree classifier does not increase after a split? bonus points if you justify your answer with a proof.&lt;/h3&gt;
+&lt;p&gt;To answer this question is sufficient to observe that $\psi$ (i.e, $\psi(x) = \min{\{x, 1 - x\}}$) is a concave function.
+We can then apply jensen’s inequality, stating that $\psi(\alpha a + (1-\alpha)b) \geq \alpha\psi(a) + (1 - \alpha)\psi(b)$ for all $a,b \in \mathbb{r}$ and $\alpha \in [0,1]$.&lt;/p&gt;
+&lt;p&gt;hence, via jensen&amp;rsquo;s inequality, we can study how the training error changes when $\ell$ is replaces by two new leaves $\ell^{&#39;}$ and $\ell^{&#39;&#39;}$.&lt;/p&gt;
+&lt;p&gt;$$
+\psi \left( \frac{N_{\ell}^+}{N_{\ell}}\right){N_{\ell}} = \psi \left( \frac{N_{\ell^{&#39;}}^+}{N_{\ell^{&#39;}}}\frac{N_{\ell^{&#39;}}}{N_{\ell}} + \frac{N_{\ell^{&#39;&#39;}}^+}{N_{\ell^{&#39;&#39;}}}\frac{N_{\ell^{&#39;&#39;}}}{N_{\ell}}\right){N_{\ell}} \geq \psi\left( \frac{N_{\ell^{&#39;}}^+}{N_{\ell^{&#39;}}}\right)\frac{N_{\ell^{&#39;}}^+}{N_{\ell}}N_{\ell} + \psi\left( \frac{N_{\ell^{&#39;&#39;}}^+}{N_{\ell^{&#39;&#39;}}}\right)\frac{N_{\ell^{&#39;&#39;}}^+}{N_{\ell}}N_{\ell}
+$$&lt;/p&gt;
+&lt;p&gt;meaning that a split never increaseses the training error.&lt;/p&gt;
+&lt;h3 id=&#34;write-the-formula-for-at-least-two-splitting-criteria-psi-used-in-practice-to-build-tree-classifiers&#34;&gt;Write the formula for at least two splitting criteria $\psi$ used in practice to build tree classifiers.&lt;/h3&gt;
+&lt;p&gt;Ee use another type of splitting criterion $\psi$ because the one described in the previous question has strictly negative second derivative. Define $p, r, q$ where $p$ is the parent node, $r$ and $q$ are the children nodes, and they are on the same side with respect to the $\alpha$ and $p = \alpha r + (1 - \alpha)q$.
+In this case, $\psi(p) - \alpha\psi(r) + (1 - \alpha)\psi(q) = 0$ beacuse $\psi$ is a straight line.&lt;/p&gt;
+&lt;p&gt;Some example of functions $\psi$ used in practice are&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;gini function&lt;/strong&gt;: $\psi(p) = 2p(1-p)$&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;scaled entropy&lt;/strong&gt;: $\psi(p) = -\frac{p}{2}\log_2(p) - \frac{1-p}{2}\log_2(1-p)$&lt;/li&gt;
+&lt;li&gt;$\psi(p) = \sqrt{p(1-p)}$&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+      
+    </item>
+    
+    <item>
       <title>Prototype - Class Creational</title>
       <link>https://federicobruzzone.github.io/post/design-patterns/prototype-object-creational/</link>
       <pubDate>Mon, 08 May 2023 00:00:00 +0000</pubDate>
@@ -606,7 +689,6 @@ time with the appropriate state.&lt;/p&gt;
         <description>&lt;!doctype html&gt;
 &lt;html lang=en&gt;
 
-
 &lt;p&gt;
     Welcome to my personal website! I am glad to hear what brings you here.
 &lt;/p&gt;
@@ -638,6 +720,7 @@ time with the appropriate state.&lt;/p&gt;
     &lt;a href=&#34;https://www.gnu.org/software/bash/&#34; target=&#34;_blank&#34; rel=&#34;noreferrer&#34;&gt; &lt;img src=&#34;https://www.vectorlogo.zone/logos/gnu_bash/gnu_bash-icon.svg&#34; alt=&#34;bash&#34; width=&#34;40&#34; height=&#34;40&#34;/&gt; &lt;/a&gt; 
 &lt;/p&gt;
 
+&lt;!--
 &lt;h3&gt;
     Things I like
 &lt;/h3&gt;
@@ -669,6 +752,7 @@ and even to this day I still produce and enjoy myself as a &lt;b&gt;sound engine
     &lt;a href=&#34;https://mstdn.social/@federicobruzzone&#34; target=&#34;blank&#34;&gt;&lt;img align=&#34;center&#34; src=&#34;https://www.vectorlogo.zone/logos/joinmastodon/joinmastodon-ar21.svg&#34; height=&#34;70&#34; width=&#34;130&#34; /&gt;&lt;/a&gt;
     &lt;a href=&#34;https://medium.com/@federico.bruzzone.i&#34; target=&#34;blank&#34;&gt;&lt;img align=&#34;center&#34; src=&#34;https://www.vectorlogo.zone/logos/medium/medium-ar21.svg&#34; height=&#34;70&#34; width=&#34;130&#34; /&gt;&lt;/a&gt;
 &lt;/p&gt;
+--&gt;
 
 &lt;!-- &lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt; --&gt;
 
@@ -825,9 +909,6 @@ and even to this day I still produce and enjoy myself as a &lt;b&gt;sound engine
 &lt;p&gt;&lt;a href=&#34;https://www.amazon.it/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882&#34;&gt;Clean Code&lt;/a&gt; by &lt;em&gt;Robert C. Martin&lt;/em&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;&lt;a href=&#34;https://www.amazon.it/Mining-Massive-Datasets-Jure-Leskovec/dp/1108476341/ref=sr_1_1?__mk_it_IT=%C3%85M%C3%85%C5%BD%C3%95%C3%91&amp;amp;crid=FGU0LVZC3VTO&amp;amp;keywords=massive+datasets&amp;amp;qid=1681857533&amp;amp;s=books&amp;amp;sprefix=massive+datasets%2Cstripbooks%2C81&amp;amp;sr=1-1&#34;&gt;Mining of Massive Datasets&lt;/a&gt; by &lt;em&gt;Jure Leskovec&lt;/em&gt;, &lt;em&gt;Anand Rajaraman&lt;/em&gt;, &lt;em&gt;Jeffrey David Ullman&lt;/em&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
 &lt;p&gt;&lt;a href=&#34;https://www.amazon.it/Java-Reflection-Action-Ira-Forman/dp/1932394184/ref=sr_1_1?__mk_it_IT=%C3%85M%C3%85%C5%BD%C3%95%C3%91&amp;amp;crid=1R3J46CTI8PC2&amp;amp;keywords=java+reflection+in+action&amp;amp;qid=1683041661&amp;amp;sprefix=java+reflection+in+action%2Caps%2C299&amp;amp;sr=8-1&#34;&gt;Java Reflection in Action&lt;/a&gt; by &lt;em&gt;Ira R. Forman&lt;/em&gt;, &lt;em&gt;Nate Forman&lt;/em&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
@@ -837,13 +918,41 @@ and even to this day I still produce and enjoy myself as a &lt;b&gt;sound engine
 &lt;p&gt;&lt;a href=&#34;https://www.amazon.it/CPython-Internals-Guide-Python-Interpreter/dp/1775093344/ref=sr_1_3?__mk_it_IT=%C3%85M%C3%85%C5%BD%C3%95%C3%91&amp;amp;crid=3A0ATYIFTF4G8&amp;amp;keywords=python+internals&amp;amp;qid=1683041838&amp;amp;sprefix=python+internals%2Caps%2C113&amp;amp;sr=8-3&#34;&gt;CPython Internals: Your Guide to the Python 3 Interpreter&lt;/a&gt; by &lt;em&gt;Anthony Shaw&lt;/em&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;mathematics&#34;&gt;Mathematics&lt;/h3&gt;
+&lt;h3 id=&#34;algorithms-and-complexity&#34;&gt;Algorithms and Complexity&lt;/h3&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://www.amazon.it/Golden-Ratio-Worlds-Astonishing-English-ebook/dp/B001L4Z6Q2/ref=sr_1_4?__mk_it_IT=%C3%85M%C3%85%C5%BD%C3%95%C3%91&amp;amp;crid=SIIIUKXYHYHO&amp;amp;keywords=Golden+ratio&amp;amp;qid=1681857662&amp;amp;s=books&amp;amp;sprefix=golden+ratio%2Cstripbooks%2C87&amp;amp;sr=1-4&#34;&gt;The Golden Ratio: The Story of PHI, the World&amp;rsquo;s Most Astonishing Number&lt;/a&gt; by &lt;em&gt;Mario Livio&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.amazon.it/Introduction-Algorithms-fourth-Thomas-Cormen/dp/026204630X/ref=sr_1_1?keywords=introduction+to+algorithms&amp;amp;qid=1686174546&amp;amp;sprefix=algoruthms%2Caps%2C97&amp;amp;sr=8-1&#34;&gt;Introduction to Algorithms&lt;/a&gt; by &lt;em&gt;Thomas H. Cormen&lt;/em&gt;, &lt;em&gt;Charles E. Leiserson&lt;/em&gt;, &lt;em&gt;Ronald L. Rivest&lt;/em&gt;, &lt;em&gt;Clifford Stei&lt;/em&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.amazon.it/Algorithm-Design-Manual-Steven-Skiena/dp/1849967202/ref=sr_1_13?keywords=algorithm+and+data+structure&amp;amp;qid=1686174658&amp;amp;sprefix=algorithm+and+%2Caps%2C93&amp;amp;sr=8-13&#34;&gt;The Algorithm Design Manual&lt;/a&gt; by &lt;em&gt;Steven S. Skiena&lt;/em&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.amazon.com/Introduction-Complexity-Prentice-International-Computer/dp/0139153802&#34;&gt;Introduction to the Theory of Complexity&lt;/a&gt; by &lt;em&gt;Daniel P. Bovet&lt;/em&gt;, &lt;em&gt;Pierluigi Crescenzi&lt;/em&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;machine-learning-and-massive-datasets&#34;&gt;Machine learning and Massive Datasets&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.amazon.com/Understanding-Machine-Learning-Theory-Algorithms/dp/1107057132&#34;&gt;Understanding Machine Learning: From Theory to Algorithms&lt;/a&gt; by &lt;em&gt;Shai Shalev-Shwartz&lt;/em&gt;, &lt;em&gt;Shai Ben-David&lt;/em&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.amazon.com/Foundations-Machine-Learning-Mehryar-Mohri/dp/0262039400/ref=dp_ob_title_bk&#34;&gt;Foundations of Machine Learning&lt;/a&gt; by &lt;em&gt;Mehryar Mohri&lt;/em&gt;, &lt;em&gt;Afshin Rostamizadeh&lt;/em&gt;, &lt;em&gt;Ameet Talwalkar&lt;/em&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.amazon.com/gp/product/0387946187/qid=1147380685/sr=1-2/ref=sr_1_2/102-8626944-0281702?s=books&amp;amp;v=glance&amp;amp;n=283155&#34;&gt;A Probabilistic Theory of Pattern Recognition&lt;/a&gt; by &lt;em&gt;Luc Devroye&lt;/em&gt;, &lt;em&gt;Laszlo Györfi&lt;/em&gt;, &lt;em&gt;Gabor Lugosi&lt;/em&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.amazon.it/Mining-Massive-Datasets-Jure-Leskovec/dp/1108476341/ref=sr_1_1?__mk_it_IT=%C3%85M%C3%85%C5%BD%C3%95%C3%91&amp;amp;crid=FGU0LVZC3VTO&amp;amp;keywords=massive+datasets&amp;amp;qid=1681857533&amp;amp;s=books&amp;amp;sprefix=massive+datasets%2Cstripbooks%2C81&amp;amp;sr=1-1&#34;&gt;Mining of Massive Datasets&lt;/a&gt; by &lt;em&gt;Jure Leskovec&lt;/em&gt;, &lt;em&gt;Anand Rajaraman&lt;/em&gt;, &lt;em&gt;Jeffrey David Ullman&lt;/em&gt;&lt;/p&gt;
+&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id=&#34;personal-growth&#34;&gt;Personal Growth&lt;/h3&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://www.amazon.it/Deep-Work-Focused-Success-Distracted/dp/1455586676/ref=tmm_pap_swatch_0?_encoding=UTF8&amp;amp;qid=1681856898&amp;amp;sr=1-2&#34;&gt;Deep Work&lt;/a&gt; by &lt;em&gt;Cal Newport&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.amazon.it/Deep-Work-Focused-Success-Distracted/dp/1455586676/ref=tmm_pap_swatch_0?_encoding=UTF8&amp;amp;qid=1681856898&amp;amp;sr=1-2&#34;&gt;Deep Work&lt;/a&gt; by &lt;em&gt;Cal Newport&lt;/em&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.amazon.it/Golden-Ratio-Worlds-Astonishing-English-ebook/dp/B001L4Z6Q2/ref=sr_1_4?__mk_it_IT=%C3%85M%C3%85%C5%BD%C3%95%C3%91&amp;amp;crid=SIIIUKXYHYHO&amp;amp;keywords=Golden+ratio&amp;amp;qid=1681857662&amp;amp;s=books&amp;amp;sprefix=golden+ratio%2Cstripbooks%2C87&amp;amp;sr=1-4&#34;&gt;The Golden Ratio: The Story of PHI, the World&amp;rsquo;s Most Astonishing Number&lt;/a&gt; by &lt;em&gt;Mario Livio&lt;/em&gt;&lt;/p&gt;
+&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id=&#34;critical-thinking&#34;&gt;Critical Thinking&lt;/h3&gt;
 &lt;ul&gt;

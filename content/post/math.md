@@ -2,8 +2,8 @@
 
 author: Federico Bruzzone
 title: Math Typesetting
-date: 2023-04-16
-draft: true
+date: 2023-06-07
+draft: true 
 ;math: true
 mathjax: true
 summary: " "
