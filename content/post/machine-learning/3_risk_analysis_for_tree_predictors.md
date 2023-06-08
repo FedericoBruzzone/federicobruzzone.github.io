@@ -31,6 +31,8 @@ $$
 
 From that, we deduce that in this case a training set of size of order $N \ln d$ is enough to control the risk of $\hat{h} \in \mathcal{H}_N$.
 
+---
+
 ### Write the bound on the difference between risk and training error for an arbitrary complete binary tree classifier h on d binary features in terms of its number $N_h$ of nodes. Bonus points if you provide a short explanation on how this bound is obtained.
 
 \begin{equation}

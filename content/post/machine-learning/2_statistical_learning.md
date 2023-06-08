@@ -58,7 +58,8 @@ f^{\*}(\boldsymbol{x}) & = \underset{\hat{y} \in \\{-1,+1\\}}{\text{argmin}}\ \m
 & = \underset{\hat{y} \in \\{-1,+1\\}}{\text{argmin}} (\eta(\boldsymbol{x})\mathbb{I}\\{\hat{y} = -1\\} + (1-\eta(\boldsymbol{x}))\mathbb{I}\\{\hat{y} = +1\\}) \\\
 & = \begin{cases}
 -1 & \text{if}\ \eta(\boldsymbol{x}) < 1/2 \\\
-+1 & \text{if}\ \eta(\boldsymbol{x}) \geq 1/2                                \end{cases}
++1 & \text{if}\ \eta(\boldsymbol{x}) \geq 1/2                                
+\end{cases}
 \end{aligned}
 \end{equation}
         
@@ -112,6 +113,8 @@ $$
 \mathbb{E}[\ell(Y^\prime_{t}, h(\boldsymbol{X}^\prime_{t}))] = \ell_{\mathcal{D}}(h) \quad \textmd{for all}\ t = 1, \dots, n
 $$
 Note that the above equalities rely on the assumption that $h$ does not depend on the test set. If it did, then the above equalities would not be necessarily true. This fact is important in the analysis of learning algorithms.
+
+---
 
 ### State the Chernoff-Hoeffding bounds.
 

@@ -395,7 +395,8 @@ f^{*}(\boldsymbol{x}) &amp; = \underset{\hat{y} \in \{-1,+1\}}{\text{argmin}}\ \
 &amp; = \underset{\hat{y} \in \{-1,+1\}}{\text{argmin}} (\eta(\boldsymbol{x})\mathbb{I}\{\hat{y} = -1\} + (1-\eta(\boldsymbol{x}))\mathbb{I}\{\hat{y} = +1\}) \\
 &amp; = \begin{cases}
 -1 &amp; \text{if}\ \eta(\boldsymbol{x}) &lt; 1/2 \\
-+1 &amp; \text{if}\ \eta(\boldsymbol{x}) \geq 1/2                                \end{cases}
++1 &amp; \text{if}\ \eta(\boldsymbol{x}) \geq 1/2                             <br>
+\end{cases}
 \end{aligned}
 \end{equation}</p>
 <p>Hence, the Bayes optimal classifier predicts the label whose probability is the highest when conditioned on the instance. Finally, it is easy to verify that the Bayes risk in this case is $\ell_{\mathcal{D}}(f^{*}) = \mathbb{E}[\textmd{min}{\eta(\textbf{X}), 1-\eta(\textbf{X})}]$\</p>
@@ -438,6 +439,7 @@ $$
 \mathbb{E}[\ell(Y^\prime_{t}, h(\boldsymbol{X}^\prime_{t}))] = \ell_{\mathcal{D}}(h) \quad \textmd{for all}\ t = 1, \dots, n
 $$
 Note that the above equalities rely on the assumption that $h$ does not depend on the test set. If it did, then the above equalities would not be necessarily true. This fact is important in the analysis of learning algorithms.</p>
+<hr>
 <h3 id="state-the-chernoff-hoeffding-bounds">State the Chernoff-Hoeffding bounds.</h3>
 <p>Let $Z_1, \dots, Z_n$ be indipendent and identically distributed random variables with expectation $\mu$ and such that $0 \leq Z_i \leq 1$ for all $i = 1, \dots, n$. Then, for any $\epsilon &gt; 0$,</p>
 <p>$$
