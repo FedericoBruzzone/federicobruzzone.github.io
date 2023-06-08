@@ -6,7 +6,7 @@
     <description>Recent content on Federico Bruzzone&#39;s website</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 07 Jun 2023 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 08 Jun 2023 00:00:00 +0000</lastBuildDate>
     
         <atom:link href="https://federicobruzzone.github.io/index.xml" rel="self" type="application/rss+xml" />
     
@@ -351,6 +351,63 @@
 &lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;For bigger projects, so for example the one I am currently working on for the Advanced in OS course that uses a lot of external libraries, this file can reach even 600 lines.&lt;/p&gt;
+</description>
+      
+    </item>
+    
+    <item>
+      <title>Hyperparameter and Consistency - Machine Learning pt.4</title>
+      <link>https://federicobruzzone.github.io/post/machine-learning/4_hyperparameter_and_consistency/</link>
+      <pubDate>Thu, 08 Jun 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://federicobruzzone.github.io/post/machine-learning/4_hyperparameter_and_consistency/</guid>
+      
+        <description>&lt;h2 id=&#34;hyperparameter-tuning-and-risk-estimates&#34;&gt;Hyperparameter Tuning and Risk Estimates&lt;/h2&gt;
+&lt;h2 id=&#34;consistency-and-nonparametric-algorithms&#34;&gt;Consistency and Nonparametric Algorithms&lt;/h2&gt;
+</description>
+      
+    </item>
+    
+    <item>
+      <title>Risk Analysis for Tree Predictors - Machine Learning pt.3</title>
+      <link>https://federicobruzzone.github.io/post/machine-learning/3_risk_analysis_for_tree_predictors/</link>
+      <pubDate>Thu, 08 Jun 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://federicobruzzone.github.io/post/machine-learning/3_risk_analysis_for_tree_predictors/</guid>
+      
+        <description>&lt;h2 id=&#34;risk-analysis-for-tree-predictors&#34;&gt;Risk Analysis for Tree Predictors&lt;/h2&gt;
+&lt;h3 id=&#34;write-the-upper-bound-on-the-estimation-error-of-erm-run-on-a-the-class-of-complete-binary-tree-predictors-with-at-most-n-nodes-on-d-binary-features&#34;&gt;Write the upper bound on the estimation error of ERM run on a the class of complete binary tree predictors with at most $N$ nodes on $d$ binary features.&lt;/h3&gt;
+&lt;p&gt;Knowing that $|\mathcal{H}_N| \leq (2de)^N$ obtained via $\frac{N-1}{2}$-th Catalan number, we can write the upper bound on the estimation error of ERM run on a the class of complete binary tree predictors with at most $N$ nodes on $d$ binary features as follows:&lt;/p&gt;
+&lt;p&gt;$$
+\ell_{\mathcal{D}}(\hat{h}) \leq \ell_{\mathcal{D}}(h^{*}) + \sqrt{\frac{2}{m} \left(N(1 + \ln (2d)) + \ln \frac{2}{\delta} \right)}
+$$&lt;/p&gt;
+&lt;p&gt;From that, we deduce that in this case a training set of size of order $N \ln d$ is enough to control the risk of $\hat{h} \in \mathcal{H}_N$.&lt;/p&gt;
+&lt;h3 id=&#34;write-the-bound-on-the-difference-between-risk-and-training-error-for-an-arbitrary-complete-binary-tree-classifier-h-on-d-binary-features-in-terms-of-its-number-n_h-of-nodes-bonus-points-if-you-provide-a-short-explanation-on-how-this-bound-is-obtained&#34;&gt;Write the bound on the difference between risk and training error for an arbitrary complete binary tree classifier h on d binary features in terms of its number $N_h$ of nodes. Bonus points if you provide a short explanation on how this bound is obtained.&lt;/h3&gt;
+&lt;p&gt;\begin{equation}
+\begin{aligned}
+\ell_{D}(h) &amp;amp; \leq \ell_{S}(h) + \sqrt{\frac{1}{2m} \left(|\sigma(h)| + \ln \frac{2}{\delta} \right)}
+\end{aligned}
+\end{equation}&lt;/p&gt;
+&lt;p&gt;Hence, with Occam Razor given two predictor with the same training error the simpler (the sortest $|\sigma|$) is the best.&lt;/p&gt;
+&lt;p&gt;We upper bound the risk of a tree predictor $h$ by its training error plus a quantity $\epsilon_h$ that now depends on the size of the tree.&lt;/p&gt;
+&lt;p&gt;We introduce a function $w : \mathcal{H} \rightarrow [0, 1]$ and call $w(h)$ the weight of tree predictor $h$. We assume
+$$
+\sum_{h \in \mathcal{H}^{}} w(h) \leq 1
+$$
+And now choosing
+$$
+\epsilon_h = \sqrt{\frac{1}{2m} \left(\ln \frac{1}{w(h)} + \ln \frac{2}{\delta} \right)}
+$$
+we get that
+$$
+\mathbb{P} \left( \exists h \in \mathcal{H} : |\ell_{\mathcal{D}}(h) - \ell_{S}(h)| &amp;gt; \epsilon_h \right) \leq \sum_{h \in \mathcal{H}} \delta w(h) \leq \delta
+$$
+A consequence of this analysis is that, with probabilty at least $1 - \delta$ with respect to the training set random draw, we have
+\begin{equation}
+\begin{aligned}
+\ell_{D}(h) &amp;amp; \leq \ell_{S}(h) + \sqrt{\frac{1}{2m} \left(\ln \frac{1}{w(h)} + \ln \frac{2}{\delta} \right)}\end{aligned}
+\end{equation}&lt;/p&gt;
+&lt;p&gt;Now, using a theoretic techniques we can encode each tree predictor $h$ as a binary string $\sigma(h)$ of length $|\sigma(h)| = \mathcal{O}(N_h \log d)$. Thanks to Kraft inequality, we can associate a weight $w(h) = 2^{-|\sigma(h)|}$ to each tree predictor $h$ in order to get the bound shown at the beginning.&lt;/p&gt;
 </description>
       
     </item>

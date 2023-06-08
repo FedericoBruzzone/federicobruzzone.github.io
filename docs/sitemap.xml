@@ -10,83 +10,97 @@
   
   <url>
     <loc>https://federicobruzzone.github.io/categories/</loc>
-    <lastmod>2023-06-07T00:00:00+00:00</lastmod>
+    <lastmod>2023-06-08T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://federicobruzzone.github.io/tags/computer-science/</loc>
-    <lastmod>2023-06-07T00:00:00+00:00</lastmod>
+    <lastmod>2023-06-08T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://federicobruzzone.github.io/categories/computer-science/</loc>
-    <lastmod>2023-06-07T00:00:00+00:00</lastmod>
+    <lastmod>2023-06-08T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://federicobruzzone.github.io/</loc>
-    <lastmod>2023-06-07T00:00:00+00:00</lastmod>
+    <lastmod>2023-06-08T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://federicobruzzone.github.io/post/machine-learning/4_hyperparameter_and_consistency/</loc>
+    <lastmod>2023-06-08T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://federicobruzzone.github.io/tags/linear-algebra/</loc>
-    <lastmod>2023-06-07T00:00:00+00:00</lastmod>
+    <lastmod>2023-06-08T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://federicobruzzone.github.io/tags/machine-learning/</loc>
-    <lastmod>2023-06-07T00:00:00+00:00</lastmod>
+    <lastmod>2023-06-08T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://federicobruzzone.github.io/categories/machine-learning/</loc>
-    <lastmod>2023-06-07T00:00:00+00:00</lastmod>
+    <lastmod>2023-06-08T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://federicobruzzone.github.io/tags/math/</loc>
-    <lastmod>2023-06-07T00:00:00+00:00</lastmod>
+    <lastmod>2023-06-08T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://federicobruzzone.github.io/post/</loc>
-    <lastmod>2023-06-07T00:00:00+00:00</lastmod>
+    <lastmod>2023-06-08T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://federicobruzzone.github.io/post/machine-learning/2_statistical_learning/</loc>
-    <lastmod>2023-06-07T00:00:00+00:00</lastmod>
+    <loc>https://federicobruzzone.github.io/post/machine-learning/3_risk_analysis_for_tree_predictors/</loc>
+    <lastmod>2023-06-08T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://federicobruzzone.github.io/tags/statistics/</loc>
-    <lastmod>2023-06-07T00:00:00+00:00</lastmod>
+    <lastmod>2023-06-08T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://federicobruzzone.github.io/tags/</loc>
+    <lastmod>2023-06-08T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://federicobruzzone.github.io/post/machine-learning/2_statistical_learning/</loc>
     <lastmod>2023-06-07T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
