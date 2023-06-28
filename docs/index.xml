@@ -924,17 +924,28 @@ time with the appropriate state.&lt;/p&gt;
         <description>&lt;!doctype html&gt;
 &lt;html lang=en&gt;
 
-&lt;p&gt;
-    Welcome to my personal website! I am glad to hear what brings you here.
-&lt;/p&gt;
-
-&lt;h3&gt;
-    Who am I?
-&lt;/h3&gt;
-
-&lt;p&gt;
-    Hi, I am Federico, a master&#39;s student in Computer Science at the University of Milan.
-&lt;/p&gt;
+&lt;div&gt;
+  &lt;h2&gt;Hello, everyone!&lt;/h2&gt;
+  &lt;p&gt;My name is &lt;i&gt;Federico Bruzzone&lt;/i&gt;, and I am passionate about Computer Science. Currently pursuing a &lt;b&gt;Master&#39;s degree&lt;/b&gt; in Computer Science at the &lt;b&gt;University of Milan&lt;/b&gt;, I am deeply fascinated by the world of software engineering and programming languages.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div&gt;
+  &lt;p&gt;Within software engineering, I find great joy in designing and creating innovative solutions to real-world challenges. Exploring various programming languages allows me to leverage their unique strengths and applications, enhancing my problem-solving skills and expanding my toolkit.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div&gt;
+    &lt;p&gt;In addition to my love for technology, I am a &lt;b&gt;Pianist&lt;/b&gt; with a background in music studies at the &lt;b&gt;Novara Conservatory&lt;/b&gt;. This blend of artistic and technical interests provides me with a well-rounded perspective, combining creativity with the logical and analytical mindset required in Computer Science.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div&gt;
+  &lt;p&gt;One area that particularly captivates me is Artificial Intelligence, in particular Machine Learning. The ability to develop intelligent systems that learn from data and make predictions is truly awe-inspiring. I am driven to delve into these fields, constantly seeking to deepen my understanding and apply cutting-edge techniques to real-world challenges.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div&gt;
+  &lt;p&gt;While Mathematics, especially Linear Algebra and Statistics, underpin the foundations of machine learning, my primary focus is on the practical application of these concepts. I am passionate about leveraging mathematical principles to build effective machine learning models and extract valuable insights from data.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div&gt;
+  &lt;p&gt;Open source collaboration is a core value for me. I actively contribute to open source projects on platforms like GitHub, where I can share my work, learn from others, and collaborate with talented individuals across the globe. I believe that through collaboration, we can accelerate innovation and make a greater impact.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div&gt;
+  &lt;p&gt;I am always open to new opportunities and collaborations. If you have any exciting ideas or projects, feel free to reach out. Together, we can push the boundaries of innovation and create meaningful solutions.&lt;/p&gt;
+&lt;/div&gt;
 
 &lt;ul&gt;
     &lt;li&gt;
@@ -945,17 +956,7 @@ time with the appropriate state.&lt;/p&gt;
     &lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;
-I’m an enthusiastic software engineer with a passion for piano, and often math.
-&lt;/p&gt;
 
-&lt;p&gt;
-I spent my five years in high school on an important path on computer science and then continued it during the bachelor and now in the master.
-&lt;/p&gt;
-
-&lt;p&gt;
-I studied piano and music composition at the convervatorio in Novara during my years in middle and high school.
-&lt;/p&gt;
 
 &lt;h3&gt;
     My current setup
