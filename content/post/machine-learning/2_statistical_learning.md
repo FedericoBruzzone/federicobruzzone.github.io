@@ -3,7 +3,7 @@
 author: Federico Bruzzone
 title: Statistical Learning - Machine Learning pt.2 
 date: 2023-06-07
-draft: false 
+draft: true 
 tags: [computer-science, machine-learning, statistics, math, linear-algebra]
 categories: [computer-science, machine-learning]
 

@@ -3,7 +3,7 @@
 author: Federico Bruzzone
 title: Introduction - Machine Learning pt.1 
 date: 2023-06-06
-draft: false 
+draft: true
 tags: [computer-science, machine-learning, statistics, math, linear-algebra]
 categories: [computer-science, machine-learning]
 

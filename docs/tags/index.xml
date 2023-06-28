@@ -6,58 +6,22 @@
     <description>Recent content in Tags on Federico Bruzzone&#39;s website</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 08 Jun 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://federicobruzzone.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>computer-science</title>
-      <link>https://federicobruzzone.github.io/tags/computer-science/</link>
-      <pubDate>Thu, 08 Jun 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://federicobruzzone.github.io/tags/computer-science/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>linear-algebra</title>
-      <link>https://federicobruzzone.github.io/tags/linear-algebra/</link>
-      <pubDate>Thu, 08 Jun 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://federicobruzzone.github.io/tags/linear-algebra/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>machine-learning</title>
-      <link>https://federicobruzzone.github.io/tags/machine-learning/</link>
-      <pubDate>Thu, 08 Jun 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://federicobruzzone.github.io/tags/machine-learning/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>math</title>
-      <link>https://federicobruzzone.github.io/tags/math/</link>
-      <pubDate>Thu, 08 Jun 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://federicobruzzone.github.io/tags/math/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>statistics</title>
-      <link>https://federicobruzzone.github.io/tags/statistics/</link>
-      <pubDate>Thu, 08 Jun 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://federicobruzzone.github.io/tags/statistics/</guid>
-      <description></description>
-    </item>
-    
+    <lastBuildDate>Mon, 08 May 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://federicobruzzone.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>clean-code</title>
       <link>https://federicobruzzone.github.io/tags/clean-code/</link>
       <pubDate>Mon, 08 May 2023 00:00:00 +0000</pubDate>
       
       <guid>https://federicobruzzone.github.io/tags/clean-code/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>computer-science</title>
+      <link>https://federicobruzzone.github.io/tags/computer-science/</link>
+      <pubDate>Mon, 08 May 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://federicobruzzone.github.io/tags/computer-science/</guid>
       <description></description>
     </item>
     
