@@ -1,6 +1,6 @@
 # federicobruzzone.github.io
 
-Welcome to my personal website! This repository contains the source code and content for my website hosted at federico.bruzzone.github.io. Here, I showcase my passion for computer science and provide information about my projects, skills, experiences, and blog posts.
+Welcome to my personal website! This repository contains the source code and content for my website hosted at federicobruzzone.github.io. Here, I showcase my passion for computer science and provide information about my projects, skills, experiences, and blog posts.
 
 ## About
 
