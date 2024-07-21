@@ -2,41 +2,67 @@
 <html>
 
 <head>
-    <title>Federico Bruzzone Blog</title>
+    <title>FCB</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <script type="module" src="/scripts/main.js" defer></script>
     <link rel="stylesheet" type="text/css" href="/styles/styles.css">
-
-    <script src="/scripts/navbar.js" defer></script>
-    <script src="/scripts/footer-loader.js" defer></script>
+    <link rel="stylesheet" type="text/css" href="/styles/syntax-highlighting.css">
 
     <!-- Favicon -->
-    <link rel="apple-touch-icon" sizes="180x180" href="/favicon_package_v0.16/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon_package_v0.16/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon_package_v0.16/favicon-16x16.png">
-    <link rel="manifest" href="/favicon_package_v0.16/site.webmanifest">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
+
+    <style>
+        .post {
+            display: flex;
+            align-items: center;
+        }
+
+        .post p {
+            margin: 0.25em;
+            color: #666;
+        }
+        .post a {
+            font-weight: bold;
+        }
+    </style>
 </head>
 
 <body>
-    <header>
-        <h1>Posts</h1>
-        <div id="navbar"></div>
-    </header>
+    <div id="header-container"></div>
 
     <main>
+        <h1>Posts</h1>
         <div id="posts">
             <div class="post">
-                <h2>Test Code</h2>
-                <p>Test Code</p>
-                <a href="/posts/test-code.html">Read more</a>
+               <a href="/posts/test-code.html">Test Code</a> | <p>2021-05-01</p>
             </div>
             <div class="post">
-                <h2>Test Math</h2>
-                <p>Test Math</p>
-                <a href="/posts/test-math.html">Read more</a>
+                <a href="/posts/test-math.html">Test Math</a> | <p>2021-05-01</p>
+            </div>
+            <div class="post">
+               <a href="/posts/test-code.html">Test Code</a> | <p>2021-05-01</p>
+            </div>
+            <div class="post">
+                <a href="/posts/test-math.html">Test Math</a> | <p>2021-05-01</p>
+            </div>
+            <div class="post">
+               <a href="/posts/test-code.html">Test Code</a> | <p>2021-05-01</p>
+            </div>
+            <div class="post">
+                <a href="/posts/test-math.html">Test Math</a> | <p>2021-05-01</p>
+            </div>
+            <div class="post">
+               <a href="/posts/test-code.html">Test Code</a> | <p>2021-05-01</p>
+            </div>
+            <div class="post">
+                <a href="/posts/test-math.html">Test Math</a> | <p>2021-05-01</p>
             </div>
         </div>
     </main>

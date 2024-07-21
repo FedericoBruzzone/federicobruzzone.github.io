@@ -1,0 +1,286 @@
+%-------------------------
+% CV for Northeastern University Faculty in Latex
+% Author : Zoe Kearney
+% Based off of: https://www.overleaf.com/latex/templates/coles-resume-template/qhpynjcvjpcj
+% Follows: https://theprofessorisin.com/2016/08/19/dr-karens-rules-of-the-academic-cv/
+% License : MIT
+%------------------------
+
+% Document class and font size
+\documentclass[a4paper,9pt]{extarticle}
+
+% Packages
+\usepackage[utf8]{inputenc} % For input encoding
+\usepackage{geometry} % For page margins
+\geometry{a4paper, margin=1in} % Set paper size and margins
+\usepackage{titlesec} % For section title formatting
+\usepackage{enumitem} % For itemized list formatting
+\usepackage{hyperref} % For hyperlinks
+
+% Formatting
+\setlist{noitemsep} % Removes item separation
+\titleformat{\section}{\large\bfseries}{\thesection}{1em}{}[\titlerule] % Section title format
+\titlespacing*{\section}{0pt}{\baselineskip}{\baselineskip} % Section title spacing
+
+% Begin document
+\begin{document}
+
+% Disable page numbers
+\pagestyle{empty}
+
+% New commands
+\newcommand{\aladdin}{\href{https://aladdin.di.unimi.it/}{ALaDDIn}}
+\newcommand{\bebrasit}{\href{https://bebras.it/}{italian website}}
+\newcommand{\bebrasint}{\href{https://www.bebras.org/}{international website}}
+
+\newcommand{\limlab}{\href{https://www.lim.di.unimi.it/}{LIM Lab}}
+\newcommand{\ieeeofnn}{\href{https://ieee1599.lim.di.unimi.it/}{IEEE 1599}}
+
+\newcommand{\adaptlab}{\href{https://cazzola.di.unimi.it/adapt-lab.html}{ADAPT Lab}}
+
+\newcommand{\neverlang}{\href{https://www.sciencedirect.com/science/article/pii/S1477842415000056}{Neverlang}}
+\newcommand{\golang}{\href{https://golang.org/}{GoLang}}
+\newcommand{\python}{\href{https://www.python.org/}{Python}}
+\newcommand{\numpy}{\href{https://numpy.org/}{NumPy}}
+\newcommand{\pandas}{\href{https://pandas.pydata.org/}{Pandas}}
+
+\newcommand{\believe}{\href{https://www.believemusic.com/}{Believe}}
+\newcommand{\siae}{\href{https://www.siae.it/}{SIAE}}
+
+% Header
+\begin{center}
+\textbf{\Large Federico Cristiano Bruzzone}\\[3pt] % Name
+% \textbf{Computer Scientist --- Sound Engineer --- Pianist}\\[1pt] % CV
+Milan, Italy |
+\href{mailto:federico.bruzzone.i@gmail.com}{federico.bruzzone.i@gmail.com} |
+\href{mailto:federico.bruzzone@studenti.unimi.it}{federico.bruzzone@studenti.unimi.it} |
+(+39) 3917369214
+\\
+\href{https://github.com/FedericoBruzzone}{github.com/FedericoBruzzone} |
+\href{https://www.linkedin.com/in/federico-bruzzone}{linkedin.com/in/federico-bruzzone}
+\end{center}
+
+\begin{center}
+I am a master student in Computer Science at Università degli Studi di Milano, born in Magenta (MI) on 7th of March 2000. I got my bachelor degree in Computer Science in 2022. I am currently involved in the research activity of the \adaptlab. I am also a pianist and composer.\\
+\end{center}
+
+%------------------------
+
+% Education Section
+\section*{EDUCATION}
+
+\noindent
+\newline
+\textbf{Master of Science} \\
+Period: October 2022 --- July 2024 \\
+Institution: \textbf{Universit\`a degli studi di Milano} \\
+Department \textbf{Computer Science} \\
+Thesis Supervisors: \textbf{W. Cazzola} --- L. Favalli \\
+Thesis Title: Toward a modular approach for type systems and LSP generation \\
+
+\noindent
+\textbf{Bachelor of Science} \\
+Period: October 2019 --- October 2022 \\
+Institution: \textbf{Universit\`a degli studi di Milano} \\
+Department \textbf{Computer Science} \\
+Thesis Supervisors: \textbf{A. Visonti} -- L. A. Ludovico -- A. Barat\'e \\
+Thesis Title: Intellectual Property and Digital Rights Management on blockchain for the IEEE 1599 standard \\
+
+\noindent
+\textbf{Conservatory of Music} \\
+Period: September 2011 --- July 2019 \\
+Institution: \textbf{I.S.S.M. Novara Conservatory ``Guido Cantelli''} \\
+Department: \textbf{Pianoforte and Music Composition} \\
+
+
+\noindent
+\textbf{High School Diploma} \\
+Period: September 2014 --- July 2019 \\
+Institution: \textbf{I.T.I.S. - Liceo Scientifico Scienze Applicate ``E. Alessandrini''} \\
+Department: \textbf{Computer Science and Telecommunications} \\
+
+%------------------------
+
+% Research Experience Section
+\section*{RESEARCH EXPERIENCE}
+
+\noindent
+\newline
+\textbf{Scientific Research} \\
+Period: November 2022 --- Present \\
+Institution: \textbf{Universit\`a degli studi di Milano} \\
+Department \textbf{Computer Science} \\
+Laboratory: \textbf{\adaptlab} \\
+Supervisors: \textbf{W. Cazzola} -- \textbf{A. D. A. Momigliano} -- \textbf{L. Capra} -- \textbf{C. Fiorentini} \\
+During my research I studied compiler construction, programming language design, software and language product lines. I worked on the extension of the \neverlang language workbench to support Universal Language Server Protocols. \\
+
+\noindent
+\textbf{Scientific Research} \\
+Period: January 2022 --- September 2022 \\
+Institution: \textbf{Universit\`a degli studi di Milano} \\
+Department \textbf{Computer Science} \\
+Laboratory: \textbf{\limlab} \\
+Supervisors: \textbf{G. Haus} -- \textbf{F. Avanzini} -- \textbf{L. A. Ludovico} -- \textbf{A. Barat\'e} -- \textbf{A. Mancuso} \\
+During my research I studied the application of blockchain technology to the \ieeeofnn standard for music representation. I worked on the definition of a digital rights management system for the standard. \\
+
+%------------------------
+
+% Teaching Assistant Experience Section
+\section*{TEACHING ASSISTANT EXPERIENCE}
+
+\noindent
+\newline
+\textbf{Mathematical Logic} \\
+Period: June 2024 --- February 2025 \\
+Institution: \textbf{Universit\`a degli studi di Milano} \\
+Department: \textbf{Computer Science} \\
+Professors: \textbf{S. Aguzzoli} -- \textbf{C. Fiorentini} -- \textbf{M. Bianchi} \\
+The course is an introduction to the concepts of mathematical logic. \\
+
+\noindent
+\textbf{Computer Science 1} \\
+Period: October 2023 --- February 2024 \\
+Institution: \textbf{Universit\`a degli studi di Milano} \\
+Department: \textbf{Computer Science} \\
+Professors: \textbf{P. Boldi} -- \textbf{A. Trentini} \\
+The course is an introduction to the concepts of computer science and programming using \golang. \\
+
+\noindent
+\textbf{Programming in Python} \\
+Period: October 2023 --- February 2024 \\
+Institution: \textbf{Universit\`a degli studi di Milano} \\
+Department: \textbf{Chemistry} \\
+Professors: \textbf{M. Monga} \\
+The course is divided in two parts: the first part is an introduction to the concepts of programming using \python, the second part is an introduction to the concepts of data analysis using \python using \numpy and \pandas. \\
+% TODO Explain the course
+
+%------------------------
+
+% Experience Section
+\section*{EXPERIENCE}
+
+\noindent
+\newline
+\textbf{Sound Engineer and Composer} \\
+Period: January 2019 --- Present \\
+Institution: \textbf{Freelance} \\
+As sound engineer, pianist and composer I work in the music industry. I have produced and mixed music for various artists distributed on all worldwide platforms, realized 100k+ streams. The distribution of my music has been managed by \believe. \\
+
+\noindent
+\textbf{Computer Science Laboratories} \\
+Period: January 2024 --- July 2024 \\
+Institution: \textbf{Universit\`a degli studi di Milano} \\
+Department: \textbf{Computer Science} \\
+Professors: \textbf{V. Lonati} -- \textbf{A. Morpurgo} \\
+\aladdin (Laboratory of Computer Science Education) organizes a series of laboratory activities for students who failed the Computer Science 1 exam. The activities are intended to give students the opportunity to explore the topics of the course giving them exercises to solve.
+My role was organizing the activities, find rooms for the laboratory and with eight other students help the students explaining the exercises and helping them in case of need. \\
+
+\noindent
+\textbf{Workshops for schools} \\
+Period: January 2024 --- July 2024 \\
+Institution: \textbf{Universit\`a degli studi di Milano} \\
+Department: \textbf{Computer Science} \\
+Professors: \textbf{V. Lonati} -- \textbf{A. Morpurgo} \\
+\aladdin (Laboratory of Computer Science Education) has conceived and experimented some didactic workshops in different contexts.  The activities are intended to give pupils the opportunity to explore an informatic topic: investigate it firsthand, make hypotheses that can then be tested in a guided context during the activity, and construct viable mental models. My role was to explain the activities to the pupils and to help them in case of need. \\
+
+\noindent
+\textbf{Bebras Challenge} \\
+Period: November 2023 --- November 2023 \\
+Institution: \textbf{Universit\`a degli studi di Milano} \\
+Department: \textbf{Computer Science} \\
+Professors: \textbf{V. Lonati} -- \textbf{A. Morpurgo} \\
+\aladdin (Laboratory of Computer Science Education) organize the Italian edition of the Bebras challenge (\bebrasit and \bebrasint). Bebras' goal is to let pupils approach informatics as a scientific discipline in a playful way: no prior knowledge about informatics is required, everybody can take part in it.
+My role was to help professors during the challenge, to explain the tasks to the pupils and to help them in case of need. \\
+
+%------------------------
+
+% Grants and Fellowships Section
+\section*{GRANTS AND FELLOWSHIPS}
+
+\noindent
+\newline
+\textbf{University scholarships} \\
+Accademic Year: 2023 --- 2024 \\
+Funder: \textbf{Universit\`a degli studi di Milano} \\
+
+\noindent
+\newline
+\textbf{Exemption from university fees} \\
+Accademic Year: 2023 --- 2024 $|$ 2022 --- 2023 $|$ 2021 --- 2022 $|$ 2020 --- 2021 \\
+Funder: \textbf{Universit\`a degli studi di Milano} \\
+
+%------------------------
+
+% Professional Memberships Section
+\section*{PROFESSIONAL MEMBERSHIPS}
+
+\noindent
+\newline
+\textbf{ADAPT Lab} \\
+Period: November 2022 --- Present \\
+\adaptlab is a research laboratory of the Universit\`a degli studi di Milano. The laboratory is focused on the study of programming languages, compilers, software and language product lines. \\
+
+\noindent
+\textbf{SIAE} \\
+Period: January 2019 --- Present \\
+\siae is the Italian Society of Authors and Publishers. \\
+
+\noindent
+\textbf{I Cuochi Music} \\
+Period: January 2019 --- Present \\
+\textbf{I Cuochi Music} is a music production company. I am a member of the company as a composer and sound engineer. \\
+
+\noindent
+\textbf{SteeCuts} \\
+Period: January 2019 --- Present \\
+\textbf{SteeCuts} is a music production company. I am a member of the company as a composer and sound engineer. \\
+
+%------------------------
+
+% Professional Skills Section
+% \section*{PROFESSIONAL SKILLS}
+%
+% \noindent
+% \newline
+% \textbf{Skill} \\
+% Maecenas ultricies augue a turpis viverra iaculis. Fusce a lorem est. Phasellus a metus dignissim, commodo eros eget, tempor ipsum.  \\
+%
+% \noindent
+% \textbf{Skill} \\
+% Maecenas ultricies augue a turpis viverra iaculis. Fusce a lorem est. Phasellus a metus dignissim, commodo eros eget, tempor ipsum.  \\
+%
+% \noindent
+% \textbf{Skill} \\
+% Maecenas ultricies augue a turpis viverra iaculis. Fusce a lorem est. Phasellus a metus dignissim, commodo eros eget, tempor ipsum.
+
+%------------------------
+
+% References Section
+% \section*{REFERENCES}
+%
+% \noindent
+% \newline
+% \textbf{Reference Name} \\
+% Full Title \\
+% Address\\
+% Email \\
+% Telephone \\
+%
+% \noindent
+% \textbf{Reference Name} \\
+% Full Title \\
+% Address\\
+% Email \\
+% Telephone \\
+%
+% \noindent
+% \textbf{Reference Name} \\
+% Full Title \\
+% Address\\
+% Email \\
+% Telephone \\
+
+
+% End document
+\end{document}
+

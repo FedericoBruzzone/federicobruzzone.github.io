@@ -1,3 +1,12 @@
+:root {
+    --header-footer-background-color: #d8d8d8;
+    --header-text-color: #333333;
+    --footer-text-color: #a1a1a1;
+    --blockquote-text-color: #606060;
+    --a-visited-color: #551a8b;
+    --border-color: #a8a8a8;
+}
+
 html,
 body {
     height: 100%;
@@ -7,25 +16,64 @@ body {
 body {
     display: flex;
     flex-direction: column;
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    overflow-wrap: break-word;
+    text-rendering: optimizeLegibility;
+    font-kerning: normal;
 }
 
 header,
 footer {
-    background: #d8d8d8;
-    padding: 10px;
+    flex: 0 1 auto;
+    text-align: center;
+    background: var(--header-footer-background-color);
+    padding: 0.25em;
+    border: 1px solid var(--border-color);
 }
 
 header {
-    flex: 0 1 auto;
+    color: var(--header-text-color);
 }
+
 
 main {
     flex: 1 1 auto;
-    padding: 10px;
+    padding: 1em;
+    margin: 1em 0;
+    /* border: 1px solid var(--border-color); */
 }
 
 footer {
-    color: gray;
-    flex: 0 1 auto;
-    text-align: center;
+    color: var(--footer-text-color);
+}
+
+pre {
+    margin: 1em 0;
+    overflow: auto;
+}
+
+code {
+    font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+    font-size: 85%;
+    margin: 0;
+    hyphens: manual;
+}
+
+/* The dot is a class selector */
+/* .sourceCode { */
+/*     background-color: transparent; */
+/* } */
+
+a:visited {
+    color: var(--a-visited-color);
+}
+
+blockquote {
+    margin: 1em 0 1em 1.7em;
+    padding-left: 1em;
+    border-left: 2px solid var(--border-color);
+    color: var(--blockquote-text-color);
 }
