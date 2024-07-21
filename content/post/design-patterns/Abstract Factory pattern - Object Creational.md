@@ -49,7 +49,7 @@ There is a concrete subclass of WidgetFactory for each look-and-feel standard. C
 
 A WidgetFactory also enforces dependencies between the concrete widget classes. A **Dummy** scroll bar should be used with a **Dummy** button and a **Dummy** text editor, and that constraint is enforced automatically as a consequence of using a **DummyWidgetFactory**.
 
-## Applicability 
+## Applicability
 
 Use the Abstract Factory pattern when
 
@@ -131,7 +131,7 @@ An inherent problem remains: All products are returned to the client with the sa
 
 We will apply the Abstract Factory pattern to creating the mazes.
 
-To better understand the following code and the classes used look 
+To better understand the following code and the classes used look
 
 [here🔗!](https://github.com/FedericoBruzzone/federicobruzzone.github.io/tree/main/static/design-pattern/commoncode)
 
@@ -142,13 +142,13 @@ public class MazeFactory {
 
   public MazeFactory() {}
 
-  public Maze MakeMaze() 
+  public Maze MakeMaze()
     { return new Maze(); }
 
-  public Wall MakeWall() 
+  public Wall MakeWall()
     { return new Wall(); }
 
-  public Room MakeRoom(int n) 
+  public Room MakeRoom(int n)
     { return new Room(n); }
 
   public Door MakeDoor(Room r1, Room r2)
@@ -182,8 +182,8 @@ public class MazeGame_Factory {
     aMaze.AddRoom(r2);
 
     return aMaze;
-  }     
-  
+  }
+
 }
 ```
 
@@ -193,16 +193,16 @@ We can make a subclass of *Room* ([here 🔗](https://github.com/FedericoBruzzon
 
 ```Java
 public class RoomWithABomb extends Room {
-  
+
   int bombDamage;
 
   public RoomWithABomb(int roomNo) {
     super(roomNo);
-  }  
+  }
 
   public void setBombDamage(int bombDamage) {
     this.bombDamage = bombDamage;
-  } 
+  }
 
 }
 ```
@@ -211,12 +211,12 @@ We also need a subclass of *Wall* to keep track of the damage.
 
 ```Java
 public class BombedWall extends Wall {
-  
+
   int wallDamage = 0;
-  
+
   public BombedWall() {
     super();
-  }  
+  }
 
   public void hitWall(int bombDamage) {
     this.wallDamage = bombDamage;
@@ -230,11 +230,11 @@ The last class we defined is *BombedMazefactory*, a subclass of *MazeFactory* (d
 ```Java
 
 public class BombedMazeFactory extends MazeFactory {
-     
-  public Wall MakeWall() 
+
+  public Wall MakeWall()
     { return new BombedWall(); }
 
-  public Room MakeRoom(int n) 
+  public Room MakeRoom(int n)
     { return new RoomWithABomb(n); }
 
 }
@@ -252,8 +252,8 @@ public class MainAbstractFactory {
     BombedMazeFactory bombedFactory = new BombedMazeFactory();
 
     game.CreateMaze(bombedFactory /* factory */);
-  }  
-  
+  }
+
 }
 ```
 

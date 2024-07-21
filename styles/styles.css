@@ -1,0 +1,31 @@
+html,
+body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+header,
+footer {
+    background: #f1f1f1;
+    padding: 10px;
+}
+
+header {
+    flex: 0 1 auto;
+}
+
+main {
+    flex: 1 1 auto;
+    padding: 10px;
+}
+
+footer {
+    color: gray;
+    flex: 0 1 auto;
+    text-align: center;
+}
