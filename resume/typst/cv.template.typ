@@ -185,6 +185,7 @@
       #box(image("figs/Telegram_logo.svg", height: 1em)) Telegram: #link(contact_info.telegram_link)[#contact_info.telegram_name] \
       #box(image("figs/LinkedIn_Logo.svg", height: 1em)) LinkedIn: #link(contact_info.linkedin_link)[#contact_info.linkedin_name] \
       #box(image("figs/Twitter_logo.svg", height: 1em)) Twitter: #link(contact_info.twitter_link)[#contact_info.twitter_name] \
+      #box(image("figs/reddit-logo.svg", height: 1em)) Reddit: #link(contact_info.reddit_link)[#contact_info.reddit_name] \
     ]
   )
 }

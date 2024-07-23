@@ -21,7 +21,9 @@
     linkedin_link: "https://www.linkedin.com/in/federico-bruzzone/",
     linkedin_name: "in/federico-bruzzone",
     twitter_link: "https://x.com/fedebruzzone7",
-    twitter_name: "@fedebruzzone7"
+    twitter_name: "@fedebruzzone7",
+    reddit_link: "https://www.reddit.com/user/FedericoBruzzone",
+    reddit_name: "u/FedericoBruzzone"
   ),
   bib : ("publications.bib"),
   // textfill: gradient.linear(..color.map.flare.slice(129,256), relative:"parent"),
