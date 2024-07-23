@@ -5,6 +5,9 @@
     --blockquote-text-color: #606060;
     --a-visited-color: #551a8b;
     --border-color: #a8a8a8;
+    --tr-nth-child-odd-color: #f0f0f0;
+    --tr-nth-child-even-color: #f8f8f8;
+    --tr-hover-color: #e0e0e0;
 }
 
 html,
@@ -50,6 +53,22 @@ footer {
     color: var(--footer-text-color);
 }
 
+table {
+    width: 100%;
+}
+
+table tr:nth-child(odd) {
+    background-color: var(--tr-nth-child-odd-color);
+}
+
+table tr:nth-child(even) {
+    background-color: var(--tr-nth-child-even-color);
+}
+
+table tr:hover {
+    background-color: var(--tr-hover-color);
+}
+
 pre {
     margin: 1em 0;
     overflow: auto;
@@ -76,4 +95,15 @@ blockquote {
     padding-left: 1em;
     border-left: 2px solid var(--border-color);
     color: var(--blockquote-text-color);
+}
+
+
+.left {
+    float: left;
+    width: 48%;
+}
+
+.right {
+    float: right;
+    width: 48%;
 }
