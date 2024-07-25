@@ -3,6 +3,7 @@
     --header-text-color: #333333;
     --footer-text-color: #a1a1a1;
     --blockquote-text-color: #606060;
+    --a-hover-color: #ffeeaa;
     --a-visited-color: #551a8b;
     --border-color: #a8a8a8;
     --tr-nth-child-odd-color: #f0f0f0;
@@ -14,6 +15,7 @@ html,
 body {
     height: 100%;
     margin: 0;
+    /* font-family: Arial, sans-serif; */
 }
 
 body {
@@ -45,8 +47,9 @@ header {
 main {
     flex: 1 1 auto;
     padding: 1em;
-    margin: 1em 0;
-    /* border: 1px solid var(--border-color); */
+    margin: 1em 0em;
+    border: 1px solid var(--border-color);
+    max-width: 100%;
 }
 
 footer {
@@ -55,6 +58,11 @@ footer {
 
 table {
     width: 100%;
+    border-collapse: collapse;
+}
+
+td {
+    padding: 5px;
 }
 
 table tr:nth-child(odd) {
@@ -69,8 +77,13 @@ table tr:hover {
     background-color: var(--tr-hover-color);
 }
 
+img {
+    max-width: 100%;
+    height: auto;
+}
+
 pre {
-    margin: 1em 0;
+    margin: 1em 0em;
     overflow: auto;
 }
 
@@ -86,6 +99,10 @@ code {
 /*     background-color: transparent; */
 /* } */
 
+a:hover {
+    background-color: var(--a-hover-color);
+}
+
 a:visited {
     color: var(--a-visited-color);
 }
@@ -98,12 +115,27 @@ blockquote {
 }
 
 
+.left,
+.right {
+    width: 48%;
+    /* inline-block makes the divs appear side by side */
+    display: inline-block;
+}
+
 .left {
     float: left;
-    width: 48%;
 }
 
 .right {
     float: right;
-    width: 48%;
+}
+
+@media (max-width: 768px) {
+
+    .left,
+    .right {
+        width: 100%;
+        /* block makes the divs appear one below the other */
+        display: block;
+    }
 }
