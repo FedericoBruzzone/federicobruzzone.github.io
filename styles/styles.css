@@ -3,6 +3,7 @@
     --header-text-color: #333333;
     --footer-text-color: #a1a1a1;
     --blockquote-text-color: #606060;
+    --blockquote-border-left-color: #e6e6e6;
     --a-hover-color: #ffeeaa;
     --a-visited-color: #551a8b;
     --border-color: #a8a8a8;
@@ -28,6 +29,16 @@ body {
     overflow-wrap: break-word;
     text-rendering: optimizeLegibility;
     font-kerning: normal;
+
+    max-width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media (max-width: 768px) {
+    body {
+        max-width: 100%;
+    }
 }
 
 header,
@@ -36,7 +47,7 @@ footer {
     text-align: center;
     background: var(--header-footer-background-color);
     padding: 0.25em;
-    border: 1px solid var(--border-color);
+    border: 0.1em solid var(--border-color);
 }
 
 header {
@@ -48,8 +59,7 @@ main {
     flex: 1 1 auto;
     padding: 1em;
     margin: 1em 0em;
-    border: 1px solid var(--border-color);
-    max-width: 100%;
+    border: 0.1em solid var(--border-color);
 }
 
 footer {
@@ -82,6 +92,15 @@ img {
     height: auto;
 }
 
+svg {
+    max-width: 100%;
+    height: auto;
+}
+
+figure {
+    text-align: center;
+}
+
 pre {
     margin: 1em 0em;
     overflow: auto;
@@ -110,16 +129,25 @@ a:visited {
 blockquote {
     margin: 1em 0 1em 1.7em;
     padding-left: 1em;
-    border-left: 2px solid var(--border-color);
+    border-left: 0.2em solid var(--blockquote-border-left-color);
     color: var(--blockquote-text-color);
 }
 
+hr {
+    border: 0;
+    height: 1px;
+    background: var(--border-color);
+}
 
-.left,
-.right {
-    width: 48%;
-    /* inline-block makes the divs appear side by side */
-    display: inline-block;
+/* ====== for index.html ===== */
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2em;
+}
+
+.grid-item {
+    box-sizing: border-box;
 }
 
 .left {
@@ -132,10 +160,33 @@ blockquote {
 
 @media (max-width: 768px) {
 
-    .left,
-    .right {
-        width: 100%;
-        /* block makes the divs appear one below the other */
-        display: block;
+    .grid-container {
+        /* Stack columns on small screens */
+        grid-template-columns: 1fr;
     }
+}
+
+/* ====== for posts/index.html ===== */
+.post {
+    display: flex;
+    align-items: center;
+}
+
+.post p {
+    margin: 0.25em;
+    color: #666;
+}
+
+.post a {
+    font-weight: bold;
+}
+
+
+/* ====== for post pages ===== */
+.main-post h1 {
+    text-align: center;
+}
+
+.main-post h2 {
+    text-align: center;
 }

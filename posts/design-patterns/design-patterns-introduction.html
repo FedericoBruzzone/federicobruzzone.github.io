@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Design Patterns - Introduction</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+
+    <script type="module" src="/scripts/main.js" defer></script>
+    <link rel="stylesheet" type="text/css" href="/styles/styles.css">
+    <link rel="stylesheet" type="text/css" href="/styles/syntax-highlighting.css">
+
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+</head>
+
+<body>
+    <div id="header-container"></div>
+
+    <main class="main-post">
+
+        <h1>Design Patterns - Introduction</h1>
+        <h2>A summary of GoF Design Patterns</h2>
+        <figure>
+            <img src="/posts/static/design-patterns/design-patterns-introduction/img/1.jpeg" />
+            <figcaption>Cover art © 1994 M.C. Escher / Cordon Art - Baarn - Holland. All right reserved.</figcaption>
+        </figure>
+
+        <p>Before I start talking about what are the design patterns I would like to dedicate a few words to this
+            picture that you can see in the official cover of <strong>Design Pattern - Elements of Reusable
+                Object-Oriented Software.</strong></p>
+        <p>If you did not know who <strong>Maurits Cornelis Escher</strong> was, he was an one of the greatest artist of
+            the twentieth century who made mathematically inspired woodcuts, lithographs, and mezzotints.</p>
+        <blockquote>
+            <p>His work features mathematical objects and operations including impossible objects, explorations of
+                infinity, reflection, symmetry, perspective, truncated and stellated polyhedra, hyperbolic geometry, and
+                tessellations.</p>
+        </blockquote>
+        <p>Joking, the description above is extremely consistent with the thought you have when you are a beginner to
+            design patterns. I could talk for hours about what I think about this masterpiece but it is better to move
+            on to the concrete, or rather to the abstract …</p>
+        <h2>Contents</h2>
+        <ul>
+            <li><strong>What Is a Design Pattern?</strong></li>
+            <li><strong>Describing Design Patterns</strong></li>
+            <li><strong>The Catalog of Design Patterns</strong></li>
+            <li><strong>Organizing the Catalog</strong></li>
+            <li><strong>How Design Patterns Solve Design Problems</strong></li>
+        </ul>
+        <h2>What is a Design Pattern?</h2>
+        <p>Christofer Alexander says,</p>
+        <blockquote>
+            <p>"Each pattern describes a problem which occurs over and over again in our environment, and then describes
+                the core of the solution to that problem, in such way that you can use this solution a million times
+                over, without ever doing it the same way twice" [AIS+77, page x]</p>
+        </blockquote>
+        <p>Probably the best way to classify design patterns is to talk about their four main elements:</p>
+        <ol>
+            <li>
+                <p>The <strong>Pattern name</strong> is simply the name that describe the pattern. Usually it is one or
+                    two word in relationship with their <strong>Solution</strong> and <strong>Consequences</strong>.
+                    Attributing a <strong>Pattern name</strong> we can use this to talk with our colleagues, write a
+                    documentation and many other thing without ambiguity.</p>
+            </li>
+            <li>
+                <p>The <strong>Problem</strong> describes when we apply the pattern. It might be a representation such
+                    as how to implements an algorithm or data structure as an Object.</p>
+            </li>
+            <li>
+                <p>The <strong>Solution</strong> describes the elements that we should use to implements the design
+                    pattern. These elements could be related to themselves and the collaboration and responsibilities
+                    are more important.</p>
+            </li>
+            <li>
+                <p>The <strong>Consequences</strong> are the result and trade-off that the design patter should returns.
+                </p>
+            </li>
+        </ol>
+        <h2>Describing Design Pattern</h2>
+        <p><strong>Design Pattern - Elements of Reusable Object-Oriented Software</strong> book describe design patterns
+            using a consistent format. Each pattern is divided into section according to the following template.</p>
+        <h3>Pattern Name and Classification</h3>
+        <p>A good name is vital, because it will become part of your design vocabulary. The pattern's classification
+            reflects the scheme I introduce in section <strong>Organizing the Catalog.</strong></p>
+        <h3>Intent</h3>
+        <p>Following question: What does the design pattern do? What is its rationale and intent? What particular design
+            issue or problem does is address?</p>
+        <h3>Also Known As</h3>
+        <p>Other well-known names for the pattern, if any.</p>
+        <h3>Motivation</h3>
+        <p>A scenario that illustrate a design problem and how the class and object structures in the pattern solve the
+            problem.</p>
+        <h3>Applicability</h3>
+        <p>What are the situations in which the design pattern can be applied? What are example of poor designs that the
+            pattern can address? How can you recognize these situations?</p>
+        <h3>Structure</h3>
+        <p>A graphical representation of the classes in the pattern using a notation based on the Object Modeling
+            Technique (OMT) [RBP+91]. I also use interaction diagrams [JCJO92, Boo94] to illustrate sequences of request
+            and collaborations between object. </p>
+        <h3>Participants</h3>
+        <p>The classes and / or objects participating in the design pattern and their responsibilities.</p>
+        <h3>Collaborations</h3>
+        <p>How the participants collaborate to carry out their responsibilities.</p>
+        <h3>Consequences</h3>
+        <p>How does the pattern support its objectives? Whar are trade-offs and results of using pattern?</p>
+        <h3>Implementation</h3>
+        <p>What pitfalls, hints, or techniques should you be aware of when implementing the pattern?</p>
+        <h3>Sample Code</h3>
+        <p>Code fragments that illustrate how you might implement the pattern in C++ or Smalltalk.</p>
+        <h3>Known Uses</h3>
+        <p>Example of the pattern found in real system.</p>
+        <h3>Related Patterns</h3>
+        <p>When design pattern are closely related to this one?</p>
+        <h2>The Catalog of Design Patterns</h2>
+        <ul>
+            <li>
+                <p><strong>Abstract Factory</strong> - Provide an interface for creating families of related or
+                    dependent objects without specifying their concrete classes.</p>
+            </li>
+            <li>
+                <p><strong>Adapter</strong> - Convert the interface of a class into another interface clients expect.
+                    Adapter lets classes work together that could not otherwise because of incompatible interfaces.</p>
+            </li>
+            <li>
+                <p><strong>Bridge</strong> - Decouple an abstraction from its implementation so that the two can very
+                    independently.</p>
+            </li>
+            <li>
+                <p><strong>Builder</strong> - Separate the construction of a complex object from its representation so
+                    that the same construction process can create different representations.</p>
+            </li>
+            <li>
+                <p><strong>Chain of Responsibility</strong> - Avoid coupling the sender of a request to its receiver by
+                    giving more than one object a chance to handle the request. Chain the receiving object and pass the
+                    request along the chain until an object handles it.</p>
+            </li>
+            <li>
+                <p><strong>Command</strong> - Encapsulate a request as an object, thereby letting you parameterize
+                    clients with different requests, queue or log requests, and support undo able operations.</p>
+            </li>
+            <li>
+                <p><strong>Composite</strong> - Compose objects into tree structures to represent part-whole
+                    hierarchies. Composite lets clients treat individual objects and compositions of objects uniformly
+                </p>
+            </li>
+            <li>
+                <p><strong>Decorator</strong> - Attach additional responsibilities to an object dynamically. Decorators
+                    provide a flexible alternative to subclassing for extending functionality.</p>
+            </li>
+            <li>
+                <p><strong>Facade</strong> - Provide a unified interface to a set of interfaces in a subsystem. Facade
+                    defines a higher-level interface that makes the subsystem easier to use.</p>
+            </li>
+            <li>
+                <p><strong>Factory Method</strong> - Define an interface for creating an object, but let subclasses
+                    decide which class to instantiate. Factory Method lets a class defer instantiation to subclasses.
+                </p>
+            </li>
+            <li>
+                <p><strong>Flyweight</strong> - Use sharing to support large numbers of fine-grained objects
+                    efficiently.</p>
+            </li>
+            <li>
+                <p><strong>Interpreter</strong> - Given a language, define a representation for its grammar along with
+                    an interpreter that uses the representation to interpret sentences in the language.</p>
+            </li>
+            <li>
+                <p><strong>Iterator</strong> - Provide a way to access the elements of an aggregate object sequentially
+                    without exposing its underlying representation.</p>
+            </li>
+            <li>
+                <p><strong>Mediator</strong> - Define an object that encapsulates how a set of objects interact.
+                    Mediator promotes loose coupling by keeping objects from referring to each other explicitly, and it
+                    lets you vary their interaction independently.</p>
+            </li>
+            <li>
+                <p><strong>Memento</strong> - Without violating encapsulation, capture and externalize an object's
+                    internal state so that the object can be restored to this state later.</p>
+            </li>
+            <li>
+                <p><strong>Observer</strong> - Define a one-to-many dependency between objects so that when one object
+                    changes state, all its dependents are notified and updated automatically.</p>
+            </li>
+            <li>
+                <p><strong>Prototype</strong> - Specify the kinds of objects to create using a prototypical instance,
+                    and create new objects by copying this prototype.</p>
+            </li>
+            <li>
+                <p><strong>Proxy</strong> - Provide a surrogate or placeholder for another object to control access to
+                    it.</p>
+            </li>
+            <li>
+                <p><strong>Singleton</strong> - Ensure a class only has one instance, and provide a global point of
+                    access to it.</p>
+            </li>
+            <li>
+                <p><strong>State</strong> - Allow an object to alter its behavior when its internal state changes. The
+                    object will appear to change its class.</p>
+            </li>
+            <li>
+                <p><strong>Strategy</strong> - Define a family of algorithms, encapsulate each one, and make them
+                    interchangeable. Strategy lets the algorithm vary independently from clients that use it.</p>
+            </li>
+            <li>
+                <p><strong>Template Method</strong> - Define the skeleton of an algorithm in an operation, deferring
+                    some steps to subclasses. Template Method lets subclasses redefine certain steps of an algorithm
+                    without changing the algorithm's structure.</p>
+            </li>
+            <li>
+                <p><strong>Visitor</strong> - Represent an operation to be performed on the elements of an object
+                    structure. Visitor lets you define a new operation without changing the classes of the elements on
+                    which it operates.</p>
+            </li>
+        </ul>
+        <h2>Organizing the Catalog</h2>
+        <figure>
+            <img src="/posts/static/design-patterns/design-patterns-introduction/img/2.png"
+                alt="Table 1.1: Design pattern space" />
+            <figcaption aria-hidden="true">Table 1.1: Design pattern
+                space</figcaption>
+        </figure>
+        <p>Design pattern vary in their granularity and level of abstraction. The classification helps you to learn the
+            patterns in the catalog faster.</p>
+        <p>The book classify design pattern by two criteria (Table 1.1). The first criterion, called
+            <strong>purpose</strong> reflects what a pattern does. Patterns can have either <strong>creational</strong>,
+            <strong>structural</strong>, or <strong>behavioral</strong> purpose. Creational patterns concern the process
+            of object creation. Structural patterns deal with the composition of classes or object. Behavioral patterns
+            characterize the ways in which classes or objects interact and distribute responsibility.
+        </p>
+        <p>The second criterion, called <strong>scope</strong>, specifies whether the pattern applies primarily to
+            classes or to objects. Class patterns deal with relationship between classes and their subclasses. Object
+            patterns deal with object relationship, which can be changed at run-time and are more dynamic.</p>
+        <h2>How Design Patterns Solve Design Problems</h2>
+        <figure>
+            <img src="/posts/static/design-patterns/design-patterns-introduction/img/3.png">
+            <figcaption aria-hidden="true">Figure 1.1: Design pattern relationship</figcaption>
+        </figure>
+        <h3>Finding Appropriate Objects</h3>
+        <p>Object-oriented programming are made up of objects. An <strong>object</strong> packages both data and the
+            procedures that operate on that data. The procedures are typically called <strong>methods</strong> or
+            <strong>operations</strong>. An object performs an operation when it receives a <strong>request</strong>
+            from a <strong>client</strong>.
+        </p>
+        <p>The hard part of object-oriented design is decomposing a system into objects because there are many factor
+            come into play: encapsulation, granularity, dependency, flexibility, performance, evolution, reusability,
+            and on and on. </p>
+        <p>Object oriented design methodologies favor many different approaches. You can write a problem statement and
+            create classes and operations. Or you can focus on the collaboration in your system. Or you can model the
+            real world and translate objects found during analysis into design.</p>
+        <p>Design patters help you identify less-obvious abstractions and the objects that can capture them. For
+            example, objects that represent a process or algorithm don't occur in nature. The <strong>strategy</strong>
+            pattern describes how to implement interchangeable families of algorithms. The state pattern represent each
+            <strong>state</strong> of an entity as an object.
+        </p>
+        <h3>Determining Object Granularity</h3>
+        <p>Object can vary in size and number. They can represent everything down to the hardware or all the way up to
+            entire software. </p>
+        <p>Design patterns address this issue as well. The <strong>facade</strong> pattern describes how to represent
+            complete subsystem as object and the <strong>flyweight</strong> pattern describe how to support huge numbers
+            of object at the finest granularity </p>
+        <h3>Specifying Object Interfaces</h3>
+        <p>Every operation declared by an object specifies the operation's name, the objects it takes as parameters, and
+            the operation's return value. This is known as the operation's <strong>signature</strong>. The set of all
+            signatures defined by an object's operations is called the <strong>interface</strong> to the object. </p>
+        <p>A <strong>type</strong> is a name used to denote a particular interface. We speak of an object as having the
+            type "Window" if it accepts all requests for the operations defined in the interface named "Window." Two
+            objects of the same type need only share parts of their interfaces. Interfaces can contain other interfaces
+            as subsets. We say that a type is a <strong>subtype</strong> of another if its interface contains the
+            interface of its <strong>supertype.</strong></p>
+        <p>When a request is sent to an object, the particular operation that's performed depends on both the request
+            and the receiving object. The run-time association of a request to an object and one of its operations is
+            known as <strong>dynamic binding.</strong></p>
+        <p>Moreover, dynamic binding lets you substitute objects that have identical interfaces for each other at
+            run-time. This substitutability is known as <strong>polymorphism</strong>, and it's a key concept in
+            object-oriented systems.</p>
+        <p>Design patterns help you define interfaces by identifying their key elements and the kinds of data that get
+            sent across an interface. </p>
+        <p>For example, the Memento pattern it describes how to encapsulate and save the internal state of an object so
+            that the object can be restored to that state later.</p>
+        <h3>Specifying Object Implementations</h3>
+        <p>An object's implementation is defined by its <strong>class.</strong> </p>
+        <figure>
+            <img src="/posts/static/design-patterns/design-patterns-introduction/img/4.png">
+        </figure>
+        <p>Objects are created by <strong>instantiating</strong> a class. The object is said to be an
+            <strong>instance</strong> of the class. The process of instantiating a class allocates storage for the
+            object's internal data (made up of <strong>instance variables</strong>) and associates the operations with
+            these data.
+        </p>
+        <figure>
+            <img src="/posts/static/design-patterns/design-patterns-introduction/img/5.png">
+        </figure>
+        <p>New classes can be defined in terms of existing classes using <strong>class inheritance</strong>. When a
+            <strong>subclass</strong> inherits from a <strong>parent class</strong>, it includes the definitions of all
+            the data and operations that the parent class defines.
+        </p>
+        <figure>
+            <img src="/posts/static/design-patterns/design-patterns-introduction/img/6.png" />
+        </figure>
+        <p>An <strong>abstract class</strong> is one whose main purpose is to define a common interface for its
+            subclasses. An abstract class will defer some or all of its implementation to operations defined in
+            subclasses; hence an abstract class cannot be instantiated. A <strong>concrete class</strong> may
+            <strong>override</strong> an operation defined by its parent class. Overriding gives subclasses a chance to
+            handle requests instead of their parent classes.
+        </p>
+        <figure>
+            <img src="/posts/static/design-patterns/design-patterns-introduction/img/7.png" />
+        </figure>
+        <p>A <strong>mixin class</strong> is a class that's intended to provide an optional interface or functionality
+            to other classes. It's similar to an abstract class in that it's not intended to be instantiated. Mixin
+            classes require multiple inheritance:</p>
+        <figure>
+            <img src="/posts/static/design-patterns/design-patterns-introduction/img/8.png" />
+        </figure>
+        <h3>Class versus Interface Inheritance</h3>
+        <p>It's important to understand the difference between an object's class and its type.</p>
+        <p>An object's class defines how the object is implemented. The class defines the object's internal state and
+            the implementation of its operations. In contrast, an object's type only refers to its interface – the set
+            of requests to which it can respond. An object can have many types, and objects of different classes can
+            have the same type.</p>
+        <p>It's also important to understand the difference between class inheritance and interface inheritance (or
+            subtyping). Class inheritance defines an object's implementation in terms of another object's
+            implementation. In short, it's a mechanism for code and representation sharing. In contrast, interface
+            inheritance (or subtyping) describes when an object can be used in place of another.</p>
+        <p>Many of the design patterns depend on this distinction. For example, in the Composite pattern, Component
+            defines a common interface, but Composite often defines a common implementation. Observer, State, and
+            Strategy are often implemented with abstract classes.</p>
+        <h3>Putting Reuse Mechanisms to Work</h3>
+        <blockquote>
+            <p>Inheritance versus Composition</p>
+        </blockquote>
+        <p>The two most common techniques for reusing functionality in object-oriented systems are class inheritance and
+            <strong>object composition</strong>. As I've explained, class inheritance lets you define the implementation
+            of one class in terms of another's. Reuse by subclassing is often referred to as <strong>white-box
+                reuse.</strong> 
+        </p>
+        <p>Object composition is an alternative to class inheritance. Here, new functionality is obtained by assembling
+            or composing objects to get more complex functionality. Object composition requires that the objects being
+            composed have well-defined interfaces. This style of reuse is called <strong>black-box reuse</strong>,
+            because no internal details of objects are visible. </p>
+        <p>Inheritance and composition each have their advantages and disadvantages. Class inheritance is defined
+            statically at compile-time. It also make it easier to modify the implementation being reused. But you can't
+            change the implementations inherit from parent classes at run-time, because inheritance is defined at
+            compile-time. The implementation of a subclass becomes so bound up with the implementation of its parent
+            class that any change in the parent's implementation will force the subclass to change.</p>
+        <p>Object composition is defined dynamically at run-time through objects acquiring references to other objects.
+            Composition requires objects to respect each others' interfaces. Objects are accessed solely through their
+            interfaces, we don't break encapsulation. Any object can be replaced at run-time by another as long as it
+            has the same type. </p>
+        <p>Favoring object composition over class inheritance helps you keep each class encapsulated and focused on one
+            task. Your classes and class hierarchies will remain small. On the other hand, a design based on object
+            composition will have more objects.</p>
+        <blockquote>
+            <p>Delegation</p>
+        </blockquote>
+        <p><strong>Delegation</strong> is a way of making composition as powerful for reuse as inheritance [Lie86,
+            JZ91]. In delegation, <em>two</em> objects are involved in handling a request: a receiving object delegates
+            operations to its <strong>delegate.</strong> </p>
+        <p>Differs from inheritance because it is no longer accessed via this or <em>self</em>. For example, instead of
+            making class Window a subclass of Rectangle, the Window class might reuse the behavior of Rectangle by
+            keeping a Rectangle instance variable and <em>delegating</em> Rectangle-specific behavior to it. </p>
+        <figure>
+            <img src="/posts/static/design-patterns/design-patterns-introduction/img/9.png" />
+        </figure>
+        <p>The main advantage of delegation is that it make it easy to compose behaviors at run-time and to change the
+            way they are composed. If we want, our window can become a circular at run-time, assuming Rectangle and
+            Circle have the same type.</p>
+        <p>Delegation has a disadvantage it shares with other techniques that make software more flexible through object
+            composition: Dynamic, highly parameterized software is harder to understand than more static software.</p>
+        <p>Several design pattern use delegation. The State, Strategy, and Visitor patterns depend on it.</p>
+        <blockquote>
+            <p>Inheritance versus Parameterized Types</p>
+        </blockquote>
+        <p>Another (not strictly object-oriented) technique for reusing functionality is through <strong>parameterized
+                types</strong>, also known as <strong>generics</strong> and <strong>templates</strong>. This technique
+            lets you define a type without specifying all the other types it uses.</p>
+        <p>Parameterized types give us a third way (in addition to class inheritance and object composition) to compose
+            behavior in object-oriented systems. Many designs can be implemented using any of these three techniques.
+        </p>
+        <p>There are important differences between these techniques. Object composition lets you change the behavior
+            being composed atrun-time, but it also requires indirection and can be less efficient. Inheritance lets you
+            provide default implementations for operations and lets subclasses override them. Parameterized typeslet you
+            change the types that a class can use. But neither inheritance nor parameterized types can change at
+            run-time.</p>
+        <h3>Relating Run-Time and Compile-Time Structures</h3>
+        <p>Consider the distinction between object <strong>aggregation</strong> and <strong>acquaintance</strong> and
+            how differently they manifest themselves at compile- and run-times. Aggregation implies that one object owns
+            or is responsible for another object. Generally we speak of an object having or being part of another
+            object.</p>
+        <p>Acquaintance implies that an object merely knows of another object. Sometimes acquaintance is called
+            "association" or the "using" relationship. Acquainted objects may request operations of each other, but they
+            aren't responsible for each other.</p>
+        <p>In this diagrams, a plain arrowhead line denotes acquaintance. An arrowhead line with a diamond at its base
+            denotes aggregation:</p>
+        <figure>
+            <img src="/posts/static/design-patterns/design-patterns-introduction/img/10.png" />
+        </figure>
+        <h3>Designing for Change</h3>
+        <p>The key to maximizing reuse lies in anticipating new requirements and changes to existing requirements, and
+            in designing your systems so that they can evolve accordingly.</p>
+        <p>Design patterns help you avoid this by ensuring that a system can change in specific ways. </p>
+        <p>There are some common causes of redesign along with the design pattern(s) that address them:</p>
+        <ul>
+            <li>
+                <p><em>Creating an object by specifying a class explicitly.</em> Specifying a class name when you create
+                    an object commits you a particular implementation instead of a particular interface. Design pattern:
+                    Abstract Factory, Factory Method, Prototype.</p>
+            </li>
+            <li>
+                <p><em>Dependence on specific operations.</em> When you specify a particular operation, you commit to
+                    one way of satisfying a request. By avoiding hard-coded request, you make it easier to change the
+                    way a request gets satisfied both at compiled-time and run-time. Design pattern: Chain of
+                    Responsibility, Command.</p>
+            </li>
+            <li>
+                <p><em>Algorithmic dependencies.</em> Algorithms are often extended, optimized, and replaced during
+                    development and reuse. Object that depend on an algorithm will have to change when the algorithm
+                    changes. Therefore algorithms that are likely to change should be isolated. Design patterns:
+                    Builder, Iterator, Strategy, Template Method, Visitor.</p>
+            </li>
+            <li>
+                <p><em>Tight coupling</em> Tight coupling leads to monolithic systems, where you can't change or remove
+                    a class without understanding and changing many other classes. The system becomes a dense mass
+                    that's hard to learn, port, and maintain. Design patterns use techniques such as abstract coupling
+                    and layering to promote loosely coupled systems. Design patterns: Abstract Factory, Bridge, Chain of
+                    Responsibility, Command, Facade, Mediator, Observer.</p>
+            </li>
+            <li>
+                <p><em>Extending functionality by subclassing</em> Customizing an object by subclassing often isn't
+                    easy. Every new class has a fixed implementation overhead. Defining a subclass also requires an
+                    in-depth understanding of the parent class. Object composition in general and delegation in
+                    particular provide flexible alternatives to inheritance for combining behavior. New functionality
+                    can be added to an application by composing existing objects in new ways rather than by defining new
+                    subclasses of existing classes. Design patterns: Bridge, Chain of Responsibility, Composite,
+                    Decorator, Observer, Strategy.</p>
+            </li>
+        </ul>
+    </main>
+
+    <div id="footer-container"></div>
+</body>
+
+</html>

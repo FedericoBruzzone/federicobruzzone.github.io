@@ -17,11 +17,9 @@ mathjax: true
 
 ---
 
-<!--
 # Abstract Factory pattern - Object Creational
 
 ## A summary of GoF Design Patters
--->
 
 ![Cover](/design-pattern/Abstract%20Factory%20pattern%20-%20Object%20Creational/img/cover.png)
 
