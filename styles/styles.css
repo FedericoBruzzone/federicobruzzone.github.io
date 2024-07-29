@@ -108,7 +108,7 @@ pre {
 
 code {
     font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
-    font-size: 85%;
+    font-size: 75%;
     margin: 0;
     hyphens: manual;
 }
@@ -169,19 +169,23 @@ hr {
 
 /* ====== for posts/index.html ===== */
 .post {
-    display: flex;
     align-items: center;
 }
 
-.post p {
-    margin: 0.25em;
-    color: #666;
-}
-
-.post a {
+.post .title {
+    display: inline;
     font-weight: bold;
 }
 
+.post .date {
+    display: inline;
+}
+
+.post .summary {
+    margin-top: 0.1em;
+    display: block;
+    color: gray;
+}
 
 /* ====== for post pages ===== */
 .main-post h1 {

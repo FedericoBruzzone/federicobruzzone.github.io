@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Abstract Factory - Object Creational</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+
+    <script type="module" src="/scripts/main.js" defer></script>
+    <link rel="stylesheet" type="text/css" href="/styles/styles.css">
+    <link rel="stylesheet" type="text/css" href="/styles/syntax-highlighting.css">
+
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+</head>
+
+
+<body>
+
+    <div id="header-container"></div>
+
+    <main class="main-post">
+        <h1>Abstract Factory
+            - Object Creational</h1>
+        <h2>A summary of GoF Design
+            Patters</h2>
+        <figure>
+            <img src="/posts/static/design-patterns/abstract-factory-object-creational/img/cover.png" />
+        </figure>
+        <p>By <strong>Dmitry Zhart</strong> (<a href="https://refactoring.guru/">refactoring.guru</a>)</p>
+        <h2>Intent</h2>
+        <p>Provide an interface for creating families of related or dependent
+            objects without specifying their concrete class.</p>
+        <h2>Also Known As</h2>
+        <p>Kit</p>
+        <h2>Motivation</h2>
+        <figure>
+            <img src="/posts/static/design-patterns/abstract-factory-object-creational/img/1.png" />
+        </figure>
+        <p>Consider a user interface toolkit that supports multiple
+            look-and-feel standards. Different look-and-feel define different
+            appearances and behaviors for user interface “widgets” like scroll vars,
+            windows, and buttons. Instantiating look-and-feel-specific classes of
+            widgets throughout the application makes it hard to change the look and
+            feel later.</p>
+        <p>We can solve this problem by defining an abstract WidgetFactory class
+            that declares an interface for creating each basic kind of widget. There
+            is also an abstract class for each kind of widget, and concrete
+            subclasses implement widgets for specific look-and-feel standards.
+            WidgetFactory’s interface has an operation that returns a new widget
+            object for each abstract widget class. Clients call these operations to
+            obtain widget instances.</p>
+        <p>There is a concrete subclass of WidgetFactory for each look-and-feel
+            standard. Client create widgets solely through the WidgetFactory
+            interface and have no knowledge of the classes that implement widget for
+            a particular look and feel.</p>
+        <p>A WidgetFactory also enforces dependencies between the concrete
+            widget classes. A <strong>Dummy</strong> scroll bar should be used with
+            a <strong>Dummy</strong> button and a <strong>Dummy</strong> text
+            editor, and that constraint is enforced automatically as a consequence
+            of using a <strong>DummyWidgetFactory</strong>.</p>
+        <h2>Applicability</h2>
+        <p>Use the Abstract Factory pattern when</p>
+        <ul>
+            <li>
+                <p>a system should be independent of how its product are created,
+                    composed, and represented.</p>
+            </li>
+            <li>
+                <p>a system should be configured with one of multiple families of
+                    products.</p>
+            </li>
+            <li>
+                <p>a family of related product objects is designed to be used
+                    together, and you need to enforce this constraint.</p>
+            </li>
+            <li>
+                <p>you want to provide a class library of products, and you want to
+                    reveal just their interfaces, not their implementations.</p>
+            </li>
+        </ul>
+        <h2>Structure</h2>
+        <figure>
+            <img src="/posts/static/design-patterns/abstract-factory-object-creational/img/2.png" />
+        </figure>
+        <h2>Participants</h2>
+        <h3>AbstractFactory</h3>
+        <p><em>(WidgetFactory)</em></p>
+        <ul>
+            <li>declares an interface for operations that create abstract product
+                objects.</li>
+        </ul>
+        <h3>ConcreteFactory</h3>
+        <p><em>(DummyWidgetFactory, TWidgetFactory)</em></p>
+        <ul>
+            <li>implements the operations to create concrete product objects.</li>
+        </ul>
+        <h3">AbstractProduct</h3>
+            <p><em>(Window, ScrollBar)</em></p>
+            <ul>
+                <li>declares an interface for a type of product object.</li>
+            </ul>
+            <h3>ConcreteProduct</h3>
+            <p><em>(DummyWindow, DummyScrollBar)</em></p>
+            <ul>
+                <li>
+                    <p>defines a product object to be created by the corresponding
+                        concrete factory.</p>
+                </li>
+                <li>
+                    <p>implements the AbstractProduct interface.</p>
+                </li>
+            </ul>
+            <h3>Client</h3>
+            <ul>
+                <li>uses only interfaces declared by AbstractFactory and AbstractProduct
+                    classes.</li>
+            </ul>
+            <h2>Collaborations</h2>
+            <ul>
+                <li>
+                    <p>Normally a single instance of a ConcreteFactory class is created
+                        at run-time. This concrete factory creates product objects having a
+                        particular implementation. To create different product objects, clients
+                        should use a different concrete factory.</p>
+                </li>
+                <li>
+                    <p>AbstractFactory defers creation of product objects to its
+                        ConcreteFactory subclass.</p>
+                </li>
+            </ul>
+            <h2>Consequences</h2>
+            <p>The Abstract Factory pattern has the following benefits and
+                liabilities:</p>
+            <ol>
+                <li>
+                    <p><em>It isolates concrete classes.</em> The abstract Factory
+                        pattern help you control the classes of object than an application
+                        creates. Clients manipulate instances through their abstract
+                        interfaces.</p>
+                </li>
+                <li>
+                    <p><em>It makes exchanging product families easy.</em> The class of
+                        concrete factory appears only once in an application - that is, where
+                        it’s instantiated. This makes it easy to change the concrete factory an
+                        application uses.</p>
+                </li>
+                <li>
+                    <p><em>It promotes consistency among products.</em> When product
+                        objects in a family are designed to work together, it is important that
+                        an application use objects from only one family at a time.
+                        AbstractFactory makes this easy to enforce.</p>
+                </li>
+                <li>
+                    <p><em>Supporting new kind of products is difficult.</em> Extending
+                        abstract factories to produce new kinds of Products is not easy.
+                        Supporting new kinds of products requires extending the factory
+                        interface, which involves changing the AbstractFactory class and all of
+                        its subclasses. (Solution in the next section)</p>
+                </li>
+            </ol>
+            <h2>Implementation</h2>
+            <p>Here are some useful techniques for implementing the Abstract Factory
+                pattern.</p>
+            <ol>
+                <li>
+                    <p><em>Factories as singletons.</em> An application typically needs
+                        only one instance of a ConcreteFactory per product family.</p>
+                </li>
+                <li>
+                    <p><em>Creating the products.</em> AbstractFactory only declares an
+                        <em>interface</em> for creating products. It’s up to ConcreteProduct
+                        subclasses to actually create them. The most common way to do this is to
+                        define a factory method for each product. A concrete factory will
+                        specify its products by overriding the factory method for each. While
+                        this implementation is simple, it requires a new concrete factory
+                        subclass for each product even if the product families differ only
+                        slightly. In many product families are possible, the concrete factory
+                        can be implemented using Prototype pattern.
+                    </p>
+                </li>
+                <li>
+                    <p><em>Defining extensible factories.</em> AbstractFactory usually
+                        defines a different operation for each kind of product it can produce.
+                        Adding a new kind of product requires changing the AbstractFactory
+                        interface and all the classes that depends on it. A more flexible but
+                        less safe design is to add a parameter to operations that create
+                        objects. This parameter specifies the kind of object to be
+                        created.</p>
+                </li>
+            </ol>
+            <p>An inherent problem remains: All products are returned to the client
+                with the same abstract interface as given by the return type. The client
+                will not be able to differentiate of make safe assumption about the
+                class of a product. The client could perform a downcast, that is not
+                always feasible of safe, because the downcasting can fail.</p>
+            <h2>Sample Code</h2>
+            <p>We will apply the Abstract Factory pattern to creating the mazes.</p>
+            <p>To better understand the following code and the classes used look</p>
+            <p><a
+                    href="https://github.com/FedericoBruzzone/federicobruzzone.github.io/tree/main/posts/static/design-patterns/commoncode">here🔗!</a>
+            </p>
+            <p>Class <em>MazeFactory</em> can create components of mazes. It build
+                rooms, walls, and doors between rooms. For instance, it might be used by
+                a program that builds mazes randomly. Programs that build mazes take a
+                <em>MazeFactory</em> as an argument so that the programmer can specify
+                the classes of rooms, walls, and doors to construct.
+            </p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode java numberSource"><code class="sourceCode java"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> MazeFactory <span class="op">{</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">public</span> <span class="fu">MazeFactory</span><span class="op">()</span> <span class="op">{}</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">public</span> Maze <span class="fu">MakeMaze</span><span class="op">()</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span> <span class="cf">return</span> <span class="kw">new</span> <span class="fu">Maze</span><span class="op">();</span> <span class="op">}</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="kw">public</span> Wall <span class="fu">MakeWall</span><span class="op">()</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span> <span class="cf">return</span> <span class="kw">new</span> <span class="fu">Wall</span><span class="op">();</span> <span class="op">}</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">public</span> Room <span class="fu">MakeRoom</span><span class="op">(</span><span class="dt">int</span> n<span class="op">)</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span> <span class="cf">return</span> <span class="kw">new</span> <span class="fu">Room</span><span class="op">(</span>n<span class="op">);</span> <span class="op">}</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="kw">public</span> Door <span class="fu">MakeDoor</span><span class="op">(</span>Room r1<span class="op">,</span> Room r2<span class="op">)</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span> <span class="cf">return</span> <span class="kw">new</span> <span class="fu">Door</span><span class="op">(</span>r1<span class="op">,</span> r2<span class="op">);</span> <span class="op">}</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+            <p>Here is a version of <em>CreateMaze</em> that take
+                <em>MazeFactory</em> as a parameter. <em>CreateMaze</em> builds a small
+                maze consisting of two rooms with a door between them.
+            </p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode java numberSource"><code class="sourceCode java"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> MazeGame_Factory <span class="op">{</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">public</span> Maze <span class="fu">CreateMaze</span><span class="op">(</span>MazeFactory factory<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    Maze aMaze   <span class="op">=</span> factory<span class="op">.</span><span class="fu">MakeMaze</span><span class="op">();</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    Room r1      <span class="op">=</span> factory<span class="op">.</span><span class="fu">MakeRoom</span><span class="op">(</span><span class="dv">1</span><span class="op">);</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    Room r2      <span class="op">=</span> factory<span class="op">.</span><span class="fu">MakeRoom</span><span class="op">(</span><span class="dv">2</span><span class="op">);</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    Door theDoor <span class="op">=</span> factory<span class="op">.</span><span class="fu">MakeDoor</span><span class="op">(</span>r1<span class="op">,</span> r2<span class="op">);</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    r1<span class="op">.</span><span class="fu">SetSide</span><span class="op">(</span>Direction<span class="op">.</span><span class="fu">North</span><span class="op">,</span> factory<span class="op">.</span><span class="fu">MakeWall</span><span class="op">());</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    r1<span class="op">.</span><span class="fu">SetSide</span><span class="op">(</span>Direction<span class="op">.</span><span class="fu">East</span><span class="op">,</span>  theDoor<span class="op">);</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    r1<span class="op">.</span><span class="fu">SetSide</span><span class="op">(</span>Direction<span class="op">.</span><span class="fu">South</span><span class="op">,</span> factory<span class="op">.</span><span class="fu">MakeWall</span><span class="op">());</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    r1<span class="op">.</span><span class="fu">SetSide</span><span class="op">(</span>Direction<span class="op">.</span><span class="fu">West</span><span class="op">,</span>  factory<span class="op">.</span><span class="fu">MakeWall</span><span class="op">());</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    r2<span class="op">.</span><span class="fu">SetSide</span><span class="op">(</span>Direction<span class="op">.</span><span class="fu">North</span><span class="op">,</span> factory<span class="op">.</span><span class="fu">MakeWall</span><span class="op">());</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    r2<span class="op">.</span><span class="fu">SetSide</span><span class="op">(</span>Direction<span class="op">.</span><span class="fu">East</span><span class="op">,</span>  factory<span class="op">.</span><span class="fu">MakeWall</span><span class="op">());</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    r2<span class="op">.</span><span class="fu">SetSide</span><span class="op">(</span>Direction<span class="op">.</span><span class="fu">South</span><span class="op">,</span> factory<span class="op">.</span><span class="fu">MakeWall</span><span class="op">());</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    r2<span class="op">.</span><span class="fu">SetSide</span><span class="op">(</span>Direction<span class="op">.</span><span class="fu">West</span><span class="op">,</span>  theDoor<span class="op">);</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    aMaze<span class="op">.</span><span class="fu">AddRoom</span><span class="op">(</span>r1<span class="op">);</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    aMaze<span class="op">.</span><span class="fu">AddRoom</span><span class="op">(</span>r2<span class="op">);</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> aMaze<span class="op">;</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+
+            <p>Now suppose we want to make a maze game in which a room can have a
+                bomb set in it, and if the bomb goes off, it will damage the walls.</p>
+            <p>We can make a subclass of <em>Room</em> (<a
+                    href="https://github.com/FedericoBruzzone/federicobruzzone.github.io/tree/main/posts/static/design-patterns/commoncode">here
+                    🔗</a>) keep track if a room has a bomb in it.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode java numberSource"><code class="sourceCode java"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> RoomWithABomb <span class="kw">extends</span> Room <span class="op">{</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span> bombDamage<span class="op">;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">public</span> <span class="fu">RoomWithABomb</span><span class="op">(</span><span class="dt">int</span> roomNo<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">super</span><span class="op">(</span>roomNo<span class="op">);</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="kw">public</span> <span class="dt">void</span> <span class="fu">setBombDamage</span><span class="op">(</span><span class="dt">int</span> bombDamage<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">bombDamage</span> <span class="op">=</span> bombDamage<span class="op">;</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+
+            <p>We also need a subclass of <em>Wall</em> to keep track of the
+                damage.</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode java numberSource"><code class="sourceCode java"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> BombedWall <span class="kw">extends</span> Wall <span class="op">{</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span> wallDamage <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">public</span> <span class="fu">BombedWall</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">super</span><span class="op">();</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="kw">public</span> <span class="dt">void</span> <span class="fu">hitWall</span><span class="op">(</span><span class="dt">int</span> bombDamage<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">wallDamage</span> <span class="op">=</span> bombDamage<span class="op">;</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+
+            <p>The last class we defined is <em>BombedMazefactory</em>, a subclass
+                of <em>MazeFactory</em> (defined above). This class only need to
+                override two functions:</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode java numberSource"><code class="sourceCode java"><span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> BombedMazeFactory <span class="kw">extends</span> MazeFactory <span class="op">{</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">public</span> Wall <span class="fu">MakeWall</span><span class="op">()</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span> <span class="cf">return</span> <span class="kw">new</span> <span class="fu">BombedWall</span><span class="op">();</span> <span class="op">}</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">public</span> Room <span class="fu">MakeRoom</span><span class="op">(</span><span class="dt">int</span> n<span class="op">)</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span> <span class="cf">return</span> <span class="kw">new</span> <span class="fu">RoomWithABomb</span><span class="op">(</span>n<span class="op">);</span> <span class="op">}</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+
+            <p>To build a simple maze that can contains bomb or not, we simply call
+                <em>CreateMaze</em> with a <em>BombedMazeFactory</em> or
+                <em>MazeFactory</em>.
+            </p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode java numberSource"><code class="sourceCode java"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> MainAbstractFactory <span class="op">{</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    MazeGame_Factory game <span class="op">=</span> <span class="kw">new</span> <span class="fu">MazeGame_Factory</span><span class="op">();</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    MazeFactory factory <span class="op">=</span> <span class="kw">new</span> <span class="fu">MazeFactory</span><span class="op">();</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    BombedMazeFactory bombedFactory <span class="op">=</span> <span class="kw">new</span> <span class="fu">BombedMazeFactory</span><span class="op">();</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    game<span class="op">.</span><span class="fu">CreateMaze</span><span class="op">(</span>bombedFactory <span class="co">/* factory */</span><span class="op">);</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+
+            <p>Notice that the <em>MazeFactory</em> is just a collection of factory
+                methods. This is the most common way to implement the Abstract Factory
+                pattern. Also note that MazeFactory is not an abstract class; it acts as
+                both AbstractFactory <em>and</em> ConcreteFactory.</p>
+            <h2>Known Uses</h2>
+            <p>InterViews uses the “Kit” suffix [Lin92] to denote AbstractFactory
+                classes. It defines WidgetKit and DialogKit abstract factories for
+                generating look-and-feel-specific user interface objects. InterViews
+                also includes a LayoutKit that generates different composition objects
+                depending on the layout desired.</p>
+            <h2>Related Patterns</h2>
+            <p>AbstractFactory classes are often implemented with factory methods,
+                but they can also implemented using Prototype.</p>
+            <p>A concrete factory is often a singleton.</p>
+
+    </main>
+
+    <div id="footer-container"></div>
+</body>
+
+</html>
