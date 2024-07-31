@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>builder-object-creational</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<hr />
+<p>author: Federico Bruzzone title: Builder pattern pattern - Object
+Creational date: 2023-01-13 draft: false tags: [programming,
+design-patterns, computer-science, object-oriented, clean-code]
+categories: [programming, design-pattern] summary: “Separate the
+construction of a complex object from its representation so that the
+same construction process can create different representation.”</p>
+<p>mathjax: true</p>
+<hr />
+<!-- # Builder pattern pattern - Object Creational -->
+<!-- ## A summary of GoF Design Patters -->
+<figure>
+<img
+src="/design-pattern/Builder%20pattern%20-%20Object%20Creational/img/cover.png"
+alt="Cover" />
+<figcaption aria-hidden="true">Cover</figcaption>
+</figure>
+<p>By <strong>Dmitry Zhart</strong> (<a
+href="https://refactoring.guru/">refactoring.guru</a>)</p>
+<hr />
+<h2 id="intent">Intent</h2>
+<p>Separate the construction of a complex object from its representation
+so that the same construction process can create different
+representation.</p>
+<h2 id="also-known-as">Also Known As</h2>
+<p>…</p>
+<h2 id="motivation">Motivation</h2>
+<figure>
+<img
+src="/design-pattern/Builder%20pattern%20-%20Object%20Creational/img/1.png"
+alt="1" />
+<figcaption aria-hidden="true">1</figcaption>
+</figure>
+<p>A reader for the RTF (Rich Text Format) document exchange format
+should be able to convert RTF to many text formats. The problem is the
+number of possible conversions is open-ended.</p>
+<p>A solution is to configure the RTFReader class with TextConverter
+object that converts RTF to another textual representation. As the
+RTFReader perses the RTF document, it uses the TextConverter to perform
+the conversion. Whenever the RTFReader recognizes an RTF token, it
+issues a request to the TextConverter to convert the token.</p>
+<p>Subclasses of TextConverter specialize in different conversions and
+formats. For example, ASCIIConverter ignores requests to convert
+anything except plain text.</p>
+<p>Each kind of converter class takes the mechanism for creating and
+assembling a complex object and puts it behind an abstract interface.
+The converter is separate from the reader.</p>
+<p>The Builder pattern captures all these relationships. Each converter
+is called a <strong>builder</strong> in the pattern, and the reader is
+called the <strong>director</strong>. The Builder pattern separates the
+algorithm for interpreting a textual format from how a converted format
+gets created and represented.</p>
+<h2 id="applicability">Applicability</h2>
+<p>Use the Builder pattern when</p>
+<ul>
+<li><p>the algorithm for creating a complex object should be independent
+of the parts that make up the object and how they are
+assembled.</p></li>
+<li><p>the construction process must allow different representations for
+the object that is constructed.</p></li>
+</ul>
+<h2 id="structure">Structure</h2>
+<figure>
+<img
+src="/design-pattern/Builder%20pattern%20-%20Object%20Creational/img/2.png"
+alt="2" />
+<figcaption aria-hidden="true">2</figcaption>
+</figure>
+<h2 id="participants">Participants</h2>
+<h3 id="builder">Builder</h3>
+<p><em>(TextConverter)</em></p>
+<ul>
+<li>specifies an abstract interface for creating parts of a Product
+object.</li>
+</ul>
+<h3 id="concretebuilder">ConcreteBuilder</h3>
+<p><em>(ASCIIConverter, TeXConverter, TextWidgetConverter)</em></p>
+<ul>
+<li><p>constructs and assembles parts of the product by implementing the
+Builder interface.</p></li>
+<li><p>defines and keeps track of the representation it
+creates.</p></li>
+<li><p>provides an interface for retrieving the product.</p></li>
+</ul>
+<h3 id="director">Director</h3>
+<p><em>(RTFReader)</em></p>
+<ul>
+<li>constructs an object using the Builder interface.</li>
+</ul>
+<h3 id="product">Product</h3>
+<p><em>(ASCIIText, TeXText, TextWidget)</em></p>
+<ul>
+<li><p>represents the complex object under construction. ConcreteBuilder
+builds the product’s internal representation and defines the process by
+which it is assembled.</p></li>
+<li><p>includes classes that define the constituent parts, including
+interface for assembling the parts into the final result.</p></li>
+</ul>
+<h2 id="collaborations">Collaborations</h2>
+<ul>
+<li><p>The client creates the Director object and configures it with the
+desired Builder object.</p></li>
+<li><p>Director norifies the builder whenever a part of the product
+should be built.</p></li>
+<li><p>Builder handles requests from the director and adds parts to the
+product.</p></li>
+<li><p>The client retrieves the product from the builder.</p></li>
+</ul>
+<figure>
+<img
+src="/design-pattern/Builder%20pattern%20-%20Object%20Creational/img/3.png"
+alt="3" />
+<figcaption aria-hidden="true">3</figcaption>
+</figure>
+<h2 id="consequences">Consequences</h2>
+<p>Here are key consequences of the Builder pattern:</p>
+<ol type="1">
+<li><p><em>It lets you vary a product’s internal representation.</em>
+The Builder object provides the director with an abstract interface for
+constructing the product. The interface lets the builder hide the
+representation and internal structure of the product.</p></li>
+<li><p><em>It isolates code for construction and representation.</em>
+The Builder pattern improves modularity by encapsulating the way a
+complex object is constructed and represented. Clients needn’t know
+anything about the classes that define the product’s internal
+structure.</p></li>
+<li><p><em>It gives you finer control over the construction
+process.</em> Unlike creational patterns that constructed products in
+one shot, the Builder pattern constructs the product step by step under
+the director’s control.</p></li>
+</ol>
+<h2 id="implementation">Implementation</h2>
+<p>Typically there is an abstract Builder class that defines an
+operation for each component that a directory may ask it to create.</p>
+<p>Here are other implementation issues to consider:</p>
+<ol type="1">
+<li><p><em>Assemply and construction interface.</em> Builders construct
+their products in step-by-step fashion. A key design issue concerns the
+model for the construction and assembly process. A model where the
+results of construction requests are simply appended to the product is
+usually sufficient. But sometimes you might need access to part of the
+product constructed earlier.</p></li>
+<li><p><em>Why no abstract class for products?</em> In common case, the
+product produced by the concrete builders differ so greatly in their
+representation that there is little to gain form giving different
+products a common parent class.</p></li>
+<li><p><em>Empty methods as default in Builder.</em> They are defined as
+empty methods instead, letting clients override only the operation they
+are interested in.</p></li>
+</ol>
+<h2 id="sample-code">Sample Code</h2>
+<p>To better understand the following code and the classes used look</p>
+<p><a
+href="https://github.com/FedericoBruzzone/federicobruzzone.github.io/tree/main/static/design-pattern/commoncode">here🔗!</a></p>
+<p>We will define a variant of the <a
+href="https://github.com/FedericoBruzzone/federicobruzzone.github.io/tree/main/static/design-pattern/commoncode"><em>CreateMaze</em></a>
+member function that takes a builder of class <em>MazeBuilder</em> as an
+argument.</p>
+<p>The <em>MazeBuilder</em> class defines the following interface for
+building mazes:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> MazeBuilder <span class="op">{</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">protected</span> <span class="fu">MazeBuilder</span><span class="op">()</span> <span class="op">{}</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">public</span> <span class="dt">void</span> <span class="fu">BuildMaze</span><span class="op">()</span> <span class="op">{}</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">public</span> <span class="dt">void</span> <span class="fu">BuildRoom</span><span class="op">(</span><span class="dt">int</span> room<span class="op">)</span> <span class="op">{}</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="kw">public</span> <span class="dt">void</span> <span class="fu">BuildDoor</span><span class="op">(</span><span class="dt">int</span> roomFrom<span class="op">,</span> <span class="dt">int</span> roomTo<span class="op">)</span> <span class="op">{}</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">public</span> Maze <span class="fu">GetMaze</span><span class="op">()</span> <span class="op">{</span> <span class="cf">return</span> <span class="kw">null</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>This interface can create three thing: (1) the maze, (2) rooms with a
+particular room number and (3) doors between numbered rooms. The
+<em>GetMaze</em> operation returns the maze to the client. </p>
+<p>All the maze-building operations of <em>MazeBuilder</em> do nothing
+by default.</p>
+<p>Given the <em>MazeBuilder</em> interface, we can change the
+<em>CreateMaze</em> member function to take this builder as a
+parameter.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> MazeGame_Builder <span class="op">{</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">public</span> Maze <span class="fu">CreateMaze</span><span class="op">(</span>MazeBuilder builder<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    builder<span class="op">.</span><span class="fu">BuildMaze</span><span class="op">();</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    builder<span class="op">.</span><span class="fu">BuildRoom</span><span class="op">(</span><span class="dv">1</span><span class="op">);</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    builder<span class="op">.</span><span class="fu">BuildRoom</span><span class="op">(</span><span class="dv">2</span><span class="op">);</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    builder<span class="op">.</span><span class="fu">BuildDoor</span><span class="op">(</span><span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> builder<span class="op">.</span><span class="fu">GetMaze</span><span class="op">();</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Compare this version of <em>CreateMaze</em> with the <a
+href="https://github.com/FedericoBruzzone/federicobruzzone.github.io/blob/main/static/design-pattern/commoncode/MazeGame_First.java">original</a>.
+Notice how the builder hides the internal representation of the Maze.
+This make it easier to change the way a maze is represented, since none
+of the clients of <em>MazeBuilder</em> has to be changed.</p>
+<p>Like the other creational patterns, the Builder pattern encapsulates
+how objects get created. That means we can reuse <em>MazeBuilder</em> to
+build different kind of mazes.</p>
+<p>Note that <em>MazeBuilder</em> does not create mazes itself; it main
+purpose is just to define an interface for creating mazes. It defines
+empty implementations primarily for convenience. Subclasses of
+<em>MazeBuilder</em> so the actual work.</p>
+<p>The subclass <em>StandardMazeBuilder</em> is an implementation that
+builds simple mazes.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> StandardMazeBuilder <span class="kw">extends</span> MazeBuilder <span class="op">{</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">private</span> Maze _currentMaze<span class="op">;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">public</span> <span class="fu">StandardMazeBuilder</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">_currentMaze</span> <span class="op">=</span> <span class="kw">null</span><span class="op">;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">@Override</span> <span class="kw">public</span> <span class="dt">void</span> <span class="fu">BuildMaze</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">_currentMaze</span> <span class="op">=</span> <span class="kw">new</span> <span class="fu">Maze</span><span class="op">();</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">@Override</span> <span class="kw">public</span> <span class="dt">void</span> <span class="fu">BuildRoom</span><span class="op">(</span><span class="dt">int</span> n<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>_currentMaze<span class="op">.</span><span class="fu">RoomNo</span><span class="op">(</span>n<span class="op">)</span> <span class="op">!=</span> <span class="kw">null</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>      Room room <span class="op">=</span> <span class="kw">new</span> <span class="fu">Room</span><span class="op">(</span>n<span class="op">);</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>      <span class="kw">this</span><span class="op">.</span><span class="fu">_currentMaze</span><span class="op">.</span><span class="fu">AddRoom</span><span class="op">(</span>room<span class="op">);</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>      room<span class="op">.</span><span class="fu">SetSide</span><span class="op">(</span>Direction<span class="op">.</span><span class="fu">North</span><span class="op">,</span> <span class="kw">new</span> <span class="fu">Wall</span><span class="op">());</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>      room<span class="op">.</span><span class="fu">SetSide</span><span class="op">(</span>Direction<span class="op">.</span><span class="fu">South</span><span class="op">,</span> <span class="kw">new</span> <span class="fu">Wall</span><span class="op">());</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>      room<span class="op">.</span><span class="fu">SetSide</span><span class="op">(</span>Direction<span class="op">.</span><span class="fu">East</span><span class="op">,</span>  <span class="kw">new</span> <span class="fu">Wall</span><span class="op">());</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>      room<span class="op">.</span><span class="fu">SetSide</span><span class="op">(</span>Direction<span class="op">.</span><span class="fu">West</span><span class="op">,</span>  <span class="kw">new</span> <span class="fu">Wall</span><span class="op">());</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">@Override</span> <span class="kw">public</span> <span class="dt">void</span> <span class="fu">BuildDoor</span><span class="op">(</span><span class="dt">int</span> n1<span class="op">,</span> <span class="dt">int</span> n2<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    Room r1 <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="fu">_currentMaze</span><span class="op">.</span><span class="fu">RoomNo</span><span class="op">(</span>n1<span class="op">);</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>    Room r2 <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="fu">_currentMaze</span><span class="op">.</span><span class="fu">RoomNo</span><span class="op">(</span>n2<span class="op">);</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>    Door d <span class="op">=</span> <span class="kw">new</span> <span class="fu">Door</span><span class="op">(</span>r1<span class="op">,</span> r2<span class="op">);</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>    r1<span class="op">.</span><span class="fu">SetSide</span><span class="op">(</span><span class="kw">this</span><span class="op">.</span><span class="fu">CommonWall</span><span class="op">(</span>r1<span class="op">,</span> r2<span class="op">),</span> d<span class="op">);</span></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>    r2<span class="op">.</span><span class="fu">SetSide</span><span class="op">(</span><span class="kw">this</span><span class="op">.</span><span class="fu">CommonWall</span><span class="op">(</span>r2<span class="op">,</span> r1<span class="op">),</span> d<span class="op">);</span></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>  <span class="kw">private</span> Direction <span class="fu">CommonWall</span><span class="op">(</span>Room r1<span class="op">,</span> Room r2<span class="op">)</span> <span class="op">{</span> </span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="kw">null</span><span class="op">;</span></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>  <span class="at">@Override</span> <span class="kw">public</span> Maze <span class="fu">GetMaze</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="kw">this</span><span class="op">.</span><span class="fu">_currentMaze</span><span class="op">;</span></span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><em>CommonWall</em> is a utility operation that determines the
+direction of the common wall between two rooms.</p>
+<p>Clients can now use <em>CreateMaze</em> in conjunction with
+<em>StandardMazeBuilder</em> to create a maze:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> ClientBuilder <span class="op">{</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    Maze maze<span class="op">;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    MazeGame_Builder game <span class="op">=</span> <span class="kw">new</span> <span class="fu">MazeGame_Builder</span><span class="op">();</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    StandardMazeBuilder builder <span class="op">=</span> <span class="kw">new</span> <span class="fu">StandardMazeBuilder</span><span class="op">();</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    game<span class="op">.</span><span class="fu">CreateMaze</span><span class="op">(</span>builder<span class="op">);</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    maze <span class="op">=</span> builder<span class="op">.</span><span class="fu">GetMaze</span><span class="op">();</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>We could have put all the <em>StandardMazeBuilder</em> operations in
+<em>Maze</em> and let each <em>Maze</em> build itself. But making
+<em>Maze</em> smaller makes it easier to understand and modify, and
+<em>StandardMazeBuilder</em> is easy to separate from <em>Maze</em>.</p>
+<h2 id="known-uses">Known Uses</h2>
+<p>The RTF converter application is from ET++ [WGM88]. Its text building
+block uses a builder to process text sorted in the RTF format.</p>
+<p>Builder is a common pattern in Smalltalk-80 [Par90]:</p>
+<ul>
+<li><p>The Parser class in the compiler subsystem is a Director that
+takes a ProgramNodeBuilder object as an argument.</p></li>
+<li><p>ClassBuilder is a builder that Classes use to create subclasses
+for themselves.</p></li>
+<li><p>ByteCodeStream is a builder that creates a compiled method as a
+byte array.</p></li>
+</ul>
+<p>The Service Configurator framework from the Adaptive Communications
+Environment uses a builder to construct network service components that
+are linked into a server at run-time [SS94].</p>
+<h2 id="related-patterns">Related Patterns</h2>
+<p>Abstract Factory is similar to Builder in that it too may construct
+complex object. The primary difference is that the Builder pattern
+focuses on constructing a complex object step by step. Abstract
+Factory’s emphasis is on families of product objects. Builder returns
+the product as a final step, but as far as Abstract Factory pattern is
+concerned, the product gets returned immediately.</p>
+<p>A Composite is what the builder often builds.</p>
+</body>
+</html>
