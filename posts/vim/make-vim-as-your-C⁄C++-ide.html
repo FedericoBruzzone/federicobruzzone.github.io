@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Abstract Factory - Object Creational</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+
+    <script type="module" src="/scripts/main.js" defer></script>
+    <link rel="stylesheet" type="text/css" href="/styles/styles.css">
+    <link rel="stylesheet" type="text/css" href="/styles/syntax-highlighting.css">
+
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+</head>
+
+<body>
+    <div id="header-container"></div>
+
+    <main class="main-post">
+        <h1>Make Vim as your C/C++ IDE</h1>
+
+        <figure>
+            <img src="/posts/static/vim/make-vim-as-your-C⁄C++-ide/img/cover.png" width="400" >
+        </figure>
+        <blockquote>
+            <p>This procedure can be very similar for <code>VSCode</code> and
+                <code>Fleet</code> editors. In this case, you should only create the
+                <code>compile_commands.json</code> file, and this procedure is
+                illustrated in the <a href="#bear"><code>bear</code></a> subsection, but
+                I suggest you read the whole post.
+            </p>
+        </blockquote>
+        <p>It happened to me in the past that I had to configure <em>Vim</em> to
+            manage C projects with some external library, and after lots of useless
+            attempts, I gave up setting it up.</p>
+        <p>I am currently attending a university course called Advanced in
+            Operating Systems. I am using a STM32 microcontroller and ST provides an
+            “Eclipse 2010 based” IDE with lots of proprietary libraries, but as a
+            <em>Vim</em> programmer writing even 10 lines of code on this IDE made
+            me frustrated. So, I decided to try again, and as you can imagine if you
+            are reading this blog post, I succeeded!
+        </p>
+        <h2>Requirements</h2>
+        <ol>
+            <li>
+                <p>Make sure use Vim &gt;= 8.1.1719 or Neovim &gt;= 0.4.0 and
+                    make</p>
+            </li>
+            <li>
+                <p>Install nodejs &gt;= 14.14:</p>
+            </li>
+        </ol>
+        <p><code>curl -sL install-node.vercel.app/lts | bash</code></p>
+        <h2>Configuration</h2>
+        <h3>coc </h3>
+        <p><a href="https://github.com/neoclide/coc.nvim">coc GitHub</a></p>
+        <p>Firstly, you should have a <a href="https://github.com/neoclide/coc.nvim"><code>coc.nvim</code></a>
+            plug-in installed. I am currently using <strong>vim-plug</strong> as
+            plug-in manager, but you can use any other.</p>
+        <p>In my case, I added it to my <code>.vimrc</code> file </p>
+        <pre class="vim"><code>Plug &#39;https://github.com/neoclide/coc.nvim&#39;</code></pre>
+        <p>and run <code>:PlugInstall</code></p>
+        <p>After that restart <strong>Vim</strong>and make sure you have
+            installed two important extensions, which are <code>coc-json</code> and
+            <code>coc-tsserver</code> using <code>:CocList extensions</code>, if not
+            run <code>:CocInstall coc-json coc-tsserver</code>
+        </p>
+        <h3>coc-clangd</h3>
+        <p><a href="https://github.com/clangd/coc-clangd">coc-clangd
+                GitHub</a></p>
+        <p>As you can imagine, <a href="https://github.com/clangd/coc-clangd"><code>coc-clangd</code></a>
+            is an extension of <code>coc.nvim</code> like the previous two, and you
+            can install it just by running <code>:CocInstall coc-clangd</code>,
+            after that <code>coc-clangd</code> will try to find <code>clangd</code>
+            from your <code>$PATH</code>, if not found, you can run
+            <code>:CocCommand clangd.install</code> to install the latest release
+            from GitHub.
+        </p>
+        <p>At this point, you should be able to create
+            <code>~/.vim/coc-settings.json</code> file and add the code below to
+            it
+        </p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode json numberSource"><code class="sourceCode json"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;languageserver&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;ccls&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;command&quot;</span><span class="fu">:</span> <span class="st">&quot;ccls&quot;</span><span class="fu">,</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;args&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="st">&quot;--log-file=/tmp/ccls.log&quot;</span><span class="ot">,</span> <span class="st">&quot;-v=1&quot;</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;filetypes&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="st">&quot;c&quot;</span><span class="ot">,</span> <span class="st">&quot;cc&quot;</span><span class="ot">,</span> <span class="st">&quot;cpp&quot;</span><span class="ot">,</span> <span class="st">&quot;c++&quot;</span><span class="ot">,</span> <span class="st">&quot;objc&quot;</span><span class="ot">,</span> <span class="st">&quot;objcpp&quot;</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;rootPatterns&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="st">&quot;.ccls&quot;</span><span class="ot">,</span> <span class="st">&quot;compile_commands.json&quot;</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;initializationOptions&quot;</span><span class="fu">:</span> <span class="fu">{</span> </span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>         <span class="dt">&quot;cache&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>           <span class="dt">&quot;directory&quot;</span><span class="fu">:</span> <span class="st">&quot;/tmp/ccls&quot;</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>         <span class="fu">},</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>         <span class="dt">&quot;client&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>          <span class="dt">&quot;snippetSupport&quot;</span><span class="fu">:</span> <span class="kw">true</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>         <span class="fu">}</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>       <span class="fu">}</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;clangd.path&quot;</span><span class="fu">:</span> <span class="st">&quot;~/.config/coc/extensions/coc-clangd-data/install/15.0.6/clangd_15.0.6/bin/clangd&quot;</span><span class="fu">,</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+        <p>Obviusly, you should change the value of the “clangd.path” field with
+            your version, it may be something like
+            <code>"clangd.path":
+                "~/.config/coc/extensions/coc-clangd-data/install/&lt;version&gt;/clangd_&lt;version&gt;/bin/clangd"</code>
+            (note &lt;version&gt; on the string).
+        </p>
+        <p>I do not want to bore you by explaining whole fields of the json
+            file, the only thing I would like to say to you is that this code is
+            used to specify the type of language server (<code>ccls</code> in this
+            case) and its behavior.</p>
+        <h3>ccls</h3>
+        <p><a href="https://github.com/MaskRay/ccls">ccls GitHub</a></p>
+        <p>Basically, <a href="https://github.com/MaskRay/ccls"><code>ccls</code></a>, which
+            originates from <code>cquery</code>, is a C/C++/Objective-C language
+            server.</p>
+        <p>It provides:</p>
+        <ul>
+            <li>
+                <p>code completition (with both signature help and
+                    snippets)</p>
+            </li>
+            <li>
+                <p>definition/reference, and other cross references</p>
+            </li>
+            <li>
+                <p>diagnostics and code actions</p>
+            </li>
+            <li>
+                <p>semantic highlighting and preprocessor skipped regions</p>
+            </li>
+            <li>
+                <p>diagnostics and code actions</p>
+            </li>
+            <li>
+                <p>semantic highlighting and preprocessor skipped regions</p>
+            </li>
+        </ul>
+        <p>and the other many usefull things.</p>
+        <p>You must install it because, as you can see in the
+            <code>coc-settings.json</code>, the language server specified is
+            <code>ccls</code>.
+        </p>
+        <p>You can do it using your package manager, in my case</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash numberSource"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt-get install ccls</span></code></pre></div>
+        <p><strong>Setup</strong></p>
+        <p>Typically, <code>ccls</code> indexes an entire project. In order for
+            this to work properly, <code>ccls</code> needs to be able to obtain the
+            source file list and their compilation command lines.</p>
+        <p><strong>How <code>ccls</code> obtains sources and compilation
+                commands</strong></p>
+        <p>There are two main ways this happens:</p>
+        <ol>
+            <li>
+                <p>Provide <code>compile_commands.json</code> at the project
+                    root</p>
+            </li>
+            <li>
+                <p>Provide a .ccls file.</p>
+            </li>
+        </ol>
+        <p>If neither exists, then when <code>ccls</code> starts it will not
+            index anything: instead it will wait for LSP clients to open files and
+            index only those files.</p>
+        <p>I prefer use the first one, and to do that if you are using
+            <code>Makefile</code> as build system for your C/C++ project you can
+            generate <code>compile_commands.json</code> automatically with <a
+                href="https://github.com/rizsotto/Bear">bear</a> command, I will explain
+            in detail how in the next paragraph.
+        </p>
+        <p>If you are not using <code>Makefile</code> as build system, there are
+            lots of ways to generate this file, for example with <code>CMake</code>,
+            <code>compiledb</code>, <code>scan-build</code> and so on. I suggest you
+            to take a look <a href="https://github.com/MaskRay/ccls/wiki/Project-Setup">here</a>.
+        </p>
+        <h3>bear</h3>
+        <p><a href="https://github.com/rizsotto/Bear">bear GitHub</a></p>
+        <p><a href="https://github.com/rizsotto/Bear">Bear</a> is a tool that
+            generates a compilation database for clang tooling. The compilation
+            database is our <code>compile_commands.json</code>, a simple json
+            file.</p>
+        <p>The JSON compilation database is used in the clang project to provide
+            information on how a single compilation unit is processed. With this, it
+            is easy to re-run the compilation with alternate programs.</p>
+        <p>Some build system natively supports the generation of JSON
+            compilation database. For projects which does not use such build tool,
+            Bear generates the JSON file during the build process.</p>
+        <p>You can install it using your package manager, in my case</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode bash numberSource"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt-get install bear</span></code></pre></div>
+        <h2>Use case</h2>
+        <p>Consider this simple C project, but it can be extended to much larger
+            projects.</p>
+        <p>I assure you that it works exactly as in the case I am going to
+            illustrate now, the only important thing is to write your makefile
+            correctly, but this is also obvious because otherwise your project would
+            not compile. :D</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode bash numberSource"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">.</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">├──</span> inc/</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   └── main.h</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="ex">├──</span> src/</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   └── main.c</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="ex">└──</span> Makefile</span></code></pre></div>
+
+<div class="sourceCode" id="cb6"><pre class="sourceCode c numberSource"><code class="sourceCode c"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">// main.h</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="pp">#define TEST </span><span class="st">&quot;test&quot;</span></span></code></pre></div>
+
+<div class="sourceCode" id="cb7"><pre class="sourceCode c numberSource"><code class="sourceCode c"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">// main.c</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&quot;main.h&quot;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> <span class="op">*</span>ptrarray<span class="op">[</span><span class="dv">4</span><span class="op">];</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> w <span class="op">=</span> <span class="dv">100</span><span class="op">,</span> x <span class="op">=</span> <span class="dv">200</span><span class="op">,</span> y <span class="op">=</span> <span class="dv">300</span><span class="op">,</span> z <span class="op">=</span> <span class="dv">400</span><span class="op">;</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    ptrarray<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">=</span> <span class="op">&amp;</span>w<span class="op">;</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    ptrarray<span class="op">[</span><span class="dv">1</span><span class="op">]</span> <span class="op">=</span> <span class="op">&amp;</span>x<span class="op">;</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    ptrarray<span class="op">[</span><span class="dv">2</span><span class="op">]</span> <span class="op">=</span> <span class="op">&amp;</span>y<span class="op">;</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    ptrarray<span class="op">[</span><span class="dv">3</span><span class="op">]</span> <span class="op">=</span> <span class="op">&amp;</span>z<span class="op">;</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i<span class="op">&lt;</span> <span class="dv">4</span><span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>         printf<span class="op">(</span><span class="st">&quot;The value </span><span class="sc">%d</span><span class="st"> has the adddress </span><span class="sc">%d\n</span><span class="st">&quot;</span><span class="op">,</span> <span class="op">*</span>ptrarray<span class="op">[</span>i<span class="op">],</span> ptrarray<span class="op">[</span>i<span class="op">]);</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">&quot;I am printing a variable of main.h file </span><span class="sc">%d</span><span class="st">&quot;</span><span class="op">,</span> <span class="op">&amp;</span>TEST<span class="op">);</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+        <p>It is a silly file that prints the values and memory area of the
+            elements of an array.</p>
+<div class="sourceCode">
+<pre class="make numberSource"><code>CC = gcc
+CFLAGS = -Wall
+
+INC_DIR = inc
+SRC_DIR = src
+
+SRC_FILES = $(wildcard $(SRC_DIR)/*.c)
+INC_FILES = $(wildcard $(INC_DIR)/*.h)
+
+main: $(SRC_FILES) $(INC_FILES)
+    $(CC) $(CFLAGS) $(SRC_FILES) -o main -I$(INC_DIR)</code></pre>
+</div>
+        <p>But, the main problem is that <em>Vim</em>, specially
+            <code>ccls</code> and <code>coc</code> tells me that I have an error in
+            line 1 of the <code>main.c</code>, and as you can imagine, the error is
+            <code>main.h file not found</code>, and this problem is difficult to
+            manage manually, and it becomes even more difficult to manage if the
+            project uses external libraries.  
+        </p>
+        <p>This problem is also blocking all the LSP features, for example
+            go-to-definition, go-to-implementation etc…</p>
+        <p>To solve it, we just have to run the </p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode bash numberSource"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bear</span> <span class="at">--</span> make</span></code></pre></div>
+        <p>command, and it will generate the <code>compile_commands.json</code>
+            and there will be no more errors.</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode bash numberSource"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="bu">.</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="ex">├──</span> inc/</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   └── main.h</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="ex">├──</span> src/</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   └── main.c</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="ex">├──</span> compile_commands.json</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="ex">├──</span> main<span class="pp">*</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="ex">└──</span> Makefile</span></code></pre></div>
+        <p>and <code>compile_commands.json</code> will be something like
+            this</p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode json numberSource"><code class="sourceCode json"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ot">[</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">{</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;arguments&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;/usr/bin/gcc&quot;</span><span class="ot">,</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;-c&quot;</span><span class="ot">,</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;-Wall&quot;</span><span class="ot">,</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;-Iinc&quot;</span><span class="ot">,</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;-o&quot;</span><span class="ot">,</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;main&quot;</span><span class="ot">,</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;src/main.c&quot;</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;directory&quot;</span><span class="fu">:</span> <span class="st">&quot;/home/c_project&quot;</span><span class="fu">,</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;file&quot;</span><span class="fu">:</span> <span class="st">&quot;/home/c_project/src/main.c&quot;</span><span class="fu">,</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;output&quot;</span><span class="fu">:</span> <span class="st">&quot;/home/c_project/main&quot;</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="ot">]</span></span></code></pre></div>
+        <p>For bigger projects, so for example the one I am currently working on
+            for the Advanced in OS course that uses a lot of external libraries,
+            this file can reach even 600 lines.</p>
+    </main>
+
+    <div id="footer-container"></div>
+</body>
+
+</html>

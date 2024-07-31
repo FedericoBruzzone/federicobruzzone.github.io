@@ -182,6 +182,12 @@ hr {
     display: inline;
 }
 
+.post .tags {
+    display: inline;
+    border: 0.2em groove var(--border-color);
+    padding: 0.1em;
+}
+
 .post .summary {
     margin-top: 0.1em;
     display: block;
