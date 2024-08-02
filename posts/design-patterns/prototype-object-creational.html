@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Abstract Factory - Object Creational</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+
+    <script type="module" src="/scripts/main.js" defer></script>
+    <link rel="stylesheet" type="text/css" href="/styles/styles.css">
+    <link rel="stylesheet" type="text/css" href="/styles/syntax-highlighting.css">
+
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+</head>
+
+<body>
+    <div id="header-container"></div>
+
+    <main class="main-post">
+        <h1> Prototype - Class Creational</h1>
+        <figure>
+            <img src="/posts/static/design-patterns/prototype-object-creational/img/cover.png">
+        </figure>
+        <p>By <strong>Dmitry Zhart</strong> (<a href="https://refactoring.guru/">refactoring.guru</a>)</p>
+        <h2>Intent</h2>
+        <p>Specify the kinds of objects to create using a prototypical instance,
+            and create new objects by copying this prototype.</p>
+        <h2>Also Known As</h2>
+        <p>…</p>
+        <h2>Motivation</h2>
+        <figure>
+            <img src="/posts/static/design-patterns/prototype-object-creational/img/1.png">
+        </figure>
+        <p>You could build an editor for music scores by customizing a general
+            framework for graphical editors and adding new objects that represent
+            notes, rests, and staves. The editor framework may have a palette of
+            tools for adding these music objects to the score.</p>
+        <p>Let's assume the framework provides an abstract Graphic class for
+            graphical components, like notes and staves. Moreover, it'll provide an
+            abstract Tool class for defining tools like those in the palette. The
+            framework also predefines a Graphic-Tool subclass for tools that create
+            instances of graphical objects and add them to the document.</p>
+        <p>But GraphicTool presents a problem to the framework designer. The
+            classes for notes and staves are specific to our application, but the
+            GraphicTool class belongs to the framework. GraphicTool doesn't know how
+            to create instances of our music classes to add to the score.</p>
+        <p>The solution lies in making GraphicTool create a new Graphic by
+            copying or "cloning" an instance of a Graphic subclass. We call this
+            instance a <strong>prototype</strong>. GraphicTool is parameterized by
+            the prototype it should clone and add to the document.</p>
+        <p>We can use the Prototype pattern to reduce the number of classes even
+            further. We have separate classes for whole notes and half notes, but
+            that's probably unnecessary. Instead they could be instances of the same
+            class initialized with different bitmaps and durations.</p>
+        <h2>Applicability</h2>
+        <p>Use the Prototype pattern when a system should be independent of how
+            its products are created, composed, and represented; <em>and</em></p>
+        <ul>
+            <li>
+                <p>when the classes to instantiate are specified at run-time, for
+                    example, by dynamic loading; <em>or</em></p>
+            </li>
+            <li>
+                <p>to avoid building a class hierarchy offactories that parallels
+                    the class hierarchy of products; <em>or</em></p>
+            </li>
+            <li>
+                <p>when instances of a class can have one of only a few different
+                    combinations of state. It may be more convenient to install a
+                    corresponding number of prototypes and clone them rather than
+                    instantiating the class manually, each time with the appropriate
+                    state.</p>
+            </li>
+        </ul>
+        <h2>Structure</h2>
+        <figure>
+            <img src="/posts/static/design-patterns/prototype-object-creational/img/2.png">
+        </figure>
+        <h2>Collaborations</h2>
+        <h3>Prototype</h3>
+        <p><em>(Graphic)</em></p>
+        <ul>
+            <li>declares an interface for cloning itself.</li>
+        </ul>
+        <h3>ConcretePrototype</h3>
+        <p><em>(Staff, WholeNote, HalfNote)</em></p>
+        <ul>
+            <li>implements an operation for cloning itself.</li>
+        </ul>
+        <h3>Client</h3>
+        <p><em>(GraphicTool)</em></p>
+        <ul>
+            <li>creates a new object by asking a prototype to clone itself.</li>
+        </ul>
+        <h2>Collaborations</h2>
+        <p>A client asks a prototype to clone itself.</p>
+        <h2>Consequences</h2>
+        <p>Prototype has many of the same consequences that Abstract Factory and
+            Builder have: It hides the concrete product classes from the client.
+            Moreover, these patterns let a client work with application-specific
+            classes without modification.</p>
+        <p>Additional benefits of the Prototype pattern:</p>
+        <ol type="1">
+            <li>
+                <p><em>Adding and removing products at run-time</em>: Prototypes let
+                    you incorporate a new concrete product class into a system simply by
+                    registering a prototypical instance with the client.</p>
+            </li>
+            <li>
+                <p><em>Specifying new objects by varying values</em>: Highly dynamic
+                    systems let you define new behavior through object composition by
+                    specifying values for an object's variables. You effectively define new
+                    kinds of objects by instantiating existing classes andregistering the
+                    instances as prototypes of client objects. A client can exhibit new
+                    behavior by delegating responsibility to the prototype.</p>
+            </li>
+            <li>
+                <p><em>Specifying new objects by varying structure</em>: Many
+                    applications build objects from parts and subparts.</p>
+            </li>
+            <li>
+                <p><em>Reduced subclassing</em>: Factory Method often produces a
+                    hierarchy of Creator classes that parallels the product class hierarchy.
+                    The Prototype pattern lets you clone a prototype instead of asking a
+                    factory method to make a new object.</p>
+            </li>
+            <li>
+                <p><em>Configuring an application with classes dynamically</em>:
+                    Some run-time environments let you load classes into an application
+                    dynamically. An application that wants to create instances of a
+                    dynamically loaded class won't be able to reference its constructor
+                    statically. Instead, the run-time environment creates an instance of
+                    each class automatically when it's loaded, and it registers the instance
+                    with a prototype manager</p>
+            </li>
+        </ol>
+        <h2>Implementation</h2>
+        <p>Prototype is particularly useful with static languages like C++,
+            where classes are not objects, and little or no type information is
+            available at run-time.</p>
+        <p>Consider the following issues when implementing prototypes:</p>
+        <ol type="1">
+            <li>
+                <p><em>Using a prototype manager</em>: When the number of prototypes
+                    in a system in not fixed, keep the registry of available prototypes. A
+                    prototype manager is an associative store that returns the prototype
+                    matching a given key.</p>
+            </li>
+            <li>
+                <p><em>Implementing the Clone operation</em>: The hardest part of
+                    the Prototype pattern is implementing the Clone operation correctly.
+                    Most languages provide some support for cloning objects, but using
+                    inheritance or copy-constructor don't solve the "shallow copy versus
+                    deep copy" problem. A shallow copy is simple and often sufficient, but
+                    cloning prototypes with complex structures usually requires a deep copy.
+                    If objects in the system provide Save and Load operations, then you can
+                    use them to provide a default implementation of Clone.</p>
+            </li>
+            <li>
+                <p><em>Initializing clones</em>: You generally can't pass these
+                    values in the Clone operation, because their number will vary between
+                    classes of prototypes. It might be the case that your prototype classes
+                    already define operations for (re)setting key pieces of state.</p>
+            </li>
+        </ol>
+        <h2>Sample Code</h2>
+        <p>To better understand the following code and the classes used look <a
+                href="https://github.com/FedericoBruzzone/federicobruzzone.github.io/blob/main/posts/static/design-patterns/commoncode">here🔗!</a>
+        </p>
+        <p>We'll define a <em>MazePrototypeFactory</em> subclass of the
+            <em>MazeFactory</em> class. MazePrototypeFactory will be initialized
+            with prototypes of the objects it will create so that we don't have to
+            subclass it just to change the classes of walls or rooms it creates.
+        </p>
+        <ul>
+            <li>
+                <p><em>MazePrototypeFactory</em> augments the <em>MazeFactory</em>
+                    interface with a constructor that takes the prototypes as
+                    arguments.</p>
+            </li>
+            <li>
+                <p>The new constructor simply initializes its prototypes.</p>
+            </li>
+            <li>
+                <p>The member functions for creating walls, rooms, and doors are
+                    similar: Each clones a prototype and then initializes it. Here are the
+                    definitions of <em>MakeWall</em> and <em>MakeDoor</em>:</p>
+            </li>
+        </ul>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode java numberSource"><code class="sourceCode java"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">commoncode</span><span class="op">.*;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> MazePrototypeFactory <span class="kw">extends</span> MazeFactory <span class="op">{</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> Maze _prototypeMaze <span class="op">=</span> <span class="kw">null</span><span class="op">;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> Room _prototypeRoom <span class="op">=</span> <span class="kw">null</span><span class="op">;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> Wall _prototypeWall <span class="op">=</span> <span class="kw">null</span><span class="op">;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> Door _prototypeDoor <span class="op">=</span> <span class="kw">null</span><span class="op">;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="fu">MazePrototypeFactory</span><span class="op">(</span>Maze m<span class="op">,</span> Wall w<span class="op">,</span> Room r<span class="op">,</span> Door d<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="fu">_prototypeMaze</span> <span class="op">=</span> m<span class="op">;</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="fu">_prototypeWall</span> <span class="op">=</span> w<span class="op">;</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="fu">_prototypeRoom</span> <span class="op">=</span> r<span class="op">;</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="fu">_prototypeDoor</span> <span class="op">=</span> d<span class="op">;</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">@Override</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> Maze <span class="fu">MakeMaze</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> _prototypeMaze<span class="op">.</span><span class="fu">clone</span><span class="op">();</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">@Override</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> Wall <span class="fu">MakeWall</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> _prototypeWall<span class="op">.</span><span class="fu">clone</span><span class="op">();</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">@Override</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> Room <span class="fu">MakeRoom</span><span class="op">(</span><span class="dt">int</span> n<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>        Room room <span class="op">=</span> _prototypeRoom<span class="op">.</span><span class="fu">clone</span><span class="op">();</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>        room<span class="op">.</span><span class="fu">initializer</span><span class="op">(</span>n<span class="op">);</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> room<span class="op">;</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">@Override</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> Door <span class="fu">MakeDoor</span><span class="op">(</span>Room r1<span class="op">,</span> Room r2<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>        Door door <span class="op">=</span>  _prototypeDoor<span class="op">.</span><span class="fu">clone</span><span class="op">();</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>        door<span class="op">.</span><span class="fu">initializer</span><span class="op">(</span>r1<span class="op">,</span> r2<span class="op">);</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> door<span class="op">;</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+        <p>We can use <em>MazePrototypeFactory</em> to create a prototypical or
+            default maze just by initializing it with prototypes of basic maze
+            components.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode java numberSource"><code class="sourceCode java"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">commoncode</span><span class="op">.*;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> MainPrototypeFactory <span class="op">{</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        MazeGame_Factory game<span class="op">;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        MazePrototypeFactory simpleMazeFactory <span class="op">=</span> <span class="kw">new</span> <span class="fu">MazePrototypeFactory</span><span class="op">(</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>            <span class="kw">new</span> <span class="fu">Maze</span><span class="op">(),</span> </span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>            <span class="kw">new</span> <span class="fu">Wall</span><span class="op">(),</span> </span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>            <span class="kw">new</span> <span class="fu">Room</span><span class="op">(</span><span class="dv">1</span><span class="op">),</span> </span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>            <span class="kw">new</span> <span class="fu">Door</span><span class="op">(</span><span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">));</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>        Maze maze <span class="op">=</span> game<span class="op">.</span><span class="fu">CreateMaze</span><span class="op">(</span>simpleMazeFactory<span class="op">);</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>      <span class="op">}</span> </span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+        <h2>Known Uses</h2>
+        <p>The first widely known application of the pattern in an object-
+            oriented language was in ThingLab, where users could form a composite
+            object and then promote it to a prototype by installing it in a library
+            of reusable objects</p>
+        <p>The first widely known application of the pattern in an
+            object-oriented language was in ThingLab, where users could form a
+            composite object and then promote it to a prototype by installing it in
+            a library of reusable objects</p>
+        <h2>Related Patterns</h2>
+        <p>Prototype and Abstract Factory are competing patterns in some ways,
+            as we discuss at the end of this chapter. They can also be used
+            together, however. An Abstract Factory might store a set of prototypes
+            from which to clone and return product objects.</p>
+        <p>Designs that make heavy use of the Composite and Decorator patterns
+            often can benefit from Prototype as well.</p>
+    </main>
+
+    <div id="footer-container"></div>
+</body>
+
+</html>
