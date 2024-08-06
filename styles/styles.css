@@ -68,12 +68,11 @@ footer {
 }
 
 table {
-    width: 100%;
     border-collapse: collapse;
 }
 
 td {
-    padding: 5px;
+    padding: 0.1em;
 }
 
 table tr:nth-child(odd) {
@@ -143,13 +142,13 @@ hr {
 /* ====== for index.html ===== */
 .grid-container {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2em;
+    grid-template-columns: 1fr;
 }
 
 .grid-item {
-    box-sizing: border-box;
-    overflow: hidden;
+    overflow: scroll;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .left {
@@ -158,14 +157,6 @@ hr {
 
 .right {
     float: right;
-}
-
-@media (max-width: 768px) {
-
-    .grid-container {
-        /* Stack columns on small screens */
-        grid-template-columns: 1fr;
-    }
 }
 
 /* ====== for posts/index.html ===== */
