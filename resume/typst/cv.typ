@@ -4,7 +4,10 @@
 
 #show: body => cv(
   name: "Federico Cristiano Bruzzone",
-  about: [Computer Science and Compilers enthusiast. Researcher at the ADAPT Lab #box(image("figs/logo-lab.svg", height: 1em)) (Università degli Studi di Milano) working on #emph("Modular Approach for Type Systems and LSP Generation"). Also, a Sound Engineer and Music Composer.],
+  about: [PhD Student in Computer Science at ADAPT Lab #box(image("figs/logo-lab.svg", height: 1em)) (Università degli Studi di Milano), under the supervision of Prof. W. Cazzola. Programming Languages and Compilers enthusiast. Also, a Sound Engineer and Music Composer.],
+  site_link: "https://federicobruzzone.github.io",
+  site_name: "federicobruzzone.github.io",
+
   personal_info: (
     birth_place: "Magenta (MI), Italy",
     date_of_birth: [7th of *March 2000*],

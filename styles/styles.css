@@ -78,6 +78,10 @@ table {
     border-collapse: collapse;
 }
 
+tr {
+    padding: 0.1em;
+}
+
 td {
     padding: 0.1em;
 }
@@ -147,6 +151,10 @@ hr {
 }
 
 /* ====== for index.html ===== */
+.about {
+    padding: 1em;
+}
+
 .grid-container {
     display: grid;
     grid-template-columns: 1fr;

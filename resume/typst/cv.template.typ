@@ -158,6 +158,18 @@
   about
 }
 
+/// Show the site of the document
+/// `site-align` is the alignment of the site
+/// `site_link` is the link of the site
+/// `site_name` is the name of the site
+#let show_site(site-align, site_link, site_name) = {
+  set align(site-align)
+
+  set text(16pt)
+
+  [Website: #link(site_link)[#site_name]]
+}
+
 /// Show the information of the document
 /// `textfill` is the color of the text
 /// `personal_info` is the personal information
@@ -220,7 +232,10 @@
   name: "",
   title-heading-align: center,
   about: "",
+  site_link: "",
+  site_name: "",
   about-align: center,
+  site-align: center,
   subtitle: "Curriculum Vitae",
   subtitle-heading-align: center,
   personal_info: (),
@@ -241,6 +256,7 @@
   show_subtitle(subtitle-heading-align, textfill, subtitle)
   show_about(about-align, about)
   show_information(textfill, personal_info, contact_info)
+  show_site(site-align, site_link, site_name)
 
   show: body => set_heading_settings(heading_level-1-align, heading_level-2-align, heading-underline, textfill, body)
 
