@@ -12,6 +12,7 @@
     --tr-hover-color: #e0e0e0;
 }
 
+
 html,
 body {
     height: 100%;
@@ -72,6 +73,16 @@ p {
     text-indent: 1.5em;
     text-align: justify;
     margin: 0.1em 0em;
+}
+
+@media (max-width: 768px) {
+    table, tbody, tr {
+        display: block;
+    }
+
+    td {
+        display: block;
+    }
 }
 
 table {
