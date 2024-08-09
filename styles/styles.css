@@ -75,16 +75,6 @@ p {
     margin: 0.1em 0em;
 }
 
-@media (max-width: 768px) {
-    table, tbody, tr {
-        display: block;
-    }
-
-    td {
-        display: block;
-    }
-}
-
 table {
     border-collapse: collapse;
 }
@@ -162,6 +152,20 @@ hr {
 }
 
 /* ====== for index.html ===== */
+@media (max-width: 768px) {
+    table.block {
+        display: block;
+    }
+
+    tr.block {
+        display: block;
+    }
+
+    td.block {
+        display: block;
+    }
+}
+
 .about {
     padding: 1em;
 }
