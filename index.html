@@ -30,22 +30,21 @@
     <main>
 
         <h2>About Me</h2>
-        <table>
-            <tr>
-                <td>
+        <table class="block">
+            <tr class="block">
+                <td class="block">
                     <figure>
                         <img src="/images/me.jpg" alt="Federico Bruzzone">
                     </figure>
 
                 </td>
-                <td class="about">
+                <td class="block about">
                     <p>PhD Student in Computer Science at ADAPT Lab (<a href="https://www.unimi.it/en">Università degli
                             Studi di
                             Milano</a>), under the supervision of Prof. <a href="https://cazzola.di.unimi.it/">W.
                             Cazzola</a>.
                         Programming Languages and Compilers enthusiast. Also, a Sound Engineer and
                         Music Composer.</p>
-
                     <br>
 
                     <p>
@@ -63,7 +62,7 @@
         </table>
 
         <blockquote>
-            Laziness, and that's what I like C:
+            Laziness, that's why I love pointers...
 <div style="display: flex">
 <div class="sourceCode" id="cb1"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dt">char</span> <span class="op">*</span>shift_args<span class="op">(</span><span class="dt">int</span> <span class="op">*</span>argc<span class="op">,</span> <span class="dt">char</span> <span class="op">***</span>argv<span class="op">)</span> <span class="op">{</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">(*</span>argc<span class="op">)--,</span> <span class="op">*(*</span>argv<span class="op">)++;</span></span>
