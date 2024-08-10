@@ -126,7 +126,7 @@ pub struct StateStart;
 impl State for StateStart {
     fn visit(&self, cursor: &mut Cursor) -> Option<Transition> {
         match cursor.peek() {
-            Some(c) if c.is_alphabetic() => {
+            Some(c) if c.is_alphabetic() || c.eq(&'_') => {
                 Some(Lexer::proceed(Box::new(StateWord), TransitionKind::Advance))
             }
             Some(c) if c.is_numeric() => Some(Lexer::proceed(
@@ -144,7 +144,7 @@ pub struct StateWord;
 impl State for StateWord {
     fn visit(&self, cursor: &mut Cursor) -> Option<Transition> {
         match cursor.peek() {
-            Some(c) if c.is_alphanumeric() => {
+            Some(c) if c.is_alphanumeric() || c.eq(&'_') => {
                 Some(Lexer::proceed(Box::new(StateWord), TransitionKind::Advance))
             }
             _ => Some(Lexer::proceed(
@@ -184,13 +184,13 @@ pub struct StateEOF;
 
 impl State for StateEOF {
     fn visit(&self, _cursor: &mut Cursor) -> Option<Transition> {
-        Some(Transition {
-            state: Box::new(StateEnd),
-            transition_kind: TransitionKind::EmitToken(Token {
+        Some(Lexer::proceed(
+            Box::new(StateEnd),
+            TransitionKind::EmitToken(Token {
                 kind: TokenKind::EOF,
                 lexeme: "".to_string(),
             }),
-        })
+        ))
     }
 }
 
@@ -199,13 +199,15 @@ pub struct StateEnd;
 
 impl State for StateEnd {
     fn visit(&self, _cursor: &mut Cursor) -> Option<Transition> {
-        panic!("StateEnd should not be visited");
+        Some(Transition {
+            state: Box::new(StateEnd),
+            transition_kind: TransitionKind::End,
+        })
     }
 }
 
-
 fn main() {
-    let input = "hello world 01234 56789".to_string();
+    let input = "hello _world 01234 56789".to_string();
     let lexer = Lexer::new(input);
     for token in lexer {
         println!("{:?}", token);

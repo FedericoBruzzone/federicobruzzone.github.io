@@ -17,6 +17,7 @@ html,
 body {
     height: 100%;
     margin: 0;
+    font-family: 'Courier New', Courier, monospace;
     /* font-family: Verdana, Geneva, Tahoma, sans-serif; */
 }
 
@@ -71,8 +72,8 @@ footer {
 
 p {
     text-indent: 1.5em;
-    text-align: justify;
     margin: 0.1em 0em;
+    /* text-align: justify; */
 }
 
 table {
@@ -226,6 +227,10 @@ hr {
 
 .main-post h3 {
     text-align: right;
-    /* Underling for all the length of the body */
-    border-bottom: 0.05em solid black; /* Adjust thickness and color as needed */
+    border-bottom: 0.05em solid black;
+}
+
+.main-post .code {
+    /* display: flex; */
+    /* justify-content: center; */
 }
