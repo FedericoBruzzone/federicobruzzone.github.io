@@ -27,7 +27,7 @@ impl Cursor {
     }
 
     pub fn is_eof(&self) -> bool {
-        self.position >= self.input.len()
+        self.offset >= self.input.len()
     }
 
     pub fn peek(&self) -> Option<char> {
@@ -36,15 +36,6 @@ impl Cursor {
         }
 
         self.input.chars().nth(self.offset)
-    }
-
-    pub fn consume(&mut self) {
-        if self.is_eof() {
-            return;
-        }
-
-        self.position += 1;
-        self.offset += 1;
     }
 
     pub fn advance(&mut self) {
@@ -69,8 +60,12 @@ pub trait State {
     fn visit(&self, cursor: &mut Cursor) -> Option<Transition>;
 }
 
+pub struct Transition {
+    pub state: Box<dyn State>,
+    pub transition_kind: TransitionKind,
+}
+
 pub enum TransitionKind {
-    Consume,
     Advance,
     EmitToken(Token),
     End,
@@ -79,113 +74,10 @@ pub enum TransitionKind {
 impl TransitionKind {
     pub fn apply(&self, cursor: &mut Cursor) {
         match self {
-            TransitionKind::Consume => {
-                cursor.advance();
-            }
-            TransitionKind::Advance => {
-                cursor.advance();
-            }
+            TransitionKind::Advance => cursor.advance(),
             TransitionKind::EmitToken(_) => cursor.align(),
             TransitionKind::End => {}
         }
-    }
-}
-
-pub struct Transition {
-    pub state: Box<dyn State>,
-    pub transition_kind: TransitionKind,
-}
-
-#[derive(Debug)]
-pub struct StateStart;
-impl State for StateStart {
-    fn visit(&self, cursor: &mut Cursor) -> Option<Transition> {
-        match cursor.peek() {
-            Some(c) => {
-                if c.is_alphabetic() {
-                    Some(Transition {
-                        state: Box::new(StateWord),
-                        transition_kind: TransitionKind::Consume,
-                    })
-                } else if c.is_numeric() {
-                    Some(Transition {
-                        state: Box::new(StateNumber),
-                        transition_kind: TransitionKind::Consume,
-                    })
-                } else {
-                    None
-                }
-            }
-            None => Some(Transition {
-                state: Box::new(StateEOF),
-                transition_kind: TransitionKind::Consume,
-            }),
-        }
-    }
-}
-
-#[derive(Debug)]
-pub struct StateWord;
-impl State for StateWord {
-    fn visit(&self, cursor: &mut Cursor) -> Option<Transition> {
-        match cursor.peek() {
-            Some(c) if c.is_alphanumeric() => {
-                Some(Lexer::proceed(Box::new(StateWord), TransitionKind::Advance))
-            }
-            _ => Some(Lexer::proceed(
-                Box::new(StateStart),
-                TransitionKind::EmitToken(Token {
-                    kind: TokenKind::Identifier,
-                    lexeme: cursor.input[cursor.position..cursor.offset].to_string(),
-                }),
-            )),
-        }
-    }
-}
-
-#[derive(Debug)]
-pub struct StateNumber;
-impl State for StateNumber {
-    fn visit(&self, cursor: &mut Cursor) -> Option<Transition> {
-        match cursor.peek() {
-            Some(c) if c.is_numeric() => Some(Lexer::proceed(
-                Box::new(StateNumber),
-                TransitionKind::Advance,
-            )),
-            _ => Some(Lexer::proceed(
-                Box::new(StateStart),
-                TransitionKind::EmitToken(Token {
-                    kind: TokenKind::Number,
-                    lexeme: cursor.input[cursor.position..cursor.offset].to_string(),
-                }),
-            )),
-        }
-    }
-}
-
-#[derive(Debug)]
-pub struct StateEOF;
-impl State for StateEOF {
-    fn visit(&self, _cursor: &mut Cursor) -> Option<Transition> {
-        Some(Transition {
-            state: Box::new(StateEnd),
-            transition_kind: TransitionKind::EmitToken(Token {
-                kind: TokenKind::EOF,
-                lexeme: "".to_string(),
-            }),
-        })
-    }
-}
-
-#[derive(Debug)]
-pub struct StateEnd;
-
-impl State for StateEnd {
-    fn visit(&self, _cursor: &mut Cursor) -> Option<Transition> {
-        Some(Transition {
-            state: Box::new(StateEnd),
-            transition_kind: TransitionKind::End,
-        })
     }
 }
 
@@ -216,9 +108,8 @@ impl Iterator for Lexer {
     fn next(&mut self) -> Option<Self::Item> {
         loop {
             let transition = self.state.visit(&mut self.cursor)?;
-            match transition.transition_kind {
-                TransitionKind::End => return None,
-                _ => {}
+            if let TransitionKind::End = transition.transition_kind {
+                return None;
             }
             self.state = transition.state;
             transition.transition_kind.apply(&mut self.cursor);
@@ -228,6 +119,90 @@ impl Iterator for Lexer {
         }
     }
 }
+
+#[derive(Debug)]
+pub struct StateStart;
+
+impl State for StateStart {
+    fn visit(&self, cursor: &mut Cursor) -> Option<Transition> {
+        match cursor.peek() {
+            Some(c) if c.is_alphabetic() => {
+                Some(Lexer::proceed(Box::new(StateWord), TransitionKind::Advance))
+            }
+            Some(c) if c.is_numeric() => Some(Lexer::proceed(
+                Box::new(StateNumber),
+                TransitionKind::Advance,
+            )),
+            _ => Some(Lexer::proceed(Box::new(StateEOF), TransitionKind::Advance)),
+        }
+    }
+}
+
+#[derive(Debug)]
+pub struct StateWord;
+
+impl State for StateWord {
+    fn visit(&self, cursor: &mut Cursor) -> Option<Transition> {
+        match cursor.peek() {
+            Some(c) if c.is_alphanumeric() => {
+                Some(Lexer::proceed(Box::new(StateWord), TransitionKind::Advance))
+            }
+            _ => Some(Lexer::proceed(
+                Box::new(StateStart),
+                TransitionKind::EmitToken(Token {
+                    kind: TokenKind::Identifier,
+                    lexeme: cursor.input[cursor.position..cursor.offset].to_string(),
+                }),
+            )),
+        }
+    }
+}
+
+#[derive(Debug)]
+pub struct StateNumber;
+
+impl State for StateNumber {
+    fn visit(&self, cursor: &mut Cursor) -> Option<Transition> {
+        match cursor.peek() {
+            Some(c) if c.is_numeric() => Some(Lexer::proceed(
+                Box::new(StateNumber),
+                TransitionKind::Advance,
+            )),
+            _ => Some(Lexer::proceed(
+                Box::new(StateStart),
+                TransitionKind::EmitToken(Token {
+                    kind: TokenKind::Number,
+                    lexeme: cursor.input[cursor.position..cursor.offset].to_string(),
+                }),
+            )),
+        }
+    }
+}
+
+#[derive(Debug)]
+pub struct StateEOF;
+
+impl State for StateEOF {
+    fn visit(&self, _cursor: &mut Cursor) -> Option<Transition> {
+        Some(Transition {
+            state: Box::new(StateEnd),
+            transition_kind: TransitionKind::EmitToken(Token {
+                kind: TokenKind::EOF,
+                lexeme: "".to_string(),
+            }),
+        })
+    }
+}
+
+#[derive(Debug)]
+pub struct StateEnd;
+
+impl State for StateEnd {
+    fn visit(&self, _cursor: &mut Cursor) -> Option<Transition> {
+        panic!("StateEnd should not be visited");
+    }
+}
+
 
 fn main() {
     let input = "hello world 01234 56789".to_string();

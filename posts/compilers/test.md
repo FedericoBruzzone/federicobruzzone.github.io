@@ -1,43 +1,40 @@
 ```rust
-pub struct Cursor {
-    pub input: String,
-    pub position: usize,
-    pub offset: usize,
+pub struct Lexer {
+    cursor: Cursor,
+    state: Box<dyn State>,
 }
 
-impl Cursor {
-    pub fn new(input: String) -> Cursor {
-        Cursor { input, position: 0, offset: 0, }
+impl Lexer {
+    pub fn new(input: String) -> Lexer {
+        Lexer {
+            cursor: Cursor::new(input),
+            state: Box::new(StateStart),
+        }
     }
 
-    pub fn is_eof(&self) -> bool {
-        self.position >= self.input.len()
+    pub fn proceed(state: Box<dyn State>, transition_kind: TransitionKind) -> Transition {
+        Transition {
+            state,
+            transition_kind,
+        }
     }
+}
 
-    pub fn peek(&self) -> Option<char> {
-        if self.is_eof() { return None; }
+impl Iterator for Lexer {
+    type Item = Token;
 
-        self.input.chars().nth(self.offset)
-    }
-
-    pub fn consume(&mut self) {
-        if self.is_eof() { return; }
-
-        self.position += 1;
-        self.offset += 1;
-    }
-
-    pub fn advance(&mut self) {
-        if self.is_eof() { return; }
-
-        self.offset += 1;
-    }
-
-    pub fn align(&mut self) {
-        if self.is_eof() { return; }
-
-        self.position = self.offset;
-        self.offset += 1;
+    fn next(&mut self) -> Option<Self::Item> {
+        loop {
+            let transition = self.state.visit(&mut self.cursor)?;
+            if let TransitionKind::End = transition.transition_kind {
+                return None;
+            }
+            self.state = transition.state;
+            transition.transition_kind.apply(&mut self.cursor);
+            if let TransitionKind::EmitToken(token) = transition.transition_kind {
+                return Some(token);
+            }
+        }
     }
 }
 ```

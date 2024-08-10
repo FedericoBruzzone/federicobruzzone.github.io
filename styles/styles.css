@@ -221,4 +221,11 @@ hr {
 
 .main-post h2 {
     text-align: center;
+    text-decoration: underline;
+}
+
+.main-post h3 {
+    text-align: right;
+    /* Underling for all the length of the body */
+    border-bottom: 0.05em solid black; /* Adjust thickness and color as needed */
 }
