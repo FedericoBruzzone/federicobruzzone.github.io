@@ -18,4 +18,3 @@ Convert markdown to html (with syntax highlighting):
 ```bash
 pandoc -s -f markdown -t html5 --highlight-style=pygments -o test.html test.md
 ```
-

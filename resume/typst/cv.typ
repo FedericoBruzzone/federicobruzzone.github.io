@@ -12,7 +12,7 @@
     birth_place: "Magenta (MI), Italy",
     date_of_birth: [7th of *March 2000*],
     residence: "Via F. Turati 75/F, Arluno (MI), 20004",
-    emails: ("mailto:federico.bruzzone@studenti.unimi.it",
+    emails: ("mailto:federico.bruzzone@unimi.it",
              "mailto:federico.bruzzone.i@gmail.com"),
     phone: [+39 *391 7369214*]
   ),
