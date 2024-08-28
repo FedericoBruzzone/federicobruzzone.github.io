@@ -1,3 +1,46 @@
+@font-face {
+    font-family: 'EB Garamond';
+    src: url('/styles/EBGaramond-400-Normal.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'EB Garamond';
+    src: url('/styles/EBGaramond-400-Italic.woff2') format('woff2');
+    font-weight: 400;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'EB Garamond';
+    src: url('/styles/EBGaramond-700-Normal.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'EB Garamond';
+    src: url('/styles/EBGaramond-700-Italic.woff2') format('woff2');
+    font-weight: 700;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Iosevka';
+    src: url('/styles/Iosevka.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Open Sans';
+    src: url('/styles/OpenSans-300-Normal.woff2') format('woff2');
+    font-weight: 300;
+    font-style: normal;
+}
+
+
 :root {
     --header-footer-background-color: #d8d8d8;
     --header-text-color: #333333;
@@ -12,12 +55,12 @@
     --tr-hover-color: #e0e0e0;
 }
 
-
 html,
 body {
     height: 100%;
     margin: 0;
-    font-family: 'Courier New', Courier, monospace;
+    font-family: "EB Garamond", serif;
+    /* font-family: 'Courier New', Courier, monospace; */
     /* font-family: Verdana, Geneva, Tahoma, sans-serif; */
 }
 
@@ -34,6 +77,7 @@ body {
     margin-right: auto;
 }
 
+/* For mobile phones */
 @media (max-width: 768px) {
     body {
         max-width: 100%;
@@ -70,6 +114,13 @@ footer {
     color: var(--footer-text-color);
 }
 
+h1,
+h2,
+h3 {
+    font-family: "Open Sans", sans-serif;
+    font-weight: 700;
+}
+
 p {
     text-indent: 1.5em;
     margin: 0.1em 0em;
@@ -77,15 +128,20 @@ p {
 }
 
 table {
-    border-collapse: collapse;
+    /* Remove the space between cells */
+    /* border-collapse: collapse; */
+
+    width: 100%;
 }
 
 tr {
-    padding: 0.1em;
+    padding-left: 0.2em;
+    padding-right: 0.2em;
 }
 
 td {
-    padding: 0.1em;
+    padding-left: 0.2em;
+    padding-right: 0.2em;
 }
 
 table tr:nth-child(odd) {
@@ -120,27 +176,23 @@ pre {
 }
 
 code {
-    font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+    /* font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace; */
+    font-family: "Iosevka", monospace;
     font-size: 75%;
     margin: 0;
     hyphens: manual;
 }
 
-/* The dot is a class selector */
-/* .sourceCode { */
-/*     background-color: transparent; */
+/* a:hover { */
+/*     background-color: var(--a-hover-color); */
 /* } */
-
-a:hover {
-    background-color: var(--a-hover-color);
-}
 
 a:visited {
     color: var(--a-visited-color);
 }
 
 blockquote {
-    margin: 1em 1em 1em 1em;
+    margin: 2em 0em;
     padding-left: 1em;
     border-left: 0.2em solid var(--blockquote-border-left-color);
     color: var(--blockquote-text-color);
@@ -153,7 +205,8 @@ hr {
 }
 
 /* ====== for index.html ===== */
-@media (max-width: 768px) {
+/* @media (max-width: 768px) { */
+@media (max-width: 1152px) {
     table.block {
         display: block;
     }
@@ -173,7 +226,9 @@ hr {
 
 .grid-container {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
+    gap: 1em;
+    width: 100%;
 }
 
 .grid-item {
@@ -182,12 +237,24 @@ hr {
     white-space: nowrap;
 }
 
+@media (max-width: 1152px) {
+    .grid-container {
+        grid-template-columns: 1fr;
+    }
+}
+
 .left {
     float: left;
 }
 
 .right {
     float: right;
+}
+
+.center {
+    max-width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* ====== for posts/index.html ===== */
@@ -228,9 +295,4 @@ hr {
 .main-post h3 {
     text-align: right;
     border-bottom: 0.05em solid black;
-}
-
-.main-post .code {
-    /* display: flex; */
-    /* justify-content: center; */
 }
