@@ -273,7 +273,7 @@ hr {
 
 .post .tags {
     display: inline;
-    border: 0.2em groove var(--border-color);
+    border: 0.1em groove var(--border-color);
 }
 
 .post .summary {
