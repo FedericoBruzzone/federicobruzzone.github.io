@@ -257,26 +257,27 @@ hr {
     margin-right: auto;
 }
 
-/* ====== for posts/index.html ===== */
-.post {
+/* ====== for posts/index.html and index.html ===== */
+.entry {
     align-items: center;
+    margin: 0.2em 0em;
 }
 
-.post .title {
+.entry .title {
     display: inline;
     font-weight: bold;
 }
 
-.post .date {
+.entry .date {
     display: inline;
 }
 
-.post .tags {
+.entry .tags {
     display: inline;
     border: 0.1em groove var(--border-color);
 }
 
-.post .summary {
+.entry .summary {
     margin-top: 0.1em;
     display: block;
     color: gray;
