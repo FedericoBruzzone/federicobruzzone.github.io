@@ -38,6 +38,16 @@
 // GreenBlue based: textfill: gradient.linear(..(color.map.mako.slice(50,100).rev(), color.map.mako.slice(50,100)).flatten(), relative:"parent"),
 // Purple based: linkfill: gradient.linear(..color.map.flare.slice(150,256), relative:"parent"),
 
+= Professional Experience
+#entry(
+  when: "2024-Present",
+  what: "PhD Student in Computer Science",
+  details: (
+    [Since 2024, I have been a PhD student in Computer Science at the *ADAPT Lab* of the Università degli Studi di Milano, under the supervision of *Walter Cazzola*.],
+    [My research interests include, but are not limited to, programming languages, compilers, software maintenance, and software and language product lines.]
+  )
+)
+
 = Education
 == Academic Titles
 #entry(
