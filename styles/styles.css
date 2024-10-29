@@ -40,6 +40,23 @@
     font-style: normal;
 }
 
+.fira-mono-regular {
+  font-family: "Fira Mono", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.fira-mono-medium {
+  font-family: "Fira Mono", serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.fira-mono-bold {
+  font-family: "Fira Mono", serif;
+  font-weight: 700;
+  font-style: normal;
+}
 
 :root {
     --header-footer-background-color: #d8d8d8;
@@ -177,7 +194,8 @@ pre {
 
 code {
     /* font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace; */
-    font-family: "Iosevka", monospace;
+    /* font-family: "Iosevka", monospace; */
+    font-family: "Fira Mono", monospace;
     font-size: 75%;
     margin: 0;
     hyphens: manual;
