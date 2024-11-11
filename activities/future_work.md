@@ -18,3 +18,8 @@
     - Use the MIR to find the anti-pattern
     - Example: `.clone()` where it is not correct
 
+# Notes
+
+## Art1
+
+Write it proposing rust codebases as an SPL, and the analysis can be simply the number of cross-tree constraints.
