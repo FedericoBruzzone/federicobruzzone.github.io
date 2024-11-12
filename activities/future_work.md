@@ -22,4 +22,5 @@
 
 ## Art1
 
-Write it proposing rust codebases as an SPL, and the analysis can be simply the number of cross-tree constraints.
+- Write it proposing rust codebases as an SPL, and the analysis can be simply the number of cross-tree constraints.
+- RustEx is a tool to extract cross-tree constraints of rust codebases.
