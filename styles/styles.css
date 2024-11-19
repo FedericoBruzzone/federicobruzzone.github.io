@@ -194,8 +194,7 @@ pre {
 
 code {
     /* font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace; */
-    /* font-family: "Iosevka", monospace; */
-    font-family: "Fira Mono", monospace;
+    font-family: "Iosevka", monospace; /* font-family: "Fira Mono", monospace; */
     font-size: 75%;
     margin: 0;
     hyphens: manual;
