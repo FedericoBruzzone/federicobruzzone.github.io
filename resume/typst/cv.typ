@@ -38,7 +38,10 @@
 // GreenBlue based: textfill: gradient.linear(..(color.map.mako.slice(50,100).rev(), color.map.mako.slice(50,100)).flatten(), relative:"parent"),
 // Purple based: linkfill: gradient.linear(..color.map.flare.slice(150,256), relative:"parent"),
 
-= Professional Experience
+// = Professional Experience
+
+= Education
+== Academic Titles
 #entry(
   when: "2024-Present",
   what: "PhD Student in Computer Science",
@@ -48,8 +51,6 @@
   )
 )
 
-= Education
-== Academic Titles
 #entry(
   when: "2022-2024 \n (15/07/2024)",
   what: "MSc in Computer Science",
@@ -90,12 +91,20 @@
 
 = Research Activities
 #entry(
+  when: "2-7 Sep 2024",
+  what: "ICFP 2024 - Student Volunteer",
+  details: (
+    [The 29th ACM SIGPLAN International Conference on Functional Programming has been in Milan, Italy, in September 2024. After a selection process, I was chosen as a student volunteer.
+     I helped the organization of the conference and the attendees during the event.]
+  )
+)
+
+#entry(
   when: "2022-Present",
   what: "Scientific Research at ADAPT Lab",
   details: (
     [Since 2022, at the *ADAPT Lab* of the Università degli Studi di Milano, I have been working on the development of a modular approach for type systems and LSP generation for the research project *Neverlang* (originally conceived by *Walter Cazzola*).
-    During this period, I studied the compiler construction, programming languages design and software and language product lines.
-    ]
+    During this period, I studied the compiler construction, programming languages design and software and language product lines.]
   )
 )
 
@@ -124,7 +133,6 @@
   what: "Mathematical Logic",
   details: (
     [I assisted the Professor *Stefano Aguzzoli* in the exams of "Mathematical Logic" for the Bachelor's Degree in Computer Science, Università degli Studi di Milano.]
-
   )
 )
 
@@ -160,6 +168,14 @@
   what: "Private Tutoring",
   details: (
     [Since 2023, I have been tutoring university students in Computer Science and high school students in Mathematics, Physics, and Computer Science.]
+  )
+)
+
+#entry(
+  when: "Nov 2024",
+  what: "Bebras Challenge",
+  details: (
+    [In collaboration with ALaDDIn Lab of the Università degli Studi di Milano, I helped manage the Bebras Challenge, an international informatics competition for students.]
   )
 )
 
@@ -200,11 +216,18 @@
 = Grants and Fellowships
 
 #entry(
+  when: "2024",
+  what: "56th Top Github Contributor in Italy out of 958",
+  details: (
+    [I was awarded the 56th Top Github Contributor in Italy out of 958 according to this #link("https://github.com/gayanvoice/top-github-users/blob/main/markdown/public_contributions/italy.md")[classification].]
+  )
+)
+
+#entry(
   when: "2023-2024",
   what: "Scholarship for the Master's Degree in Computer Science",
   details: (
     [I was awarded a scholarship for the Master's Degree in Computer Science at the Università degli Studi di Milano.]
-
   )
 )
 
