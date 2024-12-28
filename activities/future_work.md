@@ -8,7 +8,7 @@
 
 ## 2
 
-- Coupling between functio in the MIR
+- Coupling between function in the MIR
     - `.clone()` to satisfy borrow checker is anti-pattern
     - Evaluate the approach between different rust codebases
 
@@ -16,11 +16,15 @@
 
 - Find anti-pattern in rust codebases
     - Use the MIR to find the anti-pattern
-    - Example: `.clone()` where it is not correct
+    - Example:
+        - `.clone()` where it is not correct
+        - `Deref` polymorphism
+
 
 # Notes
 
 ## Art1
 
+- Write it proposing a way to reduce the number of tests in rust codebases.
 - Write it proposing rust codebases as an SPL, and the analysis can be simply the number of cross-tree constraints.
 - RustEx is a tool to extract cross-tree constraints of rust codebases.
