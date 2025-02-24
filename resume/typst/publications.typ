@@ -21,8 +21,6 @@
   )
 )
 
-#cite(<Bertolotti2023b>) #splps(1, "")
-
 #papers(
   papers: (
     (label: "Broccia2023"),

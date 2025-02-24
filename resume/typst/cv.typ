@@ -1,6 +1,5 @@
 #import "cv.template.typ": cv, entry, papers
-// #import "students.typ": students
-// #import "peculiar.typ": splps
+#import "students.typ": students
 
 #show: body => cv(
   name: "Federico Cristiano Bruzzone",
@@ -29,16 +28,14 @@
     reddit_name: "u/FedericoBruzzone"
   ),
   bib : ("publications.bib"),
-  // textfill: gradient.linear(..color.map.flare.slice(129,256), relative:"parent"),
-  textfill: gradient.linear(..color.map.crest.slice(130,), relative:"parent"),
-  linkfill: gradient.linear(..color.map.mako.slice(50, 100), relative:"parent"),
+  textfill: black,//gradient.linear(..color.map.crest.slice(130,), relative:"parent"),
+  linkfill: gradient.linear(..color.map.mako.slice(75, 100), relative:"parent"),
   body,
 )
+// textfill: gradient.linear(..color.map.flare.slice(129,256), relative:"parent"),
 // Red based: linkfill: gradient.linear(..(color.map.rocket.slice(108,148).rev(), color.map.rocket.slice(108,148)).flatten(), relative:"parent"),
 // GreenBlue based: textfill: gradient.linear(..(color.map.mako.slice(50,100).rev(), color.map.mako.slice(50,100)).flatten(), relative:"parent"),
 // Purple based: linkfill: gradient.linear(..color.map.flare.slice(150,256), relative:"parent"),
-
-// = Professional Experience
 
 = Education
 == Academic Titles
@@ -47,7 +44,7 @@
   what: "PhD Student in Computer Science",
   details: (
     [Since 2024, I have been a PhD student in Computer Science at the *ADAPT Lab* of the Università degli Studi di Milano, under the supervision of *Walter Cazzola*.],
-    [My research interests include, but are not limited to, programming languages, compilers, software maintenance, and software and language product lines.]
+    [My research interests include, but are not limited to, programming languages, compilers, software and language product lines and software maintenance.]
   )
 )
 
@@ -72,7 +69,6 @@
     [Co-supervisor: *Luca Andrea Ludovico*, Università degli Studi di Milano]
   )
 )
-
 #entry(
   when: "2011-2019",
   what: "Conservatory of Music",
@@ -80,7 +76,6 @@
        [From l'*I.S.S.M. Novara Conservatory "Guido Cantelli"* department of *Pianoforte and Music Composition*.]
   )
 )
-
 #entry(
   when: "2014-2019",
   what: "High School Diploma in Computer Science and Telecommunications",
@@ -90,24 +85,33 @@
 )
 
 = Research Activities
+== Reviews
+I have reviewed papers for the following conferences and journals:
+#entry(
+  when: "2025",
+  what: "Journal of Systems and Software",
+  details: (
+    [Publisher: *Elsevier*],
+  )
+)
+== Volunteering
 #entry(
   when: "2-7 Sep 2024",
-  what: "ICFP 2024 - Student Volunteer",
+  what: "ICFP 2024",
   details: (
     [The 29th ACM SIGPLAN International Conference on Functional Programming has been in Milan, Italy, in September 2024. After a selection process, I was chosen as a student volunteer.
      I helped the organization of the conference and the attendees during the event.]
   )
 )
-
+== Internships
 #entry(
-  when: "2022-Present",
+  when: "2022-2024",
   what: "Scientific Research at ADAPT Lab",
   details: (
     [Since 2022, at the *ADAPT Lab* of the Università degli Studi di Milano, I have been working on the development of a modular approach for type systems and LSP generation for the research project *Neverlang* (originally conceived by *Walter Cazzola*).
-    During this period, I studied the compiler construction, programming languages design and software and language product lines.]
+    During this period, I studied the compiler construction, programming languages design, software and language product lines and software maintenance.]
   )
 )
-
 #entry(
   when: "2021-2022",
   what: "Scientific Research at LIM Lab",
@@ -117,9 +121,8 @@
 )
 
 = Scientific Publications
-
-// == Articles in International Journals // with Peer Review
-#text(red)[*This paper is work in progress and will be submitted to the journal soon.*] \
+== Articles in International Journals with Peer Review
+#text(red)[This paper has been submitted to the special issue _Trends in Systems and Software Product Line Engineering_] \
 #papers(
   papers: (
     (label: "TmpBruzzone2024", score: [*Journal Ranked Q1 on Scimago* - #link("https://www.scimagojr.com/journalsearch.php?q=19309&tip=sid&clean=0")[scimagojr.com/journal-of-systems-and-software]]),
@@ -127,7 +130,16 @@
 )
 
 = Teaching Activities
+== Thesis Supervision as Co-Advisor
+#students // It is a function that generates the list of students
 == Graduate Courses
+#entry(
+  when: "2025-2026",
+  what: "Mathematical Logic (Art. 45)",
+  details: (
+    [I assisted the Professor *Stefano Aguzzoli* in the exams of "Mathematical Logic" for the Bachelor's Degree in Computer Science, Università degli Studi di Milano.]
+  )
+)
 #entry(
   when: "2024-2025",
   what: "Mathematical Logic",
@@ -135,7 +147,6 @@
     [I assisted the Professor *Stefano Aguzzoli* in the exams of "Mathematical Logic" for the Bachelor's Degree in Computer Science, Università degli Studi di Milano.]
   )
 )
-
 #entry(
   when: "2023-2024",
   what: "General Computer Science",
@@ -144,7 +155,6 @@
 
   )
 )
-
 #entry(
   when: "2023-2024",
   what: "Computer Science 1",
@@ -152,7 +162,6 @@
     [I assisted the Professor *Andrea Trentini* in the course "Computer Science 1" for the Bachelor's Degree in Computer Science, Università degli Studi di Milano.]
   )
 )
-
 #entry(
   when: "2023-2024",
   what: "Programming in Python",
@@ -170,7 +179,6 @@
     [Since 2023, I have been tutoring university students in Computer Science and high school students in Mathematics, Physics, and Computer Science.]
   )
 )
-
 #entry(
   when: "Nov 2024",
   what: "Bebras Challenge",
@@ -178,7 +186,6 @@
     [In collaboration with ALaDDIn Lab of the Università degli Studi di Milano, I helped manage the Bebras Challenge, an international informatics competition for students.]
   )
 )
-
 #entry(
   when: "Jan-Jun 2024",
   what: "Computer Science Laboratories",
@@ -186,7 +193,6 @@
     [In collaboration with ALaDDIn Lab and the Professor *Violetta Lonati* of the Università degli Studi di Milano, I have been responsible for the organization and management of the Computer Science Laboratories for the Bachelor's Degree in Computer Science.]
   )
 )
-
 #entry(
   when: "Jan-Jun 2024",
   what: "Workshops for schools",
@@ -202,19 +208,17 @@
   )
 )
 
-= Work Experience
-
+= Dissemination Activities
 #entry(
-  when: "2021-Present",
-  what: "Sound Engineer and Producer",
+  when: "2024-Present",
+  what: "Co-organizer of the MUSEMI",
   details: (
-    [Since 2021, I have been working as a sound engineer and producer, collaborating with various artists in the recording, mixing, and mastering of their music, realizing 100k+ streams on Spotify for some of them.],
-    [I am a #link("https://www.siae.it/it/")[SIAE] member and #link("https://www.believe.com/italia")[Believe] distributed my music in all the main digital stores.]
+    [*Session Chair*, *Speaker* and *Co-organizer* of MUSEMI (Meet Us for SEminars \@uniMI).
+MUSEMI is a series of seminars organized by and for PhD students and research fellows to *disseminate their scientific research* and *foster collaboration among different research groups* within the Department of Computer Science. Additionally, MUSEMI encourages the participation of Master's students interested in pursuing an academic career.]
   )
 )
 
 = Grants and Fellowships
-
 #entry(
   when: "2024",
   what: "56th Top Github Contributor in Italy out of 958",
@@ -222,7 +226,6 @@
     [I was awarded the 56th Top Github Contributor in Italy out of 958 according to this #link("https://github.com/gayanvoice/top-github-users/blob/main/markdown/public_contributions/italy.md")[classification].]
   )
 )
-
 #entry(
   when: "2023-2024",
   what: "Scholarship for the Master's Degree in Computer Science",
@@ -230,7 +233,6 @@
     [I was awarded a scholarship for the Master's Degree in Computer Science at the Università degli Studi di Milano.]
   )
 )
-
 #entry(
   when: "2020-2024",
   what: "Exemption from university fees",
@@ -239,36 +241,25 @@
   )
 )
 
-= Tongues
-
-#entry(
-    when: "Italian",
-    details: ("Mother tongue")
-)
-
-#entry(
-    when: "English",
-    details: ("Level CEFR B2 (SLAM at Università degli Studi di Milano)")
-)
-
-#entry(
-    when: "Spanish",
-    details: ("Base (A1-A2)")
-)
-
 = Other Activities
-
 == Artistic Activities
+#entry(
+  when: "2021-Present",
+  what: "Sound Engineer and Producer",
+  details: (
+    [Since 2021, I have been working as a sound engineer and producer, collaborating with various artists in the recording, mixing, and mastering of their music, realizing 100k+ streams on Spotify for some of them.],
+    [I am a #link("https://www.siae.it/it/")[SIAE] member and #link("https://www.believe.com/italia")[Believe] distributed my music in all the main digital stores.]
+  )
+)
 #entry(
   when: "2006-Present",
   what: "Pianist and Music Composer",
   details: (
     [Since 2006, I have been studying piano and music composition.],
     [I have composed music for various ensembles and soloists, and I have performed in various concerts and recitals.],
-    [I have also participated in various national and international competitions, winning several awards.]
+    [I have also participated in various national and international competitions, winning some of them.]
   )
 )
-
 #entry(
   when: "2019-Present",
   what: "Piano and Music Teacher",
@@ -289,13 +280,26 @@
     ]
   )
 )
-
 #entry(
   when: "2004-2012",
   what: "Swimming",
   details: (
     [I practiced swimming for 8 years, participating in various regional competitions.],
   )
+)
+
+= Tongues
+#entry(
+    when: "Italian",
+    details: ("Mother tongue")
+)
+#entry(
+    when: "English",
+    details: ("Level CEFR B2 (SLAM at Università degli Studi di Milano)")
+)
+#entry(
+    when: "Spanish",
+    details: ("Base (A1-A2)")
 )
 
 #v(50pt, weak: true)

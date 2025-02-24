@@ -94,11 +94,10 @@
   set text(
     size: 11pt,
     hyphenate: false,
-    // font: textfont,
+    font: textfont,
     // font: "Noto Color Emoji"
     // font: "Iosevka NF",
     // font: "Cantarell"
-
   )
   set page(
     paper: "us-letter",
@@ -120,6 +119,7 @@
   show "Neverlang": name => box[ #link("https://www.sciencedirect.com/science/article/pii/S1477842415000056")[#name] ]
   show "IEEE 1599": name => box[ #link("https://ieee1599.lim.di.unimi.it/")[#name] ]
   show "Bebras Challenge": name => box[ #link("https://bebras.it/")[#name] ]
+  show "MUSEMI": name => box[ #link("https://musemi.di.unimi.it/")[#name] ]
 
   body
 }
@@ -243,7 +243,7 @@
   heading_level-1-align: right,
   heading_level-2-align: left,
   heading-underline: true,
-  textfont: "Linux Libertine",
+  textfont: "Libertinus Serif",
   textfill: gradient.linear(..color.map.crest.slice(130,), relative:"parent"),
   linkfill: gradient.linear(..color.map.crest.slice(130,), relative:"parent"),
   bib: (),
