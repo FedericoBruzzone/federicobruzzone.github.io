@@ -13,9 +13,12 @@
     2. Implement the taint analysis in the Rust compiler
     3. Use the taint analysis to find buffer overflows in Rust programs
 
-- Statically know how many arena my program needs and have one garbage collection for each arena with the benefit of low fragmentation and deallocation of the whole arena in one go. This could be an alternative to the borrow checker in Rust.
+- Statically know how many arena my program needs and have one garbage collection for each arena with the benefit of low fragmentation and deallocation of the whole arena in one go. This could be an alternative to the borrow checker in Rust. Usare questo metodo solo per cio' che non dipende da input dall'utente.
 
 - Statically determine the clock cycle of a program
 
 - Extract computational graph from MIR to perform ML to do something
 
+- Survey of LLVM optimizations
+
+- From Safe Rust to C Code. And then ask to LLMs to regenerate the Rust code from the C code.
