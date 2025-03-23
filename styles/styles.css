@@ -63,17 +63,17 @@ header {
     display: flex;
     flex-direction: row;
     align-items: center;
+    gap: 0; /* Ensure no gap between elements */
 }
 
 .profile-pic {
     flex-shrink: 0;
-    justify-content: left;
 }
 
 .profile-pic img {
     width: 100%;
-    max-width: 150px;
-    min-width: 100px;
+    max-width: 75px;
+    min-width: 75px;
     height: auto;
 }
 
@@ -82,8 +82,9 @@ header {
 }
 
 .header-text {
-    flex-grow: 1 1 auto; /* Grow to fill the space */
+    flex-grow: 1; /* Grow to fill the space */
     text-align: center; /* Centers text inside */
+    margin-right: 1em;
 }
 
 
