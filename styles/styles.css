@@ -117,23 +117,15 @@ header {
     margin-top: 1em;
 }
 
-header {
-    background-color: #f8f9fa;
-    padding: 20px 0;
-    border-bottom: 2px solid #ddd;
-}
-
 .header-container {
     display: flex;
+    flex-direction: row;
     align-items: center;
-    justify-content: center;
-    max-width: 900px;
-    margin: 0 auto;
-    gap: 20px;
 }
 
 .profile-pic {
     flex-shrink: 0;
+    justify-content: left;
 }
 
 .profile-pic img {
@@ -143,15 +135,15 @@ header {
     height: auto;
 }
 
-.header-text {
-    display: flex;
-    flex-direction: column;
+.profile-pic img:hover {
+    transform: scale(1.1);
 }
 
-.header-text h3 {
-    margin: 0;
-    font-size: 1.5em;
+.header-text {
+    flex-grow: 1; /* Takes up all available space */
+    text-align: center; /* Centers text inside */
 }
+
 
 main {
     flex: 1 1 auto;
