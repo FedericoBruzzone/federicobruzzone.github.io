@@ -82,7 +82,7 @@ header {
 }
 
 .header-text {
-    flex-grow: 1; /* Takes up all available space */
+    flex-grow: 1 1 auto; /* Grow to fill the space */
     text-align: center; /* Centers text inside */
 }
 
