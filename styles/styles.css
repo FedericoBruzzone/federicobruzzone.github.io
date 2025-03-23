@@ -1,63 +1,4 @@
-
-@font-face {
-    font-family: 'EB Garamond';
-    src: url('/styles/EBGaramond-400-Normal.woff2') format('woff2');
-    font-weight: 400;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'EB Garamond';
-    src: url('/styles/EBGaramond-400-Italic.woff2') format('woff2');
-    font-weight: 400;
-    font-style: italic;
-}
-
-@font-face {
-    font-family: 'EB Garamond';
-    src: url('/styles/EBGaramond-700-Normal.woff2') format('woff2');
-    font-weight: 700;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'EB Garamond';
-    src: url('/styles/EBGaramond-700-Italic.woff2') format('woff2');
-    font-weight: 700;
-    font-style: italic;
-}
-
-@font-face {
-    font-family: 'Iosevka';
-    src: url('/styles/Iosevka.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Open Sans';
-    src: url('/styles/OpenSans-300-Normal.woff2') format('woff2');
-    font-weight: 300;
-    font-style: normal;
-}
-
-.fira-mono-regular {
-  font-family: "Fira Mono", serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.fira-mono-medium {
-  font-family: "Fira Mono", serif;
-  font-weight: 500;
-  font-style: normal;
-}
-
-.fira-mono-bold {
-  font-family: "Fira Mono", serif;
-  font-weight: 700;
-  font-style: normal;
-}
+@import url('/styles/fonts.css');
 
 :root {
     --header-footer-background-color: #e0e0e0;
@@ -78,7 +19,8 @@ html,
 body {
     height: 100%;
     margin: 0;
-    font-family: "EB Garamond", serif;
+    font-family: "Linux Libertine", serif;
+    /* font-family: "EB Garamond", serif; */
     /* font-family: 'Courier New', Courier, monospace; */
     /* font-family: Verdana, Geneva, Tahoma, sans-serif; */
 }
@@ -163,7 +105,7 @@ footer {
 h1,
 h2,
 h3 {
-    font-family: "Open Sans", sans-serif;
+    font-family: "Linux Libertine", sans-serif;
     font-weight: 700;
 }
 

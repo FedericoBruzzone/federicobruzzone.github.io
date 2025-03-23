@@ -1,0 +1,83 @@
+@font-face {
+    font-family: 'EB Garamond';
+    src: url('/styles/EBGaramond/EBGaramond-400-Normal.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'EB Garamond';
+    src: url('/styles/EBGaramond/EBGaramond-400-Italic.woff2') format('woff2');
+    font-weight: 400;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'EB Garamond';
+    src: url('/styles/EBGaramond/EBGaramond-700-Normal.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'EB Garamond';
+    src: url('/styles/EBGaramond/EBGaramond-700-Italic.woff2') format('woff2');
+    font-weight: 700;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Iosevka';
+    src: url('/styles/Iosevka/Iosevka.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.fira-mono-regular {
+    font-family: "Fira Mono", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.fira-mono-medium {
+    font-family: "Fira Mono", serif;
+    font-weight: 500;
+    font-style: normal;
+}
+
+.fira-mono-bold {
+    font-family: "Fira Mono", serif;
+    font-weight: 700;
+    font-style: normal;
+}
+
+/* Linux Libertine */
+@font-face {
+    font-family: 'Linux Libertine';
+    src: url('/styles/Libertinus/LibertinusSerif-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Linux Libertine';
+    src: url('/styles/Libertinus/LibertinusSerif-Italic.woff2') format('woff2');
+    font-weight: 400;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Linux Libertine';
+    src: url('/styles/Libertinus/LibertinusSerif-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Linux Libertine';
+    src: url('/styles/Libertinus/LibertinusSerif-BoldItalic.woff2') format('woff2');
+    font-weight: 700;
+    font-style: italic;
+}
+
+
