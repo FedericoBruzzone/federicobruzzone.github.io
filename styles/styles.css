@@ -1,3 +1,4 @@
+
 @font-face {
     font-family: 'EB Garamond';
     src: url('/styles/EBGaramond-400-Normal.woff2') format('woff2');
@@ -115,6 +116,14 @@ header {
     margin-top: 1em;
 }
 
+.header-container {
+    display: flex;
+    align-items: center; /* Aligns the image and text vertically */
+}
+
+.profile-pic img {
+    display: block;
+}
 
 main {
     flex: 1 1 auto;
