@@ -59,7 +59,7 @@
 }
 
 :root {
-    --header-footer-background-color: #d8d8d8;
+    --header-footer-background-color: #e0e0e0;
     --header-text-color: #333333;
     --footer-text-color: #a1a1a1;
     --blockquote-text-color: #606060;
@@ -120,7 +120,7 @@ main {
     flex: 1 1 auto;
     padding: 1em;
     margin: 1em 0em;
-    border: 0.1em solid var(--border-color);
+    /* border: 0.1em solid var(--border-color); */
     display: flex;
     flex-direction: column;
 }
@@ -140,8 +140,8 @@ h3 {
 
 p {
     text-indent: 1.5em;
-    margin: 0.1em 0em;
-    /* text-align: justify; */
+    margin: 0.5em 0em 0.5em 0em;
+    text-align: justify;
 }
 
 table {
@@ -194,7 +194,8 @@ pre {
 
 code {
     /* font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace; */
-    font-family: "Iosevka", monospace; /* font-family: "Fira Mono", monospace; */
+    /* font-family: "Iosevka", monospace; */
+    font-family: "Fira Mono", monospace;
     font-size: 75%;
     margin: 0;
     hyphens: manual;
@@ -306,11 +307,15 @@ hr {
 }
 
 .main-post h2 {
-    text-align: center;
-    text-decoration: underline;
+    text-align: left;
+    border-bottom: 0.05em solid black;
 }
 
 .main-post h3 {
-    text-align: right;
-    border-bottom: 0.05em solid black;
+    text-align: left;
+    text-decoration: underline;
+}
+
+.main-post ul {
+    margin: 0;
 }

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Open Source Licenses: A Deep Dive into Their Meaning</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+
+    <script type="module" src="/scripts/main.js" defer></script>
+    <link rel="stylesheet" type="text/css" href="/styles/styles.css">
+    <link rel="stylesheet" type="text/css" href="/styles/syntax-highlighting.css">
+
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+</head>
+
+
+<body>
+    <div id="header-container"></div>
+
+    <main class="main-post">
+        <h1>Open Source Licenses: A Deep Dive into Their Meaning</h1>
+
+        There is a plethora of posts and articles about open source licenses. However, most of them are merely enumerations of licenses and their characteristics. This post aims to provide a deeper understanding of the meaning of licenses and their implications for developers and users.
+        TODO: add combination between more licenses
+        TODO: add research-based licenses
+
+        <h2>Why Licenses Matter</h2>
+
+        <p>Open source software thrives because of the freedom it gives developers to use, modify, and share code. However, that freedom comes with legal frameworks called licenses. In this post, we’ll break down the most common open source licenses, explain what they mean, and detail how they affect your project and community.</p>
+
+        <p>A license is a legal document that grants permission to use, modify, and share software. It’s a contract between the software creator and the user that outlines the terms and conditions of use. Licenses are essential for open source software because they protect the rights of both the creator and the user. Therefore, licenses dictate:
+        <ul>
+            <li>Who can use the software</li>
+            <li>How the software can be modified</li>
+            <li>Under what conditions the software can be shared</li>
+            <li>Under what conditions the software can be redistributed</li>
+        </ul>
+
+        <p>Two main types dominate the open source world: <i>permissive</i> and <i>copyleft</i> licenses. <i>Permissive</i> licenses allow developers to use, modify, and share code with few restrictions. <i>Copyleft</i> licenses require developers to share their modifications under the same license.</p>
+
+        <h2>Sofware Licenses</h2>
+
+        <p>From here onward, with <i>include the original copyright</i> we mean that the original copyright and license notice must be included in the derivative work. Concretely, this means that if the project you wish to redistribute or modify has a file called <code>LICENSE</code> or <code>COPYING</code>, you <b>must</b> retain that file, or part of it, in your project. If needed, you may modify it or creating a new one, ensuring that both the original copyright and license notice, as well as your own, are properly included.</p>
+
+
+        <h3>Copyleft Licenses</h3>
+
+        <p><b>GNU-General Public License 2.0</b> &nbsp;&nbsp;&nbsp;&nbsp; TODO</p>
+
+        <h3>Permissive Licenses</h3>
+
+        <p><b>MIT License</b> &nbsp;&nbsp;&nbsp;&nbsp; The <b>M</b>a<b>s</b>sachusetts <b>I</b>nstitute of <b>T</b>echnology License is probably the most popular permissive license. It allows developers to use, modify, and share code, even in proprietary project, as long as they <b>include</b> the original copyright and license notice. The software is provided "as is", <b>without warranty</b> of any kind. <b>In practice</b>, the MIT License is a great choice for projects where you want maximum adoptation with minimal legal hassle, allowing both open source and proprietary use.</p>
+
+        <p><b>BSD 4-Clause License</b> &nbsp;&nbsp;&nbsp;&nbsp; The <b>B</b>erkeley <b>S</b>oftware <b>D</b>istribution 4-Clause License, also known as the <i>Original BSD License</i>, is a permissive license that allows developers to use, modify, and share code, even in proprietary projects, as long as they <b>include</b> the original copyright and license notice. The main difference between the BSD 4-Clause License and all the other BSD licenses is the <b>advertising clause</b>. The advertising clause states that: "All advertising materials mentioning features or use of this software must display the following acknowledgment: This product includes software developed by the <i>copyright holder</i>." It means, that if you use a project with the BSD 4-Clause License, you must acknowledge the original author in your advertising materials. Because of this clause, the BSD 4-Clause License is not as popular as the MIT License and it is <b>not</b> compatible with the GPL License. <b>In practice</b>, this is not ubiquitous, and one should choose it for its advertising clause.</p>
+
+        <p><b>BSD 3-Clause License</b> &nbsp;&nbsp;&nbsp;&nbsp; The <b>B</b>erkeley <b>S</b>oftware <b>D</b>istribution 3-Clause License, also known as the <i>New BSD License</i>, is a permissive license that allows developers to use, modify, and share code, even in proprietary projects, as long as they <b>include</b> the original copyright and license notice. The BSD 3-Clause License, unlike the BSD 4-Clause License, does <b>not</b> have the advertising clause. This makes the BSD 3-Clause License more popular than the BSD 4-Clause License and compatible with the GPL License. The <b>non-endorsement</b> clause is kept, as in the BSD 4-Clause License, and it states that: "Neither the name of the <i>copyright holder</i> nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission." <b>In practice</b>, one should choose it for its non-endorsement clause and for its compatibility with the GPL License.</p>
+
+        <p><b>BSD 2-Clause License</b> &nbsp;&nbsp;&nbsp;&nbsp; The <b>B</b>erkeley <b>S</b>oftware <b>D</b>istribution 2-Clause License, also known as the <i>FreeBSD License</i>, is a permissive license that allows developers to use, modify, and share code, even in proprietary projects, as long as they <b>include</b> the original copyright and license notice. The BSD 2-Clause License, unlike the other BSD licenses, does <b>not</b> have the advertising clause and the non-endorsement clause. This makes the BSD 2-Clause License the most popular BSD license and compatible with the GPL License. In practice, it is very similar to the MIT License, and one should choose it over the MIT License for its more verbosity that explicitly reiterates the same condition used for source code distribution for binary distribution.</p>
+
+        <p><b>Apache License 2.0</b> &nbsp;&nbsp;&nbsp;&nbsp; The Apache License 2.0 is a permissive license that allows developers to use, modify, and share code, even in proprietary projects, as long as they <b>include</b> the original copyright and license notice. The Apache License 2.0 is similar to the MIT License, but it includes an <b>express grant</b> of patent rights from contributors to users. This means that if you use a project with the Apache License 2.0, you are granted a license to any patents that the contributors hold that cover the code. The Apache License 2.0 introduces this aspecific clause to protect users from patent litigation. The compatibility with the GPL License is <b>not</b> guaranteed; i.e., the Apache License 2.0 can be included in a GPL project as long as the resulting project is distributed under the GPL License, the vice versa is <b>not</b> true. <b>In practice</b>, one should choose it over the MIT License for its patent grant by keeping in mind the compatibility issues with the GPL License.</p>
+
+        <p><b>ISC License</b> &nbsp;&nbsp;&nbsp;&nbsp; The <b>I</b>nternet <b>S</b>ystems <b>C</b>onsortium License is a permissive license that allows developers to use, modify, and share code, even in proprietary projects, as long as they <b>include</b> the original copyright and license notice. The ISC License is a simplified version of the MIT License and the FreeBSD License, with the same permissions and conditions, but with a more concise and readable text. In practice, one should choose it over the other two licenses for its simplicity and readability.</p>
+
+        <h2>Conclusion</h2>
+
+        <p> I hope you enjoyed this article. If you have any questions or suggestions, please <a href="https://federicobruzzone.github.io/index.html">contact me</a>. </p>
+
+
+    </main>
+    <div id="footer-container"></div>
+</body>
+
+</html>
