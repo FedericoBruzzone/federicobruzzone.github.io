@@ -85,22 +85,32 @@
 )
 
 = Research Activities
+
+#entry(
+  when: "Apr-Jun 2025",
+  what: [Committee Member at #link("https://conf.researchr.org/home/sle-2025")[SLE 2025]],
+  details: (
+    [I served as a Committee Member (in Artifact Evaluation Committee) at the 18th ACM SIGPLAN International Conference on Software Language Engineering (SLE 2025). Check #link("https://conf.researchr.org/profile/sle-2025/federicobruzzone")[here] for more details.]
+  )
+)
+
+#entry(
+  when: "2-7 Sep 2024",
+  what: [Student Volunteer at #link("https://conf.researchr.org/home/icfp-2024")[ICFP 2024]],
+  details: (
+    [I served as a Student Volunteer at the 29th ACM SIGPLAN International Conference on Functional Programming (ICFP 2024). Check #link("https://conf.researchr.org/profile/sle-2025/federicobruzzone")[here] for more details.]
+  )
+)
+
 == Reviews
 I have reviewed papers for the following conferences and journals:
 #entry(
   when: "2025",
-  what: "Journal of Systems and Software",
+  what: [#link("https://www.sciencedirect.com/journal/journal-of-systems-and-software")[Journal of Systems and Software]],
   details: (
     [Publisher: *Elsevier*],
-  )
-)
-== Volunteering
-#entry(
-  when: "2-7 Sep 2024",
-  what: "ICFP 2024",
-  details: (
-    [The 29th ACM SIGPLAN International Conference on Functional Programming has been in Milan, Italy, in September 2024. After a selection process, I was chosen as a student volunteer.
-     I helped the organization of the conference and the attendees during the event.]
+    [Issue: Trends in Systems and Software Product Line Engineering],
+    [Ranked Q1 on Scimago],
   )
 )
 == Internships

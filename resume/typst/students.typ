@@ -4,6 +4,28 @@
   (
     when: datetime(
       year: 2025,
+      month: 4,
+      day: 10,
+    ),
+    name: "Dario Pellegrino",
+    title: [Scalable Multi-client Real-time Whisper],
+    where : "Bachelor in Computer Science, Università degli Studi di Milano",
+    score: ""
+  ),
+  (
+    when: datetime(
+      year: 2025,
+      month: 4,
+      day: 9,
+    ),
+    name: "Gabriele Esposito",
+    title: [Fr3D: A Framework for DAP-compatible DSL-oriented Debugging],
+    where : "Master in Computer Science, Università degli Studi di Milano",
+    score: "110L"
+  ),
+  (
+    when: datetime(
+      year: 2025,
       month: 2,
       day: 24,
     ),
@@ -22,7 +44,11 @@
       details: (
         [*#student.title*],
         student.where,
-        // [Score: *#student.score*]
+        if "score" in student {
+          [Score: *#student.score*]
+        } else {
+          []
+        },
       )
     )
   }
