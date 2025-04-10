@@ -18,6 +18,17 @@
       month: 4,
       day: 9,
     ),
+    name: "Andrea Longoni",
+    title: [GUIDE: Graphical User Interface Development Environment],
+    where : "Master in Computer Science, Università degli Studi di Milano",
+    score: "110L"
+  ),
+  (
+    when: datetime(
+      year: 2025,
+      month: 4,
+      day: 9,
+    ),
     name: "Gabriele Esposito",
     title: [Fr3D: A Framework for DAP-compatible DSL-oriented Debugging],
     where : "Master in Computer Science, Università degli Studi di Milano",
