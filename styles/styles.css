@@ -6,7 +6,8 @@
     --footer-text-color: #a1a1a1;
     --blockquote-text-color: #606060;
     --blockquote-border-left-color: #e6e6e6;
-    --a-hover-background-color: #ffeeaa; /* yellow */
+    --a-hover-background-color: #ffeeaa;
+    /* yellow */
     --a-hover-color: #551a8b;
     --a-visited-color: #551a8b;
     --border-color: #a8a8a8;
@@ -63,7 +64,8 @@ header {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 0; /* Ensure no gap between elements */
+    gap: 0;
+    /* Ensure no gap between elements */
 }
 
 .profile-pic {
@@ -82,8 +84,10 @@ header {
 }
 
 .header-text {
-    flex-grow: 1; /* Grow to fill the space */
-    text-align: center; /* Centers text inside */
+    flex-grow: 1;
+    /* Grow to fill the space */
+    text-align: center;
+    /* Centers text inside */
     margin-right: 1em;
 }
 
@@ -158,20 +162,6 @@ svg {
 
 figure {
     text-align: center;
-}
-
-pre {
-    margin: 1em 0em;
-    overflow: auto;
-}
-
-code {
-    /* font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace; */
-    /* font-family: "Iosevka", monospace; */
-    font-family: "Fira Mono", monospace;
-    font-size: 75%;
-    margin: 0;
-    hyphens: manual;
 }
 
 a {

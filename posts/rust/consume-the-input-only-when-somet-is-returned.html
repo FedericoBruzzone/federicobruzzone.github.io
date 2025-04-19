@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Open Source Licenses: A Deep Dive into Their Meaning</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+
+    <script type="module" src="/scripts/main.js" defer></script>
+
+    <link rel="stylesheet" type="text/css" href="/styles/styles.css">
+
+    <script type="module" src="/scripts/prism.js" defer></script>
+    <link rel="stylesheet" type="text/css" href="/styles/prism.css">
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+</head>
+
+
+<body>
+    <div id="header-container"></div>
+
+    <main class="main-post">
+        <h1>Consume the Input Only When <code class="language-rust">Some&lt;T&gt;</code> is returned</h1>
+
+        <p>
+        <code class="language-rust">Option&lt;T></code> is ubiquitous in Rust. It is used to represent a value that may or may not be present: every <code class="language-rust">Option&lt;T></code> is either <code class="language-rust">Some&lt;T&gt;</code> or <code class="language-rust">None</code>. This is a powerful concept that allows for safe handling of optional values without the need for null references.
+        </p>
+
+        <p>
+        However, consider the following code:
+        </p>
+
+        <pre class="line-numbers" data-line="15-17">
+        <code class="language-rust">
+        #[derive(Debug)]
+        struct ZST;
+
+        fn foo&lt;T: std::fmt::Debug&gt;(p: Option&lt;T&gt;) -&gt; Option&lt;String&gt; {
+            if p.is_some() {
+                return Some(format!("{:?}", p));
+            }
+            None
+        }
+
+        fn main() {
+            let input = ZST;
+            match foo(Some(input)) {
+                Some(x) =&gt; { /* Do something with x */ }
+                None =&gt; {
+                    let x = input;
+                    //      ^^^^^ value used here after move
+                }
+            }
+        }
+        </code>
+        </pre>
+
+
+
+    </main>
+    <div id="footer-container"></div>
+</body>
+
+</html>
