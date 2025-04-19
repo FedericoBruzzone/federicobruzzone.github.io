@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+    <title>Federico Bruzzone Blog</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script type="module" src="/scripts/main.js" defer></script>
+    <link rel="stylesheet" type="text/css" href="/styles/styles.css">
+    <link rel="stylesheet" type="text/css" href="/styles/syntax-highlighting.css">
+
+    <script type="module" src="/scripts/prism.js" defer></script>
+    <link rel="stylesheet" type="text/css" href="/styles/prism.css">
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script> -->
+</head>
+<body>
+    <div id="header-container"></div>
+
+    <main>
+    Test
+
+    <pre>
+    <code class="language-c">
+        int main() {
+            return 0;
+        }
+    </code>
+    </pre>
+
+    <pre class="line-numbers" data-line="1-2, 5">
+    <code class="language-python">
+    def token2sparse(token, num_embeddings, hashes):
+  sparse = [0] * num_embeddings
+  for trigram in [token[i:i+3] for i in range(len(token)-2)]:
+    for h in hashes:
+      sparse[h(trigram) % num_embeddings] = 1
+  return sparse </code>
+    </pre>
+
+    <pre class="line-numbers" data-line="1-15">
+    <code class="language-rust">
+    struct Sheep { naked: bool, name: &'static str }
+
+trait Animal {
+    // Associated function signature; `Self` refers to the implementor type.
+    fn new(name: &'static str) -> Self;
+
+    // Method signatures; these will return a string.
+    fn name(&self) -> &'static str;
+    fn noise(&self) -> &'static str;
+
+    // Traits can provide default method definitions.
+    fn talk(&self) {
+        println!("{} says {}", self.name(), self.noise());
+    }
+}
+
+impl Sheep {
+    fn is_naked(&self) -> bool {
+        self.naked
+    }
+
+    fn shear(&mut self) {
+        if self.is_naked() {
+            // Implementor methods can use the implementor's trait methods.
+            println!("{} is already naked...", self.name());
+        } else {
+            println!("{} gets a haircut!", self.name);
+
+            self.naked = true;
+        }
+    }
+}
+
+// Implement the `Animal` trait for `Sheep`.
+impl Animal for Sheep {
+    // `Self` is the implementor type: `Sheep`.
+    fn new(name: &'static str) -> Sheep {
+        Sheep { name: name, naked: false }
+    }
+
+    fn name(&self) -> &'static str {
+        self.name
+    }
+
+    fn noise(&self) -> &'static str {
+        if self.is_naked() {
+            "baaaaah?"
+        } else {
+            "baaaaah!"
+        }
+    }
+
+    // Default trait methods can be overridden.
+    fn talk(&self) {
+        // For example, we can add some quiet contemplation.
+        println!("{} pauses briefly... {}", self.name, self.noise());
+    }
+}
+
+fn main() {
+    // Type annotation is necessary in this case.
+    let mut dolly: Sheep = Animal::new("Dolly");
+    // TODO ^ Try removing the type annotations.
+
+    dolly.talk();
+    dolly.shear();
+    dolly.talk();
+}
+    </code>
+    </pre>
+
+    </main>
+
+
+    <div id="footer-container"></div>
+</body>
+</html>
+
