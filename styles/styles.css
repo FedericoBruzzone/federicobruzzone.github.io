@@ -10,7 +10,8 @@
     --tr-nth-child-even-color: #eae8e6;
     --tr-hover-color: #e6e0dd;
 
-    --blockquote-border-left-color: #946f42;
+    --blockquote-border-left-color: #946f42; /* Brown */
+    --hr-color: #946f42; /* Brown */
 
     --a-hover-background-color: #decbba;
     --a-hover-color: #e3d5c8;
@@ -191,9 +192,10 @@ nav {
 }
 
 hr {
+    width: 99%;
     border: 0;
     height: 1px;
-    background: var(--border-color);
+    background: var(--hr-color);
 }
 
 /* ====== for index.html ===== */

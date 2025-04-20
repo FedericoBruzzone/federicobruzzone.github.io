@@ -91,13 +91,84 @@
         The error occurs because the input is moved into the function <code class="language-rust">foo</code>, and then it is used again in the <code class="language-rust">None</code> branch of the match statement (lines 15-17 highlighted in the code above). This is not allowed in Rust, as it violates the ownership rules.
         </p>
 
-        <p id="footnote-1">
+        <p>
         <br>
-        <br>
-        <sup>1</sup> <i>Consume</i> means to take ownership of the input and make it unavailable for further use. In Rust, this is typically done by passing the input to a function that takes ownership of it. This is in contrast to <i>borrowing</i>, where the input is passed to a function that does not take ownership of it and can be used later.
-        <a href="#footnote-1-ref" title="return to text">&#8617;</a>
+        <b>Unideal Solutions.</b> &nbsp;
+        To solve this problem,  we could consider the following three solutions:
+        </p>
+        <ol>
+            <li> as the compiler suggests use the <code class="language-rust">Copy</code> trait. This trait allows for types that can be duplicated by simply copying their bits. However, this is <b>not</b> always possible or desirable, especially for large data structures or when we want to avoid unnecessary cloning. For instance, consider <code class="language-rust">struct ZST;</code> in the example above being a large data structure instead of a zero-sized type (ZST),
+            <li> use a shared reference as a <i>formal</i> parameter of the function <code class="language-rust">foo</code> by migrating to the following signature: <code class="language-rust">fn foo&lt;T: std::fmt::Debug&gt;(p: Option&lt;&T&gt;) -&gt; Option&lt;String&gt;</code>. This way, the input is <i>borrowed</i> instead of <i>moved</i>, and it can be used later in the <code class="language-rust">None</code> branch of the match statement. However, this is <b>not</b> always possible or desirable, especially when we want to consume the input, and
+                <li>  migrate to the following code (<a href="https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=230b87b7d822da3a1bf62f1c25f6a898">playground</a>):
+            <pre class="line-numbers" data-line="1, 4-6, 9, 15">
+            <code class="language-rust">
+            #[derive(Debug, Default)]
+            struct ZST;
+
+            fn foo&lt;T&gt;(p: Option&lt;&mut T&gt;) -&gt; Option&lt;String&gt;
+            where
+                T: std::fmt::Debug + std::default::Default
+            {
+                if let Some(p) = p {
+                    return Some(format!("{:?}", std::mem::take(p)));
+                }
+                None
+            }
+
+            fn main() {
+                let input = &mut ZST;
+                match foo(Some(input)) {
+                    Some(x) =&gt; { /* Do something with x */ }
+                    None =&gt; {
+                        let x = input;
+                    }
+                }
+            }
+            </code>
+            </pre>
+            <p>
+            In this code are highlighted the lines that are changed with respect to the previous code. The main change is that we use a mutable reference to the input and <code class="language-rust">std::mem::take</code> to replace the value of the input with its default value. In this way, we can simulate the consumption of the input without actually moving it. Note that, a similar solution is to use <code class="language-rust">std::option::Option::take</code>. Of course the signature would become: <code class="language-rust">fn foo&lt;T&gt;(p: &mut Option&lt;T&gt;) -&gt; Option&lt;String&gt;</code>.
+            </p>
+            <p>
+            However, this solution is <b>not</b> idiomatic Rust and I personally find this an <b>orrible</b> solution. Therefore, the most important point is that it is not clear what the function <code class="language-rust">foo</code> does just by looking at its signature, by violating the principle of <i>least surprise</i>.<a id="footnote-2-ref" href="#footnote-2"><sup>2</sup></a>
+            We have to check the documentation to understand what happens to the input. This is a problem because it makes the code less readable and maintainable.             In addition, if <code class="language-rust">foo</code> is exposed to the outside world, it is not clear the behavior of the function except through documentation.
+            </p>
+        </ol>
+        <p>
+        Anyway, since we want to consume the input (i.e., keeping the type of the input unchanged) only when <code class="language-rust">Some&lt;F&gt;</code> is returned, these three solutions are <b>not</b> suitable for our purpose.
         </p>
 
+        <p>
+        <br>
+        <b>Decent Solutions.</b> &nbsp;
+        By rearranging the return value of the function <code class="language-rust">foo</code> we may be able to solve the problem. For instance, the following are possible solutions:
+        </p>
+
+        <ol>
+            <li>a simple strategy is to return a tuple of the output and the input, and then use pattern matching to extract the values. This way, we can consume the input only when <code class="language-rust">Some&lt;F&gt;</code> is returned. The signature of the function becomes <code class="language-rust">fn foo&lt;T: std::fmt::Debug&gt;(p: Option&lt;T&gt;) -&gt; (Option&lt;String&gt;, Option&lt;T&gt;)</code>. The 2-tuple is always in the form <code class="language-rust">(Some(x), None)</code> or <code class="language-rust">(None, Some(input))</code>.
+        However, this is <b>not</b> actually elegant due to the principle of <i>least surprise</i><a id="footnote-2-ref" href="#footnote-2"><sup>2</sup></a> and the fact that we have to deal with a tuple instead of a single value,
+        <li>a more elegant solution is to use the <code class="language-rust">Result&lt;T, E&gt;</code> type to represent the success or failure of the operation. The signature of the function becomes <code class="language-rust">fn foo&lt;T: std::fmt::Debug&gt;(p: Option&lt;T&gt;) -&gt; Result&lt;String, T&gt;</code>. In this way, we can consume the input only when <code class="language-rust">Ok(x)</code> is returned. The <code class="language-rust">Err(input)</code> case is used to return the input without consuming it. This is a more idiomatic solution in Rust and it is easier to understand and use. However, again because of the principle of <i>least surprise</i><a id="footnote-2-ref" href="#footnote-2"><sup>2</sup></a>, if the <code class="language-rust">Err(input)</code> does not semantically represent an error, this could be misleading and may cause confusion.
+        </ol>
+
+        <p>
+        <br>
+        <b>Ideal Solution.</b> &nbsp;
+
+        </p>
+
+
+        <p><br><br><br></p>
+        <hr>
+
+        <p id="footnote-1">
+        <sup>1</sup> <i>Consume</i> means to take ownership of the input and make it unavailable for further use. In Rust, this is typically done by passing the input to a function that takes ownership of it. Of course, this is in contrast to <i>borrowing</i>, where the input is passed to a function that does not take ownership of it and can be used later.
+        <a href="#footnote-1-ref">&#8617;</a>
+        </p>
+
+        <p id="footnote-2">
+        <br>
+        <sup>2</sup> <i>Principle of least surprise</i>, also known as <i>principle of least astonishment</i>, is a design principle that states that a component of a system should behave in a way that most users will expect it to behave, and therefore not astonish or surprise users. More info: <a href="https://en.wikipedia.org/wiki/Principle_of_least_astonishment">https://en.wikipedia.org/wiki/Principle_of_least_astonishment</a>.
+        <a href="#footnote-2-ref">&#8617;</a>
     </main>
     <div id="footer-container"></div>
 </body>
