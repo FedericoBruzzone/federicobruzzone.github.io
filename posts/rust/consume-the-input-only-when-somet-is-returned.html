@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Open Source Licenses: A Deep Dive into Their Meaning</title>
+    <title>Consume the Input Only When Some&lt;T&gt; is returned</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
 
@@ -45,10 +45,17 @@
         Now, let us consider the following example (<a href="https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=296d29f4025402c7adc94bd95b7ed877">playground</a>):
         </p>
 
-        <pre class="line-numbers" data-line="15-17">
+        <pre class="line-numbers" data-line="22-24">
         <code class="language-rust">
+        use rand::Rand;
+
         #[derive(Debug)]
         struct ZST;
+
+        fn rnd_zst() -&gt; Option&lt;ZST&gt; {
+            if rand::random::&lt;bool&gt;() { Some(ZST) }
+            else { None }
+        }
 
         fn foo&lt;T: std::fmt::Debug&gt;(p: Option&lt;T&gt;) -&gt; Option&lt;String&gt; {
             if p.is_some() {
@@ -58,8 +65,7 @@
         }
 
         fn main() {
-            let input: Option<ZST> = rnd_zst(); // It returns either Option<ZST> or None
-                                                // with some probability
+            let input: Option&lt;ZST&gt; = rnd_zst();
             match foo(input) {
                 Some(x) =&gt; { /* Do something with x */ }
                 None =&gt; {
@@ -78,15 +84,16 @@
         <code class="language-bash">
         </code>
         error[E0382]: use of moved value: `input`
-          --> src/main.rs:16:21
+          --> src/main.rs:23:21
            |
-        12 |     let input = ZST;
-           |         ----- move occurs because `input` has type `ZST`, which does not implement the `Copy` trait
-        13 |     match foo(Some(input)) {
+        19 |     let input: Option&lt;ZST> = rng_zst();
+           |         ----- move occurs because `input` has type `Option&lt;ZST>`, which does not implement the `Copy` trait
+        20 |     match foo(Some(input)) {
            |                    ----- value moved here
         ...
-        16 |             let x = input;
+        23 |             let x = input;
            |                     ^^^^^ value used here after move
+
         </pre>
 
         <p>
@@ -101,27 +108,28 @@
         <ol>
             <li> As the compiler suggests use the <code class="language-rust">Copy</code> trait. This trait allows for types that can be duplicated by simply copying their bits. However, this is <b>not</b> always possible or desirable, especially for large data structures or when we want to avoid unnecessary cloning. For instance, consider <code class="language-rust">struct ZST;</code> in the example above being a large data structure instead of a zero-sized type (ZST).
 
-            <li> Use a shared reference as a <i>formal</i> parameter of the function <code class="language-rust">foo</code> by migrating to the following signature: <code class="language-rust">fn foo&lt;T: std::fmt::Debug&gt;(p: Option&lt;&T&gt;) -&gt; Option&lt;String&gt;</code>. This way, the input is <i>borrowed</i> instead of <i>moved</i>, and it can be used later in the <code class="language-rust">None</code> branch of the match statement. However, this is <b>not</b> always possible or desirable, especially when we want to consume the input.
+            <li> Use a shared reference as a <i>formal</i> parameter of the function <code class="language-rust">foo</code> by migrating to the following signature: <code class="language-rust">fn foo&lt;T: std::fmt::Debug&gt;(p: &Option&lt;T&gt;) -&gt; Option&lt;String&gt;</code>. This way, the input is <i>borrowed</i> instead of <i>moved</i>, and it can be used later in the <code class="language-rust">None</code> branch of the match statement. However, this is <b>not</b> always possible or desirable, especially when we want to consume the input.
 
-            <li>  Migrate to the following code (<a href="https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=230b87b7d822da3a1bf62f1c25f6a898">playground</a>):
-            <pre class="line-numbers" data-line="1, 4-6, 9, 15">
+            <li>  Migrate to the following code (<a href="https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=73a4eeff3cead920cf0b1d41f17d3d69">playground</a>):
+            <pre class="line-numbers" data-line="5, 8-9, 16">
             <code class="language-rust">
+            use rand::Rng;
+
+            fn rnd_zst() -&gt; Option&lt;ZST&gt; { if rand::random::&lt;bool&gt;() { Some(ZST) } else { None } }
+
             #[derive(Debug, Default)]
             struct ZST;
 
-            fn foo&lt;T&gt;(p: Option&lt;&mut T&gt;) -&gt; Option&lt;String&gt;
-            where
-                T: std::fmt::Debug + std::default::Default
-            {
-                if let Some(p) = p {
-                    return Some(format!("{:?}", std::mem::take(p)));
+            fn foo&lt;T: std::fmt::Debug&gt;(p: &mut Option&lt;T&gt;) -&gt; Option&lt;String&gt; {
+                if let Some(p) = std::mem::take(p) {
+                    return Some(format!("{:?}", p));
                 }
                 None
             }
 
             fn main() {
-                let input = &mut ZST;
-                match foo(Some(input)) {
+                let input: &mut Option&lt;ZST&gt; = &mut rng_zst();
+                match foo(input) {
                     Some(x) =&gt; { /* Do something with x */ }
                     None =&gt; {
                         let x = input;
@@ -132,12 +140,13 @@
             </pre>
 
             <p>
-            In this code are highlighted the lines that are changed with respect to the previous code. The main change is that we use a mutable reference to the input and <code class="language-rust">std::mem::take</code> to replace the value of the input with its default value. In this way, we can simulate the consumption of the input without actually moving it. Note that, a similar solution is to use <code class="language-rust">std::option::Option::take</code>. Of course the signature would become: <code class="language-rust">fn foo&lt;T&gt;(p: &mut Option&lt;T&gt;) -&gt; Option&lt;String&gt;</code>.
+            In this code are highlighted the lines that are changed with respect to the previous code. The main change is that we use a mutable reference to the input and <code class="language-rust">std::mem::take</code> to replace the value of the input with its default value (i.e., <code class="language-rust">None</code> in this case). In this way, we can simulate the consumption of the input without actually moving it. Note that, the same solution may be achieved by using <code class="language-rust">std::option::Option::take</code>.
             </p>
 
             <p>
             However, this solution is <b>not</b> idiomatic Rust and I personally find this an <b>orrible</b> solution. Therefore, the most important point is that it is not clear what the function <code class="language-rust">foo</code> does just by looking at its signature, by violating the principle of <i>least surprise</i>.<a id="footnote-2-ref" href="#footnote-2"><sup>2</sup></a>
-            We have to check the documentation to understand what happens to the input. This is a problem because it makes the code less readable and maintainable.             In addition, if <code class="language-rust">foo</code> is exposed to the outside world, it is not clear the behavior of the function except through documentation.
+            In addition, if <code class="language-rust">foo</code> is exposed to the outside world, it is not clear the behavior of the function except through documentation.
+           This is a problem because it makes the code less readable and maintainable, and it can lead to confusion and bugs in the future.
             </p>
         </ol>
 
@@ -160,41 +169,43 @@
         <p>
         <br>
         <b>Ideal Solution.</b> &nbsp;
-        The ideal solution is to use a custom \(\Sigma\)-type to represent the semantic meaning of the operation. In Rust, we can use an <code class="language-rust">enum</code> to represent the different possible outcomes of the operation. For instance, consider the following code \(\Sigma\)-type:
+        The ideal solution is to use a custom \(\Sigma\)-type to represent the semantic meaning of the operation. In Rust, we can use an <code class="language-rust">enum</code> to represent \(\Sigma\)-types.
         </p>
-        <pre class="line-numbers">
-        <code class="language-rust">
-        enum FooResult&lt;T&gt; {
-            Ok(String),
-            Fallback(T),
-        }
-        </code>
-        </pre>
+
         <p>
         We define an enum <code class="language-rust">FooResult&lt;T&gt;</code> that has two variants: <code class="language-rust">Ok(String)</code> and <code class="language-rust">Fallback(T)</code>. The <code class="language-rust">Ok(String)</code> variant is used to represent the success case and the input is consumed, while the <code class="language-rust">Fallback(T)</code> variant is used to represent the "failure" case and the input is given back without consuming it.
         </p>
 
         <p>
-        The remaining code is updated as follows:
+        The signature of the function becomes <code class="language-rust">fn foo&lt;T: std::fmt::Debug&gt;(p: Option&lt;T&gt;) -&gt; FooResult&lt;T&gt;</code>. This is a more idiomatic solution in Rust and it is easier to understand and use by minimizing the <i>least surprise</i> principle. In addition, this solution is more flexible and extensible, as we can add more variants to the enum in the future if needed. (<a href="https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=dcd9b708f3abbb8535267a903d2ae70a">playground</a>)
         </p>
 
-        <pre class="line-numbers" data-line="1, 4-6, 9, 15">
+        <pre class="line-numbers" data-line="8-11, 13, 15, 17, 23-26">
         <code class="language-rust">
+        use rand::Rng;
+
+        fn rnd_zst() -&gt; Option&lt;ZST&gt; { if rand::random::&lt;bool&gt;() { Some(ZST) } else { None } }
+
         #[derive(Debug)]
         struct ZST;
 
-        fn foo&lt;T: std::fmt::Debug&gt;(p: Option&lt;T&gt;) -&gt; FooResult&lt;T&gt; {
+        enum FooResult&lt;F&gt; {
+            Ok(String),
+            Fallback(F),
+        }
+
+        fn foo&lt;T: std::fmt::Debug&gt;(p: Option&lt;T&gt;) -&gt; FooResult&lt;Option&lt;T&gt;&gt; {
             if p.is_some() {
                 return FooResult::Ok(format!("{:?}", p));
             }
-            FooResult::Fallback(p.unwrap_or_default())
+            FooResult::Fallback(p)
         }
 
         fn main() {
-            let input = ZST;
-            match foo(Some(input)) {
+            let input = rnd_zst();
+            match foo(input) {
                 FooResult::Ok(x) =&gt; { /* Do something with x */ }
-                FooResult::Fallback(x) =&gt; {
+                FooResult::Fallback(input) =&gt; {
                     let x = input;
                 }
             }
@@ -202,9 +213,29 @@
         </code>
         </pre>
 
+        <p>
+        The smallest last improvement might be to make the <code class="language-rust">FooResult&lt;T&gt;</code> \(\Sigma\)-type more generic and expressible in the type system.
+        That is, we could:
+        </p>
+        <ol>
+            <li> use a generic type <code class="language-rust">T</code> for the <code class="language-rust">Ok</code> variant instead of a fixed type <code class="language-rust">String</code>.
+            <li> introduce the variant <code class="language-rust">Err(E)</code> to represent the error case, where <code class="language-rust">E</code> is a generic type that can be used to represent any error type.
+        </ol>
+        <p>
+        This way, we can use the same \(\Sigma\)-type in different contexts and with different types. The semantic meaning of the operation is still preserved, but we have more flexibility and expressibility in the type system. This is the definition of the \(\Sigma\)-type that I would personally use in my code.
+        </p>
 
+        <pre class="line-numbers">
+        <code class="language-rust">
+        enum ResultWithFallback&lt;T, E, F&gt; {
+            Ok(T),
+            Err(E),
+            Fallback(F),
+        }
+        </code>
+        </pre>
 
-        <p><br><br><br></p>
+        <p><br><br></p>
         <hr>
 
         <p id="footnote-1">
