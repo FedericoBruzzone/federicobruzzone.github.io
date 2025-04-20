@@ -1,19 +1,20 @@
 @import url('/styles/fonts.css');
 
 :root {
-    --header-footer-background-color: #e0e0e0;
-    --header-text-color: #333333;
-    --footer-text-color: #a1a1a1;
-    --blockquote-text-color: #606060;
-    --blockquote-border-left-color: #e6e6e6;
-    --a-hover-background-color: #ffeeaa;
-    /* yellow */
-    --a-hover-color: #551a8b;
+    --main-background-color: #ede8e4;
+
+    --header-footer-background-color: #dbd3cc;
+    --border-color: #bdb2a8;
+
+    --tr-nth-child-odd-color: #f4f2f0;
+    --tr-nth-child-even-color: #eae8e6;
+    --tr-hover-color: #e6e0dd;
+
+    --blockquote-border-left-color: #946f42;
+
+    --a-hover-background-color: #decbba;
+    --a-hover-color: #e3d5c8;
     --a-visited-color: #551a8b;
-    --border-color: #a8a8a8;
-    --tr-nth-child-odd-color: #f0f0f0;
-    --tr-nth-child-even-color: #f8f8f8;
-    --tr-hover-color: #e0e0e0;
 }
 
 html,
@@ -21,6 +22,7 @@ body {
     height: 100%;
     margin: 0;
     font-family: "Linux Libertine", serif;
+    background-color: var(--main-background-color);
     /* font-family: "EB Garamond", serif; */
     /* font-family: 'Courier New', Courier, monospace; */
     /* font-family: Verdana, Geneva, Tahoma, sans-serif; */
@@ -55,7 +57,6 @@ footer {
 }
 
 header {
-    color: var(--header-text-color);
     padding: 0.25em;
     margin-top: 1em;
 }
@@ -104,7 +105,6 @@ main {
 footer {
     margin-bottom: 1em;
     padding: 1em;
-    color: var(--footer-text-color);
 }
 
 h1,
@@ -183,7 +183,7 @@ blockquote {
     margin: 2em 0em;
     padding-left: 1em;
     border-left: 0.2em solid var(--blockquote-border-left-color);
-    color: var(--blockquote-text-color);
+    color: gray;
 }
 
 nav {
@@ -274,3 +274,21 @@ hr {
 .main-post ul {
     margin: 0;
 }
+
+
+/* First Attempt */
+/* :root { */
+/*     --header-footer-background-color: #e0e0e0; */
+/*     --header-text-color: #333333; */
+/*     --footer-text-color: #a1a1a1; */
+/*     --blockquote-text-color: #606060; */
+/*     --blockquote-border-left-color: #e6e6e6; */
+/*     --a-hover-background-color: #ffeeaa; */
+/*     /* yellow */ */
+/*     --a-hover-color: #551a8b; */
+/*     --a-visited-color: #551a8b; */
+/*     --border-color: #a8a8a8; */
+/*     --tr-nth-child-odd-color: #f0f0f0; */
+/*     --tr-nth-child-even-color: #f8f8f8; */
+/*     --tr-hover-color: #e0e0e0; */
+/* } */
