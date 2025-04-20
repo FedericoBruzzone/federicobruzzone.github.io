@@ -28,15 +28,20 @@
 <body>
     <div id="header-container"></div>
 
+
     <main class="main-post">
         <h1>Consume the Input Only When <code class="language-rust">Some&lt;T&gt;</code> is returned</h1>
 
         <p>
         <code class="language-rust">Option&lt;T></code> is ubiquitous in Rust. It is used to represent a value that may or may not be present: every <code class="language-rust">Option&lt;T></code> is either <code class="language-rust">Some&lt;T&gt;</code> or <code class="language-rust">None</code>. This is a powerful concept that allows for safe handling of optional values without the need for null references.
+        <br>
+        <br>
         </p>
 
         <p>
-        However, consider the following code:
+        <b>Problem Statement.</b> &nbsp;
+        However, sometimes, given a function <code class="language-rust">fn f&lt;T, F>(t: T) -&gt; Option&lt;F></code> that takes the ownership of the input <code class="language-rust">t</code> and returns an <code class="language-rust">Option&lt;F></code>, we want to <i>consume</i><a id="footnote-1-ref" href="#footnote-1"><sup>1</sup></a> the input only when <code class="language-rust">Some&lt;F&gt;</code> is returned. This is particularly useful when we want to avoid unnecessary cloning or copying of data.
+        Now, let us consider the following example (<a href="https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=da48bcc18f88582f358adda7c922d448">playground</a>):
         </p>
 
         <pre class="line-numbers" data-line="15-17">
@@ -57,14 +62,41 @@
                 Some(x) =&gt; { /* Do something with x */ }
                 None =&gt; {
                     let x = input;
-                    //      ^^^^^ value used here after move
                 }
             }
         }
         </code>
         </pre>
 
+        <p>
+        The Rust compiler rejects this code with the following error:
+        </p>
 
+        <pre>
+        <code class="language-bash">
+        </code>
+        error[E0382]: use of moved value: `input`
+          --> src/main.rs:16:21
+           |
+        12 |     let input = ZST;
+           |         ----- move occurs because `input` has type `ZST`, which does not implement the `Copy` trait
+        13 |     match foo(Some(input)) {
+           |                    ----- value moved here
+        ...
+        16 |             let x = input;
+           |                     ^^^^^ value used here after move
+        </pre>
+
+        <p>
+        The error occurs because the input is moved into the function <code class="language-rust">foo</code>, and then it is used again in the <code class="language-rust">None</code> branch of the match statement (lines 15-17 highlighted in the code above). This is not allowed in Rust, as it violates the ownership rules.
+        </p>
+
+        <p id="footnote-1">
+        <br>
+        <br>
+        <sup>1</sup> <i>Consume</i> means to take ownership of the input and make it unavailable for further use. In Rust, this is typically done by passing the input to a function that takes ownership of it. This is in contrast to <i>borrowing</i>, where the input is passed to a function that does not take ownership of it and can be used later.
+        <a href="#footnote-1-ref" title="return to text">&#8617;</a>
+        </p>
 
     </main>
     <div id="footer-container"></div>
