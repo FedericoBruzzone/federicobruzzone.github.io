@@ -1,7 +1,7 @@
 @import url('/styles/fonts.css');
 
 :root {
-    --main-background-color: #ede8e4;
+    --main-background-color: #ebe5e2 /* #ede8e4 */;
 
     --header-footer-background-color: #dbd3cc;
     --border-color: #bdb2a8;
