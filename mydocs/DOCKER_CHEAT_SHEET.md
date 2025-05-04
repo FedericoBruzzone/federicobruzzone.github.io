@@ -29,3 +29,11 @@ docker exec -it <container> bash
 docker logs --follow --tail 100 <container>
 ```
 
+## Docker Build Image
+
+```bash
+docker build -t <image> .
+docker run --rm <image> <command>
+```
+
+
