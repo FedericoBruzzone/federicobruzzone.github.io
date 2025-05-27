@@ -1,13 +1,12 @@
 #import "cv.template.typ": cv, entry, papers
 #import "students.typ": students
-#import "peculiar.typ": splps
 
 
 #show bibliography: none
 #bibliography("publications.bib")
-  
-= Luca Favalli
-== Elenco Pubblicazioni Scientifiche
+
+= Federico Bruzzone
+== Scientific Publications
 #v(30pt, weak:true)
 
 #papers(

@@ -132,15 +132,17 @@ I have reviewed papers for the following conferences and journals:
 
 = Scientific Publications
 == Articles in International Journals with Peer Review
-#text(red)[This paper has been submitted to the special issue _Trends in Systems and Software Product Line Engineering_] \
+#text(red)[These publications are in the review process and may not be available yet.]
+
 #papers(
   papers: (
-    (label: "TmpBruzzone2024", score: [*Journal Ranked Q1 on Scimago* - #link("https://www.scimagojr.com/journalsearch.php?q=19309&tip=sid&clean=0")[scimagojr.com/journal-of-systems-and-software]]),
+    (label: "TmpBruzzone2", score: [*Conference Ranked A\* on CORE*]),
+    (label: "TmpBruzzone1", score: [*Journal Ranked Q1 on Scimago*]),
   )
 )
 
 = Teaching Activities
-== Thesis Supervision as Co-Advisor
+== Thesis Supervision
 #students // It is a function that generates the list of students
 == Graduate Courses
 #entry(
