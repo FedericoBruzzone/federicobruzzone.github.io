@@ -222,6 +222,13 @@ I have reviewed papers for the following conferences and journals:
 
 = Dissemination Activities
 #entry(
+  when: "2-6 Jun 2025",
+  what: [Participant at #link("https://2025.programming-conference.org/")[\<Programming\> 2025]],
+  details: (
+    [I participated in the 2025 edition of the #link("https://2025.programming-conference.org/")[\<Programming\>] conference, which is a premier venue for programming language research. It was held in *Prague, Czech Republic*.],
+  )
+)
+#entry(
   when: "2024-Present",
   what: "Co-organizer of the MUSEMI",
   details: (
