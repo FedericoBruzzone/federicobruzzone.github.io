@@ -11,13 +11,13 @@ citecolor: blue
 toccolor: red
 ---
 
-# Impl Specialization
+# Trait Specialization Analysis
 
 **Authors**:
 
-- [Cazzola Walter](mailto:cazzola@di.unimi.it)
+- [Walter Cazzola](mailto:cazzola@di.unimi.it)
 
-- [Bruzzone Federico](mailto:federico.bruzzone@unimi.it)
+- [Federico Bruzzone](mailto:federico.bruzzone@unimi.it)
 
 ## Introduction
 
@@ -85,7 +85,7 @@ A trait is a collection of methods that can be implemented by any type.
 The trait system allows for generic programming. However, it is not possible to specialize a trait implementation for a specific type.
 This means that it is not possible to define different implementations of a trait based on the type of the generic parameter.
 
-## Motivation
+# Motivation
 
 In 2015 was proposed the specialization feature in this [RFC](https://rust-lang.github.io/rfcs/1210-impl-specialization.html). A related [tracking issue](https://github.com/rust-lang/rust/issues/31844) was opened to track the progress of the implementation. The feature was abandoned for several reasons, including the complexity of the implementation and because of the unsoundness hole in the type system that it would introduce.
 C++ has a similar feature called [partial template specialization](https://en.cppreference.com/w/cpp/language/partial_specialization) that allows to specialize a template for a specific type. This feature is very powerful and allows to define different implementations of a template based on the type of the template parameter.
@@ -123,141 +123,60 @@ Display: 3
 Debug: ['a', 'b']
 ```
 
+As previously introduced, the interaction between specialization and lifetimes is pretty problematic, as tracked in this [github issue](https://github.com/rust-lang/rust/issues/40582) and better discussed in this [in depth article](https://aturon.github.io/blog/2017/07/08/lifetime-dispatch/).
+More specifically, during code generation (the phase where MIR is lowered to LLVM IR and then to machine code) the compiler doesn't know about lifetimes (since it has already erased all lifetime information) and so it can't use them to choose which implementation should apply.
+In constrast to the soundness issue, the "always applicable rule" is proposed by Niko Matsakis by using "Maximally minimal specialization" (defined in [this](https://smallcultfollowing.com/babysteps/blog/2018/02/09/maximally-minimal-specialization-always-applicable-impls/) blog post).
+
 ## Proposal
 
-This proposal aims to introduce a novel way to specialize trait implementations in Rust. The idea is to leverage the Rust _macro_ system to provide a way to define specialized implementations for a trait based on the type of the generic parameter. The proposed syntax for the _derive_ macro is the following:
+Rust's trait system is one of its most powerful language features, enabling a form of ad-hoc polymorphism that is both type-safe and composable. However, a natural and desirable extension — **trait specialization** — remains unstable and limited to nightly Rust via  the `#[feature(specialization)]` feature attribute. Specialization allows a more specific trait implementation to override a general one, offering opportunities for performance optimization, code reuse, and API ergonomics.
 
-- `#[spec_default]` to define the default implementation for a trait.
+In practice, developers often write code that mimics specialization. A common idiom is:
 
-- `#[when(T: U)]` to define a specialized implementation for a trait when the generic parameter `T` is of type `U`.
-
-Between the round braces of the _derive_ macro, a predicate is expected. The predicate is a boolean expression that can contain the following operators:
-
-- `any(T: U, T: V, ...)` to check if the type `T` is equal to `U`, `V`, ...
-
-- `all(T: U, T: V, ...)` to check if the type `T` is equal to `U`, `V`, ...
-
-- `not(T: U)` to check if the type `T` is not equal to `U`.
-
-The _funcion_-like macro `spec!` is used to call the specialized implementation of a trait. The macro `spec!` is used to call the specialized implementation of a trait. The syntax is the following:
-
-- `spec! { expr }` to call the specialized implementation of a trait, where `expr` is the expression that calls the trait method.
-
-For example:
 ```rust
-struct ZST; // Zero Sized Type
-
-trait Foo<T> { fn foo(&self, x: T); }
-
-#[spec_default]
-impl<T> Foo<T> for ZST {
-    fn foo(&self, x: T) {
-        println!("Default Foo for ZST");
-    }
-}
-
-#[when(T: String)]
-impl<T> Foo<T> for ZST {
-    fn foo(&self, x: T) {
-        println!("Foo impl ZST where T is String");
-    }
-}
-
-#[when(T: &[A])]
-impl<T> Foo<T> for ZST {
-    fn foo(&self, x: T) {
-        println!("Foo impl ZST where T is &[A]");
-    }
-}
-
-#[when(not(T: Vec<_>))]
-impl<T> Foo<T> for ZST {
-    fn foo(&self, x: T) {
-        println!("Foo impl ZST where T is not Vec<_>");
-    }
-}
-
-fn main() {
-    let zst = ZST;
-    spec! { zst.foo("hello".to_string()) };
-    spec! { zst.foo(&[1, 2, 3]) };
-    spec! { zst.foo("hello") };
-    spec! { zst.foo(Vec::<()>::new()) };
-
-}
-
-// ===== NEW THINGS =====
-
-static s: &str = "hello";
-
-#[when(all(T: Clone, T: 'static, not(T := &'static Vec<_>))]
-impl<T> Foo<T> for ZST {
-    fn foo(&self, _x: T) {
-        println!("...");
-    }
-}
-
-fn main2() {
-    let zst = ZST;
-    spec! { zst.foo(s) };
-}
-```
-generates the following output:
-```shell
-Foo impl ZST where T is String
-Foo impl ZST where T is &[A]
-Foo impl ZST where T is not Vec<_>
-Default Foo for ZST
+impl<T> MyTrait<T> for MyStruct { ... }     // generic case
+impl MyTrait<u32> for MyStruct { ... }      // specific case
 ```
 
-The idea is to generate different implementations of the trait `Foo` based on the type of the generic parameter `T`. This process will be done at compile time, and we will call it _monomorphic specialization_. The _monomorphic specialization_, keeping the same meaning of the [_monomorphization_](https://en.wikipedia.org/wiki/Monomorphization) used by the Rust compiler, ensures that the trait implementation is monomorphic, and the compiler can optimize the code better. Doing so, the soundness of the type system is preserved since the compiler can check the type of the generic parameter at compile time.
-The `spec!` macro will be expanded according to the type of the expression passed as an argument. It will leverange the type aliasing to call the specialized implementation of the trait.
+While this is permitted under Rust's [coherence rules](https://rust-lang.github.io/chalk/book/clauses/coherence.html) as long as types do not overlap, the compiler has no semantics to treat the second impl as a refinement of the first. Moreover, future changes to trait bounds or type aliases could silently introduce overlaps or conflicts, breaking the code.
 
-For example, the previous code will be expanded to:
-```rust
-struct ZST; // Zero Sized Type
+Understanding where such cases occur in real codebases could help evaluate the practical need for specialization, guide safe designs, and contribute insights to compiler diagnostics or language evolution.
 
-// Default trait
-trait Foo<T> { fn foo(&self, x: T); }
 
-// Specialized trait for String
-trait FooString { fn foo(&self, x: String); }
+### Research Questions
 
-// Specialized trait for &[A]
-trait FooSlice<A> { fn foo(&self, x: &[A]); }
+1. Under what formal conditions does a trait implementation `impl Foo<T>` overlap with or generalize another `impl Foo<U>`?
+2. How can type unification be used to determine the specificity relationship between trait implementations?
+3. How common are these situations in existing Rust projects?
+4. Can the analysis identify problematic or ambiguous overlap patterns?
 
-// Specialized trait for not Vec<_>
-trait FooNotVec<T> { fn foo(&self, x: T); }
+## Methodology
 
-impl<T> Foo<T> for ZST {
-    fn foo(&self, x: T) {
-        println!("Default Foo for ZST");
-    }
-}
+1. **Type and Trait Extraction**  
+   Instrument the Rust compiler (via `rustc_driver`) to extract (from the AST or HIR/THIR):
+   - All trait implementations per crate
+   - Type information for each `impl`
+   - Trait bounds, where-clauses, and associated types
 
-impl FooString for ZST {
-    fn foo(&self, x: String) {
-        println!("Foo impl ZST where T is String");
-    }
-}
+2. **Unification-Based Analysis**  
+   Define a [type unification algorithm](https://rust-lang.github.io/chalk/book/clauses/type_equality.html) to detect when one type can be substituted to match another:
+   - `T = u32` unifies: `impl<T> Foo<T>` matches `impl Foo<u32>`
+   - Structural matching (tuples, references, generics)
 
-impl<A> FooSlice<A> for ZST {
-    fn foo(&self, x: &[A]) {
-        println!("Foo impl ZST where T is &[A]");
-    }
-}
+3. **Overlap and Specificity Detection**  
+   Given two impls `A` and `B` for the same trait and type:
+   - If their types unify and `B` is more specific (less general), mark it as a specialization candidate.
+   - Ensure overlap does not violate current Rust rules.
 
-impl<T> FooNotVec<T> for ZST {
-    fn foo(&self, x: T) {
-        println!("Foo impl ZST where T is not Vec<_>");
-    }
-}
+4. **Crate-Level Evaluation**  
+   Apply the analysis on a range of open-source crates:
+   - `serde`, `regex`, `itertools`, etc.
+   - Record how many traits are implemented multiple times per type
+   - Classify the patterns (simple types, tuples, references, generic bounds)
 
-fn main() {
-    let zst = ZST;
-    <ZST as FooString>::foo(&zst, "hello".to_string());
-    <ZST as FooSlice<i32>>::foo(&zst, &[1, 2, 3]);
-    <ZST as FooNotVec<&str>>::foo(&zst, "hello");
-    <ZST as Foo<Vec<()>>>::foo(&zst, vec![]);
-}
-```
+5. **Discussion and Applications**  
+   - Where could specialization be safely used?
+   - Where would it be unsound or ambiguous?
+   - Could such a tool help Rustc give better diagnostics?
+   - Could this guide future versions of specialization ([min_specialization](https://doc.rust-lang.org/beta/unstable-book/language-features/min-specialization.html))?
+
