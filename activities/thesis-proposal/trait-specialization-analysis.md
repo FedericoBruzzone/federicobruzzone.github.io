@@ -150,7 +150,7 @@ Understanding where such cases occur in real codebases could help evaluate the p
 3. How common are these situations in existing Rust projects?
 4. Can the analysis identify problematic or ambiguous overlap patterns?
 
-## Methodology
+### Methodology
 
 1. **Type and Trait Extraction**  
    Instrument the Rust compiler (via `rustc_driver`) to extract (from the AST or HIR/THIR):
