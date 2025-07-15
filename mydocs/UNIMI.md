@@ -36,3 +36,9 @@ sudo openvpn --config informatica_users.ovpn
 ```bash
 ssh bruzzone@gungnir.adapt.di.unimi.it
 ```
+
+`scp` files to the gungnir server:
+
+```bash
+scp -v file.zip bruzzone@gungnir.adapt.di.unimi.it:~
+```
