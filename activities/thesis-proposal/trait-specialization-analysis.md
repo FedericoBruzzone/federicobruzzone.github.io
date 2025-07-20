@@ -180,3 +180,10 @@ Understanding where such cases occur in real codebases could help evaluate the p
    - Could such a tool help Rustc give better diagnostics?
    - Could this guide future versions of specialization ([min_specialization](https://doc.rust-lang.org/beta/unstable-book/language-features/min-specialization.html))?
 
+### Scientific References
+
+- 1991, Using Types to Avoid Redundant Specialization (https://dl.acm.org/doi/10.1145/115866.115902)
+- 1993, A methodology for procedure cloning (https://www.sciencedirect.com/science/article/pii/009605519390005L)
+- 1995, Selective specialization for object-oriented languages (https://dl.acm.org/doi/10.1145/223428.207119)
+- 1995, Polyvariant constructor specialisation (https://dl.acm.org/doi/10.1145/215465.215554)
+- 1995, Polyvariant specialisation for higher-order, block-structured languages (https://dl.acm.org/doi/10.1145/215465.215558)
