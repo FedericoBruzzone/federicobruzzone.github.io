@@ -10,7 +10,6 @@ Unimi provides a configuration file for OpenVPN, which you can use to connect to
 **On MacOS**
 
 To start OpenVPN service on MacOS, you can use Homebrew. First, ensure you have Homebrew installed. Then, run the following commands:
-
 ```bash
 sudo brew services start openvpn
 ```
@@ -41,4 +40,10 @@ ssh bruzzone@gungnir.adapt.di.unimi.it
 
 ```bash
 scp -v file.zip bruzzone@gungnir.adapt.di.unimi.it:~
+```
+
+`scp` files from the gungnir server:
+
+```bash
+scp bruzzone@gungnir.adapt.di.unimi.it:/home/bruzzone/file ./path
 ```
