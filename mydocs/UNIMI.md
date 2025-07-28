@@ -42,6 +42,12 @@ ssh bruzzone@gungnir.adapt.di.unimi.it
 scp -v file.zip bruzzone@gungnir.adapt.di.unimi.it:~
 ```
 
+If you want to exlude some files:
+
+```bash
+rsync -av --exclude 'slr/TOP-VENUES/dblp-2025-06-01.xml' ./slr bruzzone@gungnir.adapt.di.unimi.it:~
+```
+
 `scp` files from the gungnir server:
 
 ```bash
