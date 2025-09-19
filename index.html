@@ -117,7 +117,8 @@
                 [<a href="https://arxiv.org/abs/2509.15150">arXiv</a>]
                 \(-\)
                 F. Bruzzone, W. Cazzola, and L. Favalli,
-                "Code Less to Code More: Streamlining Language Server Protocol and type system development for language families",
+                "Code Less to Code More: Streamlining Language Server Protocol and type system development for language
+                families",
                 <i>Journal of Systems and Software</i>,
                 Sep. 2025.
                 DOI: <a href="https://doi.org/10.1016/j.jss.2025.112554">10.1016/j.jss.2025.112554</a>.
@@ -127,11 +128,12 @@
             <details>
                 <summary>Abstract</summary>
                 <p>
-                    Developing editing support for \(L\) languages in \(E\) editors is complex and
+                    Developing editing support for \(\mathbf{L}\) languages in \(\mathbf{E}\) editors is complex and
                     time-consuming.
                     Some languages do not provide dedicated editors, while others offer a single native editor.
-                    The \(\textit{language server protocol}\) (LSP) reduces the language-editor combinations \(L
-                    \times E\) to \(L + E\), where a single language server communicates with
+                    The \(\textit{language server protocol}\) (LSP) reduces the language-editor combinations
+                    \(\mathbf{L}
+                    \times \mathbf{E}\) to \(\mathbf{L} + \mathbf{E}\), where a single language server communicates with
                     editors via LSP plugins.
                     However, overlapping implementations of linguistic components remain an issue. Existing language
                     workbenches struggle with modularity, reusability, and leveraging type systems for language server
@@ -143,18 +145,19 @@
                     modular workbench,
                     (iii) the variant-oriented programming paradigm and a cross-artifact coordination layer to manage
                     interdependent software variants, and
-                    (iv) an LSP plugin generator, reducing \(E\) to \(\mathbf{1}\) by automating plugin
+                    (iv) an LSP plugin generator, reducing \(\mathbf{E}\) to \(\mathbf{1}\) by automating plugin
                     creation for multiple editors.
                     To simplify editing support for language families, each language artifact integrates its own
                     Typelang variant, used to generate language servers.
-                    This reduces combinations to \(T \times \mathbf{1}\), where \(T = L\)
+                    This reduces combinations to \(\mathbf{T} \times \mathbf{1}\), where \(\mathbf{T} = \mathbf{L}\)
                     represents the number of type systems.
-                    Further reuse of language artifacts across languages lowers this to \(N \times \mathbf{1}\),
-                    where \(N << T\), representing unique type systems. We implement Typelang in Neverlang, generating
-                        language servers for each artifact and LSP plugins for three editors. Empirical evaluation shows
-                        a 93.48% reduction in characters needed for type system implementation and 100% automation of
-                        LSP plugin generation, significantly lowering effort for editing support in language families,
-                        especially when artifacts are reused. </p>
+                    Further reuse of language artifacts across languages lowers this to \(\mathbf{N} \times
+                    \mathbf{1}\),
+                    where \(\mathbf{N} << \mathbf{T}\), representing unique type systems. We implement Typelang in
+                        Neverlang, generating language servers for each artifact and LSP plugins for three editors.
+                        Empirical evaluation shows a 93.48% reduction in characters needed for type system
+                        implementation and 100% automation of LSP plugin generation, significantly lowering effort for
+                        editing support in language families, especially when artifacts are reused. </p>
             </details>
             </p>
         </div>
