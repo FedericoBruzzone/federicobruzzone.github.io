@@ -243,6 +243,10 @@ hr {
     font-weight: bold;
 }
 
+.entry .title-light {
+    display: inline;
+}
+
 .entry .date {
     display: inline;
 }
