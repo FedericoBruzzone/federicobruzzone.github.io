@@ -43,7 +43,6 @@
             free to
             consider downloading my <a href="/cv.pdf">CV</a>.</p>
 
-
         <div class="grid-container">
             <div class="grid-item">
                 <h2>Personal Info</h2>
@@ -104,11 +103,75 @@
             </div>
         </div>
 
+        <h2>Publications</h2>
+
+        <div class="entry">
+            <span class="date">-</span>
+            June 2025
+            |
+            <span class="title">
+                [<a href="/publications/jss25/Bruzzone25.bib">bib</a>]
+                [<a href="/publications/jss25/Bruzzone25.pdf">pdf</a>]
+                [<a href="https://doi.org/10.1016/j.jss.2025.112554">SpringerLink</a>]
+                [<a href="https://arxiv.org/abs/2509.15150">arXiv</a>]
+                \(-\)
+                F. Bruzzone, W. Cazzola, and L. Favalli,
+                <i>Code Less to Code More: Streamlining Language Server Protocol and type system development for
+                    language families</i>,
+                Journal of Systems and Software (JSS),
+                June 2025.
+                DOI: <a href="https://doi.org/10.1016/j.jss.2025.112554">10.1016/j.jss.2025.112554</a>.
+            </span>
+            <p class="summary">
+            <details>
+                <summary>Abstract</summary>
+                <p>
+                    Developing editing support for \(L\) languages in \(E\) editors is complex and
+                    time-consuming.
+                    Some languages do not provide dedicated editors, while others offer a single native editor.
+                    The \(\textit{language server protocol}\) (LSP) reduces the language-editor combinations \(L
+                    \times E\) to \(L + E\), where a single language server communicates with
+                    editors via LSP plugins.
+                    However, overlapping implementations of linguistic components remain an issue. Existing language
+                    workbenches struggle with modularity, reusability, and leveraging type systems for language server
+                    generation.
+                    In this work, we propose:
+                    (i) Typelang, a family of domain-specific languages for modular, composable, and reusable type
+                    system implementation,
+                    (ii) a modular language server generation process, producing servers for languages built in a
+                    modular workbench,
+                    (iii) the variant-oriented programming paradigm and a cross-artifact coordination layer to manage
+                    interdependent software variants, and
+                    (iv) an LSP plugin generator, reducing \(E\) to \(\mathbf{1}\) by automating plugin
+                    creation for multiple editors.
+                    To simplify editing support for language families, each language artifact integrates its own
+                    Typelang variant, used to generate language servers.
+                    This reduces combinations to \(T \times \mathbf{1}\), where \(T = L\)
+                    represents the number of type systems.
+                    Further reuse of language artifacts across languages lowers this to \(N \times \mathbf{1}\),
+                    where \(N << T\), representing unique type systems. We implement Typelang in Neverlang, generating
+                        language servers for each artifact and LSP plugins for three editors. Empirical evaluation shows
+                        a 93.48% reduction in characters needed for type system implementation and 100% automation of
+                        LSP plugin generation, significantly lowering effort for editing support in language families,
+                        especially when artifacts are reused. </p>
+            </details>
+            </p>
+        </div>
+
         <h2>Research Activities</h2>
         <!-- <blockquote> -->
         <!--     <p>My research interests are in the field of Programming Languages and Compilers, with a focus on -->
         <!--         <i>Language Workbenches</i>, <i>Type Systems</i>, and <i>Language Server Protocols</i>.</p> -->
         <!-- </blockquote> -->
+        <div class="entry">
+            <span class="date">2025/03/01</span>
+            |
+            <span class="title"><a href="https://www.sciencedirect.com/journal/journal-of-systems-and-software">Reviewer
+                    for SoSyM</a></span>
+            <p class="summary">I served as a <i>Reviewer</i> for the <a
+                    href="https://link.springer.com/journal/10270">Journal of Software and System Modeling</a> (SoSyM).
+        </div>
+
         <div class="entry">
             <span class="date">2025/06/{02-06}</span>
             |
@@ -154,6 +217,34 @@
         </div>
 
         <h2>Open Source Activities</h2>
+
+        <div class="entry">
+            <span class="date">2025/03 - Current</span>
+            |
+            <span class="title">Maintainer of the <a href="https://github.com/tide-fwk/tide">Tide compiler
+                </a></span>
+            <p class="summary">I am the maintainer of the <a href="https://github.com/tide-fwk/tide">Tide compiler
+                </a>.
+                Tide aims to be a modular and extensible framework for building compilers and language tools,
+                prioritizing simplicity and ease of use. Region-based memory management provides a middle ground between
+                manual memory management and automatic garbage collection, enabling efficient memory usage without the
+                overhead of tracing GC. Research is ongoing on how to preserve separate compilation without compromising
+                modularity or performance.
+        </div>
+        <div class="entry">
+            <span class="date">2024/03 - Current</span>
+            |
+            <span class="title">Maintainer of the cross-platform <a
+                    href="https://github.com/FedericoBruzzone/tgt">tgt</a> project and <a
+                    href="https://github.com/FedericoBruzzone/tdlib-rs">tdlib-rs</a> written in Rust</span>
+            <p class="summary">
+                <a href="https://github.com/FedericoBruzzone/tgt">Tgt</a> is a TUI (Terminal User Interface) client for
+                Telegram, built using the tdlib-rs library, which provides safe and idiomatic Rust bindings to the
+                official TDLib (Telegram Database Library) C++ library. Thanks to CI/CD pipelines, we ensure (i) that
+                the projects build and work correctly on Linux, macOS, and Windows, (ii) automatic releases on GitHub
+                and crates.io, and (iii) automatic documentation generation.
+
+        </div>
 
         <div class="entry">
             <span class="date">2025/04/03</span>
