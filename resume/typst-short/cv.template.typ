@@ -37,6 +37,9 @@
     } else {
       []
     }
+    if (paper.keys().contains("links")) {
+      paper.links
+    }
     linebreak()
     // v(15pt, weak: true)
   }

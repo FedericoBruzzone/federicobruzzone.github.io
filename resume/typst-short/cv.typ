@@ -140,8 +140,41 @@
   details: ()
 )
 
+= Scientific Publications
+
+#papers(
+  papers: (
+    (label: "Bruzzone25", links: [
+      // [<a href="/publications/jss25/Bruzzone25.bib">bib</a>]
+      // [<a href="/publications/jss25/Bruzzone25.pdf">pdf</a>]
+      // [<a href="https://doi.org/10.1016/j.jss.2025.112554">SpringerLink</a>]
+      // [<a href="https://arxiv.org/abs/2509.15150">arXiv</a>]
+      [#link("https://federicobruzzone.github.io/publications/jss25/Bruzzone25.bib")[bib]]
+      [#link("https://federicobruzzone.github.io/publications/jss25/Bruzzone25.pdf")[pdf]]
+      [#link("https://doi.org/10.1016/j.jss.2025.112554")[SpringerLink]]
+      [#link("https://arxiv.org/abs/2509.15150")[arXiv]]
+    ], score: [*Journal Ranked Q1 on Scimago*]),
+  )
+)
+
+#text(red)[The following publications are in the review process and may not be available yet.]
+
+#papers(
+  papers: (
+    (label: "TmpBruzzone2", score: [*Conference Ranked A\* on CORE*]),
+    (label: "TmpBruzzone3", score: [*Conference Ranked A\* on CORE*]),
+  )
+)
+
 = Research Activities
 
+#entry(
+  when: "2025-Present",
+  what: [*Reviewer* for the #link("https://www.sciencedirect.com/journal/journal-of-systems-and-software")[Journal of Software and Systems Modeling], _Springer_, *Q1 on Scimago*],
+  details: (
+    // [Issue: Trends in Systems and Software Product Line Engineering],
+  )
+)
 #entry(
   when: "2025-Present",
   what: [*Reviewer* for the #link("https://www.sciencedirect.com/journal/journal-of-systems-and-software")[Journal of Systems and Software], _Elsevier_, *Q1 on Scimago*],
@@ -185,17 +218,6 @@
   when: "2021-2022",
   what: [Research *Internship* at LIM Lab, working on the IEEE 1599 standard],
   details: (
-  )
-)
-= Scientific Publications
-
-#text(red)[The following publications are in the review process and may not be available yet.]
-
-#papers(
-  papers: (
-    (label: "TmpBruzzone1", score: [*Journal Ranked Q1 on Scimago*]),
-    (label: "TmpBruzzone2", score: [*Conference Ranked A\* on CORE*]),
-    (label: "TmpBruzzone3", score: [*Conference Ranked A\* on CORE*]),
   )
 )
 
