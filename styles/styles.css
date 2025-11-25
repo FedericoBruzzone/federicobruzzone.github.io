@@ -1,7 +1,7 @@
 @import url('/styles/fonts.css');
 
 :root {
-    --main-background-color: #ebe5e2 /* #ede8e4 */;
+    --main-background-color: #ffffff /* #ebe5e2*/ /* #ede8e4 */;
 
     --header-footer-background-color: #dbd3cc;
     --border-color: #bdb2a8;
@@ -37,7 +37,7 @@ body {
     text-rendering: optimizeLegibility;
     font-kerning: normal;
 
-    max-width: 50%;
+    max-width: 75%;
     margin-left: auto;
     margin-right: auto;
 }
