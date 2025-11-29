@@ -365,6 +365,24 @@
                     The presentation for the first MuseMI meeting of the
                     2025/2026 season, held in Milan.
                 </p>
+                <details>
+                    <summary>Abstract</summary>
+                    <p>
+                        <b>Optimizing compilers</b> exhibit limitations when
+                        handling <i>multiple recursive functions</i> (e.g.,
+                        Fibonacci). While single recursion is optimized via
+                        <b>Tail-Call Optimization</b> into efficient iteration,
+                        multiple recursion often forces the compiler to retain a
+                        partial, performance-limiting recursive structure.
+                        Analyzing the optimized LLVM IR reveals that even
+                        state-of-the-art compilers fail to achieve complete
+                        <b>incrementalization</b> for this pattern. We argue
+                        that the automatic, general-setting iterative
+                        transformation of multiple recursive functions remains
+                        an unsolved and critical challenge for compiler
+                        technology.
+                    </p>
+                </details>
             </div>
 
             <div class="entry">
