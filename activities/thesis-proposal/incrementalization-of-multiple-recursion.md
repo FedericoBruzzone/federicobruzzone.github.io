@@ -1,13 +1,5 @@
 # Incrementalization of Multiple Recursion
 
-*What is inside this document?*
-- **What Should We Investigate?**: Questions regarding the automatic transformation of multiple recursive functions 
-- **Papers**: References to Y. Annie Liu's work on incrementalization of multiple recursion and other references
-- **Examples**: Link to **Compiler Explorer** with C code and its LLVM IR for each example
-- **Notions**: useful notions related to the topic
-- **Useful LLVM passes**: a list of LLVM passes that could be useful for this investigation
-- **Additional References**
-
 
 ## What Should We Investigate?
 
@@ -40,11 +32,17 @@
     The recurrence relations is solely based on how the function is defined, and does not depend on the input values. For example, the recurrence relation of `fib` is the same regardless of the input value `n`. Note that, in this case, we are not interested in the **image** of the function, but it may be bring some benefits.
     LLVM has no analysis pass that calculates recurrence relations of multiple recursive functions. However, it has a pass called `scalar evolution` (see below) to analyze and categorize scalar expressions in loops by using the same idea of recurrence relations.
 
+## Observations
+
+- The image of a total function on an infinitely countable domain (such as Fibonacci) is infinite. This means that it is not trivial to verify whether the images of two functions coincide. Would it be enough to know if one is a subset of the other? Actually, we would like to know more! We would like the relation that connects the input to the output for all values of the intersection of the two images for both functions. It is not so trivial, but perhaps we could settle for analyzing the recurrences.
+
+
 
 ## Related Works
 
 **References to Y. Annie Liu's work on incrementalization:**
 
+1. PEPM, Liu, 2024, [Incremental Computation: What Is the Essence?](https://doi.org/10.1145/3635800.3637447).
 1. -, Liu et al., 2013, [Incrementalization: From Clarity to Efficiency](https://www3.cs.stonybrook.edu/~liu/papers/IncDesign-TR13.pdf). The `longest common subsequence` problem is used as an example in this paper.
 1. HOSC, Liu and Stoller, 2003, [Dynamic Programming via Static Incrementalization](https://doi.org/10.1023/A:1023068020483). The `longest common subsequence` problem is used as an example in this paper.
 1. HOSC, Liu, 2000, [Efficiency by Incrementalization: An Introduction](https://doi.org/10.1023/A:1026547031739). `fib` is used as an example in this paper.
@@ -56,9 +54,9 @@
 
 **Other references**
 
-ISSAC, Bachmann et al., 1994, [Chains of Recurrences - a method to expedite the evaluation of closed-form functions]. LLVM has an analysis step of 14k LoC called `scalar evolution` (see below). Among other things, it uses the methodology of this paper to trace recurrence chains.
-SIGPLAN Notices, Yi et al., 2000, [Transforming Loops to Recursion for Multi-Level Memory Hierarchies](https://doi.org/10.1145/358438.349323).
-POPL, Ramalingam and Reps, 1993, [A Categorized Bibliography on Incremental Computation](https://doi.org/10.1145/158511.158710).
+- ISSAC, Bachmann et al., 1994, [Chains of Recurrences - a method to expedite the evaluation of closed-form functions]. LLVM has an analysis step of 14k LoC called `scalar evolution` (see below). Among other things, it uses the methodology of this paper to trace recurrence chains.
+- SIGPLAN Notices, Yi et al., 2000, [Transforming Loops to Recursion for Multi-Level Memory Hierarchies](https://doi.org/10.1145/358438.349323).
+- POPL, Ramalingam and Reps, 1993, [A Categorized Bibliography on Incremental Computation](https://doi.org/10.1145/158511.158710).
 
 ## Examples with links to Compiler Explorer
 
@@ -85,16 +83,15 @@ It's also good to know that the [Tarski's high school algebra problem](https://e
 
 **Common notions**
 
-If you are wondering if all recursive functions can be transformed into iterative functions, here are some useful references (It is rather clear due to the [Church–Turing thesis](https://en.wikipedia.org/wiki/Church%E2%80%93Turing_thesis)):
-- [In functional languages, how is the compiler able to translate non-tail recursion into loops to avoid stack overflows (if at all)?](https://stackoverflow.com/questions/43784575/in-functional-languages-how-is-the-compiler-able-to-translate-non-tail-recursio)
-- [Can all iterative algorithms be expressed recursively?](https://stackoverflow.com/questions/2093618/can-all-iterative-algorithms-be-expressed-recursively)
+- If you are wondering if all recursive functions can be transformed into iterative functions, here are some useful references (It is rather clear due to the [Church–Turing thesis](https://en.wikipedia.org/wiki/Church%E2%80%93Turing_thesis)):
+    - [In functional languages, how is the compiler able to translate non-tail recursion into loops to avoid stack overflows (if at all)?](https://stackoverflow.com/questions/43784575/in-functional-languages-how-is-the-compiler-able-to-translate-non-tail-recursio)
+    - [Can all iterative algorithms be expressed recursively?](https://stackoverflow.com/questions/2093618/can-all-iterative-algorithms-be-expressed-recursively)
+    
+- The [binary decision diagram (BDD)](https://en.wikipedia.org/wiki/Binary_decision_diagram) or branching program is a data structure that is used to represent a Boolean function. On a more abstract level, BDDs can be considered as a compressed representation of sets or relations. Unlike other compressed representations, operations are performed directly on the compressed representation, i.e. without decompression.
 
+- The [Ackermann function](https://en.wikipedia.org/wiki/Ackermann_function) is the earliest-discovered examples of a [total](https://en.wikipedia.org/wiki/Partial_function) [computable function](https://en.wikipedia.org/wiki/Computable_function) that is not [primitive recursive](https://en.wikipedia.org/wiki/Primitive_recursive_function). That is, it is a function that can be computed by an algorithm for all inputs, but cannot be defined using only **bounded** looping constructs (like `for` loops).
 
-The [binary decision diagram (BDD)](https://en.wikipedia.org/wiki/Binary_decision_diagram) or branching program is a data structure that is used to represent a Boolean function. On a more abstract level, BDDs can be considered as a compressed representation of sets or relations. Unlike other compressed representations, operations are performed directly on the compressed representation, i.e. without decompression.
-
-The [Ackermann function](https://en.wikipedia.org/wiki/Ackermann_function) is the earliest-discovered examples of a [total](https://en.wikipedia.org/wiki/Partial_function) [computable function](https://en.wikipedia.org/wiki/Computable_function) that is not [primitive recursive](https://en.wikipedia.org/wiki/Primitive_recursive_function). That is, it is a function that can be computed by an algorithm for all inputs, but cannot be defined using only **bounded** looping constructs (like `for` loops).
-
-The [overlapping subproblems](https://en.wikipedia.org/wiki/Overlapping_subproblems) property is a key characteristic of problems that can be solved efficiently using [dynamic programming](https://en.wikipedia.org/wiki/Dynamic_programming). A problem exhibits overlapping subproblems if it can be broken down into smaller subproblems that are reused multiple times in the process of solving the larger problem.
+- The [overlapping subproblems](https://en.wikipedia.org/wiki/Overlapping_subproblems) property is a key characteristic of problems that can be solved efficiently using [dynamic programming](https://en.wikipedia.org/wiki/Dynamic_programming). A problem exhibits overlapping subproblems if it can be broken down into smaller subproblems that are reused multiple times in the process of solving the larger problem.
 
 ## Useful LLVM passes
 
@@ -113,4 +110,5 @@ All [LLVM passes](https://llvm.org/docs/Passes.html) mentioned below can be enab
 - Quora post: [How does Haskell avoid stack overflow when non tail recursion is required](https://www.quora.com/How-does-Haskell-avoid-stack-overflow-when-non-tail-recursion-is-required).
 - $O(2^n)$ `fib` implemented in [Haskell](https://play.haskell.org/saved/HeN1wEai): it goes into stack overflow when called with 100.
 - [Implement support for become and explicit tail call codegen for the LLVM backend](https://github.com/rust-lang/rust/pull/144232): a Rust support for explicit tail call optimization using LLVM.
+
 
