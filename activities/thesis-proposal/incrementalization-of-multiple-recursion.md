@@ -45,6 +45,9 @@
 1. PEPM, Liu, 2024, [Incremental Computation: What Is the Essence?](https://doi.org/10.1145/3635800.3637447).
 1. -, Liu et al., 2013, [Incrementalization: From Clarity to Efficiency](https://www3.cs.stonybrook.edu/~liu/papers/IncDesign-TR13.pdf). The `longest common subsequence` problem is used as an example in this paper.
 1. HOSC, Liu and Stoller, 2003, [Dynamic Programming via Static Incrementalization](https://doi.org/10.1023/A:1023068020483). The `longest common subsequence` problem is used as an example in this paper.
+
+    _This paper presents a powerful method that statically analyzes and transforms straightforward recursive programs to eﬃciently cache and use the results of needed subproblems at appropriate program points in appropriate data structures. The method has three steps: (1) extend the original program to cache all possibly computed values, (2) incrementalize the extended program, with respect to an input increment, to use and maintain all cached results, (3) prune out cached results that are not used in the incremental computation, and use the resulting incremental program to form an optimized program. The method overcomes both drawbacks of tabulation. First, it consists of static program analyses and transformations that are general and systematic. Second, it stores only values that are necessary for the optimization; it also shows exactly when and where subproblems not in the original computation have to be included._
+
 1. HOSC, Liu, 2000, [Efficiency by Incrementalization: An Introduction](https://doi.org/10.1023/A:1026547031739). `fib` is used as an example in this paper.
 1. SIGPLAN Notices, Liu and Stoller, 1999, [From recursion to iteration: what are the optimizations?](https://dl.acm.org/doi/10.1145/328691.328700).
 1. TOPLAS, Liu and Stoller, 1998, [Static caching for incremental computation](https://dl.acm.org/doi/10.1145/291889.291895).
@@ -54,9 +57,20 @@
 
 **Other references**
 
+- JACM, Burstall and Darlington, 1977, [A Transformation System for Developing Recursive Programs](https://dl.acm.org/doi/10.1145/321992.321996).
+
+- Supercomputing, Pugh, 1991, [The Omega test: a fast and practical integer programming algorithm for dependence analysis](https://dl.acm.org/doi/10.1145/125826.125848). 
+    The Omega test determines whether there is an integer solution to an arbitrary set of linear equalities and ineqnalities, referred to as a problem. 
+
 - ISSAC, Bachmann et al., 1994, [Chains of Recurrences - a method to expedite the evaluation of closed-form functions]. LLVM has an analysis step of 14k LoC called `scalar evolution` (see below). Among other things, it uses the methodology of this paper to trace recurrence chains.
+
 - SIGPLAN Notices, Yi et al., 2000, [Transforming Loops to Recursion for Multi-Level Memory Hierarchies](https://doi.org/10.1145/358438.349323).
+
 - POPL, Ramalingam and Reps, 1993, [A Categorized Bibliography on Incremental Computation](https://doi.org/10.1145/158511.158710).
+
+**Lesser importance**
+
+- PLDI, Solar-Lezama, 2007, [Sketching Stencils](https://dl.acm.org/doi/pdf/10.1145/1250734.1250754).
 
 ## Examples with links to Compiler Explorer
 
@@ -73,8 +87,11 @@ In symbolic computation, also called [Computer algebra](https://en.wikipedia.org
 According to the [Richardson's theorem](https://en.wikipedia.org/wiki/Richardson%27s_theorem),  the equality of real numbers defined by expressions involving integers, Pi, ln 2, and exponential and sine functions is **undecidable**. That is, there may not exist an algorithm that decides whether two expressions representing numbers are semantically equal if exponentials and logarithms are allowed in the expressions.
 
 On the other hand, it **could be useful** to know that, in mathematics, a [Diophantine equation](https://en.wikipedia.org/wiki/Diophantine_equation) is a [polynomial equation](https://en.wikipedia.org/wiki/Algebraic_equation) with integer coefficients, for which only integer solutions are of interest. A linear Diophantine equation equates the sum of two or more unknowns, with coefficients, to a constant. An exponential Diophantine equation is one in which unknowns can appear in exponents.
-In 1900, Hilbert proposed the solvability of all Diophantine equations as the [tenth](https://en.wikipedia.org/wiki/Hilbert%27s_tenth_problem) of his [fundamental problems](https://en.wikipedia.org/wiki/Hilbert%27s_problems). In 1970, the [theorem of Matiyasevich](https://en.wikipedia.org/wiki/Yuri_Matiyasevich) solved it negatively by proving that no such general algorithm exists.
+In 1900, Hilbert proposed the solvability of all Diophantine equations as the [tenth](https://en.wikipedia.org/wiki/Hilbert%27s_tenth_problem) of his [fundamental problems](https://en.wikipedia.org/wiki/Hilbert%27s_problems). In 1970, the [theorem of Matiyasevich](https://en.wikipedia.org/wiki/Yuri_Matiyasevich) solved it negatively by proving that no such general algorithm exists. 
 Wolfram MathWorld has a good summary of [Diophantine Equations](https://mathworld.wolfram.com/DiophantineEquation.html), which cites also the Fibonacci function.
+The problem becomes decidable if we restrict the equations to certain forms, such as *linear* Diophantine equations. 
+
+
 
 The [constant problem](https://en.wikipedia.org/wiki/Constant_problem) is the problem of deciding whether a given expression is equal to zero. This problem is known to be undecidable in general, as a consequence of Richardson's theorem. However, for certain restricted classes of expressions, the constant problem can be decidable. 
 
@@ -110,5 +127,6 @@ All [LLVM passes](https://llvm.org/docs/Passes.html) mentioned below can be enab
 - Quora post: [How does Haskell avoid stack overflow when non tail recursion is required](https://www.quora.com/How-does-Haskell-avoid-stack-overflow-when-non-tail-recursion-is-required).
 - $O(2^n)$ `fib` implemented in [Haskell](https://play.haskell.org/saved/HeN1wEai): it goes into stack overflow when called with 100.
 - [Implement support for become and explicit tail call codegen for the LLVM backend](https://github.com/rust-lang/rust/pull/144232): a Rust support for explicit tail call optimization using LLVM.
+
 
 
