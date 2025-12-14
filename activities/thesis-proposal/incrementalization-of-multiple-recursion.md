@@ -36,8 +36,6 @@
 
 - The image of a total function on an infinitely countable domain (such as Fibonacci) is infinite. This means that it is not trivial to verify whether the images of two functions coincide. Would it be enough to know if one is a subset of the other? Actually, we would like to know more! We would like the relation that connects the input to the output for all values of the intersection of the two images for both functions. It is not so trivial, but perhaps we could settle for analyzing the recurrences.
 
-
-
 ## Related Works
 
 **References to Y. Annie Liu's work on incrementalization:**
@@ -109,6 +107,306 @@ It's also good to know that the [Tarski's high school algebra problem](https://e
 - The [Ackermann function](https://en.wikipedia.org/wiki/Ackermann_function) is the earliest-discovered examples of a [total](https://en.wikipedia.org/wiki/Partial_function) [computable function](https://en.wikipedia.org/wiki/Computable_function) that is not [primitive recursive](https://en.wikipedia.org/wiki/Primitive_recursive_function). That is, it is a function that can be computed by an algorithm for all inputs, but cannot be defined using only **bounded** looping constructs (like `for` loops).
 
 - The [overlapping subproblems](https://en.wikipedia.org/wiki/Overlapping_subproblems) property is a key characteristic of problems that can be solved efficiently using [dynamic programming](https://en.wikipedia.org/wiki/Dynamic_programming). A problem exhibits overlapping subproblems if it can be broken down into smaller subproblems that are reused multiple times in the process of solving the larger problem.
+
+## Email exchanges with Annie Liu
+
+<details>
+<summary>Bruzzone to Liu (Nov 24, 2025)</summary>
+    Dear Professor Liu,
+
+Please accept my apologies for taking up your valuable time. I am writing to you because I need to clarify some aspects of your seminal research on "Incrementalization".
+
+I am Federico Bruzzone, a PhD candidate in Computer Science at the University of Milan, supervised by Prof. W. Cazzola, and my research focuses on compiler optimizations.
+
+I recently read your papers on Incrementalization, specifically in the order of [1], [2], [3], and [4], and also reviewed the CACHET web page [5]. I became interested in your work after observing that some of the techniques you propose are not commonly integrated into optimizing compilers.
+
+As an example, when applied to functions with multiple recursive calls (like the classic Fibonacci function), these techniques do not seem to fully transition from recursion to pure iteration. While I acknowledge this is a non-trivial transformation, they appear to treat an expression like `fib(n) = fib(n-1) + fib(n-2)` as a form of tail recursion where only one of the recursive calls can be tail-call optimized into an iterative loop, leaving the other call still recursive (a possibility you've mentioned in [1]).
+
+To better understand [1], I delved into [2], [3], and [4]. I was particularly intrigued by the introduction of [2] where you describe Step II. Although Step II builds upon the principles of [3] and [4]---which, as I understand it, typically rely on user-provided knowledge or a theorem prover to derive the incremental program---I inferred that [2] systematically automates this process using only static analysis and semantic-preserving transformations.
+
+My first question is: Is this understanding correct? Or am I fundamentally missing a key component?
+
+Based on your answer, I have a few follow-up questions:
+
+If my understanding is incorrect:
+    - To achieve the results described in [2], is the reliance on user-knowledge or a theorem prover still necessary? Or are both required?
+    - My impression is that by requiring only a theorem prover, the process could be entirely automated. Given the current state of technology, do you believe modern optimizing compilers could either (1) readily integrate fast theorem provers (like Z3) into their pipelines or (2) rely on their existing, sophisticated analysis passes to prove the necessary properties?
+If my understanding is correct:
+    - How exactly did you manage to fully automate the process in [2]? Did you employ specific static analysis techniques to infer the required properties? Were there certain semantic-preserving transformations used that were not detailed in the paper's overview?
+
+A General Question on Adoption
+
+Finally, regardless of the automation method, do you see a path for these Incrementalization techniques to be integrated into modern optimizing compilers for recursive functions? Are there fundamental limitations---such as significant performance overhead, excessive implementation complexity, or applicability only to specific use cases---that currently prevent their widespread adoption in real-world compilers?
+
+We would be genuinely honored if you could take the time to address these points. We are also completely available for a video call if you feel that would be a more efficient way to discuss these matters. We are also open to collaborations if you find our research interests align.
+
+Thank you very much for your time and consideration. I eagerly await your kind reply.
+
+Best regards,
+Federico Bruzzone
+
+[1] 1999, From recursion to iteration: what are the optimizations?
+[2] 1998, Static Caching for Incremental Compilation
+[3] 1995, Systematic derivation of incremental programs
+[4] 1995, CACHET: An interactive, incremental-attribution-based program transformation system for deriving incremental programs
+[5] https://www3.cs.stonybrook.edu/~liu/projects/cachet.html
+</details>
+
+<details>
+    <summary>Liu to Bruzzone (Dec 2, 2025)</summary>
+    Hello,
+Thanks for your interest.
+
+I'm not sure what techniques you are referring to when you say
+they "do not seem to fully transition from recursion to pure
+iteration".  [1] does transform fib from recursion to iteration.
+BTW, the fib function has no tail recursion at all, if you follow
+the definition of tail recursion.
+
+Deriving incremental recursive functions in [3][4] can use any
+degree of user-interaction or theorem-proving for equality
+reasoning.  So it can use only the simplest rules described in
+those papers (e.g., car(cons(x,y)) = x) and be fully automatic,
+and still be effective for all those well-written recursive
+functions.  That's all we did.
+
+BTW, in general, for arbitrary not well-written recursive
+functions, even powerful theorem provers may not be effective for
+automation.
+
+Overall, recursive functions are often too low-level, which makes
+incrementalization unnecessarily hard.  Higher-level language
+features (set expressions and logic rules) are much easier to
+program with and to automatically incrementalize.  There were
+already optimizing compilers, since the 70s, that incrementalize
+set expressions (e.g., APTS for SETL, a predecessor of Python).
+My group has had various implementations too.  I definitely see
+these as totally feasible as well as essential for raising the
+level of abstraction for programming.
+
+You might want to see an overview paper that covers [2],[3],[4]
+and more, with discussions that can help answer your questions:
+https://eur02.safelinks.protection.outlook.com/?url=https%3A%2F%2Fwww3.cs.stonybrook.edu%2F~liu%2Fpapers%2FIncEff-HOSC00.pdf&data=05%7C02%7Cfederico.bruzzone%40unimi.it%7Cda2a9a7e7af74e2b864d08de31731838%7C13b55eef70184674a3d7cc0db06d545c%7C0%7C0%7C639002567701390398%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=5pl%2Bs60EMHimcAHwpteFvZ0BogxMSk%2BsUvhC%2FFOm6l8%3D&reserved=0
+
+And a most recent one that covers even more:
+https://eur02.safelinks.protection.outlook.com/?url=https%3A%2F%2Farxiv.org%2Fabs%2F2312.07946&data=05%7C02%7Cfederico.bruzzone%40unimi.it%7Cda2a9a7e7af74e2b864d08de31731838%7C13b55eef70184674a3d7cc0db06d545c%7C0%7C0%7C639002567701412806%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=T4KeobN8gMF5QbUuWv0d2O8pDqrGAvuVJI%2FXafkxS%2Bk%3D&reserved=0
+
+Hope these will help. Best, Annie
+</details>
+
+
+<details>
+<summary>Bruzzone to Liu (Dec 2, 2025)</summary>
+Dear Prof. Liu,
+
+Thank you for sending me those additional papers, which are new to me.
+I apologize for my poor choice of words in my initial email.
+I fully agree with you that the Fibonacci function is not tail-recursive if
+we consider the classical definition, and that incrementalization is generally
+easier to achieve in higher-order languages.
+However, what I meant to convey is that current optimizing compilers (e.g., LLVM)
+typically fail to fully optimize recursive functions in the presence of *multiple*
+recursive calls, not that your method in [1] doesn't succeed.
+
+In the case of single tail recursion, optimizing compilers are quite able at transforming
+the recursive call into a simple iterative loop, it's a pattern they easily recognize.
+In the case of multiple (even mutually exclusive) recursions, they often merely treat them
+as specific cases of tail recursion (when they can). For instance, in the classic
+`fib(n)=fib(n−1)+fib(n−2)`, only `fib(n−2)` is optimized as a tail recursive function due
+to the commutativity and associativity of addition, leaving `fib(n−1)` unoptimized.
+This, of course, only holds if the function is well-formed.
+The LLVM-IR output for the classic Fibonacci function in SSA form with all
+optimizations enabled (-O3) is as follows:
+    
+----------
+```llvm
+define i32 @fib(i32 %n) {
+entry:
+ %cmp6 = icmp slt i32 %n, 2
+ br i1 %cmp6, label %return, label %if.end
+if.end:
+ %n.tr8 = phi i32 [ %sub1, %if.end ], [ %n, %entry ]
+ %accumulator.tr7 = phi i32 [ %add, %if.end ], [ 0, %entry ]
+ %sub = add nsw i32 %n.tr8, -1
+ %call = tail call i32 @fib(i32 %sub) 
+ %sub1 = add nsw i32 %n.tr8, -2
+ %add = add nsw i32 %call, %accumulator.tr7
+ %cmp = icmp samesign ult i32 %n.tr8, 4
+ br i1 %cmp, label %return, label %if.end
+return:
+ %accumulator.tr.lcssa = phi i32 [ 0, %entry ], [ %add, %if.end ]
+ %n.tr.lcssa = phi i32 [ %n, %entry ], [ %sub1, %if.end ]
+ %accumulator.ret.tr = add nsw i32 %n.tr.lcssa, %accumulator.tr.lcssa
+ ret i32 %accumulator.ret.tr
+}                                       
+```
+----------
+As you can see, at line 9, the `fib(n-1)` call remains recursive.
+
+**Static Compiler Automation and Equality Reasoning**
+
+Focusing on functions with multiple recursions, my core question is: since optimizing
+compilers can handle single tail recursion without user-interaction or general theorem
+provers, could we, today, fully automate the incrementalization of functions with
+multiple recursions without resorting to the more complex techniques you mentioned?
+
+You stated that user-interaction or theorem provers were used only for equality reasoning
+between expressions. I wonder if it is possible to achieve the necessary equality proofs
+using only the static analysis passes that modern compilers already perform.
+
+I certainly do not expect current compilers to prove the equality of arbitrary expressions,
+but perhaps they could handle a determinable subset (e.g., those involving basic arithmetic
+operations, all determinable at compile-time).
+   - Have you ever explored this specific direction (automating equality reasoning for
+     Incrementalization using only existing compiler static analysis)?
+   - Are there any known, fundamental limitations that currently prevent this approach?
+
+I have only been exploring this for a few weeks, so I do not have a strong position, and I
+would be greatly interested in your professional opinion on the feasibility of this
+compiler-only automation.
+
+Finally, would we be able to find a generic procedure (for a certain set of functions)
+such that we can incrementalize it without the aid of external tools?
+
+**The Recursive Maximum Element Function**
+
+The following function, which should be incrementalizable using your method, for finding the
+maximum element in a list recursively (a divide-and-conquer approach) is also making us think
+quite a lot due to its totally disjoint recursive calls (each recursive call works on a separate
+half of the list), i.e., memorization techniques would not bring any benefits in terms of
+asymptotic spatial complexity.
+
+It is written in C because we can easily see the LLVM output:
+----------
+```c
+int max_element(int *arr, int start, int end) {
+   if (start == end) {
+       return arr[start];
+   }
+
+   int mid = (start + end) / 2;
+   int left_max = max_element(arr, start, mid);
+   int right_max = max_element(arr, mid + 1, end);
+
+   return (left_max > right_max) ? left_max : right_max;
+}
+```
+----------
+
+We know this function can be trivially written iteratively (or in a tail-recursive manner by comparing
+the head of the list with the maximum of the rest). However, we wonder: Is the same "generic procedure"
+used for Fibonacci (if it exists) is applicable to this function as well?
+(For simplicity, I'm currently excluding non-primitive recursive total computable functions like Ackermann
+from my reasoning, but perhaps a future generalization would be possible or potentially already included).
+
+Thank you once again for your time and willingness to engage with my questions.
+
+Best, Fede
+</details>
+
+<details>
+<summary>Liu to Bruzzone (Dec 10, 2025)</summary>
+Hi,
+Fib has no tail call at all by definition, not sure what you mean
+by "classical" or otherwise.
+
+Incrementalization is easier for higher-level languages,
+independent of higher-order that you wrote.
+
+Tail call optimization is straightforward, but it does not
+improve time complexity in any case, unlike incrementalization.
+It could only improve space complexity, if there is only one
+recursive call.
+
+fib(n-2) is not a tail recursive call, even though the llvm code
+writes "tail call".  I find the llvm code too level to be clear,
+but I think they just use a loop to do fib on n-2, n-4, etc (or
+perhaps on n-1, n-3, etc but you can check carefully yourself).
+Whatever they call it, the time complexity is still exponential,
+and the space complexity is still linear, as I see, but you can
+check for yourself.
+
+Optimization by incrementalization makes fib linear time and
+constant space.
+
+Without our analysis (we had to invent better and new static
+analyses), you cannot do incrementalization of recursive
+functions in general.  For well-written recursive functions and
+all dynamic programming problems, these analyses are easy to
+implement, and we did implement them back then.
+
+You can certainly have all kinds of special classes/patterns that
+you can incrementalize/optimize straightforwardly.  For example,
+there are many kinds of patterns people use for various dynamic
+programming problems.
+
+For your max function, you didn't say what your goal is.  If you
+just want to compute max, your binary recursion is not good to
+start with, more complicated and wasteful than a straightforward
+iteration or tail recursion.  If you want to incrementalize max
+under some changes, you need to say what the changes are.
+
+In any case, there is never a need in the real-world to write max
+as you did and then turn it into iteration.  The only reason one
+might write like that is for parallel computing, but then one
+shouldn't want to turn it into iteration.  In all cases, one
+should use high-level languages and simply write max(list),  and
+different needs are supported easily by compilers. If you have
+any other goal, you didn't justify, or even say:) Annie
+</details>
+
+<details>
+<summary>Bruzzone to Liu (Dec 10, 2025)</summary>
+Dear Prof. Liu,
+
+Thank you again for your swift and detailed response. I apologize if my previous email was unclear, and I appreciate you taking the time to engage with my specific technical points.
+
+I agree with you completely on the following fundamental principles:
+- The classical Fib function is not tail-recursive by definition, and the term "tail-call" in the LLVM-IR output for one of the calls is indeed misleading. We are "generalizing" the term here to refer to any function that a compiler can see as tail-call optimizable, even if the function itself is not strictly tail-recursive.
+- Incrementalization provides superior complexity improvements (e.g., O(2^n)->O(n) time and O(n)->O(1) space for Fib) compared to simple tail-call optimization.
+- Incrementalization is generally easier to achieve in higher-level languages.
+
+First, when trying to create an iterative version of a function without bringing any benefit in terms of asymptotic temporal complexity or spatial complexity (or one of them), is this considered "incrementalization" according to your definition?
+I ask because creating the iterative version of the `max_element` function in divide-and-conquer (from the last email) may or may not coincide with incrementation (I'll come back to this later in the email).
+I'll use "incrementalization" in the rest of the email for both cases, but please correct me if I'm wrong.
+
+The LLVM-IR snippet was intended to show a compiler's attempt at optimization (often via a TailRecursionElimination or similar pass) which, despite identifying a single call for potential tail-call elimination, still leaves the overall structure as exponential (recursively calling `fib(n-1)` within the loop you mentioned).
+This illustrates a gap that is precisely what a powerful technique like incrementalization would solve, leading me to my core question about its automation and implementation.
+
+
+**Static Compiler Automation and Equality Reasoning**
+
+I understand that your method for incrementalization required new and better static analyses.
+I would be greatly interested to know if there are any published papers or prior work that detail these specific analyses.
+I would expect a generic procedure/algorithm that works within the confines of the functions and performs the necessary analyses and transformations; so far, I have found [1] that seems relevant.
+
+BTW, at this point, I'm a little bit confused...
+
+Although, I perfectly understand that the formalization you provided is sound and necessary for the correctness of the incrementalization process, I am trying to grasp the practical aspects of the implementation.
+You stated that user-interaction or theorem provers were used "only" for equality reasoning between expressions. I am still unclear whether your group was ultimately able to completely automate via static analyses the incrementalization process (and thus bypass the need for external provers/user interaction for all necessary equality proofs) for a practical subset of recursive functions.
+
+My questions are:
+   1.  Have you or your colleagues ever explicitly explored the limits of automating this crucial equality reasoning step by leveraging only the static analysis passes already standard within a modern optimizing compiler infrastructure? While I am aware that general expression equality is undecidable (per Rice's Theorem and the complexity demonstrated by Richardson's Theorem for expressions involving functions like the exponential), I wonder if the subset of equality proofs required for common incrementalization patterns might be sufficiently narrow and deterministic for existing compiler technology.
+   2. Are there known, fundamental limitations in static analysis (beyond the obvious undecidability of general equality) that would inherently prevent the full automation of this particular step for functions like Fibonacci? For instance, the search for the inverse function, and so forth.
+
+My hypothesis is that for a significant, practical class of functions that are prime candidates for incrementalization, the required equality proofs involve simple arithmetic and structural properties that a sufficiently advanced compiler could verify without external provers.
+
+
+**The Recursive Maximum Element Function**
+
+My interest in the `max_element` function is purely theoretical: to understand the generality of the incrementalization process.
+
+The goal is to see if the same generic procedure used for Fibonacci---which is based on overlapping subproblems---is robust enough to handle the disjoint subproblems of this divide-and-conquer function. Does a "generic procedure for a certain set of functions" exist, and does it encompass both the Fibonacci and `max_element` cases?
+
+Note that, by incrementalizing even the mutually exclusive subproblems of `max_element`, optimizing compilers would gain a broader ability to apply existing loop optimizations (e.g., vectorization, unrolling, etc.) to a wider range of functions, as well as reducing to constant space complexity.
+
+Thank you once again for your generous sharing of knowledge.
+
+Best, Fede
+
+
+[1] https://link.springer.com/article/10.1023/A:1023068020483
+</details>
 
 ## Useful LLVM passes
 
