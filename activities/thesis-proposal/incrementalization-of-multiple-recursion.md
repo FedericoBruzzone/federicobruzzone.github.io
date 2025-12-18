@@ -49,9 +49,13 @@
 1. HOSC, Liu, 2000, [Efficiency by Incrementalization: An Introduction](https://doi.org/10.1023/A:1026547031739). `fib` is used as an example in this paper.
 1. SIGPLAN Notices, Liu and Stoller, 1999, [From recursion to iteration: what are the optimizations?](https://dl.acm.org/doi/10.1145/328691.328700).
 1. TOPLAS, Liu and Stoller, 1998, [Static caching for incremental computation](https://dl.acm.org/doi/10.1145/291889.291895).
-1. KBSEC, Liu, 1995, [CACHET: an interactive, incremental-attribution-based program transformation system for deriving incremental programs](https://doi.org/10.1109/KBSE.1995.490115). This paper seems to use *user-knowledge* to guide the incrementalization process.
-1. Computer Programming, Liu and Teitelbaum, 1995, [Systematic derivation of incremental programs](https://doi.org/10.1016/0167-6423(94)00031-9). This paper seems to use *theorem-proving* to guide the incrementalization process. `fib` is used as an example in this paper.
-1. PEPM, Liu and Teitelbaum, 1995, [Caching Intermediate Results for Program Improvement](https://dl.acm.org/doi/10.1145/215465.215590). `fib` is used as an example in this paper.
+
+    _This method is systematic and parameterized by modules for equality reasoning, time analysis, and strategies used in introducing incremental functions. It can be made automatic or semiautomatic depending on the power one expects from each module. For example, equality reasoning can exploit algebraic properties of only constructors or exploit arithmetic properties as well; time analysis can conservatively compare times of primitives or handle all recursive functions; and strategies for introducing incremental functions can allow one argument for a cached result and one incremental version for each given function or allow multiple arguments for cached results and multiple incremental versions. If the conservative option is chosen for each module, then the overall derivation is fully automatic and always terminates; alternatively, if the more ambitious option is chose, the derivation is semiautomatic. The method in Liu and Teitelbaum [1995] limits each incremental function to use one argument for a cached result, but it leaves other choices as parameters of the method.
+Even though this method uses transformations like unfoldings and simplifications, it is tailored to achieve the special goal of using a previously computed result. It uses a specific sequence of special transformations and is therefore systematic. In particular, it introduces incremental functions that correspond to nonincremen-tal functions and uses cached results as extra arguments, and it performs unfold-ings, simplifications, and replacements using cached results. The effect cannot be achieved by general optimization strategies, such as the general fold/unfold transformation strategies Burstall and Darlington 1977], in such an automatable way.
+In particular, the method does not introduce eureka definitions, which can be new functions with arbitrary arguments, nor does it perform arbitrary folding, which may cause a resulting program not to terminate even when the original program terminates._
+3. KBSEC, Liu, 1995, [CACHET: an interactive, incremental-attribution-based program transformation system for deriving incremental programs](https://doi.org/10.1109/KBSE.1995.490115). This paper seems to use *user-knowledge* to guide the incrementalization process.
+4. Computer Programming, Liu and Teitelbaum, 1995, [Systematic derivation of incremental programs](https://doi.org/10.1016/0167-6423(94)00031-9). This paper seems to use *theorem-proving* to guide the incrementalization process. `fib` is used as an example in this paper.
+5. PEPM, Liu and Teitelbaum, 1995, [Caching Intermediate Results for Program Improvement](https://dl.acm.org/doi/10.1145/215465.215590). `fib` is used as an example in this paper.
 
 **Other references**
 
@@ -408,6 +412,58 @@ Best, Fede
 [1] https://link.springer.com/article/10.1023/A:1023068020483
 </details>
 
+<details>
+<summary>Liu to Bruzzone (Dec 15, 2025)</summary>
+Hi,
+on my homepage (https://eur02.safelinks.protection.outlook.com/?url=https%3A%2F%2Fwww.cs.stonybrook.edu%2F~liu&data=05%7C02%7Cfederico.bruzzone%40unimi.it%7C07ab5266a579479d29b708de3bf7bc57%7C13b55eef70184674a3d7cc0db06d545c%7C0%7C0%7C639014132518124051%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=adU9AL821Sf2rtksE6DWuLYHUPIPYSC62Sq0w%2Behi7o%3D&reserved=0), see under
+research overview, pointers to questions/papers you asked about
+including the following on recursive functions:
+
+Incrementalization: deriving incremental programs, with respect to
+input change operations, that use
+. the return values (SCP 95),
+. the intermediate results (PEPM 95 / TOPLAS 98),
+. and auxiliary information (POPL 96 / SCP 01),
+. with an overview of all three (HOSC 00).
+
+Optimization: generating efficient implementations by incrementalizing
+expensive computations for
+. recursive functions (ESOP 99 / HOSC 03, PEPM 00, PEPM 02a, PEPM 03),
+
+Program dependence analysis: dead-code analysis, a.k.a. slicing, on
+recursive data using
+. abstract interpretation on fixed domains (see PEPM 95 / TOPLAS 98),
+. abstract interpretation on regular tree grammar domains (ICCL 98b),
+. or regular tree grammar based constraints (SAS 99 / SCP 03),
+. with efficient algorithms for solving the grammar-based constraints (SAS 01).
+
+Implementations of program transformations and analyses, besides
+described in papers above:
+. a system for deriving incremental programs (KBSE 95, ICFP 98 poster)
+
+I don't know what you mean by "a practical subset of recursive functions".
+In any case, I don't see anything practical in your recursive max. In
+practice, it should simply be max(list), on which all needed
+optimizations can be done straightforwardly. Best, Annie
+</details>
+
+<details>
+<summary>Bruzzone to Liu (Dec 17, 2025)</summary>
+Dear Prof. Liu,
+
+I would like to sincerely thank you for the time and patience you have dedicated to answering my many emails. 
+
+
+Best,
+Fede
+</details>
+
+<details>
+<summary>Liu to Bruzzone (Dec 18, 2025)</summary>
+Sure. The HOSC 00 overview should be the fastest to get a good idea.
+Best, Annie
+</details>
+
 ## Useful LLVM passes
 
 All [LLVM passes](https://llvm.org/docs/Passes.html) mentioned below can be enabled via `opt` tool.
@@ -425,6 +481,3 @@ All [LLVM passes](https://llvm.org/docs/Passes.html) mentioned below can be enab
 - Quora post: [How does Haskell avoid stack overflow when non tail recursion is required](https://www.quora.com/How-does-Haskell-avoid-stack-overflow-when-non-tail-recursion-is-required).
 - $O(2^n)$ `fib` implemented in [Haskell](https://play.haskell.org/saved/HeN1wEai): it goes into stack overflow when called with 100.
 - [Implement support for become and explicit tail call codegen for the LLVM backend](https://github.com/rust-lang/rust/pull/144232): a Rust support for explicit tail call optimization using LLVM.
-
-
-
