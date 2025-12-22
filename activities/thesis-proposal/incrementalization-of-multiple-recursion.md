@@ -70,6 +70,10 @@ In particular, the method does not introduce eureka definitions, which can be ne
 
 - POPL, Ramalingam and Reps, 1993, [A Categorized Bibliography on Incremental Computation](https://doi.org/10.1145/158511.158710).
 
+- CGO, Ginsbach and O'Boyle, 2017, [Discovery and Exploitation of General Reductions: A Constraint Based Approach](https://ieeexplore.ieee.org/document/7863746)
+
+- ASPLOS, Sundararajah et al, 2017, [Locality Transformations for Nested Recursive Iteration Spaces](https://dl.acm.org/doi/pdf/10.1145/3093336.3037720): This paper develops the first set of scheduling trans- formations for nested recursions: recursive methods that call other recursive methods. These are the recursive analog to nested loops. We present a transformation called recursion twisting that automatically improves locality at all levels of the memory hierarchy, and show that this transformation can yield substantial performance improvements across several benchmarks that exhibit nested recursion.
+
 **Lesser importance**
 
 - PLDI, Solar-Lezama, 2007, [Sketching Stencils](https://dl.acm.org/doi/pdf/10.1145/1250734.1250754).
@@ -481,3 +485,4 @@ All [LLVM passes](https://llvm.org/docs/Passes.html) mentioned below can be enab
 - Quora post: [How does Haskell avoid stack overflow when non tail recursion is required](https://www.quora.com/How-does-Haskell-avoid-stack-overflow-when-non-tail-recursion-is-required).
 - $O(2^n)$ `fib` implemented in [Haskell](https://play.haskell.org/saved/HeN1wEai): it goes into stack overflow when called with 100.
 - [Implement support for become and explicit tail call codegen for the LLVM backend](https://github.com/rust-lang/rust/pull/144232): a Rust support for explicit tail call optimization using LLVM.
+
