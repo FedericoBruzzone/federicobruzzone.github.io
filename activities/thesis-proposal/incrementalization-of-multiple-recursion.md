@@ -1,6 +1,5 @@
 # Incrementalization of Multiple Recursion
 
-
 ## What Should We Investigate?
 
 - Is it possible to automatically transform multiple recursive functions into iterative functions?
@@ -485,4 +484,3 @@ All [LLVM passes](https://llvm.org/docs/Passes.html) mentioned below can be enab
 - Quora post: [How does Haskell avoid stack overflow when non tail recursion is required](https://www.quora.com/How-does-Haskell-avoid-stack-overflow-when-non-tail-recursion-is-required).
 - $O(2^n)$ `fib` implemented in [Haskell](https://play.haskell.org/saved/HeN1wEai): it goes into stack overflow when called with 100.
 - [Implement support for become and explicit tail call codegen for the LLVM backend](https://github.com/rust-lang/rust/pull/144232): a Rust support for explicit tail call optimization using LLVM.
-
