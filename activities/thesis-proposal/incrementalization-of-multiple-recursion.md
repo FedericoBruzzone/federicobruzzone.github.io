@@ -1,5 +1,6 @@
 # Incrementalization of Multiple Recursion
 
+
 ## What Should We Investigate?
 
 - Is it possible to automatically transform multiple recursive functions into iterative functions?
@@ -101,6 +102,35 @@ The problem becomes decidable if we restrict the equations to certain forms, suc
 The [constant problem](https://en.wikipedia.org/wiki/Constant_problem) is the problem of deciding whether a given expression is equal to zero. This problem is known to be undecidable in general, as a consequence of Richardson's theorem. However, for certain restricted classes of expressions, the constant problem can be decidable. 
 
 It's also good to know that the [Tarski's high school algebra problem](https://en.wikipedia.org/wiki/Tarski%27s_high_school_algebra_problem) is a problem in mathematical logic and algebra that asks whether the axioms taught in high school algebra are sufficient to prove all true statements about the real numbers involving addition, multiplication, and exponentiation. In 1980, A. Wilkie showed that the answer is negative by constructing a counterexample.
+
+In addition to Chains of Recurrences by Bachmann et al., the [Linear recurrence relations with constant coefficients](https://en.wikipedia.org/wiki/Linear_recurrence_with_constant_coefficients) are a kind of [recurrence relation](https://en.wikipedia.org/wiki/Recurrence_relation) where each term is a linear combination of previous terms with constant coefficients. The general form of a first-order linear recurrence relation with constant coefficients is:
+\[
+    a_n = c_1 * a_(n-1) + c_0
+\]
+
+where `a_n` is the nth term in the sequence, `c_1` and `c_0` are constants, and `a_(n-1)` is the previous term in the sequence.
+An associated interesting problem is the [Skolem problem](https://en.wikipedia.org/wiki/Skolem_problem) which asks whether a given linear recurrence sequence has a zero term. The [Skolem–Mahler–Lech theorem](https://en.wikipedia.org/wiki/Skolem%E2%80%93Mahler%E2%80%93Lech_theorem) provides a characterization of the set of indices `n` for which the nth term of a linear recurrence sequence is zero.
+While the Fibonacci sequence can be defined using a second-order linear recurrence relation with constant coefficients:
+\[
+    F(n) = F(n-1) + F(n-2)
+\]
+The binomial coefficients:
+```c++
+int binomialCoeff(int n, int k) { 
+    if (k > n) return 0; 
+    if (k == 0 || k == n) return 1; 
+    return binomialCoeff(n - 1, k - 1) + binomialCoeff(n - 1, k); 
+}
+```
+may be expressed using the following recurrence relation:
+\[
+    C(n, k) = C(n-1, k-1) + C(n-1, k)
+\]
+but it is not a linear recurrence relation with constant coefficients due to the dependence on both `n` and `k`. Note that, to compute a one row $i$ we need all values:
+\[
+    C(i-1, 0), C(i-1, 1), ..., C(i-1, k-1)
+\]
+thus, we cannot express `C(n, k)` solely in terms of previous values of `C` with constant coefficients.
 
 
 **Common notions**
@@ -476,6 +506,46 @@ All [LLVM passes](https://llvm.org/docs/Passes.html) mentioned below can be enab
 - [tailcallelim](https://llvm.org/docs/Passes.html#tailcallelim-tail-call-elimination): This file transforms calls of the current function (self recursion) followed by a return instruction with a branch to the entry of the function, creating a loop. File: `lib/Transforms/Scalars/TailRecursionElimination.cpp`.
 - [scalar-evolution](https://llvm.org/docs/Passes.html#scalar-evolution-scalar-evolution-analysis): The ScalarEvolution analysis can be used to analyze and categorize scalar expressions in loops. Two presentations are provided to better understand this analysis: [1](https://llvm.org/devmtg/2007-10/Slides/Absar-ScalarEvolution.pdf) and [2](https://llvm.org/devmtg/2012-10/Slides/Absar-ScalarEvolution.pdf). File: `lib/Analysis/ScalarEvolution.cpp`.
 
+## LLVM TCO/TRE Limitations
+
+Consider the following Rust function that performs multiple recursive calls:
+```rust
+#[no_mangle]
+fn f(x: i32, y: i32) -> i32 {
+    if x == 0 { return 0; }
+    if y == x { return y; }
+    f(x-1, y) + f(x-1, y)
+}
+```
+
+In `-C --opt-level=3`, the Rust compiler generates the following LLVM IR:
+```llvm
+define noundef i32 @f(i32 noundef %x, i32 noundef %y) unnamed_addr {
+start:
+  %0 = icmp eq i32 %x, 0
+  br i1 %0, label %common.ret1, label %bb2
+
+bb2:
+  %_3 = icmp eq i32 %y, %x
+  br i1 %_3, label %common.ret1, label %bb4
+
+common.ret1:
+  %common.ret1.op = phi i32 [ %1, %bb4 ], [ 0, %start ], [ %x, %bb2 ]
+  ret i32 %common.ret1.op
+
+bb4:
+  %_5 = add i32 %x, -1
+  %_4 = tail call noundef i32 @f(i32 noundef %_5, i32 noundef %y)
+  %1 = shl i32 %_4, 1
+  br label %common.ret1
+}
+
+```
+
+Unfortunately, the LLVM IR does not optimize the multiple recursive calls into an iterative structure, even if it performs common subexpression elimination on the two calls to `f(x-1, y)`.
+At the first look, it might seem a phase-ordering issue, but even when manually applying the entire LLVM optimization pipeline, the result remains unchanged.
+This limitation seems to stem from the fact that LLVM's Tail Recursion Elimination (TRE) pass is not designed to handle return basic blocks with multiple predecessors, which is the case here due to the addition operation combining the results of the two recursive calls.
+
 ## Additional References
 
 - [Y. Annie Liu's homepage](https://www3.cs.stonybrook.edu/~liu/)
@@ -484,3 +554,7 @@ All [LLVM passes](https://llvm.org/docs/Passes.html) mentioned below can be enab
 - Quora post: [How does Haskell avoid stack overflow when non tail recursion is required](https://www.quora.com/How-does-Haskell-avoid-stack-overflow-when-non-tail-recursion-is-required).
 - $O(2^n)$ `fib` implemented in [Haskell](https://play.haskell.org/saved/HeN1wEai): it goes into stack overflow when called with 100.
 - [Implement support for become and explicit tail call codegen for the LLVM backend](https://github.com/rust-lang/rust/pull/144232): a Rust support for explicit tail call optimization using LLVM.
+- [KLEE Symbolic Execution Engine](https://github.com/klee/klee) is a symbolic virtual machine built on top of the LLVM compiler infrastructure, capable of automatically generating tests that achieve high coverage on a diverse set of complex and environmentally-intensive programs.
+- [E-graph](https://en.wikipedia.org/wiki/E-graph) is a data structure that compactly represents a set of expressions by merging equivalent expressions into equivalence classes. E-graphs are commonly used in program optimization and synthesis to efficiently represent and manipulate large sets of expressions. An interesting Rust crate is [egg](https://github.com/egraphs-good/egg).
+
+
