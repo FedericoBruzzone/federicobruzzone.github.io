@@ -59,7 +59,14 @@ PS1="%n@%m:%~$ "
 PS2="%_> "#
 
 # zsh completition
-source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+# Check if macOS x86_64
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    if [[ "$(uname -m)" == "arm64" ]]; then
+        source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+    else
+        source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+    fi
+fi
 
 # zsh history
 HISTFILE=~/.zsh_history
@@ -85,22 +92,37 @@ export EDITOR=nvim
  export PATH="/usr/local/Cellar/python@3.11/3.11.14_1/libexec/bin:$PATH"
 # }
 
-# openjdk21 configuration {
- # If you need to have openjdk@21 first in your PATH, run:
- # export PATH="/usr/local/opt/openjdk@21/bin:$PATH"
- # It could be an alternative to exporting JAVA_HOME
- #
- # For compilers to find openjdk@21 you may need to set:
- # export CPPFLAGS="-I/usr/local/opt/openjdk@21/include"
 
- # On macOS, you can set the JAVA_HOME environment variable to point to the JDK installation only after the following command:
- #
- # For the system Java wrappers to find this JDK, symlink it with
- # ```
- # sudo ln -sfn /usr/local/opt/openjdk@21/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk-21.jdk
- # ```
- # It allows `/usr/libexec/java_home -v 21` to find the JDK
- #
+# openjdk21 configuration {
+ # macOS Intel {
+  # If you need to have openjdk@21 first in your PATH, run:
+  # export PATH="/usr/local/opt/openjdk@21/bin:$PATH"
+  # It could be an alternative to exporting JAVA_HOME
+  #
+  # For compilers to find openjdk@21 you may need to set:
+  # export CPPFLAGS="-I/usr/local/opt/openjdk@21/include"
+
+  # On macOS, you can set the JAVA_HOME environment variable to point to the JDK installation only after the following command:
+  #
+  # For the system Java wrappers to find this JDK, symlink it with
+  # ```
+  # sudo ln -sfn /usr/local/opt/openjdk@21/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk-21.jdk
+  # ```
+  # It allows `/usr/libexec/java_home -v 21` to find the JDK
+ # }
+ # macOS Silicon {
+  # For the system Java wrappers to find this JDK, symlink it with
+  #   sudo ln -sfn /opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk-21.jdk
+  #
+  # openjdk@21 is keg-only, which means it was not symlinked into /opt/homebrew,
+  # because this is an alternate version of another formula.
+  #
+  # If you need to have openjdk@21 first in your PATH, run:
+  #   echo 'export PATH="/opt/homebrew/opt/openjdk@21/bin:$PATH"' >> ~/.zshrc
+  #
+  # For compilers to find openjdk@21 you may need to set:
+  #   export CPPFLAGS="-I/opt/homebrew/opt/openjdk@21/include"
+ # }
  export JAVA_HOME=$(/usr/libexec/java_home -v 21)
 # }
 
@@ -122,10 +144,23 @@ export EDITOR=nvim
 [[ ! -r '/Users/federicobruzzone/.opam/opam-init/init.zsh' ]] || source '/Users/federicobruzzone/.opam/opam-init/init.zsh' > /dev/null 2> /dev/null
 # }
 
-# perl configuration {
- # Do not use system perl (/usr/local/bin/perl), use the one installed via brew
- export PATH=/usr/local/opt/perl/bin:$PATH
- eval "$(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib=$HOME/perl5)"
+# perl configuration { 
+if [[ "$OSTYPE" == "darwin"* ]]; then
+ if [[ "$(uname -m)" == "arm64" ]]; then
+  # By default non-brewed cpan modules are installed to the Cellar. If you wish
+  # for your modules to persist across updates we recommend using `local::lib`.
+
+  # You can set that up like this:
+  # PERL_MM_OPT="INSTALL_BASE=$HOME/perl5" cpan local::lib
+
+  # And add the following to your shell profile e.g. ~/.profile or ~/.zshrc
+  eval "$(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib=$HOME/perl5)"
+ else
+  # Do not use system perl (/usr/local/bin/perl), use the one installed via brew
+  export PATH=/usr/local/opt/perl/bin:$PATH
+  eval "$(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib=$HOME/perl5)"
+ fi
+fi
 # }
 
 # # llvm@16 configuration {
@@ -210,5 +245,3 @@ svg-convert () {
   # "${BASE_NAME}.pdf" is the output file (e.g., my_drawing.pdf)
   rsvg-convert -f pdf -o "${BASE_NAME}.pdf" "$1"
 }
-
-
