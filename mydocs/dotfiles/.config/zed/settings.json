@@ -8,9 +8,9 @@
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
   "theme": {
-    "mode": "system",
-    "light": "One Light",
-    "dark": "One Dark",
+    "mode": "light",
+    "light": "Kanagawa Lotus - No Italics",
+    "dark": "Kanagawa Dragon - No Italics",
   },
   // AI
   "features": {
