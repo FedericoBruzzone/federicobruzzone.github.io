@@ -8,9 +8,9 @@
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
   "theme": {
-    "mode": "light",
+    "mode": "dark",
     "light": "Kanagawa Lotus - No Italics",
-    "dark": "Kanagawa Dragon - No Italics",
+    "dark": "Kanagawa Wave",
   },
   // AI
   "features": {
@@ -44,9 +44,9 @@
   // Use relative line numbers
   "relative_line_numbers": "enabled",
   // Move the pannels to the right
-  "project_panel": {
-    "dock": "right",
-  },
+  // "project_panel": {
+  //   "dock": "right",
+  // },
   // Remove tab bar
   "tab_bar": {
     "show": false,
