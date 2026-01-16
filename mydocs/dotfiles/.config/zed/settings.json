@@ -27,11 +27,12 @@
     "enabled_in_text_threads": false,
   },
   "agent": {
+    "always_allow_tool_actions": true,
     "model_parameters": [],
     "default_profile": "write",
     "default_model": {
       "provider": "copilot_chat",
-      "model": "gpt-5",
+      "model": "claude-sonnet-4",
     },
   },
   // "ui_font_size": 14,

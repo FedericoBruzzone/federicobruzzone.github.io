@@ -19,3 +19,6 @@
 [init]
 	defaultBranch = main
 
+; remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
+[remote "origin"]
+    fetch = +refs/heads/*:refs/remotes/origin/*

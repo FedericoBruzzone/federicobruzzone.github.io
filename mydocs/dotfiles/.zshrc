@@ -188,10 +188,43 @@ fi
 # # }
 
 # llvm@20 configuration {
- export PATH="/usr/local/opt/llvm@20/bin:$PATH"
- export LDFLAGS="-L/usr/local/opt/llvm@20/lib/unwind -lunwind"
- export LDFLAGS="-L/usr/local/opt/llvm@20/lib/c++ -L/usr/local/opt/llvm@20/lib $LDFLAGS"
- export CPPFLAGS="-I/usr/local/opt/llvm@20/include"
+if [[ "$OSTYPE" == "darwin"* ]]; then
+ if [[ "$(uname -m)" == "arm64" ]]; then
+  # Using `clang`, `clang++`, etc., requires a CLT installation at `/Library/Developer/CommandLineTools`.
+  # If you don't want to install the CLT, you can write appropriate configuration files pointing to your
+  # SDK at ~/.config/clang.
+  #
+  # To use the bundled libunwind please use the following LDFLAGS:
+  #   LDFLAGS="-L/opt/homebrew/opt/llvm@20/lib/unwind -lunwind"
+  #
+  # To use the bundled libc++ please use the following LDFLAGS:
+  #   LDFLAGS="-L/opt/homebrew/opt/llvm@20/lib/c++ -L/opt/homebrew/opt/llvm@20/lib/unwind -lunwind"
+  #
+  # NOTE: You probably want to use the libunwind and libc++ provided by macOS unless you know what you're doing.
+  #
+  # llvm@20 is keg-only, which means it was not symlinked into /opt/homebrew,
+  # because this is an alternate version of another formula.
+  #
+  # If you need to have llvm@20 first in your PATH, run:
+  #   echo 'export PATH="/opt/homebrew/opt/llvm@20/bin:$PATH"' >> ~/.zshrc
+  #
+  # For compilers to find llvm@20 you may need to set:
+  #   export LDFLAGS="-L/opt/homebrew/opt/llvm@20/lib"
+  #   export CPPFLAGS="-I/opt/homebrew/opt/llvm@20/include"
+  #
+  # For cmake to find llvm@20 you may need to set:
+  #   export CMAKE_PREFIX_PATH="/opt/homebrew/opt/llvm@20"
+  export PATH="/opt/homebrew/opt/llvm@20/bin:$PATH"
+  export LDFLAGS="-L/opt/homebrew/opt/llvm@20/lib/unwind -lunwind"
+  export LDFLAGS="-L/opt/homebrew/opt/llvm@20/libc++ -L/opt/homebrew/opt/llvm@20/lib $LDFLAGS"
+  export CPPFLAGS="-I/opt/homebrew/opt/llvm@20/include"
+ else
+  export PATH="/usr/local/opt/llvm@20/bin:$PATH"
+  export LDFLAGS="-L/usr/local/opt/llvm@20/lib/unwind -lunwind"
+  export LDFLAGS="-L/usr/local/opt/llvm@20/lib/c++ -L/usr/local/opt/llvm@20/lib $LDFLAGS"
+  export CPPFLAGS="-I/usr/local/opt/llvm@20/include"
+ fi
+fi
 # }
 
 # koka configuration {
@@ -225,8 +258,6 @@ export GREP_OPTIONS='--color=always'
 alias ll='ls -alF'
 alias la='ls -A'
 alias ..='cd ..'
-
-alias avante='nvim -c "lua vim.defer_fn(function()require(\"avante.api\").zen_mode()end, 100)"'
 
 # Function to convert SVG to PDF using rsvg-convert
 svg-convert () {
