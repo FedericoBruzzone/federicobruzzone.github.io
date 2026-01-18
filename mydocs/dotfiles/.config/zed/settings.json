@@ -9,12 +9,12 @@
 {
   "theme": {
     "mode": "dark",
-    "light": "Kanagawa Lotus - No Italics",
+    "light": "Kanagawa Lotus",
     "dark": "Kanagawa Wave",
   },
   // AI
   "features": {
-    "edit_prediction_provider": "copilot",
+    "edit_prediction_provider": "copilot", // "zed",
   },
   "edit_predictions": {
     "disabled_globs": [],
@@ -32,7 +32,7 @@
     "default_profile": "write",
     "default_model": {
       "provider": "copilot_chat",
-      "model": "claude-sonnet-4",
+      "model": "gpt-5-mini",
     },
   },
   // "ui_font_size": 14,
@@ -68,6 +68,7 @@
     },
   },
   // LSP
+  "format_on_save": "on",
   "lsp": {
     "rust-analyzer": {
       "initialization_options": {
