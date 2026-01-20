@@ -249,7 +249,7 @@ export API_ID="94575"
 export API_HASH="a3406de8d171bb422bb6ddf3bbd800e2"
 
 # Gemini
-# export GEMINI_API_KEY="AIzaSyA3Q1Cpp9l9aHC-ul2DobK5yhlSaM3Sb9Y"
+export GEMINI_API_KEY="AIzaSyA3Q1Cpp9l9aHC-ul2DobK5yhlSaM3Sb9Y"
 
 autoload -Uz colors && colors
 export CLICOLOR=1

@@ -14,7 +14,7 @@
   },
   // AI
   "features": {
-    "edit_prediction_provider": "copilot", // "zed",
+    "edit_prediction_provider": "zed", // "copilot",
   },
   "edit_predictions": {
     "disabled_globs": [],
@@ -27,16 +27,18 @@
     "enabled_in_text_threads": false,
   },
   "agent": {
+    "default_model": {
+      "provider": "copilot_chat",
+      "model": "claude-opus-4.5",
+    },
+    // "inline_assistant_model": {
+    //   "provider": "copilot_chat",
+    //   "model": "gpt-4o",
+    // },
     "always_allow_tool_actions": true,
     "model_parameters": [],
     "default_profile": "write",
-    "default_model": {
-      "provider": "copilot_chat",
-      "model": "gpt-5-mini",
-    },
   },
-  // "ui_font_size": 14,
-  // "buffer_font_size": 14,
   "vim_mode": true,
   "soft_wrap": "editor_width",
   "auto_signature_help": true,
