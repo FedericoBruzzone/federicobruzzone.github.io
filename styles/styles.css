@@ -1,21 +1,24 @@
-@import url('/styles/fonts.css');
+@import url("/styles/fonts.css");
 
 :root {
     --main-background-color: #ffffff /* #ebe5e2*/ /* #ede8e4 */;
 
-    --header-footer-background-color: #dbd3cc;
-    --border-color: #bdb2a8;
+    --header-footer-background-color: rgba(0, 0, 0, 0.03);
+    --border-color: rgba(0, 0, 0, 0.08);
 
-    --tr-nth-child-odd-color: #f4f2f0;
-    --tr-nth-child-even-color: #eae8e6;
-    --tr-hover-color: #e6e0dd;
+    --tr-nth-child-odd-color: rgba(0, 0, 0, 0.03);
+    --tr-nth-child-even-color: rgba(0, 0, 0, 0.05);
+    --tr-hover-color: rgba(0, 0, 0, 0.08);
 
-    --blockquote-border-left-color: #946f42; /* Brown */
-    --hr-color: #946f42; /* Brown */
+    /* Use a classic gray for accents instead of brown */
+    --blockquote-color: rgba(0, 0, 0, 0.25);
+    --blockquote-border-left-color: rgba(0, 0, 0, 0.12);
+    --hr-color: rgba(0, 0, 0, 0.12);
 
-    --a-hover-background-color: #decbba;
-    --a-hover-color: #e3d5c8;
-    --a-visited-color: #551a8b;
+    --a-color: rgba(31, 111, 235, 1);
+    --a-visited-color: rgba(92, 76, 125, 1);
+    --a-hover-color: rgba(6, 59, 130, 1);
+    --a-hover-background-color: rgba(255, 255, 0, 0.25);
 }
 
 html,
@@ -36,6 +39,9 @@ body {
     overflow-wrap: break-word;
     text-rendering: optimizeLegibility;
     font-kerning: normal;
+
+    /* Slightly larger base font for better readability */
+    font-size: 23px;
 
     max-width: 75%;
     margin-left: auto;
@@ -62,11 +68,17 @@ header {
     margin-top: 1em;
 }
 
+footer {
+    padding: 0.25em;
+    margin-bottom: 1em;
+}
+
 .header-container {
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 0;
+    justify-content: center; /* center the header content */
     /* Ensure no gap between elements */
 }
 
@@ -86,13 +98,29 @@ header {
 }
 
 .header-text {
-    flex-grow: 1;
-    /* Grow to fill the space */
+    display: flex;
+    align-items: center;
+    gap: 1.25em;
+    flex-wrap: wrap; /* allow wrapping on very small screens */
     text-align: center;
-    /* Centers text inside */
-    margin-right: 1em;
+    margin: 0;
 }
 
+/* Ensure header nav doesn't get pushed down by default nav margin */
+header .header-text nav {
+    margin-top: 0;
+}
+
+header .header-text h3 {
+    margin: 0;
+}
+
+/* Small-screen adjustment: keep the title readable without overwhelming layout */
+@media (max-width: 480px) {
+    header .header-text h3 {
+        font-size: 1rem;
+    }
+}
 
 main {
     flex: 1 1 auto;
@@ -101,11 +129,6 @@ main {
     /* border: 0.1em solid var(--border-color); */
     display: flex;
     flex-direction: column;
-}
-
-footer {
-    margin-bottom: 1em;
-    padding: 1em;
 }
 
 h1,
@@ -166,13 +189,15 @@ figure {
 }
 
 a {
-    color: #007bff;
+    color: var(--a-color);
     text-decoration: none;
-    transition: color 0.3s;
+    transition:
+        color 0.3s,
+        background-color 0.3s;
 }
 
 a:hover {
-    /* background-color: var(--a-hover-color); */
+    background-color: var(--a-hover-background-color);
     color: var(--a-hover-color);
 }
 
@@ -184,7 +209,7 @@ blockquote {
     margin: 2em 0em;
     padding-left: 1em;
     border-left: 0.2em solid var(--blockquote-border-left-color);
-    color: gray;
+    color: var(--blockquote-color);
 }
 
 nav {
@@ -262,6 +287,55 @@ hr {
     color: gray;
 }
 
+/* About section layout: place profile picture to the left of the text */
+.about {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1em;
+    flex-wrap: wrap;
+}
+
+.about .profile-pic {
+    flex-shrink: 0;
+}
+
+.about .profile-pic img {
+    width: 100px;
+    max-width: 100px;
+    min-width: 100px;
+    height: auto;
+    border-radius: 4px;
+}
+
+.about-text {
+    flex: 1;
+    min-width: 0; /* allow text to truncate/shrink on narrow screens */
+}
+
+.about-text p {
+    text-indent: 0;
+    margin: 0 0 0.5em;
+    text-align: justify;
+}
+
+/* Responsive adjustments for small screens: stack the about section */
+@media (max-width: 480px) {
+    .about {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.75em;
+    }
+    .about .profile-pic img {
+        width: 64px;
+        max-width: 64px;
+        min-width: 64px;
+    }
+    .about-text {
+        text-align: left;
+    }
+}
+
 /* ====== for post pages ===== */
 .main-post h1 {
     text-align: center;
@@ -280,21 +354,3 @@ hr {
 .main-post ul {
     margin: 0;
 }
-
-
-/* First Attempt */
-/* :root { */
-/*     --header-footer-background-color: #e0e0e0; */
-/*     --header-text-color: #333333; */
-/*     --footer-text-color: #a1a1a1; */
-/*     --blockquote-text-color: #606060; */
-/*     --blockquote-border-left-color: #e6e6e6; */
-/*     --a-hover-background-color: #ffeeaa; */
-/*     /* yellow */ */
-/*     --a-hover-color: #551a8b; */
-/*     --a-visited-color: #551a8b; */
-/*     --border-color: #a8a8a8; */
-/*     --tr-nth-child-odd-color: #f0f0f0; */
-/*     --tr-nth-child-even-color: #f8f8f8; */
-/*     --tr-hover-color: #e0e0e0; */
-/* } */
