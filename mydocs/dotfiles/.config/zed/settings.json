@@ -14,7 +14,7 @@
   },
   // AI
   "features": {
-    "edit_prediction_provider": "zed", // "copilot",
+    "edit_prediction_provider": "copilot", // "zed",
   },
   "edit_predictions": {
     "disabled_globs": [],

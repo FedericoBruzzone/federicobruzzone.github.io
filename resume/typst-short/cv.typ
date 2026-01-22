@@ -6,7 +6,7 @@
   about: [
     #text(10pt,
     block(inset: (right: 2.5cm, left: 2.5cm))[#rect[
-      PhD Candidate in Computer Science. 
+      PhD Candidate in Computer Science.
       Programming Languages and Compilers enthusiast. Also, a Sound Engineer and Music Composer.
       My personal website is available at #link("https://federicobruzzone.github.io")[this link].
     ]])
@@ -145,12 +145,12 @@
 #papers(
   papers: (
     (label: "Bruzzone25", links: [
-      // [<a href="/publications/jss25/Bruzzone25.bib">bib</a>]
-      // [<a href="/publications/jss25/Bruzzone25.pdf">pdf</a>]
+      // [<a href="/publications/Bruzzone25/Bruzzone25.bib">bib</a>]
+      // [<a href="/publications/Bruzzone25/Bruzzone25.pdf">pdf</a>]
       // [<a href="https://doi.org/10.1016/j.jss.2025.112554">SpringerLink</a>]
       // [<a href="https://arxiv.org/abs/2509.15150">arXiv</a>]
-      [#link("https://federicobruzzone.github.io/publications/jss25/Bruzzone25.bib")[bib]]
-      [#link("https://federicobruzzone.github.io/publications/jss25/Bruzzone25.pdf")[pdf]]
+      [#link("https://federicobruzzone.github.io/publications/Bruzzone25/Bruzzone25.bib")[bib]]
+      [#link("https://federicobruzzone.github.io/publications/Bruzzone25/Bruzzone25.pdf")[pdf]]
       [#link("https://doi.org/10.1016/j.jss.2025.112554")[SpringerLink]]
       [#link("https://arxiv.org/abs/2509.15150")[arXiv]]
     ], score: [*Journal Ranked Q1 on Scimago*]),

@@ -196,10 +196,9 @@
             <div class="entry">
                 <span class="date"> June 2025 | </span>
                 <span class="title-light">
-                    [<a href="/publications/jss25/Bruzzone25.bib">bib</a>] [<a
-                        href="/publications/jss25/Bruzzone25.pdf"
-                        >pdf</a
-                    >] [<a href="https://doi.org/10.1016/j.jss.2025.112554"
+                    [<a href="/publications/Bruzzone25/Bruzzone25.bib">bib</a>]
+                    [<a href="/publications/Bruzzone25/Bruzzone25.pdf">pdf</a>]
+                    [<a href="https://doi.org/10.1016/j.jss.2025.112554"
                         >SpringerLink</a
                     >] [<a href="https://arxiv.org/abs/2509.15150">arXiv</a>]
                     \(-\) F. Bruzzone, W. Cazzola, and L. Favalli, "Code Less to
@@ -255,6 +254,113 @@
                             significantly lowering effort for editing support in
                             language families, especially when artifacts are
                             reused.
+                        </p>
+                    </details>
+                </p>
+            </div>
+
+            <h4>Preprints</h4>
+
+            <div class="entry">
+                <span class="date"> February 2025 | </span>
+                <span class="title-light">
+                    [<a href="/publications/Bruzzone25b/Bruzzone25b.bib">bib</a
+                    >] [<a href="/publications/Bruzzone25b/Bruzzone25b.pdf"
+                        >pdf</a
+                    >] [<a href="TODO">arXiv</a>] \(-\) F. Bruzzone, W. Cazzola,
+                    and L. Favini, "Prioritizing Configuration Relevance via
+                    Compiler-Based Refined Feature Ranking"
+                </span>
+                <p class="summary">
+                    <details>
+                        <summary>Abstract</summary>
+                        <p>
+                            Modern programming languages, most notably Rust,
+                            offer advanced linguistic constructs for building
+                            highly configurable software systems as aggregation
+                            of features---identified by a configuration.
+                            However, they pose substantial challenges for
+                            program analysis, optimization, and testing, as the
+                            combinatorial explosion of configurations often
+                            makes exhaustive exploration infeasible. In this
+                            manuscript, we present the first compiler-based
+                            method for prioritizing configurations. Our approach
+                            consists of four main steps: 1. extracting a
+                            tailored intermediate representation from the Rust
+                            compiler, 2. constructing two complementary
+                            graph-based data structures, 3. using centrality
+                            measures to rank features, and 4. refining the
+                            ranking by considering the extent of code they
+                            impact. A fixed number of most relevant
+                            configurations are generated based on the achieved
+                            feature ranking. The validity of the generated
+                            configurations is guaranteed by using a SAT solver
+                            that takes a representation of this graph in
+                            conjunctive normal form. We formalized this approach
+                            and implemented it in a prototype, <b>RustyEx</b>,
+                            by instrumenting the Rust compiler. An empirical
+                            evaluation on higher-ranked open source Rust
+                            projects shows that <b>RustyEx</b> efficiently
+                            generates user-specified sets of configurations
+                            within bounded resources, while ensuring soundness
+                            by construction. The results demonstrate that
+                            centrality-guided configuration prioritization
+                            enables effective and practical exploration of large
+                            configuration spaces, paving the way for future
+                            research in configuration-aware analysis and
+                            optimization.
+                        </p>
+                    </details>
+                </p>
+            </div>
+            <div class="entry">
+                <span class="date"> February 2025 | </span>
+                <span class="title-light">
+                    [<a href="/publications/Bruzzone25c/Bruzzone25c.bib">bib</a
+                    >] [<a href="/publications/Bruzzone25c/Bruzzone25c.pdf"
+                        >pdf</a
+                    >] [<a href="TODO">arXiv</a>] \(-\) F. Bruzzone, W. Cazzola,
+                    M. Brancaleoni, and D. Pellegrino, "Sink or SWIM: Tackling
+                    Real-Time ASR at Scale"
+                </span>
+                <p class="summary">
+                    <details>
+                        <summary>Abstract</summary>
+                        <p>
+                            Real-time automatic speech recognition systems are
+                            increasingly integrated into interactive
+                            applications, from voice assistants to live
+                            transcription services. However, scaling these
+                            systems to support multiple concurrent clients while
+                            maintaining low latency and high accuracy remains a
+                            major challenge. In this work, we present
+                            <b>SWIM</b>, a novel real-time ASR system built on
+                            top of OpenAI's <code>Whisper</code> model that
+                            enables true model-level parallelization for
+                            scalable, multilingual transcription.
+                            <b>SWIM</b> supports multiple concurrent audio
+                            streams without modifying the underlying model. It
+                            introduces a buffer merging strategy that maintains
+                            transcription fidelity while ensuring efficient
+                            resource usage. We evaluate <b>SWIM</b>
+                            in multi-client settings---scaling up to 20
+                            concurrent users---and show that it delivers
+                            accurate real-time transcriptions in English,
+                            Italian, and Spanish, while maintaining low latency
+                            and high throughput. While
+                            <code>Whisper-Streaming</code> achieves a word error
+                            rate of approximately 8.2\% with an average delay of
+                            approximately 3.4\,s in a single-client,
+                            English-only setting, <b>SWIM</b> extends this
+                            capability to multilingual, multi-client
+                            environments. It maintains comparable accuracy with
+                            significantly lower delay---around 2.4\,s with 5
+                            clients---and continues to scale effectively up to
+                            20 concurrent clients without degrading
+                            transcription quality and increasing overall
+                            throughput. Our approach advances scalable ASR by
+                            improving robustness and efficiency in dynamic,
+                            multi-user environments.
                         </p>
                     </details>
                 </p>
