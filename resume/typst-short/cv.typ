@@ -278,7 +278,7 @@
 
 #entry(
   when: "2025-Present",
-  what: [*Maintainer* of the #link("https://github.com/tide-fwk/tide")[Tide Compiler], an backend-agnostic IR and compiler framework written in *Rust*.],
+  what: [*Maintainer* of the #link("https://github.com/FedericoBruzzone/tide")[Tide Compiler], an backend-agnostic IR and compiler framework written in *Rust*.],
   details: (
     [
       *Tide* aims to be a modular and extensible framework for building compilers and language tools, prioritizing simplicity and ease of use. From its quasi-SSA IR to its flexible backend architecture, Tide provides a solid foundation for developing compilers for various programming languages.
