@@ -254,7 +254,7 @@
 
 #entry(
   when: "2025-Present",
-  what: [Maintainer of the #link("https://github.com/FedericoBruzzone/papers-on-compiler-optimizations")[papers-on-compiler-optimizations], a curated list of scientific publications on compiler optimizations and related topics.],
+  what: [Maintainer of the #link("https://github.com/FedericoBruzzone/papers-on-compiler-optimizations")[Papers on Compiler Optimizations: Analysis and Transformations], a curated list of scientific publications on compiler optimizations and related topics.],
   details: (
     [ 
     This repository curates a chronologically sorted list of influential papers on compiler optimization, from the seminal works of 1952 through the advanced techniques of 1994.
