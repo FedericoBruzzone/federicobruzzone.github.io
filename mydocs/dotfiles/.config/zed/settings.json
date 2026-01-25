@@ -29,7 +29,7 @@
   "agent": {
     "default_model": {
       "provider": "copilot_chat",
-      "model": "oswe-vscode-prime",
+      "model": "claude-opus-4.5",
     },
     // "inline_assistant_model": {
     //   "provider": "copilot_chat",
