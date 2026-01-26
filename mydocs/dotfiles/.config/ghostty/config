@@ -1,8 +1,0 @@
-# font-family = "Inconsolata Nerd Font"
-# adjust-cell-height = 35%
-# background-blur = true
-# background-opacity = 0.90
-
-keybind = ctrl++=increase_font_size:1
-keybind = ctrl+-=decrease_font_size:1
-
