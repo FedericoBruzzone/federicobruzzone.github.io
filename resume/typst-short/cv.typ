@@ -64,13 +64,17 @@
 
 #papers(
   papers: (
-    (label: "Bruzzone25c", score: [*Preprint*]),
-
-    (label: "Bruzzone25b", links: [
-      [#link("https://federicobruzzone.github.io/publications/Bruzzone25b/Bruzzone25b.bib")[bib]]
-      [#link("https://federicobruzzone.github.io/publications/Bruzzone25b/Bruzzone25b.pdf")[pdf]]
+    (label: "Bruzzone26b-preprint", links: [
+      [#link("https://federicobruzzone.github.io/publications/Bruzzone26b-preprint/Bruzzone26b-preprint.bib")[bib]]
+      [#link("https://federicobruzzone.github.io/publications/Bruzzone26b-preprint/Bruzzone26b-preprint.pdf")[pdf]]
       [#link("https://arxiv.org/abs/2601.16008")[arXiv]]
-    ], score: [*Preprint*]),
+    ],score: []),
+
+    (label: "Bruzzone26-preprint", links: [
+      [#link("https://federicobruzzone.github.io/publications/Bruzzone26-preprint/Bruzzone26-preprint.bib")[bib]]
+      [#link("https://federicobruzzone.github.io/publications/Bruzzone26-preprint/Bruzzone26-preprint.pdf")[pdf]]
+      [#link("https://arxiv.org/abs/2601.16008")[arXiv]]
+    ], score: []),
   )
 )
 
@@ -256,7 +260,7 @@
   when: "2025-Present",
   what: [Maintainer of the #link("https://github.com/FedericoBruzzone/papers-on-compiler-optimizations")[Papers on Compiler Optimizations: Analysis and Transformations], a curated list of scientific publications on compiler optimizations and related topics.],
   details: (
-    [ 
+    [
     This repository curates a chronologically sorted list of influential papers on compiler optimization, from the seminal works of 1952 through the advanced techniques of 1994.
     ]
   )

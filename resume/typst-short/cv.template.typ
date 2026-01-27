@@ -33,12 +33,12 @@
     )
     if(paper.keys().contains("score")) {
       // linebreak()
-      " " + paper.score
+      " " + paper.score + " "
     } else {
       []
     }
     if (paper.keys().contains("links")) {
-      paper.links
+      $dash.em$ + paper.links
     }
     linebreak()
     // v(15pt, weak: true)
