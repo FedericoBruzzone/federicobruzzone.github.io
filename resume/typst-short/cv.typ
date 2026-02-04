@@ -64,6 +64,13 @@
 
 #papers(
   papers: (
+    (label: "Bruzzone26c-preprint", links: [
+      [#link("https://federicobruzzone.github.io/publications/Bruzzone26c-preprint/Bruzzone26c-preprint.bib")[bib]]
+      [#link("https://federicobruzzone.github.io/publications/Bruzzone26c-preprint/Bruzzone26c-preprint.pdf")[pdf]]
+      [#link("https://arxiv.org/abs/2602.03777")[arXiv]]
+    ],score: []),
+
+
     (label: "Bruzzone26b-preprint", links: [
       [#link("https://federicobruzzone.github.io/publications/Bruzzone26b-preprint/Bruzzone26b-preprint.bib")[bib]]
       [#link("https://federicobruzzone.github.io/publications/Bruzzone26b-preprint/Bruzzone26b-preprint.pdf")[pdf]]

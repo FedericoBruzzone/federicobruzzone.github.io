@@ -265,60 +265,58 @@
                 <span class="date"> February 2026 | </span>
                 <span class="title-light">
                     [<a
-                        href="/publications/Bruzzone26-preprint/Bruzzone26-preprint.bib"
+                        href="/publications/Bruzzone26c-preprint/Bruzzone26c-preprint.bib"
                         >bib</a
                     >] [<a
-                        href="/publications/Bruzzone26-preprint/Bruzzone26-preprint.pdf"
+                        href="/publications/Bruzzone26c-preprint/Bruzzone26c-preprint.pdf"
                         >pdf</a
-                    >] [<a href="https://arxiv.org/abs/2601.16008">arXiv</a>]
-                    \(-\) F. Bruzzone, W. Cazzola, and L. Favini, "Prioritizing
-                    Configuration Relevance via Compiler-Based Refined Feature
-                    Ranking"
+                    >] [<a href="https://arxiv.org/abs/2602.03777">arXiv</a>]
+                    \(-\) F. Bruzzone, W. Cazzola, and L. Favalli, "From
+                    Separate Compilation to Sound Language Composition"
                 </span>
                 <p class="summary">
                     <details>
                         <summary>Abstract</summary>
                         <p>
-                            Modern programming languages, most notably Rust,
-                            offer advanced linguistic constructs for building
-                            highly configurable software systems as aggregation
-                            of features---identified by a configuration.
-                            However, they pose substantial challenges for
-                            program analysis, optimization, and testing, as the
-                            combinatorial explosion of configurations often
-                            makes exhaustive exploration infeasible. In this
-                            manuscript, we present the first compiler-based
-                            method for prioritizing configurations. Our approach
-                            consists of four main steps: (1) extracting a
-                            tailored intermediate representation from the Rust
-                            compiler, (2) constructing two complementary
-                            graph-based data structures, (3) using centrality
-                            measures to rank features, and (4) refining the
-                            ranking by considering the extent of code they
-                            impact. A fixed number of most relevant
-                            configurations are generated based on the achieved
-                            feature ranking. The validity of the generated
-                            configurations is guaranteed by using a SAT solver
-                            that takes a representation of this graph in
-                            conjunctive normal form. We formalized this approach
-                            and implemented it in a prototype, <b>RustyEx</b>,
-                            by instrumenting the Rust compiler. An empirical
-                            evaluation on higher-ranked open source Rust
-                            projects shows that <b>RustyEx</b> efficiently
-                            generates user-specified sets of configurations
-                            within bounded resources, while ensuring soundness
-                            by construction. The results demonstrate that
-                            centrality-guided configuration prioritization
-                            enables effective and practical exploration of large
-                            configuration spaces, paving the way for future
-                            research in configuration-aware analysis and
-                            optimization.
+                            The development of programming languages involves
+                            complex theoretical and practical challenges,
+                            particularly when addressing modularity and
+                            reusability through language extensions. While
+                            language workbenches aim to enable modular
+                            development under the constraints of the language
+                            extension problem, one critical constraint --
+                            separate compilation -- is often relaxed due to its
+                            complexity. However, this relaxation undermines
+                            artifact reusability and integration with common
+                            dependency systems. A key difficulty under separate
+                            compilation arises from managing attribute grammars,
+                            as extensions may introduce new attributes that
+                            invalidate previously generated abstract syntax tree
+                            structures. Existing approaches, such as the use of
+                            dynamic maps in the Neverlang workbench, favor
+                            flexibility at the cost of compile-time correctness,
+                            leading to potential runtime errors due to undefined
+                            attributes. This work addresses this issue by
+                            introducing nlgcheck, a theoretically sound static
+                            analysis tool based on data-flow analysis for the
+                            Neverlang language workbench. nlgcheck detects
+                            potential runtime errors -- such as undefined
+                            attribute accesses -- at compile time, preserving
+                            separate compilation while maintaining strong static
+                            correctness guarantees. Experimental evaluation
+                            using mutation testing on Neverlang-based projects
+                            demonstrates that nlgcheck effectively enhances
+                            robustness without sacrificing modularity or
+                            flexibility and with a level of performance that
+                            does not impede its adoption in daily development
+                            activities.
                         </p>
                     </details>
                 </p>
             </div>
+
             <div class="entry">
-                <span class="date"> February 2026 | </span>
+                <span class="date"> January 2026 | </span>
                 <span class="title-light">
                     [<a
                         href="/publications/Bruzzone26b-preprint/Bruzzone26b-preprint.bib"
@@ -367,6 +365,63 @@
                             increasing overall throughput. Our approach advances
                             scalable ASR by improving robustness and efficiency
                             in dynamic, multi-user environments.
+                        </p>
+                    </details>
+                </p>
+            </div>
+
+            <div class="entry">
+                <span class="date"> January 2026 | </span>
+                <span class="title-light">
+                    [<a
+                        href="/publications/Bruzzone26-preprint/Bruzzone26-preprint.bib"
+                        >bib</a
+                    >] [<a
+                        href="/publications/Bruzzone26-preprint/Bruzzone26-preprint.pdf"
+                        >pdf</a
+                    >] [<a href="https://arxiv.org/abs/2601.16008">arXiv</a>]
+                    \(-\) F. Bruzzone, W. Cazzola, and L. Favini, "Prioritizing
+                    Configuration Relevance via Compiler-Based Refined Feature
+                    Ranking"
+                </span>
+                <p class="summary">
+                    <details>
+                        <summary>Abstract</summary>
+                        <p>
+                            Modern programming languages, most notably Rust,
+                            offer advanced linguistic constructs for building
+                            highly configurable software systems as aggregation
+                            of features---identified by a configuration.
+                            However, they pose substantial challenges for
+                            program analysis, optimization, and testing, as the
+                            combinatorial explosion of configurations often
+                            makes exhaustive exploration infeasible. In this
+                            manuscript, we present the first compiler-based
+                            method for prioritizing configurations. Our approach
+                            consists of four main steps: (1) extracting a
+                            tailored intermediate representation from the Rust
+                            compiler, (2) constructing two complementary
+                            graph-based data structures, (3) using centrality
+                            measures to rank features, and (4) refining the
+                            ranking by considering the extent of code they
+                            impact. A fixed number of most relevant
+                            configurations are generated based on the achieved
+                            feature ranking. The validity of the generated
+                            configurations is guaranteed by using a SAT solver
+                            that takes a representation of this graph in
+                            conjunctive normal form. We formalized this approach
+                            and implemented it in a prototype, <b>RustyEx</b>,
+                            by instrumenting the Rust compiler. An empirical
+                            evaluation on higher-ranked open source Rust
+                            projects shows that <b>RustyEx</b> efficiently
+                            generates user-specified sets of configurations
+                            within bounded resources, while ensuring soundness
+                            by construction. The results demonstrate that
+                            centrality-guided configuration prioritization
+                            enables effective and practical exploration of large
+                            configuration spaces, paving the way for future
+                            research in configuration-aware analysis and
+                            optimization.
                         </p>
                     </details>
                 </p>
