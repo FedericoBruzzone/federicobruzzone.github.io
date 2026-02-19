@@ -1,873 +1,750 @@
 <!doctype html>
 <html>
-    <head>
-        <title>FCB</title>
-        <meta charset="utf-8" />
-        <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1.0, user-scalable=yes"
-        />
 
-        <script type="module" src="/scripts/main.js" defer></script>
-        <link rel="stylesheet" type="text/css" href="/styles/styles.css" />
-        <!-- https://github.com/jgm/pandoc/issues/7860 -->
-        <!-- https://gist.github.com/dorianmariecom/4699725a1386e9ca993cce07fb72c28a -->
-        <!-- https://github.com/tajmone/pandoc-goodies/tree/master/skylighting/css/built-in-styles -->
-        <link
-            rel="stylesheet"
-            type="text/css"
-            href="/styles/syntax-highlighting.css"
-        />
+<head>
+    <title>FCB</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
 
-        <!-- Google Fonts -->
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;500;700&display=swap"
-            rel="stylesheet"
-        />
+    <script type="module" src="/scripts/main.js" defer></script>
+    <link rel="stylesheet" type="text/css" href="/styles/styles.css" />
+    <!-- https://github.com/jgm/pandoc/issues/7860 -->
+    <!-- https://gist.github.com/dorianmariecom/4699725a1386e9ca993cce07fb72c28a -->
+    <!-- https://github.com/tajmone/pandoc-goodies/tree/master/skylighting/css/built-in-styles -->
+    <link rel="stylesheet" type="text/css" href="/styles/syntax-highlighting.css" />
 
-        <!-- Favicon -->
-        <link
-            rel="apple-touch-icon"
-            sizes="180x180"
-            href="/favicon/apple-touch-icon.png"
-        />
-        <link
-            rel="icon"
-            type="image/png"
-            sizes="32x32"
-            href="/favicon/favicon-32x32.png"
-        />
-        <link
-            rel="icon"
-            type="image/png"
-            sizes="16x16"
-            href="/favicon/favicon-16x16.png"
-        />
-        <link rel="manifest" href="/favicon/site.webmanifest" />
-        <meta name="msapplication-TileColor" content="#da532c" />
-        <meta name="theme-color" content="#ffffff" />
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
 
-        <!-- MathJax -->
-        <script
-            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
-            type="text/javascript"
-        ></script>
-    </head>
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png" />
+    <link rel="manifest" href="/favicon/site.webmanifest" />
+    <meta name="msapplication-TileColor" content="#da532c" />
+    <meta name="theme-color" content="#ffffff" />
 
-    <body>
-        <div id="header-container"></div>
+    <!-- MathJax -->
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+</head>
 
-        <main>
-            <h2>About Me</h2>
-            <div class="about">
-                <div class="profile-pic">
-                    <figure>
-                        <a href="/index.html">
-                            <img src="/images/me.jpg" alt="Federico Bruzzone" />
-                        </a>
-                    </figure>
-                </div>
-                <div class="about-text">
-                    <p>
-                        PhD Candidate in Computer Science at the ADAPT Lab (<a
-                            href="https://www.unimi.it/en"
-                            >Università degli Studi di Milano</a
-                        >), under the supervision of Prof.
-                        <a href="https://cazzola.di.unimi.it/">W. Cazzola</a>.
-                        Programming Languages and Compilers enthusiast. Also, a
-                        Sound Engineer and Music Composer.
-                    </p>
-                    <p>
-                        In addition to this homepage, to know more about me, I
-                        suggest you to check my
-                        <a href="https://github.com/FedericoBruzzone">GitHub</a>
-                        profile and the
-                        <a href="/posts/index.html">Posts</a> section of this
-                        website. Feel free to consider downloading my
-                        <a href="/cv.pdf">CV</a>.
-                    </p>
-                </div>
-            </div>
+<body>
+    <div id="header-container"></div>
 
-            <div class="grid-container">
-                <div class="grid-item">
-                    <h2>Personal Info</h2>
-                    <table>
-                        <tr>
-                            <!-- <td align="right">Born in&nbsp;</td> -->
-                            <!-- <td>Magenta (MI), Italy on 7th of <strong>March 2000</strong></td> -->
-                            <td align="left" colspan="2">
-                                <small
-                                    >Born in Magenta (MI), Italy on 7th of
-                                    <strong>March 2000</strong></small
-                                >
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <!-- <td align="right">Resident of&nbsp;</td> -->
-                            <!-- <td>Via F. Turati 75/F, Arluno (MI), 20004, Italy</td> -->
-                            <td align="left" colspan="2">
-                                <small
-                                    >Resident of Via F. Turati 75/F, Arluno
-                                    (MI), 20004, Italy</small
-                                >
-                            </td>
-                        </tr>
-                        <tr>
-                            <td align="right"><small>Email:</small></td>
-                            <td>
-                                <a href="mailto:federico.bruzzone.i@gmail.com"
-                                    >federico.bruzzone.i@gmail.com</a
-                                >
-                            </td>
-                        </tr>
-                        <tr>
-                            <td align="right"><small>Email:</small></td>
-                            <td>
-                                <a
-                                    href="mailto:federico.bruzzone@studenti.unimi.it"
-                                    >federico.bruzzone@unimi.it</a
-                                >
-                            </td>
-                        </tr>
-                        <tr>
-                            <td align="right"><small>Phone:</small></td>
-                            <td>
-                                <a href="tel:+393917369214">+39 391 7369214</a>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-
-                <div class="grid-item">
-                    <h2>Contact Info</h2>
-                    <table>
-                        <tr>
-                            <td align="right"><small>GitHub:</small></td>
-                            <td>
-                                <a href="https://github.com/FedericoBruzzone"
-                                    >github.com/FedericoBruzzone</a
-                                >
-                            </td>
-                        </tr>
-                        <tr>
-                            <td align="right"><small>Telegram:</small></td>
-                            <td>
-                                <a href="https://t.me/federicobruzzone"
-                                    >@federicobruzzone</a
-                                >
-                            </td>
-                        </tr>
-                        <tr>
-                            <td align="right"><small>LinkedIn:</small></td>
-                            <td>
-                                <a
-                                    href="https://www.linkedin.com/in/federico-bruzzone/"
-                                    >in/federico-bruzzone</a
-                                >
-                            </td>
-                        </tr>
-                        <tr>
-                            <td align="right"><small>Twitter:</small></td>
-                            <td>
-                                <a href="https://x.com/fedebruzzone7"
-                                    >@fedebruzzone7</a
-                                >
-                            </td>
-                        </tr>
-                        <tr>
-                            <td align="right"><small>Reddit:</small></td>
-                            <td>
-                                <a
-                                    href="https://www.reddit.com/user/FedericoBruzzone/"
-                                    >u/FedericoBruzzone</a
-                                >
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-
-            <h2>Scientific Publications</h2>
-
-            <div class="entry">
-                <span class="date"> June 2025 | </span>
-                <span class="title-light">
-                    [<a href="/publications/Bruzzone25/Bruzzone25.bib">bib</a>]
-                    [<a href="/publications/Bruzzone25/Bruzzone25.pdf">pdf</a>]
-                    [<a href="https://doi.org/10.1016/j.jss.2025.112554"
-                        >SpringerLink</a
-                    >] [<a href="https://arxiv.org/abs/2509.15150">arXiv</a>]
-                    \(-\) F. Bruzzone, W. Cazzola, and L. Favalli, "Code Less to
-                    Code More: Streamlining Language Server Protocol and type
-                    system development for language families",
-                    <i>Journal of Systems and Software</i>, Sep. 2025. DOI:
-                    <a href="https://doi.org/10.1016/j.jss.2025.112554"
-                        >10.1016/j.jss.2025.112554</a
-                    >. Journal Ranked <b>Q1</b> on Scimago
-                </span>
-                <p class="summary">
-                    <details>
-                        <summary>Abstract</summary>
-                        <p>
-                            Developing editing support for \(\mathbf{L}\)
-                            languages in \(\mathbf{E}\) editors is complex and
-                            time-consuming. Some languages do not provide
-                            dedicated editors, while others offer a single
-                            native editor. The \(\textit{language server
-                            protocol}\) (LSP) reduces the language-editor
-                            combinations \(\mathbf{L} \times \mathbf{E}\) to
-                            \(\mathbf{L} + \mathbf{E}\), where a single language
-                            server communicates with editors via LSP plugins.
-                            However, overlapping implementations of linguistic
-                            components remain an issue. Existing language
-                            workbenches struggle with modularity, reusability,
-                            and leveraging type systems for language server
-                            generation. In this work, we propose: (i) Typelang,
-                            a family of domain-specific languages for modular,
-                            composable, and reusable type system implementation,
-                            (ii) a modular language server generation process,
-                            producing servers for languages built in a modular
-                            workbench, (iii) the variant-oriented programming
-                            paradigm and a cross-artifact coordination layer to
-                            manage interdependent software variants, and (iv) an
-                            LSP plugin generator, reducing \(\mathbf{E}\) to
-                            \(\mathbf{1}\) by automating plugin creation for
-                            multiple editors. To simplify editing support for
-                            language families, each language artifact integrates
-                            its own Typelang variant, used to generate language
-                            servers. This reduces combinations to \(\mathbf{T}
-                            \times \mathbf{1}\), where \(\mathbf{T} =
-                            \mathbf{L}\) represents the number of type systems.
-                            Further reuse of language artifacts across languages
-                            lowers this to \(\mathbf{N} \times \mathbf{1}\),
-                            where \(\mathbf{N} << \mathbf{T}\), representing
-                            unique type systems. We implement Typelang in
-                            Neverlang, generating language servers for each
-                            artifact and LSP plugins for three editors.
-                            Empirical evaluation shows a 93.48% reduction in
-                            characters needed for type system implementation and
-                            100% automation of LSP plugin generation,
-                            significantly lowering effort for editing support in
-                            language families, especially when artifacts are
-                            reused.
-                        </p>
-                    </details>
-                </p>
-            </div>
-
-            <h4>Preprints</h4>
-
-            <div class="entry">
-                <span class="date"> February 2026 | </span>
-                <span class="title-light">
-                    [<a
-                        href="/publications/Bruzzone26c-preprint/Bruzzone26c-preprint.bib"
-                        >bib</a
-                    >] [<a
-                        href="/publications/Bruzzone26c-preprint/Bruzzone26c-preprint.pdf"
-                        >pdf</a
-                    >] [<a href="https://arxiv.org/abs/2602.03777">arXiv</a>]
-                    \(-\) F. Bruzzone, W. Cazzola, and L. Favalli, "From
-                    Separate Compilation to Sound Language Composition"
-                </span>
-                <p class="summary">
-                    <details>
-                        <summary>Abstract</summary>
-                        <p>
-                            The development of programming languages involves
-                            complex theoretical and practical challenges,
-                            particularly when addressing modularity and
-                            reusability through language extensions. While
-                            language workbenches aim to enable modular
-                            development under the constraints of the language
-                            extension problem, one critical constraint --
-                            separate compilation -- is often relaxed due to its
-                            complexity. However, this relaxation undermines
-                            artifact reusability and integration with common
-                            dependency systems. A key difficulty under separate
-                            compilation arises from managing attribute grammars,
-                            as extensions may introduce new attributes that
-                            invalidate previously generated abstract syntax tree
-                            structures. Existing approaches, such as the use of
-                            dynamic maps in the Neverlang workbench, favor
-                            flexibility at the cost of compile-time correctness,
-                            leading to potential runtime errors due to undefined
-                            attributes. This work addresses this issue by
-                            introducing nlgcheck, a theoretically sound static
-                            analysis tool based on data-flow analysis for the
-                            Neverlang language workbench. nlgcheck detects
-                            potential runtime errors -- such as undefined
-                            attribute accesses -- at compile time, preserving
-                            separate compilation while maintaining strong static
-                            correctness guarantees. Experimental evaluation
-                            using mutation testing on Neverlang-based projects
-                            demonstrates that nlgcheck effectively enhances
-                            robustness without sacrificing modularity or
-                            flexibility and with a level of performance that
-                            does not impede its adoption in daily development
-                            activities.
-                        </p>
-                    </details>
-                </p>
-            </div>
-
-            <div class="entry">
-                <span class="date"> January 2026 | </span>
-                <span class="title-light">
-                    [<a
-                        href="/publications/Bruzzone26b-preprint/Bruzzone26b-preprint.bib"
-                        >bib</a
-                    >] [<a
-                        href="/publications/Bruzzone26b-preprint/Bruzzone26b-preprint.pdf"
-                        >pdf</a
-                    >] [<a href="https://arxiv.org/abs/2601.17097">arXiv</a>]
-                    \(-\) F. Bruzzone, W. Cazzola, M. Brancaleoni, and D.
-                    Pellegrino, "Sink or SWIM: Tackling Real-Time ASR at Scale"
-                </span>
-                <p class="summary">
-                    <details>
-                        <summary>Abstract</summary>
-                        <p>
-                            Real-time automatic speech recognition systems are
-                            increasingly integrated into interactive
-                            applications, from voice assistants to live
-                            transcription services. However, scaling these
-                            systems to support multiple concurrent clients while
-                            maintaining low latency and high accuracy remains a
-                            major challenge. In this work, we present
-                            <b>SWIM</b>, a novel real-time ASR system built on
-                            top of OpenAI's <code>Whisper</code> model that
-                            enables true model-level parallelization for
-                            scalable, multilingual transcription.
-                            <b>SWIM</b> supports multiple concurrent audio
-                            streams without modifying the underlying model. It
-                            introduces a buffer merging strategy that maintains
-                            transcription fidelity while ensuring efficient
-                            resource usage. We evaluate <b>SWIM</b>
-                            in multi-client settings---scaling up to 20
-                            concurrent users---and show that it delivers
-                            accurate real-time transcriptions in English,
-                            Italian, and Spanish, while maintaining low latency
-                            and high throughput. While
-                            <code>Whisper-Streaming</code> achieves a word error
-                            rate of approximately 8.2% with an average delay of
-                            approximately 3.4,s in a single-client, English-only
-                            setting, <b>SWIM</b> extends this capability to
-                            multilingual, multi-client environments. It
-                            maintains comparable accuracy with significantly
-                            lower delay---around 2.4,s with 5 clients---and
-                            continues to scale effectively up to 20 concurrent
-                            clients without degrading transcription quality and
-                            increasing overall throughput. Our approach advances
-                            scalable ASR by improving robustness and efficiency
-                            in dynamic, multi-user environments.
-                        </p>
-                    </details>
-                </p>
-            </div>
-
-            <div class="entry">
-                <span class="date"> January 2026 | </span>
-                <span class="title-light">
-                    [<a
-                        href="/publications/Bruzzone26-preprint/Bruzzone26-preprint.bib"
-                        >bib</a
-                    >] [<a
-                        href="/publications/Bruzzone26-preprint/Bruzzone26-preprint.pdf"
-                        >pdf</a
-                    >] [<a href="https://arxiv.org/abs/2601.16008">arXiv</a>]
-                    \(-\) F. Bruzzone, W. Cazzola, and L. Favini, "Prioritizing
-                    Configuration Relevance via Compiler-Based Refined Feature
-                    Ranking"
-                </span>
-                <p class="summary">
-                    <details>
-                        <summary>Abstract</summary>
-                        <p>
-                            Modern programming languages, most notably Rust,
-                            offer advanced linguistic constructs for building
-                            highly configurable software systems as aggregation
-                            of features---identified by a configuration.
-                            However, they pose substantial challenges for
-                            program analysis, optimization, and testing, as the
-                            combinatorial explosion of configurations often
-                            makes exhaustive exploration infeasible. In this
-                            manuscript, we present the first compiler-based
-                            method for prioritizing configurations. Our approach
-                            consists of four main steps: (1) extracting a
-                            tailored intermediate representation from the Rust
-                            compiler, (2) constructing two complementary
-                            graph-based data structures, (3) using centrality
-                            measures to rank features, and (4) refining the
-                            ranking by considering the extent of code they
-                            impact. A fixed number of most relevant
-                            configurations are generated based on the achieved
-                            feature ranking. The validity of the generated
-                            configurations is guaranteed by using a SAT solver
-                            that takes a representation of this graph in
-                            conjunctive normal form. We formalized this approach
-                            and implemented it in a prototype, <b>RustyEx</b>,
-                            by instrumenting the Rust compiler. An empirical
-                            evaluation on higher-ranked open source Rust
-                            projects shows that <b>RustyEx</b> efficiently
-                            generates user-specified sets of configurations
-                            within bounded resources, while ensuring soundness
-                            by construction. The results demonstrate that
-                            centrality-guided configuration prioritization
-                            enables effective and practical exploration of large
-                            configuration spaces, paving the way for future
-                            research in configuration-aware analysis and
-                            optimization.
-                        </p>
-                    </details>
-                </p>
-            </div>
-
-            <h2>Research Activities</h2>
-            <!-- <blockquote> -->
-            <!--     <p>My research interests are in the field of Programming Languages and Compilers, with a focus on -->
-            <!--         <i>Language Workbenches</i>, <i>Type Systems</i>, and <i>Language Server Protocols</i>.</p> -->
-            <!-- </blockquote> -->
-
-            <div class="entry">
-                <span class="date">2025/12/15</span>
-                |
-                <span class="title">Reviewer for ECOOP 2026</span>
-                <p class="summary">
-                    I served as a <i>Reviewer</i> for the
-                    <a href="https://2026.ecoop.org/"
-                        >European Conference on Object-Oriented Programming</a
-                    >
-                    (ECOOP 2026).
-                </p>
-            </div>
-            <div class="entry">
-                <span class="date">2025/11/25</span>
-                |
-                <span class="title">Reviewer for COLA</span>
-                <p class="summary">
-                    I served as a <i>Reviewer</i> for the
-                    <a
-                        href="https://www.sciencedirect.com/journal/journal-of-computer-languages"
-                        >Journal of Computer Languages</a
-                    >
-                    (COLA).
-                </p>
-            </div>
-            <div class="entry">
-                <span class="date">2025/03/01</span>
-                |
-                <span class="title">Reviewer for SoSyM</span>
-                <p class="summary">
-                    I served as a <i>Reviewer</i> for the
-                    <a href="https://link.springer.com/journal/10270"
-                        >Journal of Software and System Modeling</a
-                    >
-                    (SoSyM).
-                </p>
-            </div>
-
-            <div class="entry">
-                <span class="date">2025/06/{02-06}</span>
-                |
-                <span class="title"
-                    >Participant at &lt;Programming&gt; Conference 2025
-                </span>
-                <p class="summary">
-                    I participated in the
-                    <a href="https://2025.programming-conference.org/"
-                        >&lt;Programming&gt;</a
-                    >
-                    Conference 2025, which took place in Prague, Czech Republic.
-                </p>
-            </div>
-
-            <div class="entry">
-                <span class="date">2025/{04/01-06/01}</span>
-                |
-                <span class="title"
-                    ><a href="https://conf.researchr.org/home/sle-2025"
-                        >Committee Member at SLE 2025</a
-                    ></span
-                >
-                <p class="summary">
-                    I served as a <i>Committee Member</i> (in Artifact
-                    Evaluation Committee) at the 18th ACM SIGPLAN International
-                    Conference on Software Language Engineering (SLE 2025).
-                    Check
-                    <a
-                        href="https://conf.researchr.org/profile/sle-2025/federicobruzzone"
-                        >here</a
-                    >
-                    for more details.
-                </p>
-            </div>
-
-            <div class="entry">
-                <span class="date">2025/03/01</span>
-                |
-                <span class="title">Reviewer for JSS</span>
-                <p class="summary">
-                    I served as a <i>Reviewer</i> for the
-                    <a
-                        href="https://www.sciencedirect.com/journal/journal-of-systems-and-software"
-                        >Journal of Systems and Software</a
-                    >
-                    (JSS). The review was performed for the special issue
-                    <a
-                        href="https://www.sciencedirect.com/special-issue/315468/trends-in-systems-and-software-product-line-engineering"
-                        >Trends in Systems and Software Product Line
-                        Engineering</a
-                    >.
-                </p>
-            </div>
-
-            <div class="entry">
-                <span class="date">2024/09/{01-06}</span>
-                |
-                <span class="title"
-                    ><a href="https://icfp24.sigplan.org/"
-                        >Student Volunteer at ICFP 2024</a
-                    ></span
-                >
-                <p class="summary">
-                    I served as a <i>Student Volunteer</i> at the 29th ACM
-                    SIGPLAN International Conference on Functional Programming
-                    (ICFP 2024).
-                </p>
-            </div>
-
-            <h2>Dissemination Activities</h2>
-            <div class="entry">
-                <span class="date">2026/02/12</span>
-                |
-                <span class="title"
-                    ><a href="/activities/presentations/matheuristic-variants-of-DSATUR-for-the-vertex-coloring-problem.pdf"
-                        >Matheuristic Variants of DSATUR for the Vertex Coloring Problem</a
-                    ></span
-                >
-                <p class="summary">
-                The presentation for the <i>Matheuristic Variants of DSATUR for the Vertex Coloring Problem</i> paper, Dupin, 2024.
-                </p>
-            </div>
-
-            <div class="entry">
-                <span class="date">2025/12/04</span>
-                |
-                <span class="title"
-                    ><a
-                        href="/activities/presentations/your-optimizing-compiler-is-not-optimizing-enough.pdf"
-                        >Your Optimizing Compiler is Not Optimizing Enough. To
-                        Hell With Multiple Recursions!</a
-                    ></span
-                >
-                <p class="summary">
-                    The presentation for the first MuseMI meeting of the
-                    2025/2026 season, held in Milan.
-
-                    <details style="color: gray">
-                        <summary>Abstract</summary>
-                        <p>
-                            <b>Optimizing compilers</b> exhibit limitations when
-                            handling <i>multiple recursive functions</i> (e.g.,
-                            Fibonacci). While single recursion is optimized via
-                            <b>Tail-Call Optimization</b> into efficient
-                            iteration, multiple recursion often forces the
-                            compiler to retain a partial, performance-limiting
-                            recursive structure. Analyzing the optimized LLVM IR
-                            reveals that even state-of-the-art compilers fail to
-                            achieve complete <b>incrementalization</b> for this
-                            pattern. We argue that the automatic,
-                            general-setting iterative transformation of multiple
-                            recursive functions remains an unsolved and critical
-                            challenge for compiler technology.
-                        </p>
-                    </details>
-                </p>
-            </div>
-
-            <div class="entry">
-                <span class="date">2024/07/22</span>
-                |
-                <span class="title"
-                    ><a href="/activities/presentations/P4-compiler-in-SDN.pdf"
-                        >P4 Compiler in SDN</a
-                    ></span
-                >
-                <p class="summary">
-                    The presentation for the P4 compiler in Software Defined
-                    Networking (SDN).
-                </p>
-            </div>
-
-            <div class="entry">
-                <span class="date">2024/07/22</span>
-                |
-                <span class="title"
-                    ><a href="/activities/presentations/phd-project.pdf"
-                        >PhD Project</a
-                    ></span
-                >
-                <p class="summary">
-                    The presentation about my PhD project,
-                    <i
-                        >Universal Language Server Protocol and Debugger Adapter
-                        Protocol for Modular Language Workbenches</i
-                    >, at the University of Milan.
-                </p>
-            </div>
-
-            <div class="entry">
-                <span class="date">2024/07/15</span>
-                |
-                <span class="title"
-                    ><a href="/activities/presentations/master-thesis.pdf"
-                        >Master's Thesis</a
-                    ></span
-                >
-                <p class="summary">
-                    The presentation of my Master's Thesis,
-                    <i
-                        >Toward a Modular Approach for Type Systems and LSP
-                        Generation</i
-                    >, at the University of Milan.
-                </p>
-            </div>
-
-            <h2>Open Source Activities</h2>
-
-            <div class="entry">
-                <span class="date">2026 - Current</span>
-                |
-                <span class="title"
-                    >Maintainer of the
-                    <a
-                        href="https://github.com/FedericoBruzzone/llvm-pass-template"
-                        >LLVM Pass Template
-                    </a></span
-                >
-                <p class="summary">
-                    TThis project allows developers to quickly bootstrap, test,
-                    and benchmark new out-of-tree LLVM passes with minimal
-                    effort — that is, without the need to build LLVM from
-                    sources.
-                </p>
-            </div>
-
-            <div class="entry">
-                <span class="date">2025 - Current</span>
-                |
-                <span class="title"
-                    >Maintainer of the
-                    <a
-                        href="https://github.com/FedericoBruzzone/papers-on-compiler-optimizations"
-                        >Papers on Compiler Optimizations: Analysis and
-                        Transformations
-                    </a></span
-                >
-                <p class="summary">
-                    This repository curates a chronologically sorted list of
-                    influential papers on compiler optimization, from the
-                    seminal works of 1952 through the advanced techniques of
-                    1994. It's an essential resource for students, researchers,
-                    and engineers seeking to understand the foundational and
-                    critical advancements in compiler design, analysis, and
-                    optimization techniques.
-                </p>
-            </div>
-
-            <div class="entry">
-                <span class="date">2025/03 - Current</span>
-                |
-                <span class="title"
-                    >Maintainer of the
-                    <a href="https://github.com/FedericoBruzzone/tide"
-                        >Tide compiler
+    <main>
+        <h2>About Me</h2>
+        <div class="about">
+            <div class="profile-pic">
+                <figure>
+                    <a href="/index.html">
+                        <img src="/images/me.jpg" alt="Federico Bruzzone" />
                     </a>
-                    an backend-agnostic IR and compiler framework written in
-                    Rust.</span
-                >
-                <p class="summary">
-                    I am the maintainer of the Tide compiler. Tide aims to be a
-                    modular and extensible framework for building compilers and
-                    language tools, prioritizing simplicity and ease of use.
-                    From its quasi-SSA IR to its flexible backend architecture,
-                    Tide provides a solid foundation for developing compilers
-                    for various programming languages.
+                </figure>
+            </div>
+            <div class="about-text">
+                <p>
+                    PhD Candidate in Computer Science at the ADAPT Lab (<a href="https://www.unimi.it/en">Università
+                        degli Studi di Milano</a>), under the supervision of Prof.
+                    <a href="https://cazzola.di.unimi.it/">W. Cazzola</a>.
+                    Programming Languages and Compilers enthusiast. Also, a
+                    Sound Engineer and Music Composer.
                 </p>
+                <p>
+                    In addition to this homepage, to know more about me, I
+                    suggest you to check my
+                    <a href="https://github.com/FedericoBruzzone">GitHub</a>
+                    profile and the
+                    <a href="/posts/index.html">Posts</a> section of this
+                    website. Feel free to consider downloading my
+                    <a href="/cv.pdf">CV</a>.
+                </p>
+            </div>
+        </div>
+
+        <div class="grid-container">
+            <div class="grid-item">
+                <h2>Personal Info</h2>
+                <table>
+                    <tr>
+                        <!-- <td align="right">Born in&nbsp;</td> -->
+                        <!-- <td>Magenta (MI), Italy on 7th of <strong>March 2000</strong></td> -->
+                        <td align="left" colspan="2">
+                            <small>Born in Magenta (MI), Italy on 7th of
+                                <strong>March 2000</strong></small>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <!-- <td align="right">Resident of&nbsp;</td> -->
+                        <!-- <td>Via F. Turati 75/F, Arluno (MI), 20004, Italy</td> -->
+                        <td align="left" colspan="2">
+                            <small>Resident of Via F. Turati 75/F, Arluno
+                                (MI), 20004, Italy</small>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><small>Email:</small></td>
+                        <td>
+                            <a href="mailto:federico.bruzzone.i@gmail.com">federico.bruzzone.i@gmail.com</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><small>Email:</small></td>
+                        <td>
+                            <a href="mailto:federico.bruzzone@studenti.unimi.it">federico.bruzzone@unimi.it</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><small>Phone:</small></td>
+                        <td>
+                            <a href="tel:+393917369214">+39 391 7369214</a>
+                        </td>
+                    </tr>
+                </table>
             </div>
 
-            <div class="entry">
-                <span class="date">2024/03 - Current</span>
-                |
-                <span class="title"
-                    >Maintainer of the cross-platform
-                    <a href="https://github.com/FedericoBruzzone/tgt">tgt</a>
-                    project and
-                    <a href="https://github.com/FedericoBruzzone/tdlib-rs"
-                        >tdlib-rs</a
-                    >
-                    written in Rust</span
-                >
-                <p class="summary">
-                    <a href="https://github.com/FedericoBruzzone/tgt">Tgt</a> is
-                    a TUI (Terminal User Interface) client for Telegram, built
-                    using the tdlib-rs library, which provides safe and
-                    idiomatic Rust bindings to the official TDLib (Telegram
-                    Database Library) C++ library. Thanks to CI/CD pipelines, we
-                    ensure (i) that the projects build and work correctly on
-                    Linux, macOS, and Windows, (ii) automatic releases on GitHub
-                    and crates.io, and (iii) automatic documentation generation.
-                </p>
+            <div class="grid-item">
+                <h2>Contact Info</h2>
+                <table>
+                    <tr>
+                        <td align="right"><small>GitHub:</small></td>
+                        <td>
+                            <a href="https://github.com/FedericoBruzzone">github.com/FedericoBruzzone</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><small>Telegram:</small></td>
+                        <td>
+                            <a href="https://t.me/federicobruzzone">@federicobruzzone</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><small>LinkedIn:</small></td>
+                        <td>
+                            <a href="https://www.linkedin.com/in/federico-bruzzone/">in/federico-bruzzone</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><small>Twitter:</small></td>
+                        <td>
+                            <a href="https://x.com/fedebruzzone7">@fedebruzzone7</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><small>Reddit:</small></td>
+                        <td>
+                            <a href="https://www.reddit.com/user/FedericoBruzzone/">u/FedericoBruzzone</a>
+                        </td>
+                    </tr>
+                </table>
             </div>
+        </div>
 
-            <div class="entry">
-                <span class="date">2025/04/03</span>
-                |
-                <span class="title"
-                    ><a href="https://thanks.rust-lang.org/rust/1.86.0/"
-                        >One of the 393 contributors to Rust 1.86.0</a
-                    ></span
-                >
-                <p class="summary">
-                    I am one of the 393 contributors to Rust 1.86.0. You can
-                    find the release notes
-                    <a
-                        href="https://doc.rust-lang.org/stable/releases.html#version-1860-2025-04-03"
-                        >here</a
-                    >.
-                </p>
-            </div>
-            <div class="entry">
-                <span class="date">2025/02/14</span>
-                |
-                <span class="title"
-                    ><a href="https://github.com/Qiskit/rustworkx/pull/1385"
-                        >Rustworkx: Generalizing
-                        <tt>Closeness</tt>
-                        centrality to weighted networks using Newman method</a
-                    ></span
-                >
-                <p class="summary">
-                    This PR closed the issue
-                    <a href="https://github.com/Qiskit/rustworkx/issues/1384"
-                        >#1384</a
-                    >
-                    by generalizing the <tt>Closeness</tt> centrality to
-                    weighted networks using the Newman method. It provides both
-                    the Rust implementation and the Python bindings.
-                </p>
-            </div>
-            <div class="entry">
-                <span class="date">2025/02/01</span>
-                |
-                <span class="title"
-                    ><a href="https://github.com/rust-lang/rust/pull/136430"
-                        >Rustc: Use the type-level constant value
-                        <tt>ty::Value</tt> where needed</a
-                    ></span
-                >
-                <p class="summary">
-                    With this PR, I refactored functions to accept a single
-                    type-level constant value <tt>ty::Value</tt> instead of
-                    separate <tt>ty::Valtree</tt> and
-                    <tt>ty::Ty</tt> parameters.
-                </p>
-            </div>
-            <div class="entry">
-                <span class="date">2025/01/27</span>
-                |
-                <span class="title"
-                    ><a href="https://github.com/rust-lang/rust/pull/135158"
-                        >Rustc: Add <tt>TooGeneric</tt>
-                        to
-                        <tt>LayoutError </tt>and emit <tt>Unknown</tt></a
-                    ></span
-                >
-                <p class="summary">
-                    With this PR, I added the <tt>TooGeneric</tt> variant to the
-                    <tt>LayoutError</tt> enum to emit the error when a type is
-                    too generic to be laid out. The <tt>Unknown</tt> variant is
-                    emitted when the layout of a type is unknown.
-                </p>
-            </div>
-            <div class="entry">
-                <span class="date">2024/12/08</span>
-                |
-                <span class="title"
-                    ><a href="https://thanks.rust-lang.org/rust/1.83.0/"
-                        >One of the 396 contributors to Rust 1.83.0</a
-                    ></span
-                >
-                <p class="summary">
-                    I am one of the 396 contributors to Rust 1.83.0. You can
-                    find the release notes
-                    <a
-                        href="https://doc.rust-lang.org/stable/releases.html#version-1830-2024-11-28"
-                        >here</a
-                    >.
-                </p>
-            </div>
-            <div class="entry">
-                <span class="date">2024</span>
-                |
-                <span class="title"
-                    ><a
-                        href="https://github.com/gayanvoice/top-github-users/blob/920b6690751185ba2e570d890397b19a7f32ba40/markdown/public_contributions/italy.md"
-                        >56th Top Github Contributor (for public contributions)
-                        in Italy out of 958</a
-                    ></span
-                >
-                <p class="summary">
-                    I am the 56th top Github contributor (for public
-                    contributions) in Italy out of 958 according to this
-                    <a
-                        href="https://github.com/gayanvoice/top-github-users/blob/920b6690751185ba2e570d890397b19a7f32ba40/markdown/public_contributions/italy.md"
-                        >classification</a
-                    >.
-                </p>
-            </div>
-            <div class="entry">
-                <span class="date">2024/09/12</span>
-                |
-                <span class="title"
-                    ><a href="https://github.com/rust-lang/rust/pull/130123"
-                        >Rustc: First Contribution to Rust</a
-                    ></span
-                >
-                <p class="summary">
-                    After the study of the <i>rustc-dev-guide</i>, I made my
-                    first <i>small</i> contribution to the Rust compiler.
-                </p>
-            </div>
+        <h2>Scientific Publications</h2>
 
-            <!-- <p> -->
-            <!--     I worked on <i>Modular Approach for Type Systems and Language Server Protocol (LSP) Generation</i> in the -->
-            <!--     context of the Language Workbenches, <i>modularizing</i> an agnostic DSL for type systems definition and -->
-            <!--     generating the LSP for each language written in <a -->
-            <!--         href="https://www.sciencedirect.com/science/article/pii/S1477842415000056?casa_token=GGuGHYvJ38QAAAAA:gw0niEvegqaI_Hg3i20_EIOJochJTr9Z7PNVfRysD4JpBRjhZWqFl36Ce0cQqY-pMGqxpio4hQ">Neverlang</a>, -->
-            <!--     reducing to \( \mathbf{L} \times \mathbf{1} \) the complexity to support \( \mathbf{L} \) languages and \( -->
-            <!--     \mathbf{E} \) editors, previously \( \mathbf{L} \times \mathbf{E} \) in literature. -->
-            <!-- </p> -->
+        <div class="entry">
+            <span class="date"> June 2025 | </span>
+            <span class="title-light">
+                [<a href="/publications/Bruzzone25/Bruzzone25.bib">bib</a>]
+                [<a href="/publications/Bruzzone25/Bruzzone25.pdf">pdf</a>]
+                [<a href="https://doi.org/10.1016/j.jss.2025.112554">SpringerLink</a>] [<a
+                    href="https://arxiv.org/abs/2509.15150">arXiv</a>]
+                \(-\) F. Bruzzone, W. Cazzola, and L. Favalli, "Code Less to
+                Code More: Streamlining Language Server Protocol and type
+                system development for language families",
+                <i>Journal of Systems and Software</i>, Sep. 2025. DOI:
+                <a href="https://doi.org/10.1016/j.jss.2025.112554">10.1016/j.jss.2025.112554</a>. Journal Ranked
+                <b>Q1</b> on Scimago
+            </span>
+            <p class="summary">
+            <details>
+                <summary>Abstract</summary>
+                <p>
+                    Developing editing support for \(\mathbf{L}\)
+                    languages in \(\mathbf{E}\) editors is complex and
+                    time-consuming. Some languages do not provide
+                    dedicated editors, while others offer a single
+                    native editor. The \(\textit{language server
+                    protocol}\) (LSP) reduces the language-editor
+                    combinations \(\mathbf{L} \times \mathbf{E}\) to
+                    \(\mathbf{L} + \mathbf{E}\), where a single language
+                    server communicates with editors via LSP plugins.
+                    However, overlapping implementations of linguistic
+                    components remain an issue. Existing language
+                    workbenches struggle with modularity, reusability,
+                    and leveraging type systems for language server
+                    generation. In this work, we propose: (i) Typelang,
+                    a family of domain-specific languages for modular,
+                    composable, and reusable type system implementation,
+                    (ii) a modular language server generation process,
+                    producing servers for languages built in a modular
+                    workbench, (iii) the variant-oriented programming
+                    paradigm and a cross-artifact coordination layer to
+                    manage interdependent software variants, and (iv) an
+                    LSP plugin generator, reducing \(\mathbf{E}\) to
+                    \(\mathbf{1}\) by automating plugin creation for
+                    multiple editors. To simplify editing support for
+                    language families, each language artifact integrates
+                    its own Typelang variant, used to generate language
+                    servers. This reduces combinations to \(\mathbf{T}
+                    \times \mathbf{1}\), where \(\mathbf{T} =
+                    \mathbf{L}\) represents the number of type systems.
+                    Further reuse of language artifacts across languages
+                    lowers this to \(\mathbf{N} \times \mathbf{1}\),
+                    where \(\mathbf{N} << \mathbf{T}\), representing unique type systems. We implement Typelang in
+                        Neverlang, generating language servers for each artifact and LSP plugins for three editors.
+                        Empirical evaluation shows a 93.48% reduction in characters needed for type system
+                        implementation and 100% automation of LSP plugin generation, significantly lowering effort for
+                        editing support in language families, especially when artifacts are reused. </p>
+            </details>
+            </p>
+        </div>
 
-            <!--         <blockquote class="center"> -->
-            <!--             Laziness, that's why I love pointers... -->
-            <!-- <div style="display: flex"> -->
-            <!-- <div class="sourceCode" id="cb1"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dt">char</span> <span class="op">*</span>shift_args<span class="op">(</span><span class="dt">int</span> <span class="op">*</span>argc<span class="op">,</span> <span class="dt">char</span> <span class="op">***</span>argv<span class="op">)</span> <span class="op">{</span></span> -->
-            <!-- <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">(*</span>argc<span class="op">)--,</span> <span class="op">*(*</span>argv<span class="op">)++;</span></span> -->
-            <!-- <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div> -->
-            <!-- </div> -->
-            <!--         </blockquote> -->
+        <h4>Preprints</h4>
 
-            <!-- <div align=center> -->
-            <!--     <img src=https://ghchart.rshah.org/federicobruzzone width=800> -->
-            <!-- </div> -->
-        </main>
+        <div class="entry">
+            <span class="date"> February 2026 | </span>
+            <span class="title-light">
+                [<a href="/publications/Bruzzone26d-preprint/Bruzzone26d-preprint.bib">bib</a>] [<a
+                    href="/publications/Bruzzone26d-preprint/Bruzzone26d-preprint.pdf">pdf</a>] [<a
+                    href="https://arxiv.org/abs/2602.12973">arXiv</a>]
+                \(-\) F. Bruzzone and W. Cazzola, "Meta-Monomorphizing Specializations"
+            </span>
+            <p class="summary">
+            <details>
+                <summary>Abstract</summary>
+                <p>
+                    Achieving zero-cost specialization remains a fundamental challenge in programming language and
+                    compiler design. It often necessitates trade-offs between expressive power and type system
+                    soundness, as the interaction between conditional compilation and static dispatch can easily lead to
+                    unforeseen coherence violations and increased complexity in the formal model. This paper introduces
+                    meta-monomorphizing specializations, a novel framework that achieves specialization by repurposing
+                    monomorphization through compile-time metaprogramming. Instead of modifying the host compiler, our
+                    approach generates meta-monomorphized traits and implementations that encode specialization
+                    constraints directly into the type structure, enabling deterministic, coherent dispatch without
+                    overlapping instances. We formalize this method for first-order, predicate-based, and higher-ranked
+                    polymorphic specialization, also in presence of lifetime parameters. Our evaluation, based on a Rust
+                    implementation using only existing macro facilities, demonstrates that meta-monomorphization enables
+                    expressive specialization patterns -- previously rejected by the compiler -- while maintaining full
+                    compatibility with standard optimization pipelines. We show that specialization can be realized as a
+                    disciplined metaprogramming layer, offering a practical, language-agnostic path to high-performance
+                    abstraction. A comprehensive study of public Rust codebases further validates our approach,
+                    revealing numerous workarounds that meta-monomorphization can eliminate, leading to more idiomatic
+                    and efficient code.
+                </p>
+            </details>
+            </p>
+        </div>
 
-        <div id="footer-container"></div>
-    </body>
+
+        <div class="entry">
+            <span class="date"> February 2026 | </span>
+            <span class="title-light">
+                [<a href="/publications/Bruzzone26c-preprint/Bruzzone26c-preprint.bib">bib</a>] [<a
+                    href="/publications/Bruzzone26c-preprint/Bruzzone26c-preprint.pdf">pdf</a>] [<a
+                    href="https://arxiv.org/abs/2602.03777">arXiv</a>]
+                \(-\) F. Bruzzone, W. Cazzola, and L. Favalli, "From Separate Compilation to Sound Language Composition"
+            </span>
+            <p class="summary">
+            <details>
+                <summary>Abstract</summary>
+                <p>
+                    The development of programming languages involves
+                    complex theoretical and practical challenges,
+                    particularly when addressing modularity and
+                    reusability through language extensions. While
+                    language workbenches aim to enable modular
+                    development under the constraints of the language
+                    extension problem, one critical constraint --
+                    separate compilation -- is often relaxed due to its
+                    complexity. However, this relaxation undermines
+                    artifact reusability and integration with common
+                    dependency systems. A key difficulty under separate
+                    compilation arises from managing attribute grammars,
+                    as extensions may introduce new attributes that
+                    invalidate previously generated abstract syntax tree
+                    structures. Existing approaches, such as the use of
+                    dynamic maps in the Neverlang workbench, favor
+                    flexibility at the cost of compile-time correctness,
+                    leading to potential runtime errors due to undefined
+                    attributes. This work addresses this issue by
+                    introducing nlgcheck, a theoretically sound static
+                    analysis tool based on data-flow analysis for the
+                    Neverlang language workbench. nlgcheck detects
+                    potential runtime errors -- such as undefined
+                    attribute accesses -- at compile time, preserving
+                    separate compilation while maintaining strong static
+                    correctness guarantees. Experimental evaluation
+                    using mutation testing on Neverlang-based projects
+                    demonstrates that nlgcheck effectively enhances
+                    robustness without sacrificing modularity or
+                    flexibility and with a level of performance that
+                    does not impede its adoption in daily development
+                    activities.
+                </p>
+            </details>
+            </p>
+        </div>
+
+        <div class="entry">
+            <span class="date"> January 2026 | </span>
+            <span class="title-light">
+                [<a href="/publications/Bruzzone26b-preprint/Bruzzone26b-preprint.bib">bib</a>] [<a
+                    href="/publications/Bruzzone26b-preprint/Bruzzone26b-preprint.pdf">pdf</a>] [<a
+                    href="https://arxiv.org/abs/2601.17097">arXiv</a>]
+                \(-\) F. Bruzzone, W. Cazzola, M. Brancaleoni, and D.
+                Pellegrino, "Sink or SWIM: Tackling Real-Time ASR at Scale"
+            </span>
+            <p class="summary">
+            <details>
+                <summary>Abstract</summary>
+                <p>
+                    Real-time automatic speech recognition systems are
+                    increasingly integrated into interactive
+                    applications, from voice assistants to live
+                    transcription services. However, scaling these
+                    systems to support multiple concurrent clients while
+                    maintaining low latency and high accuracy remains a
+                    major challenge. In this work, we present
+                    <b>SWIM</b>, a novel real-time ASR system built on
+                    top of OpenAI's <code>Whisper</code> model that
+                    enables true model-level parallelization for
+                    scalable, multilingual transcription.
+                    <b>SWIM</b> supports multiple concurrent audio
+                    streams without modifying the underlying model. It
+                    introduces a buffer merging strategy that maintains
+                    transcription fidelity while ensuring efficient
+                    resource usage. We evaluate <b>SWIM</b>
+                    in multi-client settings---scaling up to 20
+                    concurrent users---and show that it delivers
+                    accurate real-time transcriptions in English,
+                    Italian, and Spanish, while maintaining low latency
+                    and high throughput. While
+                    <code>Whisper-Streaming</code> achieves a word error
+                    rate of approximately 8.2% with an average delay of
+                    approximately 3.4,s in a single-client, English-only
+                    setting, <b>SWIM</b> extends this capability to
+                    multilingual, multi-client environments. It
+                    maintains comparable accuracy with significantly
+                    lower delay---around 2.4,s with 5 clients---and
+                    continues to scale effectively up to 20 concurrent
+                    clients without degrading transcription quality and
+                    increasing overall throughput. Our approach advances
+                    scalable ASR by improving robustness and efficiency
+                    in dynamic, multi-user environments.
+                </p>
+            </details>
+            </p>
+        </div>
+
+        <div class="entry">
+            <span class="date"> January 2026 | </span>
+            <span class="title-light">
+                [<a href="/publications/Bruzzone26-preprint/Bruzzone26-preprint.bib">bib</a>] [<a
+                    href="/publications/Bruzzone26-preprint/Bruzzone26-preprint.pdf">pdf</a>] [<a
+                    href="https://arxiv.org/abs/2601.16008">arXiv</a>]
+                \(-\) F. Bruzzone, W. Cazzola, and L. Favini, "Prioritizing
+                Configuration Relevance via Compiler-Based Refined Feature
+                Ranking"
+            </span>
+            <p class="summary">
+            <details>
+                <summary>Abstract</summary>
+                <p>
+                    Modern programming languages, most notably Rust,
+                    offer advanced linguistic constructs for building
+                    highly configurable software systems as aggregation
+                    of features---identified by a configuration.
+                    However, they pose substantial challenges for
+                    program analysis, optimization, and testing, as the
+                    combinatorial explosion of configurations often
+                    makes exhaustive exploration infeasible. In this
+                    manuscript, we present the first compiler-based
+                    method for prioritizing configurations. Our approach
+                    consists of four main steps: (1) extracting a
+                    tailored intermediate representation from the Rust
+                    compiler, (2) constructing two complementary
+                    graph-based data structures, (3) using centrality
+                    measures to rank features, and (4) refining the
+                    ranking by considering the extent of code they
+                    impact. A fixed number of most relevant
+                    configurations are generated based on the achieved
+                    feature ranking. The validity of the generated
+                    configurations is guaranteed by using a SAT solver
+                    that takes a representation of this graph in
+                    conjunctive normal form. We formalized this approach
+                    and implemented it in a prototype, <b>RustyEx</b>,
+                    by instrumenting the Rust compiler. An empirical
+                    evaluation on higher-ranked open source Rust
+                    projects shows that <b>RustyEx</b> efficiently
+                    generates user-specified sets of configurations
+                    within bounded resources, while ensuring soundness
+                    by construction. The results demonstrate that
+                    centrality-guided configuration prioritization
+                    enables effective and practical exploration of large
+                    configuration spaces, paving the way for future
+                    research in configuration-aware analysis and
+                    optimization.
+                </p>
+            </details>
+            </p>
+        </div>
+
+        <h2>Research Activities</h2>
+        <!-- <blockquote> -->
+        <!--     <p>My research interests are in the field of Programming Languages and Compilers, with a focus on -->
+        <!--         <i>Language Workbenches</i>, <i>Type Systems</i>, and <i>Language Server Protocols</i>.</p> -->
+        <!-- </blockquote> -->
+
+        <div class="entry">
+            <span class="date">2025/12/15</span>
+            |
+            <span class="title">Reviewer for ECOOP 2026</span>
+            <p class="summary">
+                I served as a <i>Reviewer</i> for the
+                <a href="https://2026.ecoop.org/">European Conference on Object-Oriented Programming</a>
+                (ECOOP 2026).
+            </p>
+        </div>
+        <div class="entry">
+            <span class="date">2025/11/25</span>
+            |
+            <span class="title">Reviewer for COLA</span>
+            <p class="summary">
+                I served as a <i>Reviewer</i> for the
+                <a href="https://www.sciencedirect.com/journal/journal-of-computer-languages">Journal of Computer
+                    Languages</a>
+                (COLA).
+            </p>
+        </div>
+        <div class="entry">
+            <span class="date">2025/03/01</span>
+            |
+            <span class="title">Reviewer for SoSyM</span>
+            <p class="summary">
+                I served as a <i>Reviewer</i> for the
+                <a href="https://link.springer.com/journal/10270">Journal of Software and System Modeling</a>
+                (SoSyM).
+            </p>
+        </div>
+
+        <div class="entry">
+            <span class="date">2025/06/{02-06}</span>
+            |
+            <span class="title">Participant at &lt;Programming&gt; Conference 2025
+            </span>
+            <p class="summary">
+                I participated in the
+                <a href="https://2025.programming-conference.org/">&lt;Programming&gt;</a>
+                Conference 2025, which took place in Prague, Czech Republic.
+            </p>
+        </div>
+
+        <div class="entry">
+            <span class="date">2025/{04/01-06/01}</span>
+            |
+            <span class="title"><a href="https://conf.researchr.org/home/sle-2025">Committee Member at SLE
+                    2025</a></span>
+            <p class="summary">
+                I served as a <i>Committee Member</i> (in Artifact
+                Evaluation Committee) at the 18th ACM SIGPLAN International
+                Conference on Software Language Engineering (SLE 2025).
+                Check
+                <a href="https://conf.researchr.org/profile/sle-2025/federicobruzzone">here</a>
+                for more details.
+            </p>
+        </div>
+
+        <div class="entry">
+            <span class="date">2025/03/01</span>
+            |
+            <span class="title">Reviewer for JSS</span>
+            <p class="summary">
+                I served as a <i>Reviewer</i> for the
+                <a href="https://www.sciencedirect.com/journal/journal-of-systems-and-software">Journal of Systems and
+                    Software</a>
+                (JSS). The review was performed for the special issue
+                <a
+                    href="https://www.sciencedirect.com/special-issue/315468/trends-in-systems-and-software-product-line-engineering">Trends
+                    in Systems and Software Product Line
+                    Engineering</a>.
+            </p>
+        </div>
+
+        <div class="entry">
+            <span class="date">2024/09/{01-06}</span>
+            |
+            <span class="title"><a href="https://icfp24.sigplan.org/">Student Volunteer at ICFP 2024</a></span>
+            <p class="summary">
+                I served as a <i>Student Volunteer</i> at the 29th ACM
+                SIGPLAN International Conference on Functional Programming
+                (ICFP 2024).
+            </p>
+        </div>
+
+        <h2>Dissemination Activities</h2>
+        <div class="entry">
+            <span class="date">2026/02/12</span>
+            |
+            <span class="title"><a
+                    href="/activities/presentations/matheuristic-variants-of-DSATUR-for-the-vertex-coloring-problem.pdf">Matheuristic
+                    Variants of DSATUR for the Vertex Coloring Problem</a></span>
+            <p class="summary">
+                The presentation for the <i>Matheuristic Variants of DSATUR for the Vertex Coloring Problem</i> paper,
+                Dupin, 2024.
+            </p>
+        </div>
+
+        <div class="entry">
+            <span class="date">2025/12/04</span>
+            |
+            <span class="title"><a
+                    href="/activities/presentations/your-optimizing-compiler-is-not-optimizing-enough.pdf">Your
+                    Optimizing Compiler is Not Optimizing Enough. To
+                    Hell With Multiple Recursions!</a></span>
+            <p class="summary">
+                The presentation for the first MuseMI meeting of the
+                2025/2026 season, held in Milan.
+
+            <details style="color: gray">
+                <summary>Abstract</summary>
+                <p>
+                    <b>Optimizing compilers</b> exhibit limitations when
+                    handling <i>multiple recursive functions</i> (e.g.,
+                    Fibonacci). While single recursion is optimized via
+                    <b>Tail-Call Optimization</b> into efficient
+                    iteration, multiple recursion often forces the
+                    compiler to retain a partial, performance-limiting
+                    recursive structure. Analyzing the optimized LLVM IR
+                    reveals that even state-of-the-art compilers fail to
+                    achieve complete <b>incrementalization</b> for this
+                    pattern. We argue that the automatic,
+                    general-setting iterative transformation of multiple
+                    recursive functions remains an unsolved and critical
+                    challenge for compiler technology.
+                </p>
+            </details>
+            </p>
+        </div>
+
+        <div class="entry">
+            <span class="date">2024/07/22</span>
+            |
+            <span class="title"><a href="/activities/presentations/P4-compiler-in-SDN.pdf">P4 Compiler in SDN</a></span>
+            <p class="summary">
+                The presentation for the P4 compiler in Software Defined
+                Networking (SDN).
+            </p>
+        </div>
+
+        <div class="entry">
+            <span class="date">2024/07/22</span>
+            |
+            <span class="title"><a href="/activities/presentations/phd-project.pdf">PhD Project</a></span>
+            <p class="summary">
+                The presentation about my PhD project,
+                <i>Universal Language Server Protocol and Debugger Adapter
+                    Protocol for Modular Language Workbenches</i>, at the University of Milan.
+            </p>
+        </div>
+
+        <div class="entry">
+            <span class="date">2024/07/15</span>
+            |
+            <span class="title"><a href="/activities/presentations/master-thesis.pdf">Master's Thesis</a></span>
+            <p class="summary">
+                The presentation of my Master's Thesis,
+                <i>Toward a Modular Approach for Type Systems and LSP
+                    Generation</i>, at the University of Milan.
+            </p>
+        </div>
+
+        <h2>Open Source Activities</h2>
+
+        <div class="entry">
+            <span class="date">2026 - Current</span>
+            |
+            <span class="title">Maintainer of the
+                <a href="https://github.com/FedericoBruzzone/llvm-pass-template">LLVM Pass Template
+                </a></span>
+            <p class="summary">
+                TThis project allows developers to quickly bootstrap, test,
+                and benchmark new out-of-tree LLVM passes with minimal
+                effort — that is, without the need to build LLVM from
+                sources.
+            </p>
+        </div>
+
+        <div class="entry">
+            <span class="date">2025 - Current</span>
+            |
+            <span class="title">Maintainer of the
+                <a href="https://github.com/FedericoBruzzone/papers-on-compiler-optimizations">Papers on Compiler
+                    Optimizations: Analysis and
+                    Transformations
+                </a></span>
+            <p class="summary">
+                This repository curates a chronologically sorted list of
+                influential papers on compiler optimization, from the
+                seminal works of 1952 through the advanced techniques of
+                1994. It's an essential resource for students, researchers,
+                and engineers seeking to understand the foundational and
+                critical advancements in compiler design, analysis, and
+                optimization techniques.
+            </p>
+        </div>
+
+        <div class="entry">
+            <span class="date">2025/03 - Current</span>
+            |
+            <span class="title">Maintainer of the
+                <a href="https://github.com/FedericoBruzzone/tide">Tide compiler
+                </a>
+                an backend-agnostic IR and compiler framework written in
+                Rust.</span>
+            <p class="summary">
+                I am the maintainer of the Tide compiler. Tide aims to be a
+                modular and extensible framework for building compilers and
+                language tools, prioritizing simplicity and ease of use.
+                From its quasi-SSA IR to its flexible backend architecture,
+                Tide provides a solid foundation for developing compilers
+                for various programming languages.
+            </p>
+        </div>
+
+        <div class="entry">
+            <span class="date">2024/03 - Current</span>
+            |
+            <span class="title">Maintainer of the cross-platform
+                <a href="https://github.com/FedericoBruzzone/tgt">tgt</a>
+                project and
+                <a href="https://github.com/FedericoBruzzone/tdlib-rs">tdlib-rs</a>
+                written in Rust</span>
+            <p class="summary">
+                <a href="https://github.com/FedericoBruzzone/tgt">Tgt</a> is
+                a TUI (Terminal User Interface) client for Telegram, built
+                using the tdlib-rs library, which provides safe and
+                idiomatic Rust bindings to the official TDLib (Telegram
+                Database Library) C++ library. Thanks to CI/CD pipelines, we
+                ensure (i) that the projects build and work correctly on
+                Linux, macOS, and Windows, (ii) automatic releases on GitHub
+                and crates.io, and (iii) automatic documentation generation.
+            </p>
+        </div>
+
+        <div class="entry">
+            <span class="date">2025/04/03</span>
+            |
+            <span class="title"><a href="https://thanks.rust-lang.org/rust/1.86.0/">One of the 393 contributors to Rust
+                    1.86.0</a></span>
+            <p class="summary">
+                I am one of the 393 contributors to Rust 1.86.0. You can
+                find the release notes
+                <a href="https://doc.rust-lang.org/stable/releases.html#version-1860-2025-04-03">here</a>.
+            </p>
+        </div>
+        <div class="entry">
+            <span class="date">2025/02/14</span>
+            |
+            <span class="title"><a href="https://github.com/Qiskit/rustworkx/pull/1385">Rustworkx: Generalizing
+                    <tt>Closeness</tt>
+                    centrality to weighted networks using Newman method</a></span>
+            <p class="summary">
+                This PR closed the issue
+                <a href="https://github.com/Qiskit/rustworkx/issues/1384">#1384</a>
+                by generalizing the <tt>Closeness</tt> centrality to
+                weighted networks using the Newman method. It provides both
+                the Rust implementation and the Python bindings.
+            </p>
+        </div>
+        <div class="entry">
+            <span class="date">2025/02/01</span>
+            |
+            <span class="title"><a href="https://github.com/rust-lang/rust/pull/136430">Rustc: Use the type-level
+                    constant value
+                    <tt>ty::Value</tt> where needed</a></span>
+            <p class="summary">
+                With this PR, I refactored functions to accept a single
+                type-level constant value <tt>ty::Value</tt> instead of
+                separate <tt>ty::Valtree</tt> and
+                <tt>ty::Ty</tt> parameters.
+            </p>
+        </div>
+        <div class="entry">
+            <span class="date">2025/01/27</span>
+            |
+            <span class="title"><a href="https://github.com/rust-lang/rust/pull/135158">Rustc: Add <tt>TooGeneric</tt>
+                    to
+                    <tt>LayoutError </tt>and emit <tt>Unknown</tt></a></span>
+            <p class="summary">
+                With this PR, I added the <tt>TooGeneric</tt> variant to the
+                <tt>LayoutError</tt> enum to emit the error when a type is
+                too generic to be laid out. The <tt>Unknown</tt> variant is
+                emitted when the layout of a type is unknown.
+            </p>
+        </div>
+        <div class="entry">
+            <span class="date">2024/12/08</span>
+            |
+            <span class="title"><a href="https://thanks.rust-lang.org/rust/1.83.0/">One of the 396 contributors to Rust
+                    1.83.0</a></span>
+            <p class="summary">
+                I am one of the 396 contributors to Rust 1.83.0. You can
+                find the release notes
+                <a href="https://doc.rust-lang.org/stable/releases.html#version-1830-2024-11-28">here</a>.
+            </p>
+        </div>
+        <div class="entry">
+            <span class="date">2024</span>
+            |
+            <span class="title"><a
+                    href="https://github.com/gayanvoice/top-github-users/blob/920b6690751185ba2e570d890397b19a7f32ba40/markdown/public_contributions/italy.md">56th
+                    Top Github Contributor (for public contributions)
+                    in Italy out of 958</a></span>
+            <p class="summary">
+                I am the 56th top Github contributor (for public
+                contributions) in Italy out of 958 according to this
+                <a
+                    href="https://github.com/gayanvoice/top-github-users/blob/920b6690751185ba2e570d890397b19a7f32ba40/markdown/public_contributions/italy.md">classification</a>.
+            </p>
+        </div>
+        <div class="entry">
+            <span class="date">2024/09/12</span>
+            |
+            <span class="title"><a href="https://github.com/rust-lang/rust/pull/130123">Rustc: First Contribution to
+                    Rust</a></span>
+            <p class="summary">
+                After the study of the <i>rustc-dev-guide</i>, I made my
+                first <i>small</i> contribution to the Rust compiler.
+            </p>
+        </div>
+
+        <!-- <p> -->
+        <!--     I worked on <i>Modular Approach for Type Systems and Language Server Protocol (LSP) Generation</i> in the -->
+        <!--     context of the Language Workbenches, <i>modularizing</i> an agnostic DSL for type systems definition and -->
+        <!--     generating the LSP for each language written in <a -->
+        <!--         href="https://www.sciencedirect.com/science/article/pii/S1477842415000056?casa_token=GGuGHYvJ38QAAAAA:gw0niEvegqaI_Hg3i20_EIOJochJTr9Z7PNVfRysD4JpBRjhZWqFl36Ce0cQqY-pMGqxpio4hQ">Neverlang</a>, -->
+        <!--     reducing to \( \mathbf{L} \times \mathbf{1} \) the complexity to support \( \mathbf{L} \) languages and \( -->
+        <!--     \mathbf{E} \) editors, previously \( \mathbf{L} \times \mathbf{E} \) in literature. -->
+        <!-- </p> -->
+
+        <!--         <blockquote class="center"> -->
+        <!--             Laziness, that's why I love pointers... -->
+        <!-- <div style="display: flex"> -->
+        <!-- <div class="sourceCode" id="cb1"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dt">char</span> <span class="op">*</span>shift_args<span class="op">(</span><span class="dt">int</span> <span class="op">*</span>argc<span class="op">,</span> <span class="dt">char</span> <span class="op">***</span>argv<span class="op">)</span> <span class="op">{</span></span> -->
+        <!-- <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">(*</span>argc<span class="op">)--,</span> <span class="op">*(*</span>argv<span class="op">)++;</span></span> -->
+        <!-- <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div> -->
+        <!-- </div> -->
+        <!--         </blockquote> -->
+
+        <!-- <div align=center> -->
+        <!--     <img src=https://ghchart.rshah.org/federicobruzzone width=800> -->
+        <!-- </div> -->
+    </main>
+
+    <div id="footer-container"></div>
+</body>
+
 </html>
