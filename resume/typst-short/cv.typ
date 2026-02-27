@@ -1,10 +1,99 @@
 #import "cv.template.typ": cv, entry, papers
-#import "students.typ": students
+
+// ====================
+// === START HELPER ===
+// ====================
+#let student-list = (
+  (
+    when: datetime(
+      year: 2026,
+      month: 2,
+      day: 23,
+    ),
+    name: "D. Cerato", // Davide 
+    title: [Employing Metaprogramming: A Macro-Driven Strategy to Overcome Compiler-Imposed Limitations on Specialization],
+    where : "BSc",
+    score: "103"
+  ),
+  (
+    when: datetime(
+      year: 2025,
+      month: 4,
+      day: 10,
+    ),
+    name: "D. Pellegrino", // Dario
+    title: [Scalable Multi-client Real-time Whisper],
+    where : "BSc",
+    score: "96"
+  ),
+  (
+    when: datetime(
+      year: 2025,
+      month: 4,
+      day: 9,
+    ),
+    name: "A. Longoni", // Andrea
+    title: [GUIDE: Graphical User Interface Development Environment],
+    where : "MSc",
+    score: "110L"
+  ),
+  (
+    when: datetime(
+      year: 2025,
+      month: 4,
+      day: 9,
+    ),
+    name: "L. Albani", // Leonardo 
+    title: [New Generalized Protocol For Software Product Line Extraction And Configuration],
+    where : "MSc",
+    score: "110L"
+  ),
+  (
+    when: datetime(
+      year: 2025,
+      month: 4,
+      day: 9,
+    ),
+    name: "G. Esposito", // Gabriele
+    title: [Fr3D: A Framework for DAP-compatible DSL-oriented Debugging],
+    where : "MSc",
+    score: "110L"
+  ),
+  (
+    when: datetime(
+      year: 2025,
+      month: 2,
+      day: 24,
+    ),
+    name: "L. Favini", // Luca
+    title: [RustyEx: Intrumenting `rustc` to Extract Feature Dependency Graphs],
+    where : "BSc",
+    score: "102"
+  ),
+)
+
+#let students = {
+  for(student) in student-list {
+    entry(
+      when: student.when.display("[day]/[month]/[year]"),
+      what: [#student.name, #emph(student.title), #student.where, *#student.score*],
+      details: ()
+    )
+  }
+}
+// ==================
+// === END HELPER ===
+// ==================
+
+
+
+
+
 
 #show: body => cv(
   name: "Federico Bruzzone",
   about: [
-    #text(10pt,
+    #text(9pt,
     block(inset: (right: 2.5cm, left: 2.5cm))[#rect[
       PhD Candidate in Computer Science.
       Programming Languages and Compilers enthusiast. Also, a Sound Engineer and Music Composer.
@@ -194,20 +283,27 @@
 
 = Teaching Activities
 == Thesis Supervision
-#students // It is a function that generates the list of students
+#students 
+
 == Graduate Courses
-#entry(
-  when: "2025-2026",
-  what: [Programming 1 (Art. 45), *BSc* in CS, University of Milan, _L. Capra_ (coordinator W. Cazzola)],
-  details: ()
-)
 #entry(
   when: "2025-2026",
   what: [Mathematical Logic (Art. 45), *BSc* in CS, University of Milan, _S. Aguzzoli_],
   details: ()
 )
+
 #entry(
   when: "2024-2025",
+  what: [Programming 1 (Art. 45), *BSc* in CS, University of Milan, _L. Capra_ (coordinator W. Cazzola)],
+  details: ()
+)
+#entry(
+  when: "2024-2025",
+  what: [Mathematical Logic (Art. 45), *BSc* in CS, University of Milan, _S. Aguzzoli_],
+  details: ()
+)
+#entry(
+  when: "2023-2024",
   what: [Mathematical Logic, *BSc* in CS, University of Milan, _S. Aguzzoli_],
   details: ()
 )
@@ -413,3 +509,7 @@
 
 #v(50pt, weak: true)
 Milan, #datetime.today().display("[day]/[month]/[year]")
+
+
+
+
