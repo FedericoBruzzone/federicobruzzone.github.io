@@ -138,7 +138,7 @@
 
 #papers(
   papers: (
-    (label: "Bruzzone25", links: [
+    (label: "Bruzzone26", links: [
       [#link("https://federicobruzzone.github.io/publications/Bruzzone26/Bruzzone26.bib")[bib]]
       [#link("https://federicobruzzone.github.io/publications/Bruzzone26/Bruzzone26.pdf")[pdf]]
       [#link("https://ieeexplore.ieee.org/document/11447410")[IEEE]]
