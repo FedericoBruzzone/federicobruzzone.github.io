@@ -145,18 +145,58 @@
         <h2>Scientific Publications</h2>
 
         <div class="entry">
+            <span class="date"> March 2026 | </span>
+            <span class="title-light">
+                [<a href="/publications/Bruzzone26/Bruzzone26.bib">bib</a>]
+                [<a href="/publications/Bruzzone26/Bruzzone26.pdf">pdf</a>]
+                [<a href="https://ieeexplore.ieee.org/document/11447410">IEEE</a>] [<a
+                    href="https://arxiv.org/abs/2601.17097">arXiv</a>]
+                \(-\) F. Bruzzone, W. Cazzola, M. Brancaleoni, and D. Pellegrino, "<i>Sink or SWIM: Tackling Real-Time
+                    ASR
+                    at Scale</i>",
+                <b>IEEE Transactions on Audio, Speech and Language Processing (TASLPRO)</b>, Mar. 2026. DOI:
+                <a href="https://doi.org/10.1109/TASLPRO.2026.3675780">10.1109/TASLPRO.2026.3675780</a>. Journal Ranked
+                Q1 on Scimago
+            </span>
+            <p class="summary">
+            <details>
+                <summary>Abstract</summary>
+                <p>
+                    Real-time automatic speech recognition systems are increasingly integrated into interactive
+                    applications, from voice assistants to live transcription services. However, scaling these systems
+                    to support multiple concurrent clients while maintaining low latency and high accuracy remains a
+                    major challenge. In this work, we present SWIM, a novel real-time ASR system built on top of
+                    OpenAI's Whisper model that enables multistream inference for scalable, multilingual transcription.
+                    SWIM supports multiple concurrent audio streams without modifying the underlying model. It
+                    introduces a buffer merging strategy that maintains transcription fidelity while ensuring efficient
+                    resource usage. We evaluate SWIM in multi-client settings-scaling up to 20 concurrent users-and show
+                    that it delivers accurate real-time transcriptions in English, Italian, and Spanish, while
+                    maintaining low latency and high throughput. While Whisper-Streaming achieves a word error rate of
+                    approximately 8.2% with an average delay of approximately 3.4 s in a single-client, Englishonly
+                    setting, SWIM extends this capability to multilingual, multiclient environments. It maintains
+                    comparable accuracy with significantly lower delay-around 2.4 s with 5 clients-and continues to
+                    scale effectively up to 20 concurrent clients without degrading transcription quality and increasing
+                    overall throughput. Our approach advances scalable ASR by improving robustness and efficiency in
+                    dynamic, multi-user environments.
+                </p>
+            </details>
+            </p>
+        </div>
+
+
+        <div class="entry">
             <span class="date"> June 2025 | </span>
             <span class="title-light">
                 [<a href="/publications/Bruzzone25/Bruzzone25.bib">bib</a>]
                 [<a href="/publications/Bruzzone25/Bruzzone25.pdf">pdf</a>]
                 [<a href="https://doi.org/10.1016/j.jss.2025.112554">SpringerLink</a>] [<a
                     href="https://arxiv.org/abs/2509.15150">arXiv</a>]
-                \(-\) F. Bruzzone, W. Cazzola, and L. Favalli, "Code Less to
-                Code More: Streamlining Language Server Protocol and type
-                system development for language families",
-                <i>Journal of Systems and Software</i>, Sep. 2025. DOI:
+                \(-\) F. Bruzzone, W. Cazzola, and L. Favalli, "<i>Code Less to
+                    Code More: Streamlining Language Server Protocol and type
+                    system development for language families</i>",
+                <b>Journal of Systems and Software (JSS)</b>, Sep. 2025. DOI:
                 <a href="https://doi.org/10.1016/j.jss.2025.112554">10.1016/j.jss.2025.112554</a>. Journal Ranked
-                <b>Q1</b> on Scimago
+                Q1 on Scimago
             </span>
             <p class="summary">
             <details>
@@ -289,6 +329,7 @@
         </div>
 
         <div class="entry">
+            <span> <b>[PUBLISHED]</b></span>
             <span class="date"> January 2026 | </span>
             <span class="title-light">
                 [<a href="/publications/Bruzzone26b-preprint/Bruzzone26b-preprint.bib">bib</a>] [<a
@@ -391,6 +432,63 @@
             </details>
             </p>
         </div>
+
+
+        <div class="entry">
+            <span> <b>[PUBLISHED]</b></span>
+            <span class="date"> Sep. 2025 | </span>
+            <span class="title-light">
+                [<a href="/publications/Bruzzone25/Bruzzone25.bib">bib</a>]
+                [<a href="/publications/Bruzzone25/Bruzzone25.pdf">pdf</a>]
+                [<a href="https://arxiv.org/abs/2509.15150">arXiv</a>]
+                \(-\) F. Bruzzone, W. Cazzola, and L. Favalli, "Code Less to
+                Code More: Streamlining Language Server Protocol and type
+                system development for language families",
+            </span>
+            <p class="summary">
+            <details>
+                <summary>Abstract</summary>
+                <p>
+                    Developing editing support for \(\mathbf{L}\)
+                    languages in \(\mathbf{E}\) editors is complex and
+                    time-consuming. Some languages do not provide
+                    dedicated editors, while others offer a single
+                    native editor. The \(\textit{language server
+                    protocol}\) (LSP) reduces the language-editor
+                    combinations \(\mathbf{L} \times \mathbf{E}\) to
+                    \(\mathbf{L} + \mathbf{E}\), where a single language
+                    server communicates with editors via LSP plugins.
+                    However, overlapping implementations of linguistic
+                    components remain an issue. Existing language
+                    workbenches struggle with modularity, reusability,
+                    and leveraging type systems for language server
+                    generation. In this work, we propose: (i) Typelang,
+                    a family of domain-specific languages for modular,
+                    composable, and reusable type system implementation,
+                    (ii) a modular language server generation process,
+                    producing servers for languages built in a modular
+                    workbench, (iii) the variant-oriented programming
+                    paradigm and a cross-artifact coordination layer to
+                    manage interdependent software variants, and (iv) an
+                    LSP plugin generator, reducing \(\mathbf{E}\) to
+                    \(\mathbf{1}\) by automating plugin creation for
+                    multiple editors. To simplify editing support for
+                    language families, each language artifact integrates
+                    its own Typelang variant, used to generate language
+                    servers. This reduces combinations to \(\mathbf{T}
+                    \times \mathbf{1}\), where \(\mathbf{T} =
+                    \mathbf{L}\) represents the number of type systems.
+                    Further reuse of language artifacts across languages
+                    lowers this to \(\mathbf{N} \times \mathbf{1}\),
+                    where \(\mathbf{N} << \mathbf{T}\), representing unique type systems. We implement Typelang in
+                        Neverlang, generating language servers for each artifact and LSP plugins for three editors.
+                        Empirical evaluation shows a 93.48% reduction in characters needed for type system
+                        implementation and 100% automation of LSP plugin generation, significantly lowering effort for
+                        editing support in language families, especially when artifacts are reused. </p>
+            </details>
+            </p>
+        </div>
+
 
         <h2>Research Activities</h2>
         <!-- <blockquote> -->
