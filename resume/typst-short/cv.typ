@@ -136,10 +136,14 @@
 
 = Scientific Publications
 
-== International Peer-Reviewed Journal/Conference Publications
-
 #papers(
   papers: (
+    (label: "Bruzzone25", links: [
+      [#link("https://federicobruzzone.github.io/publications/Bruzzone26/Bruzzone26.bib")[bib]]
+      [#link("https://federicobruzzone.github.io/publications/Bruzzone26/Bruzzone26.pdf")[pdf]]
+      [#link("https://ieeexplore.ieee.org/document/11447410")[IEEE]]
+      [#link("https://arxiv.org/abs/2601.17097")[arXiv]]
+    ], score: [*Journal Ranked Q1 on Scimago*]),
     (label: "Bruzzone25", links: [
       [#link("https://federicobruzzone.github.io/publications/Bruzzone25/Bruzzone25.bib")[bib]]
       [#link("https://federicobruzzone.github.io/publications/Bruzzone25/Bruzzone25.pdf")[pdf]]
@@ -162,14 +166,17 @@
     (label: "Bruzzone26c-preprint", links: [
       [#link("https://federicobruzzone.github.io/publications/Bruzzone26c-preprint/Bruzzone26c-preprint.bib")[bib]]
       [#link("https://federicobruzzone.github.io/publications/Bruzzone26c-preprint/Bruzzone26c-preprint.pdf")[pdf]]
-      [#link("https://arxiv.org/abs/2602.03777")[arXiv]]
+      [#link("https://arxiv.org/abs/2602.03777")[arXiv]
+    ]
     ],score: []),
 
 
     (label: "Bruzzone26b-preprint", links: [
       [#link("https://federicobruzzone.github.io/publications/Bruzzone26b-preprint/Bruzzone26b-preprint.bib")[bib]]
       [#link("https://federicobruzzone.github.io/publications/Bruzzone26b-preprint/Bruzzone26b-preprint.pdf")[pdf]]
-      [#link("https://arxiv.org/abs/2601.16008")[arXiv]]
+      [#link("https://arxiv.org/abs/2601.16008")[arXiv]
+      [*PUBLISHED*]
+    ]
     ],score: []),
 
     (label: "Bruzzone26-preprint", links: [
@@ -177,6 +184,14 @@
       [#link("https://federicobruzzone.github.io/publications/Bruzzone26-preprint/Bruzzone26-preprint.pdf")[pdf]]
       [#link("https://arxiv.org/abs/2601.16008")[arXiv]]
     ], score: []),
+
+    (label: "Bruzzone25-preprint", links: [
+      [#link("https://federicobruzzone.github.io/publications/Bruzzone25-preprint/Bruzzone25-preprint.bib")[bib]]
+      [#link("https://federicobruzzone.github.io/publications/Bruzzone25-preprint/Bruzzone26-preprint.pdf")[pdf]]
+      [#link("https://arxiv.org/abs/2509.15150")[arXiv]
+      [*PUBLISHED*]
+    ]
+    ], score: [])
   )
 )
 
