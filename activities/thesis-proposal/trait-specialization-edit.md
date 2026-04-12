@@ -857,7 +857,7 @@ But if one of the conditions is applicable and is more specific than the other a
 - [Generic go to go: dictionary-passing, monomorphisation, and hybrid](https://www.semanticscholar.org/paper/Generic-go-to-go%3A-dictionary-passing%2C-and-hybrid-Ellis-Zhu/8c928294aea1624a4e40a977723c1f2a17faac8e)
 
 ## Rust
-- [Towards a Transpiler for C/C++ to Safer Rust](https://www.semanticscholar.org/paper/Towards-a-Transpiler-for-C-C%2B%2B-to-Safer-Rust-Tripuramallu-Singh/915ce85e57910f7decc9fec605f81f6fcb46c59b)
+- [Towards a Transpiler for C/C++ to Safer Rust](https://www.semanticscholar.org/paper/Towards-a-Transpiler-for-C-C%2B%2B-to-Safer-Rust-Tripuramallu-Singh/915ce85e57910f7decc9fec605f81f646c59b)
 - [Bringing Rust to Safety-Critical Systems in Space](https://www.semanticscholar.org/paper/Bringing-Rust-to-Safety-Critical-Systems-in-Space-Seidel-Beier/5864bb946e7f53af26a989b2cbed3269e45d941e)
 
 ## Related work

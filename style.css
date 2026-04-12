@@ -342,6 +342,23 @@ tr:nth-child(even) {
     line-height: 1.65;
 }
 
+@media (max-width: 600px) {
+    .about-card {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto;
+        text-align: center;
+    }
+
+    .profile-photo {
+        justify-self: center;
+        margin: 0 auto;
+    }
+
+    .about-intro {
+        text-align: left;
+    }
+}
+
 .contacts-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
