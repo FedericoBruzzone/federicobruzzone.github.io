@@ -1,16 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <title>FCB</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-
-    <script type="module" src="/scripts/main.js" defer></script>
-    <link rel="stylesheet" type="text/css" href="/styles/styles.css">
-    <link rel="stylesheet" type="text/css" href="/styles/syntax-highlighting.css">
-    <script type="module" src="/scripts/prism.js" defer></script>
-    <link rel="stylesheet" type="text/css" href="/styles/prism.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../prism.css">
+    <link rel="stylesheet" href="../code.css">
 
     <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
@@ -20,83 +16,93 @@
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
 
+    <title>FCB - Posts</title>
 </head>
 
 <body>
-    <div id="header-container"></div>
+    <div id="root-folder" value=".."></div>
+    <div id="header"></div>
 
     <main>
         <h1>Posts</h1>
 
-        <div class="entry">
-            <span class="date">2026/02/13</span>
-            |
-            <span class="title"><a href="/posts/tre-shift-opt-contribution.html">
-                Tail Recursion Elimination: Optimize Shift Accumulators
-            </a> </span>
-            |
-            <span class="tags">LLVM</span>
-            <span class="tags">compilers</span>
-            <span class="tags">optimizations</span>
-            <p class="summary">TODO</p>
+    <div onclick="location.href='tre-shift-opt-contribution.html';" style="cursor: pointer;">
+    <article class="light-post-theme post-block"> 
+        <div class="post-inner">
+            <div class="post-title"> 
+                <img src="../icons/pin.svg" width=16px height=16px/> Tail Recursion Elimination: Optimize Shift Accumulators
+            </div>
+            <div class="post-desc"> 
+                A contribution to LLVM's Tail Recursion Elimination pass, adding support for shift accumulators.
+            </div>
+            <div class="post-foot"> 
+                <img src="../icons/clock.svg" width=12px height=12px/> Date: 13 February, 2026  |  Tags: LLVM, compilers, optimizations
+            </div>
         </div>
+    </article>
+    </div>
+    <br>
 
-        <div class="entry">
-            <span class="date">2025/04/21</span>
-            |
-            <span class="title"><a href="/posts/consume-the-input-only-when-somet-is-returned.html">
-                    Consume the Input Only When <code class="language-rust">Some&lt;T&gt;</code> is returned
-                </a> </span>
-            |
-            <span class="tags">rust</span>
-            <span class="tags">idiomatic</span>
-            <p class="summary">This post provides <i>unideal</i>, <i>decent</i> and <i>ideal</i> solutions to the problem of consuming the input only when <code class="language-rust">Some&lt;T&gt;</code> is returned.
-            </p>
+    <div onclick="location.href='consume-the-input-only-when-somet-is-returned.html';" style="cursor: pointer;">
+    <article class="light-post-theme post-block"> 
+        <div class="post-inner">
+            <div class="post-title"> 
+                <img src="../icons/pin.svg" width=16px height=16px/> Consume the Input Only When Some&lt;T&gt; is Returned
+            </div>
+            <div class="post-desc"> 
+                A discussion on idiomatic Rust patterns for consuming input only when a function successfully returns a value.
+            </div>
+            <div class="post-foot"> 
+                <img src="../icons/clock.svg" width=12px height=12px/> Date: 21 April, 2025  |  Tags: rust, idiomatic
+            </div>
         </div>
+    </article>
+    </div>
+    <br>
 
-
-        <div class="entry">
-            <span class="date">2025/03/25</span>
-            |
-            <span class="title"><a href="/posts/open-source-licenses-a-deep-dive-into-their-meaning.html">
-                    Open Source Licenses: A Deep Dive into Their Meaning
-                </a> </span>
-            |
-            <span class="tags">licenses</span>
-            <span class="tags">open-source</span>
-            <p class="summary">This post aims to provide a deeper understanding of the meaning of licenses, both
-                permissive and copyleft, and their implications for developers and users.
-            </p>
+    <div onclick="location.href='open-source-licenses-a-deep-dive-into-their-meaning.html';" style="cursor: pointer;">
+    <article class="light-post-theme post-block"> 
+        <div class="post-inner">
+            <div class="post-title"> 
+                <img src="../icons/pin.svg" width=16px height=16px/> Open Source Licenses: A Deep Dive into Their Meaning
+            </div>
+            <div class="post-desc"> 
+                An in-depth exploration of open source licenses, covering their legal implications and practical guidance.
+            </div>
+            <div class="post-foot"> 
+                <img src="../icons/clock.svg" width=12px height=12px/> Date: 25 March, 2025  |  Tags: licenses, open-source
+            </div>
         </div>
+    </article>
+    </div>
+    <br>
 
-        <div class="entry">
-            <span class="date">2024/08/10</span>
-            |
-            <span class="title"><a
-                    href="/posts/exploiting-finite-state-automata-for-efficient-lexical-analysis-a-rust-implementation.html">
-                    Exploiting Finite State Automata for Efficient Lexical Analysis: A Rust Implementation
-                </a> </span>
-            |
-            <span class="tags">compilers</span>
-            <span class="tags">rust</span>
-            <p class="summary">An implementation of a lexical analyzer
-                using non-deterministic finite automata (NFA) in Rust.</p>
-            </p>
+    <div onclick="location.href='exploiting-finite-state-automata-for-efficient-lexical-analysis-a-rust-implementation.html';" style="cursor: pointer;">
+    <article class="light-post-theme post-block"> 
+        <div class="post-inner">
+            <div class="post-title"> 
+                <img src="../icons/pin.svg" width=16px height=16px/> Exploiting Finite State Automata for Efficient Lexical Analysis: A Rust Implementation
+            </div>
+            <div class="post-desc"> 
+                A practical exploration of building a lexical analyzer in Rust using finite state automata.
+            </div>
+            <div class="post-foot"> 
+                <img src="../icons/clock.svg" width=12px height=12px/> Date: 10 August, 2024  |  Tags: compilers, rust
+            </div>
         </div>
+    </article>
+    </div>
 
-        <!-- <h2>Test</h2> -->
-        <!-- <div class="post"> -->
-        <!--     <span class="title"> <a href="/posts/test-code-prism.html">test code</a> </span> | <span class="date">2024</span> -->
-        <!-- </div> -->
-        <!-- <div class="post"> -->
-        <!--     <span class="title"> <a href="/posts/test-code.html">test code</a> </span> | <span class="date">2024</span> -->
-        <!-- </div> -->
-        <!-- <div class="post"> -->
-        <!--     <span class="title"> <a href="/posts/test-math.html">Test Math</a> </span> | <span class="date">2024</span> -->
-        <!-- </div> -->
     </main>
-
-    <div id="footer-container"></div>
+    <div id="footer"></div>
+    <script src="../scripts/toggle-theme.js"></script>
+    <script src="../scripts/load-header.js"></script>
+    <script src="../scripts/load-footer.js"></script>
+    <script src="../scripts/load-cits.js"></script>
+    <script src="../scripts/load-bib.js"></script>
+    <script src="../scripts/prism.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.2/p5.js"></script>
 </body>
 
 </html>

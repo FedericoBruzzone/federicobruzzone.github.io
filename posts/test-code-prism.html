@@ -5,12 +5,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <script type="module" src="/scripts/main.js" defer></script>
-    <link rel="stylesheet" type="text/css" href="/styles/styles.css">
-    <link rel="stylesheet" type="text/css" href="/styles/syntax-highlighting.css">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../prism.css">
+    <link rel="stylesheet" href="../code.css">
 
-    <script type="module" src="/scripts/prism.js" defer></script>
-    <link rel="stylesheet" type="text/css" href="/styles/prism.css">
+    <script src="../scripts/prism.js" defer></script>
 
     <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
@@ -23,28 +22,29 @@
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script> -->
 </head>
 <body>
-    <div id="header-container"></div>
+    <div id="root-folder" value=".."></div>
+    <div id="header"></div>
 
     <main>
     Test
 
     <pre>
     <code class="language-c">
-        int main() {
-            return 0;
-        }
-    </code>
+int main() {
+    return 0;
+}
+</code>
     </pre>
 
 
     <pre class="line-numbers" data-line="1-2, 5">
     <code class="language-python">
-    def token2sparse(token, num_embeddings, hashes):
-  sparse = [0] * num_embeddings
-  for trigram in [token[i:i+3] for i in range(len(token)-2)]:
-    for h in hashes:
-      sparse[h(trigram) % num_embeddings] = 1
-  return sparse </code>
+  def token2sparse(token, num_embeddings, hashes):
+sparse = [0] * num_embeddings
+for trigram in [token[i:i+3] for i in range(len(token)-2)]:
+  for h in hashes:
+    sparse[h(trigram) % num_embeddings] = 1
+return sparse </code>
     </pre>
 
     <pre class="line-numbers" data-line="1-15">
@@ -117,13 +117,18 @@ fn main() {
     dolly.shear();
     dolly.talk();
 }
-    </code>
+</code>
     </pre>
 
     </main>
-
-
-    <div id="footer-container"></div>
+    <div id="footer"></div>
+    <script src="../scripts/toggle-theme.js"></script>
+    <script src="../scripts/load-header.js"></script>
+    <script src="../scripts/load-footer.js"></script>
+    <script src="../scripts/load-cits.js"></script>
+    <script src="../scripts/load-bib.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.2/p5.js"></script>
 </body>
 </html>
 

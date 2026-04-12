@@ -5,9 +5,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <script type="module" src="/scripts/main.js" defer></script>
-    <link rel="stylesheet" type="text/css" href="/styles/styles.css">
-    <link rel="stylesheet" type="text/css" href="/styles/syntax-highlighting.css">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../prism.css">
+    <link rel="stylesheet" href="../code.css">
 
 
     <!-- Favicon -->
@@ -19,7 +19,8 @@
     <meta name="theme-color" content="#ffffff">
 </head>
 <body>
-    <div id="header-container"></div>
+    <div id="root-folder" value=".."></div>
+    <div id="header"></div>
 
     <main>
     Test
@@ -29,6 +30,14 @@
     </main>
 
 
-    <div id="footer-container"></div>
+    <div id="footer"></div>
+    <script src="../scripts/toggle-theme.js"></script>
+    <script src="../scripts/load-header.js"></script>
+    <script src="../scripts/load-footer.js"></script>
+    <script src="../scripts/load-cits.js"></script>
+    <script src="../scripts/load-bib.js"></script>
+    <script src="../scripts/prism.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.2/p5.js"></script>
 </body>
 </html>

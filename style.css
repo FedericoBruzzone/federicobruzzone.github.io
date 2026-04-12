@@ -1,0 +1,293 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+:root {
+    --background-color : rgb(250 , 250 , 250 );
+    --header-color     : rgb(0   , 0   , 0   );
+    --text-color       : rgb(70  , 70  , 70  );
+    --cite-color       : rgb(70  , 70  , 70  );
+    --biblio-color     : rgb(70  , 70  , 70  );
+    --post-bg-color    : rgb(200 , 200 , 200 );
+    --post-desc-color  : rgb(70  , 70  , 70  );
+    --post-foot-color  : rgb(110 , 110 , 110 );
+    --post-title-color : rgb(0   , 0   , 0   );
+    --table-back-color : rgb(250 , 250 , 250 );
+    --text-font-size   : 16px;
+
+    --code-text-color        : rgb(0   , 0   , 0   );
+    --code-function-color    : rgb(220 , 70  , 100 );
+    --code-number-color      : rgb(220 , 70  , 100 );
+    --code-keyword-color     : rgb(0   , 120 , 170 );
+    --code-operator-color    : rgb(150 , 110 , 60  );
+    --code-string-color      : rgb(100 , 150 , 0   );
+    --code-number-color      : rgb(150 , 0   , 80  );
+    --code-comment-color     : rgb(110 , 130 , 140 );
+    --code-punctuation-color : rgb(150 , 150 , 150 );
+}
+
+body.dark-mode {
+    --background-color : rgb(40  , 40  , 40  );
+    --header-color     : rgb(255 , 255 , 255 );
+    --text-color       : rgb(190 , 190 , 190 );
+    --cite-color       : rgb(190 , 190 , 190 );
+    --biblio-color     : rgb(190 , 190 , 190 );
+    --post-bg-color    : rgb(70  , 70  , 70  );
+    --post-desc-color  : rgb(200 , 200 , 200 );
+    --post-foot-color  : rgb(150 , 150 , 150 );
+    --post-title-color : rgb(255 , 255 , 255 );
+    --table-back-color : rgb(40  , 40  , 40  );
+    --text-font-size   : 16px;
+
+    --code-text-color        : rgb(255 , 255 , 255 );
+    --code-function-color    : rgb(220 , 100 , 100 ); 
+    --code-number-color      : rgb(0   , 160 , 200 );
+    --code-keyword-color     : rgb(270 , 180 , 0   );
+    --code-operator-color    : rgb(180 , 140 , 90  );
+    --code-string-color      : rgb(160 , 210 , 50  );
+    --code-number-color      : rgb(240 , 80  , 150 );
+    --code-comment-color     : rgb(140 , 160 , 170 );
+    --code-punctuation-color : rgb(180 , 180 , 180 );
+
+}
+
+
+html body {
+    background-color: var(--background-color);
+    font-family: "Roboto", sans-serif;
+    height: 100%;
+    width: 720px;
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.header {
+    width: 720px;
+    max-width: 100%;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+    padding: 0 10px;
+    font-weight: 700;
+}
+
+.header-item {
+    margin-right: 8px;
+}
+
+.header-item.nav-right {
+    margin-left: auto;
+}
+
+.header-item:last-child {
+    margin-right: 0;
+}
+
+.footer-contacts {
+    width: 720px;
+    max-width: 100%;
+    height: 80px;
+    margin-top: 120px;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    display: inline-grid;
+    place-items:center;
+}
+
+.header-item {
+    font-size: 20px;
+}
+
+.footer {
+    width: 720px;
+    height: 200px;
+}
+
+.title {
+    font-size: 32px;
+}
+
+.theme-button {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 32px;
+}
+
+.cite {
+    color : var(--cite-color);
+    display: inline-block;
+}
+
+.bibliography {
+    color: var(--biblio-color);
+    text-align: left;
+}
+
+.bibtex {
+    color: var(--biblio-color);
+    text-align: left;
+}
+
+h1 {
+    font-size: 24px;
+    color: var(--header-color);
+}
+
+h2 {
+    font-size: 20px;
+    color: var(--header-color);
+}
+
+h3 {
+    font-size: 20px;
+    color: var(--text-color);
+}
+
+h4 {
+    font-size: 16px;
+    color: var(--text-color);
+}
+
+p {
+    color: var(--text-color);
+    text-align: justify;
+    font-size: var(--text-font-size);
+    margin: 0 0 1rem 0;
+}
+
+ul {
+    color: var(--text-color);
+    text-align: justify;
+    font-size: var(--text-font-size);
+}
+
+ol {
+    color: var(--text-color);
+    text-align: justify;
+    font-size: var(--text-font-size);
+}
+
+a {
+    color:inherit;
+}
+
+table {
+    font-family:-apple-system,BlinkMacSystemFont,segoe ui,Roboto,Oxygen,Ubuntu,Cantarell,open sans,helvetica neue,sans-serif;
+    color: var(--text-color);
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: var(--table-back-color);
+}
+
+.post-block {
+    display: flex;
+    background-color: var(--post-bg-color);
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    box-shadow: 0 0.2em 0.4em rgba(0, 0, 0, 0.08);
+    height: 200px;
+    width: 700px;
+    margin: auto;
+}
+
+.post-inner {
+    height: 180px;
+    width: 680px;
+    margin: 10px;
+    display: grid;
+    grid-template-rows: 1fr 4fr 1fr;
+}
+
+.post-title {
+    color: var(--post-title-color);
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.post-desc {
+    color: var(--post-desc-color);
+    text-align: justify;
+    font-size: var(--text-font-size);
+    margin: auto;
+}
+
+.post-foot {
+    color: var(--post-foot-color);
+}
+
+
+.about-card {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 24px;
+    align-items: center;
+    padding: 24px;
+    border: 1px solid var(--table-back-color);
+    border-radius: 16px;
+    background-color: var(--background-color);
+}
+
+.profile-photo {
+    width: 160px;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 16px;
+    border: 1px solid var(--table-back-color);
+}
+
+.about-intro p {
+    margin-top: 0.5em;
+    line-height: 1.65;
+}
+
+.contacts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    margin: 1rem 0 2rem 0;
+}
+
+.contacts-card {
+    padding: 18px;
+    border: 1px solid var(--table-back-color);
+    border-radius: 16px;
+    background-color: var(--background-color);
+}
+
+.contacts-card h2 {
+    margin-top: 0;
+}
+
+.contacts-card table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.contacts-card td {
+    padding: 0.45rem 0.6rem;
+    vertical-align: top;
+}
+
+.contacts-card td:first-child {
+    text-align: right;
+    white-space: nowrap;
+    padding-right: 1rem;
+}
+
+.contacts-card td:last-child {
+    text-align: left;
+}
+
+.contacts-card small {
+    color: var(--text-color);
+    font-size: 0.95rem;
+}
