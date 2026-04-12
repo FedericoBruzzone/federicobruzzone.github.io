@@ -17,6 +17,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 </div>
             </div>
 
+            <button class="header-toggle" aria-label="Open navigation menu">☰</button>
+
             <nav class="header-nav">
                 <a href="[FOLDER]/index.html" title="Posts" style="text-decoration: none; color:var(--header-color)">Posts</a>
                 <a href="[FOLDER]/cv.pdf" title="CV" style="text-decoration: none; color:var(--header-color)">CV</a>
@@ -26,4 +28,20 @@ document.addEventListener("DOMContentLoaded", function() {
     `.replaceAll("[FOLDER]",folder);
 
     header.innerHTML = headerContent;
+
+    const toggle = header.querySelector('.header-toggle');
+    const nav = header.querySelector('.header-nav');
+    if (toggle && nav) {
+        toggle.addEventListener('click', () => {
+            const isOpen = nav.classList.toggle('open');
+            toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        });
+
+        nav.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                nav.classList.remove('open');
+                toggle.setAttribute('aria-expanded', 'false');
+            });
+        });
+    }
 });
