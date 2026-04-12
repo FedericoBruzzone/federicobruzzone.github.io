@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 </button>
                 <div class="title">
                     <a href="[FOLDER]/index.html" title="Posts" style="text-decoration: none; color:var(--header-color)">
-                        <span class="active">Federico Bruzzone's Space</span>
+                        <span class="active">Federico Bruzzone</span>
                     </a>
                 </div>
             </div>
