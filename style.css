@@ -127,6 +127,7 @@ html body {
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
+        flex-wrap: wrap;
         gap: 12px;
         padding: 12px 10px;
     }
@@ -149,6 +150,7 @@ html body {
     }
 
     .header-nav {
+        order: 3;
         width: 100%;
         justify-content: flex-start;
         gap: 12px;
