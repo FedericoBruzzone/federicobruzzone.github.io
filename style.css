@@ -152,6 +152,7 @@ html body {
     .header-nav {
         order: 3;
         width: 100%;
+        flex-basis: 100%;
         justify-content: flex-start;
         gap: 12px;
         border-top: 1px solid rgba(0, 0, 0, 0.08);
