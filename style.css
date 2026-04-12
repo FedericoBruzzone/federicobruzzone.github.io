@@ -53,16 +53,17 @@ body.dark-mode {
 html body {
     background-color: var(--background-color);
     font-family: "Roboto", sans-serif;
-    height: 100%;
-    width: 720px;
-    margin-top: 10px;
-    margin-left: auto;
-    margin-right: auto;
+    min-height: 100%;
+    width: 100%;
+    max-width: 720px;
+    margin: 10px auto 0;
+    padding: 0 12px;
+    box-sizing: border-box;
 }
 
 .header {
-    width: 720px;
-    max-width: 100%;
+    width: 100%;
+    max-width: 720px;
     height: 80px;
     display: flex;
     align-items: center;
@@ -85,13 +86,13 @@ html body {
 }
 
 .footer-contacts {
-    width: 720px;
-    max-width: 100%;
+    width: 100%;
+    max-width: 720px;
     height: 80px;
     margin-top: 120px;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     display: inline-grid;
-    place-items:center;
+    place-items: center;
 }
 
 .header-item {
@@ -99,7 +100,8 @@ html body {
 }
 
 .footer {
-    width: 720px;
+    width: 100%;
+    max-width: 720px;
     height: 200px;
 }
 
@@ -190,18 +192,21 @@ tr:nth-child(even) {
 
 .post-block {
     display: flex;
+    flex-wrap: wrap;
     background-color: var(--post-bg-color);
     border-radius: 10px;
     border: 1px solid rgba(0, 0, 0, 0.12);
     box-shadow: 0 0.2em 0.4em rgba(0, 0, 0, 0.08);
-    height: 200px;
-    width: 700px;
+    height: auto;
+    width: 100%;
+    max-width: 700px;
     margin: auto;
 }
 
 .post-inner {
-    height: 180px;
-    width: 680px;
+    height: auto;
+    width: 100%;
+    max-width: 680px;
     margin: 10px;
     display: grid;
     grid-template-rows: 1fr 4fr 1fr;

@@ -73,16 +73,65 @@ pre[class*=language-]{
     cursor:help
 }
 
+/* Legacy sourceCode token classes used by some older posts */
+.sourceCode,
+.sourceCode code,
+pre.sourceCode,
+pre.sourceCode code {
+    background: var(--background-color);
+    color: var(--code-text-color);
+}
+.sourceCode .kw,
+.sourceCode .cf,
+.sourceCode .at,
+.sourceCode .bu {
+    color: var(--code-keyword-color);
+}
+.sourceCode .op,
+.sourceCode .pun {
+    color: var(--code-operator-color);
+}
+.sourceCode .dt,
+.sourceCode .cn,
+.sourceCode .dv {
+    color: var(--code-number-color);
+}
+.sourceCode .str,
+.sourceCode .ch {
+    color: var(--code-string-color);
+}
+.sourceCode .co,
+.sourceCode .cm,
+.sourceCode .cs {
+    color: var(--code-comment-color);
+}
+
 pre[class*=language-].line-numbers {
     position: relative;
     padding-left: 3.8em;
 }
 
+pre[class*=language-].line-numbers > code {
+    line-height: 1.5;
+}
+
 .line-numbers .line-numbers-rows {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3.4em;
     border-right: 1px solid var(--code-punctuation-color);
+    line-height: 1.5;
+    pointer-events: none;
+}
+
+.line-numbers-rows > span {
+    display: block;
+    line-height: 1.5;
 }
 
 .line-numbers-rows > span:before {
     color: var(--code-comment-color);
+    line-height: 1.5;
 }
 
