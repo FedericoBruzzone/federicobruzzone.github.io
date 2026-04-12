@@ -108,7 +108,7 @@ pre.sourceCode code {
 
 pre[class*=language-].line-numbers {
     position: relative;
-    padding-left: 3.8em;
+    padding-left: 4.6em;
 }
 
 pre[class*=language-].line-numbers > code {
@@ -118,8 +118,8 @@ pre[class*=language-].line-numbers > code {
 .line-numbers .line-numbers-rows {
     position: absolute;
     top: 0;
-    left: 0;
-    width: 3.4em;
+    left: -4.4em;
+    width: 4em;
     border-right: 1px solid var(--code-punctuation-color);
     line-height: 1.5;
     pointer-events: none;
@@ -133,5 +133,7 @@ pre[class*=language-].line-numbers > code {
 .line-numbers-rows > span:before {
     color: var(--code-comment-color);
     line-height: 1.5;
+    padding-right: 0.8em;
+    text-align: right;
 }
 
