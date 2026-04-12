@@ -64,25 +64,67 @@ html body {
 .header {
     width: 100%;
     max-width: 720px;
-    height: 80px;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-    gap: 8px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
     padding: 0 10px;
     font-weight: 700;
+    height: auto;
+}
+
+.header-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+    flex: 1 1 auto;
+}
+
+.header-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    align-items: center;
+    justify-content: flex-end;
+    flex: 0 1 auto;
+}
+
+.header-nav a {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--header-color);
 }
 
 .header-item {
     margin-right: 8px;
 }
 
-.header-item.nav-right {
-    margin-left: auto;
-}
+@media (max-width: 600px) {
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 12px 10px;
+    }
 
-.header-item:last-child {
-    margin-right: 0;
+    .header-brand {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .header-nav {
+        width: 100%;
+        justify-content: flex-start;
+        gap: 12px;
+        border-top: 1px solid rgba(0, 0, 0, 0.08);
+        padding-top: 10px;
+        margin-top: 6px;
+    }
+
+    .header-nav a {
+        font-size: 0.95rem;
+    }
 }
 
 .footer-contacts {
