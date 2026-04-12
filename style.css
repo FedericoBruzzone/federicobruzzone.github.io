@@ -194,14 +194,14 @@ html body {
 }
 
 .title {
-    font-size: 32px;
+    font-size: 26px;
 }
 
 .theme-button {
     border: none;
     background: transparent;
     cursor: pointer;
-    font-size: 32px;
+    font-size: 26px;
 }
 
 .cite {
