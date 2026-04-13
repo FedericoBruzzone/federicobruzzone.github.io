@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     <img id="theme-icon" src="[FOLDER]/icons/moon.svg"/>
                 </button>
                 <div class="title">
-                    <a href="[FOLDER]/index.html" title="Posts" style="text-decoration: none; color:var(--header-color)">
+                    <a href="[FOLDER]/index.html" title="Home" style="text-decoration: none; color:var(--header-color)">
                         <span class="active">Federico Bruzzone</span>
                     </a>
                 </div>
@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function() {
             <button class="header-toggle" aria-label="Open navigation menu">☰</button>
 
             <nav class="header-nav">
-                <a href="[FOLDER]/index.html" title="Posts" style="text-decoration: none; color:var(--header-color)">Posts</a>
+                <a href="[FOLDER]/post.html" title="Posts" style="text-decoration: none; color:var(--header-color)">Posts</a>
                 <a href="[FOLDER]/cv.pdf" title="CV" style="text-decoration: none; color:var(--header-color)">CV</a>
                 <a href="[FOLDER]/about.html" title="About" style="text-decoration: none; color:var(--header-color)">About</a>
             </nav>

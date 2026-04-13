@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="prism.css">
+        <link rel="stylesheet" href="code.css">
+
+        <!-- Favicon -->
+        <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+        <link rel="manifest" href="/favicon/site.webmanifest">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+
+        <title>Federico Bruzzone</title>
+
+    </head>
+    
+    <body>
+    
+        <div id="root-folder" value="."></div>
+        <div id="header"></div>
+        
+        <main>
+            <br>
+            <br>
+            <br>
+
+        <div onclick="location.href='posts/tre-shift-opt-contribution.html';" style="cursor: pointer;">
+        <article class="light-post-theme post-block"> 
+            <div class="post-inner">
+                <div class="post-title"> 
+                    <img src="icons/pin.svg" width=16px height=16px/> Tail Recursion Elimination: Optimize Shift Accumulators
+                </div>
+                <div class="post-desc"> 
+                    A contribution to LLVM's Tail Recursion Elimination pass, adding support for shift accumulators. This optimization allows the compiler to transform certain recursive patterns involving shift operations into efficient iterative code.
+                </div>
+                <div class="post-foot"> 
+                    <img src="icons/clock.svg" width=12px height=12px/> Date: 13 February, 2026  |  Tags: LLVM, compilers, optimizations
+                </div>
+            </div>
+        </article>
+        </div>
+        <br>
+
+
+        <div onclick="location.href='posts/consume-the-input-only-when-somet-is-returned.html';" style="cursor: pointer;">
+        <article class="light-post-theme post-block"> 
+            <div class="post-inner">
+                <div class="post-title"> 
+                    <img src="icons/pin.svg" width=16px height=16px/> Consume the Input Only When Some&lt;T&gt; is Returned
+                </div>
+                <div class="post-desc"> 
+                    A discussion on idiomatic Rust patterns for consuming input only when a function successfully returns a value. This explores ownership semantics and how to write clean, expressive APIs in Rust.
+                </div>
+                <div class="post-foot"> 
+                    <img src="icons/clock.svg" width=12px height=12px/> Date: 21 April, 2025  |  Tags: rust, idiomatic
+                </div>
+            </div>
+        </article>
+        </div>
+        <br>
+
+
+        <div onclick="location.href='posts/open-source-licenses-a-deep-dive-into-their-meaning.html';" style="cursor: pointer;">
+        <article class="light-post-theme post-block"> 
+            <div class="post-inner">
+                <div class="post-title"> 
+                    <img src="icons/pin.svg" width=16px height=16px/> Open Source Licenses: A Deep Dive into Their Meaning
+                </div>
+                <div class="post-desc"> 
+                    An in-depth exploration of open source licenses, covering their legal implications, the differences between permissive and copyleft licenses, and practical guidance for choosing the right license for your project.
+                </div>
+                <div class="post-foot"> 
+                    <img src="icons/clock.svg" width=12px height=12px/> Date: 25 March, 2025  |  Tags: licenses, open-source
+                </div>
+            </div>
+        </article>
+        </div>
+        <br>
+
+
+        <div onclick="location.href='posts/exploiting-finite-state-automata-for-efficient-lexical-analysis-a-rust-implementation.html';" style="cursor: pointer;">
+        <article class="light-post-theme post-block"> 
+            <div class="post-inner">
+                <div class="post-title"> 
+                    <img src="icons/pin.svg" width=16px height=16px/> Exploiting Finite State Automata for Efficient Lexical Analysis: A Rust Implementation
+                </div>
+                <div class="post-desc"> 
+                    A practical exploration of building a lexical analyzer in Rust using finite state automata. We cover DFA/NFA theory and show how to implement an efficient lexer from scratch.
+                </div>
+                <div class="post-foot"> 
+                    <img src="icons/clock.svg" width=12px height=12px/> Date: 10 August, 2024  |  Tags: compilers, rust
+                </div>
+            </div>
+        </article>
+        </div>
+
+        </main>
+        <div id="footer"></div>
+        <script src="scripts/toggle-theme.js"></script>
+        <script src="scripts/load-header.js"></script>
+        <script src="scripts/load-footer.js"></script>
+        <script src="scripts/load-cits.js"></script>
+        <script src="scripts/load-bib.js"></script>
+    <script src="scripts/prism.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.2/p5.js"></script>
+    </body>
+
+</html>
