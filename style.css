@@ -297,20 +297,21 @@ tr:nth-child(even) {
     max-width: 680px;
     margin: 10px;
     display: grid;
-    grid-template-rows: 1fr 4fr 1fr;
+    grid-template-rows: auto auto auto;
 }
 
 .post-title {
     color: var(--post-title-color);
     font-size: 20px;
     font-weight: 700;
+    margin-bottom: 0.3rem;
 }
 
 .post-desc {
     color: var(--post-desc-color);
     text-align: justify;
     font-size: var(--text-font-size);
-    margin: auto;
+    margin: 0 0 0.5rem 0;
 }
 
 .post-foot {
