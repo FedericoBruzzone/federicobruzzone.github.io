@@ -49,7 +49,7 @@
             Not yet complete, the <a href="https://eter-lang.github.io/eter/">Eter language reference</a> and the <a href="https://eter-lang.github.io/eter/api/">Eter doxygen documentation</a> are also a good starting point.
             Overall, we are researching the following:
             <ul>
-                <li>a novel semantics for a system programming language inspired by the <i>Ownership and Borrowing</i> Model (Affine Type System with Lifetimes) <span class="cite" value="Wadler90"></span><span class="cite" value="Walker05"></span></span><span class="cite" value="Clarke98"></span><span class="cite" value="Tofte97"></span><span class="cite" value="Barrett93"></span><span class="cite" value="Aiken95"></span><span class="cite" value="Talpin92"></span> and the <i>Mutable Value Semantics</i> (MVS) <span class="cite" value="Racordon22"></span>,</li> 
+                <li>a novel semantics for a system programming language inspired by the <i>Ownership and Borrowing</i> Model (Affine Type System with Lifetimes) <span class="cite" value="Wadler90"></span><span class="cite" value="Walker05"></span></span><span class="cite" value="Clarke98"></span><span class="cite" value="Tofte97"></span><span class="cite" value="Barrett93"></span><span class="cite" value="Aiken95"></span><span class="cite" value="Talpin92"></span> and the <i>Mutable Value Semantics</i> (MVS),</li> 
                 <li>a mechanism to integrate <i>Machine Learning</i> (ML) and <i>Deep Learning</i> (DL) models into the language, as first-class entities (e.g., simple <tt>extern</tt> functions),</li>
                 <li>a support for ensuring coexistence between CPU and GPU computations (like the Mojo programming language <span class="cite" value="Mojo26"></span>), and</li>
                 <li>a tile-level programming model for GPU computations (e.g., NVIDIA's Tilus <span class="cite" value="Ding25"></span> and Tile-IR<span class="cite" value="TileIR26"></span>, OpenAI's Triton <span class="cite" value="Tillet19"></span>, Triton-Based Gluon <span class="cite" value="Gluon26"></span>, Halide<span class="cite" value="Ragan17"></span>).</li>
@@ -71,6 +71,29 @@
         </p>
 
         <h2>The Mutable Value Semantics (MVS)</h2>
+
+        <p>
+        Racordon <i>et al.</i> <span class="cite" value="Racordon22"></span> introduced the <strong>Mutable Value Semantics</strong> (MVS) as a novel programming discipline that aims to address the challenges of memory safety and concurrency in a system programming language.
+        MVS is a programming discipline that advocates for <i>value independence</i> to support local reasoning. 
+        In its strictest form, references become second-class elements: they are created only implicitly, at function boundaries, and cannot be stored in variables or object fields. 
+        Therefore, variables can never share a mutable state. 
+        Unlike pure functional programming, however, mutable value semantics allows partial in-place mutation, thus eliminating the memory traffic typically associated with functional updates of immutable data.
+        </p>
+
+        <p>
+        Both [Swift] and [Hylo] (formerly Val) adopt this model in their design, but in different ways.  
+        The former tries to make values look like safe references, while the latter treats everything as a pure value, eliminating the need for a Garbage Collector (GC) or Atomic Reference Counting (ARC) altogether.
+        </p>
+
+
+
+
+
+
+
+
+
+
 
         <p><br><br></p>
         <hr>
