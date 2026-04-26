@@ -38,12 +38,41 @@
             <img src="https://raw.githubusercontent.com/eter-lang/eter/main/docsrc/logo/logo.png" alt="The Eter logo" width="15px"/>
             </div>
         </div>
-        
-        <br>
-        <br>
-        <br>
-        This is an <span class="hl">highlight</span>.
 
+       <p>
+            This is the <strong>first post</strong> of the <i>Eter programming language series</i>.
+            While this post is part of the <a href="https://github.com/eter-lang/eter">Eter</a> programming language series, it is not a part of the Eter language itself.
+            The Eter language is currently in the design and development phase—we are modelling a new memory model, and we are exploring ideas about how to implement it.
+            Thus, the Eter programming language series (including this post), for now, is to be considered as a brainstorming and exploration of ideas.
+            However, if you are interested in the Eter language, you can find more information about it in the <a href="https://github.com/eter-lang/eter">Eter compiler monorepo</a>. 
+            Not yet complete, the <a href="https://eter-lang.github.io/eter/">Eter language reference</a> and the <a href="https://eter-lang.github.io/eter/api/">Eter doxygen documentation</a> are also a good starting point.
+       </p>
+
+       <h2>Introduction</h2>
+
+       <p>
+           You won't blame me if I dare say that one of the most important aspects of designing a programming language is its semantics—especially the semantics of the <i>memory model</i>.<a id="footnote-1-ref" href="#footnote-1"><sup>1</sup></a>
+           The memory model tells us how the language behaves when we manipulate memory, whether manual or automatic.
+           For instance, aliasing rules, thread visibility, ordering of memory operations (e.g., <i>atomicity</i>), and so on.
+           The memory model defines what it means for a program to be <strong>safe</strong>, by specifying which behaviors are well-defined and which fall into <i>undefined behavior</i> (UB).
+           However, it is the responsibility of the language's type system and static analyses to ensure that safe code cannot violate these constraints.
+           Ideally, we would like to eliminate UB altogether, at least for a subset of the language.<a id="footnote-2-ref" href="#footnote-2"><sup>2</sup></a>
+       </p>
+
+       <h2>The Mutable Value Semantics (MVS)</h2>
+
+       <p><br><br></p>
+        <hr>
+
+        <p id="footnote-1">
+        <sup>1</sup> <a href="https://en.wikipedia.org/wiki/Memory_model_(programming)">https://en.wikipedia.org/wiki/Memory_model_(programming)</a> 
+        <a href="#footnote-1-ref">&#8617;</a>
+        </p>
+
+        <p id="footnote-2">
+        <sup>2</sup> Consider the Rust programming language, for instance. It features a strong type system and a static analysis—most notably, the borrow checker—that ensures safe code cannot violate memory safety guarantees. However, it is still possible to write code that breaks these guarantees by using <tt>unsafe</tt>, thereby potentially causing undefined behavior.
+        <a href="#footnote-2-ref">&#8617;</a>
+        </p>
     </main>
 
     <div id="footer"></div>

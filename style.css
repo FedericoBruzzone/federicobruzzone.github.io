@@ -419,4 +419,13 @@ tr:nth-child(even) {
     box-shadow: 2px 2px 0px #aaa;
     text-align: center;
     display: inline-block;
+    margin: 15px auto;
+    width: fit-content;
+    font-family: "Roboto", sans-serif;
+}
+
+body.dark-mode .alert-box {
+    border: 1.5px solid #aaa;
+    background: #373737;
+    color: #ddd;
 }
