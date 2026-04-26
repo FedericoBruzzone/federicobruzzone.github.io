@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     const bibContent = `
 @misc{${pageTitle.replace(/\s+/g, '_').toLowerCase()}_${pageYear},
-  author = {Bertolotti, Francesco},
+  author = {Bruzzone, Federico},
   title = {${pageTitle}},
   url   = {${pageUrl}},
   note  = {Blog post, accessed: ${pageDate}},

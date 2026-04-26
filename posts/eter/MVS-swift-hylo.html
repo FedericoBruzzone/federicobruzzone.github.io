@@ -20,7 +20,7 @@
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
 
-    <title>Swift and Hylo: Mutable Value Semantics (MVS)</title>
+    <title>Swift and Hylo: The Mutable Value Semantics (MVS)</title>
 </head>
 
 
@@ -29,7 +29,7 @@
     <div id="header"></div>
 
     <main>
-        <h1>Swift and Hylo: Mutable Value Semantics (MVS)</h1>
+        <h1>Swift and Hylo: The Mutable Value Semantics (MVS)</h1>
 
         <div style="display: flex; justify-content: center;">
             <div class="alert-box">
@@ -42,8 +42,17 @@
        <p>
             This is the <strong>first post</strong> of the <i>Eter programming language series</i>.
             While this post is part of the <a href="https://github.com/eter-lang/eter">Eter</a> programming language series, it is not a part of the Eter language itself.
-            The Eter language is currently in the design and development phase—we are modelling a new memory model, and we are exploring ideas about how to implement it.
-            Thus, the Eter programming language series (including this post), for now, is to be considered as a brainstorming and exploration of ideas.
+            The Eter language is currently in the design and development phase.
+            We are researching
+            <ul>
+                <li>A novel semantics for the language inspired by the <i>Ownership and Borrowing</i> Model (Affine Type System with Lifetimes) <span class="cite" value="Wadler90"></span> and the <i>Mutable Value Semantics</i> (MVS),</li>
+            <li>Tea</li>
+            <li>Milk</li>
+            </ul>
+        </p>
+        <p>
+            Thus, the Eter programming language series (including this post), for now, is to be considered as a brainstorming and exploration of ideas which will serve as a basis for the Eter language.
+            <strong>No prior knowledge of Eter, or of why it is being studied, is necessary to read these first posts.</strong>
             However, if you are interested in the Eter language, you can find more information about it in the <a href="https://github.com/eter-lang/eter">Eter compiler monorepo</a>. 
             Not yet complete, the <a href="https://eter-lang.github.io/eter/">Eter language reference</a> and the <a href="https://eter-lang.github.io/eter/api/">Eter doxygen documentation</a> are also a good starting point.
        </p>
@@ -56,7 +65,7 @@
            For instance, aliasing rules, thread visibility, ordering of memory operations (e.g., <i>atomicity</i>), and so on.
            The memory model defines what it means for a program to be <strong>safe</strong>, by specifying which behaviors are well-defined and which fall into <i>undefined behavior</i> (UB).
            However, it is the responsibility of the language's type system and static analyses to ensure that safe code cannot violate these constraints.
-           Ideally, we would like to eliminate UB altogether, at least for a subset of the language.<a id="footnote-2-ref" href="#footnote-2"><sup>2</sup></a>
+           Ideally, we would like to eliminate UB altogether, at least for a reasonable subset of the language.<a id="footnote-2-ref" href="#footnote-2"><sup>2</sup></a>
        </p>
 
        <h2>The Mutable Value Semantics (MVS)</h2>
@@ -75,7 +84,9 @@
         </p>
     </main>
 
+    <div class="bibliography"></div>
     <div id="footer"></div>
+
     <script src="../../scripts/toggle-theme.js"></script>
     <script src="../../scripts/load-header.js"></script>
     <script src="../../scripts/load-footer.js"></script>
