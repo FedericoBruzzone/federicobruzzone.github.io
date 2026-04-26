@@ -43,34 +43,36 @@
             This is the <strong>first post</strong> of the <i>Eter programming language series</i>.
             While this post is part of the <a href="https://github.com/eter-lang/eter">Eter</a> programming language series, it is not a part of the Eter language itself.
             The Eter language is currently in the design and development phase.
-            We are researching
-            <ul>
-                <li>A novel semantics for the language inspired by the <i>Ownership and Borrowing</i> Model (Affine Type System with Lifetimes) <span class="cite" value="Wadler90"></span> and the <i>Mutable Value Semantics</i> (MVS),</li>
-            <li>Tea</li>
-            <li>Milk</li>
-            </ul>
-        </p>
-        <p>
             Thus, the Eter programming language series (including this post), for now, is to be considered as a brainstorming and exploration of ideas which will serve as a basis for the Eter language.
             <strong>No prior knowledge of Eter, or of why it is being studied, is necessary to read these first posts.</strong>
             However, if you are interested in the Eter language, you can find more information about it in the <a href="https://github.com/eter-lang/eter">Eter compiler monorepo</a>. 
             Not yet complete, the <a href="https://eter-lang.github.io/eter/">Eter language reference</a> and the <a href="https://eter-lang.github.io/eter/api/">Eter doxygen documentation</a> are also a good starting point.
-       </p>
+            Overall, we are researching the following:
+            <ul>
+                <li>a novel semantics for a system programming language inspired by the <i>Ownership and Borrowing</i> Model (Affine Type System with Lifetimes) <span class="cite" value="Wadler90"></span><span class="cite" value="Walker05"></span></span><span class="cite" value="Clarke98"></span><span class="cite" value="Tofte97"></span><span class="cite" value="Barrett93"></span><span class="cite" value="Aiken95"></span><span class="cite" value="Talpin92"></span> and the <i>Mutable Value Semantics</i> (MVS) <span class="cite" value="Racordon22"></span>,</li> 
+                <li>a mechanism to integrate <i>Machine Learning</i> (ML) and <i>Deep Learning</i> (DL) models into the language, as first-class entities (e.g., simple <tt>extern</tt> functions),</li>
+                <li>a support for ensuring coexistence between CPU and GPU computations (like the Mojo programming language <span class="cite" value="Mojo26"></span>), and</li>
+                <li>a tile-level programming model for GPU computations (e.g., NVIDIA's Tilus <span class="cite" value="Ding25"></span> and Tile-IR<span class="cite" value="TileIR26"></span>, OpenAI's Triton <span class="cite" value="Tillet19"></span>, Triton-Based Gluon <span class="cite" value="Gluon26"></span>, Halide <span class="cite" value="Ragan17"></span>).</li>
+            </ul>
+        </p>
+        <p>
+            <strong>But for now, let's put aside everything that Eter is supposed to be...</strong>
+        </p>
 
-       <h2>Introduction</h2>
+        <h2>Introduction</h2>
 
-       <p>
-           You won't blame me if I dare say that one of the most important aspects of designing a programming language is its semantics—especially the semantics of the <i>memory model</i>.<a id="footnote-1-ref" href="#footnote-1"><sup>1</sup></a>
+        <p>
+           You won't blame me if I dare say that one of the most important aspects of designing a programming language is its semantics—especially the semantics of the <i>memory model</i>.
            The memory model tells us how the language behaves when we manipulate memory, whether manual or automatic.
            For instance, aliasing rules, thread visibility, ordering of memory operations (e.g., <i>atomicity</i>), and so on.
            The memory model defines what it means for a program to be <strong>safe</strong>, by specifying which behaviors are well-defined and which fall into <i>undefined behavior</i> (UB).
            However, it is the responsibility of the language's type system and static analyses to ensure that safe code cannot violate these constraints.
            Ideally, we would like to eliminate UB altogether, at least for a reasonable subset of the language.<a id="footnote-2-ref" href="#footnote-2"><sup>2</sup></a>
-       </p>
+        </p>
 
-       <h2>The Mutable Value Semantics (MVS)</h2>
+        <h2>The Mutable Value Semantics (MVS)</h2>
 
-       <p><br><br></p>
+        <p><br><br></p>
         <hr>
 
         <p id="footnote-1">
@@ -82,11 +84,15 @@
         <sup>2</sup> Consider the Rust programming language, for instance. It features a strong type system and a static analysis—most notably, the borrow checker—that ensures safe code cannot violate memory safety guarantees. However, it is still possible to write code that breaks these guarantees by using <tt>unsafe</tt>, thereby potentially causing undefined behavior.
         <a href="#footnote-2-ref">&#8617;</a>
         </p>
+
+        <p id="footnote-3">
+        <sup>3</sup> <a href="https://www.modular.com/open-source/mojo">https://www.modular.com/open-source/mojo</a> 
+        <a href="#footnote-3-ref">&#8617;</a>
+        </p>
     </main>
 
     <div class="bibliography"></div>
     <div id="footer"></div>
-
     <script src="../../scripts/toggle-theme.js"></script>
     <script src="../../scripts/load-header.js"></script>
     <script src="../../scripts/load-footer.js"></script>
