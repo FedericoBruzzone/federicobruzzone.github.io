@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="../../prism.css">
+    <link rel="stylesheet" href="../../code.css">
+
+    <script src="../../scripts/prism.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.2/p5.js"></script> -->
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    <title>The Mutable Value Semantics (MVS): A Personal Perspective on Design Limitations</title>
+</head>
+
+
+<body>
+    <div id="root-folder" value="../.."></div>
+    <div id="header"></div>
+
+    <main>
+        <h1><img src="https://raw.githubusercontent.com/eter-lang/eter/main/docsrc/logo/logo.png" alt="The Eter logo"
+                width="20px" /> The Mutable Value Semantics (MVS): A Personal Perspective on Design Limitations</h1>
+
+        <div style="display: flex; justify-content: center;">
+            <div class="alert-box">
+                <img src="https://raw.githubusercontent.com/eter-lang/eter/main/docsrc/logo/logo.png"
+                    alt="The Eter logo" width="10px" />
+                This post is part of <i>The <a href="https://github.com/eter-lang/eter">Eter</a> programming
+                    Language</i> series.
+                <img src="https://raw.githubusercontent.com/eter-lang/eter/main/docsrc/logo/logo.png"
+                    alt="The Eter logo" width="10px" />
+            </div>
+        </div>
+
+        <p>
+            This is the <strong>first post</strong> in the <i>Eter programming language</i> series.
+            Although part of this series, it is not part of the Eter language itself.
+            The Eter language is currently in the design and development phase, and this series (including this post)
+            should be considered an exploration of ideas that will serve as a foundation for the language.
+            <strong>No prior knowledge of Eter, or of its motivations, is required to read these early posts.</strong>
+            However, if you are interested in the project, you can find more information in the
+            <a href="https://github.com/eter-lang/eter">Eter compiler monorepo</a>.
+            The <a href="https://eter-lang.github.io/eter/">Eter language reference</a> and the
+            <a href="https://eter-lang.github.io/eter/api/">Eter Doxygen documentation</a>, although not yet complete,
+            are also good starting points.
+        </p>
+
+        <p>
+            Overall, we are currently researching:
+        </p>
+
+        <ul>
+            <li>
+                a novel semantics for a system programming language inspired by the <i>Ownership and Borrowing</i> model
+                (Affine Type Systems with Lifetimes)
+                <span class="cite" value="Wadler90"></span>
+                <span class="cite" value="Walker05"></span>
+                <span class="cite" value="Clarke98"></span>
+                <span class="cite" value="Tofte97"></span>
+                <span class="cite" value="Barrett93"></span>
+                <span class="cite" value="Aiken95"></span>
+                <span class="cite" value="Talpin92"></span>
+                and the <i>Mutable Value Semantics</i> (MVS),
+            </li>
+
+            <li>
+                mechanisms to integrate <i>Machine Learning</i> (ML) and <i>Deep Learning</i> (DL) models as first-class
+                entities in the language (e.g., via simple <tt>extern</tt> functions),
+            </li>
+
+            <li>
+                support for seamless coexistence between CPU and GPU computations (similar to the Mojo programming
+                language
+                <span class="cite" value="Mojo26"></span>), and
+            </li>
+
+            <li>
+                a tile-level programming model for GPU computation, inspired by systems such as NVIDIA's Tile IR
+                <span class="cite" value="TileIR26"></span>,
+                Triton
+                <span class="cite" value="Tillet19"></span>,
+                Triton-based Gluon
+                <span class="cite" value="Gluon26"></span>,
+                Halide
+                <span class="cite" value="Ragan17"></span>,
+                and related approaches such as Tilus
+                <span class="cite" value="Ding25"></span>.
+            </li>
+        </ul>
+        <p>
+            <strong>But for now, let's put aside everything that Eter is supposed to be...</strong>
+        </p>
+
+        <h2>Introduction</h2>
+
+        <p>
+            It is fair to say that one of the most important aspects in the design of a programming language is its
+            semantics—particularly the semantics of its <i>memory model</i>.
+            The memory model describes how the language behaves when memory is manipulated, whether manually or
+            automatically.
+            This includes, for example, aliasing rules, thread visibility, and the ordering of memory operations (such
+            as <i>atomicity</i>).
+        </p>
+
+        <p>
+            More fundamentally, the memory model defines what it means for a program to be <strong>safe</strong>, by
+            specifying which behaviors are well-defined and which fall into <i>undefined behavior</i> (UB).
+            Ensuring that safe programs cannot violate these constraints is the responsibility of the language’s type
+            system and static analyses.
+        </p>
+
+        <p>
+            Ideally, we would like to eliminate undefined behavior altogether—at least for a meaningful and practical
+            subset of the language.
+            <a id="footnote-1-ref" href="#footnote-1"><sup>1</sup></a>
+        </p>
+
+        <h2>The Mutable Value Semantics (MVS)</h2>
+
+        <p>
+            Racordon <i>et al.</i> <span class="cite" value="Racordon22"></span> introduced the <strong>Mutable Value
+                Semantics</strong> (MVS) as a novel programming discipline that aims to address the challenges of memory
+            safety and concurrency in a system programming language.<a id="footnote-2-ref"
+                href="#footnote-2"><sup>2</sup></a>
+            MVS is a programming discipline that advocates for <i>value independence</i> to support local reasoning.
+            In its strictest form, references become second-class elements: they are created only implicitly, at
+            function boundaries, and cannot be stored in variables or object fields.
+            Therefore, variables can never share a mutable state.
+            Unlike pure functional programming, however, mutable value semantics allows partial in-place mutation, thus
+            eliminating the memory traffic typically associated with functional updates of immutable data.
+        </p>
+
+        <p>
+            Let us use a programming language with simple features (called Swiftlet) to illustrate the concepts of value semantics.
+            As all types have value semantics, values form disjoint topological trees rooted at variables or constants.
+            Therefore, the following code is well-typed:
+        <pre class="line-numbers" data-line="3-3" data-language="Swiftlet">
+            <code class="language-swift">
+                struct Vec2 { ... };
+                var v = Vec2(x: 1, y: 2);
+                var u = v;
+                u.y = 3 // v -> Vec2(x: 1, y: 2)
+                        // u -> Vec2(x: 1, y: 3)
+            </code>
+            </pre>
+        </p>
+
+        <p>
+            Conceptually, the line 3 can be always viewed as a <i>copy</i> of the value of <code
+                class="language-swift">v</code> (optimizations are possible).
+            On the other hand, the following code is ill-typed due to the immutable property of <code
+                class="language-swift">v</code>:
+        <pre class="line-numbers" data-line="3-3" data-language="Swiftlet">
+                <code class="language-swift">
+                    struct Vec2 { ... };
+                    let v = Vec2(x: 1, y: 2);
+                    v.x = 3 // ERROR: `v` is immutable
+                </code>
+                </pre>
+        </p>
+
+        <p>
+            To implement in-place part-wise mutation the <code class="language-swift">inout</code> keyword is used.
+            For instance, the following code is well-typed:
+        <pre class="line-numbers" data-line="6-6" data-language="Swiftlet">
+                <code class="language-swift">
+                    struct Vec2 { ... };
+                    func move_x(v: inout Vec2, x: Int) -> Void {
+                        v.x = v.x + d;
+                    };
+                    var v = Vec2(x: 1, y: 2);
+                    _ = move_x(&amp;v, x: 3);
+                    // v -> Vec2(x: 4, y: 2)
+                </code>
+                </pre>
+        </p>
+        <p>
+            Conceptually, the line 6 can be always viewed as a <i>copy</i> of the value of <code
+                class="language-swift">v</code> and then a <i>copy</i> back to <code class="language-swift">v</code>,
+            after the <code class="language-swift">move_x</code> function has been called (you can see the optimization
+            here).
+            Multiple <code class="language-swift">inout</code>s parameters are allowed as long as in the call site
+            they are all disjoint trees, i.e., they do not share any part of their value.
+            For instance, the following code is well-typed:
+        <pre class="line-numbers" data-line="7-7" data-language="Swiftlet">
+            <code class="language-swift">
+                struct Vec2 { ... };
+                func move_xy(x: inout Int, y: inout Int, inc: Int) -> Void {
+                    x = x + inc;
+                    y = y + inc;
+                };
+                var v = Vec2(x: 1, y: 2);
+                _ = move_xy(&amp;v.x, &amp;v.y, inc: 3)
+                // v -> Vec2(x: 4, y: 5)
+            </code>
+            </pre>
+        </p>
+
+        <p>
+            This <i>Law of Exclusivity</i> <span class="cite" value="MacCall17"></span> states that a value cannot be
+            simultaneously owned by two different owners.
+            In other words, a value cannot be shared between multiple owners.
+            For instance, the following code is ill-typed because the <code class="language-swift">x</code> is shared
+            twice:
+            the frist time at the call site when it is passed as an <code class="language-swift">inout</code> parameter
+            and the second time when it is <i>captured</i> by the <code class="language-swift">g</code> function
+            (similar to Linear Type System).
+        <pre class="line-numbers" data-line="3-3" data-language="Swiftlet">
+            <code class="language-swift">
+                var x = 0;
+                func g(y: inout Int) { y += x }
+                g (y: &amp;x) // ERROR: x is shared twice
+            </code>
+            </pre>
+        </p>
+
+        <p>
+            Both Swift <span class="cite" value="Swift"></span> and Hylo <span class="cite" value="Hylo"></span>
+            (formerly Val) adopt this model in their design, but in different ways.
+            The former tries to make values look like safe references, while the latter treats everything as a pure
+            value, eliminating the need for a Garbage Collector (GC) or Atomic Reference Counting (ARC) altogether.
+        </p>
+
+
+        <h2>The Swift Mutable Value Semantics</h2>
+
+        <p>
+            In Swift, for <strong>value types</strong> (structs), the MVS is implemented via a copy-on-write (CoW)
+            mechanism. When you assign an array to a new variable, Swift does not immediately copy the data; both
+            variables point to the same memory. The copy only occurs if one of the instances is modified. This requires
+            hidden reference counting (ARC) to track how many _owners_ there are. If the count is greater than 1, a copy
+            is performed. This introduces some latency, as every mutation involves a small ARC check, which can cause
+            overhead in high-performance contexts.
+            For instance, the following code is well-typed:
+        <pre class="line-numbers" data-line="">
+                <code class="language-swift">
+                    var a = [1, 2, 3] // `a` owns the array
+                    var b = a         // `b` shares ownership with `a`, no copy yet
+                    b.append(4)       // `b` mutates the array, triggers a copy due to ARC check
+                    print(a)          // -> [1, 2, 3]
+                    print(b)          // -> [1, 2, 3, 4]
+                </code>
+                </pre>
+        </p>
+
+        <p>
+            Swift's MVS allows for <strong>reference types</strong> (classes), which permit aliasing—i.e., multiple variables can point to the same object and mutate it. This violates the <i>Law of Exclusivity</i> introduced above and breaks local reasoning: you can no longer reason about your code by looking only at the local scope, because an alias might be mutated elsewhere—leading to subtle bugs if not used carefully.
+            
+        </p>
+
+        <p>
+            This lack is futher exacerbated by the fact in Swift the previous example compiles without errors, but crashes at runtime (<a href="https://godbolt.org/z/j8a4r31hv">Compiler explorer</a>):
+            <pre class="line-numbers" data-line="">
+            <code class="language-swift">
+                var x = 0;
+                func g(y: inout Int) { y += x }
+                g (y: &amp;x)
+            </code>
+            </pre>
+        </p>
+
+
+        <h2>The Hylo Mutable Value Semantics</h2>
+
+        <p>
+        TODO
+        </p>
+
+
+
+
+
+        <p><br><br></p>
+        <hr>
+
+        <p id="footnote-1">
+            <sup>1</sup>
+            Consider the Rust programming language, for instance. It features a strong type system and a
+            static analysis—most notably, the borrow checker—that ensures safe code cannot violate memory safety
+            guarantees. However, it is still possible to write code that breaks these guarantees by using
+            <tt>unsafe</tt>, thereby potentially causing undefined behavior.
+            <a href="#footnote-2-ref">&#8617;</a>
+        </p>
+
+
+        <p id="footnote-2">
+            <sup>2</sup>
+            We refer the reader to the following resources: (i) The research section of the <a
+                href="https://hylo-lang.org/docs/contributing/research-collab/">hylo-lang website</a> for a
+            comprehensive list of papers related to MVS, (ii) the <a
+                href="https://hylo-lang.org/docs/reference/specification/">Hylo language specification</a>, (iii) the <a
+                href="https://www.swiftbysundell.com/articles/utilizing-value-semantics-in-swift/">Utilizing value
+                semantics in Swift</a> post, and (iv) the <a
+                href="https://www.scattered-thoughts.net/writing/ruminating-about-mutable-value-semantics/">Ruminating
+                about mutable value semantics</a> post.
+            <a href="#footnote-2-ref">&#8617;</a>
+        </p>
+
+        <div class="bibliography"></div>
+        <div id="footer"></div>
+        <script src="../../scripts/toggle-theme.js"></script>
+        <script src="../../scripts/load-header.js"></script>
+        <script src="../../scripts/load-footer.js"></script>
+        <script src="../../scripts/load-cits.js"></script>
+        <script src="../../scripts/load-bib.js"></script>
+</body>
+
+</html>

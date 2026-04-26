@@ -165,4 +165,24 @@ const bibliography = {
         "journal" : "https://github.com/NVIDIA/cuda-tile",
         "year"    : "2026"
     },
+    "MacCall17" : {
+        "title"   : "Swift ownership manifesto",
+        "author"  : "J. McCall",
+        "journal" : "https://github.com/apple/swift/blob/main/docs/OwnershipManifesto.md",
+        "year"    : "2017"
+    },
+    "Swift" : {
+        "title"   : "The Swift Programming Language",
+        "author"  : "Apple",
+        "publisher" : "Apple",
+        "journal" : "https://docs.swift.org/swift-book/index.html",
+        "year"    : "2022"
+    },
+    "Hylo" : {
+        "title"   : "Hylo Programming Language",
+        "author"  : "Hylo",
+        "publisher" : "Hylo",
+        "journal" : "https://hylo-lang.org/",
+        "year"    : "2022"
+    },
 };
