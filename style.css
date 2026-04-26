@@ -411,10 +411,10 @@ tr:nth-child(even) {
     border-radius: 3px;
 }
 
-.theorem-box {
-    background-color: var(--table-back-color);
-    border: 1px solid var(--post-desc-color);
-    border-radius: 5px;
-    padding: 15px 20px;
-    margin: 15px 0;
+.alert-box {
+    border: 2px solid rgb(53, 88, 129);
+    background: rgb(124, 197, 199);
+    padding: 14px;
+    border-radius: 3px;
+    box-shadow: 2px 2px 0px #aaa;
 }
