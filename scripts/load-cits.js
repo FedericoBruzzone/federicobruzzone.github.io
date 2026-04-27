@@ -185,4 +185,14 @@ const bibliography = {
         "journal" : "https://hylo-lang.org/",
         "year"    : "2022"
     },
+    "Naden12" : {
+        "title"   : "A type system for borrowing permissions",
+        "author"  : "Naden, Karl and Bocchino, Robert and Aldrich, Jonathan and Bierhoff, Kevin",
+        "journal" : "ACM SIGPLAN Notices",
+        "volume"    : "47",
+        "number"    : "1",
+        "pages"     : "557--570",
+        "year"      : "2012",
+        "publisher" : "ACM New York, NY, USA"
+    },
 };

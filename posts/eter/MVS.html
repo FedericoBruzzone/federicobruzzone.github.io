@@ -122,17 +122,16 @@
 
         <p>
             Ideally, we would like to eliminate undefined behavior altogether—at least for a meaningful and practical
-            subset of the language.
-            <a id="footnote-1-ref" href="#footnote-1"><sup>1</sup></a>
+            subset of the language.<a id="footnote-1-ref" href="#footnote-1"><sup>1</sup></a>
         </p>
 
         <h2>The Mutable Value Semantics (MVS)</h2>
 
         <p>
             Racordon <i>et al.</i> <span class="cite" value="Racordon22"></span> introduced the <strong>Mutable Value
-                Semantics</strong> (MVS) as a novel programming discipline that aims to address the challenges of memory
-            safety and concurrency in a system programming language.<a id="footnote-2-ref"
-                href="#footnote-2"><sup>2</sup></a>
+                Semantics</strong> (MVS) as a novel semantics for a system programming language that aims
+            to address the challenges of memory
+            safety and concurrency.<a id="footnote-2-ref" href="#footnote-2"><sup>2</sup></a>
             MVS is a programming discipline that advocates for <i>value independence</i> to support local reasoning.
             In its strictest form, references become second-class elements: they are created only implicitly, at
             function boundaries, and cannot be stored in variables or object fields.
@@ -142,8 +141,10 @@
         </p>
 
         <p>
-            Let us use a programming language with simple features (called Swiftlet) to illustrate the concepts of value semantics.
+            Let us use a programming language with simple features (called Swiftlet) to illustrate the concepts of value
+            semantics.
             As all types have value semantics, values form disjoint topological trees rooted at variables or constants.
+            All function parameters are passed by value, and all function results are returned by value.
             Therefore, the following code is well-typed:
         <pre class="line-numbers" data-line="3-3" data-language="Swiftlet">
             <code class="language-swift">
@@ -190,8 +191,12 @@
                 class="language-swift">v</code> and then a <i>copy</i> back to <code class="language-swift">v</code>,
             after the <code class="language-swift">move_x</code> function has been called (you can see the optimization
             here).
-            Multiple <code class="language-swift">inout</code>s parameters are allowed as long as in the call site
-            they are all disjoint trees, i.e., they do not share any part of their value.
+            As the paper presented the MVS, the <code class="language-swift">inout</code> keyword can be only used for
+            formal parameters, i.e., we cannot initialize/assign an <code class="language-swift">inout</code> variable—a
+            limitation overcome by Hylo.
+            Multiple <code class="language-swift">inout</code>s <i>formal</i> parameters are allowed as long as in the
+            call site
+            the <i>actual</i> parameters are all disjoint trees, i.e., they do not share any part of their value.
             For instance, the following code is well-typed:
         <pre class="line-numbers" data-line="7-7" data-language="Swiftlet">
             <code class="language-swift">
@@ -219,7 +224,7 @@
         <pre class="line-numbers" data-line="3-3" data-language="Swiftlet">
             <code class="language-swift">
                 var x = 0;
-                func g(y: inout Int) { y += x }
+                func g(y: inout Int) { y += x };
                 g (y: &amp;x) // ERROR: x is shared twice
             </code>
             </pre>
@@ -232,14 +237,79 @@
             value, eliminating the need for a Garbage Collector (GC) or Atomic Reference Counting (ARC) altogether.
         </p>
 
+        <h3>Possibile Optimizations?</h3>
+        <p>
+            <b>The Move Semantics.</b> &nbsp; A recurring pattern is to assign values just after they have been created.
+            For instance:
+        <pre class="line-numbers" data-line="" data-language="Swiftlet">
+            <code class="language-swift">
+                func f(a: [Int]) { ... };
+                var x = [1,2,3];
+                f(x)
+            </code>
+            </pre>
+        </p>
+        <p>
+            A simple implementation would evaluate the right operand (the rvalue <code
+                class="language-swift">[1,2,3]</code>), copy this value to assign <code class="language-swift">x</code>,
+            and then destroy the original.
+            Of course, the <i>move semantics</i> comes into play when the rvalue is a temporary.
+            In this case, the compiler can simply move the value of the rvalue to the lvalue.
+            Note that the same optimization could be applied on the last use of a value.
+            However, this is not possible in the general case, as the value could be used in multiple places.
+        </p>
 
-        <h2>The Swift Mutable Value Semantics</h2>
+        <p>
+            <b>Aliases for copies</b> &nbsp; All function parameters are passed by value, but the copy is not
+            necessarily performed.
+            Broadly speaking, we can see formal parameters as aliases to values
+            stored at the call site.
+            This holds as long as the lifetime of the formal parameter is not shorter than the lifetime of the
+            actual parameter, just as the Rust immutable borrows <span class="cite" value="Naden12"></span>.
+            Consider the following example:
+        <pre class="line-numbers" data-line="" data-language="Swiftlet">
+            <code class="language-swift">
+                func f(a: [Int]) { ... };
+                var x = [1,2,3];
+                f(x);
+                x.append(4);
+            </code>
+            </pre>
+        </p>
+        <p>
+            In this example, the formal parameter <code class="language-swift">a</code> is an alias to the actual
+            parameter <code class="language-swift">x</code>.
+            The static analysis must ensure that formal parameters don't escape the call site.
+        </p>
+        <p>
+            A similar optimization is used in the presence of multiple <code class="language-swift">let</code> bindings.
+            For instance:
+        <pre class="line-numbers" data-line="" data-language="Swiftlet">
+            <code class="language-swift">
+                func f(a: [Int]) { ... };
+                let x = [[1,2,3], [4,5,6]]; // ────────┐
+                let y = x[0];               // ────┐   │
+                f(y)                        //     │   │
+                // y dies here              // <───┘   │
+                // x dies here              // <───────┘
+            </code>
+            </pre>
+        </p>
+        <p>
+            Since the lifetime <code class="language-swift">y</code> is shorter than the
+            lifetime of <code class="language-swift">x</code>, therefore <code class="language-swift">y</code>
+            can simply be an alias to the first element of <code class="language-swift">x</code> avoiding the
+            copy.
+        </p>
+
+
+        <h2>The Swift's Mutable Value Semantics</h2>
 
         <p>
             In Swift, for <strong>value types</strong> (structs), the MVS is implemented via a copy-on-write (CoW)
             mechanism. When you assign an array to a new variable, Swift does not immediately copy the data; both
             variables point to the same memory. The copy only occurs if one of the instances is modified. This requires
-            hidden reference counting (ARC) to track how many _owners_ there are. If the count is greater than 1, a copy
+            hidden reference counting (ARC) to track how many owners there are. If the count is greater than 1, a copy
             is performed. This introduces some latency, as every mutation involves a small ARC check, which can cause
             overhead in high-performance contexts.
             For instance, the following code is well-typed:
@@ -255,13 +325,17 @@
         </p>
 
         <p>
-            Swift's MVS allows for <strong>reference types</strong> (classes), which permit aliasing—i.e., multiple variables can point to the same object and mutate it. This violates the <i>Law of Exclusivity</i> introduced above and breaks local reasoning: you can no longer reason about your code by looking only at the local scope, because an alias might be mutated elsewhere—leading to subtle bugs if not used carefully.
-            
+            Swift's MVS allows for <strong>reference types</strong> (classes), which permit aliasing—i.e., multiple
+            variables can point to the same object and mutate it. This violates the <i>Law of Exclusivity</i> introduced
+            above and breaks local reasoning: you can no longer reason about your code by looking only at the local
+            scope, because an alias might be mutated elsewhere—leading to subtle bugs if not used carefully.
+
         </p>
 
         <p>
-            This lack is futher exacerbated by the fact in Swift the previous example compiles without errors, but crashes at runtime (<a href="https://godbolt.org/z/j8a4r31hv">Compiler explorer</a>):
-            <pre class="line-numbers" data-line="">
+            This lack is futher exacerbated by the fact in Swift the previous example compiles without errors, but
+            crashes at runtime (<a href="https://godbolt.org/z/j8a4r31hv">Compiler explorer</a>):
+        <pre class="line-numbers" data-line="">
             <code class="language-swift">
                 var x = 0;
                 func g(y: inout Int) { y += x }
@@ -271,10 +345,12 @@
         </p>
 
 
-        <h2>The Hylo Mutable Value Semantics</h2>
+        <h2>The Hylo's Mutable Value Semantics</h2>
+
+        <h2>Alternatives</h2>
 
         <p>
-        TODO
+            TODO
         </p>
 
 
