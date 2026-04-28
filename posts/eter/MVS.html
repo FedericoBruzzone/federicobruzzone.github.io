@@ -141,7 +141,8 @@
         </p>
 
         <p>
-            Let us use a programming language with simple features (called Swiftlet) to illustrate the concepts of value
+            In the following, following the paper, we will use a programming language with simple features (called
+            Swiftlet) to illustrate the concepts of value
             semantics.
             As all types have value semantics, values form disjoint topological trees rooted at variables or constants.
             All function parameters are passed by value, and all function results are returned by value.
@@ -260,7 +261,7 @@
         </p>
 
         <p>
-            <b>Aliases for copies</b> &nbsp; All function parameters are passed by value, but the copy is not
+            <b>Aliases for copies.</b> &nbsp; All function parameters are passed by value, but the copy is not
             necessarily performed.
             Broadly speaking, we can see formal parameters as aliases to values
             stored at the call site.
@@ -297,21 +298,65 @@
         </p>
         <p>
             Since the lifetime <code class="language-swift">y</code> is shorter than the
-            lifetime of <code class="language-swift">x</code>, therefore <code class="language-swift">y</code>
+            lifetime of <code class="language-swift">x</code>, <code class="language-swift">y</code>
             can simply be an alias to the first element of <code class="language-swift">x</code> avoiding the
             copy.
+        </p>
+
+        <p>
+            <b>Copy-on-write.</b> &nbsp; The <b>aliases for copies</b>, in the presence of mutation, are not applicable.
+            This is true for both left and right-hand sides of the assignment. In principle, these should be copied, but
+            in practice, the compiler may choose to <i>copy-on-write</i> (CoW) the data at <b>runtime</b>.
+            This is achieved by using <i>atomic</i> reference counting (ARC) to track how many owners there are. If the
+            count is greater than 1, a copy is performed.
+            Consider the following example:
+        <pre class="line-numbers" data-line="2-2, 4-4" data-language="Swiftlet">
+                <code class="language-swift">
+                    func sort (array: inout [Int]) -> Void { ... };
+                    var a0 = [1, 2];
+                    var a1 = a0;
+                    sort(array: &a1)
+            </code>
+            </pre>
+        </p>
+        <p>
+            No copy is performed in the above example, because <code class="language-swift">a0</code> is already sorted.
+            Otherwise, if <code class="language-swift">a0</code> were not sorted (e.g., <code
+                class="language-swift">a0 = [2, 1]</code>), a copy would be performed.
+        </p>
+        <p>
+            This mechanism introduce latency, as every mutation involves a small ARC check, which can cause overhead in
+            high-performance contexts.
+            More importantly, it leads to an unsoundness issue in the presence of <code
+                class="language-swift">inout</code> parameters and interior pointers.
+            While the following code is expected to compile and run without errors, it is still unsound:
+        <pre class="line-numbers" data-line="4-4" data-language="Swiftlet">
+                <code class="language-swift">
+                    func sort (array: inout [Int]) -> Void { ... };
+                    var a0 = [[1 , 2] , [3 , 4]];
+                    var a1 = a0;
+                    sort(array: &a0[1])  
+                </code>
+            </pre>
+        </p>
+        <p>
+            <code class="language-swift">a0</code> and <code class="language-swift">a1</code> share the same outer array
+            storage.
+            Passing <code class="language-swift">&a0[1]</code> exposes an interior pointer to a subarray within that
+            shared storage.
+            Since the callee has no visibility into the aliasing of the enclosing structure, it may perform mutations
+            under the assumption of uniqueness, potentially violating value semantics.
         </p>
 
 
         <h2>The Swift's Mutable Value Semantics</h2>
 
         <p>
-            In Swift, for <strong>value types</strong> (structs), the MVS is implemented via a copy-on-write (CoW)
+            In Swift, for <strong>value types</strong> (structs), the MVS is implemented via a CoW
             mechanism. When you assign an array to a new variable, Swift does not immediately copy the data; both
             variables point to the same memory. The copy only occurs if one of the instances is modified. This requires
-            hidden reference counting (ARC) to track how many owners there are. If the count is greater than 1, a copy
-            is performed. This introduces some latency, as every mutation involves a small ARC check, which can cause
-            overhead in high-performance contexts.
+            hidden ARC to track how many owners there are. If the count is greater than 1, a copy
+            is performed.
             For instance, the following code is well-typed:
         <pre class="line-numbers" data-line="">
                 <code class="language-swift">
