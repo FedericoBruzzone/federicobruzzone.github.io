@@ -25,9 +25,9 @@
     --code-punctuation-color : rgb(150 , 150 , 150 );
 }
 
-*, *::before, *::after {
+/* *, *::before, *::after {
     box-sizing: border-box;
-}
+} */
 
 html {
     overflow-x: hidden;
