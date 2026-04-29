@@ -180,7 +180,7 @@
             <code class="language-swift">
                 struct Vec2 { ... };
                 func move_x(v: inout Vec2, x: Int) -> Void {
-                v.x = v.x + d;
+                    v.x = v.x + d;
                 };
                 var v = Vec2(x: 1, y: 2);
                 _ = move_x(&amp;v, x: 3);
@@ -203,8 +203,8 @@
             <code class="language-swift">
                 struct Vec2 { ... };
                 func move_xy(x: inout Int, y: inout Int, inc: Int) -> Void {
-                x = x + inc;
-                y = y + inc;
+                    x = x + inc;
+                    y = y + inc;
                 };
                 var v = Vec2(x: 1, y: 2);
                 _ = move_xy(&amp;v.x, &amp;v.y, inc: 3)
@@ -355,10 +355,10 @@
             <code class="language-swift">
                 struct Vec2 { ... };
                 func f (v0: Vec2 ) -> Vec2 {
-                var v1 = v0;
-                let v2 = v1;
-                v1.x = 8;
-                Vec2(x: v2.x, y: v1.y)
+                    var v1 = v0;
+                    let v2 = v1;
+                    v1.x = 8;
+                    Vec2(x: v2.x, y: v1.y)
                 }
             </code>
         </pre>
@@ -382,10 +382,10 @@
         <pre class="line-numbers" data-line="">
             <code class="language-swift">
                 var a = [1, 2, 3] // `a` owns the array
-                    var b = a         // `b` shares ownership with `a`, no copy yet
-                    b.append(4)       // `b` mutates the array, triggers a copy due to ARC check
-                    print(a)          // -> [1, 2, 3]
-                    print(b)          // -> [1, 2, 3, 4]
+                var b = a         // `b` shares ownership with `a`, no copy yet
+                b.append(4)       // `b` mutates the array, triggers a copy due to ARC check
+                print(a)          // -> [1, 2, 3]
+                print(b)          // -> [1, 2, 3, 4]
             </code>
         </pre>
         </p>
@@ -425,8 +425,8 @@
         <pre class="line-numbers" data-line="" data-language="Hylo">
             <code class="language-swift">
                 fun main() {
-                let weight = 1.0
-                let base_length = 2.0
+                    let weight = 1.0
+                    let base_length = 2.0
                     var length = base_length // <----------------------------------------------------+
                     &length += 3.0           //                                                      |
                     let measurements = (     //                                                      |
@@ -465,10 +465,10 @@
         <pre class="line-numbers" data-line="" data-language="Hylo">
             <code class="language-swift">
                 fun offset_sink(_ base: sink Vector2, by delta: Vector2) -> Vector2 {
-                &base.x += delta.x
-                &base.y += delta.y
-                return base // Escaping the sink value allows it to be returned without copying,
-                // as ownership is transferred to the caller
+                    &base.x += delta.x
+                    &base.y += delta.y
+                    return base // Escaping the sink value allows it to be returned without copying,
+                    // as ownership is transferred to the caller
                 }
 
                 fun main() {
@@ -493,19 +493,19 @@
         <pre class="line-numbers" data-line="" data-language="Hylo">
             <code class="language-swift">
                 fun f1() {
-                var x = 42
-                inout y = x // mutable projection begins here
-                      print(x)    // ERROR: `x` is projected mutably
-                      x += 1      // ERROR: `x` is projected mutably
-                      print(y)    // mutable projection ends afterward
+                    var x = 42
+                    inout y = x // mutable projection begins here
+                    print(x)    // ERROR: `x` is projected mutably
+                    x += 1      // ERROR: `x` is projected mutably
+                    print(y)    // mutable projection ends afterward
                 }
 
                 fun f2() {
-                var x = 42
-                      let y = x   // immutable projection begins here
-                      print(x)    // OK
-                      x += 1      // error: `x` is projected immutably
-                      print(y)    // immutable projection ends afterward
+                    var x = 42
+                    let y = x   // immutable projection begins here
+                    print(x)    // OK
+                    x += 1      // error: `x` is projected immutably
+                    print(y)    // immutable projection ends afterward
                 }
             </code>
         </pre>
@@ -521,11 +521,11 @@
         <pre class="line-numbers" data-line="" data-language="Hylo">
             <code class="language-swift">
                 fun f2() {
-                var x = 42
-                      let y = x   // immutable projection begins here
-                      print(x)    // OK
-                      print(y)    // immutable projection ends here 
-                      x += 1      // OK because the compiler knows that `y` is not longer used
+                    var x = 42
+                    let y = x   // immutable projection begins here
+                    print(x)    // OK
+                    print(y)    // immutable projection ends here 
+                    x += 1      // OK because the compiler knows that `y` is not longer used
                 }
             </code>
         </pre>
@@ -547,9 +547,9 @@
                 fn own_t(t: T) {}
 
                 fn ref_mut_t(t: &mut T) {
-                own_t(*t); // ERROR: cannot move out of `*t` which
-                // is behind a mutable reference
-                *t = T;
+                    own_t(*t); // ERROR: cannot move out of `*t` which
+                               // is behind a mutable reference
+                    *t = T;
                 }
             </code>
         </pre>
@@ -568,13 +568,13 @@
                 fun own_t(_ t: sink T) {}
 
                 fun ref_mut_t(_ t: inout T) {
-                // In Hylo, we can pass `inout t` as a sink to `own_t`,
-                // which allows us to transfer ownership without copying.
-                own_t(t)
-
-                // `t` cannot be used after being passed as a
-                // sink parameter, as it has been moved.
-                t = T()
+                    // In Hylo, we can pass `inout t` as a sink to `own_t`,
+                    // which allows us to transfer ownership without copying.
+                    own_t(t)
+                    
+                    // `t` cannot be used after being passed as a
+                    // sink parameter, as it has been moved.
+                    t = T()
                 }
             </code>
         </pre>
