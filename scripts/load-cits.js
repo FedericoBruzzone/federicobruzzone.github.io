@@ -195,4 +195,22 @@ const bibliography = {
         "year"      : "2012",
         "publisher" : "ACM New York, NY, USA"
     },
+    "OHearn01" : {
+        "title"   : "Local reasoning about programs that alter data structures",
+        "author"  : "O'Hearn, Peter and Reynolds, John and Yang, Hongseok",
+        "booktitle" : "International Workshop on Computer Science Logic",
+        "pages"   : "1--19",
+        "year"    : "2001",
+        "organization"  : "Springer"
+    },
+    "Carr94" : {
+        "title"   : "Scalar replacement in the presence of conditional control flow",
+        "author"  : "Carr, Steve and Kennedy, Ken",
+        "journal" : "Software: Practice and Experience",
+        "volume"    : "24",
+        "number"    : "1",
+        "pages"     : "51--77",
+        "year"      : "1994",
+        "publisher" : "Wiley Online Library"
+    }
 };
