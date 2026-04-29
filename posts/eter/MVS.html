@@ -141,9 +141,10 @@
         </p>
 
         <p>
-            In the following, following the paper, we will use a programming language with simple features (called
+            In the following, we will use a programming language with simple features (called
             Swiftlet) to illustrate the concepts of value
             semantics.
+            The same concepts are deeply explored in the paper.
             As all types have value semantics, values form disjoint topological trees rooted at variables or constants.
             All function parameters are passed by value, and all function results are returned by value.
             Therefore, the following code is well-typed:
@@ -219,7 +220,7 @@
             In other words, a value cannot be shared between multiple owners.
             For instance, the following code is ill-typed because the <code class="language-swift">x</code> is shared
             twice:
-            the frist time at the call site when it is passed as an <code class="language-swift">inout</code> parameter
+            the first time at the call site when it is passed as an <code class="language-swift">inout</code> parameter
             and the second time when it is <i>captured</i> by the <code class="language-swift">g</code> function
             (similar to Linear Type System).
         <pre class="line-numbers" data-line="3-3" data-language="Swiftlet">
@@ -238,7 +239,7 @@
             value, eliminating the need for a Garbage Collector (GC) or Atomic Reference Counting (ARC) altogether.
         </p>
 
-        <h3>Possibile Optimizations?</h3>
+        <h3>Possible Optimizations?</h3>
         <p>
             <b>The Move Semantics.</b> &nbsp; A recurring pattern is to assign values just after they have been created.
             For instance:
@@ -399,7 +400,7 @@
         </p>
 
         <p>
-            This lack is futher exacerbated by the fact, in Swift, the example we introduced erlier compiles without
+            This lack is further exacerbated by the fact that, in Swift, the example we introduced earlier compiles without
             errors, but
             crashes at runtime (<a href="https://godbolt.org/z/j8a4r31hv">Compiler explorer</a>) since <code
                 class="language-swift">x</code> is shared twice:
@@ -595,7 +596,7 @@
             From the <a href="https://github.com/jamii/zest/">Zest's GitHub page</a>: Zest is a (very wip) programming language for building systems that are both malleable and legible. Jamie Brandon, the creator of Zest, writes the <a
                 href="https://www.scattered-thoughts.net/writing/ruminating-about-mutable-value-semantics/">Ruminating
                 about mutable value semantics</a> post during his research on the Zest's MVS model. 
-                For the purposes of his goal—namely, ensuring that <tt>deserialize(serialize(x)) == x</tt>—the proposed solutions were not optimal. In fact, he states: "But it is very hard to square with my goal of transparent serialization - if I deserialize a value containing a remote part, what is the lifetime of that part and who is responsible for freeing it?  So programs probably become a bit more annoying to write, and at least one of the amerliorations is a feature that I will find difficult to copy."
+                For the purposes of his goal—namely, ensuring that <tt>deserialize(serialize(x)) == x</tt>—the proposed solutions were not optimal. In fact, he states: "But it is very hard to square with my goal of transparent serialization - if I deserialize a value containing a remote part, what is the lifetime of that part and who is responsible for freeing it?  So programs probably become a bit more annoying to write, and at least one of the ameliorations is a feature that I will find difficult to copy."
         </p>
         <p>
             While the post <a
@@ -603,7 +604,7 @@
         </p>
         <img src="ruminating-about-mutable-value-semantics.png" alt="Italian Trulli">
 
-        <div style="display: flex; justify-content: center;"></div>
+        <div style="display: flex; justify-content: center;">
             <div class="alert-box">
                 <b>
                     Although I haven't explicitly mentioned it yet, I'm not satisfied with the approaches presented so far.
