@@ -468,7 +468,7 @@
                     &base.x += delta.x
                     &base.y += delta.y
                     return base // Escaping the sink value allows it to be returned without copying,
-                    // as ownership is transferred to the caller
+                                // as ownership is transferred to the caller
                 }
 
                 fun main() {
@@ -571,7 +571,7 @@
                     // In Hylo, we can pass `inout t` as a sink to `own_t`,
                     // which allows us to transfer ownership without copying.
                     own_t(t)
-                    
+
                     // `t` cannot be used after being passed as a
                     // sink parameter, as it has been moved.
                     t = T()
