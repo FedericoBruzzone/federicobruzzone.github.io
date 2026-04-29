@@ -51,6 +51,15 @@ body.dark-mode {
 
 }
 
+html {
+    overflow-x: hidden;
+    max-width: 100vw;
+}
+
+body {
+    overflow-x: hidden;
+    max-width: 100vw;
+}
 
 html body {
     background-color: var(--background-color);
@@ -61,7 +70,6 @@ html body {
     margin: 10px auto 0;
     padding: 0 12px;
     box-sizing: border-box;
-    overflow-x: clip;
 }
 
 body {
