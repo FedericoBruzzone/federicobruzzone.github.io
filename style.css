@@ -61,7 +61,11 @@ html body {
     margin: 10px auto 0;
     padding: 0 12px;
     box-sizing: border-box;
-    overflow-x: hidden;
+    overflow-x: clip;
+}
+
+body {
+    overflow-x: clip;
 }
 
 .header {
