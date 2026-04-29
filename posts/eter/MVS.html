@@ -154,9 +154,9 @@
                 var v = Vec2(x: 1, y: 2);
                 var u = v;
                 u.y = 3 // `v` -> Vec2(x: 1, y: 2)
-                        // `u` -> Vec2(x: 1, y: 3)
+                // `u` -> Vec2(x: 1, y: 3)
             </code>
-            </pre>
+        </pre>
         </p>
 
         <p>
@@ -165,28 +165,28 @@
             On the other hand, the following code is ill-typed due to the immutable property of <code
                 class="language-swift">v</code>:
         <pre class="line-numbers" data-line="3-3" data-language="Swiftlet">
-                <code class="language-swift">
-                    struct Vec2 { ... };
-                    let v = Vec2(x: 1, y: 2);
-                    v.x = 3 // ERROR: `v` is immutable
-                </code>
-                </pre>
+            <code class="language-swift">
+                struct Vec2 { ... };
+                let v = Vec2(x: 1, y: 2);
+                v.x = 3 // ERROR: `v` is immutable
+            </code>
+        </pre>
         </p>
 
         <p>
             To implement in-place part-wise mutation the <code class="language-swift">inout</code> keyword is used.
             For instance, the following code is well-typed:
         <pre class="line-numbers" data-line="6-6" data-language="Swiftlet">
-                <code class="language-swift">
-                    struct Vec2 { ... };
-                    func move_x(v: inout Vec2, x: Int) -> Void {
-                        v.x = v.x + d;
-                    };
-                    var v = Vec2(x: 1, y: 2);
-                    _ = move_x(&amp;v, x: 3);
-                    // `v` -> Vec2(x: 4, y: 2)
-                </code>
-                </pre>
+            <code class="language-swift">
+                struct Vec2 { ... };
+                func move_x(v: inout Vec2, x: Int) -> Void {
+                v.x = v.x + d;
+                };
+                var v = Vec2(x: 1, y: 2);
+                _ = move_x(&amp;v, x: 3);
+                // `v` -> Vec2(x: 4, y: 2)
+            </code>
+        </pre>
         </p>
         <p>
             Conceptually, line 6 can be viewed as a <i>copy</i> of the value of <code class="language-swift">v</code>,
@@ -203,14 +203,14 @@
             <code class="language-swift">
                 struct Vec2 { ... };
                 func move_xy(x: inout Int, y: inout Int, inc: Int) -> Void {
-                    x = x + inc;
-                    y = y + inc;
+                x = x + inc;
+                y = y + inc;
                 };
                 var v = Vec2(x: 1, y: 2);
                 _ = move_xy(&amp;v.x, &amp;v.y, inc: 3)
                 // `v` -> Vec2(x: 4, y: 5)
             </code>
-            </pre>
+        </pre>
         </p>
 
         <p>
@@ -228,7 +228,7 @@
                 func g(y: inout Int) { y += x };
                 g (y: &amp;x) // ERROR: `x` is shared twice
             </code>
-            </pre>
+        </pre>
         </p>
 
         <p>
@@ -248,7 +248,7 @@
                 var x = [1,2,3];
                 f(x)
             </code>
-            </pre>
+        </pre>
         </p>
         <p>
             A simple implementation would evaluate the right operand (the rvalue <code
@@ -275,7 +275,7 @@
                 f(x);
                 x.append(4);
             </code>
-            </pre>
+        </pre>
         </p>
         <p>
             In this example, the formal parameter <code class="language-swift">a</code> is an alias to the actual
@@ -294,7 +294,7 @@
                 // `y` dies here            // <───┘   │
                 // `x` dies here            // <───────┘
             </code>
-            </pre>
+        </pre>
         </p>
         <p>
             Since the lifetime <code class="language-swift">y</code> is shorter than the
@@ -311,13 +311,13 @@
             count is greater than 1, a copy is performed.
             Consider the following example:
         <pre class="line-numbers" data-line="2-2, 4-4" data-language="Swiftlet">
-                <code class="language-swift">
-                    func sort (array: inout [Int]) -> Void { ... };
-                    var a0 = [1, 2];
-                    var a1 = a0;
-                    sort(array: &a1)
+            <code class="language-swift">
+                func sort (array: inout [Int]) -> Void { ... };
+                var a0 = [1, 2];
+                var a1 = a0;
+                sort(array: &a1)
             </code>
-            </pre>
+        </pre>
         </p>
         <p>
             No copy is performed in the above example, because <code class="language-swift">a0</code> is already sorted.
@@ -331,13 +331,13 @@
             parameters and interior pointers.
             While the following code is expected to compile and run without errors, it is still unsound:
         <pre class="line-numbers" data-line="4-4" data-language="Swiftlet">
-                <code class="language-swift">
-                    func sort (array: inout [Int]) -> Void { ... };
-                    var a0 = [[1 , 2] , [3 , 4]];
-                    var a1 = a0;
-                    sort(array: &a0[1])  
-                </code>
-            </pre>
+            <code class="language-swift">
+                func sort (array: inout [Int]) -> Void { ... };
+                var a0 = [[1 , 2] , [3 , 4]];
+                var a1 = a0;
+                sort(array: &a0[1])
+            </code>
+        </pre>
         </p>
         <p>
             <code class="language-swift">a0</code> and <code class="language-swift">a1</code> share the same outer array
@@ -352,16 +352,16 @@
             of programming languages (see O'Hearn <i>et al.</i> <span class="cite" value="OHearn01"></span>).
             Consider the following example:
         <pre class="line-numbers" data-line="5-5" data-language="Swiftlet">
-                <code class="language-swift">
+            <code class="language-swift">
                 struct Vec2 { ... };
                 func f (v0: Vec2 ) -> Vec2 {
-                    var v1 = v0;
-                    let v2 = v1;
-                    v1.x = 8;
-                    Vec2(x: v2.x, y: v1.y)
+                var v1 = v0;
+                let v2 = v1;
+                v1.x = 8;
+                Vec2(x: v2.x, y: v1.y)
                 }
             </code>
-            </pre>
+        </pre>
         </p>
         <p>
             Thanks to local reasoning, the compiler can discard the line 5 completely, as it is not an observable side
@@ -380,14 +380,14 @@
             is performed.
             For instance, the following code is well-typed:
         <pre class="line-numbers" data-line="">
-                <code class="language-swift">
-                    var a = [1, 2, 3] // `a` owns the array
+            <code class="language-swift">
+                var a = [1, 2, 3] // `a` owns the array
                     var b = a         // `b` shares ownership with `a`, no copy yet
                     b.append(4)       // `b` mutates the array, triggers a copy due to ARC check
                     print(a)          // -> [1, 2, 3]
                     print(b)          // -> [1, 2, 3, 4]
-                </code>
-                </pre>
+            </code>
+        </pre>
         </p>
 
         <p>
@@ -410,7 +410,7 @@
                 func g(y: inout Int) { y += x }
                 g (y: &amp;x)
             </code>
-            </pre>
+        </pre>
         </p>
 
 
@@ -423,10 +423,10 @@
             The language statically guarantees that there are no shared mutable references, eliminating the need for a
             GC or ARC. Consider the following Hylo code:
         <pre class="line-numbers" data-line="" data-language="Hylo">
-                <code class="language-swift">
+            <code class="language-swift">
                 fun main() {
-                    let weight = 1.0
-                    let base_length = 2.0
+                let weight = 1.0
+                let base_length = 2.0
                     var length = base_length // <----------------------------------------------------+
                     &length += 3.0           //                                                      |
                     let measurements = (     //                                                      |
@@ -437,7 +437,7 @@
                     print(base_length)       // error: `base_length` used after being consumed here -+
                 }
             </code>
-            </pre>
+        </pre>
         </p>
         <p>
             The error occurs because the values of both <code class="language-swift">weight</code> and <code
@@ -450,13 +450,13 @@
                 class="language-swift">sink</code>, for efficient mutation without copying. Consider the following Hylo
             code:
         <pre class="line-numbers" data-line="" data-language="Hylo">
-                <code class="language-swift">
+            <code class="language-swift">
                 var point = (x: 0.0, y: 1.0) // `point` owns the tuple
                 inout x = &point.x           // `x` is a mutable reference to `point.x`, no copy, but safe due to ownership rules
                 &x = 3.14                    // Mutating `x` updates `point.x` directly, no copy, and safe due to ownership rules
                 print(point)                 // Output: (x: 3.14, y: 1.0)
             </code>
-            </pre>
+        </pre>
         </p>
         <p>
             In this example, the <code class="language-swift">inout</code> keyword creates a "mutable reference" to
@@ -465,14 +465,14 @@
         <pre class="line-numbers" data-line="" data-language="Hylo">
             <code class="language-swift">
                 fun offset_sink(_ base: sink Vector2, by delta: Vector2) -> Vector2 {
-                  &base.x += delta.x 
-                  &base.y += delta.y
-                  return base // Escaping the sink value allows it to be returned without copying, 
-                              // as ownership is transferred to the caller
+                &base.x += delta.x
+                &base.y += delta.y
+                return base // Escaping the sink value allows it to be returned without copying,
+                // as ownership is transferred to the caller
                 }
 
                 fun main() {
-                  let v = (x: 1, y: 2)
+                let v = (x: 1, y: 2)
                   print(offset_sink(v, (x: 3, y: 5)))  // Output: (x: 4, y: 7)
                   print(v)                             // Error: `v` has been moved and cannot be used after being passed as a sink
                 }
@@ -491,24 +491,24 @@
         <p>
             Hylo has both immutable and mutable projections. The following code shows how to use them:
         <pre class="line-numbers" data-line="" data-language="Hylo">
-                <code class="language-swift">
-                    fun f1() {
-                      var x = 42
-                      inout y = x // mutable projection begins here
+            <code class="language-swift">
+                fun f1() {
+                var x = 42
+                inout y = x // mutable projection begins here
                       print(x)    // ERROR: `x` is projected mutably
                       x += 1      // ERROR: `x` is projected mutably
                       print(y)    // mutable projection ends afterward
-                    }
+                }
 
-                    fun f2() {
-                      var x = 42
+                fun f2() {
+                var x = 42
                       let y = x   // immutable projection begins here
                       print(x)    // OK
                       x += 1      // error: `x` is projected immutably
                       print(y)    // immutable projection ends afterward
-                    }
-                </code>
-                </pre>
+                }
+            </code>
+        </pre>
         </p>
         <p>
             The first function <code class="language-swift">f1</code> shows how to use a mutable projection. The
@@ -519,16 +519,16 @@
         <p>
             A peculiarity of Hylo is that by writing the <code class="language-swift">f2</code> function as follows:
         <pre class="line-numbers" data-line="" data-language="Hylo">
-                <code class="language-swift">
-                    fun f2() {
-                      var x = 42
+            <code class="language-swift">
+                fun f2() {
+                var x = 42
                       let y = x   // immutable projection begins here
                       print(x)    // OK
                       print(y)    // immutable projection ends here 
                       x += 1      // OK because the compiler knows that `y` is not longer used
-                    }
-                </code>
-            </pre>
+                }
+            </code>
+        </pre>
         </p>
         <p>
             The compiler is able to infer that the value of <code class="language-swift">y</code> is not used after the
@@ -542,17 +542,17 @@
             Rust's ownership and borrowing system is a powerful tool for ensuring memory safety, but it can be complex
             and may not always provide the benefits that MVS aims to achieve. Consider the following Rust code:
         <pre class="line-numbers" data-line="" data-language="Rust">
-                <code class="language-rust">
-                    struct T;
-                    fn own_t(t: T) {}
-                                    
-                    fn ref_mut_t(t: &mut T) {
-                        own_t(*t); // ERROR: cannot move out of `*t` which 
-                                   // is behind a mutable reference
-                        *t = T;
-                    }
-                </code>
-                </pre>
+            <code class="language-rust">
+                struct T;
+                fn own_t(t: T) {}
+
+                fn ref_mut_t(t: &mut T) {
+                own_t(*t); // ERROR: cannot move out of `*t` which
+                // is behind a mutable reference
+                *t = T;
+                }
+            </code>
+        </pre>
         </p>
         <p>
             In this example, the <code class="language-rust">ref_mut_t</code> function attempts to move the value <code
@@ -563,21 +563,21 @@
             In Hylo, the same code would be valid and would not require any special handling, as the language's MVS
             model allows for efficient mutation of values without copying.
         <pre class="line-numbers" data-line="" data-language="Hylo">
-                <code class="language-rust">
-                    type T {}
-                    fun own_t(_ t: sink T) {}
+            <code class="language-rust">
+                type T {}
+                fun own_t(_ t: sink T) {}
 
-                    fun ref_mut_t(_ t: inout T) {
-                        // In Hylo, we can pass `inout t` as a sink to `own_t`,
-                        // which allows us to transfer ownership without copying.
-                        own_t(t) 
+                fun ref_mut_t(_ t: inout T) {
+                // In Hylo, we can pass `inout t` as a sink to `own_t`,
+                // which allows us to transfer ownership without copying.
+                own_t(t)
 
-                        // `t` cannot be used after being passed as a 
-                        // sink parameter, as it has been moved.
-                        t = T()
-                    }
-                </code>
-            </pre>
+                // `t` cannot be used after being passed as a
+                // sink parameter, as it has been moved.
+                t = T()
+                }
+            </code>
+        </pre>
         </p>
         <p>
             In this example, the <code class="language-rust">ref_mut_t</code>
@@ -671,7 +671,7 @@
             Overall, the exploration reinforces the core theme of the post: every design choice shifts the balance
             between
             expressiveness, performance, and reasoning guarantees.
-        
+
             Stronger guarantees improve reasoning but reduce flexibility.
             Higher performance often increases compiler or runtime complexity.
             Hiding aliasing simplifies serialization but constrains language design.
@@ -694,8 +694,8 @@
         <div style="display: flex; justify-content: center;">
             <div class="alert-box">
                 Although I haven't explicitly mentioned it yet, I'm not satisfied with the approaches presented so far.
-                The next post will discuss what I don't like about the current approaches, and what I'd like to have in
-                a novel model.
+                The next post will discuss what I don't like about the current approaches, what I'd like to have in
+                a novel model, and hopefully some preliminary research on the topic.
             </div>
         </div>
 
