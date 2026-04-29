@@ -106,11 +106,11 @@
 
         <p>
             It is fair to say that one of the most important aspects in the design of a programming language is its
-            semantics—particularly the semantics of its <i>memory model</i>.
+            semantics—particularly its <i>memory model</i>.
             The memory model describes how the language behaves when memory is manipulated, whether manually or
             automatically.
-            This includes, for example, aliasing rules, thread visibility, and the ordering of memory operations (such
-            as <i>atomicity</i>).
+            This includes aliasing rules, thread visibility, and the ordering of memory operations (such as
+            <i>atomicity</i>).
         </p>
 
         <p>
@@ -128,15 +128,15 @@
         <h2>The Mutable Value Semantics (MVS)</h2>
 
         <p>
-            Racordon <i>et al.</i> <span class="cite" value="Racordon22"></span> introduced the <strong>Mutable Value
+            Racordon <i>et al.</i> <span class="cite" value="Racordon22"></span> introduced <strong>Mutable Value
                 Semantics</strong> (MVS) as a novel semantics for a system programming language that aims
-            to address the challenges of memory
-            safety and concurrency.<a id="footnote-2-ref" href="#footnote-2"><sup>2</sup></a>
+            to address the challenges of memory safety and concurrency.<a id="footnote-2-ref"
+                href="#footnote-2"><sup>2</sup></a>
             MVS is a programming discipline that advocates for <i>value independence</i> to support local reasoning.
-            In its strictest form, references become second-class elements: they are created only implicitly, at
+            In its strictest form, references are second-class elements: they are created only implicitly, at
             function boundaries, and cannot be stored in variables or object fields.
             Therefore, variables can never share a mutable state.
-            Unlike pure functional programming, however, mutable value semantics allows partial in-place mutation, thus
+            Unlike pure functional programming, however, mutable value semantics allows partial in-place mutation,
             eliminating the memory traffic typically associated with functional updates of immutable data.
         </p>
 
@@ -189,14 +189,13 @@
                 </pre>
         </p>
         <p>
-            Conceptually, the line 6 can be always viewed as a <i>copy</i> of the value of <code
-                class="language-swift">v</code> and then a <i>copy</i> back to <code class="language-swift">v</code>,
-            after the <code class="language-swift">move_x</code> function has been called (you can see the optimization
-            here).
-            As the paper presented the MVS, the <code class="language-swift">inout</code> keyword can be only used for
-            formal parameters, i.e., we cannot initialize/assign an <code class="language-swift">inout</code> variable—a
+            Conceptually, line 6 can be viewed as a <i>copy</i> of the value of <code class="language-swift">v</code>,
+            then a <i>copy</i> back to <code class="language-swift">v</code>,
+            after <code class="language-swift">move_x</code> is called.
+            As the paper presents MVS, the <code class="language-swift">inout</code> keyword can only be used for
+            formal parameters—we cannot initialize or assign an <code class="language-swift">inout</code> variable, a
             limitation overcome by Hylo.
-            Multiple <code class="language-swift">inout</code>s <i>formal</i> parameters are allowed as long as in the
+            Multiple <code class="language-swift">inout</code> <i>formal</i> parameters are allowed as long as at the
             call site
             the <i>actual</i> parameters are all disjoint trees, i.e., they do not share any part of their value.
             For instance, the following code is well-typed:
@@ -234,9 +233,9 @@
 
         <p>
             Both Swift <span class="cite" value="Swift"></span> and Hylo <span class="cite" value="Hylo"></span>
-            (formerly Val) adopt this model in their design, but in different ways.
-            The former tries to make values look like safe references, while the latter treats everything as a pure
-            value, eliminating the need for a Garbage Collector (GC) or Atomic Reference Counting (ARC) altogether.
+            (formerly Val) adopt this model but in different ways.
+            Swift tries to make values look like safe references, while Hylo treats everything as a pure value,
+            eliminating the need for a Garbage Collector (GC) or Atomic Reference Counting (ARC).
         </p>
 
         <h3>Possible Optimizations?</h3>
@@ -255,8 +254,8 @@
             A simple implementation would evaluate the right operand (the rvalue <code
                 class="language-swift">[1,2,3]</code>), copy this value to assign <code class="language-swift">x</code>,
             and then destroy the original.
-            Of course, the <i>move semantics</i> comes into play when the rvalue is a temporary.
-            In this case, the compiler can simply move the value of the rvalue to the lvalue.
+            Of course, <i>move semantics</i> comes into play when the rvalue is a temporary. In this case, the compiler
+            can simply move the value from the rvalue to the lvalue.
             Note that the same optimization could be applied on the last use of a value.
             However, this is not possible in the general case, as the value could be used in multiple places.
         </p>
@@ -292,8 +291,8 @@
                 let x = [[1,2,3], [4,5,6]]; // ────────┐
                 let y = x[0];               // ────┐   │
                 f(y)                        //     │   │
-                // `y` dies here              // <───┘   │
-                // `x` dies here              // <───────┘
+                // `y` dies here            // <───┘   │
+                // `x` dies here            // <───────┘
             </code>
             </pre>
         </p>
@@ -305,10 +304,10 @@
         </p>
 
         <p>
-            <b>Copy-on-write.</b> &nbsp; The <b>aliases for copies</b>, in the presence of mutation, are not applicable.
+            <b>Copy-on-write.</b> &nbsp; <b>Aliases for copies</b> are not applicable in the presence of mutation.
             This is true for both left and right-hand sides of the assignment. In principle, these should be copied, but
             in practice, the compiler may choose to <i>copy-on-write</i> (CoW) the data at <b>runtime</b>.
-            This is achieved by using <i>atomic</i> reference counting (ARC) to track how many owners there are. If the
+            This is achieved using <i>atomic</i> reference counting (ARC) to track how many owners there are. If the
             count is greater than 1, a copy is performed.
             Consider the following example:
         <pre class="line-numbers" data-line="2-2, 4-4" data-language="Swiftlet">
@@ -326,10 +325,10 @@
                 class="language-swift">a0 = [2, 1]</code>), a copy would be performed.
         </p>
         <p>
-            This mechanism introduce latency, as every mutation involves a small ARC check, which can cause overhead in
+            This mechanism introduces latency, as every mutation involves a small ARC check, which can cause overhead in
             high-performance contexts.
-            More importantly, it leads to an <b>unsoundness </b>issue in the presence of <code
-                class="language-swift">inout</code> parameters and interior pointers.
+            More importantly, it leads to an <b>unsoundness</b> issue with <code class="language-swift">inout</code>
+            parameters and interior pointers.
             While the following code is expected to compile and run without errors, it is still unsound:
         <pre class="line-numbers" data-line="4-4" data-language="Swiftlet">
                 <code class="language-swift">
@@ -400,7 +399,8 @@
         </p>
 
         <p>
-            This lack is further exacerbated by the fact that, in Swift, the example we introduced earlier compiles without
+            This lack is further exacerbated by the fact that, in Swift, the example we introduced earlier compiles
+            without
             errors, but
             crashes at runtime (<a href="https://godbolt.org/z/j8a4r31hv">Compiler explorer</a>) since <code
                 class="language-swift">x</code> is shared twice:
@@ -417,11 +417,11 @@
         <h2>The Hylo's Mutable Value Semantics</h2>
 
         <p>
-            Hylo takes a more radical approach to MVS. It removes the CoW mechanism in favor of an <i>ownership
-                model</i> where values are truly independent and an <i>in-place mutation</i> semantics that allows for
-            efficient updates without copying.
-            The language statically guarantees that there are no shared mutable references, which eliminates the need
-            for a GC or ARC. Consider the following Hylo code:
+            Hylo takes a more radical approach to MVS. It removes CoW in favor of an <i>ownership model</i> where values
+            are truly independent and an <i>in-place mutation</i> semantics that allows for efficient updates without
+            copying.
+            The language statically guarantees that there are no shared mutable references, eliminating the need for a
+            GC or ARC. Consider the following Hylo code:
         <pre class="line-numbers" data-line="" data-language="Hylo">
                 <code class="language-swift">
                 fun main() {
@@ -440,15 +440,15 @@
             </pre>
         </p>
         <p>
-            The error occurs because the value of both <code class="language-swift">weight</code> and <code
-                class="language-swift">base_length</code> are used after they have been consumed. In this case, the
-            ownership model of Hylo ensures that the values are truly independent and that there are no shared mutable
+            The error occurs because the values of both <code class="language-swift">weight</code> and <code
+                class="language-swift">base_length</code> are used after they have been consumed. In this case, Hylo's
+            ownership model ensures that the values are truly independent and that there are no shared mutable
             references.
         </p>
         <p>
             Hylo has no reference types but allows, via <code class="language-swift">inout</code> and <code
-                class="language-swift">sink</code> keywords, for efficient mutation of values without copying. To
-            provide two examples of this, consider the following Hylo code:
+                class="language-swift">sink</code>, for efficient mutation without copying. Consider the following Hylo
+            code:
         <pre class="line-numbers" data-line="" data-language="Hylo">
                 <code class="language-swift">
                 var point = (x: 0.0, y: 1.0) // `point` owns the tuple
@@ -459,10 +459,9 @@
             </pre>
         </p>
         <p>
-            In this example, the <code class="language-swift">inout</code> keyword is used to create a "mutable
-            reference" to <code class="language-swift">point.x</code>. This allows for efficient mutation of the value
-            without copying. On the other hand, to show the <code class="language-swift">sink</code> keyword, consider
-            the following code:
+            In this example, the <code class="language-swift">inout</code> keyword creates a "mutable reference" to
+            <code class="language-swift">point.x</code>, allowing efficient mutation without copying. To show the <code
+                class="language-swift">sink</code> keyword, consider:
         <pre class="line-numbers" data-line="" data-language="Hylo">
             <code class="language-swift">
                 fun offset_sink(_ base: sink Vector2, by delta: Vector2) -> Vector2 {
@@ -484,9 +483,9 @@
             This example shows how to use the <code class="language-swift">sink</code> keyword to create a "sink" value
             that can be passed to a function without copying. The function <code
                 class="language-swift">offset_sink</code> takes a <code class="language-swift">sink</code> value and
-            returns a new value. The ownership of the value is transferred to the caller, which can then use it without
-            copying. A parallelism between Hylo, Rust, and C++ is provided by the Hylo documentation<a
-                id="footnote-3-ref" href="#footnote-3"><sup>3</sup></a>.
+            returns a new value. Ownership is transferred to the caller, which can then use it without copying. A
+            parallelism between Hylo, Rust, and C++ is provided by the Hylo documentation<a id="footnote-3-ref"
+                href="#footnote-3"><sup>3</sup></a>.
         </p>
 
         <p>
@@ -593,24 +592,31 @@
         <h2>The Zest's Programming Language</h2>
 
         <p>
-            From the <a href="https://github.com/jamii/zest/">Zest's GitHub page</a>: Zest is a (very wip) programming language for building systems that are both malleable and legible. Jamie Brandon, the creator of Zest, writes the <a
+            From the <a href="https://github.com/jamii/zest/">Zest's GitHub page</a>: Zest is a (very wip) programming
+            language for building systems that are both malleable and legible. Jamie Brandon, the creator of Zest,
+            writes the <a
                 href="https://www.scattered-thoughts.net/writing/ruminating-about-mutable-value-semantics/">Ruminating
-                about mutable value semantics</a> post during his research on the Zest's MVS model. 
-                For the purposes of his goal—namely, ensuring that <tt>deserialize(serialize(x)) == x</tt>—the proposed solutions were not optimal. In fact, he states: "But it is very hard to square with my goal of transparent serialization - if I deserialize a value containing a remote part, what is the lifetime of that part and who is responsible for freeing it?  So programs probably become a bit more annoying to write, and at least one of the ameliorations is a feature that I will find difficult to copy."
+                about mutable value semantics</a> post during his research on the Zest's MVS model.
+            For the purposes of his goal—namely, ensuring that <tt>deserialize(serialize(x)) == x</tt>—the proposed
+            solutions were not optimal. In fact, he states: "But it is very hard to square with my goal of transparent
+            serialization - if I deserialize a value containing a remote part, what is the lifetime of that part and who
+            is responsible for freeing it? So programs probably become a bit more annoying to write, and at least one of
+            the ameliorations is a feature that I will find difficult to copy."
         </p>
         <p>
             While the post <a
-                href="https://www.scattered-thoughts.net/writing/ruminating-about-mutable-value-semantics/">is available</a> and covers lots of interesting points, I'll put here a screenshot of the Jamie's post where he explores suitable alternatives for the Zest's MVS model:
+                href="https://www.scattered-thoughts.net/writing/ruminating-about-mutable-value-semantics/">is
+                available</a> and covers lots of interesting points, I'll put here a screenshot of the Jamie's post
+            where he explores suitable alternatives for the Zest's MVS model:
         </p>
         <img src="ruminating-about-mutable-value-semantics.png" alt="Italian Trulli">
 
         <div style="display: flex; justify-content: center;">
             <div class="alert-box">
-                <b>
-                    Although I haven't explicitly mentioned it yet, I'm not satisfied with the approaches presented so far.
-                    Zest's model is actually interesting, but it tries to solve a specific problem.
-                    The next post will discuss what I don't like about the current approaches, and what I'd like to have in a novel model.
-                </b>
+                Although I haven't explicitly mentioned it yet, I'm not satisfied with the approaches presented so far.
+                Zest's model is actually interesting, but it tries to solve a specific problem.
+                The next post will discuss what I don't like about the current approaches, and what I'd like to have in
+                a novel model.
             </div>
         </div>
 
@@ -646,7 +652,7 @@
             <a href="#footnote-3-ref">&#8617;</a>
         </p>
 
-        
+
 
         <div class="bibliography"></div>
         <div id="footer"></div>
