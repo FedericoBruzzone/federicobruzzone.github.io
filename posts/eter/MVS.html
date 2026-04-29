@@ -30,14 +30,16 @@
 
     <main>
         <h1><img src="https://raw.githubusercontent.com/eter-lang/eter/main/docsrc/logo/logo.png" alt="The Eter logo"
-                width="20px"/> The Mutable Value Semantics (MVS): A Personal Study</h1>
+                width="20px" /> The Mutable Value Semantics (MVS): A Personal Study</h1>
 
         <div style="display: flex; justify-content: center;">
             <div class="alert-box">
                 <img src="https://raw.githubusercontent.com/eter-lang/eter/main/docsrc/logo/logo.png"
-                    alt="The Eter logo" width="10px" /> This post is part of <i>The <a href="https://github.com/eter-lang/eter">Eter</a> programming
-                    Language</i> series. <img src="https://raw.githubusercontent.com/eter-lang/eter/main/docsrc/logo/logo.png"
-                    alt="The Eter logo" width="10px" />
+                    alt="The Eter logo" width="10px" /> This post is part of <i>The <a
+                        href="https://github.com/eter-lang/eter">Eter</a> programming
+                    Language</i> series. <img
+                    src="https://raw.githubusercontent.com/eter-lang/eter/main/docsrc/logo/logo.png" alt="The Eter logo"
+                    width="10px" />
             </div>
         </div>
 
@@ -596,23 +598,102 @@
                 href="https://www.scattered-thoughts.net/writing/ruminating-about-mutable-value-semantics/">Ruminating
                 about mutable value semantics</a> post during his research on the Zest's MVS model.
             For the purposes of his goal—namely, ensuring that <tt>deserialize(serialize(x)) == x</tt>—the proposed
-            solutions were not optimal. In fact, he states: "But it is very hard to square with my goal of transparent
-            serialization - if I deserialize a value containing a remote part, what is the lifetime of that part and who
-            is responsible for freeing it? So programs probably become a bit more annoying to write, and at least one of
-            the ameliorations is a feature that I will find difficult to copy."
+            solutions were not optimal.
         </p>
-        <p>
+        <!-- <p>
             While the post <a
                 href="https://www.scattered-thoughts.net/writing/ruminating-about-mutable-value-semantics/">is
                 available</a> and covers lots of interesting points, I'll put here a screenshot of the Jamie's post
             where he explores suitable alternatives for the Zest's MVS model:
         </p>
-        <img src="ruminating-about-mutable-value-semantics.png" alt="Ruminating about mutable value semantics">
+        <img src="ruminating-about-mutable-value-semantics.png" alt="Ruminating about mutable value semantics"> -->
+
+        <p> The central tension is that every
+            reasonable approach must trade off between:</p>
+        <ul>
+            <li><b>Runtime efficiency</b> (avoiding unnecessary copies and overhead)</li>
+            <li><b>Local reasoning</b> (understanding what can mutate what without hidden effects)</li>
+            <li><b>Value equivalence</b> (treating data as purely structural and consistently serializable entities)
+            </li>
+        </ul>
+
+        <p>
+            In practice, most existing approaches can satisfy at most two of these properties at once:
+        </p>
+
+        <ul>
+            <li><b>Copy-on-write/reference counting</b>: preserves value semantics, but introduces runtime overhead
+                and
+                complexity in performance reasoning.</li>
+            <li><b>Ownership systems</b>: provide strong safety and efficiency guarantees, but significantly restrict
+                expressiveness and increase cognitive load.</li>
+            <li><b>Naive deep-copy semantics</b>: keeps reasoning simple, but quickly becomes impractical for real-world
+                performance requirements.</li>
+        </ul>
+
+        <p>
+            Beyond these established approaches, Jamie Brandon also sketches a more speculative point in the design
+            space.
+            The idea is to avoid exposing the distinction between <i>owned</i> and <i>borrowed</i> values at the type
+            level
+            entirely. Instead, each access to heap-allocated data would carry an implicit ownership annotation
+            (conceptually
+            an internal “owned vs borrowed” bit), while the compiler decides when sharing or copying is required.
+        </p>
+
+        <p>
+            In this model:
+        </p>
+
+        <ol>
+            <li>Small values are always copied implicitly,</li>
+            <li>Large values may either be copied explicitly or represented via reference counting,</li>
+            <li>Borrowed values remain second-class and are never observable to the programmer, and</li>
+            <li>Aliasing is strictly controlled and must not leak into observable semantics.</li>
+        </ol>
+
+        <p>
+            The goal is to preserve a pure value-oriented programming model while still allowing efficient mutation
+            under
+            the hood.
+
+            This design becomes significantly more subtle once closures and mutation are introduced. Capturing mutable
+            state inside closures reintroduces aliasing concerns: even with copy semantics, hidden duplication of state
+            can
+            lead to surprising divergence between what a closure observes and what is later mutated elsewhere.
+            To address this, the author considers a more constrained model.
+            Closures capture mutable variables by reference rather than by value.
+            Escape analysis ensures closures cannot outlive their captured state.
+            Limited and well-scoped forms of aliasing are permitted under strict rules.
+        </p>
+
+        <p>
+            Overall, the exploration reinforces the core theme of the post: every design choice shifts the balance
+            between
+            expressiveness, performance, and reasoning guarantees.
+        
+            Stronger guarantees improve reasoning but reduce flexibility.
+            Higher performance often increases compiler or runtime complexity.
+            Hiding aliasing simplifies serialization but constrains language design.
+            Exposing aliasing improves expressiveness but breaks the pure value model.
+
+            In conclusion, there is no fully satisfactory solution within the explored space. Ownership-based systems
+            appear
+            too restrictive, reference-counted approaches too costly or unpredictable, and pure copy semantics too
+            inefficient for practical use.
+        </p>
+
+        <p>
+            The speculative model presented is therefore best understood as a point in a broader landscape rather than a
+            final design. As the author notes, a more pragmatic path—closer to Swiftlet-style semantics—is likely to be
+            more viable in practice, even if it does not perfectly satisfy all constraints.
+        </p>
+
+
 
         <div style="display: flex; justify-content: center;">
             <div class="alert-box">
                 Although I haven't explicitly mentioned it yet, I'm not satisfied with the approaches presented so far.
-                Zest's model is actually interesting, but it tries to solve a specific problem.
                 The next post will discuss what I don't like about the current approaches, and what I'd like to have in
                 a novel model.
             </div>
