@@ -110,6 +110,11 @@ body {
     min-width: 0;
 }
 
+.home-icon {
+    vertical-align: middle;
+    margin-right: 6px;
+}
+
 .theme-button {
     flex: 0 0 auto;
 }

@@ -20,6 +20,9 @@ document.addEventListener("DOMContentLoaded", function() {
             <button class="header-toggle" aria-label="Open navigation menu">☰</button>
 
             <nav class="header-nav">
+                <a href="[FOLDER]/index.html" title="Home" style="text-decoration: none; color:var(--header-color)">
+                        <svg class="home-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    </a>
                 <a href="[FOLDER]/post.html" title="Posts" style="text-decoration: none; color:var(--header-color)">Posts</a>
                 <a href="[FOLDER]/cv.pdf" title="CV" style="text-decoration: none; color:var(--header-color)">CV</a>
                 <a href="[FOLDER]/about.html" title="About" style="text-decoration: none; color:var(--header-color)">About</a>
