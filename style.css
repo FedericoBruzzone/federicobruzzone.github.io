@@ -61,6 +61,7 @@ html body {
     margin: 10px auto 0;
     padding: 0 12px;
     box-sizing: border-box;
+    overflow-x: hidden;
 }
 
 .header {
@@ -428,4 +429,9 @@ body.dark-mode .alert-box {
     border: 1.5px solid #aaa;
     background: #373737;
     color: #ddd;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
 }
