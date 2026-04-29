@@ -25,20 +25,6 @@
     --code-punctuation-color : rgb(150 , 150 , 150 );
 }
 
-/* *, *::before, *::after {
-    box-sizing: border-box;
-} */
-
-html {
-    overflow-x: hidden;
-    max-width: 100vw;
-}
-
-body {
-    overflow-x: hidden;
-    max-width: 100vw;
-}
-
 body.dark-mode {
     --background-color : rgb(40  , 40  , 40  );
     --header-color     : rgb(255 , 255 , 255 );
