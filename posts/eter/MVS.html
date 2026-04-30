@@ -144,7 +144,7 @@
             In the following, we will use a programming language with simple features (called
             Swiftlet) to illustrate the concepts of value
             semantics.
-            The same concepts are deeply explored in the paper.
+            This analysis draws heavy inspiration from the original paper; for a more formal and exhaustive treatment of the topic, I highly recommend referring to their work.
             As all types have value semantics, values form disjoint topological trees rooted at variables or constants.
             All function parameters are passed by value, and all function results are returned by value.
             Therefore, the following code is well-typed:
@@ -154,7 +154,7 @@
                 var v = Vec2(x: 1, y: 2);
                 var u = v;
                 u.y = 3 // `v` -> Vec2(x: 1, y: 2)
-                // `u` -> Vec2(x: 1, y: 3)
+                        // `u` -> Vec2(x: 1, y: 3)
             </code>
         </pre>
         </p>
