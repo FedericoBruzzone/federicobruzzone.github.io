@@ -238,7 +238,7 @@
         <p>
             Both Swift <span class="cite" value="Swift"></span> and Hylo <span class="cite" value="Hylo"></span>
             (formerly Val) adopt this model but in different ways.
-            Swift tries to make values look like safe references, while Hylo treats everything as a pure value,
+            Swift tries to make values look like safe references when dealing with variable size data structures, while Hylo treats everything as a pure value,
             eliminating the need for a Garbage Collector (GC) or Atomic Reference Counting (ARC).
         </p>
 
@@ -377,7 +377,7 @@
         <h2>The Swift's Mutable Value Semantics</h2>
 
         <p>
-            In Swift, for <strong>value types</strong> (structs), the MVS is implemented via a CoW
+            In Swift, for <strong>value types</strong> (structs), in the presence of variable size data structures, the MVS is implemented via a CoW
             mechanism. When you assign an array to a new variable, Swift does not immediately copy the data; both
             variables point to the same memory. The copy only occurs if one of the instances is modified. This requires
             hidden ARC to track how many owners there are. If the count is greater than 1, a copy
