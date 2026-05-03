@@ -94,15 +94,65 @@
             He didn't get very far.
             After all, Rust <span class="cite" value="Matsakis14"></span> has a substructural type system <span class="cite" value="Walker05"></span>.<a id="footnote-1-ref" href="#footnote-1"><sup>1</sup></a>
             Specifically, it boasts an <i>affine</i> type system with polymorphic regions (lifetimes) where the references are first-class citizens.
-            The borrow checker <b>statically</b> detects aliasing violations, ensuring there is only one owner of a value at any given time, and so on. The MVS model opposes the ownership & borrowing model but shares the same goal: memory safety and data race freedom. In Hylo references are second-class elements and are not observable to the programmer, and advocates for <i>value independence</i> to support local reasoning.
+            The borrow checker <b>statically</b> detects aliasing violations, ensuring there is only one owner of a value at any given time, and so on. The MVS model opposes the Ownership & Borrowing model but shares the same goal: memory safety and data race freedom. In Hylo references are second-class elements and are not observable to the programmer, and advocates for <i>value independence</i> to support local reasoning.
         </p>
 
-        <h2>The Rust approach</h2>
+        <h2>Rust's friction points: does it have any?</h2>
         <p>
-            You'll probably think I'm crazy, but I have a deep love for the C and OCaml programming languages, so I couldn't help but fall in love with Rust as well.
+            The MVS researchers would say <i>yes</i>, they <i>don't like</i> lifetimes (just kidding, I know they complicate the type system) and they are not alone in their opinions.
+            You'll probably think I'm crazy, but I have a deep love for the C and OCaml programming languages, so I couldn't help but fall in love with Rust as well, with its lifetimes etc.
+            However, I partially agree with the MVS researchers. The Ownership & Borrowing model has a steep learning curve, and the Rust language is notoriously difficult to learn.
+            Consider the following illegal Rust code:
+            <pre class="line-numbers" data-line="3-3" data-language="Rust">
+                <code class="language-rust">
+                    let s1: &str = "Hello";
+                    let s2: &str = " World";
+                    let s3: &str = s1 + s2; // ERROR: cannot add `&str` to `&str`
+                </code>
+            </pre>
+        </p>
+        <p>
+            The concatenations is implemented as: <code class="language-rust">fn add(self, s: &str) -> String</code>, so the <code class="language-rust">self</code> parameter must be owned, but <code class="language-rust">s1: &str</code> is a fat pointer (pointer + length).
+            Also, the following illegal Rust code shows how the lifetimes come into play:
+            <pre class="line-numbers" data-line="3-3" data-language="Rust">
+                <code class="language-rust">
+                    fn identity(x: &str) -> &str { x }
 
+                    fn longest(x: &str, y: &str) -> &str { // ERROR: expected named lifetime parameter
+                        if x.len() > y.len() { x } else { y }
+                    }
+                </code>
+            </pre>
+        </p>
+        <p>
+            While for the <tt>identity</tt> function, the compiler can infer the lifetimes, for the <tt>longest</tt> function, the compiler cannot due to the <i>Lifetime Elision Rules</i>. 
+            If the compiler tries to associate the de Bruijn indices <span class="cite" value="DeBruijn72"></span> at each reference, the following code would be produced:
+            <pre class="line-numbers" data-line="" data-language="Rust">
+                <code class="language-rust">
+                    fn longest<'1, '2>(x: &'1 str, y: &'2 str) -> &'? str { ... }
+                </code>
+            </pre>
+            But an ambiguity arises during the lifetime inference of the return type.
+            Of couse, the programer can just annotate each reference with the same lifetime (e.g., <code class="language-rust">'a</code>) to guarantee the soundness.
         </p>
 
+        <div style="display: flex; justify-content: center;">
+            <div class="alert-box">
+                I'd like to avoid this kind of complexity for Eter. That's why I'm trying to take refuge in MVS.
+            </div>
+        </div>
+
+
+
+<!-- const fn get<const T: usize>() -> usize { T }
+fn f(a: &mut i32, b: &mut i32) {  }
+
+fn main() {
+  let mut a: [i32; 2] = [0,1];
+  let i: usize = get::<0>();
+  let j: usize = get::<1>();
+  f(&mut a[i], &mut a[j])
+} -->
         <div style="display: flex; justify-content: center;">
             <div class="alert-box">
                 TODO

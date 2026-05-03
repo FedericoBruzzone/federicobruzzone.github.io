@@ -230,5 +230,15 @@ const bibliography = {
         "pages"   : "103--104",
         "year"    : "2014",
         "publisher" : "ACM New York, NY, USA"
+    },
+    "DeBruijn72" : {
+        "title"   : "Lambda calculus notation with nameless dummies, a tool for automatic formula manipulation, with application to the Church-Rosser theorem",
+        "author"  : "De Bruijn, Nicolaas Govert",
+        "booktitle" : "Indagationes mathematicae (proceedings)",
+        "volume"    : "75",
+        "number"    : "5",
+        "pages"     : "381--392",
+        "year"      : "1972",
+        "publisher" : "Elsevier"
     }
 };
