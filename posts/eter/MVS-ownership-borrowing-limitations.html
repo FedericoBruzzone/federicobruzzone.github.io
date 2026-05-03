@@ -66,22 +66,20 @@
             The first post, in its prelude, introduces what we are currently researching for the Eter language.
             It discusses the mutable value semantics (MVS) <span class="cite" value="Racordon22"></span> and how the popular programming languages (e.g., Swift <span class="cite" value="Swift"></span>, Hylo <span class="cite" value="Hylo"></span>) implement it. 
             I strongly suggest you to read the <a href="./MVS.html">first post</a> if you are not familiar with the MVS model.
-            We left it at that, saying that I wasn't 100% satisfied with these approaches, but without specifying exactly what bothered me. 
         </p>
         <p>
+            We left it at that, saying that I wasn't 100% satisfied with these approaches, but without specifying exactly what bothered me. 
             <b>That's why I'm writing this post...</b>
         </p>
 
 
         <h2>A premise</h2>
-        <!-- <p>
-            You'll probably think I'm crazy, but I have a deep love for the C and OCaml programming languages, so I couldn't help but fall in love with Rust as well. Hylo—and the MVS in general—has really piqued my interest over the past two weeks, which is why I wrote the previous post. 
-        </p> -->
         <p>
             I just want to say two things before we start. 
             First, this post is not a critique of the current approaches to MVS and Ownership & Borrowing at all.
-            Behind these approaches, there are many researchers and experts who have worked on these topics for decades.
+            Behind these approaches, there are many researchers and experts who have worked on these topics for decades, and all the choices are coherent with the language design.
             Second, for now, I'm just thinking things through, and this post might seem like a list of problems and the solutions I'd like to see—without actually offering any solutions: after all, that's exactly the case, and unfortunately, I don't even know if there will be any.
+            The next post, hopefully, will provide a first sketch of the solutions I'd like to see.
         </p>
 
 
@@ -151,7 +149,7 @@
             </pre>
         </p>
         <p>
-            The aim of the <code class="language-rust">call</code> function is to call the higher-order function <code class="language-rust">f</code> with the same argument twice.
+            The aim of the higher-order  <code class="language-rust">call</code> function is to invokethe function <code class="language-rust">f</code> with the same argument.
             As before, the compiler must reject this code due to the lifetimes.
             But we can try to fix manually the problem:
             <pre class="" data-line="2-2" data-language="Rust">
@@ -163,9 +161,9 @@
             </pre>
         </p>
         <p> 
-            The purpose of this code is: "It doens't matter what the lifetime of the argument <code class="language-rust">e: &u8</code> is, I leave to call the function <code class="language-rust">f</code> with the same argument twice."
+            The purpose of this code is: "It doens't matter what the lifetime of the argument <code class="language-rust">e: &u8</code> is, I leave to call the function <code class="language-rust">f</code> with the same argument."
             But unfortunately, the compiler must reject also this code since <code class="language-rust">'a</code> is not universally quantified.
-            It requires an <i>>Higher-Rank Trait Bound</i> (HRTB) to fix the problem.
+            It requires a <i>>Higher-Rank Trait Bound</i> (HRTB) to fix the problem.
             Consider the following code:
             <pre class="" data-line="" data-language="Rust">
                 <code class="language-rust">
@@ -187,6 +185,46 @@
         </div>
 
         <p>
+           In the previous post, I mentioned that the following Rust code (without the highlight lines) would be valid in Hylo:
+           <pre class="" data-line="3-3, 8-8" data-language="Rust">
+            <code class="language-rust">
+                #[derive(Debug)] struct T;
+                fn own_t(t: T) { 
+                    panic!() 
+                }
+                fn ref_mut_t(t: &mut T) {
+                    own_t(*t); // ERROR: cannot move out of `*t` which
+                               // is behind a mutable reference
+                    std::panic::catch_unwind(|| { println!("{:?}", t) }).unwrap();
+                    *t = T;
+                }
+            </code>
+        </pre>
+        </p>
+        <p>
+            In this example, as <a href="https://www.reddit.com/r/ProgrammingLanguages/comments/1t09t3e/comment/ojazujq/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button" <tt>SkiFire13</tt> pointed out</a>, the Rust compiler must reject the code since the <code class="language-rust">ref_mut_t</code> could catch the panic and then read the mutable reference pointing to an invalid memory location.
+            While it's actually not ubiquitous, I don't personally like this approach.
+            Languages like Hylo and Swift explicitly mark the function with <tt>throws</tt> to indicate that the function can throw an exception, something I really appreciate.
+        </p>
+
+        <div style="display: flex; justify-content: center;">
+            <div class="alert-box">
+                For Eter, I'd like to avoid both the explicitness and, in general, the possibility to catch panics.
+                All the panics are aborts with transparent unwinding. Errors must be explicitly handled.
+            </div>
+        </div>
+
+        <p>
+            I can narrow down the list of limitations I'm running into to just the more trivial ones.
+            For a user perspective, writing <code class="language-rust">mut</code> everywhere is a bit annoying.
+
+        <pre class="line-numbers" data-line="3-3" data-language="Rust">
+            <code class="language-rust">
+            let mut x = &mut 10;
+            let y = x;
+            let z = x; // ERROR: value used here after move
+            </code>
+            </pre>
 
         </p>
 
