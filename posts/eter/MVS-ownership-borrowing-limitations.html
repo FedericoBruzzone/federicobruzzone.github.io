@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="../../prism.css">
+    <link rel="stylesheet" href="../../code.css">
+
+    <script src="../../scripts/prism.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.2/p5.js"></script> -->
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    <title>The Limits of Mutable Value Semantics and Ownership & Borrowing</title>
+</head>
+
+
+<body>
+    <div id="root-folder" value="../.."></div>
+    <div id="header"></div>
+
+    <main>
+        <h1><img src="https://raw.githubusercontent.com/eter-lang/eter/main/docsrc/logo/logo.png" alt="The Eter logo"
+                width="20px" /> The Limits of Mutable Value Semantics and Ownership & Borrowing</h1>
+
+        <div style="display: flex; justify-content: center;">
+            <div class="alert-box">
+                <img src="https://raw.githubusercontent.com/eter-lang/eter/main/docsrc/logo/logo.png"
+                    alt="The Eter logo" width="10px" /> This post is part of <i>The <a
+                        href="https://github.com/eter-lang/eter">Eter</a> programming
+                    Language</i> series. <img
+                    src="https://raw.githubusercontent.com/eter-lang/eter/main/docsrc/logo/logo.png" alt="The Eter logo"
+                    width="10px" />
+            </div>
+        </div>
+
+        <p>
+            This is the <strong>second post</strong> in the <i>Eter programming language</i> series.
+            Although part of this series, it is not part of the Eter language itself.
+            The Eter language is currently in the design and development phase, and this series (including this post)
+            should be considered an exploration of ideas that will serve as a foundation for the language.
+            <strong>No prior knowledge of Eter, or of its motivations, is required to read these early posts.</strong>
+            However, if you are interested in the project, you can find more information in the
+            <a href="https://github.com/eter-lang/eter">Eter compiler monorepo</a>.
+            The <a href="https://eter-lang.github.io/eter/">Eter language reference</a> and the
+            <a href="https://eter-lang.github.io/eter/api/">Eter Doxygen documentation</a>, although not yet complete,
+            are also good starting points.
+        </p>
+
+        <p>
+            Overall, we are currently researching:
+        </p>
+
+        <ul>
+            <li>
+                a novel semantics for a system programming language inspired by the <i>Ownership and Borrowing</i> model
+                (Affine Type Systems with Lifetimes)
+                <span class="cite" value="Wadler90"></span>
+                <span class="cite" value="Walker05"></span>
+                <span class="cite" value="Clarke98"></span>
+                <span class="cite" value="Tofte97"></span>
+                <span class="cite" value="Barrett93"></span>
+                <span class="cite" value="Aiken95"></span>
+                <span class="cite" value="Talpin92"></span>
+                and the <i>Mutable Value Semantics</i> (MVS),
+            </li>
+
+            <li>
+                mechanisms to integrate <i>Machine Learning</i> (ML) and <i>Deep Learning</i> (DL) models as first-class
+                entities in the language (e.g., via simple <tt>extern</tt> functions),
+            </li>
+
+            <li>
+                support for seamless coexistence between CPU and GPU computations (similar to the Mojo programming
+                language
+                <span class="cite" value="Mojo26"></span>), and
+            </li>
+
+            <li>
+                a tile-level programming model for GPU computation, inspired by systems such as NVIDIA's Tile IR
+                <span class="cite" value="TileIR26"></span>,
+                Triton
+                <span class="cite" value="Tillet19"></span>,
+                Triton-based Gluon
+                <span class="cite" value="Gluon26"></span>,
+                Halide
+                <span class="cite" value="Ragan17"></span>,
+                and related approaches such as Tilus
+                <span class="cite" value="Ding25"></span>.
+            </li>
+        </ul>
+        <p>
+            <strong>But for now, let's put aside everything that Eter is supposed to be...</strong>
+        </p>
+
+        <h2>Introduction</h2>
+
+        <p>
+            TODO.<a id="footnote-1-ref" href="#footnote-1"><sup>1</sup></a>
+            Per ownership e borrowing ci riferiamo ad affine type systems con lifetimes.
+        </p>
+
+
+
+
+        <div style="display: flex; justify-content: center;">
+            <div class="alert-box">
+                TODO
+            </div>
+        </div>
+
+        <div class="bibtex" year="2026" month="April"></div>
+
+        <p><br><br></p>
+        <hr>
+        <p id="footnote-1">
+            <sup>1</sup>
+            TODO 
+            <a href="#footnote-1-ref">&#8617;</a>
+        </p>
+
+        <div class="bibliography"></div>
+        <div id="footer"></div>
+        <script src="../../scripts/toggle-theme.js"></script>
+        <script src="../../scripts/load-header.js"></script>
+        <script src="../../scripts/load-footer.js"></script>
+        <script src="../../scripts/load-cits.js"></script>
+        <script src="../../scripts/load-bib.js"></script>
+</body>
+
+</html>
