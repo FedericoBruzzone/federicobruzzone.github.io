@@ -34,6 +34,12 @@
 
         <div style="display: flex; justify-content: center;">
             <div class="alert-box">
+                THIS POST IS NOT YET COMPLETED. PLEASE CONSIDER TO WAIT.
+            </div>
+        </div>
+
+        <div style="display: flex; justify-content: center;">
+            <div class="alert-box">
                 <img src="https://raw.githubusercontent.com/eter-lang/eter/main/docsrc/logo/logo.png"
                     alt="The Eter logo" width="10px" /> This post is part of <i>The <a
                         href="https://github.com/eter-lang/eter">Eter</a> programming
@@ -125,23 +131,64 @@
             </pre>
         </p>
         <p>
-            While for the <tt>identity</tt> function, the compiler can infer the lifetimes, for the <tt>longest</tt> function, the compiler cannot due to the <i>Lifetime Elision Rules</i>. 
-            If the compiler tries to associate the de Bruijn indices <span class="cite" value="DeBruijn72"></span> at each reference, the following code would be produced:
-            <pre class="line-numbers" data-line="" data-language="Rust">
+            While for the <code class="language-rust">identity</code>  function, the compiler can infer the lifetimes, for the  <code class="language-rust">longest</code> function, the compiler cannot due to the <i>Lifetime Elision Rules</i>. 
+            If the compiler tries to associate the lifetimes at each reference, the following code would be produced:
                 <code class="language-rust">
                     fn longest<'1, '2>(x: &'1 str, y: &'2 str) -> &'? str { ... }
-                </code>
-            </pre>
+                </code>.
             But an ambiguity arises during the lifetime inference of the return type.
             Of couse, the programer can just annotate each reference with the same lifetime (e.g., <code class="language-rust">'a</code>) to guarantee the soundness.
         </p>
 
+        <p>
+            Let me complicate things a bit more. Consider the following illegal Rust code:
+            <pre class="" data-line="" data-language="Rust">
+                <code class="language-rust">
+                fn call&lt;F&gt;(f: F, e: &u8) -> &u8 
+                    where F: Fn(&u8, &u8) -> &u8
+                { f(e, e) }
+                </code>
+            </pre>
+        </p>
+        <p>
+            The aim of the <code class="language-rust">call</code> function is to call the higher-order function <code class="language-rust">f</code> with the same argument twice.
+            As before, the compiler must reject this code due to the lifetimes.
+            But we can try to fix manually the problem:
+            <pre class="" data-line="2-2" data-language="Rust">
+                <code class="language-rust">
+                fn call<'a, F>(f: F, e: &'a u8) -> &'a u8 
+                    where F: Fn(&u8, &u8) -> &u8
+                { f(e, e) }
+                </code>
+            </pre>
+        </p>
+        <p> 
+            The purpose of this code is: "It doens't matter what the lifetime of the argument <code class="language-rust">e: &u8</code> is, I leave to call the function <code class="language-rust">f</code> with the same argument twice."
+            But unfortunately, the compiler must reject also this code since <code class="language-rust">'a</code> is not universally quantified.
+            It requires an <i>>Higher-Rank Trait Bound</i> (HRTB) to fix the problem.
+            Consider the following code:
+            <pre class="" data-line="" data-language="Rust">
+                <code class="language-rust">
+                fn call&lt;F&gt;(f: F, e: &u8) -> &u8 
+                    where F: for<'a> Fn(&'a u8, &'a u8) -> &'a u8
+                { f(e, e) }
+                </code>
+            </pre>
+        </p>
+        <p>
+            The <code class="language-rust">for<'a></code> keyword introduces a HRTB that allows the compiler to resolve via the de Bruijn indices <span class="cite" value="DeBruijn72"></span> every call site.
+        </p>
+
         <div style="display: flex; justify-content: center;">
             <div class="alert-box">
-                I'd like to avoid this kind of complexity for Eter. That's why I'm trying to take refuge in MVS.
+                I'd like to avoid this kind of complexity for Eter, both user side and compiler side.
+                That's why I'm trying to take refuge in MVS.
             </div>
         </div>
 
+        <p>
+
+        </p>
 
 
 <!-- const fn get<const T: usize>() -> usize { T }

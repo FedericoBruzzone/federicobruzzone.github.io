@@ -33,7 +33,8 @@ pre[class*=language-]{
     background:var(--background-color);
 }
 :not(pre)>code[class*=language-]{
-    white-space:normal
+    white-space:normal;
+    font-size:0.9em
 }
 .token.cdata,.token.comment,.token.doctype,.token.prolog{
     color:var(--code-comment-color)
