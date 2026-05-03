@@ -212,5 +212,23 @@ const bibliography = {
         "pages"     : "51--77",
         "year"      : "1994",
         "publisher" : "Wiley Online Library"
+    },
+    "Girard87" : {
+        "title"   : "Linear logic",
+        "author"  : "Girard, Jean-Yves",
+        "journal" : "Theoretical computer science",
+        "volume"    : "50",
+        "number"    : "1",
+        "pages"     : "1--101",
+        "year"      : "1987",
+        "publisher" : "Elsevier"
+    },
+    "Matsakis14" : {
+        "title"   : "The Rust Programming Language",
+        "author"  : "Matsakis, Nicholas D and Klock, Felix S",
+        "booktitle" : "ACM SIGAda Annual Conference on High Integrity Language Technology",
+        "pages"   : "103--104",
+        "year"    : "2014",
+        "publisher" : "ACM New York, NY, USA"
     }
 };

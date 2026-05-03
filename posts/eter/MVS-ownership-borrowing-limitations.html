@@ -20,7 +20,7 @@
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
 
-    <title>The Limits of Mutable Value Semantics and Ownership & Borrowing</title>
+    <title>The Limits of Mutable Value Semantics (MVS) and Ownership & Borrowing</title>
 </head>
 
 
@@ -30,7 +30,7 @@
 
     <main>
         <h1><img src="https://raw.githubusercontent.com/eter-lang/eter/main/docsrc/logo/logo.png" alt="The Eter logo"
-                width="20px" /> The Limits of Mutable Value Semantics and Ownership & Borrowing</h1>
+                width="20px" /> The Limits of Mutable Value Semantics (MVS) and Ownership & Borrowing</h1>
 
         <div style="display: flex; justify-content: center;">
             <div class="alert-box">
@@ -44,10 +44,10 @@
         </div>
 
         <p>
-            This is the <strong>second post</strong> in the <i>Eter programming language</i> series.
-            Although part of this series, it is not part of the Eter language itself.
-            The Eter language is currently in the design and development phase, and this series (including this post)
-            should be considered an exploration of ideas that will serve as a foundation for the language.
+            This is the <strong>second post</strong> in the series dedicated to the <i>Eter programming language</i>.
+            The previous post is <a href="./MVS.html">The Mutable Value Semantics (MVS): A Non-superficial Study</a>.
+            As the former, this post is not part of the Eter language itself. It's currently in the design and development phase.
+            For the moment, this series (including this post) should be considered an exploration of ideas that will serve as a foundation for the language.
             <strong>No prior knowledge of Eter, or of its motivations, is required to read these early posts.</strong>
             However, if you are interested in the project, you can find more information in the
             <a href="https://github.com/eter-lang/eter">Eter compiler monorepo</a>.
@@ -57,60 +57,51 @@
         </p>
 
         <p>
-            Overall, we are currently researching:
+            The first post, in its prelude, introduces what we are currently researching for the Eter language.
+            It discusses the mutable value semantics (MVS) <span class="cite" value="Racordon22"></span> and how the popular programming languages (e.g., Swift <span class="cite" value="Swift"></span>, Hylo <span class="cite" value="Hylo"></span>) implement it. 
+            I strongly suggest you to read the <a href="./MVS.html">first post</a> if you are not familiar with the MVS model.
+            We left it at that, saying that I wasn't 100% satisfied with these approaches, but without specifying exactly what bothered me. 
         </p>
-
-        <ul>
-            <li>
-                a novel semantics for a system programming language inspired by the <i>Ownership and Borrowing</i> model
-                (Affine Type Systems with Lifetimes)
-                <span class="cite" value="Wadler90"></span>
-                <span class="cite" value="Walker05"></span>
-                <span class="cite" value="Clarke98"></span>
-                <span class="cite" value="Tofte97"></span>
-                <span class="cite" value="Barrett93"></span>
-                <span class="cite" value="Aiken95"></span>
-                <span class="cite" value="Talpin92"></span>
-                and the <i>Mutable Value Semantics</i> (MVS),
-            </li>
-
-            <li>
-                mechanisms to integrate <i>Machine Learning</i> (ML) and <i>Deep Learning</i> (DL) models as first-class
-                entities in the language (e.g., via simple <tt>extern</tt> functions),
-            </li>
-
-            <li>
-                support for seamless coexistence between CPU and GPU computations (similar to the Mojo programming
-                language
-                <span class="cite" value="Mojo26"></span>), and
-            </li>
-
-            <li>
-                a tile-level programming model for GPU computation, inspired by systems such as NVIDIA's Tile IR
-                <span class="cite" value="TileIR26"></span>,
-                Triton
-                <span class="cite" value="Tillet19"></span>,
-                Triton-based Gluon
-                <span class="cite" value="Gluon26"></span>,
-                Halide
-                <span class="cite" value="Ragan17"></span>,
-                and related approaches such as Tilus
-                <span class="cite" value="Ding25"></span>.
-            </li>
-        </ul>
         <p>
-            <strong>But for now, let's put aside everything that Eter is supposed to be...</strong>
+            <b>That's why I'm writing this post...</b>
         </p>
+
+
+        <h2>A premise</h2>
+        <!-- <p>
+            You'll probably think I'm crazy, but I have a deep love for the C and OCaml programming languages, so I couldn't help but fall in love with Rust as well. Hylo—and the MVS in general—has really piqued my interest over the past two weeks, which is why I wrote the previous post. 
+        </p> -->
+        <p>
+            I just want to say two things before we start. 
+            First, this post is not a critique of the current approaches to MVS and Ownership & Borrowing at all.
+            Behind these approaches, there are many researchers and experts who have worked on these topics for decades.
+            Second, for now, I'm just thinking things through, and this post might seem like a list of problems and the solutions I'd like to see—without actually offering any solutions: after all, that's exactly the case, and unfortunately, I don't even know if there will be any.
+        </p>
+
 
         <h2>Introduction</h2>
 
         <p>
-            TODO.<a id="footnote-1-ref" href="#footnote-1"><sup>1</sup></a>
-            Per ownership e borrowing ci riferiamo ad affine type systems con lifetimes.
+            The safety of a programming language has been a topic of interest since time immemorial.
+            In recent years, the focus was on the <i>type system</i> and the <i>static analysis</i> rather than garbage collection strategies or <i>automatic</i> region-based memory management 
+                <span class="cite" value="Talpin92"></span>
+                <span class="cite" value="Barrett93"></span>
+                <span class="cite" value="Aiken95"></span>
+                <span class="cite" value="Tofte97"></span>
+                <span class="cite" value="Clarke98"></span>.
+            In 1987, Girard <span class="cite" value="Girard87"></span> proposed linear logic.
+            Three years later, Wadler <span class="cite" value="Wadler90"></span> said: "Linear types can change the world!".  
+            He didn't get very far.
+            After all, Rust <span class="cite" value="Matsakis14"></span> has a substructural type system <span class="cite" value="Walker05"></span>.<a id="footnote-1-ref" href="#footnote-1"><sup>1</sup></a>
+            Specifically, it boasts an <i>affine</i> type system with polymorphic regions (lifetimes) where the references are first-class citizens.
+            The borrow checker <b>statically</b> detects aliasing violations, ensuring there is only one owner of a value at any given time, and so on. The MVS model opposes the ownership & borrowing model but shares the same goal: memory safety and data race freedom. In Hylo references are second-class elements and are not observable to the programmer, and advocates for <i>value independence</i> to support local reasoning.
         </p>
 
+        <h2>The Rust approach</h2>
+        <p>
+            You'll probably think I'm crazy, but I have a deep love for the C and OCaml programming languages, so I couldn't help but fall in love with Rust as well.
 
-
+        </p>
 
         <div style="display: flex; justify-content: center;">
             <div class="alert-box">
@@ -124,7 +115,7 @@
         <hr>
         <p id="footnote-1">
             <sup>1</sup>
-            TODO 
+            Linear type systems are a particular for of substructural type systems. Among <i>exchange</i>, <i>weakening</i> and <i>contraction</i>, only the former is allowed.
             <a href="#footnote-1-ref">&#8617;</a>
         </p>
 
