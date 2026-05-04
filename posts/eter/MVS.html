@@ -376,6 +376,12 @@
 
         <h2>The Swift's Mutable Value Semantics</h2>
 
+        
+fun main() {
+    let v = (x: 1, y: 2)
+    print(offset_sink(v, (x: 3, y: 5)))
+    print(v)
+}
         <p>
             In Swift, for <strong>value types</strong> (structs), in the presence of variable size data structures, the MVS is implemented via a CoW
             mechanism. When you assign an array to a new variable, Swift does not immediately copy the data; both
