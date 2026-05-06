@@ -216,16 +216,17 @@
 
         <p>
             I can narrow down the list of limitations I'm running into to just the more trivial ones.
-            For a user perspective, writing <code class="language-rust">mut</code> everywhere is a bit annoying.
 
-        <pre class="line-numbers" data-line="3-3" data-language="Rust">
+            <pre class="line-numbers" data-line="3-3" data-language="Rust">
             <code class="language-rust">
-            let mut x = &mut 10;
-            let y = x;
-            let z = x; // ERROR: value used here after move
+            let v: Vec<i32> = vec![];
+            let t1 = v;
+            let t2 = v;
             </code>
             </pre>
-
+        </p>
+        <p>
+            For a user perspective, writing <code class="language-rust">mut</code> everywhere is a bit annoying.
         </p>
 
 
