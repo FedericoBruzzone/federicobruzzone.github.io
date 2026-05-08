@@ -80,7 +80,7 @@
             Behind these approaches, there are many researchers and experts who have worked on these topics for decades, and all the choices are coherent with the language design.
             I'm simply exploring the ideas that will serve as a foundation for the Eter language.
             Second, for now, I'm just thinking things through, and this post might seem like a list of problems and the solutions I'd like to see—without actually offering any solutions: after all, that's exactly the case, and unfortunately, I don't even know if there will be any.
-            The next post, hopefully, will provide a first sketch of the solutions I'd like to see.
+            The next post, hopefully, will provide a first sketch.
         </p>
 
 
@@ -216,38 +216,142 @@
         </div>
 
         <p>
-            I can narrow down the list of limitations I'm running into to just the more trivial ones.
-
+            As Bruzzone <i>et al.</i> pointed out <cite class="cite" value="Bruzzone26d-preprint"></cite>, the current implementation of the Rust compiler is not capable of specializing monomorphized generic functions <cite class="cite" value="RustSpecialization"></cite> (take a look at the <a href="../../publications/Bruzzone26d-preprint/Bruzzone26d-preprint.pdf">preprint</a>).
+            Nevertheless, to date, this feature remains confined to the nightly channel, as stabilization attempts have stalled due to potential soundness issues and implementation complexities <cite class="cite" value="ShippingSpecialization"></cite>.
+            Consider the following invalid code:
             <pre class="line-numbers" data-line="3-3" data-language="Rust">
             <code class="language-rust">
-            let mut v: &mut Vec<i32> = &mut vec![];
-            
+                trait Trait { fn f(&self); }
+                impl&lt;T&gt; Trait for T { default fn f(&self) {} }
+                impl&lt;T: 'static&gt; Trait for T { fn f(&self) {} }
             </code>
             </pre>
         </p>
         <p>
-            For a user perspective, writing <code class="language-rust">mut</code> everywhere is a bit annoying.
+            The core issue was that specialized implementations could inadvertently violate expected lifetime constraints, leading to dangling references and other memory safety vulnerabilities. This problem arises because lifetimes are erased before code generation (specifically, during the MIR-to-LLVM IR lowering), preventing the specialized implementation from being correctly monomorphized with respect to lifetime parameters.
+            At a given call site, e.g., <code class="language-rust">"foo".f()</code>, the compiler is not able to determine which implementation of <code class="language-rust">f</code> is applicable.
         </p>
-
-
-<!-- const fn get<const T: usize>() -> usize { T }
-fn f(a: &mut i32, b: &mut i32) {  }
-
-fn main() {
-  let mut a: [i32; 2] = [0,1];
-  let i: usize = get::<0>();
-  let j: usize = get::<1>();
-  f(&mut a[i], &mut a[j])
-}
- 
-// Specialization
-  -->
 
         <div style="display: flex; justify-content: center;">
             <div class="alert-box">
-                TODO
+             While I'm not a fan of function overloading, I love specialization; in my opinion, it's a vital feature in a modern programming language. I'd like to have a language where this is possible.
             </div>
         </div>
+
+        <p>
+            I can narrow down the list of limitations I'm running into to just the more trivial ones.
+            Consider the following valid snippet:
+            <pre class="line-numbers" data-line="" data-language="Rust">
+            <code class="language-rust">
+fn double_all(data: &mut Vec&lt;i32&gt;) {
+    for x in data.iter_mut() {
+        *x *= 2;
+    }
+}
+
+fn main() {
+    let mut v: Vec&lt;i32&gt; = vec![1, 2, 3];
+    double_all(&mut v);
+}
+            </code>
+            </pre>
+        </p>
+        <p>
+            There are three distinct flavors of mutability here: <code class="language-rust">let mut v</code> marks the <i>binding</i> as mutable,
+            <code class="language-rust">&mut v</code> passes a <i>mutable reference</i>,
+            and <code class="language-rust">iter_mut()</code> combined with the dereference <code class="language-rust">*x</code> allows writing through the iterator.
+            Each level requires its own explicit annotation—even when the overall intent (mutate every element in the pipeline) is clear from context.
+        </p>
+
+
+        <p>
+            A subtler limitation appears when dealing with split mutable borrows on arrays.
+            The following code is illegal even though <code class="language-rust">i</code> and <code class="language-rust">j</code> are statically proven to be different:
+            <pre class="line-numbers" data-line="8-8" data-language="Rust">
+            <code class="language-rust">
+const fn get&lt;const T: usize&gt;() -&gt; usize { T }
+fn f(a: &mut i32, b: &mut i32) { }
+
+fn main() {
+    let mut a: [i32; 2] = [0, 1];
+    let i: usize = get::&lt;0&gt;();
+    let j: usize = get::&lt;1&gt;();
+    f(&mut a[i], &mut a[j]); // ERROR: cannot borrow `a` as mutable more than once
+}
+            </code>
+            </pre>
+        </p>
+        <p>
+            The borrow checker reasons about <i>paths</i> (<code class="language-rust">a[_]</code>), not <i>values</i> (<code class="language-rust">0</code>, <code class="language-rust">1</code>).
+            Both <code class="language-rust">&mut a[i]</code> and <code class="language-rust">&mut a[j]</code> are seen as mutable borrows of <code class="language-rust">a</code>, regardless of whether the indices are provably disjoint.
+            The canonical workaround is <code class="language-rust">a.split_at_mut(1)</code>, or <code class="language-rust">unsafe</code> code—both of which shift the burden of proof onto the programmer.
+            Of course, the previous code would not compile also if we manually constant-propagated the indices.
+        </p>
+
+        <p>
+            Self-referential structs are another source of friction.
+            Suppose you want a <code class="language-rust">Parser</code> that holds both the input string and a slice pointing into it:
+            <pre class="line-numbers" data-line="3-3" data-language="Rust">
+            <code class="language-rust">
+struct Parser {
+    input: String,
+    current: &str, // ERROR: missing lifetime specifier
+}
+            </code>
+            </pre>
+        </p>
+        <p>
+            There is no way to express "the lifetime of <code class="language-rust">current</code> is tied to <code class="language-rust">self.input</code>" in safe Rust.
+            The usual workaround is to replace the reference with an index:
+            <pre class="line-numbers" data-line="" data-language="Rust">
+            <code class="language-rust">
+struct Parser {
+    input: String,
+    pos: usize, // index instead of a reference into `input`
+}
+            </code>
+            </pre>
+        </p>
+        <p>
+            This is safe and idiomatic, but it trades a static guarantee for a runtime invariant:
+            the programmer must ensure <code class="language-rust">pos</code> always stays in bounds.
+            The alternative—raw pointers with <code class="language-rust">unsafe</code>—restores the direct reference but abandons the borrow checker entirely.
+        </p>
+
+        <p>
+            Finally, graphs and doubly-linked lists expose the limits of exclusive ownership most starkly.
+            A naïve attempt fails immediately:
+            <pre class="line-numbers" data-line="4-4" data-language="Rust">
+            <code class="language-rust">
+struct Node {
+    value: i32,
+    next: Option&lt;Box&lt;Node&gt;&gt;,
+    prev: Option&lt;Box&lt;Node&gt;&gt;, // NOTE: ownership cannot be shared
+}
+            </code>
+            </pre>
+        </p>
+        <p>
+            <code class="language-rust">Box&lt;T&gt;</code> enforces exclusive ownership, so two nodes cannot each own the other.
+            The idiomatic Rust solution requires layering four distinct wrappers:
+            <pre class="line-numbers" data-line="" data-language="Rust">
+            <code class="language-rust">
+use std::rc::{Rc, Weak};
+use std::cell::RefCell;
+
+struct Node {
+    value: i32,
+    next: Option&lt;Rc&lt;RefCell&lt;Node&gt;&gt;&gt;,  // shared ownership + interior mutability
+    prev: Option&lt;Weak&lt;RefCell&lt;Node&gt;&gt;&gt;, // weak reference to break cycles
+}
+            </code>
+            </pre>
+        </p>
+        <p>
+            <code class="language-rust">Rc</code> provides shared ownership, <code class="language-rust">RefCell</code> enables interior mutability by moving borrow checks to runtime,
+            and <code class="language-rust">Weak</code> breaks reference cycles to prevent memory leaks.
+            The static guarantees of the borrow checker are effectively traded for runtime panics—the very situation Rust was designed to avoid.
+        </p>
 
         <div class="bibtex" year="2026" month="April"></div>
 

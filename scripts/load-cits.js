@@ -240,5 +240,24 @@ const bibliography = {
         "pages"     : "381--392",
         "year"      : "1972",
         "publisher" : "Elsevier"
+    },
+    "Bruzzone26d-preprint" : {
+        "title"   : "Meta-Monomorphizing Specializations",
+        "author"  : "Federico Bruzzone and Walter Cazzola",
+        "year"    : "2026",
+        "eprint"  : "2602.12973",
+        "archivePrefix" : "arXiv",
+        "primaryClass" : "cs.PL",
+        "journal"     : "https://arxiv.org/abs/2602.12973"
+    },
+    "RustSpecialization" : {
+        "title"   : "Specialization",
+        "author"  : "Matsakis, Nicholas D.",
+        "journal"     : "https://rust-lang.github.io/rfcs/1210-impl-specialization.html"
+    },
+    "ShippingSpecialization" : {
+        "title"   : "Shipping Specialization: A Story of Soundness",
+        "author"  : "Aaron Turon",
+        "journal"     : "https://aturon.github.io/blog/2017/07/08/lifetime-dispatch/"
     }
 };
