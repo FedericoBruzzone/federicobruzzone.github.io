@@ -20,7 +20,7 @@
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
 
-    <title>The Limits of Mutable Value Semantics (MVS) and Ownership & Borrowing</title>
+    <title> The Mutable Value Semantics (MVS) against the Ownership model</title>
 </head>
 
 
@@ -30,7 +30,7 @@
 
     <main>
         <h1><img src="https://raw.githubusercontent.com/eter-lang/eter/main/docsrc/logo/logo.png" alt="The Eter logo"
-                width="20px" /> The Limits of Mutable Value Semantics (MVS) and Ownership & Borrowing</h1>
+                width="20px" /> The Mutable Value Semantics (MVS) against the Ownership model</h1>
 
         <div style="display: flex; justify-content: center;">
             <div class="alert-box">
@@ -78,6 +78,7 @@
             I just want to say two things before we start. 
             First, this post is not a critique of the current approaches to MVS and Ownership & Borrowing at all.
             Behind these approaches, there are many researchers and experts who have worked on these topics for decades, and all the choices are coherent with the language design.
+            I'm simply exploring the ideas that will serve as a foundation for the Eter language.
             Second, for now, I'm just thinking things through, and this post might seem like a list of problems and the solutions I'd like to see—without actually offering any solutions: after all, that's exactly the case, and unfortunately, I don't even know if there will be any.
             The next post, hopefully, will provide a first sketch of the solutions I'd like to see.
         </p>
@@ -149,7 +150,7 @@
             </pre>
         </p>
         <p>
-            The aim of the higher-order  <code class="language-rust">call</code> function is to invokethe function <code class="language-rust">f</code> with the same argument.
+            The aim of the higher-order  <code class="language-rust">call</code> function is to invoke the function <code class="language-rust">f</code> with the same argument.
             As before, the compiler must reject this code due to the lifetimes.
             But we can try to fix manually the problem:
             <pre class="" data-line="2-2" data-language="Rust">
@@ -163,7 +164,7 @@
         <p> 
             The purpose of this code is: "It doens't matter what the lifetime of the argument <code class="language-rust">e: &u8</code> is, I leave to call the function <code class="language-rust">f</code> with the same argument."
             But unfortunately, the compiler must reject also this code since <code class="language-rust">'a</code> is not universally quantified.
-            It requires a <i>>Higher-Rank Trait Bound</i> (HRTB) to fix the problem.
+            It requires a <i>Higher-Rank Trait Bound</i> (HRTB) to fix the problem.
             Consider the following code:
             <pre class="" data-line="" data-language="Rust">
                 <code class="language-rust">
@@ -219,9 +220,8 @@
 
             <pre class="line-numbers" data-line="3-3" data-language="Rust">
             <code class="language-rust">
-            let v: Vec<i32> = vec![];
-            let t1 = v;
-            let t2 = v;
+            let mut v: &mut Vec<i32> = &mut vec![];
+            
             </code>
             </pre>
         </p>
@@ -238,7 +238,11 @@ fn main() {
   let i: usize = get::<0>();
   let j: usize = get::<1>();
   f(&mut a[i], &mut a[j])
-} -->
+}
+ 
+// Specialization
+  -->
+
         <div style="display: flex; justify-content: center;">
             <div class="alert-box">
                 TODO
