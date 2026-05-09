@@ -409,14 +409,39 @@ struct Node {
         </p>
 
         <p>
-            Additionally, projections of any kind cannot be strored in data structures. TODO
+            Additionally, projections of any kind cannot be stored in data structures.
+            This has a deeper consequence than it might seem: any data structure that traditionally relies on internal pointers or references—linked lists, trees, graphs—must be redesigned.
+            The standard workaround is to replace pointers with <i>indices</i> into an owner array (an "arena" or "pool").
+            Instead of nodes that point to each other, you keep all nodes in a flat array and store integer indices:
+            <pre class="line-numbers" data-line="" data-language="Hylo">
+            <code class="language-swift">
+// Rust (conceptually): nodes hold raw pointers to each other
+// struct Node { value: Int, next: *mut Node, prev: *mut Node }
+
+// Hylo: projections cannot live in structs, so use indices instead
+type Node {
+    var value: Int
+    var next: Int   // index into the pool, -1 = none
+    var prev: Int   // index into the pool, -1 = none
+}
+
+type DoublyLinkedList {
+    var pool: Array&lt;Node&gt;
+    var head: Int   // index of first node, -1 = empty list
+    var tail: Int   // index of last node
+}
+            </code>
+            </pre>
+            The list owns all its nodes outright—no cycles, no shared ownership, no reference counting.
+            The trade-off is that indices are plain integers: the compiler cannot verify that an index actually points to a valid, live node, so a stale index is a logic error rather than a type error.
+            This is a well-known pattern in systems programming (arenas, slot maps, generational indices), and a Hylo developer has explored the ownership implications in the paper <i>"Who Owns the Contents of a Doubly-Linked List?"</i>.
         </p>
 
         <div style="display: flex; justify-content: center;">
             <div class="alert-box">
                 Although I have only been approaching Hylo for two weeks, this <b>asymmetry</b> is a headache.
                 For Eter, I'd like to have a symmetric design, where parameter passing conventions and binding semantics are always the same.
-                To give you an idea of what I mean, I'd like every variable to exist within its own regime. The regime determines <b>ownership</b>, <b>mutability</b>, and <b>lifetime</b>, and implies <b>stability</b>, <b>internal coherence</b>, and <b>governance</b>.
+                To give you an idea of what I mean, I'd like every variable to exist within its own regime. The regime determines <b>ownership</b>, <b>mutability</b>, and <b>storage behavior</b>, and implies <b>stability</b>, <b>internal coherence</b>, and <b>governance</b>.
                 Something like a substructural type system, where substructual rules are extended with new kinds of rules (see <cite class="cite" value="Marshall22"></cite> <cite class="cite" value="Marshall24"></cite> and the <a href="https://clean.cs.ru.nl/Publications">Clean</a> language) and the compiler is responsible for enforcing the rules.
                 I hope to have a blog post about this semantic model soon.
             </div>
@@ -658,6 +683,29 @@ public fun main() {
             The workaround is to own the state in a dedicated object and pass <code class="language-swift">inout</code> access to
             each call site, which is more boilerplate than the equivalent in Rust (where the borrow checker
             allows non-overlapping uses of <code>&amp;mut</code> via NLL).
+        </p>
+        <p>
+            A related constraint governs <i>escaping</i> closures—closures that outlive the scope in which they are created.
+            A closure that captures an <code class="language-swift">inout</code> projection cannot escape: the projection would become dangling once the source goes out of scope.
+            A closure that needs to escape must instead capture by <i>value</i>; that captured environment is heap-allocated and is called a <b>remote part</b>.
+            Hylo makes this distinction explicit in the type of the closure itself:
+            <pre class="line-numbers" data-line="" data-language="Hylo">
+            <code class="language-swift">
+// Non-escaping closure: may capture inout projections (stack-bound)
+fun double_in_place(_ data: inout Array&lt;Int&gt;) {
+    data.for_each(fun (_ x: inout Int) { &x *= 2 })
+    // closure does not escape, projection onto `data` is safe
+}
+
+// Escaping closure: must capture by value (remote part, heap-allocated)
+fun make_adder(_ n: Int) -> [](Int) -> Int {
+    return [let captured = n](x: Int) -> Int { x + captured }
+    // `captured` is an owned copy living in the heap-allocated environment
+}
+            </code>
+            </pre>
+            The programmer must decide at the point of writing the closure whether it will escape—and that decision determines what it is allowed to capture.
+            This is another case where a constraint that keeps the model safe (no dangling projections) surfaces as a new cognitive burden: one more dimension to track when writing or reading closure types.
         </p>
 
         <h4>(3) Iterators</h4>
