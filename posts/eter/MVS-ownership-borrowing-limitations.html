@@ -105,7 +105,7 @@
         <h2>Rust's friction points: does it have any?</h2>
         <p>
             The MVS researchers would say <i>yes</i>, they <i>don't like</i> lifetimes (just kidding, I know they complicate the type system) and they are not alone in their opinions.
-            You'll probably think I'm crazy, but I have a deep love for the C and OCaml programming languages, so I couldn't help but fall in love with Rust as well, with its lifetimes etc.
+            I have a deep love for the C and OCaml programming languages, so I couldn't help but fall in love with Rust as well, with its lifetimes etc.
             However, I partially agree with the MVS researchers. The Ownership & Borrowing model has a steep learning curve, and the Rust language is notoriously difficult to learn.
             Consider the following illegal Rust code:
             <pre class="line-numbers" data-line="3-3" data-language="Rust">
@@ -205,18 +205,19 @@
         <p>
             In this example, as <a href="https://www.reddit.com/r/ProgrammingLanguages/comments/1t09t3e/comment/ojazujq/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button" <tt>SkiFire13</tt> pointed out</a>, the Rust compiler must reject the code since the <code class="language-rust">ref_mut_t</code> could catch the panic and then read the mutable reference pointing to an invalid memory location.
             While it's actually not ubiquitous, I don't personally like this approach.
-            Languages like Hylo and Swift explicitly mark the function with <tt>throws</tt> to indicate that the function can throw an exception, something I really appreciate.
+            Languages like Hylo and Swift explicitly mark the function with <code class="language-rust">throws</code> to indicate that the function can throw an exception.
+            While I understand the motivation, we could easily live without exceptions...
         </p>
 
         <div style="display: flex; justify-content: center;">
             <div class="alert-box">
                 For Eter, I'd like to avoid both the explicitness and, in general, the possibility to catch panics.
-                All the panics are aborts with transparent unwinding. Errors must be explicitly handled.
+                All the panics are aborts with transparent unwinding. Errors must be explicitly handled as return values, eventually propagating up the call stack.
             </div>
         </div>
 
         <p>
-            As Bruzzone <i>et al.</i> pointed out <cite class="cite" value="Bruzzone26d-preprint"></cite>, the current implementation of the Rust compiler is not capable of specializing monomorphized generic functions <cite class="cite" value="RustSpecialization"></cite> (take a look at the <a href="../../publications/Bruzzone26d-preprint/Bruzzone26d-preprint.pdf">preprint</a>).
+            As Bruzzone and Cazzola pointed out <cite class="cite" value="Bruzzone26d-preprint"></cite>, the current implementation of the Rust compiler is not capable of specializing monomorphized generic functions <cite class="cite" value="RustSpecialization"></cite> (take a look at the <a href="../../publications/Bruzzone26d-preprint/Bruzzone26d-preprint.pdf">preprint</a>).
             Nevertheless, to date, this feature remains confined to the nightly channel, as stabilization attempts have stalled due to potential soundness issues and implementation complexities <cite class="cite" value="ShippingSpecialization"></cite>.
             Consider the following invalid code:
             <pre class="line-numbers" data-line="3-3" data-language="Rust">
@@ -352,6 +353,448 @@ struct Node {
             and <code class="language-rust">Weak</code> breaks reference cycles to prevent memory leaks.
             The static guarantees of the borrow checker are effectively traded for runtime panics—the very situation Rust was designed to avoid.
         </p>
+
+        <h2>MVS to the rescue? Not quite.</h2>
+        <p>
+            It is natural to ask: does MVS solve them?
+            The two most prominent MVS languages today are Hylo and Swift.
+            The answer is nuanced: some problems vanish by design, some are merely reframed, and a few persist regardless of the memory model.
+            More interestingly, both approaches introduce friction points of their own.
+        </p>
+
+        <h3>Hylo</h3>
+        <p>
+            Hylo is built around MVS with one key design choice: references are <i>second-class</i>. Concretely, this means a references cannot be returned from a function, stored in a data structure, or assigned to a variable on its own, it is always tied to its source's scope.  Hylo defines five parameter passing conventions: <code class="language-swift">let</code> (immutable access, default), <code class="language-swift">inout</code> (mutable exclusive access), <code class="language-swift">sink</code> (consuming/ownership transfer), <code class="language-swift">set</code> (output-only, initializes a dead binding), and <code class="language-swift">yielded</code> (only for subscript coroutines).
+        </p>
+        <p>
+            In addition to <code class="language-swift">let</code> and <code class="language-swift">var</code> bindings, Hylo allows for <code class="language-swift">inout</code> and <code class="language-swift">sink let</code>/<code class="language-swift">sink var</code> bindings (see <a href="https://hylo-lang.org/docs/reference/specification/">Hylo's specification</a>).
+            To see why this matters, ask: <i>what does the convention tell you about how you can use the parameter?</i>
+        </p>
+        <p>
+            For <code class="language-swift">let</code>, the answer is immediate: read only, full stop.
+            For <code class="language-swift">inout</code>, equally clear: mutable, and you signal every write with <code class="language-swift">&amp;</code>.
+            In both cases the convention is the complete answer—no extra keyword needed.
+        </p>
+        <p>
+            Now try <code class="language-swift">sink</code>. It says "ownership is transferred to you; you get a local copy." Fine—but then what? Can you modify it?
+            The convention alone doesn't tell you. So Hylo needs a second keyword:
+            <code class="language-swift">sink let x</code> means "I own it and it's frozen", <code class="language-swift">sink var x</code> means "I own it and I can change it".
+            Suddenly, understanding a single parameter requires two independent pieces of information: the convention and the binding kind.
+            The same split appears with <code class="language-swift">inout</code> local bindings, which introduce a projection alias and add yet another case to track.
+        </p>
+        <p>
+            Subscripts make this harder still, because they introduce a fifth convention—<code class="language-swift">yielded</code>—that sits in a world of its own.
+            When a subscript coroutine suspends and hands a projection back to the caller, that projection can be used directly (read it, write through it, pass it to an <code class="language-swift">inout</code> parameter), but if you need to forward it further to something that will itself re-yield it, the receiving parameter must be declared <code class="language-swift">yielded</code>—not <code class="language-swift">inout</code>.
+        </p>
+        <p>
+            The practical difficulty is that you now operate in three overlapping mental models simultaneously.
+            At every call site you have to ask not one question but three: is this a plain value, a parameter projection, or a projection that came out of a subscript coroutine?
+            Each answer comes with its own rules about what you can do next.
+            The three tiers do not freely mix: a <code class="language-swift">yielded</code> projection cannot go where a plain <code class="language-swift">inout</code> is expected and vice versa, even when the types are identical.
+            To be fair, this is exactly what static safety requires—the compiler must track <i>how</i> every piece of data was obtained, not just <i>what</i> it is.
+            But for the programmer reading an unfamiliar signature, that tracking cost is real.
+        </p>
+
+        <div style="display: flex; justify-content: center;">
+            <div class="alert-box">
+                Although I have only been approaching Hylo for two weeks, this <b>asymmetry</b> is a headache.
+                For Eter, I'd like to have a symmetric design, where parameter passing conventions and binding semantics are always the same.
+                To give you an idea of what I mean, I'd like every variable to exist within its own regime. The regime determines <b>ownership</b>, <b>mutability</b>, and <b>lifetime</b>, and must ensure <b>stability</b>, <b>internal coherence</b>, and <b>governance</b>.
+                Something like a substructural type system, where substructual rules are extended with two kinds of rules (see <cite class="cite" value="Marshall22"></cite> <cite class="cite" value="Marshall24"></cite> and the <a href="https://clean.cs.ru.nl/Publications">Clean</a> language).
+                I hope to have a blog post about this semantic model soon.
+            </div>
+        </div>
+
+        <p>
+            However, this design directly eliminates the first three Rust friction points.
+            Lifetime elision, HRTB, and the string concatenation asymmetry all stem from first-class references: because Rust
+            references can be returned from functions and stored anywhere, the compiler must track their validity (lifetimes) and
+            quantify over them (HRTB). In Hylo, you cannot return a projection of a parameter, so the Rust
+            <code class="language-rust">longest</code> pattern is simply inexpressible.
+            To be clear about what Rust's version actually does: with <code class="language-rust">'a</code>, the caller
+            keeps both strings alive <i>and</i> gets back a zero-cost reference—no copy, no ownership transfer.
+            Hylo offers no equivalent. The closest approximations each give something up:
+            <pre class="line-numbers" data-line="" data-language="Hylo">
+            <code class="language-swift">
+// `let`: caller keeps both strings, but the return is a copy (allocation cost)
+fun longest(_ x: let String, _ y: let String) -> String {
+    if x.count() > y.count() { x } else { y }
+}
+
+// `sink`: no copy (move), but caller loses both strings
+fun longest(_ x: sink String, _ y: sink String) -> String {
+    if x.count() > y.count() { x } else { y }
+}
+            </code>
+            </pre>
+        </p>
+        <p>
+            The lifetime annotation problem disappears not because there is a clean equivalent,
+            but because the pattern is inexpressible—and every workaround costs something that Rust, with
+            <code class="language-rust">'a</code>, does not pay. I really like the Hylo approach, but it is not a panacea. Of course, in the second case, since the two strings are moved, the stack allocation could be reused (LLVM performs this optimization via NRVO/RVO/Copy Elision), but that's not the point.
+        </p>
+        <p>
+            Exception safety disappears for the same reason: Hylo has no <code>catch_unwind</code>-equivalent—panics are aborts and errors are explicit as we previously mentioned.
+        </p>
+        <p>
+            Mutability verbosity is <i>reframed</i>.
+            In Hylo, parameter conventions carry the access intent and the call site must mark mutation with <code class="language-swift">&amp;</code>.
+            The annotation model is different from Rust's <code>let mut</code>&nbsp;/&nbsp;<code>&amp;mut T</code>&nbsp;/&nbsp;<code>iter_mut()</code>,
+            but not obviously lighter—it is a trade-off between two mental models.
+            More importantly, Hylo still has <code class="language-swift">var</code> and <code class="language-swift">let</code> at the binding level, independently from the
+            parameter convention.
+            In my view this is redundant: if a parameter is declared <code class="language-swift">inout</code>, the binding inside the function body
+            should be mutable by definition, without a separate keyword.
+            The the convention should be the single source of truth for mutability.
+        </p>
+        <p>
+            To see the difference concretely, compare the Rust <code class="language-rust">double_all</code> from earlier
+            with the Hylo equivalent.
+            In Hylo, <code class="language-swift">inout</code> in the signature is the only place mutation is declared;
+            <code class="language-swift">&amp;</code> at the call site is the only acknowledgement from the caller:
+            <pre class="line-numbers" data-line="" data-language="Hylo">
+            <code class="language-swift">
+fun double_all(_ data: inout Array&lt;Int&gt;) {
+    var i = data.start_position()
+    while i != data.end_position() {
+        &data[i] *= 2
+        &i += 1
+    }
+}
+public fun main() {
+    var v: Array&lt;Int&gt; = [1, 2, 3]
+    double_all(&v)
+}
+            </code>
+            </pre>
+
+        <p>
+            No <code class="language-rust">iter_mut()</code>, no <code class="language-rust">*x</code> dereference, no <code class="language-rust">let mut</code> on the binding.
+            One <code class="language-swift">inout</code> in the signature and one <code class="language-swift">&amp;</code> at the call site.
+            The separate <code class="language-swift">var i</code> for the loop counter still needs its own <code class="language-swift">var</code>—
+            a small but concrete illustration of the redundancy noted above.
+        </p>
+
+        <p>
+            Hylo does handle split borrows better than Rust. Subscript calls in Hylo are <i>coroutines</i> that yield a projection
+            temporarily back to the caller; the object being projected is exclusively locked for the duration of the yield and
+            then automatically released when the projection goes out of scope. This makes certain non-overlapping accesses
+            expressible. The law of exclusivity is enforced <i>statically</i> via dead-binding tracking—no runtime checks.
+        </p>
+        <p>
+            A subscript declaration in Hylo contains one or more named <i>implementations</i>:
+            <code class="language-swift">let</code> yields an immutable projection,
+            <code class="language-swift">inout</code> yields a mutable one,
+            <code class="language-swift">sink</code> behaves like a function and returns a value by consuming the subscript, and
+            <code class="language-swift">set</code> initializes or overwrites the subscripted location.
+            Both <code class="language-swift">let</code> and <code class="language-swift">inout</code> are coroutines: the body suspends at
+            <code class="language-swift">yield</code>, the caller uses the projection, then the body resumes for any cleanup.
+            The spec mandates that each such body must contain <i>exactly one</i> <code class="language-swift">yield</code> on every
+            terminating execution path—this is a compile-time invariant.
+            When only a subset of implementations is given, the compiler synthesizes the rest where semantically sound:
+            an <code class="language-swift">inout</code> body implies <code class="language-swift">let</code>
+            (read through the same projection) and <code class="language-swift">sink</code>
+            (move the yielded value out of its location).
+            Here is a minimal example with explicit implementations:
+            <pre class="line-numbers" data-line="" data-language="Hylo">
+            <code class="language-swift">
+type Counter {
+    var value: Int
+
+    subscript current: Int {
+        let  { yield value }    // immutable projection — object locked for reading
+        inout { yield &value }  // mutable projection   — object locked for writing
+        // `sink` and `set` would be synthesized or written as plain functions
+    }
+}
+
+public fun main() {
+    var c = Counter(value: 0)
+    let v = c.current   // invokes `let`  — locks `value` immutably, released at end of expression
+    &c.current += 1     // invokes `inout` — locks `value` mutably, released at end of expression
+}
+            </code>
+            </pre>
+            The caller never touches a raw pointer; it gets a temporary, scope-bound window onto the data.
+            The compiler knows statically <i>which</i> object is locked and <i>for how long</i>,
+            which is what makes non-overlapping simultaneous projections (e.g., <code class="language-swift">&amp;p.x</code> and <code class="language-swift">&amp;p.y</code>)
+            safe to allow.
+        </p>
+        <p>
+            However, the second-class restriction creates its own friction. Hylo does support slices (range subscripting) and
+            closures with <code class="language-swift">inout</code> captures, so those specific patterns are not impossible.
+            The real tension appears when you need an <i>external</i> iterator—an object that yields mutable projections on successive
+            <code class="language-swift">next()</code> calls.
+            Such an iterator would need to hold an exclusive projection into the collection across call boundaries, which would lock
+            the collection for the iterator's entire lifetime.
+            Because projections cannot be stored in a struct and independently returned from a function, the external iterator
+            pattern requires special language machinery (e.g., subscript coroutines or a "single projection rule for methods").
+            Hylo currently addresses this through internal iteration (closures passed to collection methods), but that limits
+            composability: external iterators are far easier to chain, filter, and zip generically.
+        </p>
+        <p>
+            The generic problem is also real. If you want a type like <code class="language-swift">Optional&lt;T&gt;</code> where <code>T</code> can
+            be either a value or a projection, the second-class restriction forces you to duplicate the type:
+            <code class="language-swift">Optional&lt;T&gt;</code> for values, and a separate variant for projections.
+            This is the kind of semantic noise that accumulates across an entire standard library.
+            Finally, if the language tries to recover expressiveness through implicit lifetime inference (the compiler silently
+            extends a projection's lifetime to make something work), changing an internal implementation detail can silently
+            alter the invisible contract of a public function and break callers—a fragile foundation for library design.
+        </p>
+
+        <p>
+            Let me make these limitations concrete with five short examples.
+            Each one shows a pattern that Rust expresses straightforwardly with first-class references but that
+            requires either special language machinery or an outright workaround in Hylo.
+        </p>
+
+        <h4>(1) The return problem</h4>
+        <p>
+            A regular Hylo function cannot return a projection of one of its parameters.
+            The shape that Rust writes as <code class="language-rust">fn max_mut(v: &mut [i32]) -> &mut i32</code>
+            simply has no equivalent free-function form:
+            <pre class="line-numbers" data-line="3-3" data-language="Hylo">
+            <code class="language-swift">
+// Does NOT compile in Hylo:
+// regular functions cannot return a projection.
+fun max_element(_ arr: inout Array&lt;Int&gt;) -> inout Int {
+    return &arr[0]
+}
+            </code>
+            </pre>
+            Hylo recovers expressiveness via <i>subscripts</i>, which are coroutines that <code class="language-swift">yield</code> a projection
+            instead of returning a value:
+            <pre class="line-numbers" data-line="" data-language="Hylo">
+            <code class="language-swift">
+type Stats {
+    var data: Array&lt;Int&gt;
+
+    subscript max: Int {
+        inout {                         // `let` and `sink` are synthesized
+            var best = 0
+            var i = 1
+            while i != data.count() {
+                if data[i] &gt; data[best] { &best = i }
+                &i += 1
+            }
+            yield &data[best]           // exactly one yield on every terminating path
+        }
+    }
+}
+
+public fun main() {
+    var s = Stats(data: [3, 7, 1, 9, 4])
+    &s.max += 100   // mutates the maximum element in place
+}
+            </code>
+            </pre>
+            This works, but it is a separate language feature with its own syntax: a function and a subscript are
+            not interchangeable, and refactoring between them is mechanical, not free.
+            Composability suffers: there is no easy way to chain "find max" with "find min" without writing a
+            second subscript or duplicating the search logic.
+        </p>
+
+        <h4>(2) Closures with mutable captures</h4>
+        <p>
+            A closure that captures a binding mutably is, internally, a value that holds an inout projection.
+            Hylo allows this, but the captured object is exclusively locked for the entire lifetime of the
+            closure value—so common callback patterns become surprisingly constrained:
+            <pre class="line-numbers" data-line="5-5" data-language="Hylo">
+            <code class="language-swift">
+public fun main() {
+    var counter = 0
+    let increment = fun() { &counter += 1 }
+    increment()             // OK: counter becomes 1
+    print(counter)          // ERROR: `counter` is projected mutably
+                            // by `increment`, which is still alive in scope
+}
+            </code>
+            </pre>
+            Patterns like "register two callbacks that each update a shared accumulator" cannot be expressed by
+            simply capturing the same variable in two closures: the second capture would violate exclusivity.
+            The workaround is to own the state in a dedicated object and pass <code class="language-swift">inout</code> access to
+            each call site, which is more boilerplate than the equivalent in Rust (where the borrow checker
+            allows non-overlapping uses of <code>&amp;mut</code> via NLL).
+        </p>
+
+        <h4>(3) Iterators</h4>
+        <p>
+            The Rust pattern <code class="language-rust">trait Iterator { fn next(&amp;mut self) -> Option&lt;&amp;mut T&gt;; }</code>
+            is fundamentally incompatible with second-class projections: an external iterator object would need to
+            store an inout projection of its collection across <code class="language-swift">next()</code> calls, but projections cannot
+            live inside a struct.
+            Hylo offers two alternative routes, neither of which matches Rust's pipeline composability:
+            <pre class="line-numbers" data-line="" data-language="Hylo">
+            <code class="language-swift">
+// Route A: internal iteration via collection methods
+public fun main() {
+    var arr: Array&lt;Int&gt; = [1, 2, 3]
+    arr.for_each(fun (_ x: inout Int) { &x *= 2 })
+    // arr is now [2, 4, 6]
+}
+
+// Route B: subscript coroutines (one method per pattern)
+type Cursor {
+    var data: Array&lt;Int&gt;
+    var i: Int
+
+    subscript next: Int {
+        inout {
+            let k = i
+            &i += 1
+            yield &data[k]  // one yield per path; `let` is synthesized
+        }
+    }
+}
+            </code>
+            </pre>
+            In Rust you write <code class="language-rust">v.iter_mut().filter(p).map(f).sum()</code> and the
+            iterators compose generically.
+            In Hylo, every combinator must be a method on the collection or a separate subscript: chaining is
+            possible, but each step is a named method rather than a generic adapter you can plug in.
+        </p>
+
+        <h4>(4) Slices</h4>
+        <p>
+            Hylo does have slices: a range subscript yields a projection of a contiguous sub-region of an array.
+            That works at the call site—but the same return-problem from (1) applies, so you cannot factor a
+            slicing operation into a free function:
+            <pre class="line-numbers" data-line="11-11" data-language="Hylo">
+            <code class="language-swift">
+// At the call site, range subscripts yield a slice projection:
+public fun main() {
+    var arr: Array&lt;Int&gt; = [1, 2, 3, 4, 5]
+    inout view = &arr[1 ..&lt; 4]
+    &view[0] *= 10                  // arr is now [1, 20, 3, 4, 5]
+}
+
+// But you cannot encapsulate a slicing operation as a regular function:
+// fun middle(_ a: inout Array&lt;Int&gt;) -> inout Slice&lt;Int&gt; {
+//     return &a[1 ..&lt; a.count() - 1]   // ERROR: cannot return a projection
+// }
+            </code>
+            </pre>
+            The fix is, again, a subscript on a wrapper type—which fragments what should be a single library
+            abstraction across two language constructs (function and subscript).
+        </p>
+
+        <h4>(5) Generics over projections</h4>
+        <p>
+            Type parameters in Hylo range over value types. A generic <code class="language-swift">Optional&lt;T&gt;</code>
+            cannot be instantiated where <code>T</code> stands for a projection, because projections are not values:
+            <pre class="line-numbers" data-line="5-5" data-language="Hylo">
+            <code class="language-swift">
+// Works for values:
+let answer: Optional&lt;Int&gt; = .some(42)
+
+// Does NOT work — there is no `Optional&lt;inout Int&gt;`:
+fun first_or_none(_ arr: inout Array&lt;Int&gt;) -> Optional&lt;inout Int&gt; { ... }
+            </code>
+            </pre>
+            The standard library is therefore forced to ship two parallel hierarchies—one for values and one for
+            projections—or a single value-flavored hierarchy that silently copies on access.
+            Both options propagate semantic noise across every generic abstraction (containers, options, results,
+            futures, etc.): each one must decide whether it speaks values, projections, or both.
+            This is what my own design notes for Eter call <i>fango semantico</i> ("semantic mud").
+        </p>
+
+        <div style="display: flex; justify-content: center;">
+            <div class="alert-box">
+                None of these are fatal flaws—Hylo is a research language still in active development and the specification
+                itself notes it is "quite outdated." But they confirm that eliminating lifetimes by restricting projections
+                does not come for free.
+            </div>
+        </div>
+
+        <h3>Swift</h3>
+        <p>
+            Swift takes a different path.
+            Rather than enforcing a single memory model, Swift separates value types (<code>struct</code>, <code>enum</code>)
+            from reference types (<code>class</code>).
+            Value types have value semantics: assignment copies the value, and the standard library implements copy-on-write (COW)
+            internally so that copies are cheap in practice.
+            Swift also has <code class="language-swift">inout</code> parameters with the same <code class="language-swift">&amp;</code> call-site marker as Hylo,
+            and since Swift 5.9 it has gained <code>borrowing</code> (immutable access, no copy) and <code>consuming</code>
+            (ownership transfer) parameter modifiers, plus <code>~Copyable</code> for types that cannot be implicitly duplicated.
+            These additions bring Swift much closer to Rust's ownership model on the surface.
+        </p>
+        <p>
+            The surface syntax for mutation is familiar: <code class="language-swift">inout</code> in the signature, <code class="language-swift">&amp;</code> at the call site.
+            Here is the Swift counterpart to the Rust and Hylo <code>double_all</code> shown earlier:
+            <pre class="line-numbers" data-line="" data-language="Swift">
+            <code class="language-swift">
+func doubleAll(_ data: inout [Int]) {
+    for i in data.indices { data[i] *= 2 }
+}
+var v = [1, 2, 3]
+doubleAll(&v)
+            </code>
+            </pre>
+            No <code>iter_mut()</code>, no explicit dereference.
+            The array is a value type with COW semantics: <code>var b = v</code> shares the underlying storage
+            until either is mutated, at which point Swift makes a copy transparently.
+            The programmer observes value semantics; the compiler keeps it efficient.
+        </p>
+        <p>
+            The critical difference from both Rust and Hylo is how Swift enforces exclusivity.
+            Swift applies its law of exclusivity <i>both</i> statically and at runtime.
+            For local variables the compiler can often verify exclusivity statically,
+            but for class properties, global variables, and captures in closures the compiler cannot always prove safety,
+            so it inserts runtime checks that abort with a diagnostic message on violation.
+            The following code compiles without warnings and crashes at runtime:
+            <pre class="line-numbers" data-line="9-9" data-language="Swift">
+            <code class="language-swift">
+func moveElements(from src: inout Set&lt;String&gt;,
+                  to dest: inout Set&lt;String&gt;) {
+    while let e = src.popFirst() { dest.insert(e) }
+}
+
+class Names { var pool: Set&lt;String&gt; = ["a", "b"] }
+
+let names = Names()
+moveElements(from: &names.pool, to: &names.pool)
+// Runtime crash: simultaneous accesses to 0x...,
+// but modification requires exclusive access.
+            </code>
+            </pre>
+            This is a fundamentally weaker guarantee than Rust's or Hylo's purely static enforcement:
+            the error is discovered in production, not at the keyboard.
+        </p>
+        <p>
+            The deeper issue is the <code>class</code> escape valve.
+            Whenever value semantics cannot express a pattern—graphs, doubly-linked lists, observer callbacks, shared caches—
+            Swift programmers reach for <code>class</code>.
+            Classes have reference semantics: two variables can alias the same object, mutations are visible through all aliases,
+            and the memory is managed by ARC (automatic reference counting).
+            ARC is safe, but it is not free: every strong reference write is a reference-counted operation, and—unlike Rust's
+            borrow checker—ARC cannot prevent reference cycles.
+            A cycle between two <code>class</code> instances will never be collected; the programmer must manually break it with
+            <code>weak</code> or <code>unowned</code> references:
+            <pre class="line-numbers" data-line="4-5" data-language="Swift">
+            <code class="language-swift">
+class Node {
+    var value: Int
+    var next: Node?            // strong: keeps next alive
+    var prev: Node?            // LEAK: cycle if both nodes point to each other
+    var prev: Weak&lt;Node&gt;?     // correct: weak reference breaks the cycle
+    init(_ v: Int) { value = v }
+}
+            </code>
+            </pre>
+            The moment you use <code>class</code>, you exit the value semantics model entirely.
+            There is no borrow checker watching class references; aliasing and mutation happen freely, and correctness
+            is back to being a runtime property.
+        </p>
+
+        <div style="display: flex; justify-content: center;">
+            <div class="alert-box">
+                Neither Hylo nor Swift fully solves shared mutable state or specialization—those problems are orthogonal to
+                the choice of memory model. What they <i>do</i> show is that eliminating Rust's lifetime annotations
+                always involves a trade-off: either restrict what projections can express (Hylo), or defer some checks
+                to runtime and provide a reference-semantics escape hatch (Swift).
+                For Eter, I want neither trade-off—but I don't yet know if that is achievable.
+            </div>
+        </div>
 
         <div class="bibtex" year="2026" month="April"></div>
 

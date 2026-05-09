@@ -259,5 +259,23 @@ const bibliography = {
         "title"   : "Shipping Specialization: A Story of Soundness",
         "author"  : "Aaron Turon",
         "journal"     : "https://aturon.github.io/blog/2017/07/08/lifetime-dispatch/"
+    },
+    "Marshall22" : {
+        "title"   : "Linearity and uniqueness: An entente cordiale",
+        "author"  : "Marshall, Danielle and Vollmer, Michael and Orchard, Dominic",
+        "booktitle"     : "European Symposium on Programming",
+        "pages"   : "346--375",
+        "year"    : "2022", 
+        "organization"  : "Springer"
+    },
+    "Marshall24" : {
+        "title"   : "Functional ownership through fractional uniqueness",
+        "author"  : "Marshall, Danielle and Orchard, Dominic",
+        "journal"     : "Proceedings of the ACM on Programming Languages",
+        "volume"    : "8",
+        "number"    : "OOPSLA1",
+        "pages"     : "1040--1070",
+        "year"      : "2024",
+        "publisher" : "ACM New York, NY, USA"
     }
 };
