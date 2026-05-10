@@ -277,5 +277,12 @@ const bibliography = {
         "pages"     : "1040--1070",
         "year"      : "2024",
         "publisher" : "ACM New York, NY, USA"
-    }
+    },
+    "Racordon25" : {
+        "title"   : "Who Owns the Contents of a Doubly-Linked List?",
+        "author"  : "Racordon, Dimi",
+        "booktitle"     : "Companion Proceedings of the 9th International Conference on the Art, Science, and Engineering of Programming (Programming 2025)",
+        "pages"   : "25--1",
+        "year"    : "2025",
+    },
 };
