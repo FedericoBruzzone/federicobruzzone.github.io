@@ -228,27 +228,6 @@
 = Research Activities
 
 #entry(
-  when: "2025-Present",
-  what: [*Reviewer* for the Journal of Computer Languages (#link("https://www.sciencedirect.com/journal/journal-of-computer-languages")[COLA]), _Elsevier_, *C on CORE*],
-  details: (
-  )
-)
-
-#entry(
-  when: "2025-Present",
-  what: [*Reviewer* for the Journal of Software and Systems Modeling (#link("https://link.springer.com/journal/10270")[SoSyM]), _Springer_, *Q1 on Scimago*],
-  details: (
-  )
-)
-
-#entry(
-  when: "2025-Present",
-  what: [*Reviewer* for the Journal of Systems and Software (#link("https://www.sciencedirect.com/journal/journal-of-systems-and-software")[JSS]), _Elsevier_, *Q1 on Scimago*],
-  details: (
-  )
-)
-
-#entry(
   when: "2024-Present",
   what: [MUSEMI *Session Chair*, *Speaker* and *Co-organizer*],
   details: ()
@@ -259,6 +238,22 @@
   what: [*#link("https://conf.researchr.org/profile/federicobruzzone")[Committee Member]* at the Int. Conf. on Software Language Engineering (#link("https://conf.researchr.org/home/sle-2025")[SLE 2026]), _ACM_, *B on CORE*],
   details: ()
 )
+
+#entry(
+  when: "Nov 2025",
+  what: [*Reviewer* for the Journal of Computer Languages (#link("https://www.sciencedirect.com/journal/journal-of-computer-languages")[COLA]), _Elsevier_, *C on CORE*],
+  details: (
+  )
+)
+
+
+#entry(
+  when: "Jun 2025",
+  what: [*Reviewer* for the Journal of Software and Systems Modeling (#link("https://link.springer.com/journal/10270")[SoSyM]), _Springer_, *Q1 on Scimago*],
+  details: (
+  )
+)
+
 
 #entry(
   when: "Dec 2025",
@@ -277,6 +272,13 @@
   when: "Apr-Jun 2025",
   what: [*#link("https://conf.researchr.org/profile/federicobruzzone")[Committee Member]* at the Int. Conf. on Software Language Engineering (#link("https://conf.researchr.org/home/sle-2025")[SLE 2025]), _ACM_, *B on CORE*],
   details: ()
+)
+
+#entry(
+  when: "Mar 2025",
+  what: [*Reviewer* for the Journal of Systems and Software (#link("https://www.sciencedirect.com/journal/journal-of-systems-and-software")[JSS]), _Elsevier_, *Q1 on Scimago*],
+  details: (
+  )
 )
 
 #entry(
