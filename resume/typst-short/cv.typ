@@ -229,13 +229,6 @@
 
 #entry(
   when: "2025-Present",
-  what: [*Reviewer* for the Eur. Conf. on Object Oriented Programming (#link("https://2026.ecoop.org/")[ECOOP 2026]), _ACM_, *A on CORE*],
-  details: (
-  )
-)
-
-#entry(
-  when: "2025-Present",
   what: [*Reviewer* for the Journal of Computer Languages (#link("https://www.sciencedirect.com/journal/journal-of-computer-languages")[COLA]), _Elsevier_, *C on CORE*],
   details: (
   )
@@ -261,6 +254,18 @@
   details: ()
 )
 
+#entry(
+  when: "May 2026",
+  what: [*#link("https://conf.researchr.org/profile/federicobruzzone")[Committee Member]* at the Int. Conf. on Software Language Engineering (#link("https://conf.researchr.org/home/sle-2025")[SLE 2026]), _ACM_, *B on CORE*],
+  details: ()
+)
+
+#entry(
+  when: "Dec 2025",
+  what: [*Reviewer* for the Eur. Conf. on Object Oriented Programming (#link("https://2026.ecoop.org/")[ECOOP 2026]), _ACM_, *A on CORE*],
+  details: (
+  )
+)
 
 #entry(
   when: "2-6 Jun 2025",
