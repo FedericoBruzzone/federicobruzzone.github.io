@@ -217,7 +217,7 @@
         </div>
 
         <p>
-            As Bruzzone and Cazzola pointed out <cite class="cite" value="Bruzzone26d-preprint"></cite>, the current implementation of the Rust compiler is not capable of specializing monomorphized generic functions <cite class="cite" value="RustSpecialization"></cite> (take a look at the <a href="../../publications/Bruzzone26d-preprint/Bruzzone26d-preprint.pdf">preprint</a>).
+            The current implementation of the Rust compiler is not capable of specializing generic functions <cite class="cite" value="RustSpecialization"></cite> (Bruzzone and Cazzola tried to address this issue in the <cite class="cite" value="Bruzzone26d-preprint"></cite> <a href="../../publications/Bruzzone26d-preprint/Bruzzone26d-preprint.pdf">[preprint]</a>).
             Nevertheless, to date, this feature remains confined to the nightly channel, as stabilization attempts have stalled due to potential soundness issues and implementation complexities <cite class="cite" value="ShippingSpecialization"></cite>.
             Consider the following invalid code:
             <pre class="line-numbers" data-line="3-3" data-language="Rust">
@@ -515,6 +515,15 @@ public fun main() {
         <p>
             For split borrows on struct fields, Hylo and Rust are roughly equivalent: both allow simultaneously projecting
             disjoint paths (<code class="language-swift">&amp;p.x</code> and <code class="language-swift">&amp;p.y</code> at the same time), and both struggle with dynamic array indices.
+            The reason is that an expression like <code class="language-swift">v[i]</code> is a subscript call taking the whole array
+            as an <code class="language-swift">inout</code> parameter, so the compiler conservatively treats it as a projection of the
+            entire buffer <a href="https://github.com/orgs/hylo-lang/discussions/1879">[discussion]</a>.
+            Fixed-size arrays are syntactic sugar for tuples, so field accesses like <code class="language-swift">&amp;v.0</code> and
+            <code class="language-swift">&amp;v.1</code> are recognized as disjoint; the language may eventually extend similar
+            reasoning to statically-known subscript indices. For dynamic cases, the standard library provides
+            <code class="language-swift">split_at</code> to express disjoint sub-regions in the type system, and
+            <a href="https://github.com/orgs/hylo-lang/discussions/1801">positionless algorithms</a> are being
+            explored as an alternative approach.
             What Hylo's subscript <a href="https://github.com/orgs/hylo-lang/discussions/754"><i>coroutines</i></a> genuinely add is a different capability:
             the ability to yield a <i>computed</i> value mutably, with automatic write-back after the caller is done.
             Consider a type that stores an angle in radians but exposes it in degrees:
@@ -748,7 +757,9 @@ public fun main() {
         <p>
             A related constraint governs <i>escaping</i> closures—closures that outlive the scope in which they are created.
             A closure that captures an <code class="language-swift">inout</code> projection cannot escape: the projection would become dangling once the source goes out of scope.
-            A closure that needs to escape must instead capture by <i>value</i>; that captured environment is heap-allocated and is called a <b>remote part</b>.
+            A closure that needs to escape must instead capture by <i>value</i>, storing copies of its captures in a heap-allocated environment.
+            This is related to a more general mechanism in Hylo called <b>remote parts</b>: data structures can store projections by declaring fields with a <code class="language-swift">remote</code> type, but types with remote parts are not movable and are always stack-bound <a href="https://github.com/orgs/hylo-lang/discussions/754">[discussion]</a>.
+            The compiler tracks their lifetimes through a lightweight analysis rooted at bindings rather than types: when a projection is captured or stored, it extends the live-range of its source, preventing conflicting mutations for the duration.
             Hylo makes this distinction explicit in the type of the closure itself:
             <pre class="line-numbers" data-line="" data-language="Hylo">
             <code class="language-swift">
@@ -758,7 +769,7 @@ fun double_in_place(_ data: inout Array&lt;Int&gt;) {
     // closure does not escape, projection onto `data` is safe
 }
 
-// Escaping closure: must capture by value (remote part, heap-allocated)
+// Escaping closure: must capture by value (heap-allocated environment)
 fun make_adder(_ n: Int) -> [](Int) -> Int {
     return [let captured = n](x: Int) -> Int { x + captured }
     // `captured` is an owned copy living in the heap-allocated environment
@@ -802,10 +813,15 @@ type Cursor {
 }
             </code>
             </pre>
+        </p>
+        <p>
             In Rust you write <code class="language-rust">v.iter_mut().filter(p).map(f).sum()</code> and the
             iterators compose generically.
-            In Hylo, every combinator must be a method on the collection or a separate subscript: chaining is
-            possible, but each step is a named method rather than a generic adapter you can plug in.
+            Hylo supports the same pattern through lazy views: <code class="language-swift">data.lazy[].filter(...).max_index()</code>
+            composes operations via method chaining, with each step returning a new lazy projection.
+            However, the architecture differs: Rust passes mutable references through the adapter chain,
+            while Hylo separates knowledge from access&mdash;the lazy pipeline computes <i>which</i> element
+            to target (e.g., an index), and mutation happens directly through the original owner.
         </p>
 
         <h4>(4) Slices</h4>
@@ -828,6 +844,8 @@ public fun main() {
 // }
             </code>
             </pre>
+        </p>
+        <p>
             The fix is, again, a subscript on a wrapper type—which spreads what could be a single library
             abstraction across two language constructs (function and subscript).
         </p>
@@ -845,6 +863,8 @@ let answer: Optional&lt;Int&gt; = .some(42)
 fun first_or_none(_ arr: inout Array&lt;Int&gt;) -> Optional&lt;inout Int&gt; { ... }
             </code>
             </pre>
+        </p>
+        <p>
             The standard library is therefore forced to ship two parallel hierarchies—one for values and one for
             projections—or a single value-flavored hierarchy that silently copies on access.
             Both options introduce additional complexity across every generic abstraction (containers, options, results,
@@ -883,6 +903,8 @@ var v = [1, 2, 3]
 doubleAll(&v)
             </code>
             </pre>
+        </p>
+        <p>
             No <code>iter_mut()</code>, no explicit dereference.
             The array is a value type with COW semantics: <code>var b = v</code> shares the underlying storage
             until either is mutated, at which point Swift makes a copy transparently.
@@ -894,7 +916,7 @@ doubleAll(&v)
             For local variables the compiler can often verify exclusivity statically,
             but for class properties, global variables, and captures in closures the compiler cannot always prove safety,
             so it inserts runtime checks that abort with a diagnostic message on violation.
-            The following code compiles without warnings and crashes at runtime:
+            The following code compiles without warnings and crashes at runtime (<a href="https://godbolt.org/z/xdGsv15T6">Compiler Explorer</a>):
             <pre class="line-numbers" data-line="9-9" data-language="Swift">
             <code class="language-swift">
 func moveElements(from src: inout Set&lt;String&gt;,
@@ -910,13 +932,14 @@ moveElements(from: &names.pool, to: &names.pool)
 // but modification requires exclusive access.
             </code>
             </pre>
+        </p>
+        <p>
             This is a fundamentally weaker guarantee than Rust's or Hylo's purely static enforcement:
             the error is discovered in production, not at the keyboard.
         </p>
         <p>
             The deeper issue is the <code>class</code> escape valve.
-            Whenever value semantics cannot express a pattern—graphs, doubly-linked lists, observer callbacks, shared caches—
-            Swift programmers reach for <code>class</code>.
+            Whenever value semantics cannot express a pattern—graphs, doubly-linked lists, observer callbacks, shared caches—Swift programmers reach for <code>class</code>.
             Classes have reference semantics: two variables can alias the same object, mutations are visible through all aliases,
             and the memory is managed by ARC (automatic reference counting).
             ARC is safe, but it is not free: every strong reference write is a reference-counted operation, and—unlike Rust's
@@ -934,6 +957,8 @@ class Node {
 }
             </code>
             </pre>
+        </p>
+        <p>
             The moment you use <code>class</code>, you exit the value semantics model entirely.
             There is no borrow checker watching class references; aliasing and mutation happen freely, and correctness
             is back to being a runtime property.
@@ -941,11 +966,7 @@ class Node {
 
         <div style="display: flex; justify-content: center;">
             <div class="alert-box">
-                Neither Hylo nor Swift fully solves shared mutable state or specialization—those problems are orthogonal to
-                the choice of memory model. What they <i>do</i> show is that eliminating Rust's lifetime annotations
-                always involves a trade-off: either restrict what projections can express (Hylo), or defer some checks
-                to runtime and provide a reference-semantics escape hatch (Swift).
-                For Eter, I want neither trade-off—but I don't yet know if that is achievable.
+                I don't want to bore you with pointless conclusions. If there's another post, it will discuss a model somewhere between these two for Eter. I'm ruminating...
             </div>
         </div>
 
