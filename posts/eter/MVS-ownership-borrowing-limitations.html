@@ -470,12 +470,10 @@ fun longest(_ x: sink String, _ y: sink String) -> String {
             </pre>
         </p>
         <p>
-            The lifetime annotation problem disappears not because there is a clean equivalent,
-            but because the pattern is inexpressible, and every workaround costs something that Rust, with
-            <code class="language-rust">'a</code>, does not pay. I really like the Hylo approach, but it is not a panacea. Of course, in the second case, since the two strings are moved, the stack allocation could be reused (LLVM performs this optimization via NRVO/RVO/Copy Elision), but that's not the point.
+            I really like the Hylo approach, but it is not a panacea. Of course, in the second case, since the two strings are moved, the stack allocation could be reused (LLVM performs this optimization via NRVO/RVO/Copy Elision), but that's not the point.
         </p>
         <p>
-            Exception safety disappears for the same reason: Hylo has no <code>catch_unwind</code>-equivalent. Functions must be marked <code class="language-swift">throws</code> to indicate that they can throw an exception.
+            Exception safety disappears for the same reason: Hylo has no <code>catch_unwind</code>-equivalent. Functions must be marked <code class="language-swift">throws</code> to indicate that they can throw an exception as previously mentioned.
         </p>
         <p>
             Mutability verbosity is <i>reframed</i>.
@@ -483,8 +481,8 @@ fun longest(_ x: sink String, _ y: sink String) -> String {
             The annotation model is different from Rust's <code>let mut</code>&nbsp;/&nbsp;<code>&amp;mut T</code>&nbsp;/&nbsp;<code>iter_mut()</code>,
             but not obviously lighter—it is a trade-off between two mental models.
             More importantly, Hylo still has <code class="language-swift">var</code> and <code class="language-swift">let</code> at the binding level, independently from the
-            parameter convention—in my view redundant.
-            The the convention should be the single source of truth for mutability.
+            parameter convention.
+            From my POV, the convention should be the single source of truth for mutability—but that's a matter of taste.
         </p>
         <p>
             To see the difference concretely, compare the Rust <code class="language-rust">double_all</code> from earlier
