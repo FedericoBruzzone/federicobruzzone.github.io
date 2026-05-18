@@ -77,9 +77,9 @@
         <p>
             I just want to say two things before we start. 
             First, this post is not a critique of the current approaches to MVS and Ownership & Borrowing at all.
-            Behind these approaches, there are many researchers and experts who have worked on these topics for decades, and all the choices are coherent with the language design.
+            Behind these approaches, there are many researchers and experts who have worked on these topics for decades, and the choices are generally coherent with each language's design goals.
             I'm simply exploring the ideas that will serve as a foundation for the Eter language.
-            Second, for now, I'm just thinking things through, and this post might seem like a list of problems and the solutions I'd like to see—without actually offering any solutions: after all, that's exactly the case, and unfortunately, I don't even know if there will be any.
+            Second, for now, I'm just thinking things through, and this post might seem like a list of problems and the solutions I'd like to see—without actually offering any solutions: after all, that's exactly the case, and I don't yet know if there will be any.
             The next post, hopefully, will provide a first sketch.
         </p>
 
@@ -104,9 +104,9 @@
 
         <h2>Rust's friction points: does it have any?</h2>
         <p>
-            The MVS researchers would say <i>yes</i>, they <i>don't like</i> lifetimes (just kidding, I know they complicate the type system) and they are not alone in their opinions.
-            I have a deep love for the C and OCaml programming languages, so I couldn't help but fall in love with Rust as well, with its lifetimes etc.
-            However, I partially agree with the MVS researchers. The Ownership & Borrowing model has a steep learning curve, and the Rust language is notoriously difficult to learn.
+            The MVS researchers would say <i>yes</i>: they argue that lifetimes complicate the type system, and they are not alone in their opinion.
+            I have a deep love for the C and OCaml programming languages, so I couldn't help but fall in love with Rust as well.
+            However, I partially agree with the MVS researchers. The Ownership & Borrowing model has a steep learning curve, and Rust is often considered harder to pick up than languages with a GC.
             Consider the following illegal Rust code:
             <pre class="line-numbers" data-line="3-3" data-language="Rust">
                 <code class="language-rust">
@@ -117,7 +117,7 @@
             </pre>
         </p>
         <p>
-            The concatenation is implemented as: <code class="language-rust">fn add(self, s: &str) -> String</code>, so the <code class="language-rust">self</code> parameter must be owned, but <code class="language-rust">s1: &str</code> is a fat pointer (pointer + length).
+            The <code class="language-rust">+</code> operator calls <code class="language-rust">fn add(self, s: &str) -> String</code>, which takes <code class="language-rust">self</code> by value. Since <code class="language-rust">s1: &str</code> is a reference to a borrowed string, it cannot be consumed; you would need <code class="language-rust">s1.to_string() + s2</code> instead.
             Also, the following illegal Rust code shows how the lifetimes come into play:
             <pre class="line-numbers" data-line="3-3" data-language="Rust">
                 <code class="language-rust">
@@ -162,7 +162,7 @@
             </pre>
         </p>
         <p> 
-            The purpose of this code is: "It doesn't matter what the lifetime of the argument <code class="language-rust">e: &u8</code> is, I leave to call the function <code class="language-rust">f</code> with the same argument."
+            The purpose of this code is: "It doesn't matter what the lifetime of the argument <code class="language-rust">e: &u8</code> is, I want to call the function <code class="language-rust">f</code> with the same argument regardless."
             But unfortunately, the compiler must reject also this code since <code class="language-rust">'a</code> is not universally quantified.
             It requires a <i>Higher-Rank Trait Bound</i> (HRTB) to fix the problem.
             Consider the following code:
@@ -203,7 +203,7 @@
         </pre>
         </p>
         <p>
-            In this example, as <a href="https://www.reddit.com/r/ProgrammingLanguages/comments/1t09t3e/comment/ojazujq/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button" <tt>SkiFire13</tt> pointed out</a>, the Rust compiler must reject the code since the <code class="language-rust">ref_mut_t</code> could catch the panic and then read the mutable reference pointing to an invalid memory location.
+            In this example, as <a href="https://www.reddit.com/r/ProgrammingLanguages/comments/1t09t3e/comment/ojazujq/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button"><tt>SkiFire13</tt> pointed out</a>, the Rust compiler must reject the code since the <code class="language-rust">ref_mut_t</code> could catch the panic and then read the mutable reference pointing to an invalid memory location.
             While it's actually not ubiquitous, I don't personally like this approach.
             Languages like Hylo and Swift explicitly mark the function with <code class="language-rust">throws</code> to indicate that the function can throw an exception.
             While I understand the motivation, we could easily live without exceptions...
@@ -351,7 +351,7 @@ struct Node {
         <p>
             <code class="language-rust">Rc</code> provides shared ownership, <code class="language-rust">RefCell</code> enables interior mutability by moving borrow checks to runtime,
             and <code class="language-rust">Weak</code> breaks reference cycles to prevent memory leaks.
-            The static guarantees of the borrow checker are effectively traded for runtime panics.
+            When opting into these wrappers, the static guarantees of the borrow checker are traded for runtime panics.
         </p>
 
         <h2>MVS to the rescue? Let's examine.</h2>
@@ -438,10 +438,10 @@ type DoublyLinkedList {
 
         <div style="display: flex; justify-content: center;">
             <div class="alert-box">
-                Although I have only been approaching Hylo for two weeks, this <b>asymmetry</b> is worth examining.
+                This <b>asymmetry</b> is worth examining.
                 For Eter, I'm exploring a symmetric design, where "modifiers" are always the same for parameter passing conventions and binding semantics.
                 To give you an idea of what I mean, I'd like every variable to exist within its own <b>regime</b>. The regime determines <i>ownership</i>, <i>mutability</i>, and <i>storage behavior</i>, and implies <i>stability</i>, <i>internal coherence</i>, and <i>governance</i>.
-                Something like a substructural type system, where substructual rules are extended with new kinds of rules (see <cite class="cite" value="Marshall22"></cite> <cite class="cite" value="Marshall24"></cite> and the <a href="https://clean.cs.ru.nl/Publications">Clean</a> language) and the compiler is responsible for enforcing a subset of the rules for a given regime.
+                Something like a substructural type system, where substructural rules are extended with new kinds of rules (see <cite class="cite" value="Marshall22"></cite> <cite class="cite" value="Marshall24"></cite> and the <a href="https://clean.cs.ru.nl/Publications">Clean</a> language) and the compiler is responsible for enforcing a subset of the rules for a given regime.
                 I hope to have a blog post about this semantic model soon.
             </div>
         </div>
@@ -473,7 +473,7 @@ fun longest(_ x: sink String, _ y: sink String) -> String {
             I really like the Hylo approach, but it is not a panacea. Of course, in the second case, since the two strings are moved, the stack allocation could be reused (LLVM performs this optimization via NRVO/RVO/Copy Elision), but that's not the point.
         </p>
         <p>
-            Exception safety disappears for the same reason: Hylo has no <code>catch_unwind</code>-equivalent. Functions must be marked <code class="language-swift">throws</code> to indicate that they can throw an exception as previously mentioned.
+            Hylo does not have a <code>catch_unwind</code>-equivalent for the same reason: recovering from a panic while a projection is active could leave dangling references. Functions that can fail use <code class="language-swift">throws</code> instead.
         </p>
         <p>
             Mutability verbosity is <i>reframed</i>.
@@ -486,8 +486,7 @@ fun longest(_ x: sink String, _ y: sink String) -> String {
         </p>
         <p>
             To see the difference concretely, compare the Rust <code class="language-rust">double_all</code> from earlier
-            with the manual-index Hylo equivalent—since Hylo does not have external iterators in the Rust sense
-            (we will come back later), this is the direct counterpart:
+            with the manual-index Hylo equivalent—the direct counterpart without syntactic sugar:
             <pre class="line-numbers" data-line="" data-language="Hylo">
             <code class="language-swift">
 fun double_all(_ data: inout Array&lt;Int&gt;) {
@@ -604,7 +603,7 @@ public fun main() {
             the collection for the iterator's entire lifetime.
             Because projections cannot be stored in a struct and independently returned from a function, the external iterator
             pattern requires special language machinery (e.g., subscript coroutines or a "single projection rule for methods").
-            Hylo currently addresses this through internal iteration (closures passed to collection methods)—dubbed as <b>inversion of control</b>. From my POV, external iterators are easier to chain, filter, and zip generically, but that's a subjective opinion.
+            Hylo currently addresses this through internal iteration (closures passed to collection methods)—dubbed as <b>inversion of control</b>—and through lazy views with method chaining (e.g., <code class="language-swift">data.lazy[].filter(...).max_index()</code>), which provide a similar pipeline style without storing projections across calls.
         </p>
         <p>
             The generic problem is also real. If you want a type like <code class="language-swift">Optional&lt;T&gt;</code> where <code>T</code> can
