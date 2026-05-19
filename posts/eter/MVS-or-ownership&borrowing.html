@@ -383,22 +383,18 @@ struct Node {
             Now try <code class="language-swift">sink</code>. It says "ownership is transferred to you; you get a local copy." Fine, but then what? Can you modify it?
             The convention alone doesn't tell you. So Hylo needs a second keyword:
             <code class="language-swift">sink let x</code> means "I own it and it's frozen", <code class="language-swift">sink var x</code> means "I own it and I can change it" (the <code class="language-swift">var</code> keyword can be omitted).
-            Suddenly, understanding a single parameter requires two independent pieces of information: the convention and the binding kind.
-            The same split appears with <code class="language-swift">inout</code> local bindings, which introduce a projection alias and add yet another case to track.
+            Understanding a single parameter thus involves two pieces of information: the convention and the binding kind.
+            The same split appears with <code class="language-swift">inout</code> local bindings, which introduce a projection alias alongside the binding kind.
         </p>
         <p>
-            Subscripts make this harder still, because they introduce a fifth convention, <code class="language-swift">yielded</code>, that sits in a world of its own.
+            Subscripts introduce a fifth convention, <code class="language-swift">yielded</code>, with its own rules.
             When a subscript coroutine suspends and hands a projection back to the caller, that projection can be used directly (read it, write through it, pass it to an <code class="language-swift">inout</code> parameter), but if you need to forward it further to something that will itself re-yield it, the receiving parameter must be declared <code class="language-swift">yielded</code>, not <code class="language-swift">inout</code>.
         </p>
         <p>
-            The practical difficulty is that you now operate in three overlapping mental models simultaneously.
-            At every call site you have to ask not one question but three: is this a plain value, a parameter projection, or a projection that came out of a subscript coroutine?
-            Each answer comes with its own rules about what you can do next.
-            The three tiers do not freely mix: a <code class="language-swift">yielded</code> projection cannot go where a plain <code class="language-swift">inout</code> is expected and vice versa, even when the types are identical.
-            To be fair, this is exactly what static safety requires. The compiler must track <i>how</i> every piece of data was obtained, not just <i>what</i> it is.
-            <!-- But for the programmer reading an unfamiliar signature, that tracking cost is real. -->
-            You need to manually handle these cases, for instance:
-            <pre class="line-numbers" data-line="3-6" data-language="Swift">
+            A projection yielded by a subscript coroutine can be used as an <code class="language-swift">inout</code> argument to regular functions, but forwarding it through another coroutine that will itself re-yield it requires the receiving parameter to be declared <code class="language-swift">yielded</code> rather than <code class="language-swift">inout</code>.
+            This is a natural consequence of static safety: the compiler must track <i>how</i> every piece of data was obtained, not just <i>what</i> it is.
+            The programmer must handle these cases explicitly, for instance:
+            <pre class="line-numbers" data-line="3-6" data-language="Hylo">
                 <code class="language-swift">
             type T {
                 fun f() -> Self {
@@ -413,7 +409,7 @@ struct Node {
         </p>
 
         <p>
-            Additionally, projections of any kind cannot be stored in data structures.
+            Projections of any kind cannot be stored in data structures.
             This has a deeper consequence than it might seem: any data structure that traditionally relies on internal pointers or references—linked lists, trees, graphs—must be redesigned.
             The standard workaround is to replace pointers with <i>indices</i> into an owner array (an "arena" or "pool").
             Instead of nodes that point to each other, you keep all nodes in a flat array and store integer indices:
