@@ -322,18 +322,20 @@ struct Parser {
         <p>
             Finally, graphs and doubly-linked lists expose the limits of exclusive ownership most starkly.
             A naïve attempt fails immediately:
-            <pre class="line-numbers" data-line="4-4" data-language="Rust">
+            <pre class="line-numbers" data-line="6-6" data-language="Rust">
             <code class="language-rust">
-struct Node {
-    value: i32,
-    next: Option&lt;Box&lt;Node&gt;&gt;,
-    prev: Option&lt;Box&lt;Node&gt;&gt;, // NOTE: ownership cannot be shared
+fn main() {
+    let mut a = Node { value: 1, next: None, prev: None };
+    let mut b = Node { value: 2, next: None, prev: None };
+    
+    a.next = Some(Box::new(b));  // b is moved
+    b.prev = Some(Box::new(a));  // ERROR: use of moved value: `b`
 }
             </code>
             </pre>
         </p>
         <p>
-            <code class="language-rust">Box&lt;T&gt;</code> enforces exclusive ownership, so two nodes cannot each own the other.
+            <code class="language-rust">Box&lt;T&gt;</code> enforces exclusive ownership, so two nodes cannot mutually own each other.
             The idiomatic Rust solution requires layering four distinct wrappers:
             <pre class="line-numbers" data-line="" data-language="Rust">
             <code class="language-rust">
@@ -349,8 +351,10 @@ struct Node {
             </pre>
         </p>
         <p>
-            <code class="language-rust">Rc</code> provides shared ownership, <code class="language-rust">RefCell</code> enables interior mutability by moving borrow checks to runtime,
-            and <code class="language-rust">Weak</code> breaks reference cycles to prevent memory leaks.
+            <code class="language-rust">Rc</code> provides shared ownership via reference counting: each <code class="language-rust">Rc</code> clone increments the strong count, and the value is dropped only when it reaches zero.
+            However, <code class="language-rust">Rc</code> alone would create a cycle (node A keeps B alive, B keeps A alive) that never reaches zero — a memory leak.
+            <code class="language-rust">Weak</code> breaks the cycle: cloning a <code class="language-rust">Weak</code> increments the weak count without affecting the strong count, so it observes the value without keeping it alive.
+            When all strong references are dropped, the weak pointer becomes dangling and <code class="language-rust">upgrade()</code> returns <code class="language-rust">None</code>.
             When opting into these wrappers, the static guarantees of the borrow checker are traded for runtime panics.
         </p>
 
