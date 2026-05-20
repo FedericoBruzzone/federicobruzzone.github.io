@@ -76,8 +76,7 @@
         <h2>A premise</h2>
         <p>
             I just want to say two things before we start. 
-            First, this post is not a critique of the current approaches to MVS and Ownership & Borrowing at all.
-            Behind these approaches, there are many researchers and experts who have worked on these topics for decades, and the choices are generally coherent with each language's design goals.
+            First, this post is not intended as a dismissal of existing approaches—each language's choices are coherent with its design goals, and behind them are many researchers and experts who have worked on these topics for decades.
             I'm simply exploring the ideas that will serve as a foundation for the Eter language.
             Second, for now, I'm just thinking things through, and this post might seem like a list of problems and the solutions I'd like to see—without actually offering any solutions: after all, that's exactly the case, and I don't yet know if there will be any.
             The next post, hopefully, will provide a first sketch.
@@ -206,7 +205,7 @@
             In this example, as <a href="https://www.reddit.com/r/ProgrammingLanguages/comments/1t09t3e/comment/ojazujq/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button"><tt>SkiFire13</tt> pointed out</a>, the Rust compiler must reject the code since the <code class="language-rust">ref_mut_t</code> could catch the panic and then read the mutable reference pointing to an invalid memory location.
             While it's actually not ubiquitous, I don't personally like this approach.
             Languages like Hylo and Swift explicitly mark the function with <code class="language-rust">throws</code> to indicate that the function can throw an exception.
-            While I understand the motivation, we could easily live without exceptions...
+            While I understand the motivation, we could easily live without panic-catching in this context—errors can be handled as values...
         </p>
 
         <div style="display: flex; justify-content: center;">
@@ -235,7 +234,7 @@
 
         <div style="display: flex; justify-content: center;">
             <div class="alert-box">
-             While I'm not a fan of function overloading, I love specialization; in my opinion, it's a vital feature in a modern programming language. I'd like to have a language where this is possible.
+             While I'm not a fan of function overloading, I love specialization; in my opinion, it's an important feature in a modern programming language. I'd like to have a language where this is possible.
             </div>
         </div>
 
