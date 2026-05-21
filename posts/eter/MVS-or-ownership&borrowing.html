@@ -885,7 +885,7 @@ fun first_or_none(_ arr: inout Array&lt;Int&gt;) -> Optional&lt;inout Int&gt; { 
             Value types have value semantics: assignment copies the value, and the standard library implements copy-on-write (COW)
             internally so that copies are cheap in practice.
             Swift also has <code class="language-swift">inout</code> parameters with the same <code class="language-swift">&amp;</code> call-site marker as Hylo,
-            and since Swift 5.9 it has gained <code>borrowing</code> (immutable access, no copy) and <code>consuming</code>
+            and <a href="https://github.com/swiftlang/swift-evolution/blob/main/proposals/0377-parameter-ownership-modifiers.md">since Swift 5.9</a> it has gained <code>borrowing</code> (immutable access, no copy) and <code>consuming</code>
             (ownership transfer) parameter modifiers, plus <code>~Copyable</code> for types that cannot be implicitly duplicated.
             These additions bring Swift much closer to Rust's ownership model on the surface.
         </p>
