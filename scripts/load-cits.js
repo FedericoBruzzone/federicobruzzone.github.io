@@ -285,4 +285,34 @@ const bibliography = {
         "pages"   : "25--1",
         "year"    : "2025",
     },
+    "Orchard19" : {
+        "title"   : "Quantitative program reasoning with graded modal types",
+        "author"  : "Orchard, Dominic and Liepelt, Vilem-Benjamin and Eades III, Harley",
+        "journal" : "Proceedings of the ACM on Programming Languages",
+        "volume"    : "3",
+        "number"    : "ICFP",
+        "pages"     : "110--1",
+        "year"      : "2019",
+        "publisher" : "ACM New York, NY, USA"
+    },
+    "Heule11" : {
+        "title"   : "Fractional permissions without the fractions",
+        "author"  : "Heule, Stefan and Leino, K. Rustan M. and M\"{u}ller, Peter and Summers, Alexander J.",
+        "booktitle"     : "Proceedings of the 13th Workshop on Formal Techniques for Java-Like Programs",
+        "pages"   : "1--6",
+        "year"    : "2011",
+        "publisher" : "Association for Computing Machinery",
+        "location"  : "Lancaster, United Kingdom",
+        "series"  : "FTfJP '11"
+    },
+    "Boyland03" : {
+        "title"   : "Checking interference with fractional permissions",
+        "author"  : "Boyland, John",
+        "booktitle"     : "Proceedings of the 10th International Conference on Static Analysis",
+        "pages"   : "55–72",
+        "year"    : "2003",
+        "publisher" : "Springer-Verlag",
+        "address"  : "Berlin, Heidelberg",
+        "series"  : "SAS'03"
+    }
 };
