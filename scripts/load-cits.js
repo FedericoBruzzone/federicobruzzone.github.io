@@ -314,5 +314,15 @@ const bibliography = {
         "publisher" : "Springer-Verlag",
         "address"  : "Berlin, Heidelberg",
         "series"  : "SAS'03"
+    },
+    "Parkinson05" : {
+        "title"   : "Separation logic and abstraction",
+        "author"  : "Parkinson, Matthew and Bierman, Gavin",
+        "booktitle"     : "Proceedings of the 32nd ACM SIGPLAN-SIGACT Symposium on Principles of Programming Languages",
+        "pages"   : "247–258",
+        "year"    : "2005",
+        "publisher" : "Association for Computing Machinery",
+        "address"  : "New York, NY, USA",
+        "series"  : "POPL '05"
     }
 };
