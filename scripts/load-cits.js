@@ -324,5 +324,16 @@ const bibliography = {
         "publisher" : "Association for Computing Machinery",
         "address"  : "New York, NY, USA",
         "series"  : "POPL '05"
+    },
+    "Wagner25" : {
+        "title"   : "From Linearity to Borrowing",
+        "author"  : "Wagner, Andrew and Gierczak, Olek and Marshall, Brianna and Li, John M. and Ahmed, Amal",
+        "journal" : "Proceedings of the ACM on Programming Languages",
+        "volume"    : "9",
+        "number"    : "OOPSLA2",
+        "pages"     : "415--1",
+        "year"      : "2025",
+        "publisher" : "Association for Computing Machinery",
+        "address"   : "New York, NY, USA"
     }
 };

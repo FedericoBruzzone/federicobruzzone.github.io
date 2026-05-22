@@ -82,7 +82,8 @@
         <h2>Substructural Type Systems</h2>
 
         <p>
-            Here I just want to give an informal introduction to substructural type systems, for those who are not familiar with them.
+            Here I just want to give an informal introduction to substructural type systems, uniqueness types, and fractional uniqueness, for those who are not familiar with them.
+            If you don't fall into this category, feel free to skip this section and move on to the <a href="#the-regime-based-semantics">next section</a>.
             Substructural type systems <span class="cite" value="Walker05"></span> resemble the idea of <i>substructural logic</i>. 
             They are based on the following structural rules (where \(\Gamma\) is the context of assumptions):
             <ul>
@@ -128,12 +129,12 @@
             Please refer to <i>Linearity and Uniqueness: An Entente Cordiale</i> <cite class="cite" value="Marshall22"></cite> for a more in-depth discussion on the topic, as well as how the uniqueness is enforced.
         </p>
 
-        <div style="display: flex; justify-content: center;">
+        <!-- <div style="display: flex; justify-content: center;">
             <div class="alert-box">
-            <b>Linear/Affine types</b> \(\rightarrow\) control resource usage (how many times a value is consumed) <br>
-            <b>Unique types</b> \(\rightarrow\) control aliasing (ensuring a value has at most one observable reference)
+            <b>Linear/Affine types</b> → control resource usage (how many times a value is consumed) <br>
+            <b>Unique types</b> → control aliasing (ensuring a value has at most one observable reference)
             </div>
-        </div>
+        </div> -->
 
         <h4>Fractional Uniqueness</h4>
 
@@ -156,13 +157,76 @@
         </p>
 
         <p>
-            From a programming perspective, this gives a precise explanation of borrowing: an immutable borrow corresponds to splitting ownership into fractional shares, while a mutable borrow requires temporarily regaining the full ownership fraction. Once the mutation is completed, ownership can be re-split or restored to a unique state.
+            From a programming perspective, this gives a precise explanation of borrowing: an immutable borrow corresponds to splitting ownership into fractional shares <span class="cite" value="Wagner25"></span>, while a mutable borrow requires temporarily regaining the full ownership fraction. Once the mutation is completed, ownership can be re-split or restored to a unique state.
         </p>
 
         <p>
             In this sense, Rust's borrow checker can be understood as enforcing a dynamic discipline over a static fractional ownership system: it ensures that at any point in time, the sum of all active references never exceeds full ownership, and that exclusive access is available whenever mutation occurs.
         </p>
 
+        <h4>Connecting Fractional Uniqueness to Linearity and Uniqueness</h4>
+
+        <p>
+            The introduction of fractional uniqueness clarifies the relationship between linear and uniqueness types.
+            Rather than treating these as fundamentally different systems, we can view them as two limiting cases of the same underlying structure: a graded notion of ownership.
+        </p>
+
+        <p>
+            Linear types correspond to the extreme case in which ownership cannot be split at all.
+            A value must be consumed exactly once, and therefore no fractional views are permitted. In this sense, linearity enforces a <i>single-threaded usage discipline</i> over resources.
+        </p>
+
+        <p>
+            Uniqueness types, in contrast, correspond to the case where full ownership is required for mutation, but ownership itself can be temporarily weakened by forgetting uniqueness information.
+            This introduces a directional asymmetry: uniqueness can be safely discarded, but cannot be reconstructed from unrestricted values.
+        </p>
+
+        <p>
+            Fractional uniqueness refines this picture by making the "strength" of ownership explicit in the type system.
+            Instead of treating aliasing as a boolean property, we index ownership by a graded structure that tracks how permissions are distributed across the program.
+        </p>
+
+        <h4>From Ownership to Borrowing</h4>
+
+        <p>
+            In this setting, borrowing is no longer a primitive concept, but a derived operation on ownership fractions.
+            An immutable borrow corresponds to splitting a unique resource into multiple fractional views, each of which carries read-only permission.
+            A mutable borrow corresponds to temporarily reassembling all fractions into a single exclusive ownership token.
+        </p>
+
+        <p>
+            This explains why mutation in systems like Rust requires exclusivity: mutation is not prohibited because of type-theoretic restrictions alone, but because it requires reconstructing a full ownership fraction that cannot coexist with any other active view.
+        </p>
+
+        <p>
+            Consequently, borrowing can be seen as a controlled decomposition of uniqueness rather than an exception to it.
+            The type system does not abandon uniqueness during borrowing; instead, it refines it into a structured set of permissions that evolve over time.
+        </p>
+
+        <h4>Unifying Perspective</h4>
+
+        <p>
+            We can now summarise the relationship between the three systems as follows:
+        </p>
+
+        <div style="display: flex; justify-content: center;">
+            <div class="alert-box">
+                <b>Linear/Affine types</b> → enforce single-use consumption of resources<br>
+                <b>Unique types</b> → enforce global absence of aliasing for mutation<br>
+                <b>Fractional uniqueness</b> → refine uniqueness into compositional, graded ownership
+            </div>
+        </div>
+
+        <p>
+            From this perspective, linearity and uniqueness are not competing notions, but orthogonal projections of a more general system of graded resource reasoning.
+            Linearity constrains <i>temporal usage</i>, uniqueness constrains <i>global aliasing structure</i>, and fractional uniqueness mediates between them by tracking how both evolve under composition.
+        </p>
+
+        <h2 id="the-regime-based-semantics">The Regime-based Semantics</h2>
+
+        <p>
+            TODO
+        </p>
 
         <div style="display: flex; justify-content: center;">
             <div class="alert-box">
