@@ -31,8 +31,8 @@ document.addEventListener("DOMContentLoaded", function() {
     const p = document.createElement('p');
     p.innerHTML = `If you found this page useful, please consider citing it using the following BibTeX entry:`;
 
-    const h3 = document.createElement('h3');
-    h3.textContent = "Cite this page";
+    const h2 = document.createElement('h2');
+    h2.textContent = "Cite this page";
 
     bibtex.appendChild(h3);
     bibtex.appendChild(p);

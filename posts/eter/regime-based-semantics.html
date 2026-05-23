@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../../code.css">
 
     <script src="../../scripts/prism.js" defer></script>
+    <script src="../../scripts/toc.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.2/p5.js"></script> -->
 
@@ -30,13 +31,13 @@
 
     <main>
         <h1><img src="https://raw.githubusercontent.com/eter-lang/eter/main/docsrc/logo/logo.png" alt="The Eter logo"
-                width="20px" /> The Regime-based Semantics</h1>
+                width="20px" /> (NOT YET COMPLETED) The Regime-based Semantics</h1>
 
-        <div style="display: flex; justify-content: center;">
+        <!-- <div style="display: flex; justify-content: center;">
             <div class="alert-box">
                 THIS POST IS NOT YET COMPLETED.
             </div>
-        </div>
+        </div> -->
 
         <div style="display: flex; justify-content: center;">
             <div class="alert-box">
@@ -69,6 +70,8 @@
             Then, it discusses the mutable value semantics (MVS) <span class="cite" value="Racordon22"></span> and how the popular programming languages (e.g., Swift <span class="cite" value="Swift"></span>, Hylo <span class="cite" value="Hylo"></span>) implement it. 
             The <a href="./MVS-or-ownership&borrowing.html">second post</a> covers the trade-offs between MVS and ownership & borrowing, examining friction points in Rust, Hylo, and Swift while searching for common ground between the two memory models.
         </p>
+
+        <div id="toc"></div>
 
         <h2>A Premise</h2>
         <p>
@@ -167,7 +170,7 @@
             In this sense, Rust's borrow checker can be understood as enforcing a dynamic discipline over a static fractional ownership system: it ensures that at any point in time, the sum of all active references never exceeds full ownership, and that exclusive access is available whenever mutation occurs.
         </p>
 
-        <h4>Connecting Fractional Uniqueness to Linearity and Uniqueness</h4>
+        <h3>Connecting Fractional Uniqueness to Linearity and Uniqueness</h3>
 
         <p>
             The introduction of fractional uniqueness clarifies the relationship between linear and uniqueness types.
@@ -189,7 +192,7 @@
             Instead of treating aliasing as a boolean property, we index ownership by a graded structure that tracks how permissions are distributed across the program.
         </p>
 
-        <h4>From Ownership to Borrowing</h4>
+        <h3>From Ownership to Borrowing</h3>
 
         <p>
             In this setting, borrowing is no longer a primitive concept, but a derived operation on ownership fractions.
@@ -206,7 +209,7 @@
             The type system does not abandon uniqueness during borrowing; instead, it refines it into a structured set of permissions that evolve over time.
         </p>
 
-        <h4>Unifying Perspective</h4>
+        <h3>Unifying Perspective</h3>
 
         <p>
             We can now summarise the relationship between the three systems as follows:
@@ -215,7 +218,7 @@
         <div style="display: flex; justify-content: center;">
             <div class="alert-box">
                 <b>Linear/Affine types</b> → enforce single-use consumption of resources<br>
-                <b>Unique types</b> → enforce global absence of aliasing for mutation<br>
+                <b>Uniqueness types</b> → enforce global absence of aliasing (for mutation)<br>
                 <b>Fractional uniqueness</b> → refine uniqueness into compositional, graded ownership
             </div>
         </div>

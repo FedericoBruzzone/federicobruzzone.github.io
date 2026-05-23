@@ -34,7 +34,7 @@ function replaceCitations() {
     }
 
     const listElement = document.createElement('ol');
-    const bibliography_header = document.createElement('h3');
+    const bibliography_header = document.createElement('h2');
     bibliography_header.textContent = "Bibliography";
 
     listElement.classList.add("bibliography");
