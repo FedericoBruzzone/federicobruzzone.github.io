@@ -79,11 +79,14 @@
         </p>
 
 
-        <h2>Substructural Type Systems</h2>
+        <details open>
+        <summary style="cursor: pointer;">
+            <h2 style="display: inline-block; margin-bottom: 0;">Substructural Type Systems</h2>
+        </summary>
 
         <p>
             Here I just want to give an informal introduction to substructural type systems, uniqueness types, and fractional uniqueness, for those who are not familiar with them.
-            If you don't fall into this category, feel free to skip this section and move on to the <a href="#the-regime-based-semantics">next section</a>.
+            <b>If you don't fall into this category, feel free to skip this section and move on to the <a href="#the-regime-based-semantics">next section</a></b>.
             Substructural type systems <span class="cite" value="Walker05"></span> resemble the idea of <i>substructural logic</i>. 
             They are based on the following structural rules (where \(\Gamma\) is the context of assumptions):
             <ul>
@@ -221,6 +224,8 @@
             From this perspective, linearity and uniqueness are not competing notions, but orthogonal projections of a more general system of graded resource reasoning.
             Linearity constrains <i>temporal usage</i>, uniqueness constrains <i>global aliasing structure</i>, and fractional uniqueness mediates between them by tracking how both evolve under composition.
         </p>
+
+        </details>
 
         <h2 id="the-regime-based-semantics">The Regime-based Semantics</h2>
 
