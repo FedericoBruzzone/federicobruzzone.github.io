@@ -83,9 +83,7 @@
 
 
         <details open>
-        <summary style="cursor: pointer;">
-            <h2 style="display: inline-block; margin-bottom: 0;">Substructural Type Systems</h2>
-        </summary>
+        <summary><h2 style="display: inline-block; margin-bottom: 0;">Substructural Type Systems</h2></summary>
 
         <p>
             Here I just want to give an informal introduction to substructural type systems, uniqueness types, and fractional uniqueness, for those who are not familiar with them.
@@ -142,7 +140,7 @@
             </div>
         </div> -->
 
-        <h4>Fractional Uniqueness</h4>
+        <h3>Fractional Uniqueness</h3>
 
         <p>
             Consider a huge array and 2 parts of the same program that access it (eventually in parallel) in read-only mode.
@@ -227,6 +225,13 @@
             From this perspective, linearity and uniqueness are not competing notions, but orthogonal projections of a more general system of graded resource reasoning.
             Linearity constrains <i>temporal usage</i>, uniqueness constrains <i>global aliasing structure</i>, and fractional uniqueness mediates between them by tracking how both evolve under composition.
         </p>
+
+        </details>
+
+        <details open>
+        <summary style="cursor: pointer;">
+            <h2 style="display: inline-block; margin-bottom: 0;">Substructural Type Systems</h2>
+        </summary>
 
         </details>
 

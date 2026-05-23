@@ -512,6 +512,17 @@ body.dark-mode .toc {
     white-space: nowrap;
 }
 
+@media (max-width: 600px) {
+    .toc {
+        max-width: 100%;
+    }
+
+    .toc a {
+        white-space: normal;
+        word-break: break-word;
+    }
+}
+
 .toc a:hover {
     text-decoration: underline;
 }
