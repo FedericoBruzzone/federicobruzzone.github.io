@@ -121,7 +121,7 @@
             Substructural type systems arise by <a href="https://en.wikipedia.org/wiki/Substructural_type_system">selectively restricting</a> these rules. Removing different rules yields different disciplines for how often a variable may appear:
         </p>
 
-        <table>
+        <table class="post-table bool-table">
             <thead>
                 <tr><th>System</th><th>Exchange</th><th>Weakening</th><th>Contraction</th><th>Variable use</th></tr>
             </thead>
@@ -321,7 +321,7 @@ read2 arr0 =
             A <i>reference capability</i> system attaches a permission qualifier to a <i>reference</i> rather than to the object it points at. Two references to the same object can therefore carry different capabilities&mdash;in contrast to linear types, where it is the value itself that is restricted. A common vocabulary <span class="cite" value="Gordon20"></span>:
         </p>
 
-        <table>
+        <table class="post-table bool-table">
             <thead>
                 <tr><th>Qualifier</th><th>Read</th><th>Write</th><th>Aliases may write</th></tr>
             </thead>
@@ -374,7 +374,7 @@ val y = x            // type: Ref[Int]{x, y}  — reachable via x and y</code></
             The original system, \(\lambda^{*}\), is monomorphic, and a naïve polymorphic extension turns out to be unsound. <i>Polymorphic reachability types</i>, \(\lambda^{\Diamond}\) <span class="cite" value="Wei24"></span>, fix this by tracking only single-step reachability and computing transitive closures on demand, with a <i>freshness</i> qualifier \(\Diamond\) for values whose reachable set may still grow. In parallel, EPFL's <i>Capture Types</i> for Scala (the calculus CC&lt;:&#9633;) <span class="cite" value="BoruchGruszecki21"></span> <span class="cite" value="BoruchGruszecki23"></span> track the <i>directly captured</i> variables of a value and use <i>boxing</i> to cross generic boundaries soundly; their primary application is safe scoped effects via capabilities. A complementary line by Milano <i>et al.</i> <span class="cite" value="Milano22"></span> tracks a <i>heap-domination</i> invariant: an <code>iso</code> reference dominates its whole reachable subgraph, so it can be sent to another thread atomically, with temporary violations tolerated until a transfer forces recovery.
         </p>
 
-        <table>
+        <table class="post-table">
             <thead>
                 <tr><th>System</th><th>Tracks</th><th>Polymorphism</th><th>Separation</th><th>Concurrency</th></tr>
             </thead>
@@ -410,7 +410,7 @@ val y = x            // type: Ref[Int]{x, y}  — reachable via x and y</code></
             These systems are not competing alternatives so much as complementary tools for different problems:
         </p>
 
-        <table>
+        <table class="post-table">
             <thead>
                 <tr><th>System</th><th>Primary guarantee</th><th>Canonical reference</th></tr>
             </thead>

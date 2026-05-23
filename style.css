@@ -235,9 +235,26 @@ body {
     display: inline-block;
 }
 
+a.cite {
+    text-decoration: none;
+    cursor: pointer;
+}
+
+a.cite:hover {
+    text-decoration: underline;
+}
+
 .bibliography {
     color: var(--biblio-color);
     text-align: left;
+}
+
+.bibliography li {
+    scroll-margin-top: 1rem;
+}
+
+.bibliography li:target {
+    background-color: var(--table-back-color);
 }
 
 .bibtex {
@@ -304,6 +321,33 @@ td, th {
 
 tr:nth-child(even) {
     background-color: var(--table-back-color);
+}
+
+.post-table {
+    margin: 1.25rem 0;
+    font-size: var(--text-font-size);
+}
+
+.post-table thead th {
+    font-weight: 600;
+    border-bottom: 2px solid var(--text-color);
+}
+
+.post-table th,
+.post-table td {
+    padding: 8px 12px;
+}
+
+.post-table.bool-table th:not(:first-child),
+.post-table.bool-table td:not(:first-child) {
+    text-align: center;
+}
+
+@media (max-width: 600px) {
+    .post-table {
+        display: block;
+        overflow-x: auto;
+    }
 }
 
 .post-block {

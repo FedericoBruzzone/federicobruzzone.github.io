@@ -31,10 +31,11 @@ function replaceCitations() {
             orderedIds.push(bibtex_id);
         }
 
-        const citeSpan = document.createElement('span');
-        citeSpan.className = 'cite';
-        citeSpan.textContent = `[${number}]`;
-        citeElement.parentNode.replaceChild(citeSpan, citeElement);
+        const citeLink = document.createElement('a');
+        citeLink.className = 'cite';
+        citeLink.href = `#bib-${bibtex_id}`;
+        citeLink.textContent = `[${number}]`;
+        citeElement.parentNode.replaceChild(citeLink, citeElement);
     });
 
     if (!bibliographyElement) {
@@ -48,6 +49,7 @@ function replaceCitations() {
     listElement.classList.add("bibliography");
     orderedIds.forEach(id => {
         const listItem = document.createElement('li');
+        listItem.id = `bib-${id}`;
         listItem.textContent = bibtexToIeee(bibliography[id]);
         listElement.appendChild(listItem);
     });
