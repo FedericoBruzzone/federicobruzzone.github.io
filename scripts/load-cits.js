@@ -17,15 +17,23 @@ function bibtexToIeee(bibtex) {
 function replaceCitations() {
     const citeElements = document.querySelectorAll('.cite');
     const bibliographyElement = document.querySelector('.bibliography');
-    const references = [];
 
-    citeElements.forEach((citeElement, index) => {
+    const numberById = {};
+    const orderedIds = [];
+
+    citeElements.forEach((citeElement) => {
         const bibtex_id = citeElement.getAttribute('value');
-        references.push(bibtexToIeee(bibliography[bibtex_id]));
+
+        let number = numberById[bibtex_id];
+        if (number === undefined) {
+            number = orderedIds.length + 1;
+            numberById[bibtex_id] = number;
+            orderedIds.push(bibtex_id);
+        }
 
         const citeSpan = document.createElement('span');
         citeSpan.className = 'cite';
-        citeSpan.textContent = `[${index + 1}]`;
+        citeSpan.textContent = `[${number}]`;
         citeElement.parentNode.replaceChild(citeSpan, citeElement);
     });
 
@@ -38,9 +46,9 @@ function replaceCitations() {
     bibliography_header.textContent = "Bibliography";
 
     listElement.classList.add("bibliography");
-    references.forEach(ref => {
+    orderedIds.forEach(id => {
         const listItem = document.createElement('li');
-        listItem.textContent = ref;
+        listItem.textContent = bibtexToIeee(bibliography[id]);
         listElement.appendChild(listItem);
     });
 
