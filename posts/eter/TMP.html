@@ -10,7 +10,8 @@
 
     <script src="../../scripts/prism.js" defer></script>
     <script src="../../scripts/toc.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>  -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_SVG"></script> 
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.2/p5.js"></script> -->
 
     <!-- Favicon -->
@@ -291,6 +292,18 @@ read2 arr0 =
             Regions are the intellectual ancestor of Rust's <i>lifetimes</i>: the borrow checker enforces that a reference cannot outlive the scope of the data it points to. The lineage is explicit&mdash;Rust's design was informed by work on regions and on <i>alias types</i> <span class="cite" value="Smith00"></span>.
         </p>
 
+        <h2>Ownership Types</h2>
+
+        <p>
+            Long before Rust made the word famous, <i>ownership</i> was developed as a way to understand aliasing in object-oriented languages <span class="cite" value="Clarke98"></span> <span class="cite" value="MycroftVoigt13"></span>. The aim is to give a high-level <i>structural</i> view of objects and references&mdash;much as ordinary types give a structural view of data&mdash;by recording which object &ldquo;owns&rdquo; which, and forbidding references that would let an object's internals leak out. A whole family of related notions grew around this idea: <i>islands</i> <span class="cite" value="Hogg91"></span>, which fence a cluster of objects off behind a single bridge; <i>balloon types</i> <span class="cite" value="Almeida97"></span>, which keep an object's entire reachable state private; and <i>external uniqueness</i> <span class="cite" value="ClarkeWrigstad03"></span>, which only requires the <i>one</i> reference into a structure from the outside to be unique, while internal aliasing stays free.
+        </p>
+        <p>
+            Rust is where ownership now sees the most use, as the mechanism behind its memory safety. Several formalisations pin down what the model actually means: <i>RustBelt</i> <span class="cite" value="Jung17"></span> gives a lower-level, machine-checked semantics aimed at verification, while <i>Oxide</i> <span class="cite" value="Weiss19"></span> offers a higher-level encoding meant for theoretical work; <i>Stacked Borrows</i> <span class="cite" value="Jung19"></span> proposes a concrete aliasing model for the unsafe fragment, and lighter-weight accounts of lifetimes and borrowing exist too <span class="cite" value="Pearce21"></span>. Rust is not alone here&mdash;Swift incorporates similar ideas, and ownership keeps spreading into new settings.
+        </p>
+        <p>
+            That spread is the interesting part for us. Ownership is being pushed into languages with manual memory management <span class="cite" value="Sammler21"></span>, used to decide which functional programs can run <i>in place</i> without allocation <span class="cite" value="Lorenzen23"></span>, and&mdash;as the next section explores&mdash;scaled to higher-order and polymorphic code through reachability types <span class="cite" value="Bao21"></span> <span class="cite" value="Wei24"></span>. Seen this way, ownership is less a single feature than a recurring answer to the question the whole post circles around: who is allowed to see, and to change, a given piece of state.
+        </p>
+
         <h2>Effect Systems</h2>
 
         <p>
@@ -418,6 +431,7 @@ val y = x            // type: Ref[Int]{x, y}  — reachable via x and y</code></
                 <tr><td>Linear types</td><td>Exact resource use (no dup, no drop)</td><td>Girard 1987; Wadler 1990</td></tr>
                 <tr><td>Affine types</td><td>No duplication (safe drop allowed)</td><td>Walker 2005</td></tr>
                 <tr><td>Region types</td><td>No dangling pointers, stack discipline</td><td>Tofte &amp; Talpin</td></tr>
+                <tr><td>Ownership types</td><td>Structural alias control; no escaping references</td><td>Clarke et al. 1998</td></tr>
                 <tr><td>Effect systems</td><td>Precise bottom-up effect tracking</td><td>Gifford &amp; Lucassen 1986</td></tr>
                 <tr><td>Qualified types</td><td>Lightweight subtyping via predicates</td><td>Jones 1994</td></tr>
                 <tr><td>Type qualifiers</td><td>Flow-sensitive property propagation</td><td>Foster et al. 1999</td></tr>

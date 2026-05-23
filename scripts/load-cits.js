@@ -558,5 +558,90 @@ const bibliography = {
         "pages"     : "22:1--22:33",
         "year"      : "2010",
         "publisher" : "ACM New York, NY, USA"
+    },
+    "Hogg91" : {
+        "title"   : "Islands: aliasing protection in object-oriented languages",
+        "author"  : "Hogg, John",
+        "journal" : "ACM SIGPLAN Notices",
+        "volume"    : "26",
+        "number"    : "11",
+        "pages"     : "271--285",
+        "year"      : "1991",
+        "publisher" : "ACM"
+    },
+    "Almeida97" : {
+        "title"   : "Balloon types: controlling sharing of state in data types",
+        "author"  : "Almeida, Paulo Sérgio",
+        "journal" : "ECOOP'97 — Object-Oriented Programming, LNCS 1241",
+        "pages"   : "32--59",
+        "year"    : "1997",
+        "publisher" : "Springer"
+    },
+    "ClarkeWrigstad03" : {
+        "title"   : "External uniqueness is unique enough",
+        "author"  : "Clarke, Dave and Wrigstad, Tobias",
+        "journal" : "ECOOP 2003 — Object-Oriented Programming, LNCS 2743",
+        "pages"   : "176--200",
+        "year"    : "2003",
+        "publisher" : "Springer"
+    },
+    "MycroftVoigt13" : {
+        "title"   : "Notions of aliasing and ownership",
+        "author"  : "Mycroft, Alan and Voigt, Janina",
+        "journal" : "Aliasing in Object-Oriented Programming, LNCS 7850",
+        "pages"   : "59--83",
+        "year"    : "2013",
+        "publisher" : "Springer"
+    },
+    "Jung17" : {
+        "title"   : "RustBelt: securing the foundations of the Rust programming language",
+        "author"  : "Jung, Ralf and Jourdan, Jacques-Henri and Krebbers, Robbert and Dreyer, Derek",
+        "journal" : "Proceedings of the ACM on Programming Languages",
+        "volume"    : "2",
+        "number"    : "POPL",
+        "pages"     : "66:1--66:34",
+        "year"      : "2017",
+        "publisher" : "ACM New York, NY, USA"
+    },
+    "Weiss19" : {
+        "title"   : "Oxide: the essence of Rust",
+        "author"  : "Weiss, Aaron and Gierczak, Olek and Patterson, Daniel and Ahmed, Amal",
+        "journal" : "https://arxiv.org/abs/1903.00982",
+        "year"    : "2019"
+    },
+    "Jung19" : {
+        "title"   : "Stacked borrows: an aliasing model for Rust",
+        "author"  : "Jung, Ralf and Dang, Hoang-Hai and Kang, Jeehoon and Dreyer, Derek",
+        "journal" : "Proceedings of the ACM on Programming Languages",
+        "volume"    : "4",
+        "number"    : "POPL",
+        "pages"     : "41:1--41:32",
+        "year"      : "2019",
+        "publisher" : "ACM New York, NY, USA"
+    },
+    "Pearce21" : {
+        "title"   : "A lightweight formalism for reference lifetimes and borrowing in Rust",
+        "author"  : "Pearce, David J.",
+        "journal" : "ACM Transactions on Programming Languages and Systems",
+        "volume"    : "43",
+        "number"    : "1",
+        "pages"     : "3:1--3:73",
+        "year"      : "2021",
+        "publisher" : "ACM New York, NY, USA"
+    },
+    "Sammler21" : {
+        "title"   : "RefinedC: automating the foundational verification of C code with refined ownership types",
+        "author"  : "Sammler, Michael and Lepigre, Rodolphe and Krebbers, Robbert and Memarian, Kayvan and Dreyer, Derek and Garg, Deepak",
+        "journal" : "Proceedings of the 42nd ACM SIGPLAN International Conference on Programming Language Design and Implementation (PLDI 2021)",
+        "pages"   : "158--174",
+        "year"    : "2021",
+        "publisher" : "ACM"
+    },
+    "Lorenzen23" : {
+        "title"   : "FP2: fully in-place functional programming",
+        "author"  : "Lorenzen, Anton and Leijen, Daan and Swierstra, Wouter",
+        "journal" : "Proceedings of the ACM on Programming Languages (ICFP 2023)",
+        "year"    : "2023",
+        "publisher" : "ACM"
     }
 };
