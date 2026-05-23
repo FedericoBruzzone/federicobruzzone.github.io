@@ -335,5 +335,218 @@ const bibliography = {
         "year"      : "2025",
         "publisher" : "Association for Computing Machinery",
         "address"   : "New York, NY, USA"
+    },
+    "Bernardy18" : {
+        "title"   : "Linear Haskell: practical linearity in a higher-order polymorphic language",
+        "author"  : "Bernardy, Jean-Philippe and Boespflug, Mathieu and Newton, Ryan R. and Peyton Jones, Simon and Spiwack, Arnaud",
+        "journal" : "Proceedings of the ACM on Programming Languages",
+        "volume"    : "2",
+        "number"    : "POPL",
+        "pages"     : "5:1--5:29",
+        "year"      : "2018",
+        "publisher" : "ACM New York, NY, USA"
+    },
+    "Smith00" : {
+        "title"   : "Alias types",
+        "author"  : "Smith, Frederick and Walker, David and Morrisett, J. Gregory",
+        "journal" : "9th European Symposium on Programming (ESOP), LNCS 1782",
+        "pages"   : "366--381",
+        "year"    : "2000",
+        "publisher" : "Springer"
+    },
+    "Gifford86" : {
+        "title"   : "Integrating functional and imperative programming",
+        "author"  : "Gifford, David K. and Lucassen, John M.",
+        "journal" : "Proceedings of the 1986 ACM Conference on LISP and Functional Programming (LFP)",
+        "pages"   : "28--38",
+        "year"    : "1986",
+        "publisher" : "ACM"
+    },
+    "Lucassen88" : {
+        "title"   : "Polymorphic effect systems",
+        "author"  : "Lucassen, John M. and Gifford, David K.",
+        "journal" : "Proceedings of the 15th ACM SIGPLAN-SIGACT Symposium on Principles of Programming Languages (POPL)",
+        "pages"   : "47--57",
+        "year"    : "1988",
+        "publisher" : "ACM"
+    },
+    "Gordon20" : {
+        "title"   : "Designing with static capabilities and effects: use, mention, and invariants",
+        "author"  : "Gordon, Colin S.",
+        "journal" : "34th European Conference on Object-Oriented Programming (ECOOP 2020), LIPIcs vol. 166",
+        "year"    : "2020",
+        "publisher" : "Schloss Dagstuhl"
+    },
+    "Jones94" : {
+        "title"   : "A theory of qualified types",
+        "author"  : "Jones, Mark P.",
+        "journal" : "Science of Computer Programming",
+        "volume"    : "22",
+        "number"    : "3",
+        "pages"     : "231--256",
+        "year"      : "1994",
+        "publisher" : "Elsevier"
+    },
+    "Foster99" : {
+        "title"   : "A theory of type qualifiers",
+        "author"  : "Foster, Jeffrey S. and F\"{a}hndrich, Manuel and Aiken, Alexander",
+        "journal" : "Proceedings of the ACM SIGPLAN 1999 Conference on Programming Language Design and Implementation (PLDI)",
+        "pages"   : "192--203",
+        "year"    : "1999",
+        "publisher" : "ACM"
+    },
+    "Spiwack22" : {
+        "title"   : "Linearly qualified types: generic inference for capabilities and uniqueness",
+        "author"  : "Spiwack, Arnaud and Kiss, Csongor and Bernardy, Jean-Philippe and Wu, Nicolas and Eisenberg, Richard A.",
+        "journal" : "Proceedings of the ACM on Programming Languages",
+        "volume"    : "6",
+        "number"    : "ICFP",
+        "pages"     : "95:1--95:31",
+        "year"      : "2022",
+        "publisher" : "ACM New York, NY, USA"
+    },
+    "Gordon12" : {
+        "title"   : "Uniqueness and reference immutability for safe parallelism",
+        "author"  : "Gordon, Colin S. and Parkinson, Matthew J. and Parsons, Jared and Bromfield, Aleks and Duffy, Joe",
+        "journal" : "Proceedings of the ACM International Conference on Object Oriented Programming Systems Languages and Applications (OOPSLA 2012)",
+        "pages"   : "129--145",
+        "year"    : "2012",
+        "publisher" : "ACM"
+    },
+    "Clebsch15" : {
+        "title"   : "Deny capabilities for safe, fast actors",
+        "author"  : "Clebsch, Sylvan and Drossopoulou, Sophia and Blessing, Sebastian and McNeil, Andy",
+        "journal" : "Proceedings of the 5th International Workshop on Programming Based on Actors, Agents, and Decentralized Control (AGERE!)",
+        "pages"   : "1--12",
+        "year"    : "2015",
+        "publisher" : "ACM"
+    },
+    "Lampson74" : {
+        "title"   : "Protection",
+        "author"  : "Lampson, Butler W.",
+        "journal" : "ACM SIGOPS Operating Systems Review",
+        "volume"    : "8",
+        "number"    : "1",
+        "pages"     : "18--24",
+        "year"      : "1974",
+        "publisher" : "ACM"
+    },
+    "Levy84" : {
+        "title"   : "Capability-Based Computer Systems",
+        "author"  : "Levy, Henry M.",
+        "year"    : "1984",
+        "publisher" : "Digital Press"
+    },
+    "Miller06" : {
+        "title"   : "Robust composition: towards a unified approach to access control and concurrency control",
+        "author"  : "Miller, Mark S.",
+        "journal" : "PhD thesis, Johns Hopkins University",
+        "year"    : "2006"
+    },
+    "Strom86" : {
+        "title"   : "Typestate: a programming language concept for enhancing software reliability",
+        "author"  : "Strom, Robert E. and Yemini, Shaula",
+        "journal" : "IEEE Transactions on Software Engineering",
+        "volume"    : "12",
+        "number"    : "1",
+        "pages"     : "157--171",
+        "year"      : "1986",
+        "publisher" : "IEEE"
+    },
+    "Haller10" : {
+        "title"   : "Capabilities for uniqueness and borrowing",
+        "author"  : "Haller, Philipp and Odersky, Martin",
+        "journal" : "24th European Conference on Object-Oriented Programming (ECOOP 2010), LNCS 6183",
+        "pages"   : "354--378",
+        "year"    : "2010",
+        "publisher" : "Springer"
+    },
+    "Bao21" : {
+        "title"   : "Reachability types: tracking aliasing and separation in higher-order functional programs",
+        "author"  : "Bao, Yuyan and Wei, Guannan and Bra\\v{c}evac, Oliver and Jiang, Yuxuan and He, Qiyang and Rompf, Tiark",
+        "journal" : "Proceedings of the ACM on Programming Languages",
+        "volume"    : "5",
+        "number"    : "OOPSLA",
+        "pages"     : "135:1--135:32",
+        "year"      : "2021",
+        "publisher" : "ACM New York, NY, USA"
+    },
+    "BoruchGruszecki21" : {
+        "title"   : "Tracking captured variables in types",
+        "author"  : "Boruch-Gruszecki, Aleksander and Brachth\"{a}user, Jonathan Immanuel and Lee, Edward and Lhot\\'{a}k, Ond\\v{r}ej and Odersky, Martin",
+        "journal" : "https://arxiv.org/abs/2105.11896",
+        "year"    : "2021"
+    },
+    "BoruchGruszecki23" : {
+        "title"   : "Capturing types",
+        "author"  : "Boruch-Gruszecki, Aleksander and Odersky, Martin and Lee, Edward and Lhot\\'{a}k, Ond\\v{r}ej and Brachth\"{a}user, Jonathan Immanuel",
+        "journal" : "ACM Transactions on Programming Languages and Systems",
+        "volume"    : "45",
+        "number"    : "4",
+        "year"      : "2023",
+        "publisher" : "ACM New York, NY, USA"
+    },
+    "Wei24" : {
+        "title"   : "Polymorphic reachability types: tracking freshness, aliasing, and separation in higher-order generic programs",
+        "author"  : "Wei, Guannan and Bra\\v{c}evac, Oliver and Jia, Songlin and Bao, Yuyan and Rompf, Tiark",
+        "journal" : "Proceedings of the ACM on Programming Languages",
+        "volume"    : "8",
+        "number"    : "POPL",
+        "pages"     : "393--424",
+        "year"      : "2024",
+        "publisher" : "ACM New York, NY, USA"
+    },
+    "Milano22" : {
+        "title"   : "A flexible type system for fearless concurrency",
+        "author"  : "Milano, Mae and Turcotti, Joshua and Myers, Andrew C.",
+        "journal" : "Proceedings of the 43rd ACM SIGPLAN International Conference on Programming Language Design and Implementation (PLDI 2022)",
+        "pages"   : "458--473",
+        "year"    : "2022",
+        "publisher" : "ACM"
+    },
+    "Xu24" : {
+        "title"   : "Degrees of separation: a flexible type system for safe concurrency",
+        "author"  : "Xu, Yichen and Boruch-Gruszecki, Aleksander and Odersky, Martin",
+        "journal" : "Proceedings of the ACM on Programming Languages",
+        "volume"    : "8",
+        "number"    : "OOPSLA1",
+        "year"      : "2024",
+        "publisher" : "ACM New York, NY, USA"
+    },
+    "Reynolds78" : {
+        "title"   : "Syntactic control of interference",
+        "author"  : "Reynolds, John C.",
+        "journal" : "Conference Record of the 5th Annual ACM SIGPLAN-SIGACT Symposium on Principles of Programming Languages (POPL)",
+        "pages"   : "39--46",
+        "year"    : "1978",
+        "publisher" : "ACM"
+    },
+    "OHearn99" : {
+        "title"   : "Syntactic control of interference revisited",
+        "author"  : "O'Hearn, Peter W. and Power, John and Takeyama, Makoto and Tennent, Robert D.",
+        "journal" : "Mathematical Foundations of Programming Semantics (MFPS XV), Electronic Notes in Theoretical Computer Science",
+        "volume"    : "20",
+        "year"    : "1999",
+        "publisher" : "Elsevier"
+    },
+    "Barendsen96" : {
+        "title"   : "Uniqueness typing for functional languages with graph rewriting semantics",
+        "author"  : "Barendsen, Erik and Smetsers, Sjaak",
+        "journal" : "Mathematical Structures in Computer Science",
+        "volume"    : "6",
+        "number"    : "6",
+        "pages"     : "579--612",
+        "year"      : "1996",
+        "publisher" : "Cambridge University Press"
+    },
+    "Boyland10" : {
+        "title"   : "Semantics of fractional permissions with nesting",
+        "author"  : "Boyland, John Tang",
+        "journal" : "ACM Transactions on Programming Languages and Systems",
+        "volume"    : "32",
+        "number"    : "6",
+        "pages"     : "22:1--22:33",
+        "year"      : "2010",
+        "publisher" : "ACM New York, NY, USA"
     }
 };
