@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="../../prism.css">
+    <link rel="stylesheet" href="../../code.css">
+
+    <script src="../../scripts/prism.js" defer></script>
+    <script src="../../scripts/toc.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.2/p5.js"></script> -->
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    <title>NOT YET COMPLETED</title>
+</head>
+
+
+<body>
+    <div id="root-folder" value="../.."></div>
+    <div id="header"></div>
+
+    <main>
+        <h1><img src="https://raw.githubusercontent.com/eter-lang/eter/main/docsrc/logo/logo.png" alt="The Eter logo"
+                width="20px" /> NOT YET COMPLETED</h1>
+
+        <!-- <div style="display: flex; justify-content: center;">
+            <div class="alert-box">
+                THIS POST IS NOT YET COMPLETED.
+            </div>
+        </div> -->
+
+        <div style="display: flex; justify-content: center;">
+            <div class="alert-box">
+                <img src="https://raw.githubusercontent.com/eter-lang/eter/main/docsrc/logo/logo.png"
+                    alt="The Eter logo" width="10px" /> This post is part of <i>The <a
+                        href="https://github.com/eter-lang/eter">Eter</a> programming
+                    Language</i> series. <img
+                    src="https://raw.githubusercontent.com/eter-lang/eter/main/docsrc/logo/logo.png" alt="The Eter logo"
+                    width="10px" />
+            </div>
+        </div>
+
+        <!-- <p>
+            <b>Edit:</b> Take a look at the discussion in the <a href="">Programming Languages subreddit</a>.
+        </p> -->
+
+        <p>
+            This is the <strong>third post</strong> in the series dedicated to the <i>Eter programming language</i>, a side project that allows me to take my mind off the research I have to conduct.
+            The previous posts are <a href="./MVS-or-ownership&borrowing.html">Mutable Value Semantics (MVS) or Ownership & Borrowing: A Trade-off Analysis</a> and <a href="./MVS.html">The Mutable Value Semantics (MVS): A Non-superficial Study</a>.
+            If you are interested in the project, you can find more information in the
+            <a href="https://github.com/eter-lang/eter">Eter compiler monorepo</a>.
+            The <a href="https://eter-lang.github.io/eter/">Eter language reference</a> and the
+            <a href="https://eter-lang.github.io/eter/api/">Eter Doxygen documentation</a>, although not yet complete,
+            are also good starting points.
+        </p>
+
+        <p>
+            The <a href="./MVS.html">first post</a>, in its prelude, introduces what we are currently researching for the Eter language.
+            Then, it discusses the mutable value semantics (MVS) <span class="cite" value="Racordon22"></span> and how the popular programming languages (e.g., Swift <span class="cite" value="Swift"></span>, Hylo <span class="cite" value="Hylo"></span>) implement it. 
+            The <a href="./MVS-or-ownership&borrowing.html">second post</a> covers the trade-offs between MVS and ownership & borrowing, examining friction points in Rust, Hylo, and Swift while searching for common ground between the two memory models.
+        </p>
+
+        <p>
+            Contrary to what I mentioned in the previous two posts, this post is once again not part of the Eter language. I needed to provide this post to clarify some concepts I consider fundamental to the language's design, semantics, and type system. After all, it's important to have a clear understanding of the state of the art before proposing something new...
+        </p>
+
+        <div id="toc"></div>
+
+        <h2>Substructural Type Systems</h2>
+
+        <p>
+            Here I just want to give an informal introduction to substructural type systems, uniqueness types, and fractional uniqueness, for those who are not familiar with them.
+            <b>If you don't fall into this category, feel free to collapse/skip this section and move on to the <a href="#the-regime-based-semantics">next section</a></b>.
+            Substructural type systems <span class="cite" value="Walker05"></span> resemble the idea of <i>substructural logic</i>. 
+            They are based on the following structural rules (where \(\Gamma\) is the context of assumptions):
+            <ul>
+                <li><b>Exchange</b>, the order of assumptions in \(\Gamma\) does not matter. That is, the order of variable declarations does not influence the semantics of the program.
+                    \[
+                    \frac{\Gamma_1, x : A, y : B, \Gamma_2 \vdash t : C}
+                    {\Gamma_1, y : B, x : A, \Gamma_2 \vdash t : C}
+                    \]
+                <li><b>Weakening</b>, assumptions can be discarded (ignored). That is, variables can be declared but not used in the program.
+                    \[
+                    \frac{\Gamma \vdash t : A}
+                         {\Gamma, x : B \vdash t : A}
+                         \quad x \notin FV(t)
+                    \]
+                <li><b>Contraction</b>, assumptions can be duplicated. That is, two "copies" of the same variable are equivalent.
+                    \[
+                    \frac{\Gamma, x : A, x : A \vdash t : B}
+                         {\Gamma, x : A \vdash t : B}
+                    \]
+            </ul>
+        </p>
+        <p>
+            Substructural type systems arise by <a href="https://en.wikipedia.org/wiki/Substructural_type_system">selectively restricting</a> these rules.
+            To cite a few, linear type systems (resembling linear logic <span class="cite" value="Girard87"></span>) disallow both weakening and contraction, while affine systems disallow contraction but permit weakening.
+            Intuitively, these combinations tell us how many times a variable can be used in the program: exactly once for linear types <span class="cite" value="Wadler90"></span>, at most once for affine types, and so on.
+            For instance, Rust <span class="cite" value="Matsakis14"></span> has an affine type system—affine types via default ownership and the move semantics consumes the value (the <code class="language-rust">Copy</code> trait brings exceptions to this rule)—with polymorphic regions (lifetimes) where the borrowed references introduce statically-checked aliasing.
+        </p>
+
+        <h3>We need uniqueness types!</h3>
+        <p>
+            The key issue here is that linearity, even when combined with affine weakening, remains fundamentally a usage <i>discipline</i>. It controls how values are consumed in a derivation, but it does <b>not</b> prevent the possibility that a value has been duplicated before it enters the linear fragment of the type system  (cf. the <a href="https://clean.cs.ru.nl/Publications">Clean</a> language).
+            In systems that include unrestricted values,<a id="footnote-1-ref" href="#footnote-1"><sup>1</sup></a> linearity alone cannot reconstruct global aliasing information: a linear assumption may still correspond to a value that has been shared elsewhere in the program.
+        </p>
+        <p>
+            This limitation becomes particularly evident when reasoning about mutation. If multiple references to the same underlying structure exist outside the linear scope, then allowing in-place updates becomes unsafe, even if the linear fragment itself enforces single-use discipline. In other words, linearity guarantees local resource consumption, but not global uniqueness of access.
+        </p>
+        <p>
+            <b>Uniqueness types</b> address precisely this gap. Instead of constraining how a value is used within a derivation, they constrain whether a value can be <i>observably shared at all</i>. A unique value is not merely one that is used exactly once, but one for which the type system guarantees the absence of aliasing in the entire program context.
+        </p>
+        <p>
+            This distinction explains why uniqueness behaves asymmetrically with respect to unrestricted values. While it is not possible to derive uniqueness from an unrestricted value—since duplication may already have occurred—it is always safe to forget uniqueness information once it has been established. In this sense, uniqueness types can be seen as a <i>strengthening of ownership information</i>, rather than a restriction on usage.
+            This makes uniqueness particularly well-suited for modelling destructive updates in functional languages, where referential transparency must be preserved despite the presence of in-place mutation.
+            Please refer to <i>Linearity and Uniqueness: An Entente Cordiale</i> <cite class="cite" value="Marshall22"></cite> for a more in-depth discussion on the topic, as well as how the uniqueness is enforced.
+        </p>
+
+        <!-- <div style="display: flex; justify-content: center;">
+            <div class="alert-box">
+            <b>Linear/Affine types</b> → control resource usage (how many times a value is consumed) <br>
+            <b>Unique types</b> → control aliasing (ensuring a value has at most one observable reference)
+            </div>
+        </div> -->
+
+        <h3>Fractional Uniqueness</h3>
+
+        <p>
+            Consider a huge array and 2 parts of the same program that access it (eventually in parallel) in read-only mode.
+            With the classical uniqueness model, either you lose the uniqueness guarantee (non-unique, no mutation), or you keep the uniqueness guarantee (1 unique, 1 mutation).
+            This friction has been solved by Marshall <i>et al.</i> in the paper <i>Functional Ownership through Fractional Uniqueness</i> <span class="cite" value="Marshall24"></span>.
+            They leverage <i>graded modal types</i> <span class="cite" value="Orchard19"></span> to model the granularity of uniqueness.
+        </p>
+        <p>
+            The central idea is that uniqueness should not be viewed as a binary property, but rather as a <i>resource that can be partially shared</i>. Instead of distinguishing only between "unique" and "non-unique", fractional uniqueness assigns degrees of ownership to references, allowing the system to track how much of the original uniqueness guarantee is preserved.
+        </p>
+
+        <p>
+            Intuitively, a fully unique value corresponds to full ownership, while borrowed views correspond to partial ownership. These partial views can coexist safely, as long as their combined permissions do not exceed the original uniqueness guarantee. This provides a controlled form of aliasing: references may exist simultaneously, but only with explicitly tracked permissions.
+        </p>
+
+        <p>
+            This perspective aligns closely with <i>fractional permissions</i> <span class="cite" value="Heule11"></span> <span class="cite" value="Boyland03"></span> in separation logic <span class="cite" value="Parkinson05"></span>, where ownership of a resource can be split into fractions that individually allow read access, but only the full fraction permits mutation. In this setting, mutation is not forbidden by aliasing itself, but by the absence of full ownership.
+        </p>
+
+        <p>
+            From a programming perspective, this gives a precise explanation of borrowing: an immutable borrow corresponds to splitting ownership into fractional shares <span class="cite" value="Wagner25"></span>, while a mutable borrow requires temporarily regaining the full ownership fraction. Once the mutation is completed, ownership can be re-split or restored to a unique state.
+        </p>
+
+        <p>
+            In this sense, Rust's borrow checker can be understood as enforcing a dynamic discipline over a static fractional ownership system: it ensures that at any point in time, the sum of all active references never exceeds full ownership, and that exclusive access is available whenever mutation occurs.
+        </p>
+
+        <h3>Connecting Fractional Uniqueness to Linearity and Uniqueness</h3>
+
+        <p>
+            The introduction of fractional uniqueness clarifies the relationship between linear and uniqueness types.
+            Rather than treating these as fundamentally different systems, we can view them as two limiting cases of the same underlying structure: a graded notion of ownership.
+        </p>
+
+        <p>
+            Linear types correspond to the extreme case in which ownership cannot be split at all.
+            A value must be consumed exactly once, and therefore no fractional views are permitted. In this sense, linearity enforces a <i>single-threaded usage discipline</i> over resources.
+        </p>
+
+        <p>
+            Uniqueness types, in contrast, correspond to the case where full ownership is required for mutation, but ownership itself can be temporarily weakened by forgetting uniqueness information.
+            This introduces a directional asymmetry: uniqueness can be safely discarded, but cannot be reconstructed from unrestricted values.
+        </p>
+
+        <p>
+            Fractional uniqueness refines this picture by making the "strength" of ownership explicit in the type system.
+            Instead of treating aliasing as a boolean property, we index ownership by a graded structure that tracks how permissions are distributed across the program.
+        </p>
+
+        <h3>From Ownership to Borrowing</h3>
+
+        <p>
+            In this setting, borrowing is no longer a primitive concept, but a derived operation on ownership fractions.
+            An immutable borrow corresponds to splitting a unique resource into multiple fractional views, each of which carries read-only permission.
+            A mutable borrow corresponds to temporarily reassembling all fractions into a single exclusive ownership token.
+        </p>
+
+        <p>
+            This explains why mutation in systems like Rust requires exclusivity: mutation is not prohibited because of type-theoretic restrictions alone, but because it requires reconstructing a full ownership fraction that cannot coexist with any other active view.
+        </p>
+
+        <p>
+            Consequently, borrowing can be seen as a controlled decomposition of uniqueness rather than an exception to it.
+            The type system does not abandon uniqueness during borrowing; instead, it refines it into a structured set of permissions that evolve over time.
+        </p>
+
+        <h3>Unifying Perspective</h3>
+
+        <p>
+            We can now summarise the relationship between the three systems as follows:
+        </p>
+
+        <div style="display: flex; justify-content: center;">
+            <div class="alert-box">
+                <b>Linear/Affine types</b> → enforce single-use consumption of resources<br>
+                <b>Uniqueness types</b> → enforce global absence of aliasing (for mutation)<br>
+                <b>Fractional uniqueness</b> → refine uniqueness into compositional, graded ownership
+            </div>
+        </div>
+
+        <p>
+            From this perspective, linearity and uniqueness are not competing notions, but orthogonal projections of a more general system of graded resource reasoning.
+            Linearity constrains <i>temporal usage</i>, uniqueness constrains <i>global aliasing structure</i>, and fractional uniqueness mediates between them by tracking how both evolve under composition.
+        </p>
+
+        </details>
+
+        <details open>
+        <summary style="cursor: pointer;">
+            <h2 style="display: inline-block; margin-bottom: 0;">Substructural Type Systems</h2>
+        </summary>
+
+        </details>
+
+        <h2 id="the-regime-based-semantics">The Regime-based Semantics</h2>
+
+        <p>
+            TODO
+        </p>
+
+        <div style="display: flex; justify-content: center;">
+            <div class="alert-box">
+            TODO
+            </div>
+        </div>
+
+        <div class="bibtex" year="2026" month="April"></div>
+
+        <p><br><br></p>
+        <hr>
+        <p id="footnote-1">
+            <sup>1</sup>
+            An unrestricted value is one that satisfies all structural rules of classical logic, allowing contraction, weakening, and exchange without restriction.
+            <a href="#footnote-1-ref">&#8617;</a>
+        </p>
+
+        <div class="bibliography"></div>
+        <div id="footer"></div>
+        <script src="../../scripts/toggle-theme.js"></script>
+        <script src="../../scripts/load-header.js"></script>
+        <script src="../../scripts/load-footer.js"></script>
+        <script src="../../scripts/load-cits.js"></script>
+        <script src="../../scripts/load-bib.js"></script>
+</body>
+
+</html>
