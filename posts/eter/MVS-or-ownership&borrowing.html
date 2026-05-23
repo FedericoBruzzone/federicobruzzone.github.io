@@ -207,6 +207,7 @@
         </p>
         <p>
             In this example, as <a href="https://www.reddit.com/r/ProgrammingLanguages/comments/1t09t3e/comment/ojazujq/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button"><tt>SkiFire13</tt> pointed out</a>, the Rust compiler must reject the code since the <code class="language-rust">ref_mut_t</code> could catch the panic and then read the mutable reference pointing to an invalid memory location.
+            Additionally, the Rust compiler allows for <code class="language-rust">Drop</code> custom destructors to be called in the panicking context (see the <a href="https://www.reddit.com/r/ProgrammingLanguages/comments/1tjh9h6/comment/on8cgxp/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button">SkiFire13 comment</a>). It implies that we can observe the stack frames of the panicking function.
             While it's actually not ubiquitous, I don't personally like this approach.
             Languages like Hylo and Swift explicitly mark the function with <code class="language-rust">throws</code> to indicate that the function can throw an exception.
             While I understand the motivation, we could easily live without panic-catching in this context—errors can be handled as values...
@@ -214,8 +215,9 @@
 
         <div style="display: flex; justify-content: center;">
             <div class="alert-box">
-                For Eter, I'd like to avoid both the explicitness and, in general, the possibility of catching panics.
-                All the panics are aborts with transparent unwinding. Errors must be explicitly handled as return values, eventually propagating up the call stack.
+                For Eter, I'd like to avoid both the explicitness and, in general, the possibility of catching panics in specific regions.
+                A simple solution could be treating all the panics as aborts with transparent unwinding (assuming that the "destructuring" of the stack frames is not observable). Errors must be explicitly handled as return values, eventually propagating up the call stack.
+                I hope to have a blog post about this semantic model soon.
             </div>
         </div>
 
