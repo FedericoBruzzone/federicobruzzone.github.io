@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const main = document.querySelector("main");
     if (!main) return;
 
-    const headings = main.querySelectorAll("h2, h3");
+    const headings = main.querySelectorAll("h2, h3, h4");
     if (headings.length === 0) return;
 
     function slugify(text) {
@@ -41,6 +41,16 @@ document.addEventListener("DOMContentLoaded", function () {
     nav.appendChild(ul);
 
     let currentH2Li = null;
+    let currentH3Li = null;
+
+    function appendChildLi(parentLi, li) {
+        let subUl = parentLi.querySelector("ul");
+        if (!subUl) {
+            subUl = document.createElement("ul");
+            parentLi.appendChild(subUl);
+        }
+        subUl.appendChild(li);
+    }
 
     headings.forEach(function (heading) {
         const a = document.createElement("a");
@@ -53,16 +63,20 @@ document.addEventListener("DOMContentLoaded", function () {
         if (heading.tagName === "H2") {
             ul.appendChild(li);
             currentH2Li = li;
-        } else {
+            currentH3Li = null;
+        } else if (heading.tagName === "H3") {
             if (!currentH2Li) {
                 ul.appendChild(li);
             } else {
-                let subUl = currentH2Li.querySelector("ul");
-                if (!subUl) {
-                    subUl = document.createElement("ul");
-                    currentH2Li.appendChild(subUl);
-                }
-                subUl.appendChild(li);
+                appendChildLi(currentH2Li, li);
+            }
+            currentH3Li = li;
+        } else {
+            const parentLi = currentH3Li || currentH2Li;
+            if (!parentLi) {
+                ul.appendChild(li);
+            } else {
+                appendChildLi(parentLi, li);
             }
         }
     });
