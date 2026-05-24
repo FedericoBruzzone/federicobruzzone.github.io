@@ -244,7 +244,7 @@
 
         <h3>Possible Optimizations?</h3>
         <p>
-            <b>The Move Semantics.</b> &nbsp; A recurring pattern is to assign values just after they have been created.
+            <b>The Move Semantics.</b>   A recurring pattern is to assign values just after they have been created.
             For instance:
         <pre class="line-numbers" data-line="" data-language="Swiftlet">
             <code class="language-swift">
@@ -265,7 +265,7 @@
         </p>
 
         <p>
-            <b>Aliases for copies.</b> &nbsp; All function parameters are passed by value, but the copy is not
+            <b>Aliases for copies.</b>   All function parameters are passed by value, but the copy is not
             necessarily performed.
             Broadly speaking, we can see formal parameters as aliases to values
             stored at the call site.
@@ -308,7 +308,7 @@
         </p>
 
         <p>
-            <b>Copy-on-write.</b> &nbsp; <b>Aliases for copies</b> are not applicable in the presence of mutation.
+            <b>Copy-on-write.</b>   <b>Aliases for copies</b> are not applicable in the presence of mutation.
             This is true for both left and right-hand sides of the assignment. In principle, these should be copied, but
             in practice, the compiler may choose to <i>copy-on-write</i> (CoW) the data at <b>runtime</b>.
             This is achieved using <i>atomic</i> reference counting (ARC) to track how many owners there are. If the
@@ -352,7 +352,7 @@
             under the assumption of uniqueness, potentially violating value semantics.
         </p>
         <p>
-            <b>Leveraging local reasoning.</b> &nbsp; Since the 2000s, local reasoning has been important in the design
+            <b>Leveraging local reasoning.</b>   Since the 2000s, local reasoning has been important in the design
             of programming languages (see O'Hearn <i>et al.</i> <span class="cite" value="OHearn01"></span>).
             Consider the following example:
         <pre class="line-numbers" data-line="5-5" data-language="Swiftlet">

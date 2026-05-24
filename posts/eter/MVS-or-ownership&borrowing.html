@@ -373,7 +373,7 @@ struct Node {
 
         <h3>Hylo</h3>
         <p>
-            Hylo is built around MVS with one key design choice: references are <i>second-class</i>. Concretely, this means references cannot be returned from a function, stored in a data structure, or assigned to a variable on their own&mdash;they are always tied to their source's scope.  Hylo defines five parameter passing conventions: <code class="language-swift">let</code> (immutable access, default), <code class="language-swift">inout</code> (mutable exclusive access), <code class="language-swift">sink</code> (consuming/ownership transfer), <code class="language-swift">set</code> (output-only, initializes a dead binding), and <code class="language-swift">yielded</code> (only for subscript coroutines).
+            Hylo is built around MVS with one key design choice: references are <i>second-class</i>. Concretely, this means references cannot be returned from a function, stored in a data structure, or assigned to a variable on their own—they are always tied to their source's scope.  Hylo defines five parameter passing conventions: <code class="language-swift">let</code> (immutable access, default), <code class="language-swift">inout</code> (mutable exclusive access), <code class="language-swift">sink</code> (consuming/ownership transfer), <code class="language-swift">set</code> (output-only, initializes a dead binding), and <code class="language-swift">yielded</code> (only for subscript coroutines).
         </p>
         <p>
             In addition to <code class="language-swift">let</code> and <code class="language-swift">var</code> bindings, Hylo allows for <code class="language-swift">inout</code> and <code class="language-swift">sink let</code>/<code class="language-swift">sink var</code> bindings (see <a href="https://hylo-lang.org/docs/reference/specification/">Hylo's specification</a>).
@@ -483,7 +483,7 @@ fun longest(_ x: sink String, _ y: sink String) -> String {
         <p>
             Mutability verbosity is <i>reframed</i>.
             In Hylo, parameter conventions carry the access intent and the call site must mark mutation with <code class="language-swift">&amp;</code>.
-            The annotation model is different from Rust's <code>let mut</code>&nbsp;/&nbsp;<code>&amp;mut T</code>&nbsp;/&nbsp;<code>iter_mut()</code>,
+            The annotation model is different from Rust's <code>let mut</code> / <code>&amp;mut T</code> / <code>iter_mut()</code>,
             but not obviously lighter—it is a trade-off between two mental models.
             More importantly, Hylo still has <code class="language-swift">var</code> and <code class="language-swift">let</code> at the binding level, independently from the
             parameter convention.
@@ -671,7 +671,7 @@ public fun main() {
             This works, but it introduces a separate language feature with its own syntax: a function and a subscript are
             not interchangeable, and each comes with its own rules.
             That said, composability is not compromised: subscripts can be defined as free functions
-            (not just members of a type), and projections compose naturally&mdash;a projected element can
+            (not just members of a type), and projections compose naturally—a projected element can
             be bound to a local <code>inout</code> variable and passed to any other subscript or function
             expecting an <code>inout</code> parameter <a href="https://github.com/orgs/hylo-lang/discussions/1883">[discussion]</a>:
             <pre class="line-numbers" data-line="" data-language="Hylo">
@@ -742,13 +742,13 @@ public fun main() {
             However, patterns like "register two callbacks that each update a shared accumulator"
             cannot be expressed by simply capturing the same variable in two closures, even if the
             two callbacks are never active concurrently: the second capture would violate uniqueness.
-            This is not a compiler limitation but a consequence of the MVS model itself&mdash;shared
+            This is not a compiler limitation but a consequence of the MVS model itself—shared
             mutable state is fundamentally disallowed because it breaks local reasoning.
         </p>
         <p>
             This distinction reflects a deliberate design tension.
-            The standard sequential NLL&mdash;where a closure's projection is released after its last
-            use&mdash;is planned and covers most practical cases.
+            The standard sequential NLL—where a closure's projection is released after its last
+            use—is planned and covers most practical cases.
             But chasing maximal compiler cleverness to prove that two closures are never active
             simultaneously across arbitrary control flow would add significant complexity to the
             type system, making correctness sensitive to small, non-local changes in the code.
@@ -824,7 +824,7 @@ type Cursor {
             Hylo supports the same pattern through lazy views: <code class="language-swift">data.lazy[].filter(...).max_index()</code>
             composes operations via method chaining, with each step returning a new lazy projection.
             However, the architecture differs: Rust passes mutable references through the adapter chain,
-            while Hylo separates knowledge from access&mdash;the lazy pipeline computes <i>which</i> element
+            while Hylo separates knowledge from access—the lazy pipeline computes <i>which</i> element
             to target (e.g., an index), and mutation happens directly through the original owner.
         </p>
 
