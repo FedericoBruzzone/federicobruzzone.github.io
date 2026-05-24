@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<!-- 
+                 -->
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,7 +25,7 @@
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
 
-    <title> Substructural Type Systems, Capabilities, and Effects: A Friendly Tour</title>
+    <title>A Friendly Tour of Substructural, Uniqueness, Ownership, and Capabilities Types — and more!</title>
 </head>
 
 
@@ -32,7 +35,7 @@
 
     <main>
         <h1><img src="https://raw.githubusercontent.com/eter-lang/eter/main/docsrc/logo/logo.png" alt="The Eter logo"
-                width="20px" /> Substructural Type Systems, Capabilities, and Effects: A Friendly Tour</h1>
+                width="20px" /> A Friendly Tour of Substructural, Uniqueness, Ownership, and Capabilities Types — and more!</h1>
 
         <!-- <div style="display: flex; justify-content: center;">
             <div class="alert-box">
@@ -76,7 +79,7 @@
         </p>
 
         <p>
-            What follows is meant to be a <i>friendly</i> tour. We start from the logical roots of why ordinary type systems fall short, walk through linear, affine, and uniqueness types, and then visit the broader family&mdash;regions, effects, capabilities, typestate, and the very recent work on reachability and separation that directly inspired Eter. I keep the theory light on purpose; the goal is intuition and a map of the landscape, with pointers to the literature for the details.
+            What follows is meant to be a <i>friendly</i> tour. We start from the logical roots of why ordinary type systems fall short, walk through linear, affine, and uniqueness types, and then visit the broader family&mdash;regions, effects, capabilities, typestate, and the very recent work on reachability and separation. I keep the theory light on purpose; the goal is intuition and a map of the landscape, with pointers to the literature for the details.
         </p>
 
         <div id="toc"></div>
@@ -153,6 +156,14 @@
             Linear types are the computational reading of <i>linear logic</i>, introduced by Girard <span class="cite" value="Girard87"></span>. Girard's insight was that the structural rules weakening and contraction are precisely what give classical logic its &ldquo;idealist&rdquo; character&mdash;propositions you can freely copy and discard. Drop them, and you obtain a logic of <i>resources</i>, where every hypothesis must be used exactly once. The familiar conjunction even splits in two: a multiplicative \(A \otimes B\) (&ldquo;both, separately&rdquo;) and an additive \(A \mathbin{\&} B\) (&ldquo;your choice&rdquo;), while linear implication \(A \multimap B\) consumes one \(A\) to produce one \(B\).
         </p>
         <p>
+            Operationally, the &ldquo;exactly once&rdquo; discipline shows up in how the typing context is handled. An ordinary type system copies the context freely into every subterm; a linear one <i>splits</i> it, so each assumption flows to exactly one place. Function application is the rule to watch:
+            \[
+            \frac{\Gamma_1 \vdash e_1 : A \multimap B \qquad \Gamma_2 \vdash e_2 : A}
+                 {\Gamma_1, \Gamma_2 \vdash e_1\,e_2 : B}
+            \]
+            The context \(\Gamma_1, \Gamma_2\) is a <i>disjoint</i> split: a variable given to \(e_1\) is no longer available to \(e_2\), and with no contraction rule to copy it back, that is exactly what stops a resource from being used twice.
+        </p>
+        <p>
             Wadler's &ldquo;Linear types can change the world!&rdquo; <span class="cite" value="Wadler90"></span> showed how to turn this into a type system for functional languages. The headline application: linear types make <i>in-place mutation safe</i>. If the type system guarantees you hold the only reference to an array, you may update it destructively without breaking referential transparency&mdash;nobody else can observe the change.
         </p>
         <p>
@@ -178,6 +189,21 @@ read2 arr0 =
         <p>
             The difference between linear and affine is simply whether discarding is allowed. <b>Linear</b>: you <i>must</i> use the resource&mdash;useful for protocols that demand explicit termination (e.g., sending a final message before closing a connection). <b>Affine</b>: you <i>may</i> drop it&mdash;Rust leans on this because the destructor (<code class="language-rust">drop</code>) runs automatically at scope exit, so the resource is cleaned up rather than truly lost. These affine guarantees are what give Rust no use-after-free, no double-free, and no data races, all at compile time with zero runtime overhead.
         </p>
+        <p>
+            The discipline is easiest to see by tripping over it. Assigning a non-<code class="language-rust">Copy</code> value <i>moves</i> it&mdash;the source binding is consumed, and the compiler statically rejects any later use:
+        </p>
+
+        <pre class="line-numbers" data-language="Rust"><code class="language-rust">let s1 = String::from("hi");
+let s2 = s1;            // String is affine: the value MOVES out of s1
+// println!("{s1}");    // ✗ error[E0382]: borrow of moved value: `s1`
+
+let n1: i32 = 7;        // i32 is Copy
+let n2 = n1;            // copied, not moved
+println!("{n1} {n2}");  // ✓ n1 is still usable</code></pre>
+
+        <p>
+            The move is the missing contraction rule made concrete; the <code class="language-rust">Copy</code> trait is the controlled exception that hands it back for small, cheaply-duplicated types.
+        </p>
 
         <h2>Restricting Aliasing: Uniqueness and Ownership</h2>
 
@@ -201,6 +227,15 @@ read2 arr0 =
             This makes uniqueness particularly well-suited for modelling destructive updates in functional languages, where referential transparency must be preserved despite the presence of in-place mutation.
             Please refer to <i>Linearity and Uniqueness: An Entente Cordiale</i> <cite class="cite" value="Marshall22"></cite> for a more in-depth discussion on the topic, as well as how the uniqueness is enforced.
         </p>
+        <p>
+            Granule <span class="cite" value="Marshall24"></span> turns this into surface syntax. A value of type <code>*a</code> is <i>uniquely owned</i>&mdash;the type system guarantees no other reference exists, which is exactly what licenses updating it in place&mdash;and the asymmetry above appears as an operation with no inverse:
+        </p>
+
+        <pre class="line-numbers" data-language="Haskell"><code class="language-haskell">-- `*a` : a uniquely-owned a (no other reference can exist).
+-- Uniqueness is one-directional:
+share : *a -> a [r]     -- forgetting it is always sound
+-- …but there is no  unshare : a [r] -> *a  —
+-- an already-shared value can never be made unique again.</code></pre>
 
         <!-- <div style="display: flex; justify-content: center;">
             <div class="alert-box">
@@ -227,6 +262,20 @@ read2 arr0 =
 
         <p>
             This perspective aligns closely with <i>fractional permissions</i> <span class="cite" value="Heule11"></span> <span class="cite" value="Boyland03"></span> in separation logic <span class="cite" value="Parkinson05"></span>, where ownership of a resource can be split into fractions that individually allow read access, but only the full fraction permits mutation. In this setting, mutation is not forbidden by aliasing itself, but by the absence of full ownership.
+        </p>
+        <p>
+            In Granule this shows up directly in the borrowing interface. A borrowed reference <code>&amp;p a</code> carries a permission <code>p</code> &mdash; a fraction in \((0, 1]\), with \(1\) meaning full ownership. <i>Reading</i> needs any positive fraction; <i>writing</i> needs the whole thing:
+        </p>
+
+        <pre class="line-numbers" data-language="Haskell"><code class="language-haskell">readArray  : &p (Array Float) -> Int -> (Float, &p (Array Float))         -- any p
+writeArray : &p (Array Float) -> Int -> Float -> &p (Array Float)         -- requires p = 1
+
+-- Permissions split for read-sharing and recombine for exclusive access:
+split : &p a -> (&(p/2) a, &(p/2) a)
+join  : &p a -> &q a -> &(p+q) a            -- only when p + q ≤ 1</code></pre>
+
+        <p>
+            The constraint \(p + q \le 1\) on <code>join</code> is the whole game: many immutable borrows can coexist (their fractions sum to at most one), but a write demands \(p = 1\), which is reachable only once every other share has been given back.
         </p>
 
         <p>
@@ -298,7 +347,19 @@ read2 arr0 =
         <h3>Region-based Types</h3>
 
         <p>
-            A different route to memory safety without a garbage collector is to use <i>regions</i>. Introduced by Tofte and Talpin <span class="cite" value="Tofte97"></span>, region-based systems associate every value with a <i>region</i>&mdash;a named scope of memory. Values are allocated into a region and freed all at once when the region's scope ends. The type system tracks, as an <i>effect</i>, which regions each expression reads from and writes to, and guarantees that no value outlives its region, ruling out dangling-pointer dereferences.
+            A different route to memory safety without a garbage collector is to use <i>regions</i>. Introduced by Tofte and Talpin <span class="cite" value="Tofte97"></span> (see also <span class="cite" value="Talpin92"></span> <span class="cite" value="Barrett93"></span> <span class="cite" value="Aiken95"></span>), region-based systems associate every value with a <i>region</i>&mdash;a named scope of memory. Values are allocated into a region and freed all at once when the region's scope ends. The type system tracks, as an <i>effect</i>, which regions each expression reads from and writes to, and guarantees that no value outlives its region, ruling out dangling-pointer dereferences.
+        </p>
+        <p>
+            Concretely, a region is introduced by a scoped <code>letregion</code> binder, and allocation says <i>where</i> a value lives with <code>at</code>:
+        </p>
+
+        <pre class="line-numbers" data-language="Region calculus"><code class="language-ocaml">letregion ρ in
+  let p = (1, 2) at ρ      (* the pair is allocated in region ρ *)
+  in fst p + snd p         (* …and read back from it *)
+(* ρ, and everything in it, is freed here at the letregion boundary *)</code></pre>
+
+        <p>
+            A function type then carries a <i>latent effect</i> recording the regions a call touches&mdash;for example \((\textsf{int}, \rho_1) \xrightarrow{\{\,\mathsf{get}\,\rho_1,\ \mathsf{put}\,\rho_2\,\}} (\textsf{int}, \rho_2)\)&mdash;and the checker uses those effects to prove that no value ever escapes its region.
         </p>
         <p>
             Regions are the intellectual ancestor of Rust's <i>lifetimes</i>: the borrow checker enforces that a reference cannot outlive the scope of the data it points to. The lineage is explicit&mdash;Rust's design was informed by work on regions and on <i>alias types</i> <span class="cite" value="Smith00"></span>.
@@ -312,6 +373,18 @@ read2 arr0 =
         <p>
             Rust is where ownership now sees the most use, as the mechanism behind its memory safety. Several formalisations pin down what the model actually means: <i>RustBelt</i> <span class="cite" value="Jung17"></span> gives a lower-level, machine-checked semantics aimed at verification, while <i>Oxide</i> <span class="cite" value="Weiss19"></span> offers a higher-level encoding meant for theoretical work; <i>Stacked Borrows</i> <span class="cite" value="Jung19"></span> proposes a concrete aliasing model for the unsafe fragment, and lighter-weight accounts of lifetimes and borrowing exist too <span class="cite" value="Pearce21"></span>. Rust is not alone here&mdash;Swift incorporates similar ideas, and ownership keeps spreading into new settings.
         </p>
+        <p>
+            Day to day, that model surfaces as the <i>shared-XOR-mutable</i> rule: at any moment a value may have any number of read-only borrows <i>or</i> exactly one mutable borrow, but never both:
+        </p>
+
+        <pre class="line-numbers" data-language="Rust"><code class="language-rust">let mut v = vec![1, 2, 3];
+let r = &v;             // shared (read-only) borrow of v
+// v.push(4);           // ✗ E0502: cannot borrow `v` as mutable
+println!("{r:?}");      //          while the shared borrow r is live
+
+let m = &mut v;         // once no shared borrow remains, an
+m.push(4);              // exclusive borrow re-enables mutation</code></pre>
+
         <p>
             That spread is the interesting part for us. Ownership is being pushed into languages with manual memory management <span class="cite" value="Sammler21"></span>, used to decide which functional programs can run <i>in place</i> without allocation <span class="cite" value="Lorenzen23"></span>, and&mdash;as the next section explores&mdash;scaled to higher-order and polymorphic code through reachability types <span class="cite" value="Bao21"></span> <span class="cite" value="Wei24"></span>. Seen this way, ownership is less a single feature than a recurring answer to the question the whole post circles around: who is allowed to see, and to change, a given piece of state.
         </p>
@@ -328,8 +401,19 @@ read2 arr0 =
             An <i>effect system</i> enriches the typing judgement so that it describes not only the <i>type</i> of a value but also the <i>effects</i>&mdash;the observable actions&mdash;that producing it may perform. The judgement takes the shape \(\Gamma \vdash e : \tau \mathbin{!} \varepsilon\), where \(\varepsilon\) records reads, writes, I/O, exceptions, and so on. Effects compose bottom-up: a compound expression's effect is the join (least upper bound) of its parts.
         </p>
         <p>
-            Effect systems were introduced by Gifford and Lucassen <span class="cite" value="Gifford86"></span>, with polymorphic effects following shortly after <span class="cite" value="Lucassen88"></span>. Modern descendants include Koka's row-polymorphic effects and the algebraic effects of OCaml&nbsp;5 and Eff, with handlers that give operations their semantics.
+            Effect systems were introduced by Gifford and Lucassen <span class="cite" value="Gifford86"></span>, with polymorphic effects following shortly after <span class="cite" value="Lucassen88"></span>. Modern descendants include Koka's row-polymorphic effects and the algebraic effects of OCaml&nbsp;5 and Eff, with handlers that give operations their semantics. In Koka, the effect a function may perform is part of its type, and a handler is what discharges it:
         </p>
+
+        <pre class="line-numbers" data-language="Koka"><code class="language-koka">effect exc
+  ctl throw(msg : string) : a    // a control operation
+
+fun risky() : exc int            // the type advertises the `exc` effect
+  throw("oops")
+
+fun main() : console ()
+  with ctl throw(_) -> -1        // the handler discharges `exc`…
+  println(risky())               // …so `main` itself is exc-free, and prints -1</code></pre>
+
         <p>
             Their strength is precision: effect systems are <i>bottom-up</i> analyses that inspect what code actually does. Their weakness is the flip side&mdash;reasoning about global invariants and aliasing through effects alone needs heavy naming machinery <span class="cite" value="Gordon20"></span>. Keep this &ldquo;bottom-up vs. top-down&rdquo; contrast in mind; it is the key to the capability systems below.
         </p>
@@ -337,7 +421,15 @@ read2 arr0 =
         <h3>Qualified Types and Type Qualifiers</h3>
 
         <p>
-            <i>Qualified types</i>, formalised by Jones <span class="cite" value="Jones94"></span>, extend types with <i>predicates</i> that must hold before a type can be used. Haskell's type-class constraints are the canonical example: <code class="language-haskell">Eq a => a -> a -> Bool</code> reads &ldquo;works for any <code class="language-haskell">a</code> that satisfies <code class="language-haskell">Eq</code>&rdquo;.
+            <i>Qualified types</i>, formalised by Jones <span class="cite" value="Jones94"></span>, extend types with <i>predicates</i> that must hold before a type can be used. Haskell's type-class constraints are the canonical example: <code class="language-haskell">Eq a => a -> a -> Bool</code> reads &ldquo;works for any <code class="language-haskell">a</code> that satisfies <code class="language-haskell">Eq</code>&rdquo;. The predicate is not magic&mdash;it elaborates into an extra <i>dictionary</i> argument the compiler inserts and fills in for you:
+        </p>
+
+        <pre class="line-numbers" data-language="Haskell"><code class="language-haskell">member :: Eq a => a -> [a] -> Bool          -- qualified type, predicate `Eq a`
+-- elaborates (conceptually) to an explicit evidence argument:
+member ::   EqDict a -> a -> [a] -> Bool    -- the dictionary is passed implicitly</code></pre>
+
+        <p>
+            That &ldquo;implicit evidence, inserted by the compiler&rdquo; pattern is exactly what linear constraints reuse&mdash;only there the evidence is <i>linear</i>.
         </p>
         <p>
             <i>Type qualifiers</i>, due to Foster, Fähndrich, and Aiken <span class="cite" value="Foster99"></span>, instead attach annotations such as <code>const</code> or <code>readonly</code> directly to types and propagate them by subtyping. It is a lightweight way to express many useful properties without touching the core type language.
@@ -368,6 +460,16 @@ read2 arr0 =
             The type system propagates capabilities transitively: reading a field through a <code>readable</code> reference yields a <code>readable</code> result, even if the field was declared <code>writable</code>. These systems power safe parallelism&mdash;if no thread holds a <code>writable</code> reference shared with another, data races are impossible <span class="cite" value="Gordon12"></span> <span class="cite" value="Clebsch15"></span>&mdash;as well as method-purity inference and deep object immutability. Capability ideas for uniqueness and borrowing go back to Haller and Odersky <span class="cite" value="Haller10"></span>.
         </p>
         <p>
+            Pony <span class="cite" value="Clebsch15"></span> turns this vocabulary into six keywords written on each reference&mdash;<code>iso</code> (isolated: the only reference, sendable), <code>val</code> (deeply immutable, freely shareable), <code>ref</code> (mutable but not sendable), <code>box</code> (read-only view), <code>trn</code> (writable now, convertible to <code>val</code>), and <code>tag</code> (identity only, no read or write):
+        </p>
+
+        <pre class="line-numbers" data-language="Pony"><code class="language-pony">let greeting: String val = "hello"               // immutable: any actor may share it
+let buffer:   Array[U8] iso = recover Array[U8] end  // the ONLY reference; sendable
+
+fun size(s: String box): USize =>                // box: read-only view — accepts a val OR a ref
+  s.size()</code></pre>
+
+        <p>
             The defining trade-off <span class="cite" value="Gordon20"></span> is that reference capabilities perform <i>top-down</i> analysis: they reason about what flows <i>into</i> code without inspecting its internals, which keeps them simple and lets them work even on precompiled libraries. The cost is a <i>use&ndash;mention</i> confusion: holding a <code>writable</code> capability means you <i>could</i> write, not that you <i>do</i>&mdash;an effect system, by contrast, can tell mentioning a reference apart from actually using it.
         </p>
 
@@ -379,6 +481,15 @@ read2 arr0 =
         <p>
             In an object-capability language, object references <i>are</i> capabilities: if you cannot obtain a reference, you cannot call the object's methods or observe its state. There is no ambient authority&mdash;no global mutable state, no <code>System.getenv</code>, no unrestricted reflection&mdash;so security follows from the <i>topology</i> of the object graph. Miller's thesis <span class="cite" value="Miller06"></span> formalises this and states the <i>Principle of Least Authority</i> (POLA): hand each component only the capabilities it strictly needs, which defuses the &ldquo;confused deputy&rdquo; problem. Languages and runtimes in this tradition include E, Joe-E, Caja, and Deno (with its <code>--allow-net</code> / <code>--allow-read</code> permission flags).
         </p>
+        <p>
+            Deno is the most familiar taste of POLA today: a script starts with <i>no</i> ambient authority and is granted only the capabilities you name, scoped as tightly as you like:
+        </p>
+
+        <pre class="line-numbers" data-language="Shell"><code class="language-bash">deno run app.ts          # no authority: any fetch() or Deno.readFile() is denied
+
+# grant only what's needed — and only for the exact host / path:
+deno run --allow-net=api.example.com --allow-read=./data app.ts</code></pre>
+
 
         <h2>Tracking State and Separation</h2>
 
@@ -389,8 +500,21 @@ read2 arr0 =
         <h3>Typestate</h3>
 
         <p>
-            <i>Typestate</i> <span class="cite" value="Strom86"></span> adds to a variable's type information about its <i>state at a given program point</i>. A <code>File</code> might move through typestates <code>Closed</code> and <code>Open</code>; the type system tracks the transitions, so <code>read</code> is only well-typed on an open file, and a file must be closed before it leaves scope.
+            <i>Typestate</i> <span class="cite" value="Strom86"></span> adds to a variable's type information about its <i>state at a given program point</i>. A <code>File</code> might move through typestates <code>Closed</code> and <code>Open</code>; the type system tracks the transitions, so <code>read</code> is only well-typed on an open file, and a file must be closed before it leaves scope. Even without native support, Rust encodes this by making the state a type parameter:
         </p>
+
+        <pre class="line-numbers" data-language="Rust"><code class="language-rust">struct Open; struct Closed;                  // states as zero-sized marker types
+struct File&lt;S&gt; { fd: i32, _state: PhantomData&lt;S&gt; }
+
+impl File&lt;Closed&gt; {
+    fn open(path: &str) -> File&lt;Open&gt; { /* … */ }
+}
+impl File&lt;Open&gt; {
+    fn read(&self) -> String { /* … */ }
+    fn close(self) -> File&lt;Closed&gt; { /* … */ }  // consumes the Open file
+}
+// `read` exists only for File&lt;Open&gt;; calling it on a File&lt;Closed&gt; is a type error.</code></pre>
+
         <p>
             Typestate is orthogonal to linearity but pairs naturally with it: a linear file handle cannot be duplicated (no double-close) nor silently dropped (no leak). The challenge is aliasing&mdash;if two references point to the same file, transitioning one invalidates the other's assumption&mdash;which is exactly what linear or affine disciplines rule out.
         </p>
@@ -407,6 +531,15 @@ val y = x            // type: Ref[Int]{x, y}  — reachable via x and y</code></
         <p>
             The key property is <i>preservation of separation</i>: if two values have <i>disjoint</i> qualifiers, their object graphs are guaranteed disconnected at runtime&mdash;precisely what you need to hand one of them to another thread without risking a data race. This inverts the usual ownership philosophy: rather than starting from a strict unique-access invariant and relaxing it via borrowing, separation falls out as a <i>derived</i> property of qualifier disjointness, which scales more gracefully to functional abstraction.
         </p>
+        <p>
+            Concretely, disjointness of qualifiers is the side-condition the checker verifies before letting two computations run in parallel:
+        </p>
+
+        <pre class="line-numbers" data-language="Scala"><code class="language-scala">val a = new Ref(0)        // Ref[Int]{a}
+val b = new Ref(0)        // Ref[Int]{b}
+par(a := 1, b := 2)       // ✓ {a} ∩ {b} = ∅   — disjoint, safe in parallel
+par(a := 1, a := 2)       // ✗ {a} ∩ {a} ≠ ∅   — overlap rejected: would race</code></pre>
+
         <p>
             The original system, \(\lambda^{*}\), is monomorphic, and a naïve polymorphic extension turns out to be unsound. <i>Polymorphic reachability types</i>, \(\lambda^{\Diamond}\) <span class="cite" value="Wei24"></span>, fix this by tracking only single-step reachability and computing transitive closures on demand, with a <i>freshness</i> qualifier \(\Diamond\) for values whose reachable set may still grow. In parallel, <i>Capture Types</i> for Scala (the calculus CC&lt;:&#9633;) <span class="cite" value="BoruchGruszecki21"></span> <span class="cite" value="BoruchGruszecki23"></span> track the <i>directly captured</i> variables of a value and use <i>boxing</i> to cross generic boundaries soundly; their primary application is safe scoped effects via capabilities. A complementary line by Milano <i>et al.</i> <span class="cite" value="Milano22"></span> tracks a <i>heap-domination</i> invariant: an <code>iso</code> reference dominates its whole reachable subgraph, so it can be sent to another thread atomically, with temporary violations tolerated until a transfer forces recovery.
         </p>
@@ -432,13 +565,15 @@ val y = x            // type: Ref[Int]{x, y}  — reachable via x and y</code></
             The tradition CSC reacts against is broad: linear and uniqueness types <span class="cite" value="Barendsen96"></span> keep at most one live reference; ownership types <span class="cite" value="Clarke98"></span> stop aliases from crossing object boundaries; fractional permissions <span class="cite" value="Boyland10"></span> split a write permission into read-only shares that must be recombined before the next write. All of these enforce a strong invariant globally and relax it locally&mdash;so adopting any of them into an existing codebase usually means non-trivial refactoring.
         </p>
         <p>
-            The control-as-you-need principle has a deep ancestor in Reynolds's <i>Syntactic Control of Interference</i> <span class="cite" value="Reynolds78"></span> (later revisited <span class="cite" value="OHearn99"></span>), which makes interference <i>syntactically detectable</i> rather than forbidding it outright. CSC builds directly on Capture Types, adding a <i>separation degree</i>: a type-level annotation on a parameter saying how much of the current context that argument must be separated from. With no annotation, aliases are free; annotations&mdash;usually inferred&mdash;appear only where parallelism makes data races possible. The main concurrency construct is a parallel let binding:
+            The control-as-you-need principle has a deep ancestor in Reynolds's <i>Syntactic Control of Interference</i> <span class="cite" value="Reynolds78"></span> (later revisited <span class="cite" value="OHearn99"></span>), which makes interference <i>syntactically detectable</i> rather than forbidding it outright. CSC builds directly on Capture Types, adding a <i>separation degree</i>: a type-level annotation on a parameter saying how much of the current context that argument must be separated from. With no annotation, aliases are free; annotations&mdash;usually inferred&mdash;appear only where parallelism makes data races possible. The main concurrency construct is parallel composition, written <code>||</code> (sugar for a parallel let); a <i>separation degree</i> <code>sep{a}</code> on a parameter declares it must stay separated from <code>a</code>:
         </p>
 
-        <pre class="line-numbers" data-language="Scala"><code class="language-scala">val (x, y) = par(e1, e2)</code></pre>
+        <pre class="line-numbers" data-language="Scala"><code class="language-scala">def resetBoth(a:       Ref[Int]^{cap},
+              sep{a} b: Ref[Int]^{cap}): Unit =
+  a.set(0) || b.set(0)    // || runs both sides at once; sep{a} proves they cannot race</code></pre>
 
         <p>
-            The checker verifies that the captured variables of <code>e1</code> and <code>e2</code> are separated enough&mdash;according to the separation degrees on their types&mdash;that no mutable state is touched concurrently from both sides. A reader capability behaves like a fraction of a full capability, but, unlike traditional fractional permissions, it may coexist with the full capability and be used together <i>sequentially</i>; only their <i>parallel</i> use is prohibited. CSC is the most direct inspiration for Eter's regime-based semantics.
+            The checker verifies that the two sides of a <code>||</code> touch sufficiently separated state&mdash;here, that <code>b</code> is disjoint from <code>a</code>&mdash;so that no mutable state is reached concurrently from both sides. A reader capability behaves like a fraction of a full capability, but, unlike traditional fractional permissions, it may coexist with the full capability and be used together <i>sequentially</i>; only their <i>parallel</i> use is prohibited. CSC is the most direct inspiration for Eter's regime-based semantics.
         </p>
 
         <h2>The Landscape, Summarised</h2>
@@ -454,7 +589,7 @@ val y = x            // type: Ref[Int]{x, y}  — reachable via x and y</code></
             <tbody>
                 <tr><td>Linear types</td><td>Exact resource use (no dup, no drop)</td><td>Girard 1987; Wadler 1990</td></tr>
                 <tr><td>Affine types</td><td>No duplication (safe drop allowed)</td><td>Walker 2005</td></tr>
-                <tr><td>Region types</td><td>No dangling pointers, stack discipline</td><td>Tofte &amp; Talpin</td></tr>
+                <tr><td>Region types</td><td>No dangling pointers, stack discipline</td><td>Tofte &amp; Talpin 1997</td></tr>
                 <tr><td>Ownership types</td><td>Structural alias control; no escaping references</td><td>Clarke et al. 1998</td></tr>
                 <tr><td>Effect systems</td><td>Precise bottom-up effect tracking</td><td>Gifford &amp; Lucassen 1986</td></tr>
                 <tr><td>Qualified types</td><td>Lightweight subtyping via predicates</td><td>Jones 1994</td></tr>
