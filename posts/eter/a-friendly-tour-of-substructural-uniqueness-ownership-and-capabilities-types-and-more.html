@@ -75,7 +75,7 @@
         </p>
 
         <p>
-            Contrary to what I mentioned in the previous two posts, this post is once again not part of the Eter language. I needed to provide this post to clarify some concepts I consider fundamental to the language's design, semantics, and type system. After all, it's important to have a clear understanding of the state of the art before proposing something new...
+            Contrary to what I mentioned in the previous two posts, this post is once again not part of the Eter language itself. I needed to provide this post to clarify some concepts I consider fundamental to the language's design, semantics, and type system. 
         </p>
 
         <p>
@@ -386,7 +386,22 @@ let m = &mut v;         // once no shared borrow remains, an
 m.push(4);              // exclusive borrow re-enables mutation</code></pre>
 
         <p>
-            That spread is the interesting part for us. Ownership is being pushed into languages with manual memory management <span class="cite" value="Sammler21"></span>, used to decide which functional programs can run <i>in place</i> without allocation <span class="cite" value="Lorenzen23"></span>, and&mdash;as the next section explores&mdash;scaled to higher-order and polymorphic code through reachability types <span class="cite" value="Bao21"></span> <span class="cite" value="Wei24"></span>. Seen this way, ownership is less a single feature than a recurring answer to the question the whole post circles around: who is allowed to see, and to change, a given piece of state.
+            That spread is the interesting part for us. Ownership is being pushed into languages with manual memory management <span class="cite" value="Sammler21"></span>, used to decide which functional programs can run <i>in place</i> without allocation <span class="cite" value="Lorenzen23"></span>, and&mdash;as a later section explores&mdash;scaled to higher-order and polymorphic code through reachability types <span class="cite" value="Bao21"></span> <span class="cite" value="Wei24"></span>. Seen this way, ownership is less a single feature than a recurring answer to the question the whole post circles around: who is allowed to see, and to change, a given piece of state.
+        </p>
+
+        <h3>Linear Capabilities and Alias Types</h3>
+
+        <p>
+            A turning point in this story was the realisation that the <i>pointer</i> to a piece of memory and the <i>permission</i> to use it need not be the same thing. The <i>calculus of capabilities</i> <span class="cite" value="Crary99"></span> and <i>alias types</i> <span class="cite" value="Smith00"></span> prise the two apart: a pointer becomes an ordinary, freely-copyable value, while a separate <i>capability</i>&mdash;a <b>linear</b> token, written \(\{\rho \mapsto \tau\}\)&mdash;grants the right to dereference (and to deallocate) the location \(\rho\) it names.
+        </p>
+        <p>
+            That one move buys a great deal over Wadler-style linearity, where &ldquo;pointer&rdquo; and &ldquo;permission to dereference&rdquo; are one and the same. Here you may keep as many aliases to an object as you like&mdash;copy them, store them&mdash;provided the single capability that authorises access stays unique. Because the capability also records the content's type, it licenses a <i>strong update</i>: overwriting a location with a value of a <i>different</i> type, and updating the location's type to match.
+        </p>
+        <p>
+            The borrowing trick we keep meeting reappears here in its sharpest form: a linear capability can be temporarily weakened to a shared one and then recovered&mdash;the <i>focus</i> operation of Fähndrich and DeLine <span class="cite" value="FahndrichDeLine02"></span>, a close cousin of Wadler's <code>let!</code> and of C99's <code>restrict</code> keyword&mdash;while their <i>adoption</i> mechanism lets a freshly-allocated unique object be handed to a region and aliased thereafter. This lineage is what made <i>Cyclone</i> <span class="cite" value="Swamy06"></span>, a memory-safe dialect of C with regions and unique pointers, practical, and it feeds directly into the reachability and separation systems later in this tour.
+        </p>
+        <p>
+            A word of warning, since the post is by now thick with the term: &ldquo;capability&rdquo; is overloaded. The linear capabilities here are <i>permissions to dereference memory</i>; the <a href="#reference-capabilities">reference capabilities</a> below are <i>qualifiers on a reference</i>; and <a href="#object-capabilities-ocap">object capabilities</a> are <i>unforgeable references that carry authority</i>. The first kind is, in fact, almost exactly a <i>separation-logic</i> assertion <span class="cite" value="OHearn01"></span>: \(\{\rho \mapsto \tau\}\) is a points-to fact, and combining two capabilities is separating conjunction. This whole branch of the family is surveyed beautifully in Pottier's tutorial <span class="cite" value="Pottier07"></span>.
         </p>
 
         <h2>Restricting Access: Effects and Capabilities</h2>
@@ -608,6 +623,9 @@ par(a := 1, a := 2)       // ✗ {a} ∩ {a} ≠ ∅   — overlap rejected: wou
 
         <p>
             The deeper pattern across all of these: they make the <i>flow</i> of authority, access, or resources explicit and checkable at compile time. They differ in <i>where</i> the information lives (on the value, the reference, the type context, the effect annotation, or the reachability qualifier), <i>which</i> structural rules they restrict, and <i>how</i> the analysis runs&mdash;bottom-up from expressions, top-down from contexts, or via the shape of the heap graph itself.
+        </p>
+        <p>
+            A closing pointer for the curious: for a guided tour of the capability-and-region branch in particular&mdash;the lineage from Wadler through the calculus of capabilities, alias types, adoption and focus, and on to Cyclone&mdash;François Pottier's tutorial slides <span class="cite" value="Pottier07"></span> are an excellent, and delightfully readable, companion to this post.
         </p>
 
         <div class="bibtex" year="2026" month="April"></div>

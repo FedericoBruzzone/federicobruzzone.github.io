@@ -643,5 +643,37 @@ const bibliography = {
         "journal" : "Proceedings of the ACM on Programming Languages (ICFP 2023)",
         "year"    : "2023",
         "publisher" : "ACM"
+    },
+    "Crary99" : {
+        "title"   : "Typed memory management in a calculus of capabilities",
+        "author"  : "Crary, Karl and Walker, David and Morrisett, Greg",
+        "journal" : "Proceedings of the 26th ACM SIGPLAN-SIGACT Symposium on Principles of Programming Languages (POPL)",
+        "pages"   : "262--275",
+        "year"    : "1999",
+        "publisher" : "ACM"
+    },
+    "FahndrichDeLine02" : {
+        "title"   : "Adoption and focus: practical linear types for imperative programming",
+        "author"  : "Fähndrich, Manuel and DeLine, Robert",
+        "journal" : "Proceedings of the ACM SIGPLAN 2002 Conference on Programming Language Design and Implementation (PLDI)",
+        "pages"   : "13--24",
+        "year"    : "2002",
+        "publisher" : "ACM"
+    },
+    "Swamy06" : {
+        "title"   : "Safe manual memory management in Cyclone",
+        "author"  : "Swamy, Nikhil and Hicks, Michael and Morrisett, Greg and Grossman, Dan and Jim, Trevor",
+        "journal" : "Science of Computer Programming",
+        "volume"    : "62",
+        "number"    : "2",
+        "pages"     : "122--144",
+        "year"      : "2006",
+        "publisher" : "Elsevier"
+    },
+    "Pottier07" : {
+        "title"   : "Wandering through linear types, capabilities, and regions",
+        "author"  : "Pottier, François",
+        "journal" : "Tutorial slides, INRIA — https://pauillac.inria.fr/~fpottier/slides/fpottier-2007-05-linear-bestiary.pdf",
+        "year"    : "2007"
     }
 };
