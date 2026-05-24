@@ -184,7 +184,7 @@
             <code class="language-swift">
                 struct Vec2 { ... };
                 func move_x(v: inout Vec2, x: Int) -> Void {
-                    v.x = v.x + d;
+                    v.x = v.x + x;
                 };
                 var v = Vec2(x: 1, y: 2);
                 _ = move_x(&amp;v, x: 3);
