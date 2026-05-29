@@ -157,9 +157,15 @@
 
 #papers(
   papers: (
+    (label: "Bruzzone26e-preprint", links: [
+      [#link("https://federicobruzzone.github.io/publications/Bruzzone26e-preprint/Bruzzone26e-preprint.bib")[bib]]
+      [#link("https://federicobruzzone.github.io/publications/Bruzzone26e-preprint/Bruzzone26e-preprint.pdf")[pdf]]
+      [#link("https://arxiv.org/abs/2605.28989")[arXiv]]
+    ],score: []),
+
     (label: "Bruzzone26d-preprint", links: [
-      [#link("https://federicobruzzone.github.io/publications/Bruzzone26c-preprint/Bruzzone26d-preprint.bib")[bib]]
-      [#link("https://federicobruzzone.github.io/publications/Bruzzone26c-preprint/Bruzzone26d-preprint.pdf")[pdf]]
+      [#link("https://federicobruzzone.github.io/publications/Bruzzone26d-preprint/Bruzzone26d-preprint.bib")[bib]]
+      [#link("https://federicobruzzone.github.io/publications/Bruzzone26d-preprint/Bruzzone26d-preprint.pdf")[pdf]]
       [#link("https://arxiv.org/abs/2602.12973")[arXiv]]
     ],score: []),
 
