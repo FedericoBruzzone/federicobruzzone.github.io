@@ -6,10 +6,7 @@
     <atom:link href="https://federicobruzzone.github.io/feed.xml" rel="self" type="application/rss+xml"/>
     <description>Posts, scientific publications, preprints, and activities by Federico Bruzzone.</description>
     <language>en</language>
-<<<<<<< Updated upstream
-    <lastBuildDate>Sun, 31 May 2026 12:37:57 GMT</lastBuildDate>
-=======
-    <lastBuildDate>Sun, 31 May 2026 12:40:35 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 31 May 2026 12:41:42 GMT</lastBuildDate>
     <item>
       <title>The Site Now Has an RSS Feed</title>
       <link>https://federicobruzzone.github.io/posts/the-site-now-has-an-rss-feed.html</link>
@@ -18,7 +15,6 @@
       <pubDate>Sun, 31 May 2026 00:00:00 GMT</pubDate>
       <description><![CDATA[The website now has an RSS feed that gathers posts, scientific publications, preprints, and activities into one chronological stream. Subscribe with your favourite reader at /feed.xml.]]></description>
     </item>
->>>>>>> Stashed changes
     <item>
       <title>Regime-Based Capability Graph Semantics (RCGS)</title>
       <link>https://federicobruzzone.github.io/posts/eter/regime-based-capability-graph-semantics.html</link>
