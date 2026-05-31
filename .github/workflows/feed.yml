@@ -1,0 +1,49 @@
+name: Build RSS feed
+
+# Regenerates feed.xml whenever a content source changes and commits the result.
+# feed.xml is intentionally NOT in `paths`, so the commit this workflow makes does
+# not retrigger the workflow (no loop). The push to main then triggers the normal
+# GitHub Pages branch deploy, publishing the updated feed.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'post.html'
+      - 'index.html'
+      - 'activities/index.html'
+      - 'scripts/gen-feed.js'
+      - '.github/workflows/feed.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-feed
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Generate feed.xml
+        run: node scripts/gen-feed.js
+
+      - name: Commit feed.xml if changed
+        run: |
+          if git diff --quiet -- feed.xml; then
+            echo "feed.xml unchanged; nothing to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add feed.xml
+          git commit -m "chore: regenerate feed.xml [skip ci]"
+          git push

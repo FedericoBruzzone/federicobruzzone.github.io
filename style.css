@@ -204,7 +204,7 @@ body {
     max-width: 720px;
     height: 80px;
     margin-top: 120px;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(85px, 1fr));
     display: inline-grid;
     place-items: center;
 }

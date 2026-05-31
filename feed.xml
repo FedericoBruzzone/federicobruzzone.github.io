@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Federico Bruzzone</title>
+    <link>https://federicobruzzone.github.io/</link>
+    <atom:link href="https://federicobruzzone.github.io/feed.xml" rel="self" type="application/rss+xml"/>
+    <description>Posts, scientific publications, preprints, and activities by Federico Bruzzone.</description>
+    <language>en</language>
+    <lastBuildDate>Sun, 31 May 2026 12:25:56 GMT</lastBuildDate>
+    <item>
+      <title>Regime-Based Capability Graph Semantics (RCGS)</title>
+      <link>https://federicobruzzone.github.io/posts/eter/regime-based-capability-graph-semantics.html</link>
+      <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-05-01:posts/regime-based-capability-graph-semantics-rcgs</guid>
+      <category>Post</category>
+      <pubDate>Fri, 01 May 2026 00:00:00 GMT</pubDate>
+      <description><![CDATA[TODO]]></description>
+    </item>
+    <item>
+      <title>A Friendly Tour of Substructural, Uniqueness, Ownership, and Capabilities Types — and more!</title>
+      <link>https://federicobruzzone.github.io/posts/eter/a-friendly-tour-of-substructural-uniqueness-ownership-and-capabilities-types-and-more.html</link>
+      <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-05-01:posts/a-friendly-tour-of-substructural-uniqueness-ownership-and-capabilities-types-and</guid>
+      <category>Post</category>
+      <pubDate>Fri, 01 May 2026 00:00:00 GMT</pubDate>
+      <description><![CDATA[The third post of the <i>Eter programming language</i> series. A friendly tour of the type-theoretic landscape behind memory safety. Starting from the logical roots of substructural logic, it walks through linear, affine, and uniqueness types, then visits regions, effects, capabilities, typestate, and the latest work on reachability and separation types.]]></description>
+    </item>
+    <item>
+      <title>Mutable Value Semantics (MVS) or Ownership &amp; Borrowing: A Trade-off Analysis</title>
+      <link>https://federicobruzzone.github.io/posts/eter/MVS-or-ownership&amp;borrowing.html</link>
+      <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-05-01:posts/mutable-value-semantics-mvs-or-ownership-borrowing-a-trade-off-analysis</guid>
+      <category>Post</category>
+      <pubDate>Fri, 01 May 2026 00:00:00 GMT</pubDate>
+      <description><![CDATA[The second post of the <i>Eter programming language</i> series. It explores the trade-offs between Mutable Value Semantics and Ownership & Borrowing, examining friction points in Rust, Hylo, and Swift while searching for common ground between the two memory models.]]></description>
+    </item>
+    <item>
+      <title>Generalized Software Product Line Extraction</title>
+      <link>https://federicobruzzone.github.io/publications/Bruzzone26e-preprint/Bruzzone26e-preprint.pdf</link>
+      <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-05-01:publications/generalized-software-product-line-extraction</guid>
+      <category>Preprint</category>
+      <pubDate>Fri, 01 May 2026 00:00:00 GMT</pubDate>
+      <description><![CDATA[F. Bruzzone, W. Cazzola, and L. Favalli — <b>arXiv preprint arXiv:2605.28989</b> — DOI: <a href="https://doi.org/10.48550/arXiv.2605.28989">10.48550/arXiv.2605.28989</a>]]></description>
+    </item>
+    <item>
+      <title>The Mutable Value Semantics (MVS): A Non-superficial Study</title>
+      <link>https://federicobruzzone.github.io/posts/eter/MVS.html</link>
+      <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-04-01:posts/the-mutable-value-semantics-mvs-a-non-superficial-study</guid>
+      <category>Post</category>
+      <pubDate>Wed, 01 Apr 2026 00:00:00 GMT</pubDate>
+      <description><![CDATA[The first post of the <i>Eter programming language</i> series. While this post is part of the series, it is not a part of the Eter language itself. The post is a non-superficial study on the MVS, trying to understand its limitations.]]></description>
+    </item>
+    <item>
+      <title>Sink or SWIM: Tackling Real-Time ASR at Scale</title>
+      <link>https://federicobruzzone.github.io/publications/Bruzzone26/Bruzzone26.pdf</link>
+      <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-03-01:publications/sink-or-swim-tackling-real-time-asr-at-scale</guid>
+      <category>Publication</category>
+      <pubDate>Sun, 01 Mar 2026 00:00:00 GMT</pubDate>
+      <description><![CDATA[F. Bruzzone, W. Cazzola, M. Brancaleoni, and D. Pellegrino — <b>IEEE Transactions on Audio, Speech and Language Processing (TASLPRO)</b> — DOI: <a href="https://doi.org/10.1109/TASLPRO.2026.3675780">10.1109/TASLPRO.2026.3675780</a>]]></description>
+    </item>
+    <item>
+      <title>Meta-Monomorphizing Specializations</title>
+      <link>https://federicobruzzone.github.io/publications/Bruzzone26d-preprint/Bruzzone26d-preprint.pdf</link>
+      <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-02-01:publications/meta-monomorphizing-specializations</guid>
+      <category>Preprint</category>
+      <pubDate>Sun, 01 Feb 2026 00:00:00 GMT</pubDate>
+      <description><![CDATA[F. Bruzzone and W. Cazzola — <b>arXiv preprint arXiv:2602.12973</b> — DOI: <a href="https://doi.org/10.48550/arXiv.2602.12973">10.48550/arXiv.2602.12973</a>]]></description>
+    </item>
+    <item>
+      <title>From Separate Compilation to Sound Language Composition</title>
+      <link>https://federicobruzzone.github.io/publications/Bruzzone26c-preprint/Bruzzone26c-preprint.pdf</link>
+      <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-02-01:publications/from-separate-compilation-to-sound-language-composition</guid>
+      <category>Preprint</category>
+      <pubDate>Sun, 01 Feb 2026 00:00:00 GMT</pubDate>
+      <description><![CDATA[F. Bruzzone, W. Cazzola, and L. Favalli — <b>arXiv preprint arXiv:2602.03777</b> — DOI: <a href="https://doi.org/10.48550/arXiv.2602.03777">10.48550/arXiv.2602.03777</a>]]></description>
+    </item>
+    <item>
+      <title>Prioritizing Configuration Relevance via Compiler-Based Refined Feature Ranking</title>
+      <link>https://federicobruzzone.github.io/publications/Bruzzone26-preprint/Bruzzone26-preprint.pdf</link>
+      <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-01-01:publications/prioritizing-configuration-relevance-via-compiler-based-refined-feature-ranking</guid>
+      <category>Preprint</category>
+      <pubDate>Thu, 01 Jan 2026 00:00:00 GMT</pubDate>
+      <description><![CDATA[F. Bruzzone, W. Cazzola, and L. Favalli — <b>arXiv preprint arXiv:2601.16008</b> — DOI: <a href="https://doi.org/10.48550/arXiv.2601.16008">10.48550/arXiv.2601.16008</a>]]></description>
+    </item>
+    <item>
+      <title>Code Less to Code More: Streamlining Language Server Protocol and type system development for language families</title>
+      <link>https://federicobruzzone.github.io/publications/Bruzzone25/Bruzzone25.pdf</link>
+      <guid isPermaLink="false">tag:federicobruzzone.github.io,2025-06-01:publications/code-less-to-code-more-streamlining-language-server-protocol-and-type-system-dev</guid>
+      <category>Publication</category>
+      <pubDate>Sun, 01 Jun 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[F. Bruzzone, W. Cazzola, and L. Favalli — <b>Journal of Systems and Software (JSS)</b> — DOI: <a href="https://doi.org/10.1016/j.jss.2025.112554">10.1016/j.jss.2025.112554</a>]]></description>
+    </item>
+    <item>
+      <title>Consume the Input Only When Some&lt;T&gt; is Returned</title>
+      <link>https://federicobruzzone.github.io/posts/consume-the-input-only-when-somet-is-returned.html</link>
+      <guid isPermaLink="false">tag:federicobruzzone.github.io,2025-04-21:posts/consume-the-input-only-when-some-t-is-returned</guid>
+      <category>Post</category>
+      <pubDate>Mon, 21 Apr 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[A discussion on idiomatic Rust patterns for consuming input only when a function successfully returns a value. This explores ownership semantics and how to write clean, expressive APIs in Rust.]]></description>
+    </item>
+    <item>
+      <title>One of the 393 contributors to Rust 1.86.0</title>
+      <link>https://thanks.rust-lang.org/rust/1.86.0/</link>
+      <guid isPermaLink="false">tag:federicobruzzone.github.io,2025-04-03:activities/one-of-the-393-contributors-to-rust-1-86-0</guid>
+      <category>Activity</category>
+      <pubDate>Thu, 03 Apr 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[I am one of the 393 contributors to Rust 1.86.0. You can find the release notes <a href="https://doc.rust-lang.org/stable/releases.html#version-1860-2025-04-03">here</a>.]]></description>
+    </item>
+    <item>
+      <title>Open Source Licenses: A Deep Dive into Their Meaning</title>
+      <link>https://federicobruzzone.github.io/posts/open-source-licenses-a-deep-dive-into-their-meaning.html</link>
+      <guid isPermaLink="false">tag:federicobruzzone.github.io,2025-03-25:posts/open-source-licenses-a-deep-dive-into-their-meaning</guid>
+      <category>Post</category>
+      <pubDate>Tue, 25 Mar 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[An in-depth exploration of open source licenses, covering their legal implications, the differences between permissive and copyleft licenses, and practical guidance for choosing the right license for your project.]]></description>
+    </item>
+    <item>
+      <title>Generalizing Closeness centrality to weighted networks using Newman method</title>
+      <link>https://github.com/Qiskit/rustworkx/pull/1385</link>
+      <guid isPermaLink="false">tag:federicobruzzone.github.io,2025-02-14:activities/generalizing-closeness-centrality-to-weighted-networks-using-newman-method</guid>
+      <category>Activity</category>
+      <pubDate>Fri, 14 Feb 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[This PR closed the issue <a href="https://github.com/Qiskit/rustworkx/issues/1384">#1384</a> by generalizing the <tt>Closeness</tt> centrality to weighted networks using the Newman method. It provides both the Rust implementation and the Python bindings.]]></description>
+    </item>
+    <item>
+      <title>Use the type-level constant value ty::Value where needed</title>
+      <link>https://github.com/rust-lang/rust/pull/136430</link>
+      <guid isPermaLink="false">tag:federicobruzzone.github.io,2025-02-01:activities/use-the-type-level-constant-value-ty-value-where-needed</guid>
+      <category>Activity</category>
+      <pubDate>Sat, 01 Feb 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[With this PR, I refactored functions to accept a single type-level constant value <tt>ty::Value</tt> instead of separate <tt>ty::Valtree</tt> and <tt>ty::Ty</tt> parameters.]]></description>
+    </item>
+    <item>
+      <title>Add TooGeneric to LayoutError and emit Unknown</title>
+      <link>https://github.com/rust-lang/rust/pull/135158</link>
+      <guid isPermaLink="false">tag:federicobruzzone.github.io,2025-01-27:activities/add-toogeneric-to-layouterror-and-emit-unknown</guid>
+      <category>Activity</category>
+      <pubDate>Mon, 27 Jan 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[With this PR, I added the <tt>TooGeneric</tt> variant to the <tt>LayoutError</tt> enum to emit the error when a type is too generic to be laid out. The <tt>Unknown</tt> variant is emitted when the layout of a type is unknown.]]></description>
+    </item>
+    <item>
+      <title>One of the 396 contributors to Rust 1.83.0</title>
+      <link>https://thanks.rust-lang.org/rust/1.83.0/</link>
+      <guid isPermaLink="false">tag:federicobruzzone.github.io,2024-12-08:activities/one-of-the-396-contributors-to-rust-1-83-0</guid>
+      <category>Activity</category>
+      <pubDate>Sun, 08 Dec 2024 00:00:00 GMT</pubDate>
+      <description><![CDATA[I am one of the 396 contributors to Rust 1.83.0. You can find the release notes <a href="https://doc.rust-lang.org/stable/releases.html#version-1830-2024-11-28">here</a>.]]></description>
+    </item>
+    <item>
+      <title>56th Top Github Contributor in Italy out of 958</title>
+      <link>https://github.com/gayanvoice/top-github-users/blob/main/markdown/public_contributions/italy.md</link>
+      <guid isPermaLink="false">tag:federicobruzzone.github.io,2024-12-01:activities/56th-top-github-contributor-in-italy-out-of-958</guid>
+      <category>Activity</category>
+      <pubDate>Sun, 01 Dec 2024 00:00:00 GMT</pubDate>
+      <description><![CDATA[I am the 56th top Github contributor in Italy out of 958 according to this <a href="https://github.com/gayanvoice/top-github-users/blob/main/markdown/public_contributions/italy.md">classification</a>.]]></description>
+    </item>
+    <item>
+      <title>First Contribution to Rust</title>
+      <link>https://github.com/rust-lang/rust/pull/130123</link>
+      <guid isPermaLink="false">tag:federicobruzzone.github.io,2024-09-12:activities/first-contribution-to-rust</guid>
+      <category>Activity</category>
+      <pubDate>Thu, 12 Sep 2024 00:00:00 GMT</pubDate>
+      <description><![CDATA[After the study of the <i>rustc-dev-guide</i>, I made my first <i>small</i> contribution to the Rust compiler.]]></description>
+    </item>
+    <item>
+      <title>Student Volunteer at ICFP 2024</title>
+      <link>https://icfp24.sigplan.org/</link>
+      <guid isPermaLink="false">tag:federicobruzzone.github.io,2024-09-01:activities/student-volunteer-at-icfp-2024</guid>
+      <category>Activity</category>
+      <pubDate>Sun, 01 Sep 2024 00:00:00 GMT</pubDate>
+      <description><![CDATA[I was a student volunteer at the 29th ACM SIGPLAN International Conference on Functional Programming (ICFP 2024).]]></description>
+    </item>
+    <item>
+      <title>Exploiting Finite State Automata for Efficient Lexical Analysis: A Rust Implementation</title>
+      <link>https://federicobruzzone.github.io/posts/exploiting-finite-state-automata-for-efficient-lexical-analysis-a-rust-implementation.html</link>
+      <guid isPermaLink="false">tag:federicobruzzone.github.io,2024-08-10:posts/exploiting-finite-state-automata-for-efficient-lexical-analysis-a-rust-implement</guid>
+      <category>Post</category>
+      <pubDate>Sat, 10 Aug 2024 00:00:00 GMT</pubDate>
+      <description><![CDATA[A practical exploration of building a lexical analyzer in Rust using finite state automata. We cover DFA/NFA theory and show how to implement an efficient lexer from scratch.]]></description>
+    </item>
+    <item>
+      <title>Admission to the PhD</title>
+      <link>https://github.com/FedericoBruzzone/phd-project</link>
+      <guid isPermaLink="false">tag:federicobruzzone.github.io,2024-07-24:activities/admission-to-the-phd</guid>
+      <category>Activity</category>
+      <pubDate>Wed, 24 Jul 2024 00:00:00 GMT</pubDate>
+      <description><![CDATA[I was admitted to the PhD in Computer Science at the University of Milan with the project <i>Universal Language Server Protocol and Debugger Adapter Protocol for Modular Language Workbenches</i> under the supervision of Prof. W. Cazzola.]]></description>
+    </item>
+    <item>
+      <title>P4 Compiler in SDN</title>
+      <link>https://federicobruzzone.github.io/activities/presentations/P4-compiler-in-SDN.pdf</link>
+      <guid isPermaLink="false">tag:federicobruzzone.github.io,2024-07-22:activities/p4-compiler-in-sdn</guid>
+      <category>Presentation</category>
+      <pubDate>Mon, 22 Jul 2024 00:00:00 GMT</pubDate>
+      <description><![CDATA[Presentation on the P4 compiler in Software Defined Networking (SDN)]]></description>
+    </item>
+    <item>
+      <title>PhD Project</title>
+      <link>https://federicobruzzone.github.io/activities/presentations/phd-project.pdf</link>
+      <guid isPermaLink="false">tag:federicobruzzone.github.io,2024-07-22:activities/phd-project</guid>
+      <category>Presentation</category>
+      <pubDate>Mon, 22 Jul 2024 00:00:00 GMT</pubDate>
+      <description><![CDATA[Presentation of the PhD project <i>Universal Language Server Protocol and Debugger Adapter Protocol for Modular Language Workbenches</i> at the University of Milan.]]></description>
+    </item>
+    <item>
+      <title>Obtaining the Master&apos;s Degree</title>
+      <link>https://github.com/FedericoBruzzone/master-thesis</link>
+      <guid isPermaLink="false">tag:federicobruzzone.github.io,2024-07-15:activities/obtaining-the-master-s-degree</guid>
+      <category>Activity</category>
+      <pubDate>Mon, 15 Jul 2024 00:00:00 GMT</pubDate>
+      <description><![CDATA[I graduated cum laude in Computer Science at the University of Milan with the thesis <i>Toward a Modular Approach for Type Systems and LSP Generation</i> under the supervision of Prof. W. Cazzola.]]></description>
+    </item>
+    <item>
+      <title>Master&apos;s Thesis</title>
+      <link>https://federicobruzzone.github.io/activities/presentations/master-thesis.pdf</link>
+      <guid isPermaLink="false">tag:federicobruzzone.github.io,2024-07-15:activities/master-s-thesis</guid>
+      <category>Presentation</category>
+      <pubDate>Mon, 15 Jul 2024 00:00:00 GMT</pubDate>
+      <description><![CDATA[Presentation of the Master's Thesis <i>Toward a Modular Approach for Type Systems and LSP Generation</i> at the University of Milan.]]></description>
+    </item>
+  </channel>
+</rss>
