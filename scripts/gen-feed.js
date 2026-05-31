@@ -161,7 +161,9 @@ parseActivities(read('activities/index.html'));
 // Newest first; stable sort preserves the authored order within an equal date.
 items.sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
 
-const now = new Date().toUTCString();
+// Use the newest item's date (not the build time) so the output is deterministic:
+// feed.xml then changes only when the content changes, never on a no-op rebuild.
+const lastBuild = items.length ? rfc822(items[0].date) : new Date().toUTCString();
 const xmlItems = items.map((it) => `    <item>
       <title>${escapeXml(it.title)}</title>
       <link>${escapeXml(it.link)}</link>
@@ -179,7 +181,7 @@ const xml = `<?xml version="1.0" encoding="UTF-8"?>
     <atom:link href="${SITE}/feed.xml" rel="self" type="application/rss+xml"/>
     <description>Posts, scientific publications, preprints, and activities by Federico Bruzzone.</description>
     <language>en</language>
-    <lastBuildDate>${now}</lastBuildDate>
+    <lastBuildDate>${lastBuild}</lastBuildDate>
 ${xmlItems}
   </channel>
 </rss>
