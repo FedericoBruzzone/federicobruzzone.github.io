@@ -78,7 +78,7 @@ Capability-Regime Graph Calculus (CRGC) -->
 
         <p>
             The <a href="./MVS.html">first post</a>, in its prelude, introduces what we are currently researching for the Eter language.
-            Then, it discusses the mutable value semantics (MVS) <span class="cite" value="Racordon22"></span> and how the popular programming languages (e.g., Swift <span class="cite" value="Swift"></span>, Hylo <span class="cite" value="Hylo"></span>) implement it.
+            Then, it discusses the mutable value semantics (MVS) and how the popular programming languages (e.g., Swift, Hylo) implement it.
             The <a href="./MVS-or-ownership&borrowing.html">second post</a> covers the trade-offs between MVS and ownership & borrowing, examining friction points in Rust, Hylo, and Swift while searching for common ground between the two memory models.
             The <a href="./a-friendly-tour-of-substructural-uniqueness-ownership-and-capabilities-types-and-more.html">third post</a> proposes a friendly tour of the type-theoretic landscape behind memory safety. Starting from the logical roots of substructural logic, it walks through linear, affine, and uniqueness types, then visits regions, effects, capabilities, typestate, and the latest work on reachability and separation types.
         </p>
@@ -121,7 +121,7 @@ Capability-Regime Graph Calculus (CRGC) -->
             <li><b>...a reachability type system.</b> They share the graph and the concern with separation, but hang a <i>set of reachable variables on the type of a value</i> and let separation fall out of qualifier disjointness. RCGS hangs a regime on the edge; separation and exclusivity are constraints on edges, not a derived property of node-indexed sets.</li>
             <li><b>...an object capabilities system.</b> They equate authority with reachability: holding the reference <i>is</i> the permission. RCGS refines exactly that equation—an edge is necessary but not sufficient, and its regime says what the edge authorizes, so two references to one object may carry different authority.</li>
             <li><b>...a region and ownership type system.</b> They partition the heap by <i>where a value lives</i> or <i>which object owns it</i>—a discipline on the nodes and their grouping. RCGS imposes no such partition: authority is local to each edge, and a single location may sit at the end of edges of every regime simultaneously.</li>
-            <li><b>...a degree of separation and fractional permissions.</b> The closest cousins of <code>proj</code>: borrowing as splitting, separation enforced where races are possible. But they attach fractions or separation degrees to <i>values and contexts</i>; RCGS attaches the linear/affine status to the edge itself, recovering borrowing as edge <i>forwarding</i> rather than as arithmetic on a value's permission.</li>
+            <li><b>...a fractional-permission or degree-of-separation system.</b> Here the kinship runs deepest, and it is genuine: <code>imm</code>'s coexisting read-only aliases <i>are</i> a value's uniqueness split into shares, and <code>mut</code> is the full share \(p = 1\)—exactly the condition under which a write is sound (Granule's <code>writeArray</code> demands \(p = 1\)). RCGS does not reject fractional uniqueness; at its core it <i>is</i> a fractional-uniqueness discipline. What makes it more than the usual presentation is threefold. First, the shares ride on <i>edges</i>, and the only question that ever matters—"am I the sole owner?"—collapses to a graph fact, the node's live in-degree. Second, there is no explicit <code>split</code>/<code>join</code> arithmetic: recombination to \(p = 1\) is <i>implicit</i>, discovered by liveness, so a shared value silently regains write-authority the moment its other owners die (we work this out below). Third, it is folded into a three-regime system, with <code>proj</code> supplying the scoped borrow that fractional permissions can only model as a temporary fraction. And where the Capture Separation Calculus enforces separation only where parallel use makes a race possible, RCGS settles it structurally, by the regime on each edge.</li>
             <!-- <li><b>Typestate.</b> It tracks the <i>state of an object</i> as it changes over time (open, then closed). A regime is not a state of the target but a mode of a <i>path</i> to it; the two are orthogonal, and an object in a fixed typestate may still be reached by <code>imm</code>, <code>mut</code>, or <code>proj</code> edges at once.</li> -->
         </ul>
 
@@ -159,6 +159,8 @@ x --(proj)--> y  // borrow y through x; the edge is consumed when it is forwarde
             Osservazioni: non ci sono lifetime, non ci sono reference, lato utente tutto è un valore.
         -->
 
+        <h4></h4>
+
         <h4>Regimes Live on the Edges</h4>
 
         <p>
@@ -180,7 +182,7 @@ x --(proj)--> y  // borrow y through x; the edge is consumed when it is forwarde
             The behaviour of each regime is fixed by a small set of invariants on \(G\). Writing \(\mathrm{in}(v)\) for the edges pointing at a location \(v\):
         </p>
         <ul>
-            <li><b>Immutable sharing.</b> An <code>imm</code> edge may be duplicated without restriction (contraction is permitted), but it never licenses a write. A location reached only by <code>imm</code> edges admits arbitrary aliasing and no mutation—the graph analogue of a freely-shared, read-only value.</li>
+            <li><b>Immutable sharing.</b> An <code>imm</code> edge may be duplicated without restriction (contraction is permitted), but on its own it never licenses a write. A location reached only by <code>imm</code> edges admits arbitrary aliasing and no mutation—the graph analogue of a freely-shared, read-only value; read quantitatively, it is a uniqueness <i>split into shares</i>, reassembled for mutation only once all but one have been dropped (see <a href="#recovering-uniqueness">below</a>).</li>
             <li><b>Mutable exclusivity.</b> A <code>mut</code> edge is affine and write-capable, and at most one may reach a given location at a time:
                 \[
                 \bigl|\{\, e \in \mathrm{in}(v) : \kappa(e) = \mathsf{mut} \,\}\bigr| \le 1 \qquad \text{for every } v \in V .
@@ -192,19 +194,68 @@ x --(proj)--> y  // borrow y through x; the edge is consumed when it is forwarde
         <h3>Transfer is a Graph Rewrite</h3>
 
         <p>
-            Everything dynamic in the system—assigning, passing an argument, returning a result—is a <i>rewrite</i> of regime-labelled edges, and the rewrites are <i>directional</i>. Some regimes can be weakened for free; others cannot be recovered without a copy. The pattern echoes the asymmetry of uniqueness from the previous post: authority can be forgotten but not conjured.
+            Everything dynamic in the system—assigning, passing an argument, returning a result—is a <i>rewrite</i> of regime-labelled edges, and the rewrites are <i>directional</i>. The pattern echoes the asymmetry of uniqueness from the previous post: authority is forgotten freely, and regained only against a proof that the value is back in a single owner's hands.
         </p>
         <p>
-            Concretely, a transfer is a partial map on regimes, \(\mathsf{mut} \rightharpoonup \mathsf{imm}\), \(\mathsf{proj} \rightharpoonup \mathsf{proj}\), and so on, realized as one of four edge operations:
+            Concretely, a transfer is a partial map on regimes, \(\mathsf{mut} \rightharpoonup \mathsf{imm}\), \(\mathsf{proj} \rightharpoonup \mathsf{proj}\), and so on, realized as one of five edge operations:
         </p>
         <ul>
             <li><b>move</b> — the source edge is consumed and re-created at the destination (the discipline of <code>mut</code>);</li>
             <li><b>copy</b> — a new edge is created alongside the old one (admissible only for <code>imm</code>);</li>
             <li><b>forward</b> — a <code>proj</code> edge is relabelled onto a new source and invalidated at the old one, with no aliasing introduced;</li>
-            <li><b>reinitialization</b> — an edge is replaced by a fresh capability after the old one is invalidated, which is what a <code>proj</code> must do before it can be observed as <code>imm</code> or <code>mut</code>.</li>
+            <li><b>reinitialization</b> — an edge is replaced by a fresh capability after the old one is invalidated, which is what a <code>proj</code> must do before it can be observed as <code>imm</code> or <code>mut</code>;</li>
+            <li><b>reuse</b> — when a location's live in-edges collapse to a single <code>imm</code> edge, that edge may be upgraded in place to <code>mut</code> and moved on, with no copy and no allocation: uniqueness recovered, the node reused.</li>
         </ul>
         <p>
-            The forbidden directions are as telling as the permitted ones. There is no edge operation taking <code>imm</code> to <code>mut</code> or <code>imm</code> to <code>proj</code>: once a value is shared immutably, the only way back to write- or projection-authority is to copy it. Just as uniqueness can be discarded but never reconstructed from a shared value, an RCGS regime can be relaxed along these rewrites but never silently strengthened.
+            The directions that are <i>not</i> free are as telling as the ones that are. Weakening is always available: a <code>mut</code> edge may be forgotten into <code>imm</code> at will. Strengthening—turning an <code>imm</code> edge back into a <code>mut</code>, or lending it out as a <code>proj</code>—is <i>not</i> forbidden, but it is <i>gated</i>: it is sound exactly when the location has returned to a single owner, its live in-degree one, which is the graph reading of the fractional condition \(p = 1\). When the compiler proves this by liveness, the strengthening is a zero-copy <i>reuse</i>; when it cannot, the same syntax falls back to a <i>copy</i>, minting a fresh, unaliased node that is unique by construction. Authority can always be relaxed, then, and it can be regained—but only against a proof that no one else is still watching.
+        </p>
+
+        <h3 id="recovering-uniqueness">Recovering Uniqueness: <code>imm</code> as a Fractional Share</h3>
+
+        <p>
+            The cleanest way to see the gate at work is to read <code>imm</code> as a <i>share</i> of a value's uniqueness. A freshly allocated value has one owner holding all of it, \(p = 1\); every <code>let imm</code> that aliases it splits the share, and the shares always sum to one. Dropping an owner returns its share to those that remain. Writing demands the whole share back, \(p = 1\)—precisely the soundness condition for in-place mutation, since \(p = 1\) means no one else can observe the change.
+        </p>
+        <p>
+            Made explicit, a chain of immutable aliases and their drops walks the share from \(1\) down through the co-owners and back up to \(1\) as they die—and the <i>last</i> drop, finding itself alone, is the one that actually frees:
+        </p>
+
+        <pre class="line-numbers" data-language="Eter"><code class="language-rust">{
+  let imm x = [1, 2, 3];   //  x ──imm──▶ ⟦[1,2,3]⟧        p(x) = 1
+  let imm y = x;           //  + y                          p = 1/2, 1/2
+  let imm z = y;           //  + z                          p = 1/3, 1/3, 1/3
+
+  drop(z);   //  shares ⇒ (x: 1/2, y: 1/2)     share returns to survivors — no free
+  drop(y);   //  shares ⇒ (x: 1)               share returns to survivors — no free
+  drop(x);   //  x held the whole share (p = 1)  ⇒  DEALLOCATE ⟦[1,2,3]⟧
+}</code></pre>
+
+        <p>
+            Now the payoff. If, instead of letting the value die, we hand it to a <code>mut</code> binding while its co-owners are already dead, the share has silently returned to \(p = 1\) at <code>x</code>—so the <code>imm → mut</code> upgrade is licensed, and it is a <i>move</i>, not a copy. The would-be drops become <i>placebo</i> (shares handed back, never the final one), and the terminal free is replaced by <i>reuse</i> of the very same node:
+        </p>
+
+        <pre class="line-numbers" data-language="Eter"><code class="language-rust">{
+  let imm x = [1, 2, 3];
+  let imm y = x;
+  let imm z = y;
+  // y and z are dead here  ⇒  their shares collapse onto x  ⇒  p(x) = 1
+  let mut m = x;   //  p(x) = 1 licenses imm → mut:  MOVE + upgrade, no copy, no free
+}
+//  resulting state:   m ──mut──▶ ⟦[1,2,3]⟧</code></pre>
+
+        <p>
+            This settles the natural question—does the final drop come before or after the assignment?—with <i>neither</i>: it is fused into it. A real <code>drop(x)</code> <i>before</i> would zero the in-degree and free the buffer, leaving <code>= x</code> dangling; <i>after</i>, there is nothing left to drop, since the move already consumed <code>x</code>. The assignment <i>is</i> the move-and-upgrade, guarded by \(p(x) = 1\); what must happen first is only the collapse of the other shares. The same terminal operation is therefore a <i>free</i> when nothing rescues the node and a <i>reuse</i> when something does—a drop/reuse split the compiler settles statically, ahead of execution.
+        </p>
+        <p>
+            And because the decision rides on liveness, the very same line is a move or a copy depending on what comes after it:
+        </p>
+
+        <pre class="line-numbers" data-language="Eter"><code class="language-rust">let imm x = [1, 2, 3];
+let imm y = x;
+let mut m = x;   //  if y is dead here  ⇒  p(x) = 1    ⇒  move + upgrade (zero-copy)
+print(y);        //  if y is live here  ⇒  p(x) = 1/2  ⇒  `let mut m = x` COPIES instead</code></pre>
+
+        <p>
+            This is exactly copy-on-write—mutation forces a copy unless the value is uniquely held—but here it is a wholly <i>static</i> discipline: liveness decides, at every use site, whether the upgrade is a zero-copy reuse or a copy, all at compile time. One practical consequence is worth stating plainly: the rational shares are a faithful <i>model</i>, but an implementation never needs the arithmetic. Reads do not care about the magnitude of a share, and the single place magnitude matters—the write—asks one yes/no question, "am I alone?", which the checker answers statically from the node's live in-degree. The fractions are how to <i>think</i> about it; a static uniqueness bit is how to <i>compile</i> it.
         </p>
 
         <h3>Four Projections: Ownership, Mutation, Aliasing, Transfer</h3>
@@ -216,7 +267,7 @@ x --(proj)--> y  // borrow y through x; the edge is consumed when it is forwarde
             <li><b>Ownership strength</b> — the strongest regime among the edges reaching a location, ordered \(\mathsf{mut} > \mathsf{proj} > \mathsf{imm}\);</li>
             <li><b>Mutation rights</b> — whether any incoming edge is <code>mut</code>, subject to the exclusivity invariant above;</li>
             <li><b>Aliasing capacity</b> — how many edges may simultaneously reach the location, which the regime caps (many for <code>imm</code>, one for <code>mut</code>, one live chain for <code>proj</code>);</li>
-            <li><b>Transfer semantics</b> — not a static attribute at all, but the rewrite rule that fires when an edge is moved, copied, forwarded, or reinitialized.</li>
+            <li><b>Transfer semantics</b> — not a static attribute at all, but the rewrite rule that fires when an edge is moved, copied, forwarded, reinitialized, or reused in place once uniqueness is recovered.</li>
         </ul>
         <p>
             They are coupled through ownership strength: aliasing capacity and mutation rights are constraints <i>derived</i> from it, and transfer semantics is the transition system that carries one configuration of the four to the next. We unpack each of these projections in the sections that follow.
