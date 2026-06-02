@@ -150,12 +150,9 @@
                 the code quality is the same. The speedup is entirely a cache effect: at T=64 with
                 <code>--mattr=apple-m4 -O3</code>, the stride between tiles is an exact power-of-2 multiple of the
                 64 KB L1 size, causing systematic cache-set aliasing and catastrophic eviction.
-            </p>
-
-            <blockquote>
                 Runtime performance and static IPC are decoupled near cache-size boundaries.
                 <code>llvm-mca</code> cannot predict this; only measurement reveals it.
-            </blockquote>
+            </p>
 
             <h3>RQ2 — Affine vs. SCF vs. tiled lowering paths</h3>
 
