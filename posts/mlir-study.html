@@ -328,6 +328,18 @@
                 </thead>
                 <tbody>
                     <tr>
+                        <td><code>linear_relu_512/1024</code></td>
+                        <td><code>Linear(d,d) + ReLU</code></td>
+                        <td>FFN projection in a transformer block (BERT, GPT, LLaMA)</td>
+                        <td>14.3 / 33.2</td>
+                    </tr>
+                    <tr>
+                        <td><code>mha_bert_base</code></td>
+                        <td><code>MultiheadAttention(d=768, heads=12, seq=128)</code></td>
+                        <td>Self-attention layer in BERT-base — Q/K/V projections, softmax, weighted sum</td>
+                        <td>8.2</td>
+                    </tr>
+                    <tr>
                         <td><code>mobile_block_56x56</code></td>
                         <td>Depthwise Conv2d(32, 3×3) + Pointwise Conv2d(32→16, 1×1)</td>
                         <td>MobileNetV2-style inverted residual block (depthwise-separable convolution)</td>
