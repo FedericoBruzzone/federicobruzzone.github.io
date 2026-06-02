@@ -143,6 +143,24 @@
                 measurement eliminates the former process-startup distortion.
             </p>
 
+            <blockquote>
+                <b>How the ceiling values are derived.</b>
+                <br>
+                <b>Scalar \(9\,\text{GFLOP/s}\)</b> — theoretical only:
+                \(1\,\text{FMA/cycle} \times 2\,\text{FLOPs/FMA} \times 4.5\,\text{GHz} = 9\,\text{GFLOP/s}\).
+                No measurement involved, pure architecture.
+                <br>
+                <b>NEON \(36\,\text{GFLOP/s}\)</b> — theoretical only:
+                \(4\,\text{lanes f32}\,(128\text{-bit}) \times 2\,\text{FLOPs/lane (FMA)} \times 4.5\,\text{GHz} = 36\,\text{GFLOP/s}\).
+                Assumes 1 NEON FMA pipe; no measurement.
+                <br>
+                <b>AMX/Accelerate \({\sim}163\,\text{GFLOP/s}\)</b> — measured:
+                <code>cblas_sgemm</code> at \(N=1024\) with the NITER loop, read from
+                <a href="https://github.com/FedericoBruzzone/mlir-study/blob/main/results/rq5_vs_baseline.csv">rq5_vs_baseline.csv</a>.
+                This is a proxy for the AMX ceiling, not the theoretical peak of the coprocessor —
+                Accelerate does not necessarily saturate AMX at \(100\%\), so the true AMX peak may be higher.
+            </blockquote>
+
             <h2>Setup</h2>
 
             <p>
@@ -291,9 +309,15 @@
             <p>
                 The IREE benchmarks are not synthetic microbenchmarks — they are actual PyTorch layers exported
                 to MLIR via <a href="https://github.com/iree-org/iree-turbine">iree-turbine</a>
-                (<a href="https://github.com/FedericoBruzzone/mlir-study/blob/main/scripts/export_models.py">export_models.py</a>)
-                and then compiled with <code>iree-compile</code> and benchmarked
-                (<a href="https://github.com/FedericoBruzzone/mlir-study/blob/main/scripts/bench_iree_runtime.py">bench_iree_runtime.py</a>, <a href="https://github.com/FedericoBruzzone/mlir-study/blob/main/results/rq_iree_clean.csv">rq_iree_clean.csv</a>).
+                (<a href="https://github.com/FedericoBruzzone/mlir-study/blob/main/scripts/export_models.py">export_models.py</a>),
+                compiled with <code>iree-compile</code>, and timed with
+                <code>iree-benchmark-module</code>
+                (<a href="https://github.com/FedericoBruzzone/mlir-study/blob/main/scripts/rq_iree.sh">rq_iree.sh</a>,
+                <a href="https://github.com/FedericoBruzzone/mlir-study/blob/main/results/rq_iree.csv">rq_iree.csv</a>).
+                Unlike <code>iree-run-module</code>, <code>iree-benchmark-module</code> runs entirely
+                in-process: \(20\) warmup iterations followed by \(200\) timed repetitions, reporting
+                per-call mean and standard deviation with no process-startup overhead — the same
+                principle as the NITER loop used for the MLIR kernels, but built into the tool.
                 Each model maps directly onto a structural component found in
                 widespread neural network architectures:
             </p>
@@ -336,8 +360,8 @@
                 below the scalar FP32 ceiling (\(9\,\text{GFLOP/s}\)). Despite IREE compiling the Q/K/V projections as
                 efficient matmuls, the row-wise softmax over the \(128 \times 128\) attention logit matrix is structurally
                 memory-bound (arithmetic intensity \(\approx 0.625\) FLOPs/byte) and drags down the whole operator's measured throughput.
-                The overhead-corrected measurement makes this bottleneck clearly visible: without the loop fix,
-                the \(50\,\text{ms}\) process startup would have swamped the \(41\,\text{ms}\) kernel time entirely.
+                With <code>iree-benchmark-module</code> running in-process there is no startup overhead,
+                so the \(41\,\text{ms}\) per-call latency reflects the kernel alone.
             </p>
 
             <p>
