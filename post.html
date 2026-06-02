@@ -61,7 +61,7 @@
                     MLIR Empirical Study on AArch64 (Apple M4 Pro)
                 </div>
                 <div class="post-desc">
-                    An empirical study of MLIR optimization passes on Apple M4 Pro (single thread, FP32). Covers five research questions on tiling, lowering paths, loop fusion, cross-kernel behavior, and the performance gap vs. Apple Accelerate (AMX). Includes a roofline analysis.
+                    Empirical study of MLIR optimization passes on Apple M4 Pro (AArch64, single thread, FP32) using native AoT binaries. Five research questions: tile-size effects and cache aliasing, Affine vs. SCF paths, loop fusion, cross-kernel behavior (conv2d, softmax), and the gap to Apple Accelerate/AMX. Includes a roofline analysis with IREE and a deep dive on process-overhead correction methodology.
                 </div>
                 <div class="post-foot">
                     <img src="icons/clock.svg" width=12px height=12px/> Date: 2 June, 2026 |  Time to read: ~8 min
