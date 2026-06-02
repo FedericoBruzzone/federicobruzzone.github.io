@@ -16,6 +16,7 @@
     --pinned-post-bg : rgb(232, 245, 233);
     --pub-bg         : rgb(227, 242, 253);
     --preprint-bg    : rgb(255, 243, 224);
+    --latest-post-bg : rgb(237, 231, 246);
 
     --code-text-color        : rgb(0   , 0   , 0   );
     --code-function-color    : rgb(220 , 70  , 100 );
@@ -44,6 +45,7 @@ body.dark-mode {
     --pinned-post-bg : rgb(56 , 81 , 57 );
     --pub-bg         : rgb(42 , 63 , 83 );
     --preprint-bg    : rgb(82 , 62 , 36 );
+    --latest-post-bg : rgb(55 , 40 , 75 );
 
     --code-text-color        : rgb(255 , 255 , 255 );
     --code-function-color    : rgb(220 , 100 , 100 ); 
@@ -400,6 +402,31 @@ tr:nth-child(even) {
 
 .preprint-post-theme {
     background-color: var(--preprint-bg);
+}
+
+.latest-post-theme {
+    background-color: var(--latest-post-bg);
+}
+
+.eter-more {
+    margin-top: 0.5em;
+}
+
+.eter-more summary {
+    cursor: pointer;
+    color: var(--post-foot-color);
+    font-size: 0.9em;
+    padding: 0.4em 0;
+    list-style: none;
+    user-select: none;
+}
+
+.eter-more summary::before {
+    content: "▸ ";
+}
+
+.eter-more[open] summary::before {
+    content: "▾ ";
 }
 
 
