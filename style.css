@@ -625,3 +625,7 @@ img {
 .research-entry p {
     margin: 0.25rem 0 0 0;
 }
+
+.MathJax_CHTML {
+    font-size: 100% !important;
+}
