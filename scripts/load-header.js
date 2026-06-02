@@ -32,6 +32,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
     header.innerHTML = headerContent;
 
+    if (localStorage.getItem('theme') === 'dark') {
+        const icon = header.querySelector('#theme-icon');
+        if (icon) icon.src = folder + '/icons/sun.svg';
+    }
+
     const toggle = header.querySelector('.header-toggle');
     const nav = header.querySelector('.header-nav');
     if (toggle && nav) {
