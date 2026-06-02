@@ -130,7 +130,7 @@
             <p>
                 <b>MLIR tiled T=16</b> (blue circles) sits between the scalar and NEON ceilings,
                 reaching \(18\text{–}25\,\text{GFLOP/s}\) — the auto-vectorizer fires, but not to NEON peak.
-                <b>MLIR vec (gather)</b> (▲) and <b>MLIR vec+interchange</b> (▼) both land below the scalar ceiling:
+                <b>MLIR vec (gather)</b> and <b>MLIR vec+interchange</b> both land below the scalar ceiling:
                 the gather variant suffers from stride-\(N\) loads on \(B\); interchange fixes the loop order but
                 still emits masked scalar loads — the two are indistinguishable in wall-clock time.
                 <b>Accelerate</b> (red diamonds) exceeds the AMX ceiling at large \(N\), consistent with
@@ -177,7 +177,7 @@
             <p>
                 All MLIR kernels are compiled to <b>native AoT binaries</b> via
                 <a href="https://github.com/FedericoBruzzone/mlir-study/blob/main/scripts/_compile_native.sh"><code>_compile_native.sh</code></a>
-                (<code>mlir-translate --mlir-to-llvmir</code> → Homebrew LLVM 22 <code>clang -O3 -march=native</code>).
+                (<code>mlir-translate --mlir-to-llvmir</code> then Homebrew LLVM 22 <code>clang -O3 -march=native</code>).
                 <code>mlir-runner</code> (JIT) was abandoned for timing — see
                 <a href="https://github.com/FedericoBruzzone/mlir-study/blob/main/scripts/_run_mlir.sh"><code>_run_mlir.sh</code></a>
                 for the reasons. Baselines use Apple Accelerate via cblas. Wall-time is measured with
@@ -300,8 +300,55 @@
                 Adding <code>--enable-loopinterchange</code> (<b>vec+interchange</b>) reorders the loop so \(j\) is
                 innermost (unit-stride for \(B\) and \(C\)), but the improvement is negligible (\(7.88\,\text{GFLOP/s}\)): the
                 vectorizer still emits <code>vector.transfer_read</code> without <code>in_bounds</code>, forcing masked
-                scalar loads even on contiguous accesses. AMX is inaccessible from any MLIR standard pass
+                scalar loads even on contiguous accesses. This may be related to an
+                <a href="https://discourse.llvm.org/t/mlir-affine-affine-super-vectorize-does-not-set-in-bounds-on-transfer-ops-for-statically-divisible-shapes/90785">open upstream MLIR bug</a>
+                where <code>affine-super-vectorize</code> fails to set <code>in_bounds</code> on statically divisible shapes —
+                I am currently investigating whether this is the root cause.
+                AMX is inaccessible from any MLIR standard pass
                 (<a href="https://github.com/FedericoBruzzone/mlir-study/blob/main/scripts/rq5_vs_baseline.sh">rq5_vs_baseline.sh</a>, <a href="https://github.com/FedericoBruzzone/mlir-study/blob/main/results/rq5_vs_baseline.csv">rq5_vs_baseline.csv</a>).
+            </p>
+
+            <h4>Why <code>affine-super-vectorize</code> destroys the information LLVM needs</h4>
+
+            <p>
+                Without <code>affine-super-vectorize</code>, LLVM receives the scalar loop intact.
+                It can run SCEV and TTI to analyse the stride pattern, compute the gather cost,
+                and decide to leave the loop scalar:
+            </p>
+
+            <pre><code>; loop over k — LLVM sees the stride:
+%ptr_B = getelementptr float, ptr %B, i64 %stride_2048  ; stride N×4
+%val   = load float, ptr %ptr_B                         ; scalar load
+%acc   = fmul float %val_A, %val</code></pre>
+
+            <p>
+                With <code>affine-super-vectorize</code>, the loop over <code>k</code> has already been
+                replaced by a sequence of scalar extractions and <code>insertelement</code> instructions.
+                LLVM sees a pre-built gather — there is nothing left to analyse:
+            </p>
+
+            <pre><code>; the k-loop is gone — replaced by insertelement
+%v0 = load float, ptr %ptr_B_k0           ; B[k,   j]
+%v1 = insertelement &lt;4 x float&gt; %v0, ...
+%v2 = load float, ptr %ptr_B_k1           ; B[k+1, j]
+%v3 = insertelement &lt;4 x float&gt; %v2, ...
+; ...
+%result = fmul &lt;4 x float&gt; %vec_A, %vec_B</code></pre>
+
+            <p>
+                The fundamental issue is the order of decisions:
+            </p>
+
+            <pre><code>affine-super-vectorize   -- commits to a vector strategy
+        |
+mlir-translate           -- the scalar IR is unrecoverable
+        |
+LLVM                     -- optimises what it finds, not what was there</code></pre>
+
+            <p>
+                LLVM is not able to re-analyse decisions already made by MLIR at a higher level.
+                It is like handing someone a puzzle already assembled the wrong way and asking them
+                to optimise it — they cannot take it apart and start over.
             </p>
 
             <h2>IREE Kernels as Real-Architecture Building Blocks</h2>
