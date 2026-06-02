@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../prism.css">
+    <link rel="stylesheet" href="../code.css">
+
+    <script src="../scripts/prism.js" defer></script>
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    <title> - MLIR Empirical Study on AArch64 (Apple M4 Pro)</title>
+
+    <style>
+        .roofline-figure {
+            margin: 1.5em 0;
+            text-align: center;
+        }
+
+        .roofline-figure img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .roofline-figure figcaption {
+            margin-top: 0.5em;
+            font-size: 0.85em;
+            color: #555;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 1em 0;
+            font-size: 0.9em;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 0.4em 0.7em;
+            text-align: left;
+        }
+
+        th {
+            background: #f4f4f4;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root-folder" value=".."></div>
+    <div id="header"></div>
+
+    <main>
+        <div class="post-body">
+            <h1><img src="images/MLIR.png" alt="MLIR logo" width="20px"/> <img src="images/LLVM.png" alt="LLVM logo" width="20px"/> MLIR Empirical Study on AArch64 (Apple M4 Pro)</h1>
+
+            <h2>Overview</h2>
+
+            <p>
+                I ran an empirical study of <b>MLIR</b> optimization passes on an Apple M4 Pro (AArch64, single thread,
+                FP32) to understand how far standard MLIR tooling can take you — and where the ceiling is relative to
+                production compilers and hardware-specific libraries.
+            </p>
+
+            <p>
+                The study is organized around five research questions, all focused on matrix-multiplication and related
+                kernels. The full source, scripts, and results are available at
+                <a href="https://github.com/federicobruzzone/mlir-study">github.com/federicobruzzone/mlir-study</a>.
+            </p>
+
+            <h2>Setup</h2>
+
+            <p>
+                Every experiment lowers a kernel written in the
+                <a href="https://mlir.llvm.org/docs/Dialects/Linalg/">Linalg dialect</a> down to native code through
+                one of five lowering pipelines:
+            </p>
+
+            <ul>
+                <li><b>Affine</b> — <code>convert-linalg-to-affine-loops</code> → <code>lower-affine</code> → LLVM (<a href="https://github.com/FedericoBruzzone/mlir-study/blob/main/pipelines/to_affine.sh">to_affine.sh</a>)</li>
+                <li><b>SCF</b> — <code>convert-linalg-to-loops</code> → LLVM (<a href="https://github.com/FedericoBruzzone/mlir-study/blob/main/pipelines/to_scf.sh">to_scf.sh</a>)</li>
+                <li><b>Tiled</b> — Affine + <code>affine-loop-tile=tile-sizes=T,T,T</code> (<a href="https://github.com/FedericoBruzzone/mlir-study/blob/main/pipelines/to_affine_tiled.sh">to_affine_tiled.sh</a>)</li>
+                <li><b>Fused</b> — Tiled + <code>affine-loop-fusion</code> (<a href="https://github.com/FedericoBruzzone/mlir-study/blob/main/pipelines/to_affine_fused.sh">to_affine_fused.sh</a>)</li>
+                <li><b>Vectorized</b> — Tiled + <code>affine-super-vectorize</code> (explicit NEON) (<a href="https://github.com/FedericoBruzzone/mlir-study/blob/main/pipelines/to_vector.sh">to_vector.sh</a>)</li>
+            </ul>
+
+            <p>
+                All MLIR kernels are compiled to <b>native AoT binaries</b> via
+                <a href="https://github.com/FedericoBruzzone/mlir-study/blob/main/scripts/_compile_native.sh"><code>_compile_native.sh</code></a>
+                (<code>mlir-translate --mlir-to-llvmir</code> → Homebrew LLVM 22 <code>clang -O3 -march=native</code>).
+                <code>mlir-runner</code> (JIT) was abandoned for timing — see
+                <a href="https://github.com/FedericoBruzzone/mlir-study/blob/main/scripts/_run_mlir.sh"><code>_run_mlir.sh</code></a>
+                for the reasons. Baselines use Apple Accelerate via cblas. Wall-time is measured with
+                <a href="https://github.com/sharkdp/hyperfine">hyperfine</a>. The hardware target is an Apple
+                M4 Pro: 12 cores, 64 KB L1-D, 4 MB L2, 24 GB RAM, 68 GB/s memory bandwidth.
+            </p>
+
+            <h3>Eliminating process overhead</h3>
+
+            <p>
+                A critical methodological issue: <code>hyperfine</code> measures the wall-time of the entire
+                process — macOS startup, dynamic linking (~50 ms fixed cost), input allocation and fill,
+                <i>then</i> the kernel. For a matmul at N=128, the actual kernel takes ~1 ms while the total
+                process time is ~57 ms: <b>98% overhead, 2% compute</b>.
+            </p>
+            <p>
+                The fix: an <code>scf.for</code> loop with <code>NITER</code> iterations wraps the kernel call
+                inside every <code>@main()</code>. The output fill is inside the loop (necessary because
+                <code>linalg.matmul</code> accumulates into C, so C must be reset each iteration). Scripts
+                divide hyperfine wall-time by <code>NITER</code> to recover per-call latency. NITER is
+                chosen so startup is &lt;10% of total:
+            </p>
+            <table>
+                <thead><tr><th>N</th><th>NITER</th><th>Approx. total time</th><th>Overhead fraction</th></tr></thead>
+                <tbody>
+                    <tr><td>128</td><td>100</td><td>~200 ms</td><td>&lt; 25%</td></tr>
+                    <tr><td>256</td><td>20</td><td>~200 ms</td><td>&lt; 20%</td></tr>
+                    <tr><td>512</td><td>5</td><td>~250 ms</td><td>&lt; 15%</td></tr>
+                    <tr><td>1024</td><td>2</td><td>~1.5 s</td><td>&lt; 5%</td></tr>
+                </tbody>
+            </table>
+            <p>
+                The same Homebrew LLVM 22 toolchain is used for both <code>mlir-translate</code> and
+                <code>clang</code>, avoiding IR-attribute mismatches that occur when Xcode's bundled clang
+                encounters LLVM 22 intrinsic attributes.
+            </p>
+
+            <h2>Research Questions and Key Findings</h2>
+
+            <h3>RQ1 — Tile size vs. performance across problem sizes</h3>
+
+            <p>
+                Sweeping tile sizes T ∈ {16, 32, 64, 128, 256} across N ∈ {128, 256, 512, 1024}
+                (<a href="https://github.com/FedericoBruzzone/mlir-study/blob/main/scripts/rq1_sweep_tiles.sh">rq1_sweep_tiles.sh</a>, <a href="https://github.com/FedericoBruzzone/mlir-study/blob/main/scripts/llvm_mca_analysis.sh">llvm_mca_analysis.sh</a>, <a href="https://github.com/FedericoBruzzone/mlir-study/blob/main/results/rq1_tiling.csv">rq1_tiling.csv</a>, <a href="https://github.com/FedericoBruzzone/mlir-study/blob/main/results/llvm_mca.csv">llvm_mca.csv</a>),
+                the optimal tile is <b>T=32</b>, which at N=1024 reaches 24.4 GFLOP/s and beats T=16 (20.4 GFLOP/s)
+                at all large problem sizes. <b>T=16 and T=32 are 4–6× faster than T=64</b> (N=1024: 0.088s vs 0.653s).
+                Static analysis with <code>llvm-mca</code> reveals <i>identical IPC</i> for T=16 and T=64 (both 1.81) —
+                the code quality is the same. The speedup is entirely a cache effect: at T=64 with
+                <code>--mattr=apple-m4 -O3</code>, the stride between tiles is an exact power-of-2 multiple of the
+                64 KB L1 size, causing systematic cache-set aliasing and catastrophic eviction.
+            </p>
+
+            <blockquote>
+                Runtime performance and static IPC are decoupled near cache-size boundaries.
+                <code>llvm-mca</code> cannot predict this; only measurement reveals it.
+            </blockquote>
+
+            <h3>RQ2 — Affine vs. SCF vs. tiled lowering paths</h3>
+
+            <p>
+                The Affine and SCF paths produce <b>less than 3% difference</b> at all problem sizes — they are
+                effectively equivalent once LLVM optimizes them. Tiling (T=16) gives a <b>4–8× speedup</b> over
+                untiled paths at N ≥ 256 (N=1024: 863 ms → 106 ms)
+                (<a href="https://github.com/FedericoBruzzone/mlir-study/blob/main/scripts/rq2_compare_paths.sh">rq2_compare_paths.sh</a>, <a href="https://github.com/FedericoBruzzone/mlir-study/blob/main/results/rq2_paths.csv">rq2_paths.csv</a>).
+            </p>
+
+            <h3>RQ3 — Impact of <code>affine-loop-fusion</code> on a matmul+relu+bias chain</h3>
+
+            <p>
+                No measurable effect (Δ &lt; 1σ). The matmul O(N³) completely dominates: the elementwise relu and
+                bias add account for less than 0.2% of total time, leaving nothing for fusion to exploit
+                (<a href="https://github.com/FedericoBruzzone/mlir-study/blob/main/scripts/rq3_fusion.sh">rq3_fusion.sh</a>, <a href="https://github.com/FedericoBruzzone/mlir-study/blob/main/results/rq3_fusion.csv">rq3_fusion.csv</a>,
+                kernel: <a href="https://github.com/FedericoBruzzone/mlir-study/blob/main/kernels/elementwise/chain.mlir">elementwise/chain.mlir</a>).
+            </p>
+
+            <h3>RQ4 — Tiling behavior across kernels</h3>
+
+            <p>
+                Tiling helps compute-bound kernels (conv2d, batch_matmul) in the same way it helps matmul.
+                <b>Softmax is the exception</b>: its arithmetic intensity is 0.63 FLOPs/byte, well below the
+                ridge point, so it is memory-bound and does not benefit from tiling at all
+                (<a href="https://github.com/FedericoBruzzone/mlir-study/blob/main/scripts/rq4_workloads.sh">rq4_workloads.sh</a>, <a href="https://github.com/FedericoBruzzone/mlir-study/blob/main/results/rq4_workloads.csv">rq4_workloads.csv</a>).
+            </p>
+
+            <h4>Conv2d (56×56, 64 channels, 3×3 kernel — <a href="https://github.com/FedericoBruzzone/mlir-study/blob/main/kernels/conv2d/conv2d.mlir">conv2d.mlir</a>)</h4>
+
+            <p>
+                Conv2d is compute-bound in theory, but the standard lowering of
+                <code>linalg.conv_2d_nhwc_hwcf</code> emits naive nested loops with no im2col transform and no
+                spatial tiling, producing poor data reuse across the kernel window. The result sits far below
+                even the scalar FP32 ceiling: roughly ~3 GFLOP/s against a 9 GFLOP/s scalar peak. The fix
+                requires rewriting conv as im2col followed by a matmul — something IREE does automatically but
+                the standard pass set does not provide.
+            </p>
+
+            <h4>Softmax (512×512, row-wise — <a href="https://github.com/FedericoBruzzone/mlir-study/blob/main/kernels/reduction/softmax.mlir">softmax.mlir</a>)</h4>
+
+            <p>
+                A row-wise softmax requires two sequential scans (max reduction, then exp-normalize-and-sum),
+                giving AI ≈ 0.63 FLOPs/byte — right at the NEON ridge point. The standard lowering emits the
+                two scans as separate loop nests with no fusion, so the full 512×512 intermediate buffer is
+                written and re-read from memory, roughly doubling effective traffic. The corrected measurement
+                gives <b>1.66 GFLOP/s</b> (4.6% efficiency). A fused online-softmax (as in
+                <a href="https://arxiv.org/abs/2205.14135">Flash Attention</a>) would eliminate the
+                intermediate write-back, but that requires a custom lowering.
+            </p>
+
+            <h3>RQ5 — MLIR standard passes vs. Apple Accelerate (AMX)</h3>
+
+            <p>
+                At N=1024 there is an <b>8× performance gap</b> between the best MLIR tiled kernel (~20 GFLOP/s
+                at T=16, ~24 GFLOP/s at T=32) and Apple Accelerate (169 GFLOP/s). Explicit MLIR vectorization via
+                <code>affine-super-vectorize</code> is <b>2.5× slower</b> than relying on LLVM's auto-vectorizer
+                (8 vs 20 GFLOP/s at N=1024):
+                constraining the backend with explicit vector ops takes away the freedom it needs to schedule
+                well. AMX is inaccessible from any MLIR standard pass
+                (<a href="https://github.com/FedericoBruzzone/mlir-study/blob/main/scripts/rq5_vs_baseline.sh">rq5_vs_baseline.sh</a>, <a href="https://github.com/FedericoBruzzone/mlir-study/blob/main/results/rq5_vs_baseline.csv">rq5_vs_baseline.csv</a>).
+            </p>
+
+            <h2>IREE Kernels as Real-Architecture Building Blocks</h2>
+
+            <p>
+                The IREE benchmarks are not synthetic microbenchmarks — they are actual PyTorch layers exported
+                to MLIR via <a href="https://github.com/iree-org/iree-turbine">iree-turbine</a>
+                (<a href="https://github.com/FedericoBruzzone/mlir-study/blob/main/scripts/export_models.py">export_models.py</a>)
+                and then compiled with <code>iree-compile</code> and benchmarked
+                (<a href="https://github.com/FedericoBruzzone/mlir-study/blob/main/scripts/bench_iree_runtime.py">bench_iree_runtime.py</a>, <a href="https://github.com/FedericoBruzzone/mlir-study/blob/main/results/rq_iree_clean.csv">rq_iree_clean.csv</a>).
+                Each model maps directly onto a structural component found in
+                widespread neural network architectures:
+            </p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Kernel</th>
+                        <th>PyTorch layer</th>
+                        <th>Real-world counterpart</th>
+                        <th>GFLOP/s (IREE)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>linear_relu_512/1024</code></td>
+                        <td><code>Linear(d,d) + ReLU</code></td>
+                        <td>FFN projection in a transformer block (BERT, GPT, LLaMA)</td>
+                        <td>14.8 / 34.4</td>
+                    </tr>
+                    <tr>
+                        <td><code>mha_bert_base</code></td>
+                        <td><code>MultiheadAttention(d=768, heads=12, seq=128)</code></td>
+                        <td>Self-attention layer in BERT-base — Q/K/V projections, softmax, weighted sum</td>
+                        <td>8.2</td>
+                    </tr>
+                    <tr>
+                        <td><code>mobile_block_56x56</code></td>
+                        <td>Depthwise Conv2d(32, 3×3) + Pointwise Conv2d(32→16, 1×1)</td>
+                        <td>MobileNetV2-style inverted residual block (depthwise-separable convolution)</td>
+                        <td>117.9</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p>
+                A few results are particularly striking. The <b>MHA BERT-base</b> kernel lands at 8.2 GFLOP/s —
+                below the scalar FP32 ceiling (9 GFLOP/s). Despite IREE compiling the Q/K/V projections as
+                efficient matmuls, the row-wise softmax over the 128×128 attention logit matrix is structurally
+                memory-bound (AI ≈ 0.625 FLOPs/byte) and drags down the whole operator's measured throughput.
+                The overhead-corrected measurement makes this bottleneck clearly visible: without the loop fix,
+                the 50 ms process startup would have swamped the 41 ms kernel time entirely.
+            </p>
+
+            <p>
+                The <b>mobile block</b> reaches <b>117.9 GFLOP/s</b> — well above the NEON ceiling (36 GFLOP/s)
+                and approaching the AMX ceiling (182 GFLOP/s). This is not a measurement artifact: IREE's
+                lowering stack fuses the depthwise and pointwise convolutions into a single tiled kernel,
+                unlocking data reuse that neither pass can achieve independently. The depthwise convolution
+                alone has very low arithmetic intensity, but after pointwise fusion the combined kernel becomes
+                heavily compute-bound and IREE manages to use AMX or near-AMX throughput on the fused loop.
+            </p>
+
+            <p>
+                This isomorphism between the benchmark kernels and real architecture components makes the
+                roofline results directly interpretable: if you are building a transformer inference engine on
+                Apple Silicon, the FFN projection sits comfortably in the compute-bound region (safe for tiling),
+                while the attention softmax will always be memory-bound regardless of how aggressively you tile
+                the surrounding matmuls.
+            </p>
+
+            <h2>Three-tier Result (matmul 1024², single thread FP32)</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>System</th>
+                        <th>GFLOP/s</th>
+                        <th>vs. MLIR naive</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>MLIR naive (affine, no tile)</td>
+                        <td>~2.4</td>
+                        <td>1×</td>
+                    </tr>
+                    <tr>
+                        <td>MLIR tiled T=16</td>
+                        <td><b>~20</b></td>
+                        <td>8×</td>
+                    </tr>
+                    <tr>
+                        <td>IREE production MLIR</td>
+                        <td>~37</td>
+                        <td>15×</td>
+                    </tr>
+                    <tr>
+                        <td>Apple Accelerate (AMX)</td>
+                        <td>~169</td>
+                        <td>70×</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>Roofline</h2>
+
+            <p>
+                The roofline plot below situates all measured kernels against the hardware performance ceilings of
+                the M4 Pro. The three ceiling lines correspond to scalar FP32 peak (9 GFLOP/s), NEON FP32 peak
+                (36 GFLOP/s), and Accelerate/AMX (182 GFLOP/s measured at N=1024). Generated by
+                <a href="https://github.com/FedericoBruzzone/mlir-study/blob/main/scripts/plot_roofline.py">plot_roofline.py</a>
+                from <a href="https://github.com/FedericoBruzzone/mlir-study/blob/main/results/roofline.csv">roofline.csv</a>.
+            </p>
+
+            <figure class="roofline-figure">
+                <img src="images/roofline-mlir-m4.png"
+                     alt="Roofline model — Apple M4 Pro, single thread FP32. Points: MLIR tiled T=16, MLIR explicit vec T=16, Accelerate BLAS, IREE models (linear relu, MHA BERT base, mobile block), Softmax, Conv2d." />
+                <figcaption>
+                    Roofline — Apple M4 Pro (single thread, FP32). Log-log axes. The IREE models and Accelerate
+                    BLAS matmul approach or exceed the NEON ceiling; MLIR tiled T=16 sits well below it.
+                    Softmax (purple cross) falls below the ridge point, confirming its memory-bound nature.
+                </figcaption>
+            </figure>
+
+            <p>
+                A few things to notice. <b>MLIR tiled T=16</b> (blue circles) sits between the scalar ceiling
+                (9 GFLOP/s) and the NEON ceiling (36 GFLOP/s), reaching 18–26 GFLOP/s depending on N — the
+                auto-vectorizer fires, but not to NEON peak. <b>MLIR explicit vec T=16</b> (green triangles)
+                lands consistently <i>below the scalar ceiling</i>, confirming that
+                <code>affine-super-vectorize</code> constrains the backend more than it helps.
+                <b>Accelerate</b> (red diamonds) hugs the AMX ceiling at large N.
+                The <b>IREE mobile block</b> reaches 117.9 GFLOP/s — between NEON and AMX ceilings — thanks to
+                its fused depthwise+pointwise lowering. N=128 MLIR points are now reliable: the loop-based
+                measurement eliminates the former process-startup distortion.
+            </p>
+
+            <h2>Takeaways</h2>
+
+            <p>
+                Standard MLIR passes get you a long way with almost no effort — a single
+                <code>affine-loop-tile</code> pass recovers 6× on large matmuls purely from cache reuse.
+                Beyond that, the gap to production-quality stacks (IREE, Accelerate) is large and cannot be
+                closed from within the standard dialect set: AMX requires vendor-specific intrinsics, and
+                auto-vectorization quality depends heavily on how much freedom you leave the LLVM backend.
+            </p>
+
+            <p>
+                If you are targeting Apple Silicon and need more than ~20 GFLOP/s per thread on dense linear
+                algebra, the practical answer today is IREE or Accelerate — not hand-rolled MLIR pipelines.
+            </p>
+
+            <p>
+                I hope you found this study useful. Feel free to
+                <a href="https://federicobruzzone.github.io/index.html">reach out</a> if you have questions or
+                want to discuss the methodology.
+            </p>
+
+            <div class="bibtex" year="2026" month="June"></div>
+        </div>
+    </main>
+
+    <div id="footer"></div>
+    <script src="../scripts/toggle-theme.js"></script>
+    <script src="../scripts/load-header.js"></script>
+    <script src="../scripts/load-footer.js"></script>
+    <script src="../scripts/load-cits.js"></script>
+    <script src="../scripts/load-bib.js"></script>
+</body>
+
+</html>
