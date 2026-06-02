@@ -316,7 +316,7 @@
                 and decide to leave the loop scalar:
             </p>
 
-            <pre><code>; loop over k — LLVM sees the stride:
+            <pre><code class="language-llvm">; loop over k — LLVM sees the stride:
 %ptr_B = getelementptr float, ptr %B, i64 %stride_2048  ; stride N×4
 %val   = load float, ptr %ptr_B                         ; scalar load
 %acc   = fmul float %val_A, %val</code></pre>
@@ -327,23 +327,13 @@
                 LLVM sees a pre-built gather — there is nothing left to analyse:
             </p>
 
-            <pre><code>; the k-loop is gone — replaced by insertelement
+            <pre><code class="language-llvm">; the k-loop is gone — replaced by insertelement
 %v0 = load float, ptr %ptr_B_k0           ; B[k,   j]
 %v1 = insertelement &lt;4 x float&gt; %v0, ...
 %v2 = load float, ptr %ptr_B_k1           ; B[k+1, j]
 %v3 = insertelement &lt;4 x float&gt; %v2, ...
 ; ...
 %result = fmul &lt;4 x float&gt; %vec_A, %vec_B</code></pre>
-
-            <p>
-                The fundamental issue is the order of decisions:
-            </p>
-
-            <pre><code>affine-super-vectorize   -- commits to a vector strategy
-        |
-mlir-translate           -- the scalar IR is unrecoverable
-        |
-LLVM                     -- optimises what it finds, not what was there</code></pre>
 
             <p>
                 LLVM is not able to re-analyse decisions already made by MLIR at a higher level.
