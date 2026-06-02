@@ -6,7 +6,7 @@
     --text-color       : rgb(70  , 70  , 70  );
     --cite-color       : rgb(70  , 70  , 70  );
     --biblio-color     : rgb(70  , 70  , 70  );
-    --post-bg-color    : rgb(200 , 200 , 200 );
+    --post-bg-color    : rgb(240 , 240 , 240 );
     --post-desc-color  : rgb(70  , 70  , 70  );
     --post-foot-color  : rgb(110 , 110 , 110 );
     --post-title-color : rgb(0   , 0   , 0   );
@@ -601,4 +601,27 @@ body.dark-mode .toc {
 img {
     max-width: 100%;
     height: auto;
+}
+
+.research-entry {
+    border-left: 3px solid var(--post-bg-color);
+    padding: 0.1rem 0 0.1rem 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.research-entry-meta {
+    font-size: 0.82rem;
+    color: var(--post-foot-color);
+    margin-bottom: 0.2rem;
+}
+
+.research-entry-title {
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--post-title-color);
+    margin-bottom: 0.25rem;
+}
+
+.research-entry p {
+    margin: 0.25rem 0 0 0;
 }
