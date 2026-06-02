@@ -48,60 +48,12 @@
       <description><![CDATA[The second post of the <i>Eter programming language</i> series. It explores the trade-offs between Mutable Value Semantics and Ownership & Borrowing, examining friction points in Rust, Hylo, and Swift while searching for common ground between the two memory models.]]></description>
     </item>
     <item>
-      <title>Generalized Software Product Line Extraction</title>
-      <link>https://federicobruzzone.github.io/publications/Bruzzone26e-preprint/Bruzzone26e-preprint.pdf</link>
-      <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-05-01:publications/generalized-software-product-line-extraction</guid>
-      <category>Preprint</category>
-      <pubDate>Fri, 01 May 2026 00:00:00 GMT</pubDate>
-      <description><![CDATA[F. Bruzzone, W. Cazzola, and L. Favalli — <b>arXiv preprint arXiv:2605.28989</b> — DOI: <a href="https://doi.org/10.48550/arXiv.2605.28989">10.48550/arXiv.2605.28989</a>]]></description>
-    </item>
-    <item>
       <title>The Mutable Value Semantics (MVS): A Non-superficial Study</title>
       <link>https://federicobruzzone.github.io/posts/eter/MVS.html</link>
       <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-04-27:posts/the-mutable-value-semantics-mvs-a-non-superficial-study</guid>
       <category>Post</category>
       <pubDate>Mon, 27 Apr 2026 00:00:00 GMT</pubDate>
       <description><![CDATA[The first post of the <i>Eter programming language</i> series. While this post is part of the series, it is not a part of the Eter language itself. The post is a non-superficial study on the MVS, trying to understand its limitations.]]></description>
-    </item>
-    <item>
-      <title>Sink or SWIM: Tackling Real-Time ASR at Scale</title>
-      <link>https://federicobruzzone.github.io/publications/Bruzzone26/Bruzzone26.pdf</link>
-      <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-03-01:publications/sink-or-swim-tackling-real-time-asr-at-scale</guid>
-      <category>Publication</category>
-      <pubDate>Sun, 01 Mar 2026 00:00:00 GMT</pubDate>
-      <description><![CDATA[F. Bruzzone, W. Cazzola, M. Brancaleoni, and D. Pellegrino — <b>IEEE Transactions on Audio, Speech and Language Processing (TASLPRO)</b> — DOI: <a href="https://doi.org/10.1109/TASLPRO.2026.3675780">10.1109/TASLPRO.2026.3675780</a>]]></description>
-    </item>
-    <item>
-      <title>Meta-Monomorphizing Specializations</title>
-      <link>https://federicobruzzone.github.io/publications/Bruzzone26d-preprint/Bruzzone26d-preprint.pdf</link>
-      <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-02-01:publications/meta-monomorphizing-specializations</guid>
-      <category>Preprint</category>
-      <pubDate>Sun, 01 Feb 2026 00:00:00 GMT</pubDate>
-      <description><![CDATA[F. Bruzzone and W. Cazzola — <b>arXiv preprint arXiv:2602.12973</b> — DOI: <a href="https://doi.org/10.48550/arXiv.2602.12973">10.48550/arXiv.2602.12973</a>]]></description>
-    </item>
-    <item>
-      <title>From Separate Compilation to Sound Language Composition</title>
-      <link>https://federicobruzzone.github.io/publications/Bruzzone26c-preprint/Bruzzone26c-preprint.pdf</link>
-      <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-02-01:publications/from-separate-compilation-to-sound-language-composition</guid>
-      <category>Preprint</category>
-      <pubDate>Sun, 01 Feb 2026 00:00:00 GMT</pubDate>
-      <description><![CDATA[F. Bruzzone, W. Cazzola, and L. Favalli — <b>arXiv preprint arXiv:2602.03777</b> — DOI: <a href="https://doi.org/10.48550/arXiv.2602.03777">10.48550/arXiv.2602.03777</a>]]></description>
-    </item>
-    <item>
-      <title>Prioritizing Configuration Relevance via Compiler-Based Refined Feature Ranking</title>
-      <link>https://federicobruzzone.github.io/publications/Bruzzone26-preprint/Bruzzone26-preprint.pdf</link>
-      <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-01-01:publications/prioritizing-configuration-relevance-via-compiler-based-refined-feature-ranking</guid>
-      <category>Preprint</category>
-      <pubDate>Thu, 01 Jan 2026 00:00:00 GMT</pubDate>
-      <description><![CDATA[F. Bruzzone, W. Cazzola, and L. Favalli — <b>arXiv preprint arXiv:2601.16008</b> — DOI: <a href="https://doi.org/10.48550/arXiv.2601.16008">10.48550/arXiv.2601.16008</a>]]></description>
-    </item>
-    <item>
-      <title>Code Less to Code More: Streamlining Language Server Protocol and type system development for language families</title>
-      <link>https://federicobruzzone.github.io/publications/Bruzzone25/Bruzzone25.pdf</link>
-      <guid isPermaLink="false">tag:federicobruzzone.github.io,2025-06-01:publications/code-less-to-code-more-streamlining-language-server-protocol-and-type-system-dev</guid>
-      <category>Publication</category>
-      <pubDate>Sun, 01 Jun 2025 00:00:00 GMT</pubDate>
-      <description><![CDATA[F. Bruzzone, W. Cazzola, and L. Favalli — <b>Journal of Systems and Software (JSS)</b> — DOI: <a href="https://doi.org/10.1016/j.jss.2025.112554">10.1016/j.jss.2025.112554</a>]]></description>
     </item>
     <item>
       <title>Consume the Input Only When Some&lt;T&gt; is Returned</title>
