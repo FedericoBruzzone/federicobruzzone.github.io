@@ -115,7 +115,9 @@
             </p>
             <p>
                 The fix: an <code>scf.for</code> loop with <code>NITER</code> iterations wraps the kernel call
-                inside every <code>@main()</code>. The output fill is inside the loop (necessary because
+                inside every <code>@main()</code> (see
+                <a href="https://github.com/FedericoBruzzone/mlir-study/blob/main/kernels/matmul/bench.mlir.tpl">bench.mlir.tpl</a>).
+                The output fill is inside the loop (necessary because
                 <code>linalg.matmul</code> accumulates into C, so C must be reset each iteration). Scripts
                 divide hyperfine wall-time by <code>NITER</code> to recover per-call latency. NITER is
                 chosen so startup is &lt;10% of total:
@@ -160,7 +162,7 @@
             <p>
                 The Affine and SCF paths produce <b>less than 3% difference</b> at all problem sizes — they are
                 effectively equivalent once LLVM optimizes them. Tiling (T=16) gives a <b>4–8× speedup</b> over
-                untiled paths at N ≥ 256 (N=1024: 863 ms → 106 ms)
+                untiled paths at N ≥ 256 (N=1024: from 863 ms down to 106 ms)
                 (<a href="https://github.com/FedericoBruzzone/mlir-study/blob/main/scripts/rq2_compare_paths.sh">rq2_compare_paths.sh</a>, <a href="https://github.com/FedericoBruzzone/mlir-study/blob/main/results/rq2_paths.csv">rq2_paths.csv</a>).
             </p>
 

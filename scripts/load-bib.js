@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const h2 = document.createElement('h2');
     h2.textContent = "Cite this page";
 
-    bibtex.appendChild(h3);
+    bibtex.appendChild(h2);
     bibtex.appendChild(p);
     bibtex.appendChild(pre);
 });
