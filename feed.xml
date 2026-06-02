@@ -6,7 +6,15 @@
     <atom:link href="https://federicobruzzone.github.io/feed.xml" rel="self" type="application/rss+xml"/>
     <description>Posts, scientific publications, preprints, and activities by Federico Bruzzone.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 31 May 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 02 Jun 2026 00:00:00 GMT</lastBuildDate>
+    <item>
+      <title>MLIR Empirical Study on AArch64 (Apple M4 Pro)</title>
+      <link>https://federicobruzzone.github.io/posts/mlir-study.html</link>
+      <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-06-02:posts/mlir-empirical-study-on-aarch64-apple-m4-pro</guid>
+      <category>Post</category>
+      <pubDate>Tue, 02 Jun 2026 00:00:00 GMT</pubDate>
+      <description><![CDATA[Empirical study of MLIR optimization passes on Apple M4 Pro (AArch64, single thread, FP32) using native AoT binaries. Five research questions: tile-size effects and cache aliasing, Affine vs. SCF paths, loop fusion, cross-kernel behavior (conv2d, softmax), and the gap to Apple Accelerate/AMX. Includes a roofline analysis with IREE and a deep dive on process-overhead correction methodology.]]></description>
+    </item>
     <item>
       <title>The Site Now Has an RSS Feed</title>
       <link>https://federicobruzzone.github.io/posts/the-site-now-has-an-rss-feed.html</link>
@@ -16,9 +24,9 @@
       <description><![CDATA[The website now has an RSS feed that gathers posts, scientific publications, preprints, and activities into one chronological stream. Subscribe with your favourite reader at /feed.xml.]]></description>
     </item>
     <item>
-      <title>Regime-Based Capability Graph Semantics (RCGS)</title>
+      <title>[TODO] Regime-Based Capability Graph Semantics (RCGS)</title>
       <link>https://federicobruzzone.github.io/posts/eter/regime-based-capability-graph-semantics.html</link>
-      <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-05-01:posts/regime-based-capability-graph-semantics-rcgs</guid>
+      <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-05-01:posts/todo-regime-based-capability-graph-semantics-rcgs</guid>
       <category>Post</category>
       <pubDate>Fri, 01 May 2026 00:00:00 GMT</pubDate>
       <description><![CDATA[TODO]]></description>
