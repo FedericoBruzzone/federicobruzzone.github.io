@@ -13,7 +13,7 @@
       <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-06-02:posts/mlir-empirical-study-on-aarch64-apple-m4-pro</guid>
       <category>Post</category>
       <pubDate>Tue, 02 Jun 2026 00:00:00 GMT</pubDate>
-      <description><![CDATA[Empirical study of MLIR optimization passes on Apple M4 Pro (AArch64, single thread, FP32) using native AoT binaries. Five research questions: tile-size effects and cache aliasing, Affine vs. SCF paths, loop fusion, cross-kernel behavior (conv2d, softmax), and the gap to Apple Accelerate/AMX. Includes a roofline analysis with IREE and a deep dive on process-overhead correction methodology.]]></description>
+      <description><![CDATA[Empirical study of MLIR optimization passes on Apple M4 Pro using native AoT binaries. Five research questions on tiling, lowering paths, loop fusion, cross-kernel behavior, and the gap to Apple Accelerate/AMX. Includes a roofline analysis with IREE.]]></description>
     </item>
     <item>
       <title>The Site Now Has an RSS Feed</title>
@@ -26,25 +26,25 @@
     <item>
       <title>[TODO] Regime-Based Capability Graph Semantics (RCGS)</title>
       <link>https://federicobruzzone.github.io/posts/eter/regime-based-capability-graph-semantics.html</link>
-      <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-05-01:posts/todo-regime-based-capability-graph-semantics-rcgs</guid>
+      <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-05-22:posts/todo-regime-based-capability-graph-semantics-rcgs</guid>
       <category>Post</category>
-      <pubDate>Fri, 01 May 2026 00:00:00 GMT</pubDate>
+      <pubDate>Fri, 22 May 2026 00:00:00 GMT</pubDate>
       <description><![CDATA[TODO]]></description>
     </item>
     <item>
       <title>A Friendly Tour of Substructural, Uniqueness, Ownership, and Capabilities Types — and more!</title>
       <link>https://federicobruzzone.github.io/posts/eter/a-friendly-tour-of-substructural-uniqueness-ownership-and-capabilities-types-and-more.html</link>
-      <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-05-01:posts/a-friendly-tour-of-substructural-uniqueness-ownership-and-capabilities-types-and</guid>
+      <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-05-22:posts/a-friendly-tour-of-substructural-uniqueness-ownership-and-capabilities-types-and</guid>
       <category>Post</category>
-      <pubDate>Fri, 01 May 2026 00:00:00 GMT</pubDate>
+      <pubDate>Fri, 22 May 2026 00:00:00 GMT</pubDate>
       <description><![CDATA[The third post of the <i>Eter programming language</i> series. A friendly tour of the type-theoretic landscape behind memory safety. Starting from the logical roots of substructural logic, it walks through linear, affine, and uniqueness types, then visits regions, effects, capabilities, typestate, and the latest work on reachability and separation types.]]></description>
     </item>
     <item>
       <title>Mutable Value Semantics (MVS) or Ownership &amp; Borrowing: A Trade-off Analysis</title>
       <link>https://federicobruzzone.github.io/posts/eter/MVS-or-ownership&amp;borrowing.html</link>
-      <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-05-01:posts/mutable-value-semantics-mvs-or-ownership-borrowing-a-trade-off-analysis</guid>
+      <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-05-03:posts/mutable-value-semantics-mvs-or-ownership-borrowing-a-trade-off-analysis</guid>
       <category>Post</category>
-      <pubDate>Fri, 01 May 2026 00:00:00 GMT</pubDate>
+      <pubDate>Sun, 03 May 2026 00:00:00 GMT</pubDate>
       <description><![CDATA[The second post of the <i>Eter programming language</i> series. It explores the trade-offs between Mutable Value Semantics and Ownership & Borrowing, examining friction points in Rust, Hylo, and Swift while searching for common ground between the two memory models.]]></description>
     </item>
     <item>
@@ -58,9 +58,9 @@
     <item>
       <title>The Mutable Value Semantics (MVS): A Non-superficial Study</title>
       <link>https://federicobruzzone.github.io/posts/eter/MVS.html</link>
-      <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-04-01:posts/the-mutable-value-semantics-mvs-a-non-superficial-study</guid>
+      <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-04-27:posts/the-mutable-value-semantics-mvs-a-non-superficial-study</guid>
       <category>Post</category>
-      <pubDate>Wed, 01 Apr 2026 00:00:00 GMT</pubDate>
+      <pubDate>Mon, 27 Apr 2026 00:00:00 GMT</pubDate>
       <description><![CDATA[The first post of the <i>Eter programming language</i> series. While this post is part of the series, it is not a part of the Eter language itself. The post is a non-superficial study on the MVS, trying to understand its limitations.]]></description>
     </item>
     <item>
@@ -106,9 +106,9 @@
     <item>
       <title>Consume the Input Only When Some&lt;T&gt; is Returned</title>
       <link>https://federicobruzzone.github.io/posts/consume-the-input-only-when-somet-is-returned.html</link>
-      <guid isPermaLink="false">tag:federicobruzzone.github.io,2025-04-21:posts/consume-the-input-only-when-some-t-is-returned</guid>
+      <guid isPermaLink="false">tag:federicobruzzone.github.io,2025-04-19:posts/consume-the-input-only-when-some-t-is-returned</guid>
       <category>Post</category>
-      <pubDate>Mon, 21 Apr 2025 00:00:00 GMT</pubDate>
+      <pubDate>Sat, 19 Apr 2025 00:00:00 GMT</pubDate>
       <description><![CDATA[A discussion on idiomatic Rust patterns for consuming input only when a function successfully returns a value. This explores ownership semantics and how to write clean, expressive APIs in Rust.]]></description>
     </item>
     <item>
@@ -122,9 +122,9 @@
     <item>
       <title>Open Source Licenses: A Deep Dive into Their Meaning</title>
       <link>https://federicobruzzone.github.io/posts/open-source-licenses-a-deep-dive-into-their-meaning.html</link>
-      <guid isPermaLink="false">tag:federicobruzzone.github.io,2025-03-25:posts/open-source-licenses-a-deep-dive-into-their-meaning</guid>
+      <guid isPermaLink="false">tag:federicobruzzone.github.io,2025-03-23:posts/open-source-licenses-a-deep-dive-into-their-meaning</guid>
       <category>Post</category>
-      <pubDate>Tue, 25 Mar 2025 00:00:00 GMT</pubDate>
+      <pubDate>Sun, 23 Mar 2025 00:00:00 GMT</pubDate>
       <description><![CDATA[An in-depth exploration of open source licenses, covering their legal implications, the differences between permissive and copyleft licenses, and practical guidance for choosing the right license for your project.]]></description>
     </item>
     <item>
@@ -186,9 +186,9 @@
     <item>
       <title>Exploiting Finite State Automata for Efficient Lexical Analysis: A Rust Implementation</title>
       <link>https://federicobruzzone.github.io/posts/exploiting-finite-state-automata-for-efficient-lexical-analysis-a-rust-implementation.html</link>
-      <guid isPermaLink="false">tag:federicobruzzone.github.io,2024-08-10:posts/exploiting-finite-state-automata-for-efficient-lexical-analysis-a-rust-implement</guid>
+      <guid isPermaLink="false">tag:federicobruzzone.github.io,2024-08-09:posts/exploiting-finite-state-automata-for-efficient-lexical-analysis-a-rust-implement</guid>
       <category>Post</category>
-      <pubDate>Sat, 10 Aug 2024 00:00:00 GMT</pubDate>
+      <pubDate>Fri, 09 Aug 2024 00:00:00 GMT</pubDate>
       <description><![CDATA[A practical exploration of building a lexical analyzer in Rust using finite state automata. We cover DFA/NFA theory and show how to implement an efficient lexer from scratch.]]></description>
     </item>
     <item>
