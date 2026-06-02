@@ -44,6 +44,11 @@
             font-size: 0.9em;
         }
 
+        .table-scroll {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
         th, td {
             border: 1px solid #ccc;
             padding: 0.4em 0.7em;
@@ -196,7 +201,7 @@
 
             <p>
                 A row-wise softmax requires two sequential scans (max reduction, then exp-normalize-and-sum),
-                giving AI ≈ 0.63 FLOPs/byte — right at the NEON ridge point. The standard lowering emits the
+                giving an arithmetic intensity of ≈ 0.63 FLOPs/byte — right at the NEON ridge point. The standard lowering emits the
                 two scans as separate loop nests with no fusion, so the full 512×512 intermediate buffer is
                 written and re-read from memory, roughly doubling effective traffic. The corrected measurement
                 gives <b>1.66 GFLOP/s</b> (4.6% efficiency). A fused online-softmax (as in
@@ -228,6 +233,7 @@
                 widespread neural network architectures:
             </p>
 
+            <div class="table-scroll">
             <table>
                 <thead>
                     <tr>
@@ -258,12 +264,13 @@
                     </tr>
                 </tbody>
             </table>
+            </div>
 
             <p>
                 A few results are particularly striking. The <b>MHA BERT-base</b> kernel lands at 8.2 GFLOP/s —
                 below the scalar FP32 ceiling (9 GFLOP/s). Despite IREE compiling the Q/K/V projections as
                 efficient matmuls, the row-wise softmax over the 128×128 attention logit matrix is structurally
-                memory-bound (AI ≈ 0.625 FLOPs/byte) and drags down the whole operator's measured throughput.
+                memory-bound (arithmetic intensity ≈ 0.625 FLOPs/byte) and drags down the whole operator's measured throughput.
                 The overhead-corrected measurement makes this bottleneck clearly visible: without the loop fix,
                 the 50 ms process startup would have swamped the 41 ms kernel time entirely.
             </p>
