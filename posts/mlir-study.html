@@ -59,6 +59,10 @@
         th {
             background: #f4f4f4;
         }
+
+        .MathJax_CHTML {
+            font-size: 100% !important;
+        }
     </style>
 </head>
 
@@ -108,16 +112,16 @@
                 <a href="https://github.com/FedericoBruzzone/mlir-study/blob/main/scripts/_run_mlir.sh"><code>_run_mlir.sh</code></a>
                 for the reasons. Baselines use Apple Accelerate via cblas. Wall-time is measured with
                 <a href="https://github.com/sharkdp/hyperfine">hyperfine</a>. The hardware target is an Apple
-                M4 Pro: 12 cores, 64 KB L1-D, 4 MB L2, 24 GB RAM, 68 GB/s memory bandwidth.
+                M4 Pro: \(12\) cores, \(64\,\text{KB}\) L1-D, \(4\,\text{MB}\) L2, \(24\,\text{GB}\) RAM, \(68\,\text{GB/s}\) memory bandwidth.
             </p>
 
             <h3>Eliminating process overhead</h3>
 
             <p>
                 A critical methodological issue: <code>hyperfine</code> measures the wall-time of the entire
-                process — macOS startup, dynamic linking (~50 ms fixed cost), input allocation and fill,
-                <i>then</i> the kernel. For a matmul at N=128, the actual kernel takes ~1 ms while the total
-                process time is ~57 ms: <b>98% overhead, 2% compute</b>.
+                process — macOS startup, dynamic linking (\({\sim}50\,\text{ms}\) fixed cost), input allocation and fill,
+                <i>then</i> the kernel. For a matmul at \(N=128\), the actual kernel takes \({\sim}1\,\text{ms}\) while the total
+                process time is \({\sim}57\,\text{ms}\): <b>\(98\%\) overhead, \(2\%\) compute</b>.
             </p>
             <p>
                 The fix: an <code>scf.for</code> loop with <code>NITER</code> iterations wraps the kernel call
@@ -150,12 +154,12 @@
             <p>
                 Sweeping tile sizes \(T \in \{16, 32, 64, 128, 256\}\) across \(N \in \{128, 256, 512, 1024\}\)
                 (<a href="https://github.com/FedericoBruzzone/mlir-study/blob/main/scripts/rq1_sweep_tiles.sh">rq1_sweep_tiles.sh</a>, <a href="https://github.com/FedericoBruzzone/mlir-study/blob/main/scripts/llvm_mca_analysis.sh">llvm_mca_analysis.sh</a>, <a href="https://github.com/FedericoBruzzone/mlir-study/blob/main/results/rq1_tiling.csv">rq1_tiling.csv</a>, <a href="https://github.com/FedericoBruzzone/mlir-study/blob/main/results/llvm_mca.csv">llvm_mca.csv</a>),
-                the optimal tile is <b>T=32</b>, which at N=1024 reaches 24.4 GFLOP/s and beats T=16 (20.4 GFLOP/s)
-                at all large problem sizes. <b>T=16 and T=32 are \(4\text{–}6\times\) faster than T=64</b> (N=1024: 0.088s vs 0.653s).
-                Static analysis with <code>llvm-mca</code> reveals <i>identical IPC</i> for T=16 and T=64 (both 1.81) —
-                the code quality is the same. The speedup is entirely a cache effect: at T=64 with
+                the optimal tile is <b>\(T=32\)</b>, which at \(N=1024\) reaches \(24.4\,\text{GFLOP/s}\) and beats \(T=16\) (\(20.4\,\text{GFLOP/s}\))
+                at all large problem sizes. <b>\(T=16\) and \(T=32\) are \(4\text{–}6\times\) faster than \(T=64\)</b> (\(N=1024\): \(0.088\,\text{s}\) vs \(0.653\,\text{s}\)).
+                Static analysis with <code>llvm-mca</code> reveals <i>identical IPC</i> for \(T=16\) and \(T=64\) (both \(1.81\)) —
+                the code quality is the same. The speedup is entirely a cache effect: at \(T=64\) with
                 <code>--mattr=apple-m4 -O3</code>, the stride between tiles is an exact power-of-2 multiple of the
-                64 KB L1 size, causing systematic cache-set aliasing and catastrophic eviction.
+                \(64\,\text{KB}\) L1 size, causing systematic cache-set aliasing and catastrophic eviction.
                 Runtime performance and static IPC are decoupled near cache-size boundaries.
                 <code>llvm-mca</code> cannot predict this; only measurement reveals it.
             </p>
@@ -163,9 +167,9 @@
             <h3>RQ2 — Affine vs. SCF vs. tiled lowering paths</h3>
 
             <p>
-                The Affine and SCF paths produce <b>less than 3% difference</b> at all problem sizes — they are
-                effectively equivalent once LLVM optimizes them. Tiling (T=16) gives a <b>\(4\text{–}8\times\) speedup</b> over
-                untiled paths at \(N \geq 256\) (N=1024: from 863 ms down to 106 ms)
+                The Affine and SCF paths produce <b>less than \(3\%\) difference</b> at all problem sizes — they are
+                effectively equivalent once LLVM optimizes them. Tiling (\(T=16\)) gives a <b>\(4\text{–}8\times\) speedup</b> over
+                untiled paths at \(N \geq 256\) (\(N=1024\): from \(863\,\text{ms}\) down to \(106\,\text{ms}\))
                 (<a href="https://github.com/FedericoBruzzone/mlir-study/blob/main/scripts/rq2_compare_paths.sh">rq2_compare_paths.sh</a>, <a href="https://github.com/FedericoBruzzone/mlir-study/blob/main/results/rq2_paths.csv">rq2_paths.csv</a>).
             </p>
 
@@ -173,7 +177,7 @@
 
             <p>
                 No measurable effect (\(\Delta < 1\sigma\)). The matmul \(O(N^3)\) completely dominates: the elementwise relu and
-                bias add account for less than 0.2% of total time, leaving nothing for fusion to exploit
+                bias add account for less than \(0.2\%\) of total time, leaving nothing for fusion to exploit
                 (<a href="https://github.com/FedericoBruzzone/mlir-study/blob/main/scripts/rq3_fusion.sh">rq3_fusion.sh</a>, <a href="https://github.com/FedericoBruzzone/mlir-study/blob/main/results/rq3_fusion.csv">rq3_fusion.csv</a>,
                 kernel: <a href="https://github.com/FedericoBruzzone/mlir-study/blob/main/kernels/elementwise/chain.mlir">elementwise/chain.mlir</a>).
             </p>
@@ -194,7 +198,7 @@
                 Conv2d is compute-bound in theory, but the standard lowering of
                 <code>linalg.conv_2d_nhwc_hwcf</code> emits naive nested loops with no im2col transform and no
                 spatial tiling, producing poor data reuse across the kernel window. The result sits far below
-                even the scalar FP32 ceiling: roughly ~3 GFLOP/s against a 9 GFLOP/s scalar peak. The fix
+                even the scalar FP32 ceiling: roughly \({\sim}3\,\text{GFLOP/s}\) against a \(9\,\text{GFLOP/s}\) scalar peak. The fix
                 requires rewriting conv as im2col followed by a matmul — something IREE does automatically but
                 the standard pass set does not provide.
             </p>
@@ -205,7 +209,7 @@
                 Softmax has an arithmetic intensity of \(\approx 0.63\) FLOPs/byte, which is
                 <i>above</i> the NEON ridge point (\(36 / 68 \approx 0.53\) FLOPs/byte) — so it is
                 theoretically compute-bound, not memory-bound. Yet the measured throughput is only
-                <b>1.66 GFLOP/s</b> (4.6% of the roofline bound). The real bottleneck is
+                <b>\(1.66\,\text{GFLOP/s}\)</b> (\(4.6\%\) of the roofline bound). The real bottleneck is
                 <code>math.exp</code>: the standard MLIR lowering emits it as a scalar library call
                 with no SIMD vectorization, and the sequential <code>scf.for</code> reduction loops
                 introduce carried dependencies that prevent instruction-level parallelism.
@@ -218,10 +222,10 @@
             <h3>RQ5 — MLIR standard passes vs. Apple Accelerate (AMX)</h3>
 
             <p>
-                At N=1024 there is an <b>\(8\times\) performance gap</b> between the best MLIR tiled kernel (~20 GFLOP/s
-                at T=16, ~24 GFLOP/s at T=32) and Apple Accelerate (169 GFLOP/s). Explicit MLIR vectorization via
+                At \(N=1024\) there is an <b>\(8\times\) performance gap</b> between the best MLIR tiled kernel (\({\sim}20\,\text{GFLOP/s}\)
+                at \(T=16\), \({\sim}24\,\text{GFLOP/s}\) at \(T=32\)) and Apple Accelerate (\(169\,\text{GFLOP/s}\)). Explicit MLIR vectorization via
                 <code>affine-super-vectorize</code> is <b>\(2.5\times\) slower</b> than relying on LLVM's auto-vectorizer
-                (8 vs 20 GFLOP/s at N=1024):
+                (\(8\) vs \(20\,\text{GFLOP/s}\) at \(N=1024\)):
                 constraining the backend with explicit vector ops takes away the freedom it needs to schedule
                 well. AMX is inaccessible from any MLIR standard pass
                 (<a href="https://github.com/FedericoBruzzone/mlir-study/blob/main/scripts/rq5_vs_baseline.sh">rq5_vs_baseline.sh</a>, <a href="https://github.com/FedericoBruzzone/mlir-study/blob/main/results/rq5_vs_baseline.csv">rq5_vs_baseline.csv</a>).
@@ -231,8 +235,8 @@
 
             <p>
                 The roofline plot below situates all measured kernels against the hardware performance ceilings of
-                the M4 Pro. The three ceiling lines correspond to scalar FP32 peak (9 GFLOP/s), NEON FP32 peak
-                (36 GFLOP/s), and Accelerate/AMX (182 GFLOP/s measured at N=1024). Generated by
+                the M4 Pro. The three ceiling lines correspond to scalar FP32 peak (\(9\,\text{GFLOP/s}\)), NEON FP32 peak
+                (\(36\,\text{GFLOP/s}\)), and Accelerate/AMX (\(182\,\text{GFLOP/s}\) measured at \(N=1024\)). Generated by
                 <a href="https://github.com/FedericoBruzzone/mlir-study/blob/main/scripts/plot_roofline.py">plot_roofline.py</a>
                 from <a href="https://github.com/FedericoBruzzone/mlir-study/blob/main/results/roofline.csv">roofline.csv</a>.
             </p>
@@ -243,19 +247,19 @@
                 <figcaption>
                     Roofline — Apple M4 Pro (single thread, FP32). Log-log axes. The IREE models and Accelerate
                     BLAS matmul approach or exceed the NEON ceiling; MLIR tiled T=16 sits well below it.
-                    Softmax (purple cross) is theoretically compute-bound (AI \(\approx 0.63\) &gt; ridge \(\approx 0.53\)) but reaches only 4.6% efficiency due to scalar <code>math.exp</code> with no SIMD.
+                    Softmax (purple cross) is theoretically compute-bound (AI \(\approx 0.63\) &gt; ridge \(\approx 0.53\)) but reaches only \(4.6\%\) efficiency due to scalar <code>math.exp</code> with no SIMD.
                 </figcaption>
             </figure>
 
             <p>
                 A few things to notice. <b>MLIR tiled T=16</b> (blue circles) sits between the scalar ceiling
-                (9 GFLOP/s) and the NEON ceiling (36 GFLOP/s), reaching 18–26 GFLOP/s depending on N — the
+                (\(9\,\text{GFLOP/s}\)) and the NEON ceiling (\(36\,\text{GFLOP/s}\)), reaching \(18\text{–}26\,\text{GFLOP/s}\) depending on \(N\) — the
                 auto-vectorizer fires, but not to NEON peak. <b>MLIR explicit vec T=16</b> (green triangles)
                 lands consistently <i>below the scalar ceiling</i>, confirming that
                 <code>affine-super-vectorize</code> constrains the backend more than it helps.
-                <b>Accelerate</b> (red diamonds) hugs the AMX ceiling at large N.
-                The <b>IREE mobile block</b> reaches 117.9 GFLOP/s — between NEON and AMX ceilings — thanks to
-                its fused depthwise+pointwise lowering. N=128 MLIR points are now reliable: the loop-based
+                <b>Accelerate</b> (red diamonds) hugs the AMX ceiling at large \(N\).
+                The <b>IREE mobile block</b> reaches \(117.9\,\text{GFLOP/s}\) — between NEON and AMX ceilings — thanks to
+                its fused depthwise+pointwise lowering. \(N=128\) MLIR points are now reliable: the loop-based
                 measurement eliminates the former process-startup distortion.
             </p>
 
@@ -305,17 +309,17 @@
             </div>
 
             <p>
-                A few results are particularly striking. The <b>MHA BERT-base</b> kernel lands at 8.2 GFLOP/s —
-                below the scalar FP32 ceiling (9 GFLOP/s). Despite IREE compiling the Q/K/V projections as
-                efficient matmuls, the row-wise softmax over the 128×128 attention logit matrix is structurally
+                A few results are particularly striking. The <b>MHA BERT-base</b> kernel lands at \(8.2\,\text{GFLOP/s}\) —
+                below the scalar FP32 ceiling (\(9\,\text{GFLOP/s}\)). Despite IREE compiling the Q/K/V projections as
+                efficient matmuls, the row-wise softmax over the \(128 \times 128\) attention logit matrix is structurally
                 memory-bound (arithmetic intensity \(\approx 0.625\) FLOPs/byte) and drags down the whole operator's measured throughput.
                 The overhead-corrected measurement makes this bottleneck clearly visible: without the loop fix,
-                the 50 ms process startup would have swamped the 41 ms kernel time entirely.
+                the \(50\,\text{ms}\) process startup would have swamped the \(41\,\text{ms}\) kernel time entirely.
             </p>
 
             <p>
-                The <b>mobile block</b> reaches <b>117.9 GFLOP/s</b> — well above the NEON ceiling (36 GFLOP/s)
-                and approaching the AMX ceiling (182 GFLOP/s). This is not a measurement artifact: IREE's
+                The <b>mobile block</b> reaches <b>\(117.9\,\text{GFLOP/s}\)</b> — well above the NEON ceiling (\(36\,\text{GFLOP/s}\))
+                and approaching the AMX ceiling (\(182\,\text{GFLOP/s}\)). This is not a measurement artifact: IREE's
                 lowering stack fuses the depthwise and pointwise convolutions into a single tiled kernel,
                 unlocking data reuse that neither pass can achieve independently. The depthwise convolution
                 alone has very low arithmetic intensity, but after pointwise fusion the combined kernel becomes
@@ -375,7 +379,7 @@
             </p>
 
             <p>
-                If you are targeting Apple Silicon and need more than ~20 GFLOP/s per thread on dense linear
+                If you are targeting Apple Silicon and need more than \({\sim}20\,\text{GFLOP/s}\) per thread on dense linear
                 algebra, the practical answer today is IREE or Accelerate — not hand-rolled MLIR pipelines.
             </p>
 
