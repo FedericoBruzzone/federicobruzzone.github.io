@@ -16,6 +16,14 @@
       <description><![CDATA[Empirical study of MLIR optimization passes on Apple M4 Pro using native AoT binaries. Five research questions on tiling, lowering paths, loop fusion, cross-kernel behavior, and the gap to Apple Accelerate/AMX. Includes a roofline analysis with IREE.]]></description>
     </item>
     <item>
+      <title>scribe — A Minimalist LaTeX Document Class and Beamer Theme</title>
+      <link>https://federicobruzzone.github.io/posts/scribe.html</link>
+      <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-06-01:posts/scribe-a-minimalist-latex-document-class-and-beamer-theme</guid>
+      <category>Post</category>
+      <pubDate>Mon, 01 Jun 2026 00:00:00 GMT</pubDate>
+      <description><![CDATA[A drop-in replacement for the standard <code>article</code> class with callout boxes, theorem-like environments, named inline comments, compact numeric citations, optional line numbers, and a matching Beamer theme — all with Libertine and Inconsolata typography.]]></description>
+    </item>
+    <item>
       <title>The Site Now Has an RSS Feed</title>
       <link>https://federicobruzzone.github.io/posts/the-site-now-has-an-rss-feed.html</link>
       <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-05-31:posts/the-site-now-has-an-rss-feed</guid>
