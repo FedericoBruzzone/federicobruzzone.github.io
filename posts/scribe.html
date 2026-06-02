@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../prism.css">
+    <link rel="stylesheet" href="../code.css">
+
+    <script src="../scripts/prism.js" defer></script>
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- RSS feed -->
+    <link rel="alternate" type="application/rss+xml" title="Federico Bruzzone — Feed" href="/feed.xml">
+
+    <title>scribe — A Minimalist LaTeX Document Class and Beamer Theme</title>
+</head>
+
+<body>
+    <div id="root-folder" value=".."></div>
+    <div id="header"></div>
+
+    <main>
+        <h1>scribe — A Minimalist LaTeX Document Class and Beamer Theme</h1>
+
+        <p>
+            <b>Edit:</b> Take a look at the discussion in the <a href="https://www.reddit.com/r/LaTeX/comments/1tp9rgk/scribe_a_minimalist_opinionated_latex_document/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button">LaTeX subreddit</a>.
+        </p>
+
+        <p>
+            I just released <a href="https://github.com/FedericoBruzzone/scribe"><code class="language-none">scribe</code></a>,
+            a minimalist, opinionated LaTeX document class and matching Beamer theme for academic technical writing
+            and presentations. It is designed around a single goal: stay out of the way and let the content breathe.
+        </p>
+
+        <h2>What it gives you</h2>
+
+        <p>
+            The class is a drop-in replacement for the standard <code class="language-none">article</code> class
+            and supports all of its options, so there is nothing new to learn at the document level.
+            On top of that it adds a handful of things I reach for in every paper:
+        </p>
+
+        <ul>
+            <li><b>Callout boxes</b> — <code class="language-latex">info</code>, <code class="language-latex">warn</code>, <code class="language-latex">tip</code>, <code class="language-latex">note</code> out of the box, plus inline variants. Define your own with <code class="language-latex">\scribedefinebox{name}{color}</code>.</li>
+            <li><b>Theorem-like boxes</b> — numbered, referenceable environments for theorems, definitions, lemmas, corollaries, propositions, examples, and remarks. They share one counter that restarts each section. Define your own with <code class="language-latex">\scribedefinetheorem{name}{Heading}{color}</code>.</li>
+            <li><b>Named inline comments</b> — define per-author comment commands with a color, toggle them all off with a single flag for the final submission.</li>
+            <li><b>Compact numeric citations</b> — ranges like [1–3, 5], sorted by order of first appearance.</li>
+            <li><b>Optional line numbers</b> — placed in the outer margin of each column, even across page breaks in two-column layouts.</li>
+            <li><b>Typography</b> — Libertine for body text, Inconsolata for code.</li>
+        </ul>
+
+        <h2>Beamer theme</h2>
+
+        <p>
+            <code class="language-none">beamerthemescribe</code> brings the same identity to slides: same fonts,
+            same <code class="language-latex">MidnightBlue</code> accent, same named-comment system, and the
+            signature <code class="language-latex">\scribedivider</code> ornament. One <code class="language-latex">\usetheme{scribe}</code>
+            and your slides match your paper.
+        </p>
+
+        <h2>Getting started</h2>
+
+        <p>
+            Drop <code class="language-none">scribe.cls</code> (or <code class="language-none">beamerthemescribe.sty</code>)
+            into your project folder and you are done — no package manager, no install step.
+            A minimal document looks like this:
+        </p>
+
+        <pre><code class="language-latex">\documentclass[lineno, twocolumn]{scribe}
+
+\scribesetrightmark{Federico Bruzzone}
+\scribedefinecomment{fb}{orange}
+
+\title{\textbf{My Paper}}
+\author{Federico Bruzzone}
+\date{June 2026}
+
+\begin{document}
+\twocolumn[\maketitle \begin{abstract}...\end{abstract}]
+\input{sects/introduction}
+\bibliography{local}
+\end{document}</code></pre>
+
+        <p>
+            Full examples for both the paper class and the Beamer theme are in the
+            <a href="https://github.com/FedericoBruzzone/scribe">repository</a>.
+            Feedback and contributions are welcome.
+        </p>
+
+    </main>
+
+    <div id="footer"></div>
+    <script src="../scripts/toggle-theme.js"></script>
+    <script src="../scripts/load-header.js"></script>
+    <script src="../scripts/load-footer.js"></script>
+    <script src="../scripts/load-cits.js"></script>
+    <script src="../scripts/load-bib.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.2/p5.js"></script>
+</body>
+
+</html>
