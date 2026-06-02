@@ -78,7 +78,7 @@
         <div class="post-body">
             <h1><img src="images/MLIR.png" alt="MLIR logo" width="20px"/> <img src="images/LLVM.png" alt="LLVM logo" width="20px"/> MLIR Empirical Study on AArch64 (Apple M4 Pro)</h1>
 
-            <h2>Overview</h2>
+            <!-- <h2>Overview</h2> -->
 
             <p>
                 I ran an empirical study of <b>MLIR</b> optimization passes on an Apple M4 Pro (AArch64, single thread,
@@ -119,9 +119,9 @@
 
             <figure class="roofline-figure">
                 <img src="images/roofline-mlir-m4.png"
-                     alt="Roofline model — Apple M4 Pro, single thread FP32. Points: MLIR tiled T=16, MLIR explicit vec T=16, Accelerate BLAS, IREE models (linear relu, MHA BERT base, mobile block), Softmax, Conv2d." />
+                     alt="Roofline model — Apple M4 Pro, single thread FP32. Points: MLIR tiled T=16, MLIR explicit vec T=16, Accelerate BLAS, IREE mobile block, Softmax, Conv2d." />
                 <figcaption>
-                    Roofline — Apple M4 Pro (single thread, FP32). Log-log axes. The IREE models and Accelerate
+                    Roofline — Apple M4 Pro (single thread, FP32). Log-log axes. The IREE mobile block and Accelerate
                     BLAS matmul approach or exceed the NEON ceiling; MLIR tiled T=16 sits well below it.
                     Softmax (purple cross) is theoretically compute-bound (AI \(\approx 0.63\) &gt; ridge \(\approx 0.53\)) but reaches only \(4.6\%\) efficiency due to scalar <code>math.exp</code> with no SIMD.
                 </figcaption>
@@ -134,9 +134,8 @@
                 lands consistently <i>below the scalar ceiling</i>, confirming that
                 <code>affine-super-vectorize</code> constrains the backend more than it helps.
                 <b>Accelerate</b> (red diamonds) hugs the AMX ceiling at large \(N\).
-                The <b>IREE mobile block</b> reaches \(117.9\,\text{GFLOP/s}\) — between NEON and AMX ceilings — thanks to
-                its fused depthwise+pointwise lowering. \(N=128\) MLIR points are now reliable: the loop-based
-                measurement eliminates the former process-startup distortion.
+                The <b>IREE mobile block</b> reaches \(121.7\,\text{GFLOP/s}\) — between NEON and AMX ceilings — thanks to
+                its fused depthwise+pointwise lowering.
             </p>
 
             <blockquote>
@@ -314,8 +313,7 @@
                 in-process: \(20\) warmup iterations followed by \(200\) timed repetitions, reporting
                 per-call mean and standard deviation with no process-startup overhead — the same
                 principle as the NITER loop used for the MLIR kernels, but built into the tool.
-                Each model maps directly onto a structural component found in
-                widespread neural network architectures:
+                The benchmark kernel is a MobileNetV2-style inverted residual block:
             </p>
 
             <div class="table-scroll">
@@ -330,51 +328,22 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td><code>linear_relu_512/1024</code></td>
-                        <td><code>Linear(d,d) + ReLU</code></td>
-                        <td>FFN projection in a transformer block (BERT, GPT, LLaMA)</td>
-                        <td>14.8 / 34.4</td>
-                    </tr>
-                    <tr>
-                        <td><code>mha_bert_base</code></td>
-                        <td><code>MultiheadAttention(d=768, heads=12, seq=128)</code></td>
-                        <td>Self-attention layer in BERT-base — Q/K/V projections, softmax, weighted sum</td>
-                        <td>8.2</td>
-                    </tr>
-                    <tr>
                         <td><code>mobile_block_56x56</code></td>
                         <td>Depthwise Conv2d(32, 3×3) + Pointwise Conv2d(32→16, 1×1)</td>
                         <td>MobileNetV2-style inverted residual block (depthwise-separable convolution)</td>
-                        <td>117.9</td>
+                        <td>121.7</td>
                     </tr>
                 </tbody>
             </table>
             </div>
 
             <p>
-                A few results are particularly striking. The <b>MHA BERT-base</b> kernel lands at \(8.2\,\text{GFLOP/s}\) —
-                below the scalar FP32 ceiling (\(9\,\text{GFLOP/s}\)). Despite IREE compiling the Q/K/V projections as
-                efficient matmuls, the row-wise softmax over the \(128 \times 128\) attention logit matrix is structurally
-                memory-bound (arithmetic intensity \(\approx 0.625\) FLOPs/byte) and drags down the whole operator's measured throughput.
-                With <code>iree-benchmark-module</code> running in-process there is no startup overhead,
-                so the \(41\,\text{ms}\) per-call latency reflects the kernel alone.
-            </p>
-
-            <p>
-                The <b>mobile block</b> reaches <b>\(117.9\,\text{GFLOP/s}\)</b> — well above the NEON ceiling (\(36\,\text{GFLOP/s}\))
+                The <b>mobile block</b> reaches <b>\(121.7\,\text{GFLOP/s}\)</b> — well above the NEON ceiling (\(36\,\text{GFLOP/s}\))
                 and approaching the AMX ceiling (\(162.66\,\text{GFLOP/s}\)). This is not a measurement artifact: IREE's
                 lowering stack fuses the depthwise and pointwise convolutions into a single tiled kernel,
                 unlocking data reuse that neither pass can achieve independently. The depthwise convolution
                 alone has very low arithmetic intensity, but after pointwise fusion the combined kernel becomes
                 heavily compute-bound and IREE manages to use AMX or near-AMX throughput on the fused loop.
-            </p>
-
-            <p>
-                This isomorphism between the benchmark kernels and real architecture components makes the
-                roofline results directly interpretable: if you are building a transformer inference engine on
-                Apple Silicon, the FFN projection sits comfortably in the compute-bound region (safe for tiling),
-                while the attention softmax will always be memory-bound regardless of how aggressively you tile
-                the surrounding matmuls.
             </p>
 
             <h2>Three-tier Result (matmul \(1024^2\), single thread FP32)</h2>
