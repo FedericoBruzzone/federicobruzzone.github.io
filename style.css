@@ -408,11 +408,11 @@ tr:nth-child(even) {
     background-color: var(--latest-post-bg);
 }
 
-.eter-more {
+.collapsible {
     margin-top: 0.5em;
 }
 
-.eter-more summary {
+.collapsible summary {
     cursor: pointer;
     color: var(--post-foot-color);
     font-size: 0.9em;
@@ -421,11 +421,11 @@ tr:nth-child(even) {
     user-select: none;
 }
 
-.eter-more summary::before {
+.collapsible summary::before {
     content: "▸ ";
 }
 
-.eter-more[open] summary::before {
+.collapsible[open] summary::before {
     content: "▾ ";
 }
 
