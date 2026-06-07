@@ -110,7 +110,7 @@ Capability-Regime Graph Calculus (CRGC) -->
             It is tempting to file RCGS under one of the familiar headings, but it brushes against many at once—broad categories of formal artifact and the specific disciplines from the <a href="./a-friendly-tour-of-substructural-uniqueness-ownership-and-capabilities-types-and-more.html">previous post</a> alike—and the cleanest way to characterize it is to say, why it is precisely none of them. 
         </p>
 
-        <h3>RCGS is <b>not</b> merely...</h3>
+        <h3>RCGS is not merely...</h3>
         <ul>
             <li><b>...a type system.</b> A type system classifies <i>expressions</i>; here the primary object is the access graph, and the typing judgment is a <i>projection</i> of it. The kind presented by a binding derives from the regime of the edge that reaches its value, not vice versa.</li>
             <li><b>...an operational semantics.</b> Reduction explains how a program <i>runs</i>; RCGS additionally imposes static invariants—on aliasing, mutation, and forwarding—that constrain <i>which</i> graph transformations are admissible in the first place.</li>
@@ -130,7 +130,18 @@ Capability-Regime Graph Calculus (CRGC) -->
         </p> -->
         <p>
             The system therefore stratifies into three layers. A <b>primary ontology</b>—the reference graph with regime-labelled edges; a <b>dynamics</b>—the rewrite rules that move, forward, and reinitialize those edges; and a family of <b>derived views</b>—types, effects, capabilities, and aliasing constraints—each of which is an extrapolation of the same underlying graph discipline.
+            <b>Conceptually, you can think of a type taking shape depending on the regime of the edges it reaches.</b>
         </p>
+
+
+
+
+
+
+
+
+
+
 
         <h3>Breaking Down RCGS</h3>
 
@@ -151,15 +162,13 @@ Capability-Regime Graph Calculus (CRGC) -->
         </p>
 
         <pre class="line-numbers" data-language="RCGS"><code class="language-c">
-x --(imm)--> y   // observe y through x; the edge may be freely duplicated
-x --(mut)--> y   // mutate y through x; this edge must be the only one of its kind
-x --(proj)--> y  // borrow y through x; the edge is consumed when it is forwarded</code></pre>
+x --(imm)--> y   // observe y through x
+x --(mut)--> y   // mutate y through x
+x --(proj)--> y  // borrow y through x</code></pre>
 
         <!--
             Osservazioni: non ci sono lifetime, non ci sono reference, lato utente tutto è un valore.
         -->
-
-        <h4></h4>
 
         <h4>Regimes Live on the Edges</h4>
 
@@ -271,6 +280,27 @@ print(y);        //  if y is live here  ⇒  p(x) = 1/2  ⇒  `let mut m = x` CO
         </ul>
         <p>
             They are coupled through ownership strength: aliasing capacity and mutation rights are constraints <i>derived</i> from it, and transfer semantics is the transition system that carries one configuration of the four to the next. We unpack each of these projections in the sections that follow.
+        </p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <h3>Some Examples to Materialize the Point</h3>
+
+        <p>
+            Before we dig into the details, let's see some examples of how the regime disciplines manifest.
         </p>
 
         <div class="bibtex" year="2026" month="April"></div>
