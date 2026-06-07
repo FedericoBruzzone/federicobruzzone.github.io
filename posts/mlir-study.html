@@ -178,9 +178,7 @@
                 All MLIR kernels are compiled to <b>native AoT binaries</b> via
                 <a href="https://github.com/FedericoBruzzone/mlir-study/blob/main/scripts/_compile_native.sh"><code>_compile_native.sh</code></a>
                 (<code>mlir-translate --mlir-to-llvmir</code> then Homebrew LLVM 22 <code>clang -O3 -march=native</code>).
-                <code>mlir-runner</code> (JIT) was abandoned for timing — see
-                <a href="https://github.com/FedericoBruzzone/mlir-study/blob/main/scripts/_run_mlir.sh"><code>_run_mlir.sh</code></a>
-                for the reasons. Baselines use Apple Accelerate via cblas. Wall-time is measured with
+                <code>mlir-runner</code> (JIT) was abandoned for timing. Baselines use Apple Accelerate via cblas. Wall-time is measured with
                 <a href="https://github.com/sharkdp/hyperfine">hyperfine</a>. The hardware target is an Apple
                 M4 Pro: \(12\) cores, \(64\,\text{KB}\) L1-D, \(4\,\text{MB}\) L2, \(24\,\text{GB}\) RAM, \(68\,\text{GB/s}\) memory bandwidth.
             </p>
