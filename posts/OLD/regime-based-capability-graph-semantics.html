@@ -1,0 +1,325 @@
+<!-- Graph-Regime Capability Reference System Semantics
+Regime-Based Reference System Semantics
+Regime-Based Capability Graph Semantics
+Substructural Regime Graph Semantics (SRGS)
+Capability-Regime Graph Calculus (CRGC) -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="../../prism.css">
+    <link rel="stylesheet" href="../../code.css">
+
+    <script src="../../scripts/prism.js" defer></script>
+    <script src="../../scripts/toc.js" defer></script>
+
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_SVG"></script>  -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script> 
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.2/p5.js"></script> -->
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    <title>Regime-Based Capability Graph Semantics</title>
+</head>
+
+
+<body>
+    <div id="root-folder" value="../.."></div>
+    <div id="header"></div>
+
+    <main>
+        <h1><img src="https://raw.githubusercontent.com/eter-lang/eter/main/docsrc/logo/logo.png" alt="The Eter logo"
+                width="20px" /> Regime-Based Capability Graph Semantics (RCGS)</h1>
+
+        <!-- <div style="display: flex; justify-content: center;">
+            <div class="alert-box">
+                THIS POST IS NOT YET COMPLETED.
+            </div>
+        </div> -->
+
+        <div style="display: flex; justify-content: center;">
+            <div class="alert-box">
+                <img src="https://raw.githubusercontent.com/eter-lang/eter/main/docsrc/logo/logo.png"
+                    alt="The Eter logo" width="10px" /> This post is part of <i>The <a
+                        href="https://github.com/eter-lang/eter">Eter</a> programming
+                    Language</i> series. <img
+                    src="https://raw.githubusercontent.com/eter-lang/eter/main/docsrc/logo/logo.png" alt="The Eter logo"
+                    width="10px" />
+            </div>
+        </div>
+
+        <!-- <p>
+            <b>Edit:</b> Take a look at the discussion in the <a href="">Programming Languages subreddit</a>.
+        </p> -->
+
+
+        <p>
+            This is the <strong>fourth post</strong> in the series dedicated to the <i>Eter programming language</i>, a side project that allows me to take my mind off the research I have to conduct.
+            The previous posts are (from the most recent to the oldest):
+            <ul>
+                <li><a href="./a-friendly-tour-of-substructural-uniqueness-ownership-and-capabilities-types-and-more.html">A Friendly Tour of Substructural, Uniqueness, Ownership, and Capabilities Types—and more!</a></li>
+                <li><a href="./MVS-or-ownership&borrowing.html">Mutable Value Semantics (MVS) or Ownership & Borrowing: A Trade-off Analysis</a></li>
+                <li><a href="./MVS.html">The Mutable Value Semantics (MVS): A Non-superficial Study</a></li>
+            </ul>
+        </p>
+        <p>
+            If you are interested in the project, you can find more information in the <a href="https://github.com/eter-lang/eter">Eter compiler monorepo</a>.  The <a href="https://eter-lang.github.io/eter/">Eter language reference</a> and the <a href="https://eter-lang.github.io/eter/api/">Eter Doxygen documentation</a>, although not yet complete, are also good starting points.
+        </p>
+
+        <p>
+            The <a href="./MVS.html">first post</a>, in its prelude, introduces what we are currently researching for the Eter language.
+            Then, it discusses the mutable value semantics (MVS) and how the popular programming languages (e.g., Swift, Hylo) implement it.
+            The <a href="./MVS-or-ownership&borrowing.html">second post</a> covers the trade-offs between MVS and ownership & borrowing, examining friction points in Rust, Hylo, and Swift while searching for common ground between the two memory models.
+            The <a href="./a-friendly-tour-of-substructural-uniqueness-ownership-and-capabilities-types-and-more.html">third post</a> proposes a friendly tour of the type-theoretic landscape behind memory safety. Starting from the logical roots of substructural logic, it walks through linear, affine, and uniqueness types, then visits regions, effects, capabilities, typestate, and the latest work on reachability and separation types.
+        </p>
+
+
+        <div id="toc"></div>
+
+
+
+        <h2>Premises</h2>
+
+        <p>
+            I'm really excited to share this post with all of you. When this path started (2 month ago), I had no idea that I would end up here. 
+            However, fundamental properties such as type soundness (or safety), via progress and preservation, require formalization of both <i>typing rules</i>, to define what is considered valid, and <i>operational semantics</i>, to describe how programs evolve. 
+            However, I will not delve into this level of formalization here.
+            While we are currently starting the implementation of the Eter compiler, I'm interested formalizing the ideas as well—if someone wants to collaborate in this direction, please get in touch. 
+            I'm familiar with Rocq theorem prover, but I'm open to using other tools or paper-and-pencil proofs as well.
+            Additionally, while writing this post, I came across a very interesting discussion on a programming languages subreddit, pointed out by knue82 in the comments of the <a href="https://www.reddit.com/r/ProgrammingLanguages/comments/1tpezv2/comment/oocmbvi/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button">previous post</a>.
+            Even if you're not already familiar with the regimes, they share several similarities with the "universes" model that WittyStick proposed three years ago <a href="https://www.reddit.com/r/ProgrammingLanguages/comments/13i4nm0/unifying_uniqueness_and_substructural_linear/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button">in that discussion</a>.
+        </p>
+
+        <h2>Regime-Based Capability Graph Semantics (RCGS)</h2>
+
+        <p>
+            The <b>Regime-Based Capability Graph Semantics (RCGS)</b> is a substructural graph-based capability semantics framework, where the right to read, mutate, or alias a value is <i>not</i> a property of the value itself but a label carried by the <i>edges</i> through which the value is reached. A program state is a directed graph whose nodes are storage locations and whose edges are <i>access paths</i>; each edge is annotated with a <i>regime</i>—one of <code>imm</code>, <code>mut</code>, or <code>proj</code>—that fixes what may legitimately happen along that path. Safety is then a statically-enforced invariant on how these regime-labelled edges may be created, relabelled, forwarded, and discarded.
+        </p>
+        <p>
+            <b>Wait, what the hell is this?</b> I know, it sounds like a mouthful. But it's actually quite simple, and the name is just a technical description of the system. I'll break it down, but I'd rather start by explaining what RCGS is <b>not</b>, to give you a clearer idea of what it is.
+            It is tempting to file RCGS under one of the familiar headings, but it brushes against many at once—broad categories of formal artifact and the specific disciplines from the <a href="./a-friendly-tour-of-substructural-uniqueness-ownership-and-capabilities-types-and-more.html">previous post</a> alike—and the cleanest way to characterize it is to say, why it is precisely none of them. 
+        </p>
+
+        <h3>RCGS is not merely...</h3>
+        <ul>
+            <li><b>...a type system.</b> A type system classifies <i>expressions</i>; here the primary object is the access graph, and the typing judgment is a <i>projection</i> of it. The kind presented by a binding derives from the regime of the edge that reaches its value, not vice versa.</li>
+            <li><b>...an operational semantics.</b> Reduction explains how a program <i>runs</i>; RCGS additionally imposes static invariants—on aliasing, mutation, and forwarding—that constrain <i>which</i> graph transformations are admissible in the first place.</li>
+            <li><b>...an effect system.</b> Effects record <i>what a computation does</i> (the actions it performs), bottom-up. Regimes record <i>what a path is permitted to do</i>, structurally—authority over the heap, not a log of events.</li>
+            <li><b>...a capability system.</b> Classical capabilities are primitive, token- or reference-shaped values. Here a capability is <i>not</i> a primitive: it is the pair of an edge and its regime, and authority is read off the topology of the graph rather than carried as a separate token.</li>
+            <li><b>...a substructural type system.</b> Substructural disciplines restrict the structural rules on <i>variables in a context</i>. RCGS lifts that restriction to the <i>edges of the graph</i>: it is the connectivity, not the binding, that becomes, e.g., affine, unique, or unrestricted.</li>
+            <li><b>...a reference capabilities system.</b> The nearest relative—they, too, qualify access rather than the object. But the qualifier rides on a <i>reference</i>, a value held by a node, and is read off in isolation; an RCGS regime rides on the <i>edge</i> and answers to graph-level invariants (at most one <code>mut</code> in-edge per location), not to the type of a reference taken alone.</li>
+            <li><b>...a reachability type system.</b> They share the graph and the concern with separation, but hang a <i>set of reachable variables on the type of a value</i> and let separation fall out of qualifier disjointness. RCGS hangs a regime on the edge; separation and exclusivity are constraints on edges, not a derived property of node-indexed sets.</li>
+            <li><b>...an object capabilities system.</b> They equate authority with reachability: holding the reference <i>is</i> the permission. RCGS refines exactly that equation—an edge is necessary but not sufficient, and its regime says what the edge authorizes, so two references to one object may carry different authority.</li>
+            <li><b>...a region and ownership type system.</b> They partition the heap by <i>where a value lives</i> or <i>which object owns it</i>—a discipline on the nodes and their grouping. RCGS imposes no such partition: authority is local to each edge, and a single location may sit at the end of edges of every regime simultaneously.</li>
+            <li><b>...a fractional-permission or degree-of-separation system.</b> Here the kinship runs deepest, and it is genuine: <code>imm</code>'s coexisting read-only aliases <i>are</i> a value's uniqueness split into shares, and <code>mut</code> is the full share \(p = 1\)—exactly the condition under which a write is sound (Granule's <code>writeArray</code> demands \(p = 1\)). RCGS does not reject fractional uniqueness; at its core it <i>is</i> a fractional-uniqueness discipline. What makes it more than the usual presentation is threefold. First, the shares ride on <i>edges</i>, and the only question that ever matters—"am I the sole owner?"—collapses to a graph fact, the node's live in-degree. Second, there is no explicit <code>split</code>/<code>join</code> arithmetic: recombination to \(p = 1\) is <i>implicit</i>, discovered by liveness, so a shared value silently regains write-authority the moment its other owners die (we work this out below). Third, it is folded into a three-regime system, with <code>proj</code> supplying the scoped borrow that fractional permissions can only model as a temporary fraction. And where the Capture Separation Calculus enforces separation only where parallel use makes a race possible, RCGS settles it structurally, by the regime on each edge.</li>
+            <!-- <li><b>Typestate.</b> It tracks the <i>state of an object</i> as it changes over time (open, then closed). A regime is not a state of the target but a mode of a <i>path</i> to it; the two are orthogonal, and an object in a fixed typestate may still be reached by <code>imm</code>, <code>mut</code>, or <code>proj</code> edges at once.</li> -->
+        </ul>
+
+        <!-- <p>
+            The thread tying these together is deliberate. Nearly every discipline above lodges its rules on a <i>node</i> or a <i>name</i>—a value, a reference, a type context, a region, a reachability qualifier, a token. RCGS lodges them on the <i>edge</i>. That single relocation is what lets one object be immutable along one path, exclusively mutable along another, and borrowed along a third, with the global invariants enforced by counting edges rather than by inspecting values.
+        </p> -->
+        <p>
+            The system therefore stratifies into three layers. A <b>primary ontology</b>—the reference graph with regime-labelled edges; a <b>dynamics</b>—the rewrite rules that move, forward, and reinitialize those edges; and a family of <b>derived views</b>—types, effects, capabilities, and aliasing constraints—each of which is an extrapolation of the same underlying graph discipline.
+            <b>Conceptually, you can think of a type taking shape depending on the regime of the edges it reaches.</b>
+        </p>
+
+
+
+
+
+
+
+
+
+
+
+        <h3>Breaking Down RCGS</h3>
+
+        <h4>The Reference Graph</h4>
+        <p>
+            We make the structure precise. An RCGS state is a directed graph
+            \[
+            G = (V,\ E,\ \tau,\ \kappa)
+            \]
+            where \(V\) is a set of <i>storage locations</i> (objects, allocations, bindings); \(E \subseteq V \times V\) is a set of directed <i>access edges</i>; \(\tau : V \to \mathsf{Type}\) assigns a type to each location; and
+            \[
+            \kappa : E \to \mathcal{R}, \qquad \mathcal{R} = \{\,\mathsf{imm},\ \mathsf{mut},\ \mathsf{proj}\,\}
+            \]
+            assigns a <i>regime</i> to each edge. The classical reference graph is the special case in which \(\kappa\) is constant—every edge carries the same, uniform "points-to" meaning. RCGS makes \(\kappa\) the centre of attention: the regime, not the mere existence of the edge, is what the semantics reasons about.
+        </p>
+        <p>
+            Reading an edge \(u \xrightarrow{r} v\) as "from \(u\), the value at \(v\) may be accessed under regime \(r\)", the three regimes are:
+        </p>
+
+        <pre class="line-numbers" data-language="RCGS"><code class="language-c">
+x --(imm)--> y   // observe y through x
+x --(mut)--> y   // mutate y through x
+x --(proj)--> y  // borrow y through x</code></pre>
+
+        <!--
+            Osservazioni: non ci sono lifetime, non ci sono reference, lato utente tutto è un valore.
+        -->
+
+        <h4>Regimes Live on the Edges</h4>
+
+        <p>
+            Each regime is a different substructural discipline imposed on the edge that carries it. The table summarizes the three; the rows are not permissions on an object but permissions on a <i>path</i>.
+        </p>
+
+        <table class="post-table">
+            <thead>
+                <tr><th>Regime</th><th>Read</th><th>Write</th><th>Aliasing of the edge</th><th>Structural status</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><code>imm</code></td><td>&#10003;</td><td>&#10007;</td><td>Unrestricted (duplicable)</td><td>Unrestricted</td></tr>
+                <tr><td><code>mut</code></td><td>&#10003;</td><td>&#10003;</td><td>None (unique active edge)</td><td>Affine (move)</td></tr>
+                <tr><td><code>proj</code></td><td>&#10003;</td><td>Conditional (reinit)</td><td>Controlled, non-persistent</td><td>Linear (forward)</td></tr>
+            </tbody>
+        </table>
+
+        <p>
+            The behaviour of each regime is fixed by a small set of invariants on \(G\). Writing \(\mathrm{in}(v)\) for the edges pointing at a location \(v\):
+        </p>
+        <ul>
+            <li><b>Immutable sharing.</b> An <code>imm</code> edge may be duplicated without restriction (contraction is permitted), but on its own it never licenses a write. A location reached only by <code>imm</code> edges admits arbitrary aliasing and no mutation—the graph analogue of a freely-shared, read-only value; read quantitatively, it is a uniqueness <i>split into shares</i>, reassembled for mutation only once all but one have been dropped (see <a href="#recovering-uniqueness">below</a>).</li>
+            <li><b>Mutable exclusivity.</b> A <code>mut</code> edge is affine and write-capable, and at most one may reach a given location at a time:
+                \[
+                \bigl|\{\, e \in \mathrm{in}(v) : \kappa(e) = \mathsf{mut} \,\}\bigr| \le 1 \qquad \text{for every } v \in V .
+                \]
+                This is the graph-level restatement of "no two writers"—Rust's shared-XOR-mutable rule, recovered as a counting constraint on incoming edges.</li>
+            <li><b>Projection linearity.</b> A <code>proj</code> edge is a <i>linear</i> resource: it cannot be copied, only <i>forwarded</i>—relabelled onto a new source and consumed at the old one—and it may never coexist with a concurrent <code>mut</code> edge to the same location. A projection is access without ownership: it neither owns nor drops its target, yet while it is live the owner must hold still.</li>
+        </ul>
+
+        <h3>Transfer is a Graph Rewrite</h3>
+
+        <p>
+            Everything dynamic in the system—assigning, passing an argument, returning a result—is a <i>rewrite</i> of regime-labelled edges, and the rewrites are <i>directional</i>. The pattern echoes the asymmetry of uniqueness from the previous post: authority is forgotten freely, and regained only against a proof that the value is back in a single owner's hands.
+        </p>
+        <p>
+            Concretely, a transfer is a partial map on regimes, \(\mathsf{mut} \rightharpoonup \mathsf{imm}\), \(\mathsf{proj} \rightharpoonup \mathsf{proj}\), and so on, realized as one of five edge operations:
+        </p>
+        <ul>
+            <li><b>move</b> — the source edge is consumed and re-created at the destination (the discipline of <code>mut</code>);</li>
+            <li><b>copy</b> — a new edge is created alongside the old one (admissible only for <code>imm</code>);</li>
+            <li><b>forward</b> — a <code>proj</code> edge is relabelled onto a new source and invalidated at the old one, with no aliasing introduced;</li>
+            <li><b>reinitialization</b> — an edge is replaced by a fresh capability after the old one is invalidated, which is what a <code>proj</code> must do before it can be observed as <code>imm</code> or <code>mut</code>;</li>
+            <li><b>reuse</b> — when a location's live in-edges collapse to a single <code>imm</code> edge, that edge may be upgraded in place to <code>mut</code> and moved on, with no copy and no allocation: uniqueness recovered, the node reused.</li>
+        </ul>
+        <p>
+            The directions that are <i>not</i> free are as telling as the ones that are. Weakening is always available: a <code>mut</code> edge may be forgotten into <code>imm</code> at will. Strengthening—turning an <code>imm</code> edge back into a <code>mut</code>, or lending it out as a <code>proj</code>—is <i>not</i> forbidden, but it is <i>gated</i>: it is sound exactly when the location has returned to a single owner, its live in-degree one, which is the graph reading of the fractional condition \(p = 1\). When the compiler proves this by liveness, the strengthening is a zero-copy <i>reuse</i>; when it cannot, the same syntax falls back to a <i>copy</i>, minting a fresh, unaliased node that is unique by construction. Authority can always be relaxed, then, and it can be regained—but only against a proof that no one else is still watching.
+        </p>
+
+        <h3 id="recovering-uniqueness">Recovering Uniqueness: <code>imm</code> as a Fractional Share</h3>
+
+        <p>
+            The cleanest way to see the gate at work is to read <code>imm</code> as a <i>share</i> of a value's uniqueness. A freshly allocated value has one owner holding all of it, \(p = 1\); every <code>let imm</code> that aliases it splits the share, and the shares always sum to one. Dropping an owner returns its share to those that remain. Writing demands the whole share back, \(p = 1\)—precisely the soundness condition for in-place mutation, since \(p = 1\) means no one else can observe the change.
+        </p>
+        <p>
+            Made explicit, a chain of immutable aliases and their drops walks the share from \(1\) down through the co-owners and back up to \(1\) as they die—and the <i>last</i> drop, finding itself alone, is the one that actually frees:
+        </p>
+
+        <pre class="line-numbers" data-language="Eter"><code class="language-rust">{
+  let imm x = [1, 2, 3];   //  x ──imm──▶ ⟦[1,2,3]⟧        p(x) = 1
+  let imm y = x;           //  + y                          p = 1/2, 1/2
+  let imm z = y;           //  + z                          p = 1/3, 1/3, 1/3
+
+  drop(z);   //  shares ⇒ (x: 1/2, y: 1/2)     share returns to survivors — no free
+  drop(y);   //  shares ⇒ (x: 1)               share returns to survivors — no free
+  drop(x);   //  x held the whole share (p = 1)  ⇒  DEALLOCATE ⟦[1,2,3]⟧
+}</code></pre>
+
+        <p>
+            Now the payoff. If, instead of letting the value die, we hand it to a <code>mut</code> binding while its co-owners are already dead, the share has silently returned to \(p = 1\) at <code>x</code>—so the <code>imm → mut</code> upgrade is licensed, and it is a <i>move</i>, not a copy. The would-be drops become <i>placebo</i> (shares handed back, never the final one), and the terminal free is replaced by <i>reuse</i> of the very same node:
+        </p>
+
+        <pre class="line-numbers" data-language="Eter"><code class="language-rust">{
+  let imm x = [1, 2, 3];
+  let imm y = x;
+  let imm z = y;
+  // y and z are dead here  ⇒  their shares collapse onto x  ⇒  p(x) = 1
+  let mut m = x;   //  p(x) = 1 licenses imm → mut:  MOVE + upgrade, no copy, no free
+}
+//  resulting state:   m ──mut──▶ ⟦[1,2,3]⟧</code></pre>
+
+        <p>
+            This settles the natural question—does the final drop come before or after the assignment?—with <i>neither</i>: it is fused into it. A real <code>drop(x)</code> <i>before</i> would zero the in-degree and free the buffer, leaving <code>= x</code> dangling; <i>after</i>, there is nothing left to drop, since the move already consumed <code>x</code>. The assignment <i>is</i> the move-and-upgrade, guarded by \(p(x) = 1\); what must happen first is only the collapse of the other shares. The same terminal operation is therefore a <i>free</i> when nothing rescues the node and a <i>reuse</i> when something does—a drop/reuse split the compiler settles statically, ahead of execution.
+        </p>
+        <p>
+            And because the decision rides on liveness, the very same line is a move or a copy depending on what comes after it:
+        </p>
+
+        <pre class="line-numbers" data-language="Eter"><code class="language-rust">let imm x = [1, 2, 3];
+let imm y = x;
+let mut m = x;   //  if y is dead here  ⇒  p(x) = 1    ⇒  move + upgrade (zero-copy)
+print(y);        //  if y is live here  ⇒  p(x) = 1/2  ⇒  `let mut m = x` COPIES instead</code></pre>
+
+        <p>
+            This is exactly copy-on-write—mutation forces a copy unless the value is uniquely held—but here it is a wholly <i>static</i> discipline: liveness decides, at every use site, whether the upgrade is a zero-copy reuse or a copy, all at compile time. One practical consequence is worth stating plainly: the rational shares are a faithful <i>model</i>, but an implementation never needs the arithmetic. Reads do not care about the magnitude of a share, and the single place magnitude matters—the write—asks one yes/no question, "am I alone?", which the checker answers statically from the node's live in-degree. The fractions are how to <i>think</i> about it; a static uniqueness bit is how to <i>compile</i> it.
+        </p>
+
+        <h3>Four Projections: Ownership, Mutation, Aliasing, Transfer</h3>
+
+        <p>
+            Because the regime sits on the edge, the four properties one usually states about a value are not independent axioms but <i>projections</i> of the graph. Each reads off a different aspect of the incoming edges of a location:
+        </p>
+        <ul>
+            <li><b>Ownership strength</b> — the strongest regime among the edges reaching a location, ordered \(\mathsf{mut} > \mathsf{proj} > \mathsf{imm}\);</li>
+            <li><b>Mutation rights</b> — whether any incoming edge is <code>mut</code>, subject to the exclusivity invariant above;</li>
+            <li><b>Aliasing capacity</b> — how many edges may simultaneously reach the location, which the regime caps (many for <code>imm</code>, one for <code>mut</code>, one live chain for <code>proj</code>);</li>
+            <li><b>Transfer semantics</b> — not a static attribute at all, but the rewrite rule that fires when an edge is moved, copied, forwarded, reinitialized, or reused in place once uniqueness is recovered.</li>
+        </ul>
+        <p>
+            They are coupled through ownership strength: aliasing capacity and mutation rights are constraints <i>derived</i> from it, and transfer semantics is the transition system that carries one configuration of the four to the next. We unpack each of these projections in the sections that follow.
+        </p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <h3>Some Examples to Materialize the Point</h3>
+
+        <p>
+            Before we dig into the details, let's see some examples of how the regime disciplines manifest.
+        </p>
+
+        <div class="bibtex" year="2026" month="April"></div>
+
+        <p><br><br></p>
+        <hr>
+        <p id="footnote-1">
+            <sup>1</sup>
+            An unrestricted value is one that satisfies all structural rules of classical logic, allowing contraction, weakening, and exchange without restriction.
+            <a href="#footnote-1-ref">&#8617;</a>
+        </p>
+
+        <div class="bibliography"></div>
+        <div id="footer"></div>
+        <script src="../../scripts/toggle-theme.js"></script>
+        <script src="../../scripts/load-header.js"></script>
+        <script src="../../scripts/load-footer.js"></script>
+        <script src="../../scripts/load-cits.js"></script>
+        <script src="../../scripts/load-bib.js"></script>
+</body>
+
+</html>
