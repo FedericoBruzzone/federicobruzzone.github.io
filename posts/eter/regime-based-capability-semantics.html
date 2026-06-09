@@ -29,7 +29,7 @@ Capability-Regime Graph Calculus (CRGC) -->
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
 
-    <title>Regime-Based Capability Graph Semantics</title>
+    <title>Regime-Based Capability Semantics</title>
 </head>
 
 
@@ -39,7 +39,7 @@ Capability-Regime Graph Calculus (CRGC) -->
 
     <main>
         <h1><img src="https://raw.githubusercontent.com/eter-lang/eter/main/docsrc/logo/logo.png" alt="The Eter logo"
-                width="20px" /> Regime-Based Capability Graph Semantics (RCGS)</h1>
+                width="20px" /> Regime-Based Capability Semantics (RCS)</h1>
 
         <!-- <div style="display: flex; justify-content: center;">
             <div class="alert-box">
@@ -100,7 +100,7 @@ Capability-Regime Graph Calculus (CRGC) -->
             Even if you're not already familiar with the regimes, they share several similarities with the "universes" model that WittyStick proposed three years ago <a href="https://www.reddit.com/r/ProgrammingLanguages/comments/13i4nm0/unifying_uniqueness_and_substructural_linear/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button">in that discussion</a>.
         </p>
 
-        <h2>Regime-Based Capability Graph Semantics (RCGS)</h2>
+        <h2>Regime-Based Capability Semantics</h2>
 
         <p>
             The <b>Regime-Based Capability Graph Semantics (RCGS)</b> is a substructural graph-based capability semantics framework, where the right to read, mutate, or alias a value is <i>not</i> a property of the value itself but a label carried by the <i>edges</i> through which the value is reached. A program state is a directed graph whose nodes are storage locations and whose edges are <i>access paths</i>; each edge is annotated with a <i>regime</i>—one of <code>imm</code>, <code>mut</code>, or <code>proj</code>—that fixes what may legitimately happen along that path. Safety is then a statically-enforced invariant on how these regime-labelled edges may be created, relabelled, forwarded, and discarded.

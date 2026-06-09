@@ -391,6 +391,16 @@
 )
 
 #entry(
+  when: "2026/06/09",
+  what: [#link("https://github.com/llvm/llvm-project/pull/201180")[LLVM (MLIR)]: affine-super-vectorize now emits in_bounds transfer ops],
+  details: (
+    [
+    Fixes affine-super-vectorize to emit vector.transfer_read/write with the in_bounds attribute when statically provable, avoiding unnecessary masked intrinsics overhead on AArch64/NEON.
+    ]
+  )
+)
+
+#entry(
   when: "2025-Present",
   what: [Maintainer of the #link("https://github.com/FedericoBruzzone/papers-on-compiler-optimizations")[Papers on Compiler Optimizations: Analysis and Transformations], a curated list of scientific publications on compiler optimizations and related topics.],
   details: (
@@ -402,14 +412,11 @@
 
 
 #entry(
-  when: "2024-Present",
-  what: [Contributions to the *Rust* compiler, focusing on type systems, diagnostics, and layout computations --- by fixing some Internal Compiler Errors (ICEs) and implementing new features.],
+  when: "2025/09-Present",
+  what: [*Maintainer* of #link("https://github.com/FedericoBruzzone/scribe")[scribe], a minimalist, opinionated LaTeX document class for academic technical writing and presentations.],
   details: (
     [
-      - #link("https://github.com/rust-lang/rust/pull/135158")[Add `TooGeneric` variant to `LayoutError` and emit `Unknown`] (closed but #link("https://github.com/tautschnig/verify-rust-std/commit/ace9ceaeede0f8f832dc1f32e2a83f591d33e395")[merged])
-      - #link("https://github.com/rust-lang/rust/pull/136430")[Use the type-level constant value ty::Value where needed]
-      - #link("https://github.com/rust-lang/rust/pull/130123")[Report the note when specified in `diagnostic::on_unimplemented`]
-      #v(-5pt, weak: true)
+    Scribe provides a clean, professional layout with callout boxes, theorem environments, line numbering, and a matching Beamer theme.
     ]
   )
 )
