@@ -6,7 +6,15 @@
     <atom:link href="https://federicobruzzone.github.io/feed.xml" rel="self" type="application/rss+xml"/>
     <description>Posts, scientific publications, preprints, and activities by Federico Bruzzone.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 02 Jun 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 09 Jun 2026 00:00:00 GMT</lastBuildDate>
+    <item>
+      <title>LLVM: affine-super-vectorize emits in_bounds transfer ops</title>
+      <link>https://github.com/llvm/llvm-project/pull/201180</link>
+      <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-06-09:activities/llvm-affine-super-vectorize-emits-in-bounds-transfer-ops</guid>
+      <category>Activity</category>
+      <pubDate>Tue, 09 Jun 2026 00:00:00 GMT</pubDate>
+      <description><![CDATA[Fixes affine-super-vectorize to emit vector.transfer_read/write with the in_bounds attribute when statically provable, avoiding unnecessary masked intrinsics overhead on AArch64/NEON.]]></description>
+    </item>
     <item>
       <title>MLIR Empirical Study on AArch64 (Apple M4 Pro)</title>
       <link>https://federicobruzzone.github.io/posts/mlir-study.html</link>
@@ -70,14 +78,6 @@
       <category>Post</category>
       <pubDate>Sat, 19 Apr 2025 00:00:00 GMT</pubDate>
       <description><![CDATA[A discussion on idiomatic Rust patterns for consuming input only when a function successfully returns a value. This explores ownership semantics and how to write clean, expressive APIs in Rust.]]></description>
-    </item>
-    <item>
-      <title>LLVM: affine-super-vectorize emits in_bounds transfer ops</title>
-      <link>https://github.com/llvm/llvm-project/pull/201180</link>
-      <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-06-09:activities/llvm-affine-super-vectorize-in-bounds-transfer-ops</guid>
-      <category>Activity</category>
-      <pubDate>Tue, 09 Jun 2026 00:00:00 GMT</pubDate>
-      <description><![CDATA[Fixes affine-super-vectorize to emit vector.transfer_read/write with the in_bounds attribute when statically provable, avoiding unnecessary masked intrinsics overhead on AArch64/NEON.]]></description>
     </item>
     <item>
       <title>One of the 393 contributors to Rust 1.86.0</title>
