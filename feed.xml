@@ -6,7 +6,15 @@
     <atom:link href="https://federicobruzzone.github.io/feed.xml" rel="self" type="application/rss+xml"/>
     <description>Posts, scientific publications, preprints, and activities by Federico Bruzzone.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 09 Jun 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 12 Jun 2026 00:00:00 GMT</lastBuildDate>
+    <item>
+      <title>LLVM (MLIR): extend createReadOrMaskedRead/createWriteOrMaskedWrite with permutation map support</title>
+      <link>https://github.com/llvm/llvm-project/pull/202766</link>
+      <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-06-12:activities/mlir-extend-createreadormaskedread-createwriteormaskedwrite-with-permutation-map-support</guid>
+      <category>Activity</category>
+      <pubDate>Fri, 12 Jun 2026 00:00:00 GMT</pubDate>
+      <description><![CDATA[Extends the createReadOrMaskedRead and createWriteOrMaskedWrite utilities in VectorUtils with permutation map support. The affine super-vectorizer is updated to use these utilities instead of constructing TransferReadOp/TransferWriteOp directly.]]></description>
+    </item>
     <item>
       <title>LLVM: affine-super-vectorize emits in_bounds transfer ops</title>
       <link>https://github.com/llvm/llvm-project/pull/201180</link>

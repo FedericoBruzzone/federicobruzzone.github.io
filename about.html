@@ -313,6 +313,13 @@
             which provides safe and idiomatic Rust bindings to the official TDLib C++ library.
         </p>
 
+        <p><b>2026/06/12</b> &mdash;
+            <a href="https://github.com/llvm/llvm-project/pull/202766">LLVM (MLIR): extend createReadOrMaskedRead/createWriteOrMaskedWrite with permutation map support</a><br>
+            Extends the createReadOrMaskedRead and createWriteOrMaskedWrite utilities in VectorUtils with
+            permutation map support. The affine super-vectorizer is updated to use these utilities
+            instead of constructing TransferReadOp/TransferWriteOp directly.
+        </p>
+
         <p><b>2026/06/09</b> &mdash;
             <a href="https://github.com/llvm/llvm-project/pull/201180">LLVM: affine-super-vectorize now emits in-bounds transfer ops</a><br>
             Fixes affine-super-vectorize to emit vector.transfer_read/write with the in_bounds attribute

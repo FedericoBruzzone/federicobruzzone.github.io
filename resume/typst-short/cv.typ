@@ -391,6 +391,16 @@
 )
 
 #entry(
+  when: "2026/06/12",
+  what: [#link("https://github.com/llvm/llvm-project/pull/202766")[LLVM (MLIR)]: extend createReadOrMaskedRead/createWriteOrMaskedWrite with permutation map support],
+  details: (
+    [
+    Extends the createReadOrMaskedRead and createWriteOrMaskedWrite utilities in VectorUtils with permutation map support. The affine super-vectorizer is updated to use these utilities instead of constructing TransferReadOp/TransferWriteOp directly.
+    ]
+  )
+)
+
+#entry(
   when: "2026/06/09",
   what: [#link("https://github.com/llvm/llvm-project/pull/201180")[LLVM (MLIR)]: affine-super-vectorize now emits in_bounds transfer ops],
   details: (

@@ -299,6 +299,14 @@
 
             <article class="post-block" style="margin-bottom: 1rem;">
                 <div class="post-inner">
+                    <div class="post-title"><a href="https://github.com/llvm/llvm-project/pull/202766" style="text-decoration:none;">LLVM (MLIR): createReadOrMaskedRead/Write with permutation map</a></div>
+                    <div class="post-desc">Extends the createReadOrMaskedRead and createWriteOrMaskedWrite utilities in VectorUtils with permutation map support. The affine super-vectorizer is updated to use these utilities.</div>
+                    <div class="post-foot"><img src="icons/clock.svg" width=12px height=12px/> 2026/06/12</div>
+                </div>
+            </article>
+
+            <article class="post-block" style="margin-bottom: 1rem;">
+                <div class="post-inner">
                     <div class="post-title"><a href="https://github.com/llvm/llvm-project/pull/201180" style="text-decoration:none;">LLVM: affine-super-vectorize in_bounds transfer ops</a></div>
                     <div class="post-desc">Fixes affine-super-vectorize to emit vector.transfer_read/write with the in_bounds attribute when statically provable, avoiding unnecessary masked intrinsics overhead on AArch64/NEON.</div>
                     <div class="post-foot"><img src="icons/clock.svg" width=12px height=12px/> 2026/06/09</div>
