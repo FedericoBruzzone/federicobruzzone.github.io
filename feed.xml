@@ -8,9 +8,9 @@
     <language>en</language>
     <lastBuildDate>Fri, 12 Jun 2026 00:00:00 GMT</lastBuildDate>
     <item>
-      <title>LLVM (MLIR): extend createReadOrMaskedRead/createWriteOrMaskedWrite with permutation map support</title>
+      <title>LLVM (MLIR): createReadOrMaskedRead/Write with permutation map support</title>
       <link>https://github.com/llvm/llvm-project/pull/202766</link>
-      <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-06-12:activities/mlir-extend-createreadormaskedread-createwriteormaskedwrite-with-permutation-map-support</guid>
+      <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-06-12:activities/llvm-mlir-createreadormaskedread-write-with-permutation-map-support</guid>
       <category>Activity</category>
       <pubDate>Fri, 12 Jun 2026 00:00:00 GMT</pubDate>
       <description><![CDATA[Extends the createReadOrMaskedRead and createWriteOrMaskedWrite utilities in VectorUtils with permutation map support. The affine super-vectorizer is updated to use these utilities instead of constructing TransferReadOp/TransferWriteOp directly.]]></description>
