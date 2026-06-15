@@ -95,9 +95,9 @@
   about: [
     #text(9pt,
     block(inset: (right: 2.5cm, left: 2.5cm))[#rect[
-      PhD Candidate in Computer Science.
-      Programming Languages and Compilers enthusiast. Also, a Sound Engineer and Music Composer.
-      For more information, visit my personal #link("https://federicobruzzone.github.io")[website].
+      Presently a PhD Candidate in Computer Science. 
+      I have a strong passion for *Programming Languages* and *Compilers*, and I'm currently diving into *AI (ML/DL) compilers*. 
+      For more information, just  just visit my personal #link("https://federicobruzzone.github.io")[*webpage*].
     ]])
   ],
   site_link: "https://federicobruzzone.github.io",
@@ -204,7 +204,7 @@
   when: "2024-Present",
   what: [*PhD Candidate* in Computer Science at the ADAPT Lab, University of Milan],
   details: (
-    [Under the supervision of _W. Cazzola_, my research focuses *compiler*\/*IR* *construction* and *programming languages*, *analysis* and *transformation* of *optimizing compilers* as well as *type systems* and *support tools* (e.g., LSP).]
+    // [Under the supervision of _W. Cazzola_, my research focuses *compiler*\/*IR* *construction* and *programming languages*, *analysis* and *transformation* of *optimizing compilers* as well as *type systems* and *support tools* (e.g., LSP).]
   )
 )
 
@@ -230,6 +230,92 @@
   what: "Diploma in Computer Science and Telecommunications at E. Alessandrini",
   details: ()
 )
+
+
+
+
+
+
+
+= Open Source Contributions (Selected)
+
+#entry(
+  when: "2026",
+  what: [#link("https://github.com/FedericoBruzzone/eter")[The Eter Programming Language], a new programming language leveraging the MLIR/IREE ecosystem with tensors support.],
+  details: ()
+)
+
+#entry(
+  when: "2026",
+  what: [MLIR/LLVM: #link("https://github.com/llvm/llvm-project/pull/202118")[[mlir][vector] Add opt-in `inbounds/nneg` flags to `vector.load/vector.store`
+]],
+  details: ()
+)
+
+#entry(
+  when: "2026",
+  what: [MLIR/LLVM: #link("https://github.com/llvm/llvm-project/pull/203916")[[mlir][linalg] add `toContractionDimensions` for healthy code reuse
+]],
+  details: ()
+)
+
+#entry(
+  when: "2026",
+  what: [MLIR/LLVM: #link("https://github.com/llvm/llvm-project/pull/202766")[[mlir][vector] extend `createReadOrMaskedRead/createWriteOrMaskedWrite` with permutation map support
+]],
+  details: ()
+)
+
+#entry(
+  when: "2026",
+  what: [MLIR/LLVM: #link("https://github.com/llvm/llvm-project/pull/201180")[[mlir][affine] emit `in_bounds` on `transfer_read/write` when statically provable in `affine-super-vectorize`]],
+  details: ()
+)
+
+
+#entry(
+  when: "From 2026",
+  what: [Maintainer of the #link("https://github.com/FedericoBruzzone/llvm-pass-template")[LLVM Pass Template], a C++ template project to quickly create new LLVM passes.],
+  details: ()
+)
+
+#entry(
+  when: "From 2025",
+  what: [Maintainer of the #link("https://github.com/FedericoBruzzone/papers-on-compiler-optimizations")[Papers on Compiler Optimizations: Analysis and Transformations], a curated list of scientific publications],
+  details: ()
+)
+
+
+#entry(
+  when: "From 2025",
+  what: [Maintainer of #link("https://github.com/FedericoBruzzone/scribe")[scribe], a minimalist, opinionated LaTeX document class for technical writing and presentations.],
+  details: ()
+)
+
+#entry(
+  when: "From 2025",
+  what: [Maintainer of the #link("https://github.com/FedericoBruzzone/tide")[Tide Compiler], an backend-agnostic IR and compiler framework written in *Rust*.],
+  details: ()
+)
+
+#entry(
+  when: "2025",
+  what: [#link("https://github.com/Qiskit/rustworkx/pull/1385")[Generalizing Closeness centrality to weighted networks using Newman method] (issue #link("https://github.com/Qiskit/rustworkx/issues/1384")[#1384])],
+  details: ()
+)
+
+#entry(
+  when: "From 2024",
+  what: [Maintainer of the cross-platform #link("https://github.com/FedericoBruzzone/tgt")[tgt] project and #link("https://github.com/FedericoBruzzone/tdlib-rs")[tdlib-rs] TDLib bindings written in *Rust*.],
+  details: ()
+)
+
+
+
+
+
+
+
 
 = Research Activities
 
@@ -378,108 +464,25 @@
 
 
 
-= Public Contributions (Selected)
-
-#entry(
-  when: "2026-Present",
-  what: [Maintainer of the #link("https://github.com/FedericoBruzzone/llvm-pass-template")[LLVM Pass Template], a C++ template project to quickly create new LLVM passes.],
-  details: (
-    [
-    This project allows developers to quickly bootstrap, test, and benchmark new out-of-tree LLVM passes with minimal effort --- that is, without the need to build LLVM from sources.
-    ]
-  )
-)
-
-#entry(
-  when: "2026/06/12",
-  what: [#link("https://github.com/llvm/llvm-project/pull/202766")[LLVM (MLIR)]: extend createReadOrMaskedRead/createWriteOrMaskedWrite with permutation map support],
-  details: (
-    [
-    Extends the createReadOrMaskedRead and createWriteOrMaskedWrite utilities in VectorUtils with permutation map support. The affine super-vectorizer is updated to use these utilities instead of constructing TransferReadOp/TransferWriteOp directly.
-    ]
-  )
-)
-
-#entry(
-  when: "2026/06/09",
-  what: [#link("https://github.com/llvm/llvm-project/pull/201180")[LLVM (MLIR)]: affine-super-vectorize now emits in_bounds transfer ops],
-  details: (
-    [
-    Fixes affine-super-vectorize to emit vector.transfer_read/write with the in_bounds attribute when statically provable, avoiding unnecessary masked intrinsics overhead on AArch64/NEON.
-    ]
-  )
-)
-
-#entry(
-  when: "2025-Present",
-  what: [Maintainer of the #link("https://github.com/FedericoBruzzone/papers-on-compiler-optimizations")[Papers on Compiler Optimizations: Analysis and Transformations], a curated list of scientific publications on compiler optimizations and related topics.],
-  details: (
-    [
-    This repository curates a chronologically sorted list of influential papers on compiler optimization, from the seminal works of 1952 through the advanced techniques of 1994.
-    ]
-  )
-)
-
-
-#entry(
-  when: "2025/09-Present",
-  what: [*Maintainer* of #link("https://github.com/FedericoBruzzone/scribe")[scribe], a minimalist, opinionated LaTeX document class for academic technical writing and presentations.],
-  details: (
-    [
-    Scribe provides a clean, professional layout with callout boxes, theorem environments, line numbering, and a matching Beamer theme.
-    ]
-  )
-)
-
-#entry(
-  when: "2025-Present",
-  what: [*Maintainer* of the #link("https://github.com/FedericoBruzzone/tide")[Tide Compiler], an backend-agnostic IR and compiler framework written in *Rust*.],
-  details: (
-    [
-      *Tide* aims to be a modular and extensible framework for building compilers and language tools, prioritizing simplicity and ease of use. From its quasi-SSA IR to its flexible backend architecture, Tide provides a solid foundation for developing compilers for various programming languages.
-    ]
-  )
-)
-
-#entry(
-  when: "2025-Present",
-  what: [Contributions to the *Rustworkx* graph library, focusing on implementing the Closeness Centrality algorithm for weighted graphs (following Newman's method) and integrating it into the Python bindings.],
-  details: (
-    [
-      - #link("https://github.com/Qiskit/rustworkx/pull/1385")[Generalizing Closeness centrality to weighted networks using Newman method] (issue #link("https://github.com/Qiskit/rustworkx/issues/1384")[#1384])
-      #v(-5pt, weak: true)
-    ]
-  )
-)
-
-#entry(
-  when: "2024-Present",
-  what: [*Maintainer* of the cross-platform #link("https://github.com/FedericoBruzzone/tgt")[tgt] project and #link("https://github.com/FedericoBruzzone/tdlib-rs")[tdlib-rs] TDLib bindings written in *Rust*.],
-  details: (
-    [
-      #link("https://crates.io/crates/tgt")[Tgt] is a TUI (Terminal User Interface) client for Telegram, built using the  #link("https://crates.io/crates/tdlib-rs")[tdlib-rs] library, which provides safe and idiomatic Rust bindings to the official TDLib (Telegram Database Library) C++ library. Thanks to CI/CD pipelines, we ensure (i) that the projects build and work correctly on Linux, macOS, and Windows, (ii) automatic releases on GitHub and crates.io, and (iii) automatic documentation generation.
-    ]
-  )
-)
-
-
 = Technical Skills
 #entry(
   when: [Languages],
   what: (
-    [*Rust*, *Python*, *C/C++*, *Go*, OCaml, Java,  Scala, Kotlin, Erlang, Lua, Dart, PHP, HTML/CSS, SQL, Bash, TeX
+    [Rust, C/C++, Python, Go, OCaml, Java,  Scala, Kotlin, Erlang, Lua, Dart, PHP, HTML/CSS, SQL, Bash, TeX
     ]
   ),
   details: ()
 )
 #entry(
   when: [Systems/Tooling],
-  what: [*Git*, *CI/CD*, *Docker*, *GDB*, *Valgrind*, Build Systems (e.g., CMake, Cargo, Pip), Cross-language *Linking*, Static/Dynamic Libraries, and *FFI* (e.g., C bindgen)],
+  what: [Git, CI/CD, Docker, GDB, Valgrind, Build Systems (e.g., CMake, Cargo, Pip), Cross-language Linking, Static/Dynamic Libraries, and FFI (e.g., C bindgen)],
   details: ()
 )
 #entry(
   when: [Area of Expertise],
-  what: [*Compiler Construction* and *Optimizations*, Programming Languages, *IR Design* and *Implementation*, Type Systems, Language Support Tools (e.g., LSP), Static Analysis, Parsing Techniques and Parser Generators (e.g., ANTLR), *Rustc* Internals, *LLVM*],
+  what: [Compiler Construction and Optimizations, Programming Languages Design, IR Design and Implementation, Type Systems, Language Support Tools (e.g., LSP), Static Analysis, Rustc Internals, MLIR, LLVM,
+   Parsing Techniques and Parser Generators (e.g., ANTLR)
+   ],
   details: ()
 )
 
