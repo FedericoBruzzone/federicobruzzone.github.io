@@ -992,7 +992,7 @@ llvm-mc -arch=aarch64 \
                 On Linux, we can use the <tt>ld.lld</tt> linker, which is also part of the LLVM project.
                 On Linux, additionally, there is no need to specify the <tt>-platform_version</tt> flag and the <tt>-syslibroot</tt> flag, as the linker can find the system libraries automatically.
             </p>
-            <pre class="line-numbers" data-language="shell"><code class="language-shell">
+            <pre class="line-numbers" data-line="10-12" data-language="shell"><code class="language-shell">
 SDK=$(xcrun --sdk macosx --show-sdk-path)
 
 ld64.lld main.o \
@@ -1027,18 +1027,26 @@ ld64.lld main.o \
 1
             </code></pre>
 
-            <h2>An almost one-shot solution</h2>
+            <h2>Two one-shot solutions</h2>
             <p>
                 If you've read this far, I'm really glad I brought you along on this little journey with me.
-                At this point I have to reveal a secret to you.
-                All steps from the "From LLVM-IR to AArch64 assembly" section onwards can be condensed into a single command using <tt>clang</tt>. 
-                Don't blame me, I like to understand everything in depth 🙏
+                At this point I have to reveal <b>two</b> secrets to you.
             </p>
-            <pre class="line-numbers" data-language="shell"><code class="language-shell">
-clang -O3 \
+            <p>
+                The former is that all steps from the "From LLVM-IR to AArch64 assembly" section onwards can be condensed into a single command using <tt>clang</tt>. 
+                Don't blame me, I like to understand everything in depth 🙏
+                By pipeling the outputs, we can obtain the final executable in a single command as follows:
+            </p>
+            <pre class="line-numbers" data-line="6-30" data-language="shell"><code class="language-shell">
+mlir-opt main.mlir \
+  --test-lower-to-arm-sme \
+  --convert-vector-to-llvm="enable-arm-sve" \
+  --test-lower-to-llvm \
+| mlir-translate --mlir-to-llvmir \
+| clang -O3 \
     -isysroot "$(xcrun --sdk macosx --show-sdk-path)" \
     -mcpu=apple-m4 \
-    -x ir main.ll \
+    -x ir - \
     -L"$LLVM_BUILD_DIR/lib" \
     -lmlir_arm_sme_abi_stubs \
     -lmlir_runner_utils \
@@ -1046,11 +1054,55 @@ clang -O3 \
     -Wl,-rpath,"$LLVM_BUILD_DIR/lib" \
     -o main
             </code></pre>
-
-            <br>
-            <br>
+            
             <p>
-                I hope you found this post useful. Feel free to
+              It you want to JIT the generated MLIR in <code class="language-mlir">llvm</code> dialect, you can use the <tt>mlir-runner</tt> tool, which is part of the MLIR project.
+              Again, don't blame me, I like to understand everything in depth 🫶
+              By pipeling the output out <tt>mlir-opt</tt> to <tt>mlir-runner</tt>, we can JIT the generated MLIR code in a single command:
+            </p>
+
+<pre class="line-numbers" data-line="28-30" data-language="shell"><code class="language-shell">
+mlir-opt main.mlir --pass-pipeline='builtin.module(
+    arm-sme-vector-legalization,
+    canonicalize,
+    cse,
+    convert-vector-to-arm-sme,
+    func.func(
+        arm-sme-outer-product-fusion,
+        convert-arm-sme-to-scf,
+        convert-vector-to-scf{full-unroll},
+        enable-arm-streaming{streaming-mode=streaming-locally za-mode=new-za if-required-by-ops},
+        convert-scf-to-cf,
+        convert-arm-sme-to-llvm
+    ),
+    canonicalize,
+    cse,
+    convert-linalg-to-loops,
+    convert-scf-to-cf,
+    convert-vector-to-llvm{enable-arm-sve},
+    expand-strided-metadata,
+    lower-affine,
+    finalize-memref-to-llvm,
+    convert-func-to-llvm,
+    convert-arith-to-llvm,
+    convert-cf-to-llvm,
+    convert-index-to-llvm,
+    reconcile-unrealized-casts
+)' \
+| mlir-runner \
+  -entry-point-result=i32 \
+  -shared-libs=$LLVM_BUILD_DIR/lib/libmlir_runner_utils.dylib,$LLVM_BUILD_DIR/lib/libmlir_c_runner_utils.dylib,$LLVM_BUILD_DIR/lib/libmlir_arm_sme_abi_stubs.dylib
+            </code></pre>
+
+            <h2>Conclusion</h2>
+
+            <p>
+                In this post, we have seen how to go from MLIR code in the <code class="language-mlir">llvm</code> dialect to an executable that runs on AArch64 with SME.
+                We have seen how to use the MLIR toolchain to lower the MLIR code to LLVM-IR, and then how to use the LLVM toolchain to compile the generated LLVM-IR code into AArch64 assembly code, and then how to assemble the generated AArch64 assembly code into object code, and finally how to link the generated object code into an executable.
+            </p>
+
+            <p>
+              I hope you found this post useful. Feel free to
                 <a href="https://federicobruzzone.github.io/index.html">reach out</a> if you have questions or
                 want to discuss anything related to this.
             </p>
