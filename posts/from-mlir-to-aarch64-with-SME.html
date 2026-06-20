@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../prism.css">
+    <link rel="stylesheet" href="../code.css">
+
+    <script src="../scripts/prism.js" defer></script>
+    <script src="../scripts/prism-mlir.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    <title>From MLIR to AArch64 with SME</title>
+
+    <style>
+        .roofline-figure {
+            margin: 1.5em 0;
+            text-align: center;
+        }
+
+        .roofline-figure img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .roofline-figure figcaption {
+            margin-top: 0.5em;
+            font-size: 0.85em;
+            color: #555;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 1em 0;
+            font-size: 0.9em;
+        }
+
+        .table-scroll {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 0.4em 0.7em;
+            text-align: left;
+        }
+
+        th {
+            background: #f4f4f4;
+        }
+
+        blockquote {
+            border-left: 3px solid var(--post-bg-color);
+            margin: 1.2em 0;
+            padding: 0.6em 1em;
+            color: var(--post-foot-color);
+            font-size: 0.95em;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root-folder" value=".."></div>
+    <div id="header"></div>
+
+    <main>
+        <div class="post-body">
+            <h1><img src="images/MLIR.png" alt="MLIR logo" width="20px"/> <img src="images/LLVM.png" alt="LLVM logo" width="20px"/> From MLIR to AArch64 executables with SME support</h1>
+
+
+            <p>
+                Hi Folks 👋.
+                I'm investigating the performance of MLIR-generated code on Apple Silicon (<b>AArch64</b>), specifically the M4 Pro (eventually leveraging <b>Arm SME support</b>), and comparing it to Apple Accelerate (AMX) and IREE.
+                Some of my recent contributions to MLIR (see 
+                    <a href="https://github.com/llvm/llvm-project/pull/202118">202118</a>,
+                    <a href="https://github.com/llvm/llvm-project/pull/204309">204309</a>
+                    <a href="https://github.com/llvm/llvm-project/pull/202766">202766</a>,
+                    <a href="https://github.com/llvm/llvm-project/pull/201180">201180</a>,
+                for more details) are related to these studies.
+                I'd like to say thank you: <i>none of these contributions would have been possible without the very detailed feedback from a community that is, to say the least, kind and loving.</i>
+            </p>
+
+            <h3>What is this post about?</h3>
+            <p>
+                Sortly, I just wanted to answer the question: "How can I <b>manually</b> lower the MLIR code to AArch64 executables with SME support?".
+                I think that this, while not ubiquitous, is interesting enough to share, and I hope it will be useful for others.
+                Note that, while I'm using Apple M4 Pro as a reference (and I struggled a bit with it, take a look at the issue <a href="https://github.com/llvm/llvm-project/issues/204853">204853</a>), 
+                the instructions and steps are valid for any AArch64 platform with SME support.
+                That's my target triple: <tt>arm64-apple-darwin25.5.0</tt>.
+            </p>
+
+            <h3>The MLIR source code</h3>
+            <p>
+                We can simply consider the following MLIR code:
+            </p>
+
+            <pre class="line-numbers" data-language=""><code class="language-mlir">
+// min.mlir
+func.func @matmul(%A : memref<64x64xf32>,
+                  %B : memref<64x64xf32>,
+                  %C : memref<64x64xf32>)
+    attributes {arm_locally_streaming} {
+  %c0     = arith.constant 0     : index
+  %c64    = arith.constant 64    : index
+  %pad    = arith.constant 0.0   : f32
+  %vscale = vector.vscale
+  %c4     = arith.constant 4     : index
+  %step   = arith.muli %vscale, %c4 : index
+
+  %C_init = vector.transfer_read %C[%c0, %c0], %pad
+    {in_bounds = [true, true]} : memref<64x64xf32>, vector<[4]x[4]xf32>
+
+  %a_row = vector.transfer_read %A[%c0, %c0], %pad
+    {in_bounds = [true]} : memref<64x64xf32>, vector<[4]xf32>
+  %b_row = vector.transfer_read %B[%c0, %c0], %pad
+    {in_bounds = [true]} : memref<64x64xf32>, vector<[4]xf32>
+
+  %result = vector.outerproduct %a_row, %b_row, %C_init
+    {kind = #vector.kind<add>} : vector<[4]xf32>, vector<[4]xf32>
+
+  vector.transfer_write %result, %C[%c0, %c0]
+    {in_bounds = [true, true]} : vector<[4]x[4]xf32>, memref<64x64xf32>
+  return
+}
+
+func.func @main() -> i32 {
+  %f1  = arith.constant 1.0  : f32
+  %c0  = arith.constant 0    : index
+
+  %A = memref.alloc() : memref<64x64xf32>
+  %B = memref.alloc() : memref<64x64xf32>
+  %C = memref.alloc() : memref<64x64xf32>
+
+  linalg.fill ins(%f1 : f32) outs(%A : memref<64x64xf32>)
+  linalg.fill ins(%f1 : f32) outs(%B : memref<64x64xf32>)
+
+  func.call @matmul(%A, %B, %C)
+    : (memref<64x64xf32>, memref<64x64xf32>, memref<64x64xf32>) -> ()
+
+  %val = memref.load %C[%c0, %c0] : memref<64x64xf32>
+  vector.print %val : f32
+
+  memref.dealloc %A : memref<64x64xf32>
+  memref.dealloc %B : memref<64x64xf32>
+  memref.dealloc %C : memref<64x64xf32>
+
+  %c0_i32 = arith.constant 0 : i32
+  return %c0_i32 : i32
+}</code></pre>
+
+
+            <p>
+                I hope you found this post useful. Feel free to
+                <a href="https://federicobruzzone.github.io/index.html">reach out</a> if you have questions or
+                want to discuss anything related to this.
+            </p>
+
+            <div class="bibtex" year="2026" month="June"></div>
+        </div>
+    </main>
+
+    <div id="footer"></div>
+    <script src="../scripts/toggle-theme.js"></script>
+    <script src="../scripts/load-header.js"></script>
+    <script src="../scripts/load-footer.js"></script>
+    <script src="../scripts/load-cits.js"></script>
+    <script src="../scripts/load-bib.js"></script>
+</body>
+
+</html>
