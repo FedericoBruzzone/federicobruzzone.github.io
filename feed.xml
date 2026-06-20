@@ -6,7 +6,15 @@
     <atom:link href="https://federicobruzzone.github.io/feed.xml" rel="self" type="application/rss+xml"/>
     <description>Posts, scientific publications, preprints, and activities by Federico Bruzzone.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 12 Jun 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 20 Jun 2026 00:00:00 GMT</lastBuildDate>
+    <item>
+      <title>From MLIR to AArch64 executables with SME support</title>
+      <link>https://federicobruzzone.github.io/posts/from-mlir-to-aarch64-with-SME.html</link>
+      <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-06-20:posts/from-mlir-to-aarch64-executables-with-sme-support</guid>
+      <category>Post</category>
+      <pubDate>Sat, 20 Jun 2026 00:00:00 GMT</pubDate>
+      <description><![CDATA[A post to manually lowering MLIR code to AArch64 executables with Arm SME support. Covers the complete pipeline from MLIR optimization to native compilation, including lowering to LLVM dialect, LLVM-IR translation, assembly generation, and linking. Includes practical commands and one-shot solutions for execution.]]></description>
+    </item>
     <item>
       <title>LLVM (MLIR): createReadOrMaskedRead/Write with permutation map support</title>
       <link>https://github.com/llvm/llvm-project/pull/202766</link>
