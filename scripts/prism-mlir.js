@@ -81,6 +81,14 @@ Prism.languages.mlir = {
   },
 
   // =========================
+  // BOOLEANS
+  // =========================
+  boolean: {
+    pattern: /\b(true|false)\b/,
+    alias: "boolean"
+  },
+
+  // =========================
   // GENERICS (<...>)
   // =========================
   generic: {
@@ -112,5 +120,5 @@ Prism.languages.mlir = {
   // =========================
   // KEYWORDS (NO more bare fallback!)
   // =========================
-  keyword: /(?<!\.)\b(func|module|return|yield|cf|scf|llvm)\b/
+  keyword: /\b(module|return|yield|cf)\b/
 };
