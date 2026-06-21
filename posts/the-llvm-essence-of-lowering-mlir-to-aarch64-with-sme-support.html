@@ -1057,7 +1057,7 @@ ld64.lld main.o \
             </p>
             <p>
                 The former is that all steps from the "From LLVM-IR to AArch64 assembly" section onwards can be condensed into a single command using <tt>clang</tt>. 
-                Don't blame me, I like to understand everything in depth 🙏
+                Don't blame me, I like to understand everything in depth 🙏.
                 By pipeling the outputs, we can obtain the final executable in a single command as follows:
             </p>
             <pre class="line-numbers" data-line="6-30" data-language="shell"><code class="language-shell">
@@ -1079,8 +1079,8 @@ mlir-opt main.mlir \
             </code></pre>
             
             <p>
-              It you want to JIT the generated MLIR in <code class="language-mlir">llvm</code> dialect, you can use the <tt>mlir-runner</tt> tool, which is part of the MLIR project.
-              Again, don't blame me, I like to understand everything in depth 🫶
+              The latter, is that if you want to JIT the generated MLIR in <code class="language-mlir">llvm</code> dialect, you can use the <tt>mlir-runner</tt> tool, which is part of the MLIR project.
+              Again, don't blame me, I like to understand everything in depth 🫶.
               By pipeling the output out <tt>mlir-opt</tt> to <tt>mlir-runner</tt>, we can JIT the generated MLIR code in a single command:
             </p>
 
