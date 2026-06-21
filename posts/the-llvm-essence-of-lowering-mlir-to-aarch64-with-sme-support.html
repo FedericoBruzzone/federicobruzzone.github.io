@@ -21,7 +21,7 @@
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
 
-    <title>From MLIR to AArch64 with SME</title>
+    <title>The LLVM Essence of Lowering MLIR to AArch64 with SME Support</title>
 
     <style>
         .roofline-figure {
@@ -78,19 +78,18 @@
 
     <main>
         <div class="post-body">
-            <h1><img src="images/MLIR.png" alt="MLIR logo" width="20px"/> <img src="images/LLVM.png" alt="LLVM logo" width="20px"/> From MLIR to AArch64 executables with SME support</h1>
+            <h1><img src="images/MLIR.png" alt="MLIR logo" width="20px"/> <img src="images/LLVM.png" alt="LLVM logo" width="20px"/> The LLVM Essence of Lowering MLIR to AArch64 with SME Support</h1>
 
 
             <p>
                 Hi Folks 👋.
-                I'm investigating the performance of MLIR-generated code on Apple Silicon (<b>AArch64</b>), specifically the M4 Pro (eventually leveraging <b>Arm SME support</b>), and comparing it to Apple Accelerate (AMX) and IREE.
+                I'm investigating the performance of MLIR code on <b>AArch64</b>, specifically the M4 Pro (eventually leveraging <b>Arm SME support</b>), and comparing it to Apple Accelerate (AMX) and IREE.
                 Some of my recent contributions to MLIR (see 
                     <a href="https://github.com/llvm/llvm-project/pull/202118">202118</a>,
                     <a href="https://github.com/llvm/llvm-project/pull/204309">204309</a>
-                    <a href="https://github.com/llvm/llvm-project/pull/202766">202766</a>,
-                    <a href="https://github.com/llvm/llvm-project/pull/201180">201180</a>,
+                    <a href="https://github.com/llvm/llvm-project/pull/202766">202766</a>, and
+                    <a href="https://github.com/llvm/llvm-project/pull/201180">201180</a>
                 for more details) are related to these studies.
-                I'd like to say thank you: <i>none of these contributions would have been possible without the very detailed feedback from a community that is, to say the least, kind and loving.</i>
             </p>
 
             <p>
@@ -99,6 +98,10 @@
                     <li><a href="https://youtu.be/jHk56V6cHN8?si=zwjm4AuW9Sq5JWH_">2023 LLVM Dev Mtg - Vectorisation in MLIR: Towards Scalable Vectors and Matrices</a> (in collaboration with Diego Caballero from NVIDIA)</li>
                     <li><a href="https://youtu.be/gaSb4BRRcmM?si=YfSQyithFUsysPFR">2024 LLVM Dev Mtg - Vectorization in MLIR: Towards Scalable Vectors and Matrices (Part 2)</a></li>
                 </ul>
+            </p>
+
+            <p>
+              Additionally, while I am merely an outsider to this process, I would like to acknowledge that none of this would have been possible without an extensive and highly demanding research effort involving the maintainers, co-maintainers, and numerous contributors to these dialects, as well as a community that has been exceptionally supportive, welcoming, and generous throughout.
             </p>
 
             <div id="toc"></div>
@@ -125,8 +128,16 @@ export LLVM_BUILD_DIR=/path/to/llvm-project/build
 
             <h2>The MLIR source code</h2>
             <p>
-                We can simply consider the following MLIR outer product GEMM kernel:
+                We can simply consider the following MLIR rank-1 outer product GEMM microkernel, i.e., in BLAS terminology, a GER (General Rank-1 update):
             </p>
+
+          <figure class="roofline-figure">
+            <img src="images/rank1-outer-product.png"
+              alt="Rank-1 Outer Product GEMM microkernel in MLIR" />
+              <figcaption>
+                  Rank-1 Outer Product GEMM microkernel in MLIR
+              </figcaption>
+          </figure>
 
             <pre class="line-numbers" data-language="MLIR"><code class="language-mlir">
 // main.mlir
@@ -163,6 +174,17 @@ func.func @matmul(%A : memref<64x64xf32>,
   return
 }
 </code></pre>
+
+    
+    <p>
+        I'll leave you with some references to the MLIR dialects used in this kernel:
+        <ul>
+            <li><a href="https://mlir.llvm.org/docs/Dialects/Vector/#vectortransfer_read-vectortransferreadop"><code class="language-mlir">vector.transfer_read</code></a> — reads a supervector from memory into an SSA vector value,</li>
+            <li><a href="https://mlir.llvm.org/docs/Dialects/Vector/#vectortransfer_write-vectortransferwriteop"><code class="language-mlir">vector.transfer_write</code></a> — writes a supervector to memory, and</li>
+            <li><a href="https://mlir.llvm.org/docs/Dialects/Vector/#vectorouterproduct-vectorouterproductop"><code class="language-mlir">vector.outerproduct</code></a> — computes the outer product of two vectors and accumulates the result.</li>
+        </ul>
+    </p>
+
     <p>
         Conceptually, this kernel computes the outer product of two vectors (rows of matrices A and B) and accumulates the result into matrix C. The <tt>arm_locally_streaming</tt> attribute indicates that this function is intended to leverage Arm's locally streaming memory model, which can be beneficial for performance on certain architectures.
     </p>
@@ -722,9 +744,10 @@ attributes #3 = { nocallback nofree nosync nounwind willreturn memory(argmem: re
                 Again, the generated LLVM-IR code is quite verbose, but it contains the same logic as the <code class="language-mlir">llvm</code> dialect code.
                 What is important to note is that the SME intrinsics are preserved in the LLVM-IR.
                 LLVM uses its own naming convention for the SME intrinsics, which is different from the one used in the <code class="language-mlir">llvm</code> dialect.
-                We can easily inspect the generated LLVM-IR code see the following calls to the SME intrinsics:
+                We can easily inspect the generated LLVM-IR code and see the following calls to the SME intrinsics:
                 <ul>
-                    <li><code class="language-llvm">llvm.aarch64.sme.ld1w.horiz.p0</code> — this intrinsic corresponds to the <code class="language-mlir">arm_sme.intr.ld1w.horiz</code> intrinsic in the <code class="language-mlir">llvm</code> dialect, which loads a vector of 4 32-bit floating-point values from memory into an SME register.</li>
+                    <li><code class="language-llvm">llvm.vscale.i64()</code> — this intrinsic returns the runtime vector scale factor, which is multiplied by the loop increment (4 in this case) to determine the actual number of loop iterations based on the hardware's vector length capabilities.</li>
+                    <li><code class="language-llvm">llvm.aarch64.sme.ld1w.horiz.p0</code> — this intrinsic corresponds to the <code class="language-mlir">arm_sme.intr.ld1w.horiz</code> intrinsic in the <code class="language-mlir">llvm</code> dialect. It loads a vector of 4 32-bit floating-point values from memory into an SME register, using a scalable predicate mask (<code class="language-llvm">&lt;vscale x 4 x i1&gt;</code>).</li>
                     <li><code class="language-llvm">llvm.aarch64.sme.mopa.nxv4f32</code> — this intrinsic corresponds to the <code class="language-mlir">arm_sme.intr.mopa</code> intrinsic in the <code class="language-mlir">llvm</code> dialect, which performs a multiply-accumulate operation on two vectors of 4 32-bit floating-point values and accumulates the result into an SME register.</li>
                     <li><code class="language-llvm">llvm.aarch64.sme.st1w.horiz.p0</code> — this intrinsic corresponds to the <code class="language-mlir">arm_sme.intr.st1w.horiz</code> intrinsic in the <code class="language-mlir">llvm</code> dialect, which stores a vector of 4 32-bit floating-point values from an SME register into memory.</li>
                 </ul>
@@ -1061,38 +1084,19 @@ mlir-opt main.mlir \
               By pipeling the output out <tt>mlir-opt</tt> to <tt>mlir-runner</tt>, we can JIT the generated MLIR code in a single command:
             </p>
 
-<pre class="line-numbers" data-line="28-30" data-language="shell"><code class="language-shell">
-mlir-opt main.mlir --pass-pipeline='builtin.module(
-    arm-sme-vector-legalization,
-    canonicalize,
-    cse,
-    convert-vector-to-arm-sme,
-    func.func(
-        arm-sme-outer-product-fusion,
-        convert-arm-sme-to-scf,
-        convert-vector-to-scf{full-unroll},
-        enable-arm-streaming{streaming-mode=streaming-locally za-mode=new-za if-required-by-ops},
-        convert-scf-to-cf,
-        convert-arm-sme-to-llvm
-    ),
-    canonicalize,
-    cse,
-    convert-linalg-to-loops,
-    convert-scf-to-cf,
-    convert-vector-to-llvm{enable-arm-sve},
-    expand-strided-metadata,
-    lower-affine,
-    finalize-memref-to-llvm,
-    convert-func-to-llvm,
-    convert-arith-to-llvm,
-    convert-cf-to-llvm,
-    convert-index-to-llvm,
-    reconcile-unrealized-casts
-)' \
+<pre class="line-numbers" data-line="5-9" data-language="shell"><code class="language-shell">
+mlir-opt main.mlir \
+  --test-lower-to-arm-sme \
+  --convert-vector-to-llvm="enable-arm-sve" \
+  --test-lower-to-llvm \
 | mlir-runner \
   -entry-point-result=i32 \
   -shared-libs=$LLVM_BUILD_DIR/lib/libmlir_runner_utils.dylib,$LLVM_BUILD_DIR/lib/libmlir_c_runner_utils.dylib,$LLVM_BUILD_DIR/lib/libmlir_arm_sme_abi_stubs.dylib
             </code></pre>
+            
+            <p>
+              Note that if you are on Linux, you need to replace <tt>.dylib</tt> with <tt>.so</tt> in the <tt>-shared-libs</tt> flag.
+            </p>
 
             <h2>Conclusion</h2>
 
