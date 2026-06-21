@@ -8,9 +8,9 @@
     <language>en</language>
     <lastBuildDate>Sat, 20 Jun 2026 00:00:00 GMT</lastBuildDate>
     <item>
-      <title>From MLIR to AArch64 executables with SME support</title>
-      <link>https://federicobruzzone.github.io/posts/from-mlir-to-aarch64-with-SME.html</link>
-      <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-06-20:posts/from-mlir-to-aarch64-executables-with-sme-support</guid>
+      <title>The LLVM Essence of Lowering MLIR to AArch64 with SME Support</title>
+      <link>https://federicobruzzone.github.io/posts/the-llvm-essence-of-lowering-mlir-to-aarch64-with-sme-support.html</link>
+      <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-06-20:posts/the-llvm-essence-of-lowering-mlir-to-aarch64-with-sme-support</guid>
       <category>Post</category>
       <pubDate>Sat, 20 Jun 2026 00:00:00 GMT</pubDate>
       <description><![CDATA[A post to manually lowering MLIR code to AArch64 executables with Arm SME support. Covers the complete pipeline from MLIR optimization to native compilation, including lowering to LLVM dialect, LLVM-IR translation, assembly generation, and linking. Includes practical commands and one-shot solutions for execution.]]></description>
