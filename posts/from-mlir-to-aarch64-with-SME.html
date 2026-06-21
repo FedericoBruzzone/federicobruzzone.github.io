@@ -94,7 +94,7 @@
             </p>
 
             <p>
-                I'm still learning, and for this reason, I feel I have to bring Andrzej (aka <a href="https://github.com/banach-space">@banach-space</a>) from Arm into the discussion, to tell you, the reader, if you are interested in learning more about SME (and also SVE/SVE2) — in addition to the <a href="https://developer.arm.com/community/arm-community-blogs/b/architectures-and-processors-blog">Arm blog</a> and <a href="https://developer.arm.com/documentation/#numberOfResults=48&&cf-navigationhierarchiesproducts=%20Architectures,Learn%20the%20architecture">Arm doc</a> — I recommend his two talks (like he did with me):
+                I'm still learning, and for this reason, I feel I have to bring Andrzej (aka <a href="https://github.com/banach-space">@banach-space</a>) from Arm into the discussion, to tell you, the reader, if you are interested in learning more about SME (and also SVE/SVE2) — in addition to the <a href="https://developer.arm.com/community/arm-community-blogs/b/architectures-and-processors-blog">Arm blog</a> and <a href="https://developer.arm.com/documentation/#numberOfResults=48&&cf-navigationhierarchiesproducts=%20Architectures,Learn%20the%20architecture">Arm doc</a> — I recommend his two talks (as he suggested to me):
                 <ul>
                     <li><a href="https://youtu.be/jHk56V6cHN8?si=zwjm4AuW9Sq5JWH_">2023 LLVM Dev Mtg - Vectorisation in MLIR: Towards Scalable Vectors and Matrices</a> (in collaboration with Diego Caballero from NVIDIA)</li>
                     <li><a href="https://youtu.be/gaSb4BRRcmM?si=YfSQyithFUsysPFR">2024 LLVM Dev Mtg - Vectorization in MLIR: Towards Scalable Vectors and Matrices (Part 2)</a></li>
@@ -105,10 +105,10 @@
 
             <h2>What is this post about?</h2>
             <p>
-                Sortly, I just wanted to answer the question: "How can I <b>manually</b> lower the MLIR code to AArch64 executables with SME support?".
+                Shortly, I just wanted to answer the question: "How can I <b>manually</b> lower the MLIR code to AArch64 executables with SME support?"
                 I think that this, while not ubiquitous, is interesting enough to share, and I hope it will be useful for others.
-                Note that, while I'm using Apple M4 Pro as a reference (and I struggled a bit with it, take a look at the issue <a href="https://github.com/llvm/llvm-project/issues/204853">204853</a>), 
-                the instructions and steps are valid (exept fot the <tt>-isysroot</tt> flag) for any AArch64 platform with SME support.
+                Note that, while I'm using Apple M4 Pro as a reference (and I struggled a bit with it, take a look at the issue <a href="https://github.com/llvm/llvm-project/issues/204853">204853</a>),
+                the instructions and steps are valid (except for the <tt>-isysroot</tt> flag) for any AArch64 platform with SME support.
                 That's my target triple: <tt>arm64-apple-darwin25.5.0</tt>.
             </p>
 
@@ -129,7 +129,7 @@ export LLVM_BUILD_DIR=/path/to/llvm-project/build
             </p>
 
             <pre class="line-numbers" data-language="MLIR"><code class="language-mlir">
-// min.mlir
+// main.mlir
 func.func @matmul(%A : memref<64x64xf32>,
                   %B : memref<64x64xf32>,
                   %C : memref<64x64xf32>)
@@ -168,14 +168,14 @@ func.func @matmul(%A : memref<64x64xf32>,
     </p>
 
     <p>
-        As you can see, the <code class="language-mlir">vector.transfer_read</code> return a vector where the dimension is wrapped with square brackets, e.g., <code class="language-mlir">vector<[4]xf32></code> and <code class="language-mlir">vector<[4]x[4]xf32></code>: the dimension of the vector scalable, i.e.,  <code class="language-mlir">%vscale * 4</code> where <code class="language-mlir">%vscale</code> is a runtime value that depends on the hardware capabilities.
-        For instance, SVE from Armv8.2-A and SME from Armv9-A onwards supports a vector length that can vary from 128 to 2048 bits in multiples of 128 bits.
-        The SSA value <code class="language-mlir">%vscale</code> is the so called <b>vector scale</b>, represents this runtime scaling factor, allowing a single compiled program to adapt automatically to different vector lengths.
+        As you can see, the <code class="language-mlir">vector.transfer_read</code> returns a vector where the dimension is wrapped with square brackets, e.g., <code class="language-mlir">vector<[4]xf32></code> and <code class="language-mlir">vector<[4]x[4]xf32></code>. The dimension of the vector is scalable, i.e., <code class="language-mlir">%vscale * 4</code> where <code class="language-mlir">%vscale</code> is a runtime value that depends on the hardware capabilities.
+        For instance, SVE from Armv8.2-A and SME from Armv9-A onwards support a vector length that can vary from 128 to 2048 bits in multiples of 128 bits.
+        The SSA value <code class="language-mlir">%vscale</code> is the so-called <b>vector scale</b>; it represents this runtime scaling factor, allowing a single compiled program to adapt automatically to different vector lengths.
     </p>
 
     <p>
         The following snippet continues the previous one, showing the main function that allocates memory for matrices A, B, and C, fills them with initial values, calls the matrix multiplication function, and then prints the result.
-        The expected output is <tt">1</tt>, since the outer product of two vectors filled with 1.0 will yield a matrix where all elements are 1.0, and the first element of C will be updated from 0.0 to 1.0 after the operation.
+        The expected output is <tt>1</tt>, since the outer product of two vectors filled with 1.0 will yield a matrix where all elements are 1.0, and the first element of C will be updated from 0.0 to 1.0 after the operation.
     </p>
 <pre class="line-numbers" data-language="MLIR"><code class="language-mlir">
 // main.mlir (contd.)
