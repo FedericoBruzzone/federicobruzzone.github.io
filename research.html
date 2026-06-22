@@ -299,6 +299,30 @@
 
             <article class="post-block" style="margin-bottom: 1rem;">
                 <div class="post-inner">
+                    <div class="post-title"><a href="https://github.com/llvm/llvm-project/pull/204309" style="text-decoration:none;">LLVM (MLIR): fix incorrect nuw on memref.load/store GEP with negative strides</a></div>
+                    <div class="post-desc">Fixes MemRefToLLVM to only emit nuw on GEP/mul when strides are statically non-negative, preventing unsound poison from negative-strided accesses.</div>
+                    <div class="post-foot"><img src="icons/clock.svg" width=12px height=12px/> 2026/06/18</div>
+                </div>
+            </article>
+
+            <article class="post-block" style="margin-bottom: 1rem;">
+                <div class="post-inner">
+                    <div class="post-title"><a href="https://github.com/llvm/llvm-project/pull/202118" style="text-decoration:none;">LLVM (MLIR): opt-in enable-gep-inbounds-nuw for vector.load/store</a></div>
+                    <div class="post-desc">Adds enable-gep-inbounds-nuw pass flag to ConvertVectorToLLVM. When enabled, emits inbounds/nuw on vector.load/store GEPs, enabling SCEV and alias analysis improvements.</div>
+                    <div class="post-foot"><img src="icons/clock.svg" width=12px height=12px/> 2026/06/18</div>
+                </div>
+            </article>
+
+            <article class="post-block" style="margin-bottom: 1rem;">
+                <div class="post-inner">
+                    <div class="post-title"><a href="https://github.com/llvm/llvm-project/pull/203916" style="text-decoration:none;">[NFC][mlir][linalg] add toContractionDimensions</a></div>
+                    <div class="post-desc">Extracts the toContractionDimensions helper to eliminate code duplication in the Linalg C API.</div>
+                    <div class="post-foot"><img src="icons/clock.svg" width=12px height=12px/> 2026/06/16</div>
+                </div>
+            </article>
+
+            <article class="post-block" style="margin-bottom: 1rem;">
+                <div class="post-inner">
                     <div class="post-title"><a href="https://github.com/llvm/llvm-project/pull/202766" style="text-decoration:none;">LLVM (MLIR): createReadOrMaskedRead/Write with permutation map</a></div>
                     <div class="post-desc">Extends the createReadOrMaskedRead and createWriteOrMaskedWrite utilities in VectorUtils with permutation map support. The affine super-vectorizer is updated to use these utilities.</div>
                     <div class="post-foot"><img src="icons/clock.svg" width=12px height=12px/> 2026/06/12</div>

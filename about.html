@@ -313,6 +313,25 @@
             which provides safe and idiomatic Rust bindings to the official TDLib C++ library.
         </p>
 
+        <p><b>2026/06/18</b> &mdash;
+            <a href="https://github.com/llvm/llvm-project/pull/204309">LLVM (MLIR): fix incorrect nuw on GEP when lowering memref.load/store with negative strides</a><br>
+            Fixes an unsoundness where MemRefToLLVM unconditionally emitted nuw on GEP/mul
+            when lowering memref.load/store, which is incorrect when any stride is negative or dynamic.
+        </p>
+
+        <p><b>2026/06/18</b> &mdash;
+            <a href="https://github.com/llvm/llvm-project/pull/202118">LLVM (MLIR): opt-in enable-gep-inbounds-nuw pass flag for vector.load/store</a><br>
+            Adds an opt-in enable-gep-inbounds-nuw pass flag to the ConvertVectorToLLVM pass.
+            When enabled, emits GEPs with inbounds (and nuw when strides are non-negative) from
+            vector.load/store, enabling SCEV monotonicity proofs and better alias analysis.
+        </p>
+
+        <p><b>2026/06/16</b> &mdash;
+            <a href="https://github.com/llvm/llvm-project/pull/203916">[NFC][mlir][linalg] add toContractionDimensions for healthy code reuse</a><br>
+            Extracts the toContractionDimensions helper to eliminate code duplication in the Linalg C API,
+            aligning with the refactoring direction from PR #203323.
+        </p>
+
         <p><b>2026/06/12</b> &mdash;
             <a href="https://github.com/llvm/llvm-project/pull/202766">LLVM (MLIR): extend createReadOrMaskedRead/createWriteOrMaskedWrite with permutation map support</a><br>
             Extends the createReadOrMaskedRead and createWriteOrMaskedWrite utilities in VectorUtils with

@@ -254,6 +254,13 @@
 
 #entry(
   when: "2026",
+  what: [MLIR/LLVM: #link("https://github.com/llvm/llvm-project/pull/204309")[[mlir][MemRefToLLVM] fix incorrect `nuw` on `GEP/mul` when lowering `memref.load/store` with negative strides
+]],
+  details: ()
+)
+
+#entry(
+  when: "2026",
   what: [MLIR/LLVM: #link("https://github.com/llvm/llvm-project/pull/203916")[[mlir][linalg] add `toContractionDimensions` for healthy code reuse
 ]],
   details: ()

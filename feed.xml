@@ -16,6 +16,30 @@
       <description><![CDATA[A post to manually lowering MLIR code to AArch64 executables with Arm SME support. Covers the complete pipeline from MLIR optimization to native compilation, including lowering to LLVM dialect, LLVM-IR translation, assembly generation, and linking. Includes practical commands and one-shot solutions for execution.]]></description>
     </item>
     <item>
+      <title>LLVM (MLIR): fix incorrect nuw on memref.load/store GEP with negative strides</title>
+      <link>https://github.com/llvm/llvm-project/pull/204309</link>
+      <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-06-18:activities/llvm-mlir-fix-incorrect-nuw-on-memref-load-store-gep-with-negative-strides</guid>
+      <category>Activity</category>
+      <pubDate>Thu, 18 Jun 2026 00:00:00 GMT</pubDate>
+      <description><![CDATA[Fixes MemRefToLLVM to only emit nuw on GEP/mul when strides are statically non-negative, preventing unsound poison from negative-strided accesses.]]></description>
+    </item>
+    <item>
+      <title>LLVM (MLIR): opt-in enable-gep-inbounds-nuw pass flag for vector.load/store</title>
+      <link>https://github.com/llvm/llvm-project/pull/202118</link>
+      <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-06-18:activities/llvm-mlir-opt-in-enable-gep-inbounds-nuw-pass-flag-for-vector-load-store</guid>
+      <category>Activity</category>
+      <pubDate>Thu, 18 Jun 2026 00:00:00 GMT</pubDate>
+      <description><![CDATA[Adds enable-gep-inbounds-nuw pass flag to ConvertVectorToLLVM. When enabled, emits inbounds/nuw on vector.load/store GEPs, enabling SCEV monotonicity proofs and better alias analysis in LLVM.]]></description>
+    </item>
+    <item>
+      <title>[NFC][mlir][linalg] add toContractionDimensions for healthy code reuse</title>
+      <link>https://github.com/llvm/llvm-project/pull/203916</link>
+      <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-06-16:activities/nfc-mlir-linalg-add-tocontractiondimensions-for-healthy-code-reuse</guid>
+      <category>Activity</category>
+      <pubDate>Tue, 16 Jun 2026 00:00:00 GMT</pubDate>
+      <description><![CDATA[Extracts the toContractionDimensions helper to eliminate code duplication in the Linalg C API, aligning with the refactoring direction from PR #203323.]]></description>
+    </item>
+    <item>
       <title>LLVM (MLIR): createReadOrMaskedRead/Write with permutation map support</title>
       <link>https://github.com/llvm/llvm-project/pull/202766</link>
       <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-06-12:activities/llvm-mlir-createreadormaskedread-write-with-permutation-map-support</guid>

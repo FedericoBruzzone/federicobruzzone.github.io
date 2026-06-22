@@ -28,6 +28,24 @@
 
     <main>
       <h1>Feed</h1>
+      <div class="entry" data-date="2026-06-18">
+        <span class="date">2026/06/18</span>
+        |
+        <span class="title"><a href="https://github.com/llvm/llvm-project/pull/204309">LLVM (MLIR): fix incorrect nuw on memref.load/store GEP with negative strides</a></span>
+        <p class="summary">Fixes MemRefToLLVM to only emit nuw on GEP/mul when strides are statically non-negative, preventing unsound poison from negative-strided accesses.</p>
+      </div>
+      <div class="entry" data-date="2026-06-18">
+        <span class="date">2026/06/18</span>
+        |
+        <span class="title"><a href="https://github.com/llvm/llvm-project/pull/202118">LLVM (MLIR): opt-in enable-gep-inbounds-nuw pass flag for vector.load/store</a></span>
+        <p class="summary">Adds enable-gep-inbounds-nuw pass flag to ConvertVectorToLLVM. When enabled, emits inbounds/nuw on vector.load/store GEPs, enabling SCEV monotonicity proofs and better alias analysis in LLVM.</p>
+      </div>
+      <div class="entry" data-date="2026-06-16">
+        <span class="date">2026/06/16</span>
+        |
+        <span class="title"><a href="https://github.com/llvm/llvm-project/pull/203916">[NFC][mlir][linalg] add toContractionDimensions for healthy code reuse</a></span>
+        <p class="summary">Extracts the toContractionDimensions helper to eliminate code duplication in the Linalg C API, aligning with the refactoring direction from PR #203323.</p>
+      </div>
       <div class="entry" data-date="2026-06-12">
         <span class="date">2026/06/12</span>
         |
