@@ -6,7 +6,15 @@
     <atom:link href="https://federicobruzzone.github.io/feed.xml" rel="self" type="application/rss+xml"/>
     <description>Posts, scientific publications, preprints, and activities by Federico Bruzzone.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 20 Jun 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Wed, 01 Jul 2026 00:00:00 GMT</lastBuildDate>
+    <item>
+      <title>A Multi-Dimensional, Per-Pass Empirical Study of the LLVM Optimization Pipeline</title>
+      <link>https://federicobruzzone.github.io/posts/a-multi-dimensional-per-pass-empirical-study-of-the-llvm-optimization-pipeline.html</link>
+      <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-07-01:posts/a-multi-dimensional-per-pass-empirical-study-of-the-llvm-optimization-pipeline</guid>
+      <category>Post</category>
+      <pubDate>Wed, 01 Jul 2026 00:00:00 GMT</pubDate>
+      <description><![CDATA[We ran every cumulative prefix of the LLVM -O3 pipeline on 30 PolyBench/C kernels (84,750 measurements). The pipeline is non-monotone, back-loaded, and -O3 is Pareto-dominated in 29/30 benchmarks. A per-pass look at runtime, binary size, hardware counters, and energy.]]></description>
+    </item>
     <item>
       <title>The LLVM Essence of Lowering MLIR to AArch64 with SME Support</title>
       <link>https://federicobruzzone.github.io/posts/the-llvm-essence-of-lowering-mlir-to-aarch64-with-sme-support.html</link>
