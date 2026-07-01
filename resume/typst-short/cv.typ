@@ -247,29 +247,25 @@
 
 #entry(
   when: "2026",
-  what: [MLIR/LLVM: #link("https://github.com/llvm/llvm-project/pull/202118")[[mlir][vector] Add opt-in `inbounds/nneg` flags to `vector.load/vector.store`
-]],
+  what: [MLIR/LLVM: #link("https://github.com/llvm/llvm-project/pull/202118")[[mlir][VectorToLLVM] add opt-in `enable-gep-inbounds-nuw` pass flag for `vector.load/store`]],
   details: ()
 )
 
 #entry(
   when: "2026",
-  what: [MLIR/LLVM: #link("https://github.com/llvm/llvm-project/pull/204309")[[mlir][MemRefToLLVM] fix incorrect `nuw` on `GEP/mul` when lowering `memref.load/store` with negative strides
-]],
+  what: [MLIR/LLVM: #link("https://github.com/llvm/llvm-project/pull/204309")[[mlir][MemRefToLLVM] fix incorrect `nuw` on `GEP/mul` when lowering `memref.load/store` with negative strides]],
   details: ()
 )
 
 #entry(
   when: "2026",
-  what: [MLIR/LLVM: #link("https://github.com/llvm/llvm-project/pull/203916")[[mlir][linalg] add `toContractionDimensions` for healthy code reuse
-]],
+  what: [MLIR/LLVM: #link("https://github.com/llvm/llvm-project/pull/203916")[[NFC][mlir][linalg] add `toContractionDimensions` for healthy code reuse]],
   details: ()
 )
 
 #entry(
   when: "2026",
-  what: [MLIR/LLVM: #link("https://github.com/llvm/llvm-project/pull/202766")[[mlir][vector] extend `createReadOrMaskedRead/createWriteOrMaskedWrite` with permutation map support
-]],
+  what: [MLIR/LLVM: #link("https://github.com/llvm/llvm-project/pull/202766")[[mlir][vector] extend `createReadOrMaskedRead/createWriteOrMaskedWrite` with permutation map support]],
   details: ()
 )
 

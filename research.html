@@ -71,6 +71,23 @@
             <article class="post-block preprint-post-theme" style="margin-bottom: 1rem;">
                 <div class="post-inner">
                     <div class="post-title">
+                        <a href="/publications/Bruzzone26f-preprint/Bruzzone26f-preprint.pdf" style="text-decoration:none;">A Multi-Dimensional, Per-Pass Empirical Study of the LLVM Optimization Pipeline</a>
+                    </div>
+                    <div class="post-desc" style="margin: 0.3rem 0 0.1rem;">F. Bruzzone and W. Cazzola</div>
+                    <div class="post-desc" style="margin: 0 0 0.1rem;"><b>arXiv preprint</b></div>
+                    <div class="post-desc" style="margin: 0 0 0.4rem; font-size:0.9rem;">DOI: <a href="https://doi.org/10.48550/arXiv.2606.31238">10.48550/arXiv.2606.31238</a></div>
+                    <div class="post-foot" style="margin-bottom:0.2rem;">
+                        <a href="/publications/Bruzzone26f-preprint/Bruzzone26f-preprint.bib">bib</a> &middot;
+                        <a href="/publications/Bruzzone26f-preprint/Bruzzone26f-preprint.pdf">pdf</a> &middot;
+                        <a href="https://arxiv.org/abs/2606.31238">arXiv</a>
+                    </div>
+                    <div class="post-foot"><img src="icons/clock.svg" width=12px height=12px/> Date: June, 2026</div>
+                </div>
+            </article>
+
+            <article class="post-block preprint-post-theme" style="margin-bottom: 1rem;">
+                <div class="post-inner">
+                    <div class="post-title">
                         <a href="/publications/Bruzzone26e-preprint/Bruzzone26e-preprint.pdf" style="text-decoration:none;">Generalized Software Product Line Extraction</a>
                     </div>
                     <div class="post-desc" style="margin: 0.3rem 0 0.1rem;">F. Bruzzone, W. Cazzola, and L. Favalli</div>
@@ -299,15 +316,7 @@
 
             <article class="post-block" style="margin-bottom: 1rem;">
                 <div class="post-inner">
-                    <div class="post-title"><a href="https://github.com/llvm/llvm-project/pull/204309" style="text-decoration:none;">LLVM (MLIR): fix incorrect nuw on memref.load/store GEP with negative strides</a></div>
-                    <div class="post-desc">Fixes MemRefToLLVM to only emit nuw on GEP/mul when strides are statically non-negative, preventing unsound poison from negative-strided accesses.</div>
-                    <div class="post-foot"><img src="icons/clock.svg" width=12px height=12px/> 2026/06/18</div>
-                </div>
-            </article>
-
-            <article class="post-block" style="margin-bottom: 1rem;">
-                <div class="post-inner">
-                    <div class="post-title"><a href="https://github.com/llvm/llvm-project/pull/202118" style="text-decoration:none;">LLVM (MLIR): opt-in enable-gep-inbounds-nuw for vector.load/store</a></div>
+                    <div class="post-title"><a href="https://github.com/llvm/llvm-project/pull/202118" style="text-decoration:none;">[mlir][VectorToLLVM] add opt-in enable-gep-inbounds-nuw pass flag for vector.load/store</a></div>
                     <div class="post-desc">Adds enable-gep-inbounds-nuw pass flag to ConvertVectorToLLVM. When enabled, emits inbounds/nuw on vector.load/store GEPs, enabling SCEV and alias analysis improvements.</div>
                     <div class="post-foot"><img src="icons/clock.svg" width=12px height=12px/> 2026/06/18</div>
                 </div>
@@ -315,7 +324,15 @@
 
             <article class="post-block" style="margin-bottom: 1rem;">
                 <div class="post-inner">
-                    <div class="post-title"><a href="https://github.com/llvm/llvm-project/pull/203916" style="text-decoration:none;">[NFC][mlir][linalg] add toContractionDimensions</a></div>
+                    <div class="post-title"><a href="https://github.com/llvm/llvm-project/pull/204309" style="text-decoration:none;">[mlir][MemRefToLLVM] fix incorrect nuw on GEP/mul when lowering memref.load/store with negative strides</a></div>
+                    <div class="post-desc">Fixes MemRefToLLVM to only emit nuw on GEP/mul when strides are statically non-negative, preventing unsound poison from negative-strided accesses.</div>
+                    <div class="post-foot"><img src="icons/clock.svg" width=12px height=12px/> 2026/06/18</div>
+                </div>
+            </article>
+
+            <article class="post-block" style="margin-bottom: 1rem;">
+                <div class="post-inner">
+                    <div class="post-title"><a href="https://github.com/llvm/llvm-project/pull/203916" style="text-decoration:none;">[NFC][mlir][linalg] add toContractionDimensions for healthy code reuse</a></div>
                     <div class="post-desc">Extracts the toContractionDimensions helper to eliminate code duplication in the Linalg C API.</div>
                     <div class="post-foot"><img src="icons/clock.svg" width=12px height=12px/> 2026/06/16</div>
                 </div>
@@ -323,7 +340,7 @@
 
             <article class="post-block" style="margin-bottom: 1rem;">
                 <div class="post-inner">
-                    <div class="post-title"><a href="https://github.com/llvm/llvm-project/pull/202766" style="text-decoration:none;">LLVM (MLIR): createReadOrMaskedRead/Write with permutation map</a></div>
+                    <div class="post-title"><a href="https://github.com/llvm/llvm-project/pull/202766" style="text-decoration:none;">[mlir][vector] extend createReadOrMaskedRead/createWriteOrMaskedWrite with permutation map support</a></div>
                     <div class="post-desc">Extends the createReadOrMaskedRead and createWriteOrMaskedWrite utilities in VectorUtils with permutation map support. The affine super-vectorizer is updated to use these utilities.</div>
                     <div class="post-foot"><img src="icons/clock.svg" width=12px height=12px/> 2026/06/12</div>
                 </div>
@@ -331,7 +348,7 @@
 
             <article class="post-block" style="margin-bottom: 1rem;">
                 <div class="post-inner">
-                    <div class="post-title"><a href="https://github.com/llvm/llvm-project/pull/201180" style="text-decoration:none;">LLVM: affine-super-vectorize in_bounds transfer ops</a></div>
+                    <div class="post-title"><a href="https://github.com/llvm/llvm-project/pull/201180" style="text-decoration:none;">[mlir][affine] emit in_bounds on transfer_read/write when statically provable in affine-super-vectorize</a></div>
                     <div class="post-desc">Fixes affine-super-vectorize to emit vector.transfer_read/write with the in_bounds attribute when statically provable, avoiding unnecessary masked intrinsics overhead on AArch64/NEON.</div>
                     <div class="post-foot"><img src="icons/clock.svg" width=12px height=12px/> 2026/06/09</div>
                 </div>
