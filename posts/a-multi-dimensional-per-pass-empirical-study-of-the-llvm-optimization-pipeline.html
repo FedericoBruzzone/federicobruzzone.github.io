@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../prism.css">
+    <link rel="stylesheet" href="../code.css">
+
+    <script src="../scripts/prism.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    <title>A Multi-Dimensional, Per-Pass Empirical Study of the LLVM Optimization Pipeline</title>
+
+    <style>
+        .paper-figure {
+            margin: 1.8em auto;
+            text-align: center;
+            max-width: 820px;
+        }
+
+        .paper-figure img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+
+        .paper-figure figcaption {
+            margin-top: 0.5em;
+            font-size: 0.85em;
+            color: #666;
+            font-style: italic;
+        }
+
+        .finding-box {
+            border-left: 4px solid var(--post-bg-color);
+            background: var(--code-bg-color, #f8f8f8);
+            margin: 1.5em 0;
+            padding: 0.8em 1.2em;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .finding-box strong {
+            display: block;
+            margin-bottom: 0.3em;
+        }
+
+        blockquote {
+            border-left: 3px solid var(--post-bg-color);
+            margin: 1.2em 0;
+            padding: 0.6em 1em;
+            color: var(--post-foot-color);
+            font-size: 0.95em;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root-folder" value=".."></div>
+    <div id="header"></div>
+
+    <main>
+        <div class="post-body">
+            <h1><img src="images/LLVM.png" alt="LLVM logo" width="20px"/> A Multi-Dimensional, Per-Pass Empirical Study of the LLVM Optimization Pipeline</h1>
+
+            <p>
+                <b>Edit:</b> Take a look at the discussion in the <a href="https://www.reddit.com/r/Compilers/s/yV79R7N7gN">Compilers subreddit</a>.
+            </p>
+
+            <p>
+                Hi Folks!
+                We just posted a new preprint on arXiv: <a href="https://arxiv.org/abs/2606.31238"><em>A Multi-Dimensional, Per-Pass Empirical Study of the LLVM Optimization Pipeline</em></a>.
+                This post is a quick, friendly tour of what we found.
+            </p>
+
+            <h2>Code and artifact</h2>
+
+            <p>
+                The tool we built to run all of this is <a href="https://github.com/FedericoBruzzone/llvm-passview"><strong>llvm-passview</strong></a> — an open-source driver that automates the prefix-by-prefix compilation and measurement pipeline.
+            </p>
+
+            <p>
+                If you want to dig into the raw data, the full artifact lives at <a href="https://github.com/FedericoBruzzone/llvm-passview/tree/main/PAPER-ARTIFACT"><strong>PAPER-ARTIFACT</strong></a>.
+                For every benchmark, at every pipeline step, you get: the LLVM IR, the compiled binary, execution logs, and profiling CSVs for every metric (runtime, compile time, binary size, IPC, cache misses, energy, ...).
+                That's a lot of data to play with.
+                The exact 113-step pipeline decomposition is available <a href="https://github.com/FedericoBruzzone/llvm-passview/blob/main/PIPELINE-DECOMPOSED.txt">here</a>.
+            </p>
+
+            <h2>The question</h2>
+
+            <p>
+                You pass <code>-O3</code> to <code>clang</code> and your code gets faster. Great.
+                But <em>which</em> of the 113 optimization passes that <code>-O3</code> runs actually did something?
+                And did they all help, or did some of them secretly make things worse before another pass fixed it?
+            </p>
+
+            <p>
+                That's what we set out to answer. We ran every <em>cumulative prefix</em> of the <code>-O3</code> pipeline — pass 0 only, then passes 0–1, then 0–2, ... up to all 113 — on 30 <a href="https://web.cs.ucla.edu/~pouchet/software/polybench/">PolyBench/C</a> kernels and measured execution time, compile time, binary size, hardware counters (IPC, cache misses, ...) and energy. That's 84,750 measurements in total, with careful noise mitigation.
+            </p>
+
+            <p>
+                All multi-benchmark figures below use the following legend — one unique color, marker, and line style per kernel:
+            </p>
+
+            <figure class="paper-figure">
+                <img src="images/llvm-pipeline-legend_benchmarks.png" alt="Benchmark legend"/>
+                <figcaption>Legend for all multi-benchmark figures (unique color, marker, and line style per kernel).</figcaption>
+            </figure>
+
+            <h2>Finding 1 — marginal impact of individual passes</h2>
+
+            <p>
+                The first surprise: <strong>-O3 is not monotonically improving</strong>. About 7–10% of pass-to-pass transitions actually <em>slow things down</em> before a later pass recovers. Here's what the runtime trajectory looks like across all 30 benchmarks:
+            </p>
+
+            <figure class="paper-figure">
+                <img src="images/llvm-pipeline-evolution_runtime_ci95.png" alt="Runtime evolution with 95% confidence intervals across the -O3 pipeline"/>
+                <figcaption>Runtime evolution (normalized to -O0) with 95% confidence intervals. Each line is a benchmark. Note the non-monotone wiggles — those are real regressions, not noise.</figcaption>
+            </figure>
+
+            <p>
+                Most of the speedup also comes <em>late</em> in the pipeline. The median benchmark needs to complete <strong>84.8%</strong> of the pipeline before locking in 80% of its final speedup — driven by <code>loop-vectorize</code> (pass 87) and <code>loop-unroll</code> (pass 95). Three benchmarks (<code>correlation</code>, <code>covariance</code>, <code>seidel-2d</code>) end up <em>slower</em> than <code>-O0</code> altogether.
+            </p>
+
+            <figure class="paper-figure">
+                <img src="images/llvm-pipeline-figP9_optimization_saturation.png" alt="Cumulative speedup and normalized gain across the pipeline"/>
+                <figcaption>Top: cumulative speedup S<sub>i</sub> per benchmark. Bottom: normalized fraction of final speedup reached at each pipeline prefix. The S-curve shape and the late crossing of the 0.8 threshold are clearly visible.</figcaption>
+            </figure>
+
+            <p>
+                Decomposing the trajectory into per-pass deltas reveals a clear 80/20 structure: a handful of passes dominate, and the long tail is essentially noise. <code>early-cse</code>, <code>licm</code>, <code>instcombine</code>, <code>loop-vectorize</code>, and <code>loop-unroll</code> carry most of the weight, while the bottom half of the pipeline is statistically indistinguishable from doing nothing.
+            </p>
+
+            <figure class="paper-figure">
+                <img src="images/llvm-pipeline-waterfall_combined_median.png" alt="Marginal-utility waterfall plot"/>
+                <figcaption>Marginal utility of each pass (ΔT<sub>i</sub> = time before minus time after). Most lines hug zero; the real action concentrates in two bursts around passes 8–18 and 41–48.</figcaption>
+            </figure>
+
+            <p>
+                Aggregating those deltas across all benchmarks gives a clean cross-benchmark ranking of who actually did the work:
+            </p>
+
+            <figure class="paper-figure">
+                <img src="images/llvm-pipeline-fig19u_pass_impact_ranking_mean_median.png" alt="Top-20 pass impact ranking"/>
+                <figcaption>Top-20 passes ranked by mean absolute marginal impact. The top decile carries the majority of the total speedup. <code>early-cse</code> takes the crown (27/30 benchmarks).</figcaption>
+            </figure>
+
+            <h2>Finding 2 — speed, compile time, and binary size trade-offs</h2>
+
+            <p>
+                Runtime improvements don't come for free. Compile time grows near-monotonically, while binary size is non-monotone: early passes shrink it via dead-code elimination, late inlining and unrolling inflate it. The result is that the final <code>-O3</code> endpoint is <strong>Pareto-dominated</strong> in 29/30 benchmarks — there's an earlier pipeline checkpoint that is simultaneously smaller <em>and</em> faster. Also, static IR instruction count turns out to be a poor proxy for runtime: 27/30 benchmarks show a <em>negative</em> correlation between IR size and execution time, since passes like unrolling and vectorization expand the IR while reducing runtime.
+            </p>
+
+            <figure class="paper-figure">
+                <img src="images/llvm-pipeline-binary_compile_unified.png" alt="Compile time and binary size trajectories along the -O3 pipeline"/>
+                <figcaption>Compile time (top) and binary size (bottom) trajectories along the pipeline. Compile time grows near-monotonically; binary size first shrinks (dead-code elimination) then inflates with late inlining and unrolling.</figcaption>
+            </figure>
+
+            <p>
+                Putting speedup and binary size together on a Pareto plot makes the dominated endpoint obvious:
+            </p>
+
+            <figure class="paper-figure">
+                <img src="images/llvm-pipeline-figP1_pareto_two.png" alt="Pareto fronts for compile time vs speedup and binary size vs speedup"/>
+                <figcaption>Pareto views of the trade-off space. Each dot is a pipeline prefix aggregated across benchmarks. In 29/30 cases, the full -O3 endpoint (rightmost dot) is dominated on the binary-size/speedup frontier.</figcaption>
+            </figure>
+
+            <h2>Finding 3 — vectorization saves energy (not just time)</h2>
+
+            <p>
+                We also measured hardware counters and RAPL energy. A striking result: IPC (instructions per clock) actually <em>falls</em> by 17.4% end-to-end, even though execution is much faster.
+                That sounds contradictory — but it makes sense once you realize vectorization (SIMD) replaces many cheap scalar instructions with fewer, wider, longer-latency ones.
+                You're doing less work total, which wins, even if each individual operation takes longer per cycle. The heatmap below shows exactly which passes move which counters, across all 30 benchmarks:
+            </p>
+
+            <figure class="paper-figure">
+                <img src="images/llvm-pipeline-fig4b_hw_heatmap_grid.png" alt="Hardware counter signatures at the top-10 most impactful pass positions"/>
+                <figcaption>Per-benchmark hardware-counter signatures at the top-10 most impactful pass positions. Blue = improvement, red = regression relative to -O0. Each cell is one (benchmark, pass) pair across 9 counters (instructions, cycles, IPC, D1/LLC/L1-I misses, branch misses, energy).</figcaption>
+            </figure>
+
+            <p>
+                On the energy side: passes that improve runtime are <em>de facto</em> energy passes too.
+                The suite-wide energy savings track runtime savings closely (30–60%), with the biggest single step at <code>loop-vectorize</code> (−35% in one pass).
+                To our knowledge, this is the first per-pass energy profile of the LLVM pipeline.
+            </p>
+
+            <h2>Finding 4 — how much speedup is lost to phase interference?</h2>
+
+            <p>
+                Given all those non-monotone transitions, one natural question is: <em>how much potential speedup is the pipeline leaving on the table</em>?
+                We define a simple idealized upper bound: take the sum of all positive pass contributions, ignoring the regressions. The loss <em>L</em> measures the gap between that ceiling and what you actually get.
+            </p>
+
+            <figure class="paper-figure">
+                <img src="images/llvm-pipeline-potential_loss_phase_interference_left.png" alt="Phase interference loss L per benchmark"/>
+                <figcaption>Phase-interference loss L per benchmark. Mean 46.35%, median 39.3%. On <code>correlation</code> (L=100%), -O3 ends up slower than -O0.</figcaption>
+            </figure>
+
+            <p>
+                The mean loss is <strong>46.35%</strong> (median 39.3%). The ceiling is unreachable — passes don't compose additively — but the number gives a concrete sense of how much intra-pipeline interference costs. On <code>correlation</code> (L=100%), <code>licm</code> at pass 41 drops performance by 26%, and the very next pass (<code>loop-rotate</code>) recovers most of it — the pipeline self-corrects in situ, but not fully. As far as we know, this is the first search-free, per-pass quantification of phase-interference loss in a production compiler's default pipeline.
+            </p>
+
+            <h2>So what?</h2>
+
+            <p>
+                A few practical takeaways:
+            </p>
+
+            <ul>
+                <li><strong>Pass pruning:</strong> if you're building a constrained compiler (embedded, compile-time budget), the bottom half of the pass list is essentially free to drop for these workloads.</li>
+                <li><strong>Cost models:</strong> IR instruction count is a poor proxy for runtime. 27/30 benchmarks show a <em>negative</em> correlation between IR size and execution time — more IR often means faster code (unrolling, vectorization).</li>
+                <li><strong>Autotuning:</strong> the per-pass data gives a dense supervision signal for learned phase ordering, without needing to search over orderings.</li>
+                <li><strong>Energy:</strong> if you're optimizing for power (mobile, HPC), just optimize for runtime — at least for compute-bound workloads, the two objectives align tightly.</li>
+            </ul>
+
+            <p>
+                The full paper is on arXiv: <a href="https://arxiv.org/abs/2606.31238">arxiv.org/abs/2606.31238</a>. If you have thoughts or questions, feel free to reach out!
+            </p>
+
+            <h2>How to cite</h2>
+
+            <pre><code>@misc{Bruzzone26f-preprint,
+    title={A Multi-Dimensional, Per-Pass Empirical Study of the LLVM Optimization Pipeline},
+    author={Federico Bruzzone and Walter Cazzola},
+    year={2026},
+    eprint={2606.31238},
+    archivePrefix={arXiv},
+    primaryClass={cs.SE},
+    url={https://arxiv.org/abs/2606.31238},
+}</code></pre>
+
+        </div>
+    </main>
+
+    <div id="footer"></div>
+    <script src="../scripts/toggle-theme.js"></script>
+    <script src="../scripts/load-header.js"></script>
+    <script src="../scripts/load-footer.js"></script>
+    <script src="../scripts/prism.js" defer></script>
+</body>
+
+</html>
