@@ -216,7 +216,7 @@
             </p>
 
             <ul>
-                <li><strong>Pass pruning:</strong> if you're building a constrained compiler (embedded, compile-time budget), the bottom half of the pass list is essentially free to drop for these workloads.</li>
+                <li><strong>Pass pruning:</strong> if you're building a constrained compiler (embedded, compile-time budget), a study to find a systematic way to drop the bottom half of the passes is in order.</li>
                 <li><strong>Cost models:</strong> IR instruction count is a poor proxy for runtime. 27/30 benchmarks show a <em>negative</em> correlation between IR size and execution time — more IR often means faster code (unrolling, vectorization).</li>
                 <li><strong>Autotuning:</strong> the per-pass data gives a dense supervision signal for learned phase ordering, without needing to search over orderings.</li>
                 <li><strong>Energy:</strong> if you're optimizing for power (mobile, HPC), just optimize for runtime — at least for compute-bound workloads, the two objectives align tightly.</li>
