@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Federico Bruzzone — CV</title>
+<style>
+@page {
+  size: A4;
+  margin: 1.8cm 1.5cm;
+}
+
+@media print {
+  body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 10pt;
+  line-height: 1.5;
+  color: #222;
+  background: #fff;
+  max-width: 210mm;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.section {
+  margin-bottom: 1.2em;
+}
+
+h1 {
+  font-size: 11pt;
+  text-transform: uppercase;
+  letter-spacing: 1.5pt;
+  border-bottom: 1.5px solid #222;
+  padding-bottom: 2pt;
+  margin-bottom: 8pt;
+  margin-top: 1.2em;
+  page-break-after: avoid;
+}
+h1:first-of-type { margin-top: 0; }
+
+h2 {
+  font-size: 10pt;
+  margin-top: 10pt;
+  margin-bottom: 4pt;
+}
+
+/* --- Header --- */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.5em;
+}
+.header-left .name {
+  font-size: 20pt;
+  font-weight: bold;
+  letter-spacing: 0.5pt;
+}
+.header-left .subtitle {
+  font-size: 11pt;
+  margin-top: 2pt;
+}
+.header-right {
+  text-align: right;
+  font-size: 8.5pt;
+  line-height: 1.6;
+}
+.header-right a { color: #222; text-decoration: none; }
+.header-right a:hover { text-decoration: underline; }
+
+/* --- About --- */
+.about {
+  font-size: 9pt;
+  text-align: center;
+  margin-bottom: 1.2em;
+  padding: 6pt 1.5cm;
+  border: 1px solid #ccc;
+  font-style: italic;
+}
+
+/* --- Entry (grid) --- */
+.entry {
+  display: grid;
+  grid-template-columns: 1.5fr 8fr;
+  gap: 0 20pt;
+  margin-bottom: 3pt;
+  page-break-inside: avoid;
+}
+.entry-when {
+  text-align: right;
+  font-weight: bold;
+  font-size: 9pt;
+}
+.entry-what {
+  font-size: 9pt;
+  text-align: justify;
+}
+
+/* --- Publications --- */
+.pub-entry {
+  margin-bottom: 5pt;
+  page-break-inside: avoid;
+}
+.pub-title {
+  font-weight: bold;
+  font-size: 9.5pt;
+}
+.pub-authors {
+  font-size: 9pt;
+}
+.pub-venue {
+  font-size: 9pt;
+  font-style: italic;
+}
+.pub-links {
+  font-size: 8pt;
+}
+.pub-links a {
+  color: #555;
+  text-decoration: none;
+  border-bottom: 1px dotted #aaa;
+}
+.pub-links a:hover { border-bottom: 1px solid; }
+
+/* --- Thesis Supervision --- */
+.thesis-entry {
+  margin-bottom: 2pt;
+  font-size: 9pt;
+}
+.thesis-entry .name { font-weight: bold; }
+.thesis-entry .title { font-style: italic; }
+.thesis-entry .meta { color: #555; font-size: 8.5pt; }
+
+/* --- Thesis Supervision as table --- */
+.thesis-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 9pt;
+  margin-bottom: 4pt;
+}
+.thesis-table td {
+  padding: 2pt 4pt;
+  vertical-align: top;
+}
+.thesis-table td:first-child {
+  white-space: nowrap;
+  text-align: right;
+  font-weight: bold;
+  width: 1.5fr;
+  padding-right: 8pt;
+}
+code {
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 9pt;
+  background: #eee;
+  padding: 0.1em 0.3em;
+  border-radius: 2px;
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <div class="name">Federico Bruzzone</div>
+    <div class="subtitle">Curriculum Vitae</div>
+  </div>
+  <div class="header-right">
+    <div>Born in Magenta (MI), Italy on 7th of March 2000</div>
+    <div>Via F. Turati 75/F, Arluno (MI), 20004</div>
+    <div>federico.bruzzone.i@gmail.com</div>
+    <div>federico.bruzzone@unimi.it</div>
+    <div>+39 391 7369214</div>
+    <div style="margin-top:4pt">
+      <a href="https://github.com/FedericoBruzzone">github.com/FedericoBruzzone</a><br>
+      <a href="https://www.linkedin.com/in/federico-bruzzone/">in/federico-bruzzone</a><br>
+      <a href="https://federicobruzzone.github.io">federicobruzzone.github.io</a>
+    </div>
+  </div>
+</div>
+
+<div class="about">
+  Presently a PhD Candidate in Computer Science. I have a strong passion for Programming Languages and Compilers, and I am currently diving into AI (ML/DL) compilers.
+</div>
+
+<div id="cv-output"></div>
+
+<script src="../../scripts/research-data.js"></script>
+<script>
+(function () {
+  var D = RESEARCH_DATA;
+  var out = document.getElementById("cv-output");
+  var html = "";
+
+  // === Education ===
+  if (D.education && D.education.length) {
+    html += '<div class="section"><h1>Education</h1>';
+    for (var i = 0; i < D.education.length; i++) {
+      var e = D.education[i];
+      html += '<div class="entry">';
+      html += '  <div class="entry-when">' + e.when + '</div>';
+      html += '  <div class="entry-what">' + e.what;
+      if (e.details && e.details.length) {
+        html += '<br><span style="font-size:8.5pt;color:#555">' + e.details.join("<br>") + '</span>';
+      }
+      html += '  </div></div>';
+    }
+    html += '</div>';
+  }
+
+  // === Publications ===
+  if (D.publications && D.publications.length) {
+    html += '<div class="section"><h1>Scientific Publications</h1>';
+    for (var i = 0; i < D.publications.length; i++) {
+      var p = D.publications[i];
+      html += '<div class="pub-entry">';
+      html += '  <div class="pub-title">' + p.title.replace(/`([^`]+)`/g, '<code>$1</code>') + '</div>';
+      html += '  <div class="pub-authors">' + p.authors + '</div>';
+      if (p.venue) html += '  <div class="pub-venue">' + p.venue + '</div>';
+      html += '  <div class="pub-links">';
+      if (p.links) {
+        for (var j = 0; j < p.links.length; j++) {
+          if (j > 0) html += ' &middot; ';
+          html += '<a href="' + p.links[j].url + '">' + p.links[j].label + '</a>';
+        }
+      }
+      if (p.note) html += ' &middot; ' + p.note;
+      html += '  </div></div>';
+    }
+    html += '</div>';
+  }
+
+  // === Preprints ===
+  if (D.preprints && D.preprints.length) {
+    html += '<div class="section"><h1>Preprints</h1>';
+    for (var i = 0; i < D.preprints.length; i++) {
+      var p = D.preprints[i];
+      html += '<div class="pub-entry">';
+      html += '  <div class="pub-title">' + p.title.replace(/`([^`]+)`/g, '<code>$1</code>') + '</div>';
+      html += '  <div class="pub-authors">' + p.authors + '</div>';
+      html += '  <div class="pub-links">';
+      if (p.links) {
+        for (var j = 0; j < p.links.length; j++) {
+          if (j > 0) html += ' &middot; ';
+          html += '<a href="' + p.links[j].url + '">' + p.links[j].label + '</a>';
+        }
+      }
+      if (p.note) html += ' &middot; ' + p.note;
+      html += '  </div></div>';
+    }
+    html += '</div>';
+  }
+
+  // === Open Source Contributions (Selected) ===
+  if (D.openSourceContributions && D.openSourceContributions.length) {
+    html += '<div class="section"><h1>Open Source Contributions (Selected)</h1>';
+    // Personal projects first
+    if (D.personalProjects && D.personalProjects.length) {
+      for (var i = 0; i < D.personalProjects.length; i++) {
+        var p = D.personalProjects[i];
+        var desc = p.desc || "";
+        html += '<div class="entry">';
+        html += '  <div class="entry-when">' + p.date + '</div>';
+        html += '  <div class="entry-what">' + p.title.replace(/`([^`]+)`/g, '<code>$1</code>') + ' &mdash; ' + desc + '</div>';
+        html += '</div>';
+      }
+    }
+    // Then external contributions
+    for (var i = 0; i < D.openSourceContributions.length; i++) {
+      var c = D.openSourceContributions[i];
+      if (c.hidden) continue;
+      html += '<div class="entry">';
+      html += '  <div class="entry-when">' + c.date + '</div>';
+      html += '  <div class="entry-what"><a href="' + c.url + '" style="color:#222;text-decoration:none;border-bottom:1px dotted #aaa;">' + c.title.replace(/`([^`]+)`/g, '<code>$1</code>') + '</a>';
+      if (c.project) html += ' <code>' + c.project + '</code>';
+      if (c.desc) html += ' &mdash; ' + c.desc;
+      html += '</div></div>';
+    }
+    html += '</div>';
+  }
+
+  // === Research Activities ===
+  if (D.researchActivities && D.researchActivities.length) {
+    html += '<div class="section"><h1>Research Activities</h1>';
+    for (var i = 0; i < D.researchActivities.length; i++) {
+      var r = D.researchActivities[i];
+      html += '<div class="entry">';
+      html += '  <div class="entry-when">' + r.date + '</div>';
+      html += '  <div class="entry-what">' + r.title;
+      if (r.desc) html += '<br><span style="font-size:8.5pt;color:#555">' + r.desc + '</span>';
+      html += '</div></div>';
+    }
+    html += '</div>';
+  }
+
+  // === Teaching ===
+  if (D.teaching) {
+    html += '<div class="section"><h1>Teaching Activities</h1>';
+
+    // Thesis Supervision
+    if (D.teaching.thesisSupervision && D.teaching.thesisSupervision.length) {
+      html += '<h2>Thesis Supervision</h2>';
+      for (var i = 0; i < D.teaching.thesisSupervision.length; i++) {
+        var s = D.teaching.thesisSupervision[i];
+        html += '<div class="entry">';
+        html += '  <div class="entry-when">' + s.when + '</div>';
+        html += '  <div class="entry-what"><span class="name">' + s.name + '</span>, <span class="title">' + s.title.replace(/`([^`]+)`/g, '<code>$1</code>') + '</span> &mdash; ' + s.where + ', Score: ' + s.score + '</div>';
+        html += '</div>';
+      }
+    }
+
+    // Graduate Courses
+    if (D.teaching.graduateCourses && D.teaching.graduateCourses.length) {
+      html += '<h2>Graduate Courses</h2>';
+      for (var i = 0; i < D.teaching.graduateCourses.length; i++) {
+        var c = D.teaching.graduateCourses[i];
+        html += '<div class="entry">';
+        html += '  <div class="entry-when">' + c.when + '</div>';
+        html += '  <div class="entry-what">' + c.what;
+        if (c.details && c.details.length) {
+          html += '<br><span style="font-size:8.5pt;color:#555">' + c.details.join("<br>") + '</span>';
+        }
+        html += '</div></div>';
+      }
+    }
+
+    // Additional Activities
+    if (D.teaching.additionalActivities && D.teaching.additionalActivities.length) {
+      html += '<h2>Additional Activities</h2>';
+      for (var i = 0; i < D.teaching.additionalActivities.length; i++) {
+        var a = D.teaching.additionalActivities[i];
+        html += '<div class="entry">';
+        html += '  <div class="entry-when">' + a.when + '</div>';
+        html += '  <div class="entry-what">' + a.what;
+        if (a.details && a.details.length) {
+          html += '<br><span style="font-size:8.5pt;color:#555">' + a.details.join("<br>") + '</span>';
+        }
+        html += '</div></div>';
+      }
+    }
+
+    html += '</div>';
+  }
+
+  // === Technical Skills ===
+  html += '<div class="section"><h1>Technical Skills</h1>';
+  html += '<div class="entry">';
+  html += '  <div class="entry-when">Languages</div>';
+  html += '  <div class="entry-what">Rust, C/C++, Python, Go, OCaml, Java, Scala, Kotlin, Erlang, Lua, Dart, PHP, HTML/CSS, SQL, Bash, TeX</div>';
+  html += '</div>';
+  html += '<div class="entry">';
+  html += '  <div class="entry-when">Systems/Tooling</div>';
+  html += '  <div class="entry-what">Git, CI/CD, Docker, GDB, Valgrind, Build Systems (CMake, Cargo, Pip), Cross-language Linking, Static/Dynamic Libraries, FFI (C bindgen)</div>';
+  html += '</div>';
+  html += '<div class="entry">';
+  html += '  <div class="entry-when">Area of Expertise</div>';
+  html += '  <div class="entry-what">Compiler Construction &amp; Optimizations, Programming Languages Design, IR Design &amp; Implementation, Type Systems, Language Support Tools (LSP), Static Analysis, Rustc Internals, MLIR, LLVM, Parsing Techniques &amp; Parser Generators (ANTLR)</div>';
+  html += '</div>';
+  html += '</div>';
+
+  // === Musical Activities ===
+  html += '<div class="section"><h1>Musical Activities</h1>';
+  html += '<div class="entry"><div class="entry-when">2021-Present</div><div class="entry-what">Sound Engineer and Music Producer, in collaboration with Believe and as a SIAE member.</div></div>';
+  html += '<div class="entry"><div class="entry-when">2006-Present</div><div class="entry-what">Pianist and Music Composer, composing original pieces and arrangements for piano and various ensembles.</div></div>';
+  html += '<div class="entry"><div class="entry-when">2019-Present</div><div class="entry-what">Piano and Music Teacher, teaching piano and music theory and composition.</div></div>';
+  html += '</div>';
+
+  // === Grants and Fellowships ===
+  html += '<div class="section"><h1>Grants and Fellowships</h1>';
+  html += '<div class="entry"><div class="entry-when">2024</div><div class="entry-what"><a href="https://github.com/gayanvoice/top-github-users/blob/eb0e7d8c60de27a55a7d02c56703d6b8d16c8259/markdown/public_contributions/italy.md" style="color:#222;text-decoration:none;border-bottom:1px dotted #aaa;">56th Top GitHub Public Contributor</a> in Italy out of 958.</div></div>';
+  html += '<div class="entry"><div class="entry-when">2023-2024</div><div class="entry-what">Scholarship for the MSc in Computer Science, awarded by the University of Milan.</div></div>';
+  html += '<div class="entry"><div class="entry-when">2020-2024</div><div class="entry-what">Scholarship for the BSc in Musical Computer Science, awarded by the University of Milan.</div></div>';
+  html += '</div>';
+
+  // === Tongues ===
+  html += '<div class="section"><h1>Tongues</h1>';
+  html += '<div class="entry"><div class="entry-when">Italian</div><div class="entry-what">Mother tongue</div></div>';
+  html += '<div class="entry"><div class="entry-when">English</div><div class="entry-what">Level CEFR B2 (SLAM at University of Milan)</div></div>';
+  html += '<div class="entry"><div class="entry-when">Spanish</div><div class="entry-what">Base (A1-A2)</div></div>';
+  html += '</div>';
+
+  var now = new Date();
+  var dateStr = now.getDate() + "/" + (now.getMonth() + 1) + "/" + now.getFullYear();
+  html += '<div style="margin-top:3em;font-size:9pt;text-align:center;">Milan, ' + dateStr + '</div>';
+
+  out.innerHTML = html;
+})();
+</script>
+
+</body>
+</html>

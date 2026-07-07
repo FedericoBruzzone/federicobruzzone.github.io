@@ -250,6 +250,18 @@ var RESEARCH_DATA = {
 
   personalProjects: [
     {
+      title: "Eter",
+      url: "https://github.com/eter-lang/eter",
+      desc: "A new programming language for heterogeneous computing \u2014 compiles to CPUs, GPUs, and specialized accelerators. Built on LLVM and MLIR.",
+      date: "2026/04 \u2013 present"
+    },
+    {
+      title: "LLVM Passview",
+      url: "https://github.com/FedericoBruzzone/llvm-passview",
+      desc: "A framework to run an incremental, reproducible study of LLVM optimization passes \u2014 measuring runtime, compile-time, binary size, and hardware performance counters.",
+      date: "2026/03 \u2013 present"
+    },
+    {
       title: "LLVM Pass Template",
       url: "https://github.com/FedericoBruzzone/llvm-pass-template",
       desc: "Lets developers quickly bootstrap, test, and benchmark new out-of-tree LLVM passes without building LLVM from sources.",
@@ -278,6 +290,18 @@ var RESEARCH_DATA = {
       titleHtml: '<a href="https://github.com/FedericoBruzzone/tgt">tgt</a> &amp; <a href="https://github.com/FedericoBruzzone/tdlib-rs">tdlib-rs</a>',
       desc: "Tgt is a TUI Telegram client built on tdlib-rs, which provides safe and idiomatic Rust bindings to TDLib.",
       date: "2024/03 \u2013 present"
+    },
+    {
+      title: "CHIP-8 STM32-Port",
+      url: "https://github.com/CHIP-8-Org/STM32-Port",
+      desc: "CHIP-8 and S-CHIP emulator ported to STM32 Cortex M4 microcontroller.",
+      date: "2024/02 \u2013 present"
+    },
+    {
+      title: "CHIP-8 Core",
+      url: "https://github.com/CHIP-8-Org/Core",
+      desc: "Core CHIP-8 and S-CHIP emulator library, used as the foundation for platform ports.",
+      date: "2023/10 \u2013 present"
     }
   ],
 
@@ -285,74 +309,74 @@ var RESEARCH_DATA = {
     {
       title: "[mlir][VectorToLLVM] add opt-in enable-gep-inbounds-nuw pass flag for vector.load/store",
       url: "https://github.com/llvm/llvm-project/pull/202118",
-      desc: "Adds enable-gep-inbounds-nuw pass flag to ConvertVectorToLLVM. When enabled, emits inbounds/nuw on vector.load/store GEPs, enabling SCEV and alias analysis improvements.",
-      date: "2026/06/18"
+      date: "2026/06/18",
+      project: "llvm-project"
     },
     {
       title: "[mlir][MemRefToLLVM] fix incorrect nuw on GEP/mul when lowering memref.load/store with negative strides",
       url: "https://github.com/llvm/llvm-project/pull/204309",
-      desc: "Fixes MemRefToLLVM to only emit nuw on GEP/mul when strides are statically non-negative, preventing unsound poison from negative-strided accesses.",
-      date: "2026/06/18"
+      date: "2026/06/18",
+      project: "llvm-project"
     },
     {
       title: "[NFC][mlir][linalg] add toContractionDimensions for healthy code reuse",
       url: "https://github.com/llvm/llvm-project/pull/203916",
-      desc: "Extracts the toContractionDimensions helper to eliminate code duplication in the Linalg C API.",
-      date: "2026/06/16"
+      date: "2026/06/16",
+      project: "llvm-project"
     },
     {
       title: "[mlir][vector] extend createReadOrMaskedRead/createWriteOrMaskedWrite with permutation map support",
       url: "https://github.com/llvm/llvm-project/pull/202766",
-      desc: "Extends the createReadOrMaskedRead and createWriteOrMaskedWrite utilities in VectorUtils with permutation map support. The affine super-vectorizer is updated to use these utilities.",
-      date: "2026/06/12"
+      date: "2026/06/12",
+      project: "llvm-project"
     },
     {
       title: "[mlir][affine] emit in_bounds on transfer_read/write when statically provable in affine-super-vectorize",
       url: "https://github.com/llvm/llvm-project/pull/201180",
-      desc: "Fixes affine-super-vectorize to emit vector.transfer_read/write with the in_bounds attribute when statically provable, avoiding unnecessary masked intrinsics overhead on AArch64/NEON.",
-      date: "2026/06/09"
+      date: "2026/06/09",
+      project: "llvm-project"
     },
     {
       title: "Rust 1.86.0 contributor",
       url: "https://thanks.rust-lang.org/rust/1.86.0/",
-      desc: "One of the 393 contributors to Rust 1.86.0.",
-      date: "2025/04/03"
+      date: "2025/04/03",
+      hidden: true
     },
     {
-      title: "Rustworkx: Closeness centrality with Newman weighting",
+      title: "Generalizing `Closeness` centrality to weighted networks using Newman method",
       url: "https://github.com/Qiskit/rustworkx/pull/1385",
-      desc: "Generalizing Closeness centrality to weighted networks using the Newman method.",
-      date: "2025/02/14"
+      date: "2025/02/14",
+      project: "rustworkx"
     },
     {
-      title: "Rustc: Use ty::Value for type-level constants",
+      title: "Use the type-level constant value `ty::Value` where needed",
       url: "https://github.com/rust-lang/rust/pull/136430",
-      desc: "",
-      date: "2025/02/01"
+      date: "2025/02/01",
+      project: "rustc"
     },
     {
-      title: "Rustc: Add TooGeneric to LayoutError and emit Unknown",
+      title: "Add `TooGeneric` variant to `LayoutError` and emit `Unknown`",
       url: "https://github.com/rust-lang/rust/pull/135158",
-      desc: "",
-      date: "2025/01/27"
+      date: "2025/01/27",
+      project: "rustc"
     },
     {
       title: "Rust 1.83.0 contributor",
       url: "https://thanks.rust-lang.org/rust/1.83.0/",
-      desc: "One of the 396 contributors to Rust 1.83.0.",
-      date: "2024/12/08"
+      date: "2024/12/08",
+      hidden: true
     },
     {
       title: "56th top GitHub contributor in Italy",
       url: "https://github.com/gayanvoice/top-github-users/blob/920b6690751185ba2e570d890397b19a7f32ba40/markdown/public_contributions/italy.md",
-      desc: "Ranked 56th out of 958 for public contributions in Italy.",
-      date: "2024"
+      date: "2024",
+      hidden: true
     },
     {
-      title: "Rustc: First contribution to the Rust compiler",
+      title: "Report the `note` when specified in `diagnostic::on_unimplemented`",
       url: "https://github.com/rust-lang/rust/pull/130123",
-      desc: "After studying the rustc-dev-guide, first contribution to the Rust compiler.",
-      date: "2024/09/12"
+      date: "2024/09/12",
+      project: "rustc"
     }
   ]
 };
