@@ -6,6 +6,8 @@
   renderContainer("dissemination-container", renderSimpleItem, D.disseminationActivities, "dissemination-theme");
   renderContainer("personal-projects-container", renderPersonalProject, D.personalProjects, "personal-project-theme");
   renderContainer("oss-contributions-container", renderSimpleItem, D.openSourceContributions, "oss-contribution-theme");
+  renderContainer("education-container", renderSimpleItem, D.education, "education-theme");
+  renderTeaching(D.teaching);
 
   function renderContainer(id, renderFn, items, extra) {
     var el = document.getElementById(id);
@@ -72,7 +74,8 @@
   }
 
   function renderSimpleItem(item, themeClass) {
-    var titleHtml = item.titleHtml || item.title;
+    var title = item.title || item.what || "";
+    var titleHtml = item.titleHtml || title;
     if (item.url) {
       titleHtml =
         '<a href="' +
@@ -82,6 +85,13 @@
         "</a>";
     }
 
+    var desc = item.desc;
+    if (!desc && item.details) {
+      desc = item.details.join(" \u00b7 ");
+    }
+
+    var date = item.date || item.when || "";
+
     var html =
       '<article class="post-block ' + (themeClass || "") + '" style="margin-bottom: 1rem;">\n' +
       '  <div class="post-inner">\n' +
@@ -89,18 +99,58 @@
       titleHtml +
       "</div>\n";
 
-    if (item.desc) {
+    if (desc) {
       html +=
-        '    <div class="post-desc">' + item.desc + "</div>\n";
+        '    <div class="post-desc">' + desc + "</div>\n";
     }
 
     html +=
       '    <div class="post-foot"><img src="icons/clock.svg" width="12px" height="12px"/> ' +
-      item.date +
+      date +
       "</div>\n" +
       "  </div>\n" +
       "</article>\n";
     return html;
+  }
+
+  function renderTeaching(data) {
+    var el = document.getElementById("teaching-container");
+    if (!el || !data) return;
+    var html = "";
+
+    // Thesis Supervision
+    if (data.thesisSupervision && data.thesisSupervision.length) {
+      html += '<h2 style="margin-top:0;">Thesis Supervision</h2>';
+      for (var i = 0; i < data.thesisSupervision.length; i++) {
+        var s = data.thesisSupervision[i];
+        var titleHtml = s.name + ', <em>' + s.title + '</em>';
+        html +=
+          '<article class="post-block teaching-theme" style="margin-bottom: 1rem;">\n' +
+          '  <div class="post-inner">\n' +
+          '    <div class="post-title">' + titleHtml + '</div>\n' +
+          '    <div class="post-foot">' + s.where + ' &middot; Score: ' + s.score + ' &middot; ' + s.when + '</div>\n' +
+          '  </div>\n' +
+          '</article>\n';
+      }
+    }
+
+    // Graduate Courses
+    if (data.graduateCourses && data.graduateCourses.length) {
+      html += '<h2>Graduate Courses</h2>';
+      for (var i = 0; i < data.graduateCourses.length; i++) {
+        html += renderSimpleItem(data.graduateCourses[i], "teaching-theme");
+      }
+    }
+
+    // Additional Activities
+    if (data.additionalActivities && data.additionalActivities.length) {
+      html += '<h2>Additional Activities</h2>';
+      for (var i = 0; i < data.additionalActivities.length; i++) {
+        html += renderSimpleItem(data.additionalActivities[i], "teaching-theme");
+      }
+    }
+
+    el.innerHTML = html;
   }
 
   function renderPersonalProject(item, themeClass) {

@@ -21,6 +21,8 @@
     --dissemination-bg    : rgb(252, 228, 236);
     --personal-project-bg : rgb(240, 244, 195);
     --oss-contribution-bg : rgb(232, 234, 246);
+    --education-bg        : rgb(255, 248, 225);
+    --teaching-bg         : rgb(241, 248, 233);
 
     --code-text-color        : rgb(0   , 0   , 0   );
     --code-function-color    : rgb(220 , 70  , 100 );
@@ -54,6 +56,8 @@ body.dark-mode {
     --dissemination-bg    : rgb(72 , 48 , 56 );
     --personal-project-bg : rgb(62 , 66 , 38 );
     --oss-contribution-bg : rgb(45 , 48 , 72 );
+    --education-bg        : rgb(84 , 73 , 43 );
+    --teaching-bg         : rgb(56 , 66 , 43 );
 
     --code-text-color        : rgb(255 , 255 , 255 );
     --code-function-color    : rgb(220 , 100 , 100 ); 
@@ -430,6 +434,14 @@ tr:nth-child(even) {
 
 .oss-contribution-theme {
     background-color: var(--oss-contribution-bg);
+}
+
+.education-theme {
+    background-color: var(--education-bg);
+}
+
+.teaching-theme {
+    background-color: var(--teaching-bg);
 }
 
 .collapsible {

@@ -183,6 +183,71 @@ var RESEARCH_DATA = {
     }
   ],
 
+  education: [
+    {
+      when: "2024-Present",
+      what: "PhD Candidate in Computer Science",
+      details: [
+        "At the ADAPT Lab of the Università degli Studi di Milano, under the supervision of Walter Cazzola.",
+        "Research interests: programming languages, compilers, software and language product lines."
+      ]
+    },
+    {
+      when: "2022-2024",
+      what: "MSc in Computer Science",
+      details: [
+        "At Università degli Studi di Milano, defending the thesis on 15/07/2024",
+        "Thesis: \"Toward a Modular Approach for Type Systems and LSP Generation\"",
+        "Final grade: 110/110 cum laude",
+        "Supervisor: Walter Cazzola, Co-supervisor: Luca Favalli"
+      ]
+    },
+    {
+      when: "2019-2022",
+      what: "BSc in Musical Computer Science",
+      details: [
+        "At Università degli Studi di Milano, degree awarded on 13/10/2022"
+      ]
+    },
+    {
+      when: "2011-2019",
+      what: "Piano and Music Composition at I.S.S.M. Novara Conservatory",
+      details: []
+    },
+    {
+      when: "2014-2019",
+      what: "Diploma in Computer Science and Telecommunications at E. Alessandrini",
+      details: []
+    }
+  ],
+
+  teaching: {
+    thesisSupervision: [
+      { when: "2026/02/23", name: "D. Cerato", title: "Employing Metaprogramming: A Macro-Driven Strategy to Overcome Compiler-Imposed Limitations on Specialization", where: "BSc", score: "103" },
+      { when: "2025/04/10", name: "D. Pellegrino", title: "Scalable Multi-client Real-time Whisper", where: "BSc", score: "96" },
+      { when: "2025/04/09", name: "A. Longoni", title: "GUIDE: Graphical User Interface Development Environment", where: "MSc", score: "110L" },
+      { when: "2025/04/09", name: "L. Albani", title: "New Generalized Protocol For Software Product Line Extraction And Configuration", where: "MSc", score: "110L" },
+      { when: "2025/04/09", name: "G. Esposito", title: "Fr3D: A Framework for DAP-compatible DSL-oriented Debugging", where: "MSc", score: "110L" },
+      { when: "2025/02/24", name: "L. Favini", title: "RustyEx: Instrumenting `rustc` to Extract Feature Dependency Graphs", where: "BSc", score: "102" }
+    ],
+    graduateCourses: [
+      { when: "2025-2026", what: "Mathematical Logic (Art. 45)", details: ["BSc in Computer Science, University of Milan \u2014 S. Aguzzoli"] },
+      { when: "2024-2025", what: "Programming 1 (Art. 45)", details: ["BSc in Computer Science, University of Milan \u2014 L. Capra (coordinator W. Cazzola)"] },
+      { when: "2024-2025", what: "Mathematical Logic (Art. 45)", details: ["BSc in Computer Science, University of Milan \u2014 S. Aguzzoli"] },
+      { when: "2023-2024", what: "Mathematical Logic", details: ["BSc in Computer Science, University of Milan \u2014 S. Aguzzoli"] },
+      { when: "2023-2024", what: "Computer Science", details: ["BSc in Communication and Society, University of Milan \u2014 A. Momigliano"] },
+      { when: "2023-2024", what: "Programming 1", details: ["BSc in Computer Science, University of Milan \u2014 A. Trentini (coordinator P. Boldi)"] },
+      { when: "2023-2024", what: "Programming in Python", details: ["MSc in Chemistry, University of Milan \u2014 M. Monga"] }
+    ],
+    additionalActivities: [
+      { when: "2023-Present", what: "Private Tutoring in Computer Science, Mathematics and Physics", details: [] },
+      { when: "Nov 2024", what: "Collaborator at the Bebras Challenge", details: ["ALaDDIn Lab"] },
+      { when: "Jan-Jun 2024", what: "Organizer of the BSc Computer Science Laboratories", details: ["ALaDDIn Lab"] },
+      { when: "Jan-Jun 2024", what: "Collaborator of the Workshops for schools", details: ["ALaDDIn Lab"] },
+      { when: "Nov 2023", what: "Collaborator at the Bebras Challenge", details: ["ALaDDIn Lab"] }
+    ]
+  },
+
   personalProjects: [
     {
       title: "LLVM Pass Template",
