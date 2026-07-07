@@ -167,8 +167,24 @@ for (var pi = 0; pi < POSTS_DATA.length; pi++) {
     });
 }
 
-parsePostBlocks(read('index.html'), (classes) =>
-    /preprint-post-theme/.test(classes) ? 'Preprint' : 'Publication', 'publications');
+// Publications and preprints come from the shared data file.
+var RESEARCH_DATA = require('./research-data.js');
+function addPubOrPreprint(items, type) {
+    for (var ri = 0; ri < items.length; ri++) {
+        var r = items[ri];
+        addItem({
+            date: r.date,
+            title: toText(r.title),
+            link: r.url,
+            description: toInnerHtml(r.note || ''),
+            category: type === 'publication' ? 'Publication' : 'Preprint',
+            section: 'publications',
+        });
+    }
+}
+addPubOrPreprint(RESEARCH_DATA.publications, 'publication');
+addPubOrPreprint(RESEARCH_DATA.preprints, 'preprint');
+
 parseActivities(read('activities/index.html'));
 
 // Newest first; stable sort preserves the authored order within an equal date.
