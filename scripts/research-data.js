@@ -313,6 +313,12 @@ var RESEARCH_DATA = {
 
   openSourceContributions: [
     {
+      title: "[LLVMCPU] Fix ArmSME requiring classic SVE, breaking SME-only targets (e.g., Apple Silicon)",
+      url: "https://github.com/iree-org/iree/pull/24661",
+      date: "2026/07/07",
+      project: "iree"
+    },
+    {
       title: "[mlir][VectorToLLVM] add opt-in `enable-gep-inbounds-nuw` pass flag for `vector.load/store`",
       url: "https://github.com/llvm/llvm-project/pull/202118",
       date: "2026/06/18",
