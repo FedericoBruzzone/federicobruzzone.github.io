@@ -9,9 +9,8 @@ on:
   push:
     branches: [main]
     paths:
-      - 'post.html'
-      - 'index.html'
-      - 'activities/index.html'
+      - 'scripts/posts-data.js'
+      - 'scripts/research-data.js'
       - 'scripts/gen-feed.js'
       - '.github/workflows/feed.yml'
   workflow_dispatch:
