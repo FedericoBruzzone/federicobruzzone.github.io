@@ -153,7 +153,20 @@ function parseActivities(html) {
 
 // ---- build -----------------------------------------------------------------
 
-parsePostBlocks(read('post.html'), () => 'Post', 'posts');
+// Posts come from the shared data file (single source of truth).
+var POSTS_DATA = require('./posts-data.js');
+for (var pi = 0; pi < POSTS_DATA.length; pi++) {
+    var p = POSTS_DATA[pi];
+    addItem({
+        date: p.date,
+        title: toText(p.title),
+        link: p.url,
+        description: toInnerHtml(p.desc),
+        category: 'Post',
+        section: 'posts',
+    });
+}
+
 parsePostBlocks(read('index.html'), (classes) =>
     /preprint-post-theme/.test(classes) ? 'Preprint' : 'Publication', 'publications');
 parseActivities(read('activities/index.html'));

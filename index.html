@@ -105,102 +105,10 @@
         </p>
 
         <h1>Latest Posts</h1>
-        <div onclick="location.href='posts/a-multi-dimensional-per-pass-empirical-study-of-the-llvm-optimization-pipeline.html';" style="cursor: pointer;">
-        <article class="post-block latest-post-theme">
-            <div class="post-inner">
-                <div class="post-title">
-                    <img src="icons/pin.svg" width=12px height=12px/>
-                    <img src="posts/images/LLVM.png" alt="LLVM logo" width="17px"/>
-                    A Multi-Dimensional, Per-Pass Empirical Study of the LLVM Optimization Pipeline
-                </div>
-                <div class="post-desc">
-                    We ran every cumulative prefix of the LLVM -O3 pipeline on 30 PolyBench/C kernels (84,750 measurements). The pipeline is non-monotone, back-loaded, and -O3 is Pareto-dominated in 29/30 benchmarks. A per-pass look at runtime, binary size, hardware counters, and energy.
-                </div>
-                <div class="post-foot">
-                    <img src="icons/clock.svg" width=12px height=12px/> Date: 1 July, 2026 |  Time to read: ~15 min
-                </div>
-            </div>
-        </article>
-        </div>
-
-        <br>
-
-        <div onclick="location.href='posts/the-llvm-essence-of-lowering-mlir-to-aarch64-with-sme-support.html';" style="cursor: pointer;">
-        <article class="post-block latest-post-theme">
-            <div class="post-inner">
-                <div class="post-title">
-                    <img src="icons/pin.svg" width=12px height=12px/>
-                    <img src="posts/images/MLIR.png" alt="MLIR logo" width="17px"/>
-                    <img src="posts/images/LLVM.png" alt="LLVM logo" width="17px"/>
-                    The LLVM Essence of Lowering MLIR to AArch64 with SME Support
-                </div>
-                <div class="post-desc">
-                    A post to manually lowering MLIR code to AArch64 executables with Arm SME support. Covers the complete pipeline from MLIR optimization to native compilation, including lowering to LLVM dialect, LLVM-IR translation, assembly generation, and linking. Includes practical commands and one-shot solutions for execution.
-                </div>
-                <div class="post-foot">
-                    <img src="icons/clock.svg" width=12px height=12px/> Date: 21 June, 2026 |  Time to read: ~12 min
-                </div>
-            </div>
-        </article>
-        </div>
- 
-
-
-        
+        <div id="latest-posts-container"></div>
 
         <p style="text-align: center; margin-top: 1rem;"><b>Eter Programming Language Series</b></p>
-
-        <div onclick="location.href='posts/eter/a-friendly-tour-of-substructural-uniqueness-ownership-and-capabilities-types-and-more.html';" style="cursor: pointer;">
-        <article class="post-block pinned-post-theme">
-            <div class="post-inner">
-                <div class="post-title">
-                    <img src="https://raw.githubusercontent.com/eter-lang/eter/main/docsrc/logo/logo.png" alt="The Eter logo" width="17px"/> A Friendly Tour of Substructural, Uniqueness, Ownership, and Capabilities Types — and more!
-                </div>
-                <div class="post-desc">
-                    The third post of the <i>Eter programming language</i> series. A friendly tour of the type-theoretic landscape behind memory safety. Starting from the logical roots of substructural logic, it walks through linear, affine, and uniqueness types, then visits regions, effects, capabilities, typestate, and the latest work on reachability and separation types.
-                </div>
-                <div class="post-foot">
-                    <img src="icons/clock.svg" width=12px height=12px/> Date: 22 May, 2026 |  Time to read: ~15 min
-                </div>
-            </div>
-        </article>
-        </div>
-
-        <details class="collapsible">
-            <summary>Show older Eter Series posts</summary>
-            <br>
-            <div onclick="location.href='posts/eter/MVS-or-ownership&borrowing.html';" style="cursor: pointer;">
-            <article class="post-block pinned-post-theme">
-                <div class="post-inner">
-                    <div class="post-title">
-                        <img src="https://raw.githubusercontent.com/eter-lang/eter/main/docsrc/logo/logo.png" alt="The Eter logo" width="17px"/> Mutable Value Semantics (MVS) or Ownership &amp; Borrowing: A Trade-off Analysis
-                    </div>
-                    <div class="post-desc">
-                        The second post of the <i>Eter programming language</i> series. It explores the trade-offs between Mutable Value Semantics and Ownership &amp; Borrowing, examining friction points in Rust, Hylo, and Swift while searching for common ground between the two memory models.
-                    </div>
-                    <div class="post-foot">
-                        <img src="icons/clock.svg" width=12px height=12px/> Date: 3 May, 2026 |  Time to read: ~15 min
-                    </div>
-                </div>
-            </article>
-            </div>
-            <br>
-            <div onclick="location.href='posts/eter/MVS.html';" style="cursor: pointer;">
-            <article class="post-block pinned-post-theme">
-                <div class="post-inner">
-                    <div class="post-title">
-                        <img src="https://raw.githubusercontent.com/eter-lang/eter/main/docsrc/logo/logo.png" alt="The Eter logo" width="17px"/> The Mutable Value Semantics (MVS): A Non-superficial Study
-                    </div>
-                    <div class="post-desc">
-                        The first post of the <i>Eter programming language</i> series. While this post is part of the series, it is not a part of the Eter language itself. The post is a non-superficial study on the MVS, trying to understand its limitations.
-                    </div>
-                    <div class="post-foot">
-                        <img src="icons/clock.svg" width=12px height=12px/> Date: 27 April, 2026 |  Time to read: ~10 min
-                    </div>
-                </div>
-            </article>
-            </div>
-        </details>
+        <div id="eter-posts-container"></div>
 
         <h1>Scientific Publications</h1>
 
@@ -335,6 +243,8 @@
     <script src="scripts/load-footer.js"></script>
     <script src="scripts/load-cits.js"></script>
     <script src="scripts/load-bib.js"></script>
+    <script src="scripts/posts-data.js"></script>
+    <script src="scripts/load-posts-index.js"></script>
     <script src="scripts/prism.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.2/p5.js"></script>

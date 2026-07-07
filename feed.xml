@@ -88,14 +88,6 @@
       <description><![CDATA[The website now has an RSS feed that gathers posts, scientific publications, preprints, and activities into one chronological stream. Subscribe with your favourite reader at /feed.xml.]]></description>
     </item>
     <item>
-      <title>[TODO] Regime-Based Capability Semantics (RCS)</title>
-      <link>https://federicobruzzone.github.io/posts/eter/regime-based-capability-semantics.html</link>
-      <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-05-22:posts/todo-regime-based-capability-semantics-rcs</guid>
-      <category>Post</category>
-      <pubDate>Fri, 22 May 2026 00:00:00 GMT</pubDate>
-      <description><![CDATA[TODO]]></description>
-    </item>
-    <item>
       <title>A Friendly Tour of Substructural, Uniqueness, Ownership, and Capabilities Types — and more!</title>
       <link>https://federicobruzzone.github.io/posts/eter/a-friendly-tour-of-substructural-uniqueness-ownership-and-capabilities-types-and-more.html</link>
       <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-05-22:posts/a-friendly-tour-of-substructural-uniqueness-ownership-and-capabilities-types-and</guid>
@@ -104,12 +96,20 @@
       <description><![CDATA[The third post of the <i>Eter programming language</i> series. A friendly tour of the type-theoretic landscape behind memory safety. Starting from the logical roots of substructural logic, it walks through linear, affine, and uniqueness types, then visits regions, effects, capabilities, typestate, and the latest work on reachability and separation types.]]></description>
     </item>
     <item>
+      <title>[TODO] Regime-Based Capability Semantics (RCS)</title>
+      <link>https://federicobruzzone.github.io/posts/eter/regime-based-capability-semantics.html</link>
+      <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-05-22:posts/todo-regime-based-capability-semantics-rcs</guid>
+      <category>Post</category>
+      <pubDate>Fri, 22 May 2026 00:00:00 GMT</pubDate>
+      <description><![CDATA[TODO]]></description>
+    </item>
+    <item>
       <title>Mutable Value Semantics (MVS) or Ownership &amp; Borrowing: A Trade-off Analysis</title>
       <link>https://federicobruzzone.github.io/posts/eter/MVS-or-ownership&amp;borrowing.html</link>
       <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-05-03:posts/mutable-value-semantics-mvs-or-ownership-borrowing-a-trade-off-analysis</guid>
       <category>Post</category>
       <pubDate>Sun, 03 May 2026 00:00:00 GMT</pubDate>
-      <description><![CDATA[The second post of the <i>Eter programming language</i> series. It explores the trade-offs between Mutable Value Semantics and Ownership & Borrowing, examining friction points in Rust, Hylo, and Swift while searching for common ground between the two memory models.]]></description>
+      <description><![CDATA[The second post of the <i>Eter programming language</i> series. It explores the trade-offs between Mutable Value Semantics and Ownership &amp; Borrowing, examining friction points in Rust, Hylo, and Swift while searching for common ground between the two memory models.]]></description>
     </item>
     <item>
       <title>The Mutable Value Semantics (MVS): A Non-superficial Study</title>
