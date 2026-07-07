@@ -13,10 +13,14 @@
     --table-back-color : rgb(250 , 250 , 250 );
     --text-font-size   : 16px;
     --hl-color        : rgb(255 , 230 , 120 );
-    --pinned-post-bg : rgb(232, 245, 233);
-    --pub-bg         : rgb(227, 242, 253);
-    --preprint-bg    : rgb(255, 243, 224);
-    --latest-post-bg : rgb(237, 231, 246);
+    --pinned-post-bg      : rgb(232, 245, 233);
+    --pub-bg              : rgb(227, 242, 253);
+    --preprint-bg         : rgb(255, 243, 224);
+    --latest-post-bg      : rgb(237, 231, 246);
+    --research-activity-bg: rgb(224, 242, 241);
+    --dissemination-bg    : rgb(252, 228, 236);
+    --personal-project-bg : rgb(240, 244, 195);
+    --oss-contribution-bg : rgb(232, 234, 246);
 
     --code-text-color        : rgb(0   , 0   , 0   );
     --code-function-color    : rgb(220 , 70  , 100 );
@@ -42,10 +46,14 @@ body.dark-mode {
     --table-back-color : rgb(40  , 40  , 40  );
     --text-font-size   : 16px;
     --hl-color        : rgb(100 , 80  , 30  );
-    --pinned-post-bg : rgb(56 , 81 , 57 );
-    --pub-bg         : rgb(42 , 63 , 83 );
-    --preprint-bg    : rgb(82 , 62 , 36 );
-    --latest-post-bg : rgb(55 , 40 , 75 );
+    --pinned-post-bg      : rgb(56 , 81 , 57 );
+    --pub-bg              : rgb(42 , 63 , 83 );
+    --preprint-bg         : rgb(82 , 62 , 36 );
+    --latest-post-bg      : rgb(55 , 40 , 75 );
+    --research-activity-bg: rgb(38 , 66 , 65 );
+    --dissemination-bg    : rgb(72 , 48 , 56 );
+    --personal-project-bg : rgb(62 , 66 , 38 );
+    --oss-contribution-bg : rgb(45 , 48 , 72 );
 
     --code-text-color        : rgb(255 , 255 , 255 );
     --code-function-color    : rgb(220 , 100 , 100 ); 
@@ -406,6 +414,22 @@ tr:nth-child(even) {
 
 .latest-post-theme {
     background-color: var(--latest-post-bg);
+}
+
+.research-activity-theme {
+    background-color: var(--research-activity-bg);
+}
+
+.dissemination-theme {
+    background-color: var(--dissemination-bg);
+}
+
+.personal-project-theme {
+    background-color: var(--personal-project-bg);
+}
+
+.oss-contribution-theme {
+    background-color: var(--oss-contribution-bg);
 }
 
 .collapsible {

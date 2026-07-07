@@ -2,10 +2,10 @@
   var D = RESEARCH_DATA;
   renderContainer("publications-container", renderPubOrPreprint, D.publications, "publication");
   renderContainer("preprints-container", renderPubOrPreprint, D.preprints, "preprint");
-  renderContainer("research-activities-container", renderSimpleItem, D.researchActivities);
-  renderContainer("dissemination-container", renderSimpleItem, D.disseminationActivities);
-  renderContainer("personal-projects-container", renderPersonalProject, D.personalProjects);
-  renderContainer("oss-contributions-container", renderSimpleItem, D.openSourceContributions);
+  renderContainer("research-activities-container", renderSimpleItem, D.researchActivities, "research-activity-theme");
+  renderContainer("dissemination-container", renderSimpleItem, D.disseminationActivities, "dissemination-theme");
+  renderContainer("personal-projects-container", renderPersonalProject, D.personalProjects, "personal-project-theme");
+  renderContainer("oss-contributions-container", renderSimpleItem, D.openSourceContributions, "oss-contribution-theme");
 
   function renderContainer(id, renderFn, items, extra) {
     var el = document.getElementById(id);
@@ -71,7 +71,7 @@
     return html;
   }
 
-  function renderSimpleItem(item) {
+  function renderSimpleItem(item, themeClass) {
     var titleHtml = item.titleHtml || item.title;
     if (item.url) {
       titleHtml =
@@ -83,7 +83,7 @@
     }
 
     var html =
-      '<article class="post-block" style="margin-bottom: 1rem;">\n' +
+      '<article class="post-block ' + (themeClass || "") + '" style="margin-bottom: 1rem;">\n' +
       '  <div class="post-inner">\n' +
       '    <div class="post-title">' +
       titleHtml +
@@ -103,7 +103,7 @@
     return html;
   }
 
-  function renderPersonalProject(item) {
+  function renderPersonalProject(item, themeClass) {
     var titleHtml = item.titleHtml || item.title;
     var url = item.url;
     if (url) {
@@ -118,7 +118,7 @@
     var desc = item.desc ? "Maintainer. " + item.desc : "";
 
     return (
-      '<article class="post-block" style="margin-bottom: 1rem;">\n' +
+      '<article class="post-block ' + (themeClass || "") + '" style="margin-bottom: 1rem;">\n' +
       '  <div class="post-inner">\n' +
       '    <div class="post-title">' +
       titleHtml +
