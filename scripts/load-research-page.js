@@ -30,7 +30,7 @@
       var parts = [];
       for (var i = 0; i < item.links.length; i++) {
         parts.push(
-          '<a href="' + item.links[i].url + '">' + item.links[i].label + "</a>"
+          '<code><a href="' + item.links[i].url + '">' + item.links[i].label + "</a></code>"
         );
       }
       linksHtml = parts.join(" &middot; ");
@@ -63,13 +63,9 @@
       '    <div class="post-desc" style="margin: 0 0 0.4rem; font-size:0.9rem;">' +
       item.note +
       "</div>\n" +
-      '    <div class="post-foot" style="margin-bottom:0.2rem;">\n' +
-      "      " +
-      linksHtml +
-      "\n" +
-      "    </div>\n" +
-      '    <div class="post-foot"><img src="icons/clock.svg" width="12px" height="12px"/> Date: ' +
+      '    <div class="post-foot"><img src="icons/clock.svg" width="12px" height="12px"/> ' +
       item.date +
+      (linksHtml ? ' &middot; ' + linksHtml : '') +
       "</div>\n" +
       "  </div>\n" +
       "</article>\n";

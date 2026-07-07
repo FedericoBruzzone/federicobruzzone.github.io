@@ -286,9 +286,15 @@ var RESEARCH_DATA = {
       date: "2025/03 \u2013 present"
     },
     {
-      title: 'tgt &amp; tdlib-rs',
-      titleHtml: '<a href="https://github.com/FedericoBruzzone/tgt">tgt</a> &amp; <a href="https://github.com/FedericoBruzzone/tdlib-rs">tdlib-rs</a>',
-      desc: "Tgt is a TUI Telegram client built on tdlib-rs, which provides safe and idiomatic Rust bindings to TDLib.",
+      title: "tgt",
+      url: "https://github.com/FedericoBruzzone/tgt",
+      desc: "A terminal user interface for Telegram, written in Rust.",
+      date: "2024/03 \u2013 present"
+    },
+    {
+      title: "tdlib-rs",
+      url: "https://github.com/FedericoBruzzone/tdlib-rs",
+      desc: "A cross-platform Rust wrapper around TDLib with automatic code generation from Type Language definitions.",
       date: "2024/03 \u2013 present"
     },
     {
@@ -307,31 +313,31 @@ var RESEARCH_DATA = {
 
   openSourceContributions: [
     {
-      title: "[mlir][VectorToLLVM] add opt-in enable-gep-inbounds-nuw pass flag for vector.load/store",
+      title: "[mlir][VectorToLLVM] add opt-in `enable-gep-inbounds-nuw` pass flag for `vector.load/store`",
       url: "https://github.com/llvm/llvm-project/pull/202118",
       date: "2026/06/18",
       project: "llvm-project"
     },
     {
-      title: "[mlir][MemRefToLLVM] fix incorrect nuw on GEP/mul when lowering memref.load/store with negative strides",
+      title: "[mlir][MemRefToLLVM] fix incorrect `nuw` on `GEP/mul` when lowering `memref.load/store` with negative strides",
       url: "https://github.com/llvm/llvm-project/pull/204309",
       date: "2026/06/18",
       project: "llvm-project"
     },
     {
-      title: "[NFC][mlir][linalg] add toContractionDimensions for healthy code reuse",
+      title: "[NFC][mlir][linalg] add `toContractionDimensions` for healthy code reuse",
       url: "https://github.com/llvm/llvm-project/pull/203916",
       date: "2026/06/16",
       project: "llvm-project"
     },
     {
-      title: "[mlir][vector] extend createReadOrMaskedRead/createWriteOrMaskedWrite with permutation map support",
+      title: "[mlir][vector] extend `createReadOrMaskedRead`/`createWriteOrMaskedWrite` with permutation map support",
       url: "https://github.com/llvm/llvm-project/pull/202766",
       date: "2026/06/12",
       project: "llvm-project"
     },
     {
-      title: "[mlir][affine] emit in_bounds on transfer_read/write when statically provable in affine-super-vectorize",
+      title: "[mlir][affine] emit `in_bounds` on `transfer_read`/`write` when statically provable in `affine-super-vectorize`",
       url: "https://github.com/llvm/llvm-project/pull/201180",
       date: "2026/06/09",
       project: "llvm-project"

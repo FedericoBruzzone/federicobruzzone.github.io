@@ -13,6 +13,10 @@
     el.innerHTML = html;
   }
 
+  function codeTitles(s) {
+    return s.replace(/`([^`]+)`/g, '<code>$1</code>');
+  }
+
   function renderPubOrPreprint(item, type) {
     var themeClass = type === "publication" ? "pub-post-theme" : "preprint-post-theme";
 
@@ -21,7 +25,7 @@
       var parts = [];
       for (var i = 0; i < item.links.length; i++) {
         parts.push(
-          '<a href="' + item.links[i].url + '">' + item.links[i].label + "</a>"
+          '<code><a href="' + item.links[i].url + '">' + item.links[i].label + "</a></code>"
         );
       }
       linksHtml = parts.join(" &middot; ");
@@ -36,7 +40,7 @@
       '      <a href="' +
       item.url +
       '" style="text-decoration:none;">' +
-      item.title +
+      codeTitles(item.title) +
       "</a>\n" +
       "    </div>\n" +
       '    <div class="post-desc" style="margin: 0.3rem 0 0.1rem;">' +
@@ -54,13 +58,9 @@
       '    <div class="post-desc" style="margin: 0 0 0.4rem; font-size:0.9rem;">' +
       item.note +
       "</div>\n" +
-      '    <div class="post-foot" style="margin-bottom:0.2rem;">\n' +
-      "      " +
-      linksHtml +
-      "\n" +
-      "    </div>\n" +
-      '    <div class="post-foot"><img src="icons/clock.svg" width="12px" height="12px"/> Date: ' +
+      '    <div class="post-foot"><img src="icons/clock.svg" width="12px" height="12px"/> ' +
       item.date +
+      (linksHtml ? ' &middot; ' + linksHtml : '') +
       "</div>\n" +
       "  </div>\n" +
       "</article>\n";
