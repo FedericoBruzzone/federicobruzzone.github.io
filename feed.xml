@@ -64,6 +64,14 @@
       <description><![CDATA[DOI: <a href="https://doi.org/10.48550/arXiv.2602.03777">10.48550/arXiv.2602.03777</a>]]></description>
     </item>
     <item>
+      <title>LLVM (MLIR): fix f64 scalable matmul crashes in VectorLegalizationPass</title>
+      <link>https://github.com/llvm/llvm-project/pull/207947</link>
+      <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-07-08:activities/llvm-mlir-fix-f64-scalable-matmul-crashes-in-vectorlegalizationpass</guid>
+      <category>Activity</category>
+      <pubDate>Wed, 08 Jul 2026 00:00:00 GMT</pubDate>
+      <description><![CDATA[Fixes a crash when lowering scalable f64 column transfer reads for ArmSME by materializing the zero-initialized constant using the correct element type instead of always using f32.]]></description>
+    </item>
+    <item>
       <title>A Multi-Dimensional, Per-Pass Empirical Study of the LLVM Optimization Pipeline</title>
       <link>https://federicobruzzone.github.io/posts/a-multi-dimensional-per-pass-empirical-study-of-the-llvm-optimization-pipeline.html</link>
       <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-07-01:posts/a-multi-dimensional-per-pass-empirical-study-of-the-llvm-optimization-pipeline</guid>
