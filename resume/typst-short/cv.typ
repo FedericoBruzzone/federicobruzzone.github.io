@@ -247,6 +247,12 @@
 
 #entry(
   when: "2026",
+  what: [MLIR/LLVM: #link("https://github.com/llvm/llvm-project/pull/207947")[[mlir][ArmSME] fix f64 scalable matmul crashes in `VectorLegalizationPass`]],
+  details: ()
+)
+
+#entry(
+  when: "2026",
   what: [MLIR/LLVM: #link("https://github.com/llvm/llvm-project/pull/202118")[[mlir][VectorToLLVM] add opt-in `enable-gep-inbounds-nuw` pass flag for `vector.load/store`]],
   details: ()
 )

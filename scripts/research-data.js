@@ -313,6 +313,12 @@ var RESEARCH_DATA = {
 
   openSourceContributions: [
     {
+      title: "[mlir][ArmSME] fix f64 scalable matmul crashes in `VectorLegalizationPass`",
+      url: "https://github.com/llvm/llvm-project/pull/207947",
+      date: "2026/07/08",
+      project: "llvm-project"
+    },
+    {
       title: "[LLVMCPU] Fix ArmSME requiring classic SVE, breaking SME-only targets (e.g., Apple Silicon)",
       url: "https://github.com/iree-org/iree/pull/24661",
       date: "2026/07/07",

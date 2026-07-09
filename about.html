@@ -313,6 +313,12 @@
             which provides safe and idiomatic Rust bindings to the official TDLib C++ library.
         </p>
 
+        <p><b>2026/07/08</b> &mdash;
+            <a href="https://github.com/llvm/llvm-project/pull/207947">LLVM (MLIR): fix f64 scalable matmul crashes in VectorLegalizationPass</a><br>
+            Fixes a crash when lowering scalable f64 column transfer reads for ArmSME by materializing
+            the zero-initialized constant using the correct element type instead of always using f32.
+        </p>
+
         <p><b>2026/06/18</b> &mdash;
             <a href="https://github.com/llvm/llvm-project/pull/204309">LLVM (MLIR): fix incorrect nuw on GEP when lowering memref.load/store with negative strides</a><br>
             Fixes an unsoundness where MemRefToLLVM unconditionally emitted nuw on GEP/mul
