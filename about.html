@@ -313,6 +313,12 @@
             which provides safe and idiomatic Rust bindings to the official TDLib C++ library.
         </p>
 
+        <p><b>2026/07/10</b> &mdash;
+            <a href="https://github.com/llvm/llvm-project/pull/205869">LLVM (MLIR): add consistent stride verification to masked load/store and gather/scatter ops</a><br>
+            Extends negative stride checks to MaskedLoadOp, MaskedStoreOp, GatherOp, and ScatterOp
+            to match LoadOp and StoreOp behavior, preventing undefined behavior in the LLVM lowering.
+        </p>
+
         <p><b>2026/07/08</b> &mdash;
             <a href="https://github.com/llvm/llvm-project/pull/207947">LLVM (MLIR): fix f64 scalable matmul crashes in VectorLegalizationPass</a><br>
             Fixes a crash when lowering scalable f64 column transfer reads for ArmSME by materializing

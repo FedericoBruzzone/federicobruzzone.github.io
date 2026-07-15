@@ -313,6 +313,12 @@ var RESEARCH_DATA = {
 
   openSourceContributions: [
     {
+      title: "[mlir][vector] add consistent stride verification to masked load/store and gather/scatter ops",
+      url: "https://github.com/llvm/llvm-project/pull/205869",
+      date: "2026/07/10",
+      project: "llvm-project"
+    },
+    {
       title: "[mlir][ArmSME] fix f64 scalable matmul crashes in `VectorLegalizationPass`",
       url: "https://github.com/llvm/llvm-project/pull/207947",
       date: "2026/07/08",
