@@ -19,22 +19,21 @@
         <!-- RSS feed -->
         <link rel="alternate" type="application/rss+xml" title="Federico Bruzzone — Feed" href="/feed.xml">
 
-        <title>Federico Bruzzone</title>
-
+        <title>Proposals — Federico Bruzzone</title>
     </head>
-    
+
     <body>
-    
         <div id="root-folder" value="."></div>
         <div id="header"></div>
-        
-        <main>
-            <p>Posts on compilers, programming languages, MLIR, LLVM, and related topics.</p>
 
-            <br>
-            <br>
-            <br>
-            <div id="posts-list-container"></div>
+        <main>
+
+            <div id="toc"></div>
+
+            <p>Research proposals I'd like to explore, mostly around MLIR/LLVM and AI compiler infrastructure.</p>
+
+            <div id="proposals-container"></div>
+
         </main>
         <div id="footer"></div>
         <script src="scripts/toggle-theme.js"></script>
@@ -42,9 +41,10 @@
         <script src="scripts/load-footer.js"></script>
         <script src="scripts/load-cits.js"></script>
         <script src="scripts/load-bib.js"></script>
-        <script src="scripts/posts-data.js"></script>
-        <script src="scripts/load-posts-list.js"></script>
-    <script src="scripts/prism.js" defer></script>
+        <script src="scripts/research-data.js"></script>
+        <script src="scripts/load-proposals-page.js"></script>
+        <script src="scripts/toc.js"></script>
+        <script src="scripts/prism.js" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.2/p5.js"></script>
     </body>

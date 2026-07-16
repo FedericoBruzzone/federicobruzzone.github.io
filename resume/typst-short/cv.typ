@@ -281,6 +281,18 @@
   details: ()
 )
 
+#entry(
+  when: "2026",
+  what: [IREE: #link("https://github.com/iree-org/iree/pull/24661")[[LLVMCPU] Fix ArmSME requiring classic SVE, breaking SME-only targets (e.g., Apple Silicon)]],
+  details: ()
+)
+
+#entry(
+  when: "2026",
+  what: [IREE: #link("https://github.com/iree-org/iree/pull/24656")[[LLVMCPU] Add SME lowering-strategy tests for f64 and unsupported i8 matmuls]],
+  details: ()
+)
+
 
 #entry(
   when: "From 2026",

@@ -36,7 +36,7 @@
                         Presently a PhD Candidate in Computer Science at the <a href="https://www.unimi.it/en">University of Milan</a>.
                         <!-- at the ADAPT Lab (<a href="https://www.unimi.it/en">Università degli Studi di Milano</a>), under the supervision of Prof. <a href="https://cazzola.di.unimi.it/">W. Cazzola</a>. -->
                         I have a strong passion for Programming Languages and Compilers. Also, I am a Sound Engineer and Music Composer.
-                        In addition to this page, I suggest you to check my <a href="https://github.com/FedericoBruzzone">GitHub</a> profile, the <a href="/about.html">About</a> page, my <a href="/opensource.html">Open Source</a> contributions, and the <a href="/post.html">Posts</a> section of this website. Feel free to download my <a href="/cv.pdf">CV</a>.
+                        In addition to this page, I suggest you to check my <a href="https://github.com/FedericoBruzzone">GitHub</a> profile, the <a href="/about.html">About</a> page, my <a href="/opensource.html">Open Source</a> contributions, my <a href="/proposals.html">Research Proposals</a>, and the <a href="/post.html">Posts</a> section of this website. Feel free to download my <a href="/cv.pdf">CV</a>.
                 </p>
             </div>
         </div>
@@ -281,6 +281,13 @@
 
         <h1>Open Source Activities</h1>
 
+        <h1><a href="/proposals.html" style="text-decoration:none;color:inherit;">Research Proposals</a></h1>
+
+        <p>
+            A collection of open research directions in AI compilers, available as potential thesis or collaboration topics.
+            See the <a href="/proposals.html">dedicated page</a> for full details.
+        </p>
+
         <p><b>2026 - Current</b> &mdash;
             Maintainer of the <a href="https://github.com/FedericoBruzzone/llvm-pass-template">LLVM Pass Template</a><br>
             This project allows developers to quickly bootstrap, test, and benchmark new out-of-tree LLVM passes with
@@ -323,6 +330,18 @@
             <a href="https://github.com/llvm/llvm-project/pull/207947">LLVM (MLIR): fix f64 scalable matmul crashes in VectorLegalizationPass</a><br>
             Fixes a crash when lowering scalable f64 column transfer reads for ArmSME by materializing
             the zero-initialized constant using the correct element type instead of always using f32.
+        </p>
+
+        <p><b>2026/07/07</b> &mdash;
+            <a href="https://github.com/iree-org/iree/pull/24661">IREE (LLVMCPU): Fix ArmSME requiring classic SVE, breaking SME-only targets (e.g., Apple Silicon)</a><br>
+            Fixes the LLVMCPU backend to not require classic SVE when targeting ArmSME,
+            enabling compilation for SME-only targets like Apple Silicon.
+        </p>
+
+        <p><b>2026/07</b> &mdash;
+            <a href="https://github.com/iree-org/iree/pull/24656">IREE (LLVMCPU): Add SME lowering-strategy tests for f64 and unsupported i8 matmuls</a><br>
+            Adds test coverage for SME lowering strategies covering f64 matmuls and documenting
+            unsupported i8 matmul behavior in the LLVMCPU backend.
         </p>
 
         <p><b>2026/06/18</b> &mdash;

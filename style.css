@@ -23,6 +23,7 @@
     --oss-contribution-bg : rgb(232, 234, 246);
     --education-bg        : rgb(255, 248, 225);
     --teaching-bg         : rgb(241, 248, 233);
+    --proposal-bg         : rgb(237, 232, 248);
 
     --code-text-color        : rgb(0   , 0   , 0   );
     --code-function-color    : rgb(220 , 70  , 100 );
@@ -58,6 +59,7 @@ body.dark-mode {
     --oss-contribution-bg : rgb(45 , 48 , 72 );
     --education-bg        : rgb(84 , 73 , 43 );
     --teaching-bg         : rgb(56 , 66 , 43 );
+    --proposal-bg         : rgb(65 , 48 , 78 );
 
     --code-text-color        : rgb(255 , 255 , 255 );
     --code-function-color    : rgb(220 , 100 , 100 ); 
@@ -444,6 +446,10 @@ tr:nth-child(even) {
     background-color: var(--teaching-bg);
 }
 
+.research-proposal-theme {
+    background-color: var(--proposal-bg);
+}
+
 .collapsible {
     margin-top: 0.5em;
 }
@@ -577,26 +583,18 @@ body.dark-mode .alert-box {
 }
 
 .toc {
-    border: 1.5px solid #333;
-    background: #fffdf5;
+    background-color: var(--post-bg-color);
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: 10px;
+    box-shadow: 0 0.2em 0.4em rgba(0, 0, 0, 0.08);
     padding: 14px 20px;
-    border-radius: 3px;
-    box-shadow: 2px 2px 0px #aaa;
-    display: inline-block;
-    margin: 15px 0;
-    font-family: "Roboto", sans-serif;
-    min-width: 200px;
-}
-
-body.dark-mode .toc {
-    border: 1.5px solid #aaa;
-    background: #373737;
-    color: #ddd;
+    margin: 1.5rem 0;
+    font-size: 0.9rem;
 }
 
 .toc-title {
     display: block;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
     font-size: 0.95rem;
 }
 
@@ -606,33 +604,25 @@ body.dark-mode .toc {
 }
 
 .toc ul ul {
-    padding-left: 16px;
+    padding-left: 18px;
+    margin-top: 0.15rem;
 }
 
 .toc li {
-    line-height: 1.6;
+    line-height: 1.7;
 }
 
 .toc a {
     color: var(--text-color);
     text-decoration: none;
-    font-size: 0.9rem;
-    white-space: nowrap;
-}
-
-@media (max-width: 600px) {
-    .toc {
-        max-width: 100%;
-    }
-
-    .toc a {
-        white-space: normal;
-        word-break: break-word;
-    }
 }
 
 .toc a:hover {
     text-decoration: underline;
+}
+
+body.dark-mode .toc {
+    border-color: rgba(255, 255, 255, 0.12);
 }
 
 img {

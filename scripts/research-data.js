@@ -248,6 +248,279 @@ var RESEARCH_DATA = {
     ]
   },
 
+  researchProposals: [
+    {
+      title: "Automatic Fusion Discovery for AI Compilers",
+      desc: "Operator fusion is one of the most important optimizations in modern tensor compilers. Frameworks such as XLA, TensorRT, IREE and TVM rely heavily on fusion to reduce memory traffic and improve execution latency. However, current fusion systems are primarily based on hand-written heuristics and architecture-specific rules. This research proposes an automatic fusion discovery framework capable of exploring, evaluating and selecting fusion opportunities in large tensor computation graphs.",
+      tags: ["MLIR", "OpenXLA", "IREE", "LLVM", "Fusion", "Cost Models"],
+      difficulty: 5,
+      conferences: "PLDI, CGO, ASPLOS, MLSys",
+      relevance: "",
+      part: "Compiler Infrastructure"
+    },
+    {
+      title: "Automatic MLIR Dialect Generation",
+      desc: "MLIR introduced a revolutionary multi-level intermediate representation framework, but designing new MLIR dialects remains a highly manual and engineering-intensive process. Every new accelerator requires developers to define operations, types, attributes, verification rules, lowering passes, and optimization patterns. This research proposes automatically generating MLIR dialects from hardware specifications and computational abstractions.",
+      tags: ["MLIR", "TableGen", "CIRCT", "LLVM", "Hardware Abstraction"],
+      difficulty: 5,
+      conferences: "PLDI, CGO, ASPLOS",
+      relevance: "",
+      part: "Compiler Infrastructure"
+    },
+    {
+      title: "MLIR Pass Synthesis",
+      desc: "Modern compiler pipelines contain hundreds of optimization passes. Designing the right sequence of transformations is one of the largest challenges in compiler engineering. LLVM, XLA and MLIR pipelines are manually constructed by experts. This research proposes automatically synthesizing compiler pipelines from optimization objectives. Instead of writing Pass A then Pass B then Pass C, the user specifies \"minimize latency\" and the compiler automatically discovers an effective sequence.",
+      tags: ["MLIR", "LLVM", "OpenXLA", "Pipeline Optimization", "Search"],
+      difficulty: 5,
+      conferences: "CGO, PLDI, ASPLOS",
+      relevance: "",
+      part: "Compiler Infrastructure"
+    },
+    {
+      title: "Automatic Tensor Layout Search",
+      desc: "Tensor layout decisions strongly influence AI accelerator performance. Different hardware architectures prefer different memory organizations (NHWC, NCHW, blocked, tiled, packed). Currently, layout selection is mostly based on expert-written rules. This research proposes automatic tensor layout optimization, jointly optimizing layout, fusion, tiling, and vectorization.",
+      tags: ["MLIR", "Linalg", "Layout Optimization", "Hardware-Aware"],
+      difficulty: 4,
+      conferences: "CGO, MLSys, ASPLOS",
+      relevance: "",
+      part: "Compiler Infrastructure"
+    },
+    {
+      title: "Compile-Time Tensor Compression",
+      desc: "Large AI models require massive memory capacity. Current approaches mostly compress models using external training algorithms. This research proposes compiler-driven tensor compression where the compiler automatically transforms constant tensors into optimized representations — sparse formats, quantized layouts, compressed storage, or custom hardware-aware encodings.",
+      tags: ["MLIR", "Compression", "Sparsity", "Quantization", "Memory"],
+      difficulty: 4,
+      conferences: "CGO, PLDI, MLSys",
+      relevance: "",
+      part: "Compiler Infrastructure"
+    },
+    {
+      title: "Multi-Level Autotuning for AI Compilers",
+      desc: "Modern AI compiler stacks expose optimization parameters at multiple levels: operator fusion, tensor layout, tiling sizes, vectorization factors, memory hierarchy mapping, pipeline parallelism, and kernel scheduling. Current autotuners usually optimize only a small subset of this space. This research proposes a unified multi-level autotuning framework that jointly optimizes the complete compiler stack.",
+      tags: ["MLIR", "IREE", "OpenXLA", "Triton", "Autotuning", "Search"],
+      difficulty: 5,
+      conferences: "CGO, ASPLOS, MLSys",
+      relevance: "",
+      part: "Compiler Infrastructure"
+    },
+    {
+      title: "MLIR Compilers for NPUs",
+      desc: "The next generation of AI acceleration will rely heavily on specialized NPUs integrated into mobile devices, edge systems and datacenters (Apple Neural Engine, Qualcomm Hexagon, Google Edge TPU, AMD AI Engine). However, every accelerator currently requires a custom compiler stack. This research proposes a unified MLIR-based abstraction layer for heterogeneous NPUs.",
+      tags: ["MLIR", "IREE", "OpenXLA", "CIRCT", "NPU", "Heterogeneous"],
+      difficulty: 5,
+      conferences: "PLDI, CGO, ASPLOS",
+      relevance: "",
+      part: "Compiler Infrastructure"
+    },
+    {
+      title: "Sparse Tensor Compiler 2.0",
+      desc: "Sparse computation is becoming increasingly important for large AI models, especially LLMs. Current sparse compiler techniques mostly assume static sparsity patterns. Modern models require dynamic sparsity, structured sparsity, and hardware-aware compression. This research proposes a next-generation sparse tensor compiler capable of automatically discovering and exploiting sparsity.",
+      tags: ["MLIR", "Sparse Tensors", "LLVM", "IREE", "Sparsity"],
+      difficulty: 4,
+      conferences: "CGO, PLDI, MLSys",
+      relevance: "",
+      part: "Compiler Infrastructure"
+    },
+    {
+      title: "Dynamic Shape Compilation",
+      desc: "Modern AI workloads increasingly contain dynamic dimensions: variable sequence lengths, dynamic batch sizes, adaptive computation. Traditional compilers optimize static shapes because they allow aggressive specialization, but static compilation leads to code explosion, poor generalization, and recompilation overhead. This research proposes a dynamic shape compiler capable of generating specialized kernels only when beneficial.",
+      tags: ["IREE", "XLA", "LLVM ORC JIT", "JIT Compilation", "Dynamic Shapes"],
+      difficulty: 4,
+      conferences: "CGO, ASPLOS, MLSys",
+      relevance: "",
+      part: "Compiler Infrastructure"
+    },
+    {
+      title: "Asynchronous MLIR Compilation",
+      desc: "Modern accelerators contain complex asynchronous execution models: DMA engines, tensor cores, memory pipelines, communication engines. Current compiler infrastructures struggle to represent and optimize asynchronous execution globally. This research proposes extending MLIR with stronger asynchronous optimization capabilities.",
+      tags: ["MLIR", "Async Dialect", "IREE", "LLVM", "Scheduling"],
+      difficulty: 5,
+      conferences: "PLDI, CGO, ASPLOS",
+      relevance: "",
+      part: "Compiler Infrastructure"
+    },
+    {
+      title: "Memory Planning for Large AI Models",
+      desc: "Memory is becoming the primary bottleneck in modern AI systems. For large language models, the cost of storing activations, weights and temporary tensors often dominates execution time and hardware requirements. This research proposes a compiler-level memory planning framework that globally optimizes tensor lifetimes, allocation strategies and memory reuse.",
+      tags: ["MLIR", "Bufferization", "IREE", "OpenXLA", "Memory Optimization"],
+      difficulty: 5,
+      conferences: "PLDI, CGO, ASPLOS, MLSys",
+      relevance: "",
+      part: "Memory & Optimization"
+    },
+    {
+      title: "Automatic Bufferization",
+      desc: "One of the fundamental challenges in MLIR is converting tensor-based representations into explicit memory-based representations. Current MLIR bufferization relies on sophisticated but mostly rule-based algorithms. This research proposes an automatic bufferization framework capable of globally optimizing memory decisions.",
+      tags: ["MLIR", "One-Shot Bufferize", "Linalg", "MemRef", "Memory"],
+      difficulty: 4,
+      conferences: "CGO, PLDI",
+      relevance: "",
+      part: "Memory & Optimization"
+    },
+    {
+      title: "Whole Program Tensor Optimization",
+      desc: "Most tensor compiler optimizations are local transformations applied to individual operators. However, modern AI models consist of millions of interacting tensor operations. This research proposes whole-program tensor optimization, where the compiler reasons about the entire neural network globally, jointly optimizing graph transformations, layouts, fusion, memory, and scheduling.",
+      tags: ["MLIR", "StableHLO", "OpenXLA", "Global Optimization"],
+      difficulty: 5,
+      conferences: "PLDI, ASPLOS, MLSys",
+      relevance: "",
+      part: "Memory & Optimization"
+    },
+    {
+      title: "Unified Cost Models for AI Compilers",
+      desc: "Modern compilers rely heavily on cost models to make optimization decisions (fusion, tiling, vectorization, layout, scheduling). However, every compiler component typically uses independent heuristics. This research proposes a unified compiler cost model that predicts the impact of transformations across the entire compilation pipeline.",
+      tags: ["MLIR", "GNN", "LLVM MLGO", "Cost Models", "Machine Learning"],
+      difficulty: 5,
+      conferences: "CGO, PLDI, MLSys",
+      relevance: "",
+      part: "Memory & Optimization"
+    },
+    {
+      title: "Hardware-Aware Quantization Compilation",
+      desc: "Quantization is essential for deploying AI models efficiently. Current quantization techniques are mostly performed during training or as independent preprocessing steps. This research proposes compiler-driven quantization where the compiler automatically selects the optimal numerical representation (INT8, INT4, FP8, BF16) according to the target hardware.",
+      tags: ["MLIR", "Quant Dialect", "IREE", "LLVM", "Quantization"],
+      difficulty: 4,
+      conferences: "MLSys, CGO, ASPLOS",
+      relevance: "",
+      part: "Memory & Optimization"
+    },
+    {
+      title: "Progressive Lowering Search in MLIR",
+      desc: "One of the fundamental ideas behind MLIR is progressive lowering: programs are gradually transformed from high-level abstractions into lower-level representations. However, the optimal lowering path is unknown and current compiler pipelines are manually designed by experts. This research proposes automatically discovering lowering strategies by treating lowering as a graph search problem.",
+      tags: ["MLIR", "PassManager", "Transform Dialect", "IREE", "Pipeline Search"],
+      difficulty: 5,
+      conferences: "PLDI, CGO, ASPLOS",
+      relevance: "",
+      part: "Memory & Optimization"
+    },
+    {
+      title: "Automatic Kernel Generation for AI Workloads",
+      desc: "High-performance AI execution depends on carefully optimized kernels (GEMM, convolution, attention, reduction, normalization). Today, systems such as Triton, CUTLASS and handwritten CUDA libraries rely heavily on expert optimization. This research proposes automatically generating optimized kernels from high-level tensor programs.",
+      tags: ["MLIR", "Triton", "LLVM", "IREE", "Kernel Synthesis"],
+      difficulty: 5,
+      conferences: "CGO, ASPLOS, MLSys",
+      relevance: "",
+      part: "Memory & Optimization"
+    },
+    {
+      title: "Learned Register Allocation for AI Compilers",
+      desc: "Register allocation remains one of the oldest and hardest compiler optimization problems. Modern AI workloads create new challenges because tensor kernels have large vector registers, complex lifetimes, and unusual memory behavior. This research proposes using machine learning to improve register allocation decisions.",
+      tags: ["LLVM", "MLGO", "GNN", "Register Allocation", "Machine Learning"],
+      difficulty: 5,
+      conferences: "CGO, PLDI, MICRO",
+      relevance: "",
+      part: "Memory & Optimization"
+    },
+    {
+      title: "Optimization Pipeline Synthesis",
+      desc: "Compiler optimization pipelines are among the most complex manually engineered systems in computer science. LLVM alone contains hundreds of passes, and the order of these passes strongly influences performance. This research proposes automatic synthesis of optimization pipelines using formal models and search techniques.",
+      tags: ["LLVM", "MLIR", "Compiler Explorer", "Pipeline Algebra"],
+      difficulty: 5,
+      conferences: "PLDI, OOPSLA, CGO",
+      relevance: "",
+      part: "Memory & Optimization"
+    },
+    {
+      title: "Next Generation Compiler Cost Models",
+      desc: "Almost every compiler decision depends on predicting future effects — should we inline, vectorize, unroll, fuse? Current cost models are often simplistic. This research proposes a next-generation compiler cost model framework combining static analysis, hardware modeling and machine learning.",
+      tags: ["LLVM MLGO", "MLIR", "Hardware Counters", "Cost Models", "Machine Learning"],
+      difficulty: 5,
+      conferences: "PLDI, CGO, MLSys",
+      relevance: "",
+      part: "Memory & Optimization"
+    },
+    {
+      title: "Compiler for Mixture-of-Experts Models",
+      desc: "Mixture-of-Experts architectures have become one of the dominant approaches for scaling large language models. However, current compiler infrastructures are poorly optimized for MoE execution, which introduces dynamic routing, expert imbalance, memory movement, and communication overhead. This research proposes a specialized MoE compiler framework.",
+      tags: ["MLIR", "StableHLO", "OpenXLA", "IREE", "MoE", "Distributed"],
+      difficulty: 5,
+      conferences: "MLSys, ASPLOS, CGO, SC",
+      relevance: "",
+      part: "LLM Compilers"
+    },
+    {
+      title: "Attention Compiler",
+      desc: "Attention mechanisms dominate the execution cost of modern transformer models. Optimizations such as FlashAttention demonstrated that changing the memory access pattern can dramatically improve performance. However, current attention optimizations are implemented as manually optimized kernels. This research proposes a compiler framework that automatically derives optimal attention implementations.",
+      tags: ["MLIR", "Triton", "IREE", "Attention", "Transformers"],
+      difficulty: 4,
+      conferences: "MLSys, CGO, ASPLOS",
+      relevance: "",
+      part: "LLM Compilers"
+    },
+    {
+      title: "KV Cache Compiler for LLM Inference",
+      desc: "During autoregressive LLM inference, the Key-Value cache becomes one of the largest memory consumers. For long-context models, KV cache can exceed the memory required by model parameters. Current solutions rely mostly on runtime systems. This research proposes compiler-driven optimization of KV cache management.",
+      tags: ["MLIR", "IREE", "OpenXLA", "KV Cache", "LLM Inference"],
+      difficulty: 4,
+      conferences: "MLSys, ASPLOS, CGO",
+      relevance: "",
+      part: "LLM Compilers"
+    },
+    {
+      title: "Distributed MLIR Compiler Infrastructure",
+      desc: "Large AI models increasingly require distributed execution across many accelerators. Current compiler stacks treat distributed execution mostly as a runtime problem. This research proposes extending MLIR with native distributed computation abstractions.",
+      tags: ["MLIR", "OpenXLA", "SPMD", "Distributed Computing"],
+      difficulty: 5,
+      conferences: "ASPLOS, SC, MLSys, PLDI",
+      relevance: "",
+      part: "LLM Compilers"
+    },
+    {
+      title: "Communication Optimization Compiler",
+      desc: "Communication has become a major bottleneck in distributed AI systems. Operations such as AllReduce, AllGather, ReduceScatter, and Broadcast often dominate execution time. Current systems optimize communication mostly through runtime libraries. This research proposes compiler-level communication optimization.",
+      tags: ["MLIR", "OpenXLA", "NCCL", "Collective Communication"],
+      difficulty: 5,
+      conferences: "SC, ASPLOS, MLSys, HPCA",
+      relevance: "",
+      part: "LLM Compilers"
+    },
+    {
+      title: "Energy-Aware Compilation for AI Systems",
+      desc: "The rapid growth of AI workloads has created a new optimization objective beyond performance: energy efficiency. Current compiler infrastructures mainly optimize latency, throughput, and memory, but rarely optimize energy directly. This research proposes an energy-aware compiler framework capable of making optimization decisions based on power consumption models.",
+      tags: ["MLIR", "LLVM", "IREE", "RISC-V", "ARM", "Energy Efficiency"],
+      difficulty: 5,
+      conferences: "CGO, ASPLOS, HPCA, ISCA",
+      relevance: "",
+      part: "LLM Compilers"
+    },
+    {
+      title: "Compiler for On-Device Large Language Models",
+      desc: "Running large language models locally on phones, laptops and embedded devices is becoming a major research challenge. Edge execution has strict constraints: limited memory, compute, energy, and privacy requirements. This research proposes a compiler stack specifically designed for local LLM inference.",
+      tags: ["MLIR", "IREE", "ARM NEON", "ARM SME", "Apple Silicon", "Edge AI"],
+      difficulty: 4,
+      conferences: "MLSys, ASPLOS, CGO",
+      relevance: "",
+      part: "LLM Compilers"
+    },
+    {
+      title: "Automatic Operator Decomposition",
+      desc: "High-level AI operators hide complex computations (Softmax, Attention). Current decompositions are manually implemented. This research proposes automatic decomposition of high-level AI operators into optimal lower-level primitives, selecting the best decomposition based on hardware, tensor shapes, and memory hierarchy.",
+      tags: ["MLIR", "StableHLO", "Linalg", "Triton", "Transform Dialect"],
+      difficulty: 4,
+      conferences: "CGO, PLDI, MLSys",
+      relevance: "",
+      part: "LLM Compilers"
+    },
+    {
+      title: "Verified Tensor Compiler",
+      desc: "Modern AI compilers perform thousands of transformations. A compiler bug can silently produce incorrect AI outputs. This research proposes a formally verified tensor compiler framework, developing formal semantics for tensor IRs and verifying transformations including fusion, lowering, quantization, and layout conversion.",
+      tags: ["Lean", "Coq", "Isabelle", "MLIR", "Formal Verification"],
+      difficulty: 5,
+      conferences: "PLDI, POPL, OOPSLA",
+      relevance: "",
+      part: "LLM Compilers"
+    },
+    {
+      title: "AI Compiler Copilot",
+      desc: "Compiler development is extremely complex. Writing optimization passes requires deep knowledge of IR semantics, hardware architecture, and compiler theory. Large language models provide a new opportunity: using AI assistants to help build and optimize compilers. This research proposes an AI compiler copilot integrated directly into compiler infrastructures.",
+      tags: ["LLVM", "MLIR", "IREE", "LLM", "AI-Assisted"],
+      difficulty: 5,
+      conferences: "PLDI, CGO, MLSys",
+      relevance: "",
+      part: "LLM Compilers"
+    }
+  ],
+
   personalProjects: [
     {
       title: "Eter",
@@ -312,6 +585,12 @@ var RESEARCH_DATA = {
   ],
 
   openSourceContributions: [
+    {
+      title: "[LLVMCPU] Add SME lowering-strategy tests for f64 and unsupported i8 matmuls",
+      url: "https://github.com/iree-org/iree/pull/24656",
+      date: "2026/07",
+      project: "iree"
+    },
     {
       title: "[mlir][vector] add consistent stride verification to masked load/store and gather/scatter ops",
       url: "https://github.com/llvm/llvm-project/pull/205869",

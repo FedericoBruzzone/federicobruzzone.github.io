@@ -5,7 +5,13 @@ document.addEventListener("DOMContentLoaded", function () {
     const main = document.querySelector("main");
     if (!main) return;
 
-    const headings = main.querySelectorAll("h2, h3, h4");
+    var startLevel = tocContainer.getAttribute("data-toc-start") || "h1";
+    var levels = ["h1", "h2", "h3", "h4"];
+    var startIdx = levels.indexOf(startLevel);
+    if (startIdx === -1) startIdx = 0;
+    var selector = levels.slice(startIdx).join(", ");
+
+    const headings = main.querySelectorAll(selector);
     if (headings.length === 0) return;
 
     function slugify(text) {
@@ -34,14 +40,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const titleEl = document.createElement("strong");
     titleEl.className = "toc-title";
-    titleEl.textContent = "Table of Contents";
+    titleEl.textContent = "Contents";
     nav.appendChild(titleEl);
 
     const ul = document.createElement("ul");
     nav.appendChild(ul);
 
+    let currentH1Li = null;
     let currentH2Li = null;
-    let currentH3Li = null;
 
     function appendChildLi(parentLi, li) {
         let subUl = parentLi.querySelector("ul");
@@ -60,19 +66,19 @@ document.addEventListener("DOMContentLoaded", function () {
         const li = document.createElement("li");
         li.appendChild(a);
 
-        if (heading.tagName === "H2") {
+        if (heading.tagName === "H1") {
             ul.appendChild(li);
-            currentH2Li = li;
-            currentH3Li = null;
-        } else if (heading.tagName === "H3") {
-            if (!currentH2Li) {
+            currentH1Li = li;
+            currentH2Li = null;
+        } else if (heading.tagName === "H2") {
+            if (!currentH1Li) {
                 ul.appendChild(li);
             } else {
-                appendChildLi(currentH2Li, li);
+                appendChildLi(currentH1Li, li);
             }
-            currentH3Li = li;
+            currentH2Li = li;
         } else {
-            const parentLi = currentH3Li || currentH2Li;
+            const parentLi = currentH2Li || currentH1Li;
             if (!parentLi) {
                 ul.appendChild(li);
             } else {
