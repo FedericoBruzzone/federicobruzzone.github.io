@@ -518,6 +518,396 @@ var RESEARCH_DATA = {
       conferences: "PLDI, CGO, MLSys",
       relevance: "",
       part: "LLM Compilers"
+    },
+
+    {
+      title: "Automatic Compiler Optimization Discovery",
+      desc: "Modern compilers rely on thousands of manually designed optimization heuristics controlling decisions such as inlining, loop transformations, vectorization, instruction scheduling and memory optimization. These heuristics are often architecture-dependent and require continuous expert tuning. This research proposes an autonomous optimization discovery framework capable of exploring, evaluating and discovering effective compiler optimization strategies automatically. The system treats compilation optimization as a search problem, using reinforcement learning, evolutionary algorithms, Bayesian optimization or program analysis to discover optimization sequences. The goal is to move from expert-designed optimization pipelines toward self-improving compiler infrastructures.",
+      tags: ["LLVM", "MLIR", "GCC", "MLGO", "Reinforcement Learning", "Search-Based Optimization"],
+      difficulty: 5,
+      conferences: "PLDI, CGO, ASPLOS, OOPSLA",
+      relevance: "",
+      part: "ML-Guided Compilation"
+    },
+    {
+      title: "Neural Compiler Optimization Framework",
+      desc: "Many compiler decisions can be formulated as prediction problems: whether to inline a function, apply vectorization, unroll loops, select instruction scheduling strategies or choose optimization parameters. Current compiler heuristics are mostly based on manually tuned rules and static thresholds. This research proposes a machine learning based compiler optimization framework where neural models learn optimization decisions directly from large collections of programs. Possible research directions include learned inlining, learned vectorization, learned scheduling and graph-based optimization models.",
+      tags: ["LLVM", "MLGO", "Graph Neural Networks", "Deep Learning", "Program Optimization"],
+      difficulty: 5,
+      conferences: "PLDI, CGO, MICRO, ASPLOS",
+      relevance: "",
+      part: "ML-Guided Compilation"
+    },
+    {
+      title: "Self-Optimizing Compiler Infrastructure",
+      desc: "Traditional compilers follow a static workflow: analyze the program, generate optimized code, and execute it. However, modern applications are dynamic and their behavior changes during execution. This research proposes a self-optimizing compiler infrastructure capable of observing program behavior at runtime, learning execution patterns, and dynamically adapting optimization decisions. The compiler continuously decides whether to recompile code, apply additional optimizations, specialize execution paths, or trade compilation cost for runtime performance.",
+      tags: ["LLVM", "ORC JIT", "GraalVM", "Adaptive Compilation", "Runtime Optimization"],
+      difficulty: 5,
+      conferences: "PLDI, ASPLOS, OOPSLA",
+      relevance: "",
+      part: "ML-Guided Compilation"
+    },
+    {
+      title: "Automatic Optimization Pipeline Synthesis",
+      desc: "Modern compiler frameworks contain hundreds of optimization passes. The final performance depends heavily on the order and combination of these transformations. Today, optimization pipelines are manually designed by compiler experts. This research proposes automatically synthesizing optimization pipelines by treating compiler passes as composable transformations and searching for optimal sequences according to user-defined objectives such as execution latency, binary size, energy consumption, or compilation time.",
+      tags: ["LLVM", "MLIR", "PassManager", "Compiler Search", "Optimization Algebra"],
+      difficulty: 5,
+      conferences: "PLDI, CGO, OOPSLA",
+      relevance: "",
+      part: "ML-Guided Compilation"
+    },
+    {
+      title: "Next Generation Compiler Cost Models",
+      desc: "Compiler optimization decisions require predicting the future impact of transformations. Should this function be inlined? Should this loop be vectorized? Should this instruction sequence be replaced? Current cost models are often based on simplified analytical formulas and manually tuned thresholds. This research proposes next-generation compiler cost models combining static program analysis, hardware performance counters, machine learning models, and architecture simulation. The objective is creating universal cost models capable of guiding multiple compiler optimizations simultaneously.",
+      tags: ["LLVM", "MLGO", "MLIR", "Hardware Counters", "Machine Learning", "Cost Models"],
+      difficulty: 5,
+      conferences: "PLDI, CGO, MLSys",
+      relevance: "",
+      part: "ML-Guided Compilation"
+    },
+    {
+      title: "Automatic Compiler Pass Generation",
+      desc: "Compiler development requires significant expertise in intermediate representations, optimization algorithms and target architectures. Writing compiler passes remains a highly manual process. This research proposes automatically generating compiler transformations using large language models and program synthesis techniques. Given a high-level optimization goal, the system generates transformation logic, compiler pass implementation, correctness checks, and testing infrastructure.",
+      tags: ["LLVM", "MLIR", "LLM", "Compiler Engineering", "Code Generation"],
+      difficulty: 5,
+      conferences: "PLDI, CGO, MLSys",
+      relevance: "",
+      part: "ML-Guided Compilation"
+    },
+    {
+      title: "Program Analysis with Large Language Models",
+      desc: "Static program analysis is one of the foundations of compiler optimization. However, many analyses require complex reasoning about program semantics. Large language models introduce new opportunities for compiler intelligence. This research proposes integrating LLM-based reasoning into compiler analyses, enabling semantic code understanding, optimization prediction, bug detection, and automated analysis generation. The challenge is combining statistical models with formal compiler guarantees.",
+      tags: ["LLVM", "Static Analysis", "LLMs", "Code Intelligence", "Program Understanding"],
+      difficulty: 4,
+      conferences: "PLDI, ICSE, CGO",
+      relevance: "",
+      part: "ML-Guided Compilation"
+    },
+    {
+      title: "Compiler Search Engines",
+      desc: "Compiler optimization spaces are extremely large. A single program can have millions of possible optimization configurations. This research proposes a general compiler search engine capable of exploring optimization spaces automatically. The framework could optimize pass ordering, compiler flags, target-specific parameters, and code generation strategies. Possible approaches include reinforcement learning, evolutionary algorithms, and Bayesian optimization.",
+      tags: ["LLVM", "MLIR", "AutoTuning", "Evolutionary Search", "Bayesian Optimization"],
+      difficulty: 5,
+      conferences: "CGO, PLDI, ASPLOS",
+      relevance: "",
+      part: "ML-Guided Compilation"
+    },
+    {
+      title: "Automatic Compiler Configuration Tuning",
+      desc: "Compiler configuration involves hundreds of parameters: optimization levels, inline thresholds, vectorization parameters, backend options. Current approaches rely on fixed presets (-O0, -O1, -O2, -O3). This research proposes automatic compiler configuration tuning where the compiler learns the optimal configuration for each application and hardware platform. The system creates application-specific compiler configurations automatically.",
+      tags: ["LLVM", "GCC", "AutoFDO", "Profile Guided Optimization", "Machine Learning"],
+      difficulty: 4,
+      conferences: "CGO, MLSys, ASPLOS",
+      relevance: "",
+      part: "ML-Guided Compilation"
+    },
+    {
+      title: "Cross-Architecture Compiler Optimization Transfer",
+      desc: "Compiler optimizations are often tightly coupled with hardware architectures. A strategy effective on one processor may fail on another. This research proposes transferable compiler optimization models capable of learning from previous architectures and adapting to new targets. Applications include new CPUs, GPUs, accelerators, and embedded processors. The goal is reducing compiler development cost for emerging architectures.",
+      tags: ["LLVM", "MLIR", "Transfer Learning", "Hardware-Aware Optimization"],
+      difficulty: 5,
+      conferences: "PLDI, CGO, ASPLOS",
+      relevance: "",
+      part: "ML-Guided Compilation"
+    },
+
+    {
+      title: "Translation Validation for Modern Compilers",
+      desc: "Modern compilers perform thousands of aggressive transformations that can silently introduce incorrect behavior. Traditional compiler verification is extremely difficult because proving the correctness of an entire compiler requires enormous effort. This research proposes scalable translation validation frameworks that automatically verify whether individual compiler transformations preserve program semantics. The approach validates LLVM optimizations, MLIR lowering passes, vectorization, loop transformations, and instruction selection.",
+      tags: ["LLVM", "MLIR", "Alive2", "SMT Solvers", "Formal Verification", "Compiler Correctness"],
+      difficulty: 5,
+      conferences: "PLDI, POPL, OOPSLA, FMCAD",
+      relevance: "",
+      part: "Correctness & Parallel Systems"
+    },
+    {
+      title: "Automatically Generated Compiler Verifiers",
+      desc: "Compiler transformations require custom correctness proofs or manually written verification rules. This significantly limits the development of new optimizations. This research proposes automatically generating verification procedures for compiler transformations. Given an optimization pass, the system automatically derives semantic invariants, equivalence checks, proof obligations, and verification conditions. The objective is creating compiler infrastructures where new optimizations can automatically prove their own correctness.",
+      tags: ["LLVM", "MLIR", "SMT Solving", "Formal Methods", "Program Equivalence"],
+      difficulty: 5,
+      conferences: "PLDI, POPL, OOPSLA",
+      relevance: "",
+      part: "Correctness & Parallel Systems"
+    },
+    {
+      title: "Verified Compiler Infrastructure",
+      desc: "Compilers are critical software infrastructure, but most production compilers are not formally verified. Bugs in compiler transformations can introduce silent errors into millions of applications. This research proposes building formally verified compiler infrastructures based on mechanized semantics, proof assistants, verified intermediate representations, and certified optimization passes. Possible targets include LLVM, MLIR, and domain-specific compilers.",
+      tags: ["LLVM", "MLIR", "Coq", "Lean", "Isabelle", "Formal Semantics"],
+      difficulty: 5,
+      conferences: "PLDI, POPL, ITP",
+      relevance: "",
+      part: "Correctness & Parallel Systems"
+    },
+    {
+      title: "Automated Equivalence Checking for Optimized Programs",
+      desc: "Determining whether two programs are equivalent is a fundamental compiler problem. This research proposes scalable equivalence checking systems capable of automatically proving that optimized programs preserve original behavior. Applications include compiler debugging, optimization validation, regression detection, and verified code generation. The system combines symbolic execution, SMT solving, abstract interpretation, and machine learning guidance.",
+      tags: ["LLVM", "SMT Solvers", "Symbolic Execution", "Program Verification"],
+      difficulty: 5,
+      conferences: "PLDI, CAV, FMCAD",
+      relevance: "",
+      part: "Correctness & Parallel Systems"
+    },
+    {
+      title: "Automatic Parallelization of Sequential Programs",
+      desc: "Automatically transforming sequential programs into parallel implementations remains one of the oldest unsolved compiler challenges. Given a sequential program, the compiler should automatically determine what can be parallelized, which execution model to use, how to distribute computation, and how to synchronize threads. This research proposes combining dependence analysis, polyhedral models, machine learning, and speculative execution.",
+      tags: ["LLVM", "OpenMP", "Polyhedral Compilation", "Dependence Analysis", "Machine Learning"],
+      difficulty: 5,
+      conferences: "PLDI, PPoPP, CGO",
+      relevance: "",
+      part: "Correctness & Parallel Systems"
+    },
+    {
+      title: "Adaptive Parallelism Compilation",
+      desc: "Traditional parallel compilers make decisions before execution. However, workloads and hardware conditions often change dynamically. This research proposes adaptive parallel compilation where the compiler modifies parallel execution strategies during runtime. Possible decisions include number of threads, task decomposition, scheduling policy, and communication strategy. Applications include HPC, cloud computing, and scientific workloads.",
+      tags: ["LLVM", "OpenMP", "MPI", "Runtime Systems", "Dynamic Compilation"],
+      difficulty: 5,
+      conferences: "PPoPP, ASPLOS, SC",
+      relevance: "",
+      part: "Correctness & Parallel Systems"
+    },
+    {
+      title: "Automatic GPU Offloading Compiler",
+      desc: "GPUs provide enormous computational power, but manually programming GPU kernels requires significant expertise. This research proposes automatic GPU offloading compilers capable of deciding which regions should execute on GPUs, how data should be transferred, how kernels should be generated, and how parallelism should be mapped. The compiler automatically transforms CPU programs into heterogeneous CPU-GPU applications.",
+      tags: ["LLVM", "MLIR", "OpenMP", "CUDA", "GPU Compilation", "Heterogeneous Systems"],
+      difficulty: 5,
+      conferences: "CGO, PPoPP, ASPLOS",
+      relevance: "",
+      part: "Correctness & Parallel Systems"
+    },
+    {
+      title: "Distributed Program Compilation",
+      desc: "Large-scale applications increasingly require execution across clusters of machines. Current distributed programming models rely heavily on manual programmer decisions. This research proposes compiler infrastructures that automatically transform programs into distributed implementations by reasoning about communication, data placement, synchronization, and fault tolerance.",
+      tags: ["LLVM", "MLIR", "MPI", "PGAS", "Distributed Computing", "Compiler"],
+      difficulty: 5,
+      conferences: "SC, ASPLOS, PLDI",
+      relevance: "",
+      part: "Correctness & Parallel Systems"
+    },
+    {
+      title: "Universal Compiler for Heterogeneous Systems",
+      desc: "Future computing platforms will contain increasingly diverse hardware: CPUs, GPUs, NPUs, FPGAs, and custom accelerators. Each accelerator currently requires a specialized compiler stack. This research proposes a universal compiler framework capable of automatically mapping computations onto heterogeneous hardware. The compiler decides where computation should execute, how data should move, and which backend should be used.",
+      tags: ["LLVM", "MLIR", "CPU", "GPU", "FPGA", "NPU", "Accelerators", "Hardware Mapping"],
+      difficulty: 5,
+      conferences: "ASPLOS, ISCA, PLDI",
+      relevance: "",
+      part: "Correctness & Parallel Systems"
+    },
+    {
+      title: "Compiler-Driven Hardware Design Space Exploration",
+      desc: "Traditionally, hardware is designed first and compilers are adapted afterward. This research proposes reversing this process by using compiler analysis to guide hardware design. The compiler analyzes workloads and suggests instruction set extensions, accelerator units, cache organizations, and memory hierarchy improvements. The objective is automatic hardware/compiler co-design.",
+      tags: ["LLVM", "MLIR", "Architecture Exploration", "Hardware-Compiler Co-Design"],
+      difficulty: 5,
+      conferences: "ISCA, MICRO, ASPLOS",
+      relevance: "",
+      part: "Correctness & Parallel Systems"
+    },
+    {
+      title: "Automatic Accelerator Mapping Compiler",
+      desc: "Specialized accelerators are becoming increasingly common, but mapping applications efficiently onto them remains highly manual. This research proposes automatic accelerator mapping systems capable of generating optimized implementations for FPGA accelerators, CGRAs, and domain-specific processors. The compiler automatically discovers computation partitioning, scheduling, and memory mapping.",
+      tags: ["MLIR", "HLS", "FPGA", "CGRA", "Domain Specific Compilers"],
+      difficulty: 5,
+      conferences: "FPGA, ASPLOS, MICRO",
+      relevance: "",
+      part: "Correctness & Parallel Systems"
+    },
+    {
+      title: "Intelligent Runtime Compiler Systems",
+      desc: "Modern runtime systems use JIT compilation, but optimization decisions are still mostly heuristic-based. This research proposes intelligent runtime compilers capable of learning application behavior and dynamically managing compilation decisions. The runtime decides when to compile, how aggressively to optimize, and which code regions deserve optimization. Applications include cloud workloads, databases, and managed languages.",
+      tags: ["LLVM", "ORC JIT", "GraalVM", "Adaptive Optimization", "Machine Learning"],
+      difficulty: 5,
+      conferences: "OOPSLA, PLDI, ASPLOS",
+      relevance: "",
+      part: "Correctness & Parallel Systems"
+    },
+    {
+      title: "Predictive JIT Compilation",
+      desc: "Just-in-time compilation requires balancing compilation overhead and execution performance. This research proposes predictive JIT systems that use machine learning models to predict future execution behavior and optimize code before performance-critical regions are reached. Possible applications include Java Virtual Machine, JavaScript engines, and cloud functions.",
+      tags: ["LLVM", "ORC JIT", "Machine Learning", "Runtime Optimization"],
+      difficulty: 4,
+      conferences: "OOPSLA, CGO",
+      relevance: "",
+      part: "Correctness & Parallel Systems"
+    },
+    {
+      title: "Continuous Compilation for Cloud Applications",
+      desc: "Cloud applications have highly dynamic execution patterns: changing workloads, variable resource availability, and short-lived executions. This research proposes continuous compilation systems where applications are continuously optimized during deployment and execution. The compiler adapts to workload changes, hardware changes, and energy constraints.",
+      tags: ["LLVM", "Cloud Computing", "Serverless", "JIT", "Optimization"],
+      difficulty: 5,
+      conferences: "ASPLOS, EuroSys, OSDI",
+      relevance: "",
+      part: "Correctness & Parallel Systems"
+    },
+
+    {
+      title: "Security-Aware Compiler Optimization",
+      desc: "Modern compilers are primarily designed to maximize performance, often ignoring security implications of generated code. However, software vulnerabilities increasingly depend on compiler-generated behavior, memory layout, speculative execution, and optimization decisions. This research proposes security-aware compiler infrastructures that jointly optimize performance and security guarantees. Possible applications include control-flow integrity, speculative execution protection, memory safety, and side-channel mitigation.",
+      tags: ["LLVM", "Secure Compilation", "Control Flow Integrity", "Memory Safety", "Side Channels"],
+      difficulty: 5,
+      conferences: "PLDI, ASPLOS, CCS, NDSS",
+      relevance: "",
+      part: "Security, Energy & Emerging Paradigms"
+    },
+    {
+      title: "Secure Compiler Backend Generation",
+      desc: "Compiler backends translate high-level programs into machine instructions, but security properties are rarely considered during instruction selection and scheduling. This research proposes secure backend generation techniques where the compiler automatically produces machine code optimized for security constraints. Possible objectives include constant-time execution, side-channel resistance, secure instruction selection, and cryptographic hardening.",
+      tags: ["LLVM", "Backend Security", "Instruction Selection", "Cryptographic Compilation"],
+      difficulty: 5,
+      conferences: "PLDI, CCS, ASPLOS",
+      relevance: "",
+      part: "Security, Energy & Emerging Paradigms"
+    },
+    {
+      title: "Privacy-Preserving Compilation",
+      desc: "Privacy-preserving computation introduces new programming models where programs operate on encrypted or protected data. Current approaches require programmers to manually rewrite applications. This research proposes compilers capable of automatically transforming conventional programs into privacy-preserving implementations. The compiler automatically manages encryption operations, secure computation primitives, communication overhead, and memory representation. Applications include homomorphic encryption, secure multi-party computation, and confidential computing.",
+      tags: ["LLVM", "MLIR", "Homomorphic Encryption", "Differential Privacy", "Secure Computation"],
+      difficulty: 5,
+      conferences: "PLDI, CCS, ASPLOS",
+      relevance: "",
+      part: "Security, Energy & Emerging Paradigms"
+    },
+    {
+      title: "Compiler for Confidential Computing",
+      desc: "Trusted execution environments provide hardware-based security guarantees, but programming for secure enclaves remains complex. This research proposes compiler infrastructures specialized for confidential computing environments. The compiler automatically handles secure memory placement, enclave transitions, data protection, and trusted/untrusted boundaries. Target platforms include Intel SGX, ARM Confidential Compute Architecture, and AMD SEV.",
+      tags: ["LLVM", "SGX", "TEE", "ARM CCA", "Secure Hardware", "Compilation"],
+      difficulty: 4,
+      conferences: "ASPLOS, CCS, EuroSys",
+      relevance: "",
+      part: "Security, Energy & Emerging Paradigms"
+    },
+    {
+      title: "Energy-Aware Compiler Optimization",
+      desc: "Traditional compiler optimization focuses primarily on execution speed. However, energy efficiency has become a fundamental requirement for modern computing systems. This research proposes compiler infrastructures that optimize programs according to energy consumption models. The compiler considers CPU/GPU power states, memory energy, thermal constraints, and performance-energy tradeoffs.",
+      tags: ["LLVM", "MLIR", "RAPL", "Power Modeling", "ARM", "DVFS", "Energy Optimization"],
+      difficulty: 5,
+      conferences: "ASPLOS, HPCA, ISCA, CGO",
+      relevance: "",
+      part: "Security, Energy & Emerging Paradigms"
+    },
+    {
+      title: "Carbon-Aware Compilation",
+      desc: "Large-scale computing systems consume enormous amounts of energy and contribute significantly to carbon emissions. This research proposes carbon-aware compiler systems that optimize applications according to environmental constraints. The compiler considers energy source availability, execution location, hardware efficiency, and workload scheduling. Applications include cloud computing, HPC, and data centers.",
+      tags: ["LLVM", "Cloud Computing", "Green Computing", "Energy Modeling"],
+      difficulty: 4,
+      conferences: "ASPLOS, SC, EuroSys",
+      relevance: "",
+      part: "Security, Energy & Emerging Paradigms"
+    },
+    {
+      title: "Thermal-Aware Compiler Optimization",
+      desc: "Modern processors increasingly face thermal limitations. Aggressive optimization can cause overheating and performance degradation. This research proposes thermal-aware compilers capable of optimizing programs while considering temperature constraints. The compiler manages instruction scheduling, workload distribution, frequency scaling, and hardware utilization.",
+      tags: ["LLVM", "Runtime Systems", "Thermal Management", "Hardware Sensors"],
+      difficulty: 4,
+      conferences: "ASPLOS, HPCA, MICRO",
+      relevance: "",
+      part: "Security, Energy & Emerging Paradigms"
+    },
+    {
+      title: "Generative Testing for Compilers",
+      desc: "Compiler bugs are extremely difficult to detect because they often appear only under rare combinations of programs, optimization passes, and architectures. This research proposes automated compiler testing frameworks using generative techniques. The system automatically creates random programs, intermediate representations, and optimization sequences, and searches for compiler failures. Possible techniques include fuzzing, symbolic execution, and LLM-generated tests.",
+      tags: ["LLVM", "Fuzzing", "Csmith", "Random Testing", "Differential Testing"],
+      difficulty: 4,
+      conferences: "PLDI, ISSTA, ICSE",
+      relevance: "",
+      part: "Security, Energy & Emerging Paradigms"
+    },
+    {
+      title: "AI-Based Compiler Debugging",
+      desc: "Debugging compiler infrastructure requires deep expertise in IR semantics, optimization passes, and backend architectures. This research proposes AI-assisted compiler debugging systems capable of automatically locating compiler bugs, explaining failures, generating patches, and creating regression tests. The goal is reducing compiler engineering complexity.",
+      tags: ["LLVM", "MLIR", "Large Language Models", "Program Repair", "Debugging"],
+      difficulty: 5,
+      conferences: "PLDI, ICSE, CGO",
+      relevance: "",
+      part: "Security, Energy & Emerging Paradigms"
+    },
+    {
+      title: "Automatic Compiler Regression Detection",
+      desc: "Compiler development involves thousands of changes that can introduce performance regressions or correctness issues. This research proposes intelligent regression detection systems capable of automatically identifying performance degradation, optimization failures, and incorrect transformations. The system combines benchmark analysis, machine learning, and compiler instrumentation.",
+      tags: ["LLVM", "Continuous Integration", "Machine Learning", "Testing Infrastructure"],
+      difficulty: 4,
+      conferences: "CGO, ICSE, PLDI",
+      relevance: "",
+      part: "Security, Energy & Emerging Paradigms"
+    },
+    {
+      title: "Compiler Generation from Specifications",
+      desc: "Building a compiler backend requires years of engineering effort. This research proposes automatically generating compiler infrastructures from high-level specifications. Given an instruction set description, language semantics, and optimization rules, the system generates IR definitions, lowering passes, and backend code generation.",
+      tags: ["MLIR", "LLVM", "DSL", "Compiler Synthesis", "Domain-Specific Languages"],
+      difficulty: 5,
+      conferences: "PLDI, CGO, ASPLOS",
+      relevance: "",
+      part: "Security, Energy & Emerging Paradigms"
+    },
+    {
+      title: "Automatic Programming Language Implementation",
+      desc: "Creating a new programming language requires implementing parser, semantic analysis, optimizer, and compiler backend. This research proposes meta-compilers capable of automatically generating language implementations from formal language specifications. The objective is reducing the cost of creating new programming languages.",
+      tags: ["MLIR", "Compiler Construction", "Language Design", "Meta-Compilers"],
+      difficulty: 5,
+      conferences: "PLDI, POPL, OOPSLA",
+      relevance: "",
+      part: "Security, Energy & Emerging Paradigms"
+    },
+    {
+      title: "Domain-Specific Compiler Generator",
+      desc: "Domain-specific languages are widely used in machine learning, databases, scientific computing, and graphics. However, each DSL usually requires a custom compiler. This research proposes frameworks that automatically generate optimized compilers for new domains. The user provides domain abstractions, optimization rules, and hardware targets, and the system generates the compiler.",
+      tags: ["MLIR", "DSL", "Compilation", "Automatic Compiler Construction"],
+      difficulty: 5,
+      conferences: "PLDI, CGO, DSLDI",
+      relevance: "",
+      part: "Security, Energy & Emerging Paradigms"
+    },
+    {
+      title: "Quantum Compiler Optimization",
+      desc: "Quantum computing introduces entirely new compilation challenges. Quantum programs require qubit allocation, gate optimization, circuit scheduling, and error-aware compilation. This research proposes next-generation quantum compiler infrastructures capable of automatically optimizing quantum programs for different quantum architectures.",
+      tags: ["MLIR", "Quantum", "LLVM", "Quantum Computing", "Circuit Optimization"],
+      difficulty: 5,
+      conferences: "PLDI, ASPLOS, QCE",
+      relevance: "",
+      part: "Security, Energy & Emerging Paradigms"
+    },
+    {
+      title: "Neuromorphic Computing Compiler",
+      desc: "Neuromorphic processors introduce unconventional execution models based on spikes and event-driven computation. Traditional compiler techniques do not directly apply. This research proposes compiler infrastructures for neuromorphic systems capable of optimizing neuron mapping, spike scheduling, memory organization, and energy consumption. Target platforms include Intel Loihi and SpiNNaker.",
+      tags: ["MLIR", "Neuromorphic Computing", "Event-Based Systems", "Brain-Inspired Hardware"],
+      difficulty: 4,
+      conferences: "ASPLOS, ISCA, DAC",
+      relevance: "",
+      part: "Security, Energy & Emerging Paradigms"
+    },
+    {
+      title: "Compiler for Emerging Memory Architectures",
+      desc: "Future systems will combine CPUs with new memory technologies: persistent memory, CXL memory, and processing-near-memory architectures. This research proposes compiler frameworks aware of new memory hierarchies. The compiler optimizes data placement, movement, persistence, and computation locality.",
+      tags: ["LLVM", "MLIR", "Persistent Memory", "CXL", "Processing Near Memory"],
+      difficulty: 5,
+      conferences: "ASPLOS, ISCA, HPCA",
+      relevance: "",
+      part: "Security, Energy & Emerging Paradigms"
+    },
+    {
+      title: "Autonomous Compiler Engineer",
+      desc: "Compiler engineering requires highly specialized knowledge. Modern AI systems create the possibility of autonomous compiler development agents. This research proposes AI agents capable of designing optimization passes, modifying compiler infrastructure, generating tests, and evaluating performance. The compiler development process becomes partially automated.",
+      tags: ["LLVM", "MLIR", "LLM", "Agents", "Compiler Development Automation"],
+      difficulty: 5,
+      conferences: "PLDI, CGO, MLSys",
+      relevance: "",
+      part: "Security, Energy & Emerging Paradigms"
+    },
+    {
+      title: "Compiler Intelligence Platform",
+      desc: "Future compilers may evolve from deterministic optimization systems into intelligent platforms capable of reasoning about programs. This research proposes a general compiler intelligence layer combining program analysis, machine learning, symbolic reasoning, and optimization search. The compiler becomes capable of understanding, optimizing and improving programs autonomously.",
+      tags: ["LLVM", "MLIR", "AI Agents", "Program Understanding", "Optimization Discovery"],
+      difficulty: 5,
+      conferences: "PLDI, ASPLOS, OOPSLA",
+      relevance: "",
+      part: "Security, Energy & Emerging Paradigms"
+    },
+    {
+      title: "Automatic Benchmark Generation for Compiler Research",
+      desc: "Compiler research depends heavily on benchmark suites such as SPEC, PolyBench and LLVM test cases. However, existing benchmarks often fail to represent emerging workloads. This research proposes automatically generating benchmark programs that capture new programming patterns, hardware behaviors, and optimization challenges. The system creates workload collections for future compiler research.",
+      tags: ["LLVM", "Benchmark Synthesis", "Program Generation", "Performance Evaluation"],
+      difficulty: 4,
+      conferences: "CGO, ICPE, PLDI",
+      relevance: "",
+      part: "Security, Energy & Emerging Paradigms"
     }
   ],
 
