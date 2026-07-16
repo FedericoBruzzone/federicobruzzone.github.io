@@ -592,6 +592,13 @@ body.dark-mode .alert-box {
     font-size: 0.9rem;
 }
 
+.toc-subtitle {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 0.85rem;
+    font-style: italic;
+}
+
 .toc-title {
     display: block;
     margin-bottom: 6px;
