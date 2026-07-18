@@ -292,6 +292,10 @@ var RESEARCH_DATA = {
       difficulty: 4,
       conferences: "CGO, PLDI, MLSys",
       relevance: "",
+      notes: [
+        { url: "https://link.springer.com/article/10.1007/s11390-026-5979-1", label: "A Survey of Quantization in LLM: Unlocking Potential Hardware Efficiency" },
+        { url: "https://dl.acm.org/doi/10.1145/3773992", label: "A Study of Floating-Point Precision Tuning in Deep Learning Operators Implementations" }
+      ],
       part: "Compiler Infrastructure"
     },
     {
@@ -319,6 +323,7 @@ var RESEARCH_DATA = {
       difficulty: 4,
       conferences: "CGO, PLDI, MLSys",
       relevance: "",
+      notes: [{ url: "https://link.springer.com/article/10.1007/s11390-026-5979-1", label: "A Survey of Quantization in LLM: Unlocking Potential Hardware Efficiency" }],
       part: "Compiler Infrastructure"
     },
     {
@@ -382,6 +387,10 @@ var RESEARCH_DATA = {
       difficulty: 4,
       conferences: "MLSys, CGO, ASPLOS",
       relevance: "",
+      notes: [
+        { url: "https://link.springer.com/article/10.1007/s11390-026-5979-1", label: "A Survey of Quantization in LLM: Unlocking Potential Hardware Efficiency" },
+        { url: "https://dl.acm.org/doi/10.1145/3773992", label: "A Study of Floating-Point Precision Tuning in Deep Learning Operators Implementations" }
+      ],
       part: "Memory & Optimization"
     },
     {
@@ -445,6 +454,7 @@ var RESEARCH_DATA = {
       difficulty: 4,
       conferences: "MLSys, ASPLOS, CGO",
       relevance: "",
+      notes: [{ url: "https://link.springer.com/article/10.1007/s11390-026-5979-1", label: "A Survey of Quantization in LLM: Unlocking Potential Hardware Efficiency" }],
       part: "LLM Compilers"
     },
     {
@@ -481,6 +491,10 @@ var RESEARCH_DATA = {
       difficulty: 4,
       conferences: "MLSys, ASPLOS, CGO",
       relevance: "",
+      notes: [
+        { url: "https://link.springer.com/article/10.1007/s11390-026-5979-1", label: "A Survey of Quantization in LLM: Unlocking Potential Hardware Efficiency" },
+        { url: "https://dl.acm.org/doi/10.1145/3773992", label: "A Study of Floating-Point Precision Tuning in Deep Learning Operators Implementations" }
+      ],
       part: "LLM Compilers"
     },
     {

@@ -52,6 +52,22 @@
       relevanceHtml = '<div class="post-desc" style="margin: 0.2rem 0; font-size:0.85rem;"><i>' + item.relevance + '</i></div>';
     }
 
+    var notesHtml = "";
+    if (item.notes && item.notes.length) {
+      var lis = [];
+      for (var i = 0; i < item.notes.length; i++) {
+        var n = item.notes[i];
+        if (typeof n === "string") {
+          lis.push('<li><a href="' + n + '" target="_blank">' + n + '</a></li>');
+        } else if (n.url) {
+          lis.push('<li><a href="' + n.url + '" target="_blank">' + (n.label || n.url) + '</a></li>');
+        }
+      }
+      if (lis.length) {
+        notesHtml = '<div class="post-desc" style="margin: 0.3rem 0; font-size:0.85rem;">Related: <ul style="margin:0.2rem 0 0 1.2rem;padding:0;">' + lis.join("\n") + '</ul></div>';
+      }
+    }
+
     return       '<article class="post-block" style="margin-bottom: 1rem;">\n' +
       '  <div class="post-inner">\n' +
       '    <div class="post-title">' + item.title + '</div>\n' +
@@ -59,6 +75,7 @@
       '    <div class="post-desc">' + item.desc + '</div>\n' +
       metaHtml +
       relevanceHtml +
+      notesHtml +
       '  </div>\n' +
       '</article>\n';
   }
