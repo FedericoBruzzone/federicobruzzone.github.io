@@ -412,15 +412,6 @@ var RESEARCH_DATA = {
       part: "Memory & Optimization"
     },
     {
-      title: "Optimization Pipeline Synthesis",
-      desc: "Compiler optimization pipelines are among the most complex manually engineered systems in computer science. LLVM alone contains hundreds of passes, and the order of these passes strongly influences performance. This research proposes automatic synthesis of optimization pipelines using formal models and search techniques.",
-      tags: ["LLVM", "MLIR", "Compiler Explorer", "Pipeline Algebra"],
-      difficulty: 5,
-      conferences: "PLDI, OOPSLA, CGO",
-      relevance: "",
-      part: "Memory & Optimization"
-    },
-    {
       title: "Next Generation Compiler Cost Models",
       desc: "Almost every compiler decision depends on predicting future effects — should we inline, vectorize, unroll, fuse? Current cost models are often simplistic. This research proposes a next-generation compiler cost model framework combining static analysis, hardware modeling and machine learning.",
       tags: ["LLVM MLGO", "MLIR", "Hardware Counters", "Cost Models", "Machine Learning"],
@@ -475,9 +466,9 @@ var RESEARCH_DATA = {
       part: "LLM Compilers"
     },
     {
-      title: "Energy-Aware Compilation for AI Systems",
-      desc: "The rapid growth of AI workloads has created a new optimization objective beyond performance: energy efficiency. Current compiler infrastructures mainly optimize latency, throughput, and memory, but rarely optimize energy directly. This research proposes an energy-aware compiler framework capable of making optimization decisions based on power consumption models.",
-      tags: ["MLIR", "LLVM", "IREE", "RISC-V", "ARM", "Energy Efficiency"],
+      title: "Energy-Aware Compiler Optimization",
+      desc: "Energy efficiency has become a fundamental optimization objective alongside performance. Current compiler infrastructures mainly optimize latency, throughput, and memory, but rarely optimize energy directly. This research proposes an energy-aware compiler framework capable of making optimization decisions based on power consumption models. The compiler considers CPU/GPU power states, memory energy, thermal constraints, and performance-energy tradeoffs, with particular focus on AI workloads where energy consumption is a critical deployment constraint.",
+      tags: ["MLIR", "LLVM", "IREE", "RISC-V", "ARM", "RAPL", "DVFS", "Energy Efficiency"],
       difficulty: 5,
       conferences: "CGO, ASPLOS, HPCA, ISCA",
       relevance: "",
@@ -553,15 +544,6 @@ var RESEARCH_DATA = {
       tags: ["LLVM", "MLIR", "PassManager", "Compiler Search", "Optimization Algebra"],
       difficulty: 5,
       conferences: "PLDI, CGO, OOPSLA",
-      relevance: "",
-      part: "ML-Guided Compilation"
-    },
-    {
-      title: "Next Generation Compiler Cost Models",
-      desc: "Compiler optimization decisions require predicting the future impact of transformations. Should this function be inlined? Should this loop be vectorized? Should this instruction sequence be replaced? Current cost models are often based on simplified analytical formulas and manually tuned thresholds. This research proposes next-generation compiler cost models combining static program analysis, hardware performance counters, machine learning models, and architecture simulation. The objective is creating universal cost models capable of guiding multiple compiler optimizations simultaneously.",
-      tags: ["LLVM", "MLGO", "MLIR", "Hardware Counters", "Machine Learning", "Cost Models"],
-      difficulty: 5,
-      conferences: "PLDI, CGO, MLSys",
       relevance: "",
       part: "ML-Guided Compilation"
     },
@@ -775,15 +757,6 @@ var RESEARCH_DATA = {
       part: "Security, Energy & Emerging Paradigms"
     },
     {
-      title: "Energy-Aware Compiler Optimization",
-      desc: "Traditional compiler optimization focuses primarily on execution speed. However, energy efficiency has become a fundamental requirement for modern computing systems. This research proposes compiler infrastructures that optimize programs according to energy consumption models. The compiler considers CPU/GPU power states, memory energy, thermal constraints, and performance-energy tradeoffs.",
-      tags: ["LLVM", "MLIR", "RAPL", "Power Modeling", "ARM", "DVFS", "Energy Optimization"],
-      difficulty: 5,
-      conferences: "ASPLOS, HPCA, ISCA, CGO",
-      relevance: "",
-      part: "Security, Energy & Emerging Paradigms"
-    },
-    {
       title: "Carbon-Aware Compilation",
       desc: "Large-scale computing systems consume enormous amounts of energy and contribute significantly to carbon emissions. This research proposes carbon-aware compiler systems that optimize applications according to environmental constraints. The compiler considers energy source availability, execution location, hardware efficiency, and workload scheduling. Applications include cloud computing, HPC, and data centers.",
       tags: ["LLVM", "Cloud Computing", "Green Computing", "Energy Modeling"],
@@ -829,29 +802,11 @@ var RESEARCH_DATA = {
       part: "Security, Energy & Emerging Paradigms"
     },
     {
-      title: "Compiler Generation from Specifications",
-      desc: "Building a compiler backend requires years of engineering effort. This research proposes automatically generating compiler infrastructures from high-level specifications. Given an instruction set description, language semantics, and optimization rules, the system generates IR definitions, lowering passes, and backend code generation.",
-      tags: ["MLIR", "LLVM", "DSL", "Compiler Synthesis", "Domain-Specific Languages"],
+      title: "Automatic Compiler Generation from Specifications",
+      desc: "Building compilers and language implementations requires years of engineering effort. This research proposes automatically generating compiler infrastructures from high-level specifications. Given instruction set descriptions, language semantics, domain abstractions, and optimization rules, the system generates IR definitions, lowering passes, backend code generation, and domain-specific compiler implementations. Applications include compiler backends from ISA descriptions, full language implementations from formal specifications, and optimized compilers for domain-specific languages.",
+      tags: ["MLIR", "LLVM", "DSL", "Compiler Synthesis", "Domain-Specific Languages", "Meta-Compilers"],
       difficulty: 5,
-      conferences: "PLDI, CGO, ASPLOS",
-      relevance: "",
-      part: "Security, Energy & Emerging Paradigms"
-    },
-    {
-      title: "Automatic Programming Language Implementation",
-      desc: "Creating a new programming language requires implementing parser, semantic analysis, optimizer, and compiler backend. This research proposes meta-compilers capable of automatically generating language implementations from formal language specifications. The objective is reducing the cost of creating new programming languages.",
-      tags: ["MLIR", "Compiler Construction", "Language Design", "Meta-Compilers"],
-      difficulty: 5,
-      conferences: "PLDI, POPL, OOPSLA",
-      relevance: "",
-      part: "Security, Energy & Emerging Paradigms"
-    },
-    {
-      title: "Domain-Specific Compiler Generator",
-      desc: "Domain-specific languages are widely used in machine learning, databases, scientific computing, and graphics. However, each DSL usually requires a custom compiler. This research proposes frameworks that automatically generate optimized compilers for new domains. The user provides domain abstractions, optimization rules, and hardware targets, and the system generates the compiler.",
-      tags: ["MLIR", "DSL", "Compilation", "Automatic Compiler Construction"],
-      difficulty: 5,
-      conferences: "PLDI, CGO, DSLDI",
+      conferences: "PLDI, CGO, ASPLOS, POPL, OOPSLA",
       relevance: "",
       part: "Security, Energy & Emerging Paradigms"
     },
