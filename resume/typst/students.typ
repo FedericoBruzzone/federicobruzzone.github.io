@@ -3,6 +3,17 @@
 #let student-list = (
   (
     when: datetime(
+      year: 2026,
+      month: 7,
+      day: 14,
+    ),
+    name: "Massimiliano Visconti",
+    title: [Towards Neverlang3: A Generative Rust Approach for Resilient LL Parser Generators],
+    where : "Master in Computer Science, Università degli Studi di Milano",
+    score: "102"
+  ),
+  (
+    when: datetime(
       year: 2025,
       month: 4,
       day: 10,

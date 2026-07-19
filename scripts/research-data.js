@@ -223,6 +223,7 @@ var RESEARCH_DATA = {
 
   teaching: {
     thesisSupervision: [
+      { when: "2026/07/14", name: "M. Visconti", title: "Towards Neverlang3: A Generative Rust Approach for Resilient LL Parser Generators", where: "MSc", score: "102" },
       { when: "2026/02/23", name: "D. Cerato", title: "Employing Metaprogramming: A Macro-Driven Strategy to Overcome Compiler-Imposed Limitations on Specialization", where: "BSc", score: "103" },
       { when: "2025/04/10", name: "D. Pellegrino", title: "Scalable Multi-client Real-time Whisper", where: "BSc", score: "96" },
       { when: "2025/04/09", name: "A. Longoni", title: "GUIDE: Graphical User Interface Development Environment", where: "MSc", score: "110L" },

@@ -7,6 +7,17 @@
   (
     when: datetime(
       year: 2026,
+      month: 7,
+      day: 14,
+    ),
+    name: "M. Visconti", // Massimiliano
+    title: [Towards Neverlang3: A Generative Rust Approach for Resilient LL Parser Generators],
+    where : "MSc",
+    score: "102"
+  ),
+  (
+    when: datetime(
+      year: 2026,
       month: 2,
       day: 23,
     ),
