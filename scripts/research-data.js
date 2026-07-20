@@ -946,6 +946,12 @@ var RESEARCH_DATA = {
 
   openSourceContributions: [
     {
+      title: "[mlir][ArmSVE] Fix comment inconsistency for `pack_lhs` in `ArmSVE/pack-unpack-mmt4d.mlir` (NFC)",
+      url: "https://github.com/llvm/llvm-project/pull/210502",
+      date: "2026/07/20",
+      project: "llvm-project"
+    },
+    {
       title: "[LLVMCPU] Add SME lowering-strategy tests for f64 and unsupported i8 matmuls",
       url: "https://github.com/iree-org/iree/pull/24656",
       date: "2026/07",

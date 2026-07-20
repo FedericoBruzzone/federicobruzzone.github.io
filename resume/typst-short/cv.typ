@@ -258,6 +258,12 @@
 
 #entry(
   when: "2026",
+  what: [MLIR/LLVM: #link("https://github.com/llvm/llvm-project/pull/210502")[[mlir][ArmSVE] Fix comment inconsistency for `pack_lhs` in `ArmSVE/pack-unpack-mmt4d.mlir` (NFC)]],
+  details: ()
+)
+
+#entry(
+  when: "2026",
   what: [MLIR/LLVM: #link("https://github.com/llvm/llvm-project/pull/207947")[[mlir][ArmSME] fix f64 scalable matmul crashes in `VectorLegalizationPass`]],
   details: ()
 )
