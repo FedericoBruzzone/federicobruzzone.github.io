@@ -257,6 +257,9 @@ var RESEARCH_DATA = {
       difficulty: 5,
       conferences: "PLDI, CGO, ASPLOS, MLSys",
       relevance: "",
+      notes: [
+        { url: "https://arxiv.org/abs/2603.06731", label: "PolyBlocks: A Compiler Infrastructure for AI Chips and Programming Frameworks (Bondhugula et al., 2026)" }
+      ],
       part: "Compiler Infrastructure"
     },
     {
@@ -275,6 +278,9 @@ var RESEARCH_DATA = {
       difficulty: 5,
       conferences: "CGO, PLDI, ASPLOS",
       relevance: "",
+      notes: [
+        { url: "https://arxiv.org/abs/2603.06731", label: "PolyBlocks: A Compiler Infrastructure for AI Chips and Programming Frameworks (Bondhugula et al., 2026)" }
+      ],
       part: "Compiler Infrastructure"
     },
     {
@@ -306,6 +312,9 @@ var RESEARCH_DATA = {
       difficulty: 5,
       conferences: "CGO, ASPLOS, MLSys",
       relevance: "",
+      notes: [
+        { url: "https://arxiv.org/abs/2603.06731", label: "PolyBlocks: A Compiler Infrastructure for AI Chips and Programming Frameworks (Bondhugula et al., 2026)" }
+      ],
       part: "Compiler Infrastructure"
     },
     {
@@ -315,6 +324,9 @@ var RESEARCH_DATA = {
       difficulty: 5,
       conferences: "PLDI, CGO, ASPLOS",
       relevance: "",
+      notes: [
+        { url: "https://arxiv.org/abs/2603.06731", label: "PolyBlocks: A Compiler Infrastructure for AI Chips and Programming Frameworks (Bondhugula et al., 2026)" }
+      ],
       part: "Compiler Infrastructure"
     },
     {
@@ -428,6 +440,9 @@ var RESEARCH_DATA = {
       difficulty: 5,
       conferences: "PLDI, CGO, MLSys",
       relevance: "",
+      notes: [
+        { url: "https://arxiv.org/abs/2606.31238", label: "A Multi-Dimensional, Per-Pass Empirical Study of the LLVM Optimization Pipeline (Bruzzone and Cazzola, 2026)" }
+      ],
       part: "Memory & Optimization"
     },
     {
@@ -483,6 +498,9 @@ var RESEARCH_DATA = {
       difficulty: 5,
       conferences: "CGO, ASPLOS, HPCA, ISCA",
       relevance: "",
+      notes: [
+        { url: "https://arxiv.org/abs/2606.31238", label: "A Multi-Dimensional, Per-Pass Empirical Study of the LLVM Optimization Pipeline (Bruzzone and Cazzola, 2026)" }
+      ],
       part: "LLM Compilers"
     },
     {
@@ -533,6 +551,9 @@ var RESEARCH_DATA = {
       difficulty: 5,
       conferences: "PLDI, CGO, ASPLOS, OOPSLA",
       relevance: "",
+      notes: [
+        { url: "https://arxiv.org/abs/2606.31238", label: "A Multi-Dimensional, Per-Pass Empirical Study of the LLVM Optimization Pipeline (Bruzzone and Cazzola, 2026)" }
+      ],
       part: "ML-Guided Compilation"
     },
     {
@@ -560,6 +581,9 @@ var RESEARCH_DATA = {
       difficulty: 5,
       conferences: "PLDI, CGO, OOPSLA",
       relevance: "",
+      notes: [
+        { url: "https://arxiv.org/abs/2606.31238", label: "A Multi-Dimensional, Per-Pass Empirical Study of the LLVM Optimization Pipeline (Bruzzone and Cazzola, 2026)" }
+      ],
       part: "ML-Guided Compilation"
     },
     {
@@ -587,6 +611,9 @@ var RESEARCH_DATA = {
       difficulty: 5,
       conferences: "CGO, PLDI, ASPLOS",
       relevance: "",
+      notes: [
+        { url: "https://arxiv.org/abs/2606.31238", label: "A Multi-Dimensional, Per-Pass Empirical Study of the LLVM Optimization Pipeline (Bruzzone and Cazzola, 2026)" }
+      ],
       part: "ML-Guided Compilation"
     },
     {
@@ -596,6 +623,9 @@ var RESEARCH_DATA = {
       difficulty: 4,
       conferences: "CGO, MLSys, ASPLOS",
       relevance: "",
+      notes: [
+        { url: "https://arxiv.org/abs/2606.31238", label: "A Multi-Dimensional, Per-Pass Empirical Study of the LLVM Optimization Pipeline (Bruzzone and Cazzola, 2026)" }
+      ],
       part: "ML-Guided Compilation"
     },
     {
