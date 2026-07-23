@@ -64,14 +64,6 @@
       <description><![CDATA[DOI: <a href="https://doi.org/10.48550/arXiv.2602.03777">10.48550/arXiv.2602.03777</a>]]></description>
     </item>
     <item>
-      <title>LLVM (MLIR): fix f64 scalable matmul crashes in VectorLegalizationPass</title>
-      <link>https://github.com/llvm/llvm-project/pull/207947</link>
-      <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-07-08:activities/llvm-mlir-fix-f64-scalable-matmul-crashes-in-vectorlegalizationpass</guid>
-      <category>Activity</category>
-      <pubDate>Wed, 08 Jul 2026 00:00:00 GMT</pubDate>
-      <description><![CDATA[Fixes a crash when lowering scalable f64 column transfer reads for ArmSME by materializing the zero-initialized constant using the correct element type instead of always using f32.]]></description>
-    </item>
-    <item>
       <title>A Multi-Dimensional, Per-Pass Empirical Study of the LLVM Optimization Pipeline</title>
       <link>https://federicobruzzone.github.io/posts/a-multi-dimensional-per-pass-empirical-study-of-the-llvm-optimization-pipeline.html</link>
       <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-07-01:posts/a-multi-dimensional-per-pass-empirical-study-of-the-llvm-optimization-pipeline</guid>
@@ -86,46 +78,6 @@
       <category>Post</category>
       <pubDate>Sat, 20 Jun 2026 00:00:00 GMT</pubDate>
       <description><![CDATA[A post to manually lowering MLIR code to AArch64 executables with Arm SME support. Covers the complete pipeline from MLIR optimization to native compilation, including lowering to LLVM dialect, LLVM-IR translation, assembly generation, and linking. Includes practical commands and one-shot solutions for execution.]]></description>
-    </item>
-    <item>
-      <title>LLVM (MLIR): fix incorrect nuw on memref.load/store GEP with negative strides</title>
-      <link>https://github.com/llvm/llvm-project/pull/204309</link>
-      <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-06-18:activities/llvm-mlir-fix-incorrect-nuw-on-memref-load-store-gep-with-negative-strides</guid>
-      <category>Activity</category>
-      <pubDate>Thu, 18 Jun 2026 00:00:00 GMT</pubDate>
-      <description><![CDATA[Fixes MemRefToLLVM to only emit nuw on GEP/mul when strides are statically non-negative, preventing unsound poison from negative-strided accesses.]]></description>
-    </item>
-    <item>
-      <title>LLVM (MLIR): opt-in enable-gep-inbounds-nuw pass flag for vector.load/store</title>
-      <link>https://github.com/llvm/llvm-project/pull/202118</link>
-      <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-06-18:activities/llvm-mlir-opt-in-enable-gep-inbounds-nuw-pass-flag-for-vector-load-store</guid>
-      <category>Activity</category>
-      <pubDate>Thu, 18 Jun 2026 00:00:00 GMT</pubDate>
-      <description><![CDATA[Adds enable-gep-inbounds-nuw pass flag to ConvertVectorToLLVM. When enabled, emits inbounds/nuw on vector.load/store GEPs, enabling SCEV monotonicity proofs and better alias analysis in LLVM.]]></description>
-    </item>
-    <item>
-      <title>[NFC][mlir][linalg] add toContractionDimensions for healthy code reuse</title>
-      <link>https://github.com/llvm/llvm-project/pull/203916</link>
-      <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-06-16:activities/nfc-mlir-linalg-add-tocontractiondimensions-for-healthy-code-reuse</guid>
-      <category>Activity</category>
-      <pubDate>Tue, 16 Jun 2026 00:00:00 GMT</pubDate>
-      <description><![CDATA[Extracts the toContractionDimensions helper to eliminate code duplication in the Linalg C API, aligning with the refactoring direction from PR #203323.]]></description>
-    </item>
-    <item>
-      <title>LLVM (MLIR): createReadOrMaskedRead/Write with permutation map support</title>
-      <link>https://github.com/llvm/llvm-project/pull/202766</link>
-      <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-06-12:activities/llvm-mlir-createreadormaskedread-write-with-permutation-map-support</guid>
-      <category>Activity</category>
-      <pubDate>Fri, 12 Jun 2026 00:00:00 GMT</pubDate>
-      <description><![CDATA[Extends the createReadOrMaskedRead and createWriteOrMaskedWrite utilities in VectorUtils with permutation map support. The affine super-vectorizer is updated to use these utilities instead of constructing TransferReadOp/TransferWriteOp directly.]]></description>
-    </item>
-    <item>
-      <title>LLVM: affine-super-vectorize emits in_bounds transfer ops</title>
-      <link>https://github.com/llvm/llvm-project/pull/201180</link>
-      <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-06-09:activities/llvm-affine-super-vectorize-emits-in-bounds-transfer-ops</guid>
-      <category>Activity</category>
-      <pubDate>Tue, 09 Jun 2026 00:00:00 GMT</pubDate>
-      <description><![CDATA[Fixes affine-super-vectorize to emit vector.transfer_read/write with the in_bounds attribute when statically provable, avoiding unnecessary masked intrinsics overhead on AArch64/NEON.]]></description>
     </item>
     <item>
       <title>MLIR Empirical Study on AArch64 (Apple M4 Pro)</title>
@@ -192,14 +144,6 @@
       <description><![CDATA[A discussion on idiomatic Rust patterns for consuming input only when a function successfully returns a value. This explores ownership semantics and how to write clean, expressive APIs in Rust.]]></description>
     </item>
     <item>
-      <title>One of the 393 contributors to Rust 1.86.0</title>
-      <link>https://thanks.rust-lang.org/rust/1.86.0/</link>
-      <guid isPermaLink="false">tag:federicobruzzone.github.io,2025-04-03:activities/one-of-the-393-contributors-to-rust-1-86-0</guid>
-      <category>Activity</category>
-      <pubDate>Thu, 03 Apr 2025 00:00:00 GMT</pubDate>
-      <description><![CDATA[I am one of the 393 contributors to Rust 1.86.0. You can find the release notes <a href="https://doc.rust-lang.org/stable/releases.html#version-1860-2025-04-03">here</a>.]]></description>
-    </item>
-    <item>
       <title>Open Source Licenses: A Deep Dive into Their Meaning</title>
       <link>https://federicobruzzone.github.io/posts/open-source-licenses-a-deep-dive-into-their-meaning.html</link>
       <guid isPermaLink="false">tag:federicobruzzone.github.io,2025-03-23:posts/open-source-licenses-a-deep-dive-into-their-meaning</guid>
@@ -208,108 +152,12 @@
       <description><![CDATA[An in-depth exploration of open source licenses, covering their legal implications, the differences between permissive and copyleft licenses, and practical guidance for choosing the right license for your project.]]></description>
     </item>
     <item>
-      <title>Generalizing Closeness centrality to weighted networks using Newman method</title>
-      <link>https://github.com/Qiskit/rustworkx/pull/1385</link>
-      <guid isPermaLink="false">tag:federicobruzzone.github.io,2025-02-14:activities/generalizing-closeness-centrality-to-weighted-networks-using-newman-method</guid>
-      <category>Activity</category>
-      <pubDate>Fri, 14 Feb 2025 00:00:00 GMT</pubDate>
-      <description><![CDATA[This PR closed the issue <a href="https://github.com/Qiskit/rustworkx/issues/1384">#1384</a> by generalizing the <tt>Closeness</tt> centrality to weighted networks using the Newman method. It provides both the Rust implementation and the Python bindings.]]></description>
-    </item>
-    <item>
-      <title>Use the type-level constant value ty::Value where needed</title>
-      <link>https://github.com/rust-lang/rust/pull/136430</link>
-      <guid isPermaLink="false">tag:federicobruzzone.github.io,2025-02-01:activities/use-the-type-level-constant-value-ty-value-where-needed</guid>
-      <category>Activity</category>
-      <pubDate>Sat, 01 Feb 2025 00:00:00 GMT</pubDate>
-      <description><![CDATA[With this PR, I refactored functions to accept a single type-level constant value <tt>ty::Value</tt> instead of separate <tt>ty::Valtree</tt> and <tt>ty::Ty</tt> parameters.]]></description>
-    </item>
-    <item>
-      <title>Add TooGeneric to LayoutError and emit Unknown</title>
-      <link>https://github.com/rust-lang/rust/pull/135158</link>
-      <guid isPermaLink="false">tag:federicobruzzone.github.io,2025-01-27:activities/add-toogeneric-to-layouterror-and-emit-unknown</guid>
-      <category>Activity</category>
-      <pubDate>Mon, 27 Jan 2025 00:00:00 GMT</pubDate>
-      <description><![CDATA[With this PR, I added the <tt>TooGeneric</tt> variant to the <tt>LayoutError</tt> enum to emit the error when a type is too generic to be laid out. The <tt>Unknown</tt> variant is emitted when the layout of a type is unknown.]]></description>
-    </item>
-    <item>
-      <title>One of the 396 contributors to Rust 1.83.0</title>
-      <link>https://thanks.rust-lang.org/rust/1.83.0/</link>
-      <guid isPermaLink="false">tag:federicobruzzone.github.io,2024-12-08:activities/one-of-the-396-contributors-to-rust-1-83-0</guid>
-      <category>Activity</category>
-      <pubDate>Sun, 08 Dec 2024 00:00:00 GMT</pubDate>
-      <description><![CDATA[I am one of the 396 contributors to Rust 1.83.0. You can find the release notes <a href="https://doc.rust-lang.org/stable/releases.html#version-1830-2024-11-28">here</a>.]]></description>
-    </item>
-    <item>
-      <title>56th Top Github Contributor in Italy out of 958</title>
-      <link>https://github.com/gayanvoice/top-github-users/blob/main/markdown/public_contributions/italy.md</link>
-      <guid isPermaLink="false">tag:federicobruzzone.github.io,2024-12-01:activities/56th-top-github-contributor-in-italy-out-of-958</guid>
-      <category>Activity</category>
-      <pubDate>Sun, 01 Dec 2024 00:00:00 GMT</pubDate>
-      <description><![CDATA[I am the 56th top Github contributor in Italy out of 958 according to this <a href="https://github.com/gayanvoice/top-github-users/blob/main/markdown/public_contributions/italy.md">classification</a>.]]></description>
-    </item>
-    <item>
-      <title>First Contribution to Rust</title>
-      <link>https://github.com/rust-lang/rust/pull/130123</link>
-      <guid isPermaLink="false">tag:federicobruzzone.github.io,2024-09-12:activities/first-contribution-to-rust</guid>
-      <category>Activity</category>
-      <pubDate>Thu, 12 Sep 2024 00:00:00 GMT</pubDate>
-      <description><![CDATA[After the study of the <i>rustc-dev-guide</i>, I made my first <i>small</i> contribution to the Rust compiler.]]></description>
-    </item>
-    <item>
-      <title>Student Volunteer at ICFP 2024</title>
-      <link>https://icfp24.sigplan.org/</link>
-      <guid isPermaLink="false">tag:federicobruzzone.github.io,2024-09-01:activities/student-volunteer-at-icfp-2024</guid>
-      <category>Activity</category>
-      <pubDate>Sun, 01 Sep 2024 00:00:00 GMT</pubDate>
-      <description><![CDATA[I was a student volunteer at the 29th ACM SIGPLAN International Conference on Functional Programming (ICFP 2024).]]></description>
-    </item>
-    <item>
       <title>Exploiting Finite State Automata for Efficient Lexical Analysis: A Rust Implementation</title>
       <link>https://federicobruzzone.github.io/posts/exploiting-finite-state-automata-for-efficient-lexical-analysis-a-rust-implementation.html</link>
       <guid isPermaLink="false">tag:federicobruzzone.github.io,2024-08-09:posts/exploiting-finite-state-automata-for-efficient-lexical-analysis-a-rust-implement</guid>
       <category>Post</category>
       <pubDate>Fri, 09 Aug 2024 00:00:00 GMT</pubDate>
       <description><![CDATA[A practical exploration of building a lexical analyzer in Rust using finite state automata. We cover DFA/NFA theory and show how to implement an efficient lexer from scratch.]]></description>
-    </item>
-    <item>
-      <title>Admission to the PhD</title>
-      <link>https://github.com/FedericoBruzzone/phd-project</link>
-      <guid isPermaLink="false">tag:federicobruzzone.github.io,2024-07-24:activities/admission-to-the-phd</guid>
-      <category>Activity</category>
-      <pubDate>Wed, 24 Jul 2024 00:00:00 GMT</pubDate>
-      <description><![CDATA[I was admitted to the PhD in Computer Science at the University of Milan with the project <i>Universal Language Server Protocol and Debugger Adapter Protocol for Modular Language Workbenches</i> under the supervision of Prof. W. Cazzola.]]></description>
-    </item>
-    <item>
-      <title>P4 Compiler in SDN</title>
-      <link>https://federicobruzzone.github.io/activities/presentations/P4-compiler-in-SDN.pdf</link>
-      <guid isPermaLink="false">tag:federicobruzzone.github.io,2024-07-22:activities/p4-compiler-in-sdn</guid>
-      <category>Presentation</category>
-      <pubDate>Mon, 22 Jul 2024 00:00:00 GMT</pubDate>
-      <description><![CDATA[Presentation on the P4 compiler in Software Defined Networking (SDN)]]></description>
-    </item>
-    <item>
-      <title>PhD Project</title>
-      <link>https://federicobruzzone.github.io/activities/presentations/phd-project.pdf</link>
-      <guid isPermaLink="false">tag:federicobruzzone.github.io,2024-07-22:activities/phd-project</guid>
-      <category>Presentation</category>
-      <pubDate>Mon, 22 Jul 2024 00:00:00 GMT</pubDate>
-      <description><![CDATA[Presentation of the PhD project <i>Universal Language Server Protocol and Debugger Adapter Protocol for Modular Language Workbenches</i> at the University of Milan.]]></description>
-    </item>
-    <item>
-      <title>Obtaining the Master&apos;s Degree</title>
-      <link>https://github.com/FedericoBruzzone/master-thesis</link>
-      <guid isPermaLink="false">tag:federicobruzzone.github.io,2024-07-15:activities/obtaining-the-master-s-degree</guid>
-      <category>Activity</category>
-      <pubDate>Mon, 15 Jul 2024 00:00:00 GMT</pubDate>
-      <description><![CDATA[I graduated cum laude in Computer Science at the University of Milan with the thesis <i>Toward a Modular Approach for Type Systems and LSP Generation</i> under the supervision of Prof. W. Cazzola.]]></description>
-    </item>
-    <item>
-      <title>Master&apos;s Thesis</title>
-      <link>https://federicobruzzone.github.io/activities/presentations/master-thesis.pdf</link>
-      <guid isPermaLink="false">tag:federicobruzzone.github.io,2024-07-15:activities/master-s-thesis</guid>
-      <category>Presentation</category>
-      <pubDate>Mon, 15 Jul 2024 00:00:00 GMT</pubDate>
-      <description><![CDATA[Presentation of the Master's Thesis <i>Toward a Modular Approach for Type Systems and LSP Generation</i> at the University of Milan.]]></description>
     </item>
   </channel>
 </rss>

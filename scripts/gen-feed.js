@@ -185,7 +185,10 @@ function addPubOrPreprint(items, type) {
 addPubOrPreprint(RESEARCH_DATA.publications, 'publication');
 addPubOrPreprint(RESEARCH_DATA.preprints, 'preprint');
 
-parseActivities(read('activities/index.html'));
+const activitiesPath = path.join(ROOT, 'activities', 'index.html');
+if (fs.existsSync(activitiesPath)) {
+    parseActivities(read('activities/index.html'));
+}
 
 // Newest first; stable sort preserves the authored order within an equal date.
 items.sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
