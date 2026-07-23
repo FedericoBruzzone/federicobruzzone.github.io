@@ -976,6 +976,12 @@ var RESEARCH_DATA = {
 
   openSourceContributions: [
     {
+      title: "[mlir][sparse] Avoid vectorizing non-contiguous COO coordinate loads",
+      url: "https://github.com/llvm/llvm-project/pull/211004",
+      date: "2026/07/23",
+      project: "llvm-project"
+    },
+    {
       title: "[mlir][ArmSVE] Fix comment inconsistency for `pack_lhs` in `ArmSVE/pack-unpack-mmt4d.mlir` (NFC)",
       url: "https://github.com/llvm/llvm-project/pull/210502",
       date: "2026/07/20",
