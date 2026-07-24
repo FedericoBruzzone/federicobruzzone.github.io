@@ -976,6 +976,18 @@ var RESEARCH_DATA = {
 
   openSourceContributions: [
     {
+      title: "[Codegen][LLVMCPU] Hoist in-loop stack alloca",
+      url: "https://github.com/iree-org/iree/pull/24749",
+      date: "2026/07/24",
+      project: "iree"
+    },
+    {
+      title: "[LLVMCPU] Fix scalable vectorization fallback on SME-only (no +sve) targets",
+      url: "https://github.com/iree-org/iree/pull/24693",
+      date: "2026/07/24",
+      project: "iree"
+    },
+    {
       title: "[mlir][sparse] Avoid vectorizing non-contiguous COO coordinate loads",
       url: "https://github.com/llvm/llvm-project/pull/211004",
       date: "2026/07/23",
