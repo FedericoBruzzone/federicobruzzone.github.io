@@ -8,6 +8,14 @@
     <language>en</language>
     <lastBuildDate>Invalid Date</lastBuildDate>
     <item>
+      <title>Inside a linalg.matmul: A Deep Dive into IREE&apos;s Compilation Pipeline</title>
+      <link>https://federicobruzzone.github.io/posts/inside-a-linalg-matmul-a-deep-dive-into-IREEs-compilation-pipeline.html</link>
+      <guid isPermaLink="false">tag:federicobruzzone.github.io,TODO:posts/inside-a-linalg-matmul-a-deep-dive-into-iree-s-compilation-pipeline</guid>
+      <category>Post</category>
+      <pubDate>Invalid Date</pubDate>
+      <description><![CDATA[TODO]]></description>
+    </item>
+    <item>
       <title>Generalized Software Product Line Extraction</title>
       <link>https://federicobruzzone.github.io/publications/Bruzzone26e-preprint/Bruzzone26e-preprint.pdf</link>
       <guid isPermaLink="false">tag:federicobruzzone.github.io,May, 2026:publications/generalized-software-product-line-extraction</guid>
