@@ -1,0 +1,307 @@
+<!-- Input: un linalg.matmul semplice su tensori — nessuna nozione di hardware, nessun tiling.
+
+Da op "named" a op "generic": prima ancora che si formi una singola dispatch region, GeneralizeLinalgNamedOpsPass riscrive il nostro linalg.matmul—un'operazione "named", cioè con semantica implicita e nome specifico—in un linalg.generic esplicito, con indexing_maps, iterator_types e un corpo (^bb0) che scrive a mano mulf+addf. Perché: quasi tutte le trasformazioni successive (fusion, tiling, l'encoding stesso con i suoi user_indexing_maps) sono scritte una sola volta contro la forma generica, invece di dover reimplementare la stessa logica per ogni op named diversa (matmul, conv, ecc.). Le op named restano comode per scrivere/leggere IR a mano, ma da qui in poi il compilatore ragiona quasi sempre in termini di linalg.generic.
+
+Formazione delle dispatch region: IREE spezzetta il programma in unità di lavoro indipendenti ("dispatch"). Per il nostro matmul, non ne nasce una sola ma quattro: matmul_dispatch_0 (la moltiplicazione vera) più tre dispatch di "encode" (una per LHS, una per RHS, una per l'accumulatore) — perché con --iree-opt-data-tiling=true ogni operando va prima riorganizzato in memoria. E non succede tutto in un colpo: subito dopo l'outlining esiste solo il dispatch del matmul, mentre i tre flow.tensor.encode restano operazioni semplici nel chiamante finché un pass successivo (MaterializeEncodingsPass) non promuove anche loro a dispatch a sé.
+
+Il modello di esecuzione: i workgroup: ogni dispatch dichiara una regione workgroups() -> (index, index, index) che calcola quante istanze parallele e indipendenti del suo corpo lanciare—l'equivalente CPU di una griglia di thread-block CUDA. Nel nostro caso (distribuzione disattivata) si risolve sempre banalmente a 1x1x1: un solo workgroup fa tutto. Il meccanismo completo di come questo numero cresce arriva più avanti (punto 10).
+
+Encoding astratto: perché e come ogni tensore riceve un'etichetta (iree_encoding.encoding) che dice solo "sei l'operando 0/1/2 di un matmul"—nessun numero concreto, indipendente dal target.
+
+Risoluzione per la CPU target: il resolver specifico per Apple M4 (cpu_encoding_resolver) decide i numeri veri: quanto grande un tile, come orientarlo (innerDimsPos, innerTileSizes, outerDimsPerm).
+
+Materializzazione: quell'encoding astratto diventa operazioni concrete—linalg.pack/linalg.unpack per impacchettare/spacchettare i dati, e il matmul stesso diventa linalg.mmt4d invece di un linalg.generic qualsiasi.
+
+Il padding: perché abbiamo scelto apposta 500x500 (non multiplo di 8): l'ultimo pannello di ogni operando ha righe/colonne "finte" da riempire, e linalg.pack usa un padding_value (zero) per farlo. Vale la pena spiegare perché questo non altera il risultato: solo M ed N vengono paddate, non K (la dimensione di riduzione, tile=1)—quindi una riga/colonna finta contribuisce solo a output finto, mai a una cella reale, e linalg.unpack scarta quelle celle finte alla fine senza bisogno di un suo padding_value.
+Padding vs. peeling: il padding non è l'unica strategia che IREE conosce per il problema "la dimensione non è multiplo del tile"—esiste anche un pass dedicato (LLVMCPUPeelPass) usato in altre pipeline (quelle senza data tiling), che invece spacca il loop tilato in due varianti di codice: una per i tile pieni, una per l'avanzo spaiato. Con la data-tiling il problema è già risolto a monte dal padding, quindi nel nostro caso il peeling non scatta mai (verificabile: zero pass di peeling in tutto l'albero di dump).
+Fusion (producer/consumer): perché lo spacchettamento finale dell'output finisce fuso dentro matmul_dispatch_0, mentre l'impacchettamento di LHS/RHS resta un dispatch a sé (regola del singolo uso, e un pass dedicato che li "hoista" fuori apposta, per permettere la concorrenza).
+
+Tiling del ciclo di calcolo: il compilatore spezza il singolo linalg.mmt4d "concettuale" (un colpo su tutti i 63×63 pannelli) in un doppio scf.for esplicito che processa un pannello 8×8 di output alla volta (63×63 = 3969 iterazioni)—non è più un tiling dei dati (quello l'ha già fatto il pack), ma un tiling di come il calcolo vi accede.
+
+Distribuzione in workgroup: un livello ulteriore e più grezzo, controllato da --iree-llvmcpu-disable-distribution, che decide se quelle migliaia di iterazioni vengono eseguite da un solo thread in sequenza (il nostro caso, col flag attivo) o spezzate in una griglia (scf.forall) assegnabile a thread/core diversi—cioè il momento in cui il numero di workgroup del punto 4 smette di essere 1x1x1.
+
+Vettorizzazione, bufferizzazione, lowering a LLVM: il ciclo tilato diventa vettoriale (vector.contract, o una chiamata a un ukernel prebuilt se non disabilitato con --iree-llvmcpu-enable-ukernels=none), i tensori diventano memref (bufferizzazione), e infine tutto viene abbassato al dialect LLVM.
+
+Concorrenza tra dispatch: le tre dispatch di encode possono girare in parallelo tra loro (stream.async.concurrent)—un asse di parallelismo diverso e indipendente dalla distribuzione in workgroup del punto 10.
+
+Linking: i quattro hal.executable compilati separatamente vengono fusi in un unico file ELF—ma restano funzioni separate al suo interno, non fuse (verificato con llvm-dwarfdump).
+
+Esecuzione a runtime: come il programma finale invoca questi kernel compilati—hal.command_buffer.dispatch, ordinali, la funzione iree_hal_executable_library_query. -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../prism.css">
+    <link rel="stylesheet" href="../code.css">
+
+    <script src="../scripts/prism.js" defer></script>
+    <script src="../scripts/prism-mlir.js" defer></script>
+    <script src="../scripts/toc.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    <title>Inside a linalg.matmul: A Deep Dive into IREE's Compilation Pipeline</title>
+
+    <style>
+        .figure {
+            margin: 1.5em 0;
+            text-align: center;
+        }
+
+        .figure img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .figure figcaption {
+            margin-top: 0.5em;
+            font-size: 0.85em;
+            color: #555;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 1em 0;
+            font-size: 0.9em;
+        }
+
+        .table-scroll {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 0.4em 0.7em;
+            text-align: left;
+        }
+
+        th {
+            background: #f4f4f4;
+        }
+
+        blockquote {
+            border-left: 3px solid var(--post-bg-color);
+            margin: 1.2em 0;
+            padding: 0.6em 1em;
+            color: var(--post-foot-color);
+            font-size: 0.95em;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root-folder" value=".."></div>
+    <div id="header"></div>
+
+    <main>
+        <!-- <div id="toc" data-toc-start="h2"></div> -->
+        <div class="post-body">
+            <h1><img src="images/IREE.png" alt="IREE logo" width="20px"/> <img src="images/MLIR.png" alt="MLIR logo" width="20px"/> <img src="images/LLVM.png" alt="LLVM logo" width="20px"/> Inside a <code class="language-mlir">linalg.matmul</code>: A Deep Dive into IREE's Compilation Pipeline</h1>
+
+            <!-- <p>
+                <b>Edit:</b> Take a look at the discussion in the <a href="https://www.reddit.com/r/Compilers/comments/1ublpjn/the_llvm_essence_of_lowering_mlir_to_aarch64_with/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button">Compilers subreddit</a>.
+            </p> -->
+
+            <div style="display: flex; justify-content: center;">
+            <div class="alert-box">
+                ⚠️ Working in progress: this post is in draft. Feedback is welcome! ⚠️
+            </div>
+            </div>
+
+            <p>
+                As part of my research, I recently joined the <a href="https://github.com/iree-org">IREE community</a> on Github and started contributing to the <a href="https://github.com/iree-org/iree"><tt>iree</tt></a> project. 
+
+                I have to say it's a very welcoming and friendly community, and I'm really honored to be part of this group of incredible folks.
+                Naturally, since it is built on top of MLIR/LLVM, my contributions are also focusing on upstream contributions (see my <a href="https://github.com/FedericoBruzzone">GitHub profile</a> for more details).
+            </p>
+            <p>
+                Well, the <a href="https://iree.dev/community/blog/">IREE blog</a> has incredible posts, and I strongly recommend reading all of them. 
+                The following post is partially inspired by <a href="https://iree.dev/community/blog/2024-01-29-iree-mlir-linalg-tutorial/">IREE / MLIR / Linalg tutorial</a>, written by <a href="https://github.com/bjacob">Benoit Jacob</a>.
+
+                Lately, I have been reading a lot of MLIR code generated by IREE, and I find it difficult to read at first glance—not because of IREE, but simply due to the inherent complexity of the domain.
+
+                So, with the hope to help other folks understand the compilation pipeline of IREE, and to help myself understand it better, I decided to write this post, which is a deep dive into the compilation pipeline of IREE, focusing on the <code class="language-mlir">linalg.matmul</code> named, structured operation.
+            </p>
+            <p>
+                This post assumes that the reader has a basic understanding of MLIR and IREE and the motivation behind them.
+                As always, any feedback is welcome, and I will be happy to discuss any topic related to this post.
+            </p>
+
+            <div id="toc" data-toc-start="h2"></div>
+
+            <h2>How to Compile the MLIR <code class="language-mlir">linalg.matmul</code> with IREE</h2>
+            <p>
+                The <code class="language-mlir">linalg.matmul</code> operation is a structured operation that represents the matrix multiplication of two matrices. 
+                It takes two input matrices (<code class="language-mlir">%A</code> and <code class="language-mlir">%B</code>) and produces an output matrix (<code class="language-mlir">%C</code>), following the mathematical definition of matrix multiplication.
+            </p>
+            <p>
+                Nowadays, thanks also to the advent of AI, matrix multiplication is a fundamental operation in many applications. For instance, it's at the heart of the transformer architecture, scientific computing, and many other domains.
+            </p>
+
+            <pre class="" data-language="MLIR"><code class="language-mlir">
+// FILE: /tmp/matmul_500.mlir
+func.func @matmul(%A: tensor<500x500xf32>, 
+                  %B: tensor<500x500xf32>, 
+                  %C: tensor<500x500xf32>) -> tensor<500x500xf32> {
+    %0 = linalg.matmul 
+            ins(%A, %B : tensor<500x500xf32>, tensor<500x500xf32>) 
+            outs(%C : tensor<500x500xf32>) -> tensor<500x500xf32>
+    func.return %0 : tensor<500x500xf32>
+}
+            </code>
+            </pre>
+            <p> 
+                For sake of simplicity, we will focus on square matrices of size <code class="language-mlir">500x500</code> and of type <code class="language-mlir">f32</code>.
+                IREE accepts this representation expressed in the <a href="https://mlir.llvm.org/docs/Dialects/TensorOps/">tensor dialect</a>, and it generates the corresponding code for the target architecture. 
+            </p>
+
+            <p>
+            We analyze the compilation pipeline behind the following command:
+            </p>
+            <pre class="line-numbers" data-line="5-7" data-language="bash"><code class="language-bash">
+iree-compile /tmp/matmul_500.mlir \
+  --iree-hal-target-backends=llvm-cpu \
+  --iree-llvmcpu-target-cpu=apple-m4 \
+  --iree-opt-level=O3 \
+  --iree-llvmcpu-disable-distribution=true \
+  --iree-opt-data-tiling=true \
+  --iree-llvmcpu-enable-ukernels=none \
+  --mlir-disable-threading \
+  --mlir-print-ir-after-all \
+  --mlir-print-ir-after-change \
+  --mlir-print-ir-tree-dir=/tmp/matmul_500 \
+  -o /tmp/matmul_500/matmul_500.vmfb
+                </code></pre>
+                <p>
+                    Firstly, we're targeting the <a href="https://en.wikipedia.org/wiki/Apple_Silicon">Apple M4</a> CPU (line 3) by using LLVM as the backend (line 2) with the optimization level set to <code class="language-mlir">O3</code> (line 4).
+                    Importantly, we are disabling distribution (line 5) because I personally studying the performance in single-core scenarios, we are enabling <a href="https://iree.dev/community/blog/2025-08-25-data-tiling-walkthrough/">data tiling</a> (line 6) to adjust the data layout of our operands (formal parameters), and the microkernels, AKA <i >ukernels</i>, (line 7) are disabled because we want to analyze the generated code from scratch, without any pre-defined kernel (for more information on ukernels, see the <a href="https://iree.dev/community/blog/2024-01-22-exploring-cpu-microkernels-on-a-matmul-example/">Exploring CPU Microkernels on a Matmul Example</a> post).
+                    Finally, the remaining flags (lines 8-11) are used to dump the IR of the compilation pipeline—only when changes are made to the IR—in the <code>/tmp/matmul_500</code> directory, which will be used for our analysis.
+                </p>
+                <p> 
+    An additional useful flag is <code>--iree-hal-dump-executable-configurations-to=/tmp/matmul_500/configs</code>, which writes one standalone, self-contained <code>.mlir</code> file per <code class="language-mlir">hal.executable</code>—one per dispatch—capturing the IR right after the codegen strategy has been selected (the <code>translation_info</code> and <code>lowering_config</code> attributes are already set) but before the actual tiling/vectorization/bufferization pipeline runs. Unlike the tree dump above, each of these files includes the full <code class="language-mlir">hal.executable.variant</code>/<code class="language-mlir">hal.executable.export</code> wrapping around the function, so it can be fed back into <code class="language-shell">iree-opt</code> on its own.
+</p>
+
+        <p>
+            My <i>version information</i> is:
+        </p>
+        <pre class="line-numbers" data-line="3-3" data-language="bash"><code class="language-bash">
+$ iree-compile --version
+IREE (https://iree.dev):
+  IREE compiler version dev @ 442c605b3f85b0728389abb83ad842db38d5108e
+  LLVM version 24.0.0git
+  Optimized build with assertions
+        </code></pre>
+
+
+        <h2>From a Named Op to a Generic Op</h2>
+<p>
+    Our tidy little <code class="language-mlir">linalg.matmul</code> is already gone after the first few passes of the compilation pipeline. 
+    If you look a couple of passes in, it has been rewritten into a <code class="language-mlir">linalg.generic</code>:
+</p>
+<pre class="" data-language="MLIR"><code class="language-mlir">
+// FILE: /tmp/matmul_500/builtin_module_no-symbol-name/util_func_matmul/4_0_iree-global-opt-generalize-linalg-named-ops.mlir
+%3 = linalg.generic {
+    indexing_maps = [affine_map<(d0, d1, d2) -> (d0, d2)>,
+                     affine_map<(d0, d1, d2) -> (d2, d1)>,
+                     affine_map<(d0, d1, d2) -> (d0, d1)>],
+    iterator_types = ["parallel", "parallel", "reduction"]
+} ins(%0, %1 : tensor<500x500xf32>, tensor<500x500xf32>) outs(%2 : tensor<500x500xf32>) {
+^bb0(%in: f32, %in_0: f32, %out: f32):
+  %5 = arith.mulf %in, %in_0 : f32
+  %6 = arith.addf %out, %5 : f32
+  linalg.yield %6 : f32
+} -> tensor<500x500xf32>
+</code></pre>
+<p>
+    <code class="language-mlir">linalg.matmul</code> is what's called a <b>named</b> operation: its semantics are implicit in its name, and MLIR knows what it means without spelling anything out. <code class="language-mlir">linalg.generic</code>, on the other hand, spells everything out explicitly: <code class="language-mlir">indexing_maps</code> say how each operand's indices relate to the iteration space (<code class="language-mlir">d0, d1, d2</code>), <code class="language-mlir">iterator_types</code> say which of those dimensions are parallel and which are a reduction, and the small region (<code class="language-mlir">^bb0</code>) spells out, scalar by scalar, what happens at each point: multiply, then accumulate.
+</p>
+<p>
+    Why bother throwing away a perfectly good, compact name? Because almost everything the compiler does from this point on—fusing operations together, tiling, and even the encoding step we're about to see, with its own <code class="language-mlir">user_indexing_maps</code>—is implemented <em>once</em>, against this generic representation, instead of being reimplemented separately for every named operation (matmul, convolution, and so on). <code class="language-mlir">linalg.generic</code> is the common language all of these passes actually speak; named ops exist mostly for convenience when reading or writing IR by hand.
+</p>
+<p>
+    This particular rewrite is done by a pass called <code>GeneralizeLinalgNamedOpsPass</code>, and it runs early—well before dispatch regions, encodings, or anything hardware-specific enters the picture.
+</p>
+
+
+            <h2>Formation of Dispatch Regions</h2>
+<p>
+    A <b>dispatch</b> is IREE's basic unit of compiled, independently-invocable work—the closest analogy is a single kernel launch on a GPU, generalized to also run on CPU. Before anything else happens, IREE has to decide: out of our one <code class="language-mlir">linalg.matmul</code>, how many separate dispatches do we actually need?
+</p>
+<p>
+    This doesn't happen all in one shot. Right after <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/Flow/Transforms/OutlineDispatchRegions.cpp#L157-L203">OutlineDispatchRegionsPass</a> runs, only <b>one</b> dispatch exists so far—the matmul itself, pulled out into its own compiled unit, <code class="language-mlir">@matmul_dispatch_0</code>:
+</p>
+<pre class="" data-language="MLIR"><code class="language-mlir">
+// FILE: /tmp/matmul_500/builtin_module_no-symbol-name/10_iree-flow-outline-dispatch-regions.mlir
+flow.executable private @matmul_dispatch_0 {
+  flow.executable.export public @matmul_dispatch_0 workgroups() -> (index, index, index) { ... }
+  builtin.module {
+    func.func @matmul_dispatch_0(%arg0: ..., %arg1: ..., %arg2: ..., %arg3: ...) {
+      ...
+      %3 = linalg.generic {...} ins(%0, %1 : tensor&lt;500x500xf32, #encoding&gt;, tensor&lt;500x500xf32, #encoding1&gt;)
+                              outs(%2 : tensor&lt;500x500xf32, #encoding2&gt;) { ... } -> tensor&lt;500x500xf32, #encoding2&gt;
+      %4 = iree_encoding.unset_encoding %3 : tensor&lt;500x500xf32, #encoding2&gt; -> tensor&lt;500x500xf32&gt;
+      ...
+    }
+  }
+}
+util.func public @matmul(...) {
+  %0 = hal.tensor.import %arg0 "input0" : !hal.buffer_view -> tensor&lt;500x500xf32&gt;
+  ...
+  %3 = flow.tensor.encode %0 : tensor&lt;500x500xf32&gt; -> tensor&lt;500x500xf32, #encoding&gt;
+  %4 = flow.tensor.encode %1 : tensor&lt;500x500xf32&gt; -> tensor&lt;500x500xf32, #encoding1&gt;
+  %5 = flow.tensor.encode %2 : tensor&lt;500x500xf32&gt; -> tensor&lt;500x500xf32, #encoding2&gt;
+  %6 = flow.dispatch @matmul_dispatch_0::@matmul_dispatch_0(%3, %4, %5) : ... -> tensor&lt;500x500xf32&gt;
+  ...
+}
+</code></pre>
+<p>
+    Notice the three <code class="language-mlir">flow.tensor.encode</code> ops sitting right in the caller, <code class="language-mlir">util.func @matmul</code>—they are still plain, un-dispatched operations at this point. Only the matmul's own computation was important enough to earn a dispatch of its own, straight away.
+</p>
+<p>
+    A few passes later, at <code>MaterializeEncodingsPass</code>, those three <code class="language-mlir">flow.tensor.encode</code> ops get the same treatment: each one is promoted into its own dispatch too. This is the moment our single matmul becomes four separate compiled kernels:
+</p>
+<pre class="" data-language="MLIR"><code class="language-mlir">
+// FILE: /tmp/matmul_500/builtin_module_no-symbol-name/17_iree-stream-materialize-encodings.mlir
+stream.executable private @matmul_dispatch_0 { ... }
+stream.executable private @_encoding_0 { ... }
+stream.executable private @_encoding_1 { ... }
+stream.executable private @_encoding_2 { ... }
+...
+%6 = stream.async.dispatch @_encoding_0::@_encoding_0_encode_500x500xf32_to_500x500xf32(...) : ... -> !stream.resource&lt;*&gt;{%c1008000}
+%7 = stream.async.dispatch @_encoding_1::@_encoding_1_encode_500x500xf32_to_500x500xf32(...) : ... -> !stream.resource&lt;*&gt;{%c1008000}
+%8 = stream.async.dispatch @_encoding_2::@_encoding_2_encode_500x500xf32_to_500x500xf32(...) : ... -> !stream.resource&lt;*&gt;{%c1016064}
+%9 = stream.async.dispatch @matmul_dispatch_0::@matmul_dispatch_0_matmul_like_500x500x500_f32(%6, %7, %8) : ... -> !stream.resource&lt;*&gt;{%c1000000}
+</code></pre>
+<p>
+    From here on, <code class="language-mlir">_encoding_0</code>, <code class="language-mlir">_encoding_1</code> and <code class="language-mlir">_encoding_2</code> are first-class dispatches, exactly like <code class="language-mlir">matmul_dispatch_0</code>—each one will get its own lowering strategy, its own tiling, its own compiled machine code, and, as we'll see later, its own opportunity to run concurrently with the others.
+</p>
+<p>
+    (Every file referenced above is reproducible: compile the <code class="language-mlir">matmul_500.mlir</code> from the previous section with the exact command shown, and you'll find these same files under <code>/tmp/matmul_500/builtin_module_no-symbol-name/</code>.)
+</p>
+
+
+
+            <div class="bibtex" year="2026" month="Aug"></div>
+        </div>
+    </main>
+
+    <div id="footer"></div>
+    <script src="../scripts/toggle-theme.js"></script>
+    <script src="../scripts/load-header.js"></script>
+    <script src="../scripts/load-footer.js"></script>
+    <script src="../scripts/load-cits.js"></script>
+    <script src="../scripts/load-bib.js"></script>
+</body>

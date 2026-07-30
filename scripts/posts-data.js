@@ -1,5 +1,16 @@
 var POSTS_DATA = [
   {
+    url: "posts/inside-a-linalg-matmul-a-deep-dive-into-IREEs-compilation-pipeline.html",
+    title: "Inside a <code class=\"language-mlir\">linalg.matmul</code>: A Deep Dive into IREE's Compilation Pipeline",
+    desc: "TODO",
+    date: "TODO",
+    dateDisplay: "TODO",
+    readTime: "TODO",
+    titlePrefix: '<img src="posts/images/IREE.png" alt="IREE logo" width="17px"/> <img src="posts/images/MLIR.png" alt="MLIR logo" width="17px"/> <img src="posts/images/LLVM.png" alt="LLVM logo" width="17px"/>',
+    series: null,
+    showOnIndex:false
+  },
+  {
     url: "posts/a-multi-dimensional-per-pass-empirical-study-of-the-llvm-optimization-pipeline.html",
     title: "A Multi-Dimensional, Per-Pass Empirical Study of the LLVM Optimization Pipeline",
     desc: "We ran every cumulative prefix of the LLVM -O3 pipeline on 30 PolyBench/C kernels (84,750 measurements). The pipeline is non-monotone, back-loaded, and -O3 is Pareto-dominated in 29/30 benchmarks. A per-pass look at runtime, binary size, hardware counters, and energy.",
