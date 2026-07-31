@@ -52,7 +52,7 @@ Prism.languages.mlir = {
   // DIALECT NAMES (vector, arith, func)
   // =========================
   dialect: {
-    pattern: /\b(func|arith|memref|tensor|util|vector|scf|linalg|llvm|affine|arm_sme|hal|builtin|flow|stream|iree_encoding)(?![\w.])/,
+    pattern: /\b(func|arith|memref|tensor|util|vector|scf|linalg|llvm|affine|arm_sme|hal|builtin|flow|stream|iree_encoding|iree_tensor_ext)(?![\w.])/,
     alias: "keyword"
   },
 
@@ -100,7 +100,7 @@ Prism.languages.mlir = {
   // DIALECT PREFIX (arith, vector before the dot)
   // =========================
   dialect_prefix: {
-    pattern: /\b(arith|vector|func|memref|tensor|util|scf|linalg|llvm|affine|arm_sme|hal|builtin|flow|stream|iree_encoding)(?=\.)/,
+    pattern: /\b(arith|vector|func|memref|tensor|util|scf|linalg|llvm|affine|arm_sme|hal|builtin|flow|stream|iree_encoding|iree_tensor_ext)(?=\.)/,
     alias: "class-name"
   },
 
