@@ -32,6 +32,7 @@ Esecuzione a runtime: come il programma finale invoca questi kernel compilati—
 
 Bonus—memoizzazione del command buffer (util_func___matmul_memoize_apply/_lookup): IREE registra una volta sola, a inizializzazione del modulo, l'intera sequenza dei 4 dispatch (bindings e barriere comprese) dentro un hal.command_buffer, salvato in una global. Ogni chiamata successiva a @matmul non ri-registra nulla—chiama solo __matmul_memoize_lookup per riprendere il command buffer già pronto. Spiega perché chiamate ripetute alla stessa funzione esportata sono economiche. -->
 
+
 <!DOCTYPE html>
 <html lang="en">
 
