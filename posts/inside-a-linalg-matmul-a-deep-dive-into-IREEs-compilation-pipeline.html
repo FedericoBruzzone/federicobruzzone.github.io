@@ -249,10 +249,21 @@ iree-compile /tmp/matmul_500.mlir \
 
                 <h2>Setting the Encoding</h2>
                 <p>
-                    Right after our matmul becomes a <code class="language-mlir">linalg.generic</code>, and before any concrete dispatch exists, a pass called <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/DispatchCreation/SetEncoding.cpp">SetEncodingPass</a> attaches an <b>encoding</b> to each operand—a label that says nothing about hardware yet, only about the operand's role in the computation.
+                    Before diving into the mechanics, it's worth asking a simple question: <i>why does a matrix need to be touched at all before multiplying it? Why can't the CPU just multiply <code class="language-mlir">%A</code> and <code class="language-mlir">%B</code> as they are, row by row?</i>
+                </p>
+                <p>
+                    A modern CPU can process more than one number at a time—it has SIMD registers that crunch several numbers together in a single instruction, and a cache that rewards reading memory in small, contiguous chunks. A plain row-major matrix doesn't give the CPU either of these for free: to compute one output element you need one row of <code class="language-mlir">%A</code> and one <em>column</em> of <code class="language-mlir">%B</code>, and a column of a row-major matrix is scattered across memory, one element every 500 floats apart in our case.
+                </p>
+                <p>
+                    IREE's answer to this is <b>data tiling</b> (sometimes called <i>packing</i>): before the actual multiplication happens, it physically rewrites each operand into small, regular blocks so that everything needed for one step of the computation is already sitting contiguous in memory. This is what <code class="language-shell">--iree-opt-data-tiling=true</code> turns on, and the mechanism that drives it, end to end, is exactly what this and the next few sections walk through: an encoding. See <a href="https://iree.dev/community/blog/2025-08-25-data-tiling-walkthrough/">Data Tiling Walkthrough</a> for a more detailed explanation.
                 </p>
 
-                <pre class="" data-line="5-7" data-language="MLIR"><code class="language-mlir">
+                <p>
+                    Anyway, right after our matmul becomes a <code class="language-mlir">linalg.generic</code>, and before any concrete dispatch exists, a pass called <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/DispatchCreation/SetEncoding.cpp">SetEncodingPass</a> attaches an <b>encoding</b> to each operand—a label that says nothing about hardware yet, only about the operand's role in the computation.
+                    Its immediate follow-up, <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/DispatchCreation/HoistEncodingOps.cpp">HoistEncodingOpsPass</a>, then pulls those three new operations out of the way, so they're free to become their own independent dispatches later:
+                </p>
+
+                <pre class="" data-line="5-7, 12-14, 17" data-language="MLIR"><code class="language-mlir">
                 // FILE: /tmp/matmul_500/builtin_module_no-symbol-name/7_iree-dispatch-creation-hoist-encoding-ops.mlir
                 #map = affine_map<(d0, d1, d2) -> (d0, d2)>
                 #map1 = affine_map<(d0, d1, d2) -> (d2, d1)>
@@ -262,13 +273,8 @@ iree-compile /tmp/matmul_500.mlir \
                                                      iteration_sizes = [500, 500, 500]&gt;
                 #encoding1 = #iree_encoding.encoding&lt;operand_index = 1 : index, ...&gt;
                 #encoding2 = #iree_encoding.encoding&lt;operand_index = 2 : index, ...&gt;
-                </code></pre>
-
-                <p>
-                Its immediate follow-up, <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/DispatchCreation/HoistEncodingOps.cpp">HoistEncodingOpsPass</a>, then pulls those three new operations out of the way, so they're free to become their own independent dispatches later:
-                </p>
-                <pre class="" data-line="2-4, 7" data-language="MLIR"><code class="language-mlir">
-                // FILE: /tmp/matmul_500/builtin_module_no-symbol-name/7_iree-dispatch-creation-hoist-encoding-ops.mlir
+                
+                ...
                 %6 = iree_encoding.set_encoding %1 : tensor&lt;500x500xf32&gt; -> tensor&lt;500x500xf32, #encoding&gt;
                 %7 = iree_encoding.set_encoding %3 : tensor&lt;500x500xf32&gt; -> tensor&lt;500x500xf32, #encoding1&gt;
                 %8 = iree_encoding.set_encoding %5 : tensor&lt;500x500xf32&gt; -> tensor&lt;500x500xf32, #encoding2&gt;
@@ -344,15 +350,102 @@ iree-compile /tmp/matmul_500.mlir \
             #encoding5 = #iree_encoding.encoding&lt;operand_index = 2 : index, op_type = matmul, ...&gt;
             </code></pre>
             <p>
-                Notice both layers now coexist side by side: <code class="language-mlir">#encoding3</code>/<code class="language-mlir">#encoding4</code>/<code class="language-mlir">#encoding5</code> are still the same abstract, target-agnostic labels from before. <code class="language-mlir">#encoding</code>/<code class="language-mlir">#encoding1</code>/<code class="language-mlir">#encoding2</code> are new: a <code class="language-mlir">#iree_cpu.cpu_encoding_resolver</code>, specific to <code class="language-shell">apple-m4</code>, has decided the actual physical tile shape for each operand—<code class="language-mlir">innerTileSizes = [8, 1]</code> for the LHS and RHS (8 rows/columns per panel), <code class="language-mlir">[8, 8]</code> for the accumulator (8&times;8 output blocks), plus <code class="language-mlir">innerDimsPos</code>/<code class="language-mlir">outerDimsPerm</code> saying which axis gets tiled and in what order.
+                Notice both layers now coexist side by side: <code class="language-mlir">#encoding3</code>/<code class="language-mlir">#encoding4</code>/<code class="language-mlir">#encoding5</code> are still the same abstract, target-agnostic labels from before. <code class="language-mlir">#encoding</code>/<code class="language-mlir">#encoding1</code>/<code class="language-mlir">#encoding2</code> are new: a <code class="language-mlir">#iree_cpu.cpu_encoding_resolver</code>, specific to <code class="language-shell">apple-m4</code>, has decided the actual physical tile shape for each operand—<code class="language-mlir">innerTileSizes = [8, 1]</code> for the LHS and RHS (8 rows/columns per panel), <code class="language-mlir">[8, 8]</code> for the accumulator (8x8 output blocks), plus <code class="language-mlir">innerDimsPos</code>/<code class="language-mlir">outerDimsPerm</code> saying which axis gets tiled and in what order.
+                We'll come back to exactly how to read <code class="language-mlir">innerDimsPos</code>, <code class="language-mlir">innerTileSizes</code>, and <code class="language-mlir">outerDimsPerm</code> a bit later, once we see the actual <code class="language-mlir">linalg.pack</code> operation they produce.
             </p>
             <p>
                 These numbers come purely from the target's vector width and ISA—not from the <code class="language-mlir">500x500</code> size of our problem. Change the target CPU and these tile shapes can change; change the matrix size and they won't.
             </p>
+
+            <h2>The Encode Operations Become Dispatches of Their Own</h2>
             <p>
-                We'll come back to exactly how to read <code class="language-mlir">innerDimsPos</code>, <code class="language-mlir">innerTileSizes</code>, and <code class="language-mlir">outerDimsPerm</code> a bit later, once we see the actual <code class="language-mlir">linalg.pack</code> operation they produce.
+                Now that the tile shapes are known, a pass called <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/Stream/Transforms/MaterializeEncodings.cpp">MaterializeEncodingsPass</a> gives the same treatment to the three <code class="language-mlir">flow.tensor.encode</code> ops we've been carrying around since the very first section—until now, plain inline operations in the caller. Each one is promoted into its own independent dispatch, exactly like the matmul already was:
+            </p>
+            <pre class="" data-line="8-21" data-language="MLIR"><code class="language-mlir">
+            // FILE: /tmp/matmul_500/builtin_module_no-symbol-name/17_iree-stream-materialize-encodings.mlir
+            stream.executable private @matmul_dispatch_0 {
+                stream.executable.export public @matmul_dispatch_0_matmul_like_500x500x500_f32 workgroups() -> (index, index, index) { ... }
+                builtin.module {
+                    func.func @matmul_dispatch_0_matmul_like_500x500x500_f32( ... ) { ... }
+                }
+            }
+            stream.executable private @_encoding_0 {
+                stream.executable.export public @_encoding_0_encode_500x500xf32_to_500x500xf32 workgroups() -> (index, index, index) { ... }
+                builtin.module {
+                    func.func @_encoding_0_encode_500x500xf32_to_500x500xf32(%arg0: !stream.binding, %arg1: !stream.binding) {
+                        %c0 = arith.constant 0 : index
+                        %0 = stream.binding.subspan %arg0[%c0] : !stream.binding -> !iree_tensor_ext.dispatch.tensor<readonly:tensor<500x500xf32>>
+                        %1 = stream.binding.subspan %arg1[%c0] : !stream.binding -> !iree_tensor_ext.dispatch.tensor<writeonly:tensor<500x500xf32, #encoding>>
+                        %2 = iree_tensor_ext.dispatch.tensor.load %0, offsets = [0, 0], sizes = [500, 500], strides = [1, 1] : !iree_tensor_ext.dispatch.tensor<readonly:tensor<500x500xf32>> -> tensor<500x500xf32>
+                        %3 = iree_encoding.set_encoding %2 : tensor<500x500xf32> -> tensor<500x500xf32, #encoding>
+                        iree_tensor_ext.dispatch.tensor.store %3, %1, offsets = [0, 0], sizes = [500, 500], strides = [1, 1] : tensor<500x500xf32, #encoding> -> !iree_tensor_ext.dispatch.tensor<writeonly:tensor<500x500xf32, #encoding>>
+                        return
+                    }
+                }
+            }
+            stream.executable private @_encoding_1 { ... }
+            stream.executable private @_encoding_2 { ... }
+
+            ...
+            %6 = stream.async.dispatch on(...) @_encoding_0::@_encoding_0_encode_500x500xf32_to_500x500xf32(...) : (!stream.resource&lt;*&gt;{%c1000000}) -> !stream.resource&lt;*&gt;{%c1008000}
+            %7 = stream.async.dispatch on(...) @_encoding_1::@_encoding_1_encode_500x500xf32_to_500x500xf32(...) : (!stream.resource&lt;*&gt;{%c1000000}) -> !stream.resource&lt;*&gt;{%c1008000}
+            %8 = stream.async.dispatch on(...) @_encoding_2::@_encoding_2_encode_500x500xf32_to_500x500xf32(...) : (!stream.resource&lt;*&gt;{%c1000000}) -> !stream.resource&lt;*&gt;{%c1016064}
+            %9 = stream.async.dispatch 
+                @matmul_dispatch_0::@matmul_dispatch_0_matmul_like_500x500x500_f32(%6, %7, %8) : (...) -> !stream.resource&lt;*&gt;{%c1000000}
+            </code></pre>
+            <p>
+                From here on, <code class="language-mlir">@_encoding_0</code>, <code class="language-mlir">@_encoding_1</code>, and <code class="language-mlir">@_encoding_2</code> are first-class dispatches, exactly like <code class="language-mlir">@matmul_dispatch_0</code>: each will get its own lowering strategy, its own tiling, its own compiled machine code—and, since <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/DispatchCreation/HoistEncodingOps.cpp">HoistEncodingOpsPass</a> already pulled them out of the matmul's region, its own opportunity to run concurrently with the others, as we'll see later.
+            </p>
+            <p>
+                Our single <code class="language-mlir">linalg.matmul</code> is now, quite literally, four separate compiled kernels.
             </p>
 
+            <h3>Sizes Already Known: Stream Resources and Slicing</h3>
+            <p>
+                Look again at the dispatch calls above—specifically the bracket syntax and the resource types:
+            </p>
+            <pre class="" data-language="MLIR"><code class="language-mlir">
+            // FILE: /tmp/matmul_500/builtin_module_no-symbol-name/17_iree-stream-materialize-encodings.mlir
+            %c1016064 = arith.constant 1016064 : index
+            %c1008000 = arith.constant 1008000 : index
+            %c1000000 = arith.constant 1000000 : index
+
+            ...
+            %6 = stream.async.dispatch @_encoding_0::@_encoding_0_encode_500x500xf32_to_500x500xf32(
+                %1[%c0_0 to %c1000000 for %c1000000]) : (!stream.resource&lt;*&gt;{%c1000000}) -> !stream.resource&lt;*&gt;{%c1008000}
+            ...
+            %9 = stream.async.dispatch @matmul_dispatch_0::@matmul_dispatch_0_matmul_like_500x500x500_f32(
+                %6[%c0 to %c1008000 for %c1008000], 
+                %7[%c0 to %c1008000 for %c1008000], 
+                %8[%c0 to %c1016064 for %c1016064]) : (...) -> !stream.resource&lt;*&gt;{%c1000000}
+            </code></pre>
+            <p>
+                The bracket syntax <code class="language-mlir">%resource[%offset to %end for %length]</code> is a <b>slice</b> of a <code class="language-mlir">!stream.resource</code>—IREE's underlying, untyped byte buffer abstraction. Dispatches don't necessarily each get a fresh allocation; they read and write slices of resources that the stream layer manages and can reuse, and every value carries its exact byte size right in its type: <code class="language-mlir">!stream.resource&lt;*&gt;{%c1008000}</code> means <i>a resource of exactly 1.008.000 bytes</i>.
+            </p>
+            <p>
+                Those numbers aren't arbitrary, and tracing exactly where they first appear reveals one more step we haven't covered yet. <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/Stream/Transforms/SpecializeEncodings.cpp">SpecializeEncodingsPass</a>, from the previous section, only resolves the encoding on the <em>types</em>—no byte counts yet. It's the very next pass, <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/Stream/Transforms/EncodeTensors.cpp">EncodeHostTensorsPass</a>, that computes these byte counts for the first time and produces a single, abstract <code class="language-mlir">stream.tensor.encode</code> operation per operand:
+            </p>
+            <pre class="" data-language="MLIR"><code class="language-mlir">
+            // FILE: /tmp/matmul_500/builtin_module_no-symbol-name/util_func_matmul/15_12_iree-stream-encode-host-tensors.mlir
+            %6 = stream.tensor.encode on(...) %1 : tensor&lt;500x500xf32&gt; in !stream.resource&lt;*&gt;{%c1000000}
+                -> tensor&lt;500x500xf32, #iree_encoding.layout&lt;...innerTileSizes = [8, 1]...&gt;&gt; in !stream.resource&lt;*&gt;{%c1008000}
+            </code></pre>
+            <p>
+                Only afterwards does <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/Stream/Transforms/MaterializeEncodings.cpp">MaterializeEncodingsPass</a> turn that single operation into a full dispatch, and the byte counts are carried forward into the dispatch's resource types.
+            </p>
+            <p>
+                Worth checking these numbers by hand, since they already tell us most of the story we're about to see in detail:
+            </p>
+            <ul>
+                <li><code class="language-mlir">1.000.000</code> bytes = <code class="language-mlir">500 &times; 500 &times; 4</code>—a plain, unpacked <code class="language-mlir">f32</code> buffer.</li>
+                <li><code class="language-mlir">1.008.000</code> bytes = <code class="language-mlir">63 &times; 500 &times; 8 &times; 1 &times; 4</code>—exactly the packed LHS/RHS shape, padding included.</li>
+                <li><code class="language-mlir">1.016.064</code> bytes = <code class="language-mlir">63 &times; 63 &times; 8 &times; 8 &times; 4</code>—exactly the packed accumulator shape.</li>
+            </ul>
+            <p>
+                In other words: by the time any dispatch exists at all, the compiler already knows exactly how big the padded, tiled buffers will be. What's still missing is the actual operation that turns <code class="language-mlir">1.000.000</code> bytes of plain data into <code class="language-mlir">1.008.000</code> bytes of tiled data. That's exactly what we look at next.
+            </p>
+
+            <h2>TO BE CONTINUED...</h2>
 
 
             <div class="bibtex" year="2026" month="Aug"></div>
