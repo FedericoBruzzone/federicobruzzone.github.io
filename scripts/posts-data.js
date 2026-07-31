@@ -1,14 +1,14 @@
 var POSTS_DATA = [
   {
     url: "posts/inside-a-linalg-matmul-a-deep-dive-into-IREEs-compilation-pipeline.html",
-    title: "Inside a <code class=\"language-mlir\">linalg.matmul</code>: A Deep Dive into IREE's Compilation Pipeline",
-    desc: "TODO",
-    date: "TODO",
-    dateDisplay: "TODO",
-    readTime: "TODO",
+    title: "Inside a <code>linalg.matmul</code>: A Deep Dive into IREE's Compilation Pipeline",
+    desc: "⚠️Work in progress. Feedback is welcome!️️⚠️",
+    date: "TBD",
+    dateDisplay: "TBD",
+    readTime: "TBD",
     titlePrefix: '<img src="posts/images/IREE.png" alt="IREE logo" width="17px"/> <img src="posts/images/MLIR.png" alt="MLIR logo" width="17px"/> <img src="posts/images/LLVM.png" alt="LLVM logo" width="17px"/>',
     series: null,
-    showOnIndex:false
+    showOnIndex:true
   },
   {
     url: "posts/a-multi-dimensional-per-pass-empirical-study-of-the-llvm-optimization-pipeline.html",
