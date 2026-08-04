@@ -1,6 +1,18 @@
 var RESEARCH_DATA = {
   publications: [
     {
+      title: "Symmetry preservation in modular rewritable muliformalism models",
+      url: "/publications/Bruzzone26g/Bruzzone26g.pdf",
+      authors: "L. Capra and F. Bruzzone",
+      venue: "<b>CEUR Workshop Proceedings, Vol. 4236</b>",
+      note: 'Workshop paper (poster) at PNAS\'26 &middot; <a href="https://ceur-ws.org/Vol-4236/">CEUR-WS.org</a>',
+      links: [
+        { label: "bib", url: "/publications/Bruzzone26g/Bruzzone26g.bib" },
+        { label: "pdf", url: "/publications/Bruzzone26g/Bruzzone26g.pdf" },
+      ],
+      date: "August, 2026"
+    },
+    {
       title: "Sink or SWIM: Tackling Real-Time ASR at Scale",
       url: "/publications/Bruzzone26/Bruzzone26.pdf",
       authors: "F. Bruzzone, W. Cazzola, M. Brancaleoni, and D. Pellegrino",
