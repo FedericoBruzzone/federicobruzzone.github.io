@@ -1,37 +1,45 @@
 <!-- Input: un linalg.matmul semplice su tensori — nessuna nozione di hardware, nessun tiling.
 
-Da op "named" a op "generic": prima ancora che si formi una singola dispatch region, GeneralizeLinalgNamedOpsPass riscrive il nostro linalg.matmul—un'operazione "named", cioè con semantica implicita e nome specifico—in un linalg.generic esplicito, con indexing_maps, iterator_types e un corpo che scrive a mano mulf+addf. Perché: quasi tutte le trasformazioni successive (fusion, tiling, l'encoding stesso) sono scritte una sola volta contro la forma generica, invece di essere reimplementate per ogni op named diversa.
+Da op "named" a op "generic": GeneralizeLinalgNamedOpsPass riscrive linalg.matmul in linalg.generic esplicito, prima ancora che esista una dispatch region. Perché: le trasformazioni successive si scrivono una sola volta contro la forma generica.
 
-Encoding astratto: subito dopo (file 6 nel nostro dump, ben prima che esista una singola dispatch region), ogni tensore riceve un'etichetta (iree_encoding.encoding) che dice solo "sei l'operando 0/1/2 di un matmul"—nessun numero concreto, indipendente dal target. È qui, tra l'altro, che gira anche HoistEncodingOpsPass, che tiene questi encoding "in cima" alla funzione invece di lasciarli annidati dentro operazioni che verranno poi raggruppate.
+Encoding astratto: quattro pass, in questo ordine cronologico reale, tutti annidati nella stessa finestra:
 
-Formazione della prima dispatch region, e i workgroup: IREE spezzetta il programma in unità di lavoro indipendenti ("dispatch"). Ma non lo fa tutto in un colpo: a questo stadio (OutlineDispatchRegionsPass) nasce solo il dispatch del matmul vero e proprio, matmul_dispatch_0—i tre operandi restano ancora semplici flow.tensor.encode nel chiamante, non ancora promossi a dispatch propri. È in questo stesso passo che compare, per la prima volta, la regione workgroups() -> (index, index, index) (creata da MaterializeDefaultWorkgroupCountRegionPass): ogni dispatch ne dichiara una, che calcola quante istanze parallele e indipendenti del suo corpo lanciare—l'equivalente CPU di una griglia di thread-block CUDA. Nel nostro caso (distribuzione disattivata) si risolverà sempre banalmente a 1x1x1; il meccanismo completo di come questo numero può crescere arriva molto più avanti.
+InsertTensorBarriersPass (4_1): inserisce marcatori iree_tensor_ext.compute_barrier.start/.end attorno alla regione di calcolo—puramente interni al compilatore, delimitano dove certe trasformazioni successive (es. propagazione di reshape) possono agire, nessun effetto a runtime. Sono i marcatori che si vedono già negli snippet di codice mostrati, senza mai essere stati spiegati finora. Vengono rimossi più avanti da RemoveTensorBarriersPass (8_7), una volta che la dispatch region è formata.
+FormDispatchRegionsPass (5_2): crea per la prima volta il flow.dispatch.region che avvolge il matmul—il vero pass dietro a qualcosa che finora mostravamo come se esistesse già.
+AnnotateDataTilingHintsPass (5_4): marca il linalg.generic del matmul con l'attributo {iree.opt.data_tiling}—è il meccanismo concreto con cui --iree-opt-data-tiling=true seleziona questa specifica operazione come candidata all'encoding.
+SetEncodingPass (5_5): attacca l'etichetta iree_encoding.encoding a ogni operando—solo il ruolo nel matmul, nessun numero concreto. HoistEncodingOpsPass (radice, file 7) tiene questi encoding fuori dalla regione, per permettere concorrenza più avanti.
+Motivazione aggiunta in apertura della sezione: perché serve toccare il layout dei dati (SIMD, cache, data tiling) prima ancora di mostrare la meccanica.
+Formazione della prima dispatch region, e i workgroup: ConvertEncodingToFlowPass (annidato, 7_6) converte gli iree_encoding.set_encoding/unset_encoding nella forma flow.tensor.encode che vediamo nel dump—il vero pass dietro quella conversione, non semplicemente "outline". OutlineDispatchRegionsPass (radice, 10) poi outlina solo il matmul per ora (matmul_dispatch_0)—i tre flow.tensor.encode restano ancora inline nel chiamante. MaterializeDefaultWorkgroupCountRegionPass introduce la regione workgroups(), che si risolve banalmente a 1x1x1 col nostro flag.
 
-Risoluzione per la CPU target: solo dopo che il matmul ha già il suo dispatch, un pass (SpecializeEncodingsPass) risolve l'encoding astratto in numeri veri specifici per Apple M4 (cpu_encoding_resolver): quanto grande un tile, come orientarlo (innerDimsPos, innerTileSizes, outerDimsPerm). Prima di questo momento, l'encoding esisteva solo nella forma astratta del punto 3. (Spiegheremo più avanti, al punto 7, esattamente come si legge questa terna di numeri—qui restano solo introdotti.)
+Risoluzione per la CPU target: SpecializeEncodingsPass risolve l'encoding astratto in numeri veri (innerDimsPos, innerTileSizes, outerDimsPerm) specifici per Apple M4. (Spiegheremo più avanti, al punto 10, esattamente come si legge questa terna—qui solo introdotti, con un accenno alla shape risultante come anticipo.)
 
-Verifica empirica: abbiamo compilato lo stesso matmul per target diversi (Apple M4/NEON vs x86_64 znver4/AVX-512) e per size diverse (64, 128, 500, 512, 4096, 6146) sullo stesso target—confermato che questi numeri dipendono solo dal target (8→16 cambiando ISA), mai dalla dimensione del problema (identici su sei size diverse).
-Gli encode diventano dispatch a sé: ora che i numeri sono noti, un pass successivo (MaterializeEncodingsPass) promuove anche i tre flow.tensor.encode—finora semplici operazioni inline nel chiamante—a dispatch indipendenti (_encoding_0, _encoding_1, _encoding_2), esattamente come già accaduto per il matmul. Da qui in poi il nostro programma è fatto di quattro dispatch a pieno titolo, ognuno con la propria strategia di lowering, il proprio tiling, il proprio codice macchina.
+Verifica empirica: stesso target/size diverse → stessi tile; stesso size/target diversi (NEON vs AVX-512) → tile diversi (8→16). Confermato con compilazioni vere.
+Gli encode diventano dispatch a sé: MaterializeEncodingsPass promuove i tre flow.tensor.encode a dispatch indipendenti (_encoding_0/1/2). Da qui in poi: quattro dispatch a pieno titolo.
 
-Materializzazione fisica: molto più avanti nella pipeline, dentro ciascun dispatch, quell'encoding risolto diventa operazioni concrete—linalg.pack/linalg.unpack per impacchettare/spacchettare i dati, e il matmul stesso diventa linalg.mmt4d invece di un linalg.generic qualsiasi. Qui rientrano hal_executable__encoding_0/1/2 (il cuore del pack/padding) e in parte hal_executable_matmul_dispatch_0 (l'mmt4d).
+Dimensioni già note: stream resource e slicing: SpecializeEncodingsPass (risolve solo i tipi) → EncodeHostTensorsPass (annidato, calcola per la prima volta i byte reali: 1.000.000 → 1.008.000 → 1.016.064) → MaterializeEncodingsPass (sostituisce l'operatore astratto con i tre dispatch/executable veri).
+LayoutSlicesPass, gli offset esatti: annidato a util_func_matmul/23_17_...—i tre buffer impacchettati diventano un'unica allocazione da 3.032.064 byte, con offset espliciti: LHS [0, 1.008.000), RHS [1.008.000, 2.016.000), accumulatore [2.016.000, 3.032.064). FuseDispatchBindingsPass (28, radice) adatta poi le firme delle dispatch a questo layout.
+Concorrenza tra dispatch: ScheduleConcurrencyPass (annidato, 19_15) introduce stream.async.concurrent, raggruppando le tre encode in un blocco parallelo. ScheduleExecutionPass (19_14) crea solo il contenitore stream.async.execute prima. Il passo radice 23 eredita la concorrenza già decisa e la converte in forma allocata stream.cmd.concurrent. Cronologicamente precede tutto il codegen dei punti 10-13.
 
-Come si legge innerDimsPos/innerTileSizes/outerDimsPerm: la formula meccanica per calcolare la shape risultante da un linalg.pack, applicata ai numeri veri di LHS e RHS (perché per RHS innerDimsPos/outerDimsPerm sono invertiti, e cosa significa in pratica).
-Il padding: perché abbiamo scelto apposta 500x500 (non multiplo di 8): l'ultimo pannello di ogni operando ha righe/colonne "finte" da riempire, e linalg.pack usa un padding_value (zero) per farlo. Vale la pena spiegare perché questo non altera il risultato: solo M ed N vengono paddate, non K (la dimensione di riduzione, tile=1)—quindi una riga/colonna finta contribuisce solo a output finto, mai a una cella reale, e linalg.unpack scarta quelle celle finte alla fine senza bisogno di un suo padding_value.
-Padding vs. peeling: il padding non è l'unica strategia che IREE conosce per il problema "la dimensione non è multiplo del tile"—esiste anche un pass dedicato (LLVMCPUPeelPass) usato in altre pipeline (quelle senza data tiling), che invece spacca il loop tilato in due varianti di codice: una per i tile pieni, una per l'avanzo spaiato. Con la data-tiling il problema è già risolto a monte dal padding, quindi nel nostro caso il peeling non scatta mai (verificabile: zero pass di peeling in tutto l'albero di dump).
-Fusion (producer/consumer): perché lo spacchettamento finale dell'output finisce fuso dentro matmul_dispatch_0, mentre l'impacchettamento di LHS/RHS resta un dispatch a sé (regola del singolo uso, e un pass dedicato che li "hoista" fuori apposta, per permettere la concorrenza).
+Housekeeping intermedio, e il gateway verso il codegen: bookkeeping a livello di modulo tra i passi 17 e 37. Il passo che conta: iree-hal-materialize-interfaces (37)—da qui in poi tutto vive nelle sottocartelle hal_executable_.../.
 
-Tiling del ciclo di calcolo (dentro hal_executable_matmul_dispatch_0): il compilatore spezza il singolo linalg.mmt4d "concettuale" (un colpo su tutti i 63×63 pannelli) in un doppio scf.for esplicito che processa un pannello 8×8 di output alla volta (63×63 = 3969 iterazioni), tramite LLVMCPUTileAndFuseProducerConsumerPass e LLVMCPUTileToVectorSizePass—pass di puro tiling, separati da quello di distribuzione. Non è più un tiling dei dati (quello l'ha già fatto il pack), ma un tiling di come il calcolo vi accede.
+Materializzazione fisica: l'encoding risolto diventa linalg.pack/linalg.unpack, il matmul diventa linalg.mmt4d. Qui rientrano hal_executable__encoding_0/1/2 e in parte hal_executable_matmul_dispatch_0.
 
-Distribuzione in workgroup: un livello ulteriore e più grezzo, controllato da --iree-llvmcpu-disable-distribution (pass TileAndDistributeToWorkgroupsUsingForallOpPass, che tila E distribuisce insieme—non esiste distribuzione senza questo tiling), che decide se quelle migliaia di iterazioni vengono eseguite da un solo thread in sequenza (il nostro caso, col flag attivo) o spezzate in una griglia (scf.forall) assegnabile a thread/core diversi—cioè il momento in cui il numero di workgroup del punto 4 smette di essere 1x1x1.
+Come si legge innerDimsPos/innerTileSizes/outerDimsPerm: la formula meccanica, applicata a LHS e RHS.
+Il padding: perché 500 non multiplo di 8, perché non altera il risultato.
+Padding vs. peeling: LLVMCPUPeelPass come alternativa usata altrove, mai qui.
+Fusion (producer/consumer): perché l'unpack finale si fonde in matmul_dispatch_0, mentre il pack di LHS/RHS resta un dispatch a sé.
 
-Vettorizzazione, bufferizzazione, lowering a LLVM (dentro hal_executable_matmul_dispatch_0): il ciclo tilato diventa vettoriale (vector.contract, o una chiamata a un ukernel prebuilt se non disabilitato con --iree-llvmcpu-enable-ukernels=none), i tensori diventano memref (bufferizzazione), e infine tutto viene abbassato al dialect LLVM.
+Tiling del ciclo di calcolo: LLVMCPUTileAndFuseProducerConsumerPass + LLVMCPUTileToVectorSizePass spezzano l'mmt4d in un doppio scf.for (63×63 iterazioni).
 
-Concorrenza tra dispatch: le tre dispatch di encode possono girare in parallelo tra loro (stream.async.concurrent)—un asse di parallelismo diverso e indipendente dalla distribuzione in workgroup del punto 10.
+Distribuzione in workgroup: TileAndDistributeToWorkgroupsUsingForallOpPass—decide se le iterazioni girano su un thread o su una griglia di workgroup diversi.
 
-Linking (hal_executable_matmul_500_linked): i quattro hal.executable compilati separatamente vengono fusi in un unico file ELF—ma restano funzioni separate al suo interno, non fuse (verificato con llvm-dwarfdump).
+Vettorizzazione, bufferizzazione, lowering a LLVM: vector.contract (o ukernel), bufferizzazione, abbassamento a LLVM.
 
-Esecuzione a runtime: come il programma finale invoca questi kernel compilati—hal.command_buffer.dispatch, ordinali, la funzione iree_hal_executable_library_query.
+Linking: quattro hal.executable fusi in un unico ELF, funzioni separate al suo interno.
 
-Bonus—memoizzazione del command buffer (util_func___matmul_memoize_apply/_lookup): IREE registra una volta sola, a inizializzazione del modulo, l'intera sequenza dei 4 dispatch (bindings e barriere comprese) dentro un hal.command_buffer, salvato in una global. Ogni chiamata successiva a @matmul non ri-registra nulla—chiama solo __matmul_memoize_lookup per riprendere il command buffer già pronto. Spiega perché chiamate ripetute alla stessa funzione esportata sono economiche. -->
+Esecuzione a runtime: hal.command_buffer.dispatch, ordinali, iree_hal_executable_library_query.
 
+Bonus—memoizzazione del command buffer: la sequenza di 4 dispatch registrata una volta sola a inizializzazione. -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -133,13 +141,14 @@ Bonus—memoizzazione del command buffer (util_func___matmul_memoize_apply/_look
             </p>
 
             <p>
-                This post is a deep dive into the compilation pipeline of IREE, focusing on the <code class="language-mlir">linalg.matmul</code> operation.
+                Lately, I have been reading a lot of MLIR code generated by IREE, and I find it difficult to read at first glance—not because of IREE.
+                So, with the hope to help other folks understand the compilation pipeline of IREE, and to help myself understand it better, I decided to write this post.
+
+                It is a deep dive into the compilation pipeline of IREE, focusing on the <code class="language-mlir">linalg.matmul</code> operation.
                 Well, the <a href="https://iree.dev/community/blog/">IREE blog</a> has incredible posts, and I strongly recommend reading all of them. 
                 The following post is partially inspired by <a href="https://iree.dev/community/blog/2024-01-29-iree-mlir-linalg-tutorial/">IREE / MLIR / Linalg tutorial</a> by B. Jacob, and <a href="https://iree.dev/community/blog/2025-08-25-data-tiling-walkthrough/">Data Tiling Walkthrough</a> by H. Wang.
 
-                Lately, I have been reading a lot of MLIR code generated by IREE, and I find it difficult to read at first glance—not because of IREE, but simply due to the inherent complexity of the domain.
 
-                So, with the hope to help other folks understand the compilation pipeline of IREE, and to help myself understand it better, I decided to write this post.
             </p>
             <p>
                 The following assumes that the reader has a basic understanding of MLIR and IREE and the motivation behind them.
@@ -177,7 +186,7 @@ func.func @matmul(%A: tensor<500x500xf32>,
             <p>
             We analyze the compilation pipeline behind the following command:
             </p>
-            <pre class="line-numbers" data-line="5-7" data-language="bash"><code class="language-bash">
+            <pre class="" data-line="5-7" data-language="bash"><code class="language-bash">
 iree-compile /tmp/matmul_500.mlir \
   --iree-hal-target-backends=llvm-cpu \
   --iree-llvmcpu-target-cpu=apple-m4 \
@@ -260,8 +269,28 @@ iree-compile /tmp/matmul_500.mlir \
                 </p>
 
                 <p>
-                    Anyway, right after our matmul becomes a <code class="language-mlir">linalg.generic</code>, and before any concrete dispatch exists, a pass called <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/DispatchCreation/SetEncoding.cpp">SetEncodingPass</a> attaches an <b>encoding</b> to each operand—a label that says nothing about hardware yet, only about the operand's role in the computation.
-                    Its immediate follow-up, <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/DispatchCreation/HoistEncodingOps.cpp">HoistEncodingOpsPass</a>, then pulls those three new operations out of the way, so they're free to become their own independent dispatches later:
+                    Before any of that, though, a few smaller passes prepare the ground. Right after our matmul becomes a <code class="language-mlir">linalg.generic</code>, <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/DispatchCreation/InsertTensorBarriers.cpp">InsertTensorBarriersPass</a> wraps it with a pair of <code class="language-mlir">iree_tensor_ext.compute_barrier.start</code>/<code class="language-mlir">.end</code> markers—purely internal bookkeeping that fences off the boundaries of the computation region so that later passes (like reshape propagation) don't accidentally reach across it. They have no effect at runtime, and they're removed again once the dispatch region has settled. Then <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/DispatchCreation/FormDispatchRegions.cpp">FormDispatchRegionsPass</a> creates the very first <code class="language-mlir">flow.dispatch.region</code>, wrapping just the matmul for now:
+                </p>
+                <pre class="" data-language="MLIR"><code class="language-mlir">
+                // FILE: /tmp/matmul_500/builtin_module_no-symbol-name/util_func_matmul/5_2_iree-dispatch-creation-form-dispatch-regions.mlir
+                %1 = iree_tensor_ext.compute_barrier.start %0 : tensor&lt;500x500xf32&gt; -> tensor&lt;500x500xf32&gt;
+                %3 = iree_tensor_ext.compute_barrier.start %2 : tensor&lt;500x500xf32&gt; -> tensor&lt;500x500xf32&gt;
+                %5 = iree_tensor_ext.compute_barrier.start %4 : tensor&lt;500x500xf32&gt; -> tensor&lt;500x500xf32&gt;
+                %6 = flow.dispatch.region -> (tensor&lt;500x500xf32&gt;) {
+                    %9 = linalg.generic {...} ins(%1, %3 : ...) outs(%5 : ...) { ... } -> tensor&lt;500x500xf32&gt;
+                    flow.return %9 : tensor&lt;500x500xf32&gt;
+                }
+                %7 = iree_tensor_ext.compute_barrier.end %6 : tensor&lt;500x500xf32&gt; -> tensor&lt;500x500xf32&gt;
+                </code></pre>
+                <p>
+                    Next, <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/DispatchCreation/AnnotateDataTilingHints.cpp">AnnotateDataTilingHintsPass</a> marks the matmul itself as a candidate for data tiling—this is the actual mechanism behind the <code class="language-shell">--iree-opt-data-tiling=true</code> flag: it doesn't turn data tiling on globally, it tags the specific operations eligible for it:
+                </p>
+                <pre class="" data-language="MLIR"><code class="language-mlir">
+                // FILE: /tmp/matmul_500/builtin_module_no-symbol-name/util_func_matmul/5_4_iree-dispatch-creation-annotate-data-tiling-hints.mlir
+                %9 = linalg.generic {...} ins(%1, %3 : ...) outs(%5 : ...) attrs = {iree.opt.data_tiling} { ... } -> tensor&lt;500x500xf32&gt;
+                </code></pre>
+                <p>
+                    Only now does <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/DispatchCreation/SetEncoding.cpp">SetEncodingPass</a> attach an <b>encoding</b> to each operand—a label that says nothing about hardware yet, only about the operand's role in the computation. Its immediate follow-up, <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/DispatchCreation/HoistEncodingOps.cpp">HoistEncodingOpsPass</a>, then pulls those three new operations out of the way, so they're free to become their own independent dispatches later:
                 </p>
 
                 <pre class="" data-line="5-7, 12-14, 17" data-language="MLIR"><code class="language-mlir">
@@ -274,8 +303,8 @@ iree-compile /tmp/matmul_500.mlir \
                                                      iteration_sizes = [500, 500, 500]&gt;
                 #encoding1 = #iree_encoding.encoding&lt;operand_index = 1 : index, ...&gt;
                 #encoding2 = #iree_encoding.encoding&lt;operand_index = 2 : index, ...&gt;
-                
-                ...
+
+                ... (the same compute_barrier.start ops from before) ...
                 %6 = iree_encoding.set_encoding %1 : tensor&lt;500x500xf32&gt; -> tensor&lt;500x500xf32, #encoding&gt;
                 %7 = iree_encoding.set_encoding %3 : tensor&lt;500x500xf32&gt; -> tensor&lt;500x500xf32, #encoding1&gt;
                 %8 = iree_encoding.set_encoding %5 : tensor&lt;500x500xf32&gt; -> tensor&lt;500x500xf32, #encoding2&gt;
@@ -296,7 +325,7 @@ iree-compile /tmp/matmul_500.mlir \
 
                 <h2>Formation of the First Dispatch Region, and Workgroups</h2>
                 <p>
-                    A <b>dispatch</b> is IREE's basic unit of compiled, independently-invocable work—the closest analogy is a single kernel launch on a GPU, generalized to also run on CPU. Right after <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/Flow/Transforms/OutlineDispatchRegions.cpp">OutlineDispatchRegionsPass</a> runs, only <b>one</b> dispatch exists so far—the matmul itself, pulled out into its own compiled unit, <code class="language-mlir">@matmul_dispatch_0</code>:
+                    A <b>dispatch</b> is IREE's basic unit of compiled, independently-invocable work—the closest analogy is a single kernel launch on a GPU, generalized to also run on CPU. One more small conversion happens first: <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/DispatchCreation/ConvertEncodingToFlow.cpp">ConvertEncodingToFlowPass</a> rewrites the <code class="language-mlir">iree_encoding.set_encoding</code> ops we just hoisted out into the <code class="language-mlir">flow.tensor.encode</code> form we're about to see below—the dialect that dispatch formation actually operates on. Only then does <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/Flow/Transforms/OutlineDispatchRegions.cpp">OutlineDispatchRegionsPass</a> run, and only <b>one</b> dispatch exists so far—the matmul itself, pulled out into its own compiled unit, <code class="language-mlir">@matmul_dispatch_0</code>:
                 </p>
                 <pre class="" data-line="8-14, 23" data-language="MLIR"><code class="language-mlir">
                 // FILE: /tmp/matmul_500/builtin_module_no-symbol-name/10_iree-flow-outline-dispatch-regions.mlir
@@ -443,7 +472,19 @@ iree-compile /tmp/matmul_500.mlir \
                 <li><code class="language-mlir">1.016.064</code> bytes = <code class="language-mlir">63 &times; 63 &times; 8 &times; 8 &times; 4</code>—exactly the packed accumulator shape.</li>
             </ul>
             <p>
-                In other words: by the time any dispatch exists at all, the compiler already knows exactly how big the padded, tiled buffers will be. What's still missing is the actual operation that turns <code class="language-mlir">1.000.000</code> bytes of plain data into <code class="language-mlir">1.008.000</code> bytes of tiled data. That's exactly what we look at next.
+                In other words: by the time any dispatch exists at all, the compiler already knows exactly how big the padded, tiled buffers will be.
+            </p>
+            <p>
+                It goes further, actually: a pass called <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/Stream/Transforms/LayoutSlices.cpp">LayoutSlicesPass</a> decides that the three packed buffers don't each need their own allocation—they can share <b>one</b> physical buffer of <code class="language-mlir">3.032.064</code> bytes (<code class="language-mlir">1.008.000 + 1.008.000 + 1.016.064</code>), with each dispatch simply writing to its own offset within it:
+            </p>
+            <pre class="" data-language="MLIR"><code class="language-mlir">
+            // FILE: /tmp/matmul_500/builtin_module_no-symbol-name/util_func_matmul/23_17_iree-stream-layout-slices.mlir
+            stream.cmd.dispatch @_encoding_0::@..._0 { wo %arg7[%c0      for %c1008000] : ... }   // LHS:  [0, 1.008.000)
+            stream.cmd.dispatch @_encoding_1::@..._1 { wo %arg7[%c1008000 for %c1008000] : ... }  // RHS:  [1.008.000, 2.016.000)
+            stream.cmd.dispatch @_encoding_2::@..._2 { wo %arg7[%c2016000 for %c1016064] : ... }  // Acc:  [2.016.000, 3.032.064)
+            </code></pre>
+            <p>
+                One buffer, three tenants, laid out back to back—one fewer allocation for the runtime to manage. What's still missing is the actual operation that turns <code class="language-mlir">1.000.000</code> bytes of plain data into <code class="language-mlir">1.008.000</code> bytes of tiled data. That's exactly what we look at next.
             </p>
 
             <h2>TO BE CONTINUED...</h2>
