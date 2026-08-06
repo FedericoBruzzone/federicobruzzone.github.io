@@ -19,6 +19,9 @@
         html += "\n<br>\n\n";
         html += renderIndexPost(latest[i], "latest");
       } else if (i === 2) {
+        html += "\n<br>\n\n";
+        html += renderIndexPost(latest[i], "latest");
+      } else if (i === 3) {
         html +=
           '\n<details class="collapsible">\n' +
           '    <summary>Show older posts</summary>\n' +
@@ -29,7 +32,7 @@
         html += renderIndexPost(latest[i], "latest");
       }
     }
-    if (latest.length > 2) {
+    if (latest.length > 3) {
       html += "\n</details>\n";
     }
     container.innerHTML = html;

@@ -1,5 +1,7 @@
 (function () {
-  var sorted = POSTS_DATA.slice().sort(function (a, b) { return b.date.localeCompare(a.date); });
+  var sorted = POSTS_DATA.filter(function (p) {
+    return p.showOnIndex !== false;
+  }).sort(function (a, b) { return b.date.localeCompare(a.date); });
   var container = document.getElementById("posts-list-container");
   if (!container) return;
 
