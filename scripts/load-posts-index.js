@@ -1,10 +1,11 @@
 (function () {
   renderLatestPosts();
-  renderEterSeries();
+  // renderEterSeries();
 
   function renderLatestPosts() {
     var latest = POSTS_DATA.filter(function (p) {
-      return p.series !== "eter" && p.showOnIndex !== false;
+      // return p.series !== "eter" && p.showOnIndex !== false;
+      return p.showOnIndex !== false;
     }).sort(function (a, b) { return b.date.localeCompare(a.date); });
 
     var container = document.getElementById("latest-posts-container");
@@ -34,34 +35,34 @@
     container.innerHTML = html;
   }
 
-  function renderEterSeries() {
-    var eter = POSTS_DATA.filter(function (p) {
-      return p.series === "eter" && p.showOnIndex !== false;
-    }).sort(function (a, b) { return b.date.localeCompare(a.date); });
+  // function renderEterSeries() {
+  //   var eter = POSTS_DATA.filter(function (p) {
+  //     return p.series === "eter" && p.showOnIndex !== false;
+  //   }).sort(function (a, b) { return b.date.localeCompare(a.date); });
 
-    var container = document.getElementById("eter-posts-container");
-    if (!container) return;
+  //   var container = document.getElementById("eter-posts-container");
+  //   if (!container) return;
 
-    var html = "";
-    for (var i = 0; i < eter.length; i++) {
-      if (i === 0) {
-        html += renderIndexPost(eter[i], "eter");
-      } else if (i === 1) {
-        html +=
-          '\n<details class="collapsible">\n' +
-          '    <summary>Show older Eter Series posts</summary>\n' +
-          "    <br>\n";
-        html += renderIndexPost(eter[i], "eter");
-      } else {
-        html += "\n<br>\n";
-        html += renderIndexPost(eter[i], "eter");
-      }
-    }
-    if (eter.length > 1) {
-      html += "\n</details>\n";
-    }
-    container.innerHTML = html;
-  }
+  //   var html = "";
+  //   for (var i = 0; i < eter.length; i++) {
+  //     if (i === 0) {
+  //       html += renderIndexPost(eter[i], "eter");
+  //     } else if (i === 1) {
+  //       html +=
+  //         '\n<details class="collapsible">\n' +
+  //         '    <summary>Show older Eter Series posts</summary>\n' +
+  //         "    <br>\n";
+  //       html += renderIndexPost(eter[i], "eter");
+  //     } else {
+  //       html += "\n<br>\n";
+  //       html += renderIndexPost(eter[i], "eter");
+  //     }
+  //   }
+  //   if (eter.length > 1) {
+  //     html += "\n</details>\n";
+  //   }
+  //   container.innerHTML = html;
+  // }
 
   function renderIndexPost(post, section) {
     var themeClass =
