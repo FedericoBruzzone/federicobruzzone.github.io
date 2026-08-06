@@ -988,6 +988,18 @@ var RESEARCH_DATA = {
 
   openSourceContributions: [
     {
+      title: "[mlir][ArmNeon] Reject masked contractions in `I8MM/BFMMLA` lowering patterns",
+      url: "https://github.com/llvm/llvm-project/pull/213698",
+      date: "2026/08/06",
+      project: "llvm-project"
+    },
+    {
+      title: "[TailRecElim] Introduce support for shift accumulator optimization",
+      url: "https://github.com/llvm/llvm-project/pull/181331",
+      date: "2026/08/06",
+      project: "llvm-project"
+    },
+    {
       title: "[Codegen][LLVMCPU] Hoist in-loop stack alloca",
       url: "https://github.com/iree-org/iree/pull/24749",
       date: "2026/07/24",
