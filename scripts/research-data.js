@@ -988,6 +988,12 @@ var RESEARCH_DATA = {
 
   openSourceContributions: [
     {
+      title: "[TailRecElim] Fix miscompile of returns using a non-eliminated recursive call",
+      url: "https://github.com/llvm/llvm-project/pull/214503",
+      date: "2026/08/10",
+      project: "llvm-project"
+    },
+    {
       title: "[mlir][vector] Verify non-unit strides on `masked/expand/compress` ops",
       url: "https://github.com/llvm/llvm-project/pull/210952",
       date: "2026/08/07",
