@@ -988,6 +988,12 @@ var RESEARCH_DATA = {
 
   openSourceContributions: [
     {
+      title: "[mlir][ArmNeon] Add linalg.matmul e2e tests",
+      url: "https://github.com/llvm/llvm-project/pull/212809",
+      date: "2026/08/12",
+      project: "llvm-project"
+    },
+    {
       title: "[TailRecElim] Fix miscompile of returns using a non-eliminated recursive call",
       url: "https://github.com/llvm/llvm-project/pull/214503",
       date: "2026/08/10",
