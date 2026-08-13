@@ -1,5 +1,14 @@
 (function () {
   var D = RESEARCH_DATA;
+
+  var LINK_BADGES = {
+    bib: "badge-gray",
+    pdf: "badge-red",
+    arXiv: "badge-orange",
+    IEEE: "badge-navy",
+    SpringerLink: "badge-green"
+  };
+
   renderContainer("index-publications-container", renderPubOrPreprint, D.publications, "publication");
   renderContainer("index-preprints-container", renderPubOrPreprint, D.preprints, "preprint");
 
@@ -24,11 +33,13 @@
     if (item.links && item.links.length) {
       var parts = [];
       for (var i = 0; i < item.links.length; i++) {
+        var label = item.links[i].label;
+        var cls = "link-badge " + (LINK_BADGES[label] || "badge-gray");
         parts.push(
-          '<code><a href="' + item.links[i].url + '">' + item.links[i].label + "</a></code>"
+          '<a class="' + cls + '" href="' + item.links[i].url + '">' + label + "</a>"
         );
       }
-      linksHtml = parts.join(" &middot; ");
+      linksHtml = parts.join(" ");
     }
 
     var html =
