@@ -432,7 +432,7 @@ iree-compile /tmp/matmul_500.mlir \
 
             <h3>Sizes Already Known: Stream Resources and Slicing</h3>
             <p>
-                Look again at the dispatch calls above—specifically the bracket syntax and the resource types:
+                Look again at the dispatch calls above (<code class="language-mlir">stream.async.dispatch</code>). Each one takes a <code class="language-mlir">!stream.resource</code> as input and produces a <code class="language-mlir">!stream.resource</code> as output, and the type of each resource carries an exact byte size in its type:
             </p>
             <pre class="" data-language="MLIR"><code class="language-mlir">
             // FILE: /tmp/matmul_500/builtin_module_no-symbol-name/17_iree-stream-materialize-encodings.mlir
@@ -440,17 +440,20 @@ iree-compile /tmp/matmul_500.mlir \
             %c1008000 = arith.constant 1008000 : index
             %c1000000 = arith.constant 1000000 : index
 
-            ...
             %6 = stream.async.dispatch @_encoding_0::@_encoding_0_encode_500x500xf32_to_500x500xf32(
                 %1[%c0_0 to %c1000000 for %c1000000]) : (!stream.resource&lt;*&gt;{%c1000000}) -> !stream.resource&lt;*&gt;{%c1008000}
-            ...
+            %7 = stream.async.dispatch @_encoding_1::@_encoding_1_encode_500x500xf32_to_500x500xf32(
+                %3[%c0_1 to %c1000000 for %c1000000]) : (!stream.resource<*>{%c1000000}) -> !stream.resource<*>{%c1008000}
+            %8 = stream.async.dispatch @_encoding_2::@_encoding_2_encode_500x500xf32_to_500x500xf32(
+                %5[%c0_2 to %c1000000 for %c1000000]) : (!stream.resource<*>{%c1000000}) -> !stream.resource<*>{%c1016064}
             %9 = stream.async.dispatch @matmul_dispatch_0::@matmul_dispatch_0_matmul_like_500x500x500_f32(
                 %6[%c0 to %c1008000 for %c1008000], 
                 %7[%c0 to %c1008000 for %c1008000], 
                 %8[%c0 to %c1016064 for %c1016064]) : (...) -> !stream.resource&lt;*&gt;{%c1000000}
             </code></pre>
             <p>
-                The bracket syntax <code class="language-mlir">%resource[%offset to %end for %length]</code> is a <b>slice</b> of a <code class="language-mlir">!stream.resource</code>—IREE's underlying, untyped byte buffer abstraction. Dispatches don't necessarily each get a fresh allocation; they read and write slices of resources that the stream layer manages and can reuse, and every value carries its exact byte size right in its type: <code class="language-mlir">!stream.resource&lt;*&gt;{%c1008000}</code> means <i>a resource of exactly 1.008.000 bytes</i>.
+                The bracket syntax <code class="language-mlir">%resource[%offset to %end for %length]</code> is a <b>slice</b> of a <code class="language-mlir">!stream.resource</code>—IREE's underlying, untyped byte buffer abstraction. Note that the <code class="language-mlir">%resource</code> is different for each dispatch (<code class="language-mlir">%1</code>, <code class="language-mlir">%3</code>, and <code class="language-mlir">%5</code>).
+                Dispatches don't necessarily each get a fresh allocation; they read and write slices of resources that the stream layer manages and can reuse, and every value carries its exact byte size right in its type: <code class="language-mlir">!stream.resource&lt;*&gt;{%c1008000}</code> means <i>a resource of exactly 1.008.000 bytes</i>.
             </p>
             <p>
                 Those numbers aren't arbitrary, and tracing exactly where they first appear reveals one more step we haven't covered yet. <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/Stream/Transforms/SpecializeEncodings.cpp">SpecializeEncodingsPass</a>, from the previous section, only resolves the encoding on the <em>types</em>—no byte counts yet. It's the very next pass, <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/Stream/Transforms/EncodeTensors.cpp">EncodeHostTensorsPass</a>, that computes these byte counts for the first time and produces a single, abstract <code class="language-mlir">stream.tensor.encode</code> operation per operand:
@@ -487,8 +490,42 @@ iree-compile /tmp/matmul_500.mlir \
                 One buffer, three tenants, laid out back to back—one fewer allocation for the runtime to manage. What's still missing is the actual operation that turns <code class="language-mlir">1.000.000</code> bytes of plain data into <code class="language-mlir">1.008.000</code> bytes of tiled data. That's exactly what we look at next.
             </p>
 
-            <h2>TO BE CONTINUED...</h2>
+            <h2>Concurrency Between Dispatches</h2>
 
+            <p>
+                Right after the four dispatches exist, but well before any of their internal codegen even starts, the compiler decides which of them can run at the same time. <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/Stream/Transforms/ScheduleExecution.cpp">ScheduleExecutionPass</a> first wraps everything—all four dispatches—inside a single <code class="language-mlir">stream.async.execute</code> region, one after another, with no notion yet of which ones are independent:
+            </p>
+            <pre class="" data-language="MLIR"><code class="language-mlir">
+            // FILE: /tmp/matmul_500/builtin_module_no-symbol-name/util_func_matmul/20_14_iree-stream-schedule-execution.mlir
+            %results, %result_timepoint = stream.async.execute on(...) with(...) -> !stream.resource&lt;external&gt;{%c1000000} {
+                %5 = stream.async.dispatch @_encoding_0::@_encoding_0_encode_500x500xf32_to_500x500xf32(...) : ... -> !stream.resource&lt;transient&gt;{%c1008000}
+                %6 = stream.async.dispatch @_encoding_1::@_encoding_1_encode_500x500xf32_to_500x500xf32(...) : ... -> !stream.resource&lt;transient&gt;{%c1008000}
+                %7 = stream.async.dispatch @_encoding_2::@_encoding_2_encode_500x500xf32_to_500x500xf32(...) : ... -> !stream.resource&lt;transient&gt;{%c1016064}
+                %8 = stream.async.dispatch @matmul_dispatch_0::@matmul_dispatch_0_matmul_like_500x500x500_f32(%5, %6, %7) : ... -> !stream.resource&lt;external&gt;{%c1000000}
+            }
+            </code></pre>
+            <p>
+                The very next pass, <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/Stream/Transforms/ScheduleConcurrency.cpp">ScheduleConcurrencyPass</a>, looks at the data dependencies between those four dispatches and notices something we already knew from way back: the three <code class="language-mlir">_encoding_N</code> dispatches don't read each other's output—each only reads one of the three original operands—while <code class="language-mlir">matmul_dispatch_0</code> needs all three of their results. So it wraps the three independent ones in a <code class="language-mlir">stream.async.concurrent</code> block, and leaves the matmul dispatch outside it, after:
+            </p>
+            <pre class="" data-language="MLIR"><code class="language-mlir">
+            // FILE: /tmp/matmul_500/builtin_module_no-symbol-name/util_func_matmul/20_15_iree-stream-schedule-concurrency.mlir
+            %results, %result_timepoint = stream.async.execute on(...) with(...) -> !stream.resource&lt;external&gt;{%c1000000} {
+                %5:3 = stream.async.concurrent with(...) -> (!stream.resource&lt;transient&gt;{%c1008000}, !stream.resource&lt;transient&gt;{%c1008000}, !stream.resource&lt;transient&gt;{%c1016064}) {
+                    %7 = stream.async.dispatch @_encoding_0::@_encoding_0_encode_500x500xf32_to_500x500xf32(...) : ... -> !stream.resource&lt;transient&gt;{%c1008000}
+                    %8 = stream.async.dispatch @_encoding_1::@_encoding_1_encode_500x500xf32_to_500x500xf32(...) : ... -> !stream.resource&lt;transient&gt;{%c1008000}
+                    %9 = stream.async.dispatch @_encoding_2::@_encoding_2_encode_500x500xf32_to_500x500xf32(...) : ... -> !stream.resource&lt;transient&gt;{%c1016064}
+                    stream.yield %7, %8, %9 : ...
+                }
+                %6 = stream.async.dispatch @matmul_dispatch_0::@matmul_dispatch_0_matmul_like_500x500x500_f32(%5#0, %5#1, %5#2) : ... -> !stream.resource&lt;external&gt;{%c1000000}
+                stream.yield %6 : !stream.resource&lt;external&gt;{%c1000000}
+            }
+            </code></pre>
+            <p>
+                This is decided at the whole-module level, entirely independently of anything we've seen so far about tiling or vectorization inside a single dispatch—in fact it happens well <em>before</em> any per-dispatch codegen even begins. It's also worth noting what this concurrency is <em>not</em>: it says nothing about which CPU core runs what, or how many threads are involved. That's a separate, later decision (the workgroup distribution we touched on earlier), about splitting the work <em>inside</em> one dispatch across a hardware grid. This is a different, coarser axis: whether the runtime can even start issuing multiple dispatches before earlier ones finish.
+            </p>
+            <p>
+                A little further down the pipeline, <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/Stream/Transforms/ScheduleAllocation.cpp">ScheduleAllocationPass</a> (<code class="language-shell">iree-stream-schedule-allocation</code>) inherits this same grouping and converts it into the buffer-allocated form, <code class="language-mlir">stream.cmd.concurrent</code>—same three dispatches, same structure, just with real memory behind it (the <code class="language-mlir">LayoutSlicesPass</code> offsets we saw in the previous section).
+            </p>
 
             <div class="bibtex" year="2026" month="Aug"></div>
         </div>
