@@ -19,8 +19,6 @@
     --latest-post-bg      : rgb(237, 231, 246);
     --research-activity-bg: rgb(224, 242, 241);
     --dissemination-bg    : rgb(252, 228, 236);
-    --personal-project-bg : rgb(240, 244, 195);
-    --oss-contribution-bg : rgb(232, 234, 246);
     --education-bg        : rgb(255, 248, 225);
     --teaching-bg         : rgb(241, 248, 233);
     --proposal-bg         : rgb(237, 232, 248);
@@ -55,8 +53,6 @@ body.dark-mode {
     --latest-post-bg      : rgb(55 , 40 , 75 );
     --research-activity-bg: rgb(38 , 66 , 65 );
     --dissemination-bg    : rgb(72 , 48 , 56 );
-    --personal-project-bg : rgb(62 , 66 , 38 );
-    --oss-contribution-bg : rgb(45 , 48 , 72 );
     --education-bg        : rgb(84 , 73 , 43 );
     --teaching-bg         : rgb(56 , 66 , 43 );
     --proposal-bg         : rgb(65 , 48 , 78 );
@@ -395,6 +391,105 @@ tr:nth-child(even) {
     margin-bottom: 0.3rem;
 }
 
+.reverted-badge {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 0.5rem;
+    padding: 0.1rem 0.5rem;
+    border: 1px solid rgba(200, 60, 60, 0.6);
+    border-radius: 10px;
+    background-color: rgba(200, 60, 60, 0.1);
+    color: rgb(200, 60, 60);
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.project-badge {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 0.5rem;
+    padding: 0.1rem 0.5rem;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.project-blue {
+    border: 1px solid rgba(60, 120, 220, 0.6);
+    background-color: rgba(60, 120, 220, 0.1);
+    color: rgb(60, 120, 220);
+}
+
+.project-teal {
+    border: 1px solid rgba(0, 150, 140, 0.6);
+    background-color: rgba(0, 150, 140, 0.1);
+    color: rgb(0, 150, 140);
+}
+
+.project-orange {
+    border: 1px solid rgba(220, 110, 50, 0.6);
+    background-color: rgba(220, 110, 50, 0.1);
+    color: rgb(220, 110, 50);
+}
+
+.project-purple {
+    border: 1px solid rgba(130, 90, 200, 0.6);
+    background-color: rgba(130, 90, 200, 0.1);
+    color: rgb(130, 90, 200);
+}
+
+.project-gray {
+    border: 1px solid rgba(120, 120, 120, 0.6);
+    background-color: rgba(120, 120, 120, 0.1);
+    color: rgb(120, 120, 120);
+}
+
+.link-badge {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 0.2rem;
+    padding: 0.1rem 0.5rem;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.link-badge:hover {
+    filter: brightness(0.85);
+}
+
+.badge-gray {
+    border: 1px solid rgba(120, 120, 120, 0.6);
+    background-color: rgba(120, 120, 120, 0.1);
+    color: rgb(120, 120, 120);
+}
+
+.badge-red {
+    border: 1px solid rgba(200, 60, 60, 0.6);
+    background-color: rgba(200, 60, 60, 0.1);
+    color: rgb(200, 60, 60);
+}
+
+.badge-orange {
+    border: 1px solid rgba(220, 110, 50, 0.6);
+    background-color: rgba(220, 110, 50, 0.1);
+    color: rgb(220, 110, 50);
+}
+
+.badge-navy {
+    border: 1px solid rgba(40, 90, 160, 0.6);
+    background-color: rgba(40, 90, 160, 0.1);
+    color: rgb(40, 90, 160);
+}
+
+.badge-green {
+    border: 1px solid rgba(0, 150, 100, 0.6);
+    background-color: rgba(0, 150, 100, 0.1);
+    color: rgb(0, 150, 100);
+}
+
 .post-desc {
     color: var(--post-desc-color);
     text-align: justify;
@@ -430,16 +525,7 @@ tr:nth-child(even) {
     background-color: var(--dissemination-bg);
 }
 
-.personal-project-theme {
-    background-color: var(--personal-project-bg);
-}
-
-.oss-contribution-theme {
-    background-color: var(--oss-contribution-bg);
-}
-
-.education-theme {
-    background-color: var(--education-bg);
+.education-theme {    background-color: var(--education-bg);
 }
 
 .teaching-theme {

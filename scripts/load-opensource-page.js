@@ -1,7 +1,15 @@
 (function () {
   var D = RESEARCH_DATA;
-  renderContainer("oss-contributions-container", renderSimpleItem, D.openSourceContributions, "oss-contribution-theme");
-  renderContainer("personal-projects-container", renderPersonalProject, D.personalProjects, "personal-project-theme");
+
+  var PROJECT_BADGES = {
+    "llvm-project": "project-blue",
+    "iree": "project-teal",
+    "rustc": "project-orange",
+    "rustworkx": "project-purple"
+  };
+
+  renderContainer("oss-contributions-container", renderSimpleItem, D.openSourceContributions);
+  renderContainer("personal-projects-container", renderPersonalProject, D.personalProjects);
 
   function renderContainer(id, renderFn, items, extra) {
     var el = document.getElementById(id);
@@ -30,6 +38,14 @@
         "</a>";
     }
 
+    var revertedBadge = "";
+    if (item.revertedBy) {
+      revertedBadge =
+        ' <a class="reverted-badge" href="' +
+        item.revertedBy +
+        '" title="This contribution has been reverted">reverted</a>';
+    }
+
     var desc = item.desc;
     if (!desc && item.details) {
       desc = item.details.join(" \u00b7 ");
@@ -43,6 +59,7 @@
       '  <div class="post-inner">\n' +
       '    <div class="post-title">' +
       titleHtml +
+      revertedBadge +
       "</div>\n";
 
     if (desc) {
@@ -52,7 +69,8 @@
 
     var foot = date;
     if (project) {
-      foot = date + ' \u00b7 <code>' + project + "</code>";
+      var cls = "project-badge " + (PROJECT_BADGES[project] || "project-gray");
+      foot = date + ' <span class="' + cls + '">' + project + "</span>";
     }
     html +=
       '    <div class="post-foot"><img src="icons/clock.svg" width="12px" height="12px"/> ' +

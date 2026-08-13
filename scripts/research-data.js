@@ -1009,7 +1009,8 @@ var RESEARCH_DATA = {
       title: "[mlir][vector] Verify non-unit strides on `masked/expand/compress` ops",
       url: "https://github.com/llvm/llvm-project/pull/210952",
       date: "2026/08/07",
-      project: "llvm-project"
+      project: "llvm-project",
+      revertedBy: "https://github.com/llvm/llvm-project/pull/215224"
     },
     {
       title: "[mlir][ArmNeon] Reject masked contractions in `I8MM/BFMMLA` lowering patterns",
