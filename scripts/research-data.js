@@ -988,6 +988,12 @@ var RESEARCH_DATA = {
 
   openSourceContributions: [
     {
+      title: "[mlir][ArmSME] Enable native ArmSME integration testing on Darwin",
+      url: "https://github.com/llvm/llvm-project/pull/215296",
+      date: "2026/08/14",
+      project: "llvm-project"
+    },
+    {
       title: "[mlir][ArmSME] Reject non-unit-stride `tile_load/tile_store` memrefs and pass `layout{IdentityLayoutMap}` to matmul tests",
       url: "https://github.com/llvm/llvm-project/pull/214959",
       date: "2026/08/13",
