@@ -159,37 +159,37 @@ var RESEARCH_DATA = {
   disseminationActivities: [
     {
       title: "MLIR: Scaling Compiler Infrastructure for Domain Specific Computation",
-      url: "/activities/presentations/MLIR.pdf",
+      url: "/presentations/MLIR.pdf",
       desc: "Presentation of the paper by Lattner et al., 2021.",
       date: "2026/03/19"
     },
     {
       title: "Matheuristic Variants of DSATUR for the Vertex Coloring Problem",
-      url: "/activities/presentations/matheuristic-variants-of-DSATUR-for-the-vertex-coloring-problem.pdf",
+      url: "/presentations/matheuristic-variants-of-DSATUR-for-the-vertex-coloring-problem.pdf",
       desc: "Presentation of the paper by Dupin, 2024.",
       date: "2026/02/12"
     },
     {
       title: "Your Optimizing Compiler is Not Optimizing Enough. To Hell With Multiple Recursions!",
-      url: "/activities/presentations/your-optimizing-compiler-is-not-optimizing-enough.pdf",
+      url: "/presentations/your-optimizing-compiler-is-not-optimizing-enough.pdf",
       desc: "First MuseMI meeting of the 2025/2026 season, Milan.",
       date: "2025/12/04"
     },
     {
       title: "P4 Compiler in SDN",
-      url: "/activities/presentations/P4-compiler-in-SDN.pdf",
+      url: "/presentations/P4-compiler-in-SDN.pdf",
       desc: "Presentation on the P4 compiler in Software Defined Networking.",
       date: "2024/07/22"
     },
     {
       title: "PhD Project",
-      url: "/activities/presentations/phd-project.pdf",
+      url: "/presentations/phd-project.pdf",
       desc: "<i>Universal Language Server Protocol and Debugger Adapter Protocol for Modular Language Workbenches</i>, University of Milan.",
       date: "2024/07/22"
     },
     {
       title: "Master's Thesis",
-      url: "/activities/presentations/master-thesis.pdf",
+      url: "/presentations/master-thesis.pdf",
       desc: "<i>Toward a Modular Approach for Type Systems and LSP Generation</i>, University of Milan.",
       date: "2024/07/15"
     }
