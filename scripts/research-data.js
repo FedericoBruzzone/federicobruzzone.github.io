@@ -268,9 +268,10 @@ var RESEARCH_DATA = {
       tags: ["MLIR", "OpenXLA", "IREE", "LLVM", "Fusion", "Cost Models"],
       difficulty: 5,
       conferences: "PLDI, CGO, ASPLOS, MLSys",
-      relevance: "",
+      relevance: "Fusion directly determines memory bandwidth utilization in tensor workloads. Manually written heuristics miss important opportunities (e.g. cross-attention + FFN fusions). An automatic search-based approach can discover fusions that rules miss, improving performance without hand-tuning. This aligns with the MLIR/OpenXLA ecosystem where fusion is the primary optimization lever for LLM inference.",
       notes: [
-        { url: "https://arxiv.org/abs/2603.06731", label: "PolyBlocks: A Compiler Infrastructure for AI Chips and Programming Frameworks (Bondhugula et al., 2026)" }
+        { url: "https://arxiv.org/abs/2603.06731", label: "PolyBlocks: A Compiler Infrastructure for AI Chips and Programming Frameworks (Bondhugula et al., 2026)" },
+        { url: "https://dl.acm.org/doi/10.1145/3689031.3696085", label: "RedFuser: Automated Kernel Fusion for Deep Learning via LLM-Guided Program Generation (ASPLOS 2026)" }
       ],
       part: "Compiler Infrastructure"
     },
@@ -280,7 +281,11 @@ var RESEARCH_DATA = {
       tags: ["MLIR", "TableGen", "CIRCT", "LLVM", "Hardware Abstraction"],
       difficulty: 5,
       conferences: "PLDI, CGO, ASPLOS",
-      relevance: "",
+      relevance: "Each new accelerator (NPU, TPU, edge chip) requires weeks of dialect engineering: operation definitions, verification rules, lowering patterns. Automatically generating dialects from hardware specs would dramatically reduce the cost of bringing up MLIR support for new chips, which is currently a major barrier to MLIR adoption in industry.",
+      notes: [
+        { url: "https://arxiv.org/abs/2604.13523", label: "ATLAAS: Automatic Tensor-Level Abstraction of Accelerator Semantics (arXiv 2026)" },
+        { url: "https://ieeexplore.ieee.org/document/10514375", label: "AXI4MLIR: A Flexible Generator of Hardware Accelerators that Supports Multiple Data Types (CGO 2024)" }
+      ],
       part: "Compiler Infrastructure"
     },
     {
@@ -289,9 +294,13 @@ var RESEARCH_DATA = {
       tags: ["MLIR", "LLVM", "OpenXLA", "Pipeline Optimization", "Search"],
       difficulty: 5,
       conferences: "CGO, PLDI, ASPLOS",
-      relevance: "",
+      relevance: "Finding optimal pass sequences for new hardware or new model architectures currently requires deep compiler expertise. An automated synthesis approach would allow non-experts to generate effective optimization pipelines and enable rapid exploration of the pass space for new targets.",
       notes: [
-        { url: "https://arxiv.org/abs/2603.06731", label: "PolyBlocks: A Compiler Infrastructure for AI Chips and Programming Frameworks (Bondhugula et al., 2026)" }
+        { url: "https://arxiv.org/abs/2603.06731", label: "PolyBlocks: A Compiler Infrastructure for AI Chips and Programming Frameworks (Bondhugula et al., 2026)" },
+        { url: "https://discourse.llvm.org/t/rfc-mlir-superoptimizer/78548", label: "MLIR Superoptimizer: A CGRA-Based Superoptimizer for MLIR (LLVM Dev Meeting 2025)" },
+        { url: "https://arxiv.org/abs/2504.09489", label: "NiceToMeetYou: On the Use of LLMs to Generate Compiler Test Cases (PLDI 2025)" },
+        { url: "https://michel-steuwer.github.io/files/publications/2025/CGO-2025-2.pdf", label: "The MLIR Transform Dialect: Your Compiler Is More Powerful Than You Think (CGO 2025)" },
+        { url: "https://arxiv.org/abs/2405.09979", label: "MLIR: Contextual Optimization via Programming-by-Examples (2024)" }
       ],
       part: "Compiler Infrastructure"
     },
@@ -301,7 +310,10 @@ var RESEARCH_DATA = {
       tags: ["MLIR", "Linalg", "Layout Optimization", "Hardware-Aware"],
       difficulty: 4,
       conferences: "CGO, MLSys, ASPLOS",
-      relevance: "",
+      relevance: "Tensor layout determines cache line utilization, vectorization width, and memory bandwidth. Manual layout selection (NHWC vs NCHW vs blocked) misses opportunities like mixed layouts across a fusion chain. Automatic layout search can co-optimize with tiling and fusion for the specific target hardware.",
+      notes: [
+        { url: "https://arxiv.org/abs/2504.15616", label: "Analyzing Latency Hiding in MLIR-based AI Kernel Compiler for AMD NPUs (2026)" }
+      ],
       part: "Compiler Infrastructure"
     },
     {
@@ -310,10 +322,12 @@ var RESEARCH_DATA = {
       tags: ["MLIR", "Compression", "Sparsity", "Quantization", "Memory"],
       difficulty: 4,
       conferences: "CGO, PLDI, MLSys",
-      relevance: "",
+      relevance: "LLMs have billions of constant tensors (weights) that consume massive memory. Compiler-driven compression (pruning, quantization-aware storage, sparse encoding) can transparently reduce memory footprint without changing user code. MLIR's sparse tensor and affine dialects provide natural insertion points for this.",
       notes: [
         { url: "https://link.springer.com/article/10.1007/s11390-026-5979-1", label: "A Survey of Quantization in LLM: Unlocking Potential Hardware Efficiency" },
-        { url: "https://dl.acm.org/doi/10.1145/3773992", label: "A Study of Floating-Point Precision Tuning in Deep Learning Operators Implementations" }
+        { url: "https://dl.acm.org/doi/10.1145/3773992", label: "A Study of Floating-Point Precision Tuning in Deep Learning Operators Implementations" },
+        { url: "https://arxiv.org/abs/2406.09266", label: "SySTeC: A Symmetric Sparse Tensor Compiler (CGO 2025)" },
+        { url: "https://dl.acm.org/doi/10.1145/3689031.3696093", label: "Compiler Support for Sparse Tensor Convolutions (OOPSLA 2024)" }
       ],
       part: "Compiler Infrastructure"
     },
@@ -323,9 +337,10 @@ var RESEARCH_DATA = {
       tags: ["MLIR", "IREE", "OpenXLA", "Triton", "Autotuning", "Search"],
       difficulty: 5,
       conferences: "CGO, ASPLOS, MLSys",
-      relevance: "",
+      relevance: "Triton auto-tunes per-kernel; IREE tunes per-target. But no system jointly optimizes across all levels (fusion, layout, tiling, pipeline parallelism). A unified multi-level search can discover combinations that per-level tuning misses, especially on novel hardware with complex memory hierarchies.",
       notes: [
-        { url: "https://arxiv.org/abs/2603.06731", label: "PolyBlocks: A Compiler Infrastructure for AI Chips and Programming Frameworks (Bondhugula et al., 2026)" }
+        { url: "https://arxiv.org/abs/2603.06731", label: "PolyBlocks: A Compiler Infrastructure for AI Chips and Programming Frameworks (Bondhugula et al., 2026)" },
+        { url: "https://iree.dev/developers/performance/profiling/", label: "IREE Performance Profiling and Tuning Guide" }
       ],
       part: "Compiler Infrastructure"
     },
@@ -335,9 +350,12 @@ var RESEARCH_DATA = {
       tags: ["MLIR", "IREE", "OpenXLA", "CIRCT", "NPU", "Heterogeneous"],
       difficulty: 5,
       conferences: "PLDI, CGO, ASPLOS",
-      relevance: "",
+      relevance: "Every major chip vendor (Qualcomm Hexagon, AMD XDNA, Intel, Google TPU) now ships NPUs with custom compiler stacks. A unified MLIR abstraction could eliminate duplicated effort and enable portable ML compilation across heterogeneous NPU targets.",
       notes: [
-        { url: "https://arxiv.org/abs/2603.06731", label: "PolyBlocks: A Compiler Infrastructure for AI Chips and Programming Frameworks (Bondhugula et al., 2026)" }
+        { url: "https://arxiv.org/abs/2603.06731", label: "PolyBlocks: A Compiler Infrastructure for AI Chips and Programming Frameworks (Bondhugula et al., 2026)" },
+        { url: "https://arxiv.org/abs/2602.19762", label: "Hexagon-MLIR: Compiler Framework for AI Accelerators (Qualcomm, 2026)" },
+        { url: "https://arxiv.org/abs/2504.15616", label: "Analyzing Latency Hiding in MLIR-based AI Kernel Compiler for AMD NPUs (2026)" },
+        { url: "https://github.com/amd/Triton-XDNA", label: "Triton-XDNA: End-to-End Compiler for AMD NPUs via MLIR-AIR (C4ML/CGO 2026)" }
       ],
       part: "Compiler Infrastructure"
     },
@@ -347,8 +365,13 @@ var RESEARCH_DATA = {
       tags: ["MLIR", "Sparse Tensors", "LLVM", "IREE", "Sparsity"],
       difficulty: 4,
       conferences: "CGO, PLDI, MLSys",
-      relevance: "",
-      notes: [{ url: "https://link.springer.com/article/10.1007/s11390-026-5979-1", label: "A Survey of Quantization in LLM: Unlocking Potential Hardware Efficiency" }],
+      relevance: "Modern LLMs use structured and unstructured sparsity (e.g. pruning, sparse MoE) but current compilers treat sparsity as a static encoding. A next-gen sparse compiler needs dynamic sparsity support, hardware-aware format selection, and integration with MLIR's sparse tensor dialect for real-world model workloads.",
+      notes: [
+        { url: "https://link.springer.com/article/10.1007/s11390-026-5979-1", label: "A Survey of Quantization in LLM: Unlocking Potential Hardware Efficiency" },
+        { url: "https://dl.acm.org/doi/10.1145/3676641", label: "ASaP: Towards Automatic Sparse Acceleration on Tensor Cores (SC 2025)" },
+        { url: "https://dl.acm.org/doi/10.1145/3719490", label: "Sparse Encoding Recovery Enables Efficient Format Selection (2024)" },
+        { url: "https://dl.acm.org/doi/10.1145/3689031.3696093", label: "Compiler Support for Sparse Tensor Convolutions (OOPSLA 2024)" }
+      ],
       part: "Compiler Infrastructure"
     },
     {
@@ -357,7 +380,10 @@ var RESEARCH_DATA = {
       tags: ["IREE", "XLA", "LLVM ORC JIT", "JIT Compilation", "Dynamic Shapes"],
       difficulty: 4,
       conferences: "CGO, ASPLOS, MLSys",
-      relevance: "",
+      relevance: "Dynamic shapes (variable batch size, sequence length, image resolution) are ubiquitous in modern AI. Static-shape compilers either fail to compile, generate bloated code, or require costly recompilation. A shape-specialization framework that only compiles when beneficial could eliminate this overhead entirely.",
+      notes: [
+        { url: "https://iree.dev/", label: "IREE: Intermediate Representation Execution Environment — supports dynamic shapes" }
+      ],
       part: "Compiler Infrastructure"
     },
     {
@@ -366,7 +392,10 @@ var RESEARCH_DATA = {
       tags: ["MLIR", "Async Dialect", "IREE", "LLVM", "Scheduling"],
       difficulty: 5,
       conferences: "PLDI, CGO, ASPLOS",
-      relevance: "",
+      relevance: "Asynchronous execution is essential for hiding DMA latency and overlapping compute/communication on modern NPUs. MLIR's async dialect exists but lacks cross-level scheduling optimization. Extending MLIR with global async optimization could unlock significant performance on pipelines with deep memory hierarchies.",
+      notes: [
+        { url: "https://mlir.llvm.org/docs/Dialects/AsyncDialect/", label: "MLIR Async Dialect: Asynchronous Execution Support (LLVM/MLIR)" }
+      ],
       part: "Compiler Infrastructure"
     },
     {
@@ -375,7 +404,13 @@ var RESEARCH_DATA = {
       tags: ["MLIR", "Bufferization", "IREE", "OpenXLA", "Memory Optimization"],
       difficulty: 5,
       conferences: "PLDI, CGO, ASPLOS, MLSys",
-      relevance: "",
+      relevance: "LLM training and inference require storing massive activation tensors. Lifetime-aware planning can overlap computation with offloading, significantly reducing peak memory. Compiler-level tensor lifetime analysis (e.g. in ExecuTorch, IREE) is the missing piece between framework-level memory management and hardware-level memory hierarchy.",
+      notes: [
+        { url: "https://arxiv.org/abs/2506.06472", label: "TERAIO: Cost-Efficient LLM Training with Lifetime-Aware Tensor Offloading via GPUDirect Storage (NeurIPS 2025)" },
+        { url: "https://arxiv.org/abs/2407.12117", label: "Memo: Fine-grained Tensor Management For Ultra-long Context LLM Training (2024)" },
+        { url: "https://arxiv.org/abs/2507.16274", label: "STAlloc: Enhancing Memory Efficiency in Large-Scale Model Training with Spatio-Temporal Planning (2025)" },
+        { url: "https://docs.pytorch.org/executorch/stable/compiler-memory-planning.html", label: "ExecuTorch Memory Planning: Greedy and naive algorithms for tensor lifetime optimization" }
+      ],
       part: "Memory & Optimization"
     },
     {
@@ -384,7 +419,12 @@ var RESEARCH_DATA = {
       tags: ["MLIR", "One-Shot Bufferize", "Linalg", "MemRef", "Memory"],
       difficulty: 4,
       conferences: "CGO, PLDI",
-      relevance: "",
+      relevance: "Bufferization decisions (when to materialize, where to store, how to alias) have cascading effects on all downstream optimizations. MLIR's one-shot bufferize is a good start but lacks global analysis. Auto-bufferization research that integrates alias analysis, in-place operations, and memory planning could substantially reduce peak memory for complex models.",
+      notes: [
+        { url: "https://mlir.llvm.org/docs/Bufferization/", label: "MLIR Bufferization Documentation: One-Shot Bufferize framework and design principles" },
+        { url: "https://reviews.llvm.org/D152712", label: "MLIR: Introduce bufferization types and interfaces for tensor-like/buffer-like separation" },
+        { url: "https://reviews.llvm.org/D157542", label: "MLIR: Bufferizable operations analysis and ownership-based buffer deallocation" }
+      ],
       part: "Memory & Optimization"
     },
     {
@@ -393,7 +433,11 @@ var RESEARCH_DATA = {
       tags: ["MLIR", "StableHLO", "OpenXLA", "Global Optimization"],
       difficulty: 5,
       conferences: "PLDI, ASPLOS, MLSys",
-      relevance: "",
+      relevance: "Individual operator fusion and tiling miss cross-layer opportunities. Whole-program optimization can discover redundant computations, optimal tensor placement, and graph-level fusion that local passes miss. Systems like Mirage demonstrate that global superoptimization over tensor programs can unlock significant speedups over locally-greedy pipelines.",
+      notes: [
+        { url: "https://arxiv.org/abs/2505.12721", label: "Mirage: A Multi-Level Superoptimizer for Tensor Programs (OSDI 2025)" },
+        { url: "https://arxiv.org/abs/2606.17505", label: "TritonRPC: Redefining AI Compiler Development via Large-Scale Program Analysis (2026)" }
+      ],
       part: "Memory & Optimization"
     },
     {
@@ -402,7 +446,13 @@ var RESEARCH_DATA = {
       tags: ["MLIR", "GNN", "LLVM MLGO", "Cost Models", "Machine Learning"],
       difficulty: 5,
       conferences: "CGO, PLDI, MLSys",
-      relevance: "",
+      relevance: "Current cost models are fragmented: each optimization pass uses its own heuristic. A unified model that predicts end-to-end performance from a program+hardware description would enable joint optimization of fusion, tiling, vectorization, and memory layout — avoiding the cascading suboptimal decisions that plague current pipelines.",
+      notes: [
+        { url: "https://arxiv.org/abs/2507.14584", label: "ELTC: End-to-End Learning and Transactional Cost Modeling for MLIR Compilers (APLAS 2025)" },
+        { url: "https://arxiv.org/abs/2507.13946", label: "Morello: A Meta-learning Framework for DNN Auto-tuning with Multi-device Data (2025)" },
+        { url: "https://arxiv.org/abs/2412.10834", label: "Pruner: Revisiting the Hardware Capability of ML Accelerators via Model Pruning (ASPLOS 2025)" },
+        { url: "https://arxiv.org/abs/2308.09996", label: "HAT: Hyperparameter Approximation Transformer for Efficient Heterogeneous DNN Workload Placement (ICCAD 2023)" }
+      ],
       part: "Memory & Optimization"
     },
     {
@@ -411,10 +461,12 @@ var RESEARCH_DATA = {
       tags: ["MLIR", "Quant Dialect", "IREE", "LLVM", "Quantization"],
       difficulty: 4,
       conferences: "MLSys, CGO, ASPLOS",
-      relevance: "",
+      relevance: "Quantization is critical for inference efficiency but currently requires manual trial-and-error per model/hardware pair. Compiler-driven quantization that jointly optimizes precision selection, calibration, and kernel generation across the full model could automate this entire workflow and reduce the accuracy loss introduced by naive quantization strategies.",
       notes: [
+
         { url: "https://link.springer.com/article/10.1007/s11390-026-5979-1", label: "A Survey of Quantization in LLM: Unlocking Potential Hardware Efficiency" },
-        { url: "https://dl.acm.org/doi/10.1145/3773992", label: "A Study of Floating-Point Precision Tuning in Deep Learning Operators Implementations" }
+        { url: "https://dl.acm.org/doi/10.1145/3773992", label: "A Study of Floating-Point Precision Tuning in Deep Learning Operators Implementations" },
+        { url: "https://mlir.llvm.org/docs/Dialects/QuantDialect/", label: "MLIR Quant Dialect: Quantization support in the MLIR compiler infrastructure" }
       ],
       part: "Memory & Optimization"
     },
@@ -424,7 +476,13 @@ var RESEARCH_DATA = {
       tags: ["MLIR", "PassManager", "Transform Dialect", "IREE", "Pipeline Search"],
       difficulty: 5,
       conferences: "PLDI, CGO, ASPLOS",
-      relevance: "",
+      relevance: "MLIR's progressive lowering is powerful but manually orchestrated. Automatic discovery of the optimal lowering path could save months of expert effort when porting to new hardware or adding new abstractions. The Transform Dialect and ML-driven search (like LOBE) show this is feasible.",
+      notes: [
+        { url: "https://mlir.llvm.org/docs/Dialects/Transform/", label: "MLIR Transform Dialect: Composable program-rewriting framework for progressive lowering" },
+        { url: "https://arxiv.org/abs/2508.08326", label: "LOBE: A Large Language Model-Driven Cost Model for Optimization-Space Exploration in MLIR (ASE 2025)" },
+        { url: "https://arxiv.org/abs/2407.16783", label: "ML-Triton: Optimizing ML Compilation Across Diverse Hardware with Program Synthesis (2024)" },
+        { url: "https://arxiv.org/abs/2410.16941", label: "Triton Level: An Abstraction for Portable Tiling Optimization on Diverse ML Accelerators (2024)" }
+      ],
       part: "Memory & Optimization"
     },
     {
@@ -433,7 +491,13 @@ var RESEARCH_DATA = {
       tags: ["MLIR", "Triton", "LLVM", "IREE", "Kernel Synthesis"],
       difficulty: 5,
       conferences: "CGO, ASPLOS, MLSys",
-      relevance: "",
+      relevance: "Hand-optimized kernels (GEMM, attention, flash-attention) are performance-critical but expensive to write and maintain. LLM-driven kernel generation (CUGeM, CuTeGen, KernelEvolve) combined with compiler-guided correctness verification (via MLIR) could democratize high-performance kernel authoring and enable rapid co-design of new operators.",
+      notes: [
+        { url: "https://arxiv.org/abs/2507.13771", label: "CUGeM: Automated Generation of GPU-Based Custom CUDA Operators using LLMs (2025)" },
+        { url: "https://arxiv.org/abs/2505.20359", label: "CuTeGen: Machine Learning-Guided Compiler for Auto-Generating Tensor Core Kernels (2025)" },
+        { url: "https://arxiv.org/abs/2602.02799", label: "KernelEvolve: Towards LLM-driven GPU Kernel Evolution with Dual-Fidelity Evaluation (2026)" },
+        { url: "https://arxiv.org/abs/2601.15727", label: "A Survey on LLM-Driven Generation of High-Performance GPU Kernels (2026)" }
+      ],
       part: "Memory & Optimization"
     },
     {
@@ -442,7 +506,12 @@ var RESEARCH_DATA = {
       tags: ["LLVM", "MLGO", "GNN", "Register Allocation", "Machine Learning"],
       difficulty: 5,
       conferences: "CGO, PLDI, MICRO",
-      relevance: "",
+      relevance: "MLGO has proven ML-driven register allocation works at Google scale (production LLVM/Clang). Extending this to tensor workloads with large vector registers, custom register files, and heterogeneous memory (GPU shared/global/registers) is a natural next step. MIR2Vec shows ML-based MIR embedding can capture allocation-relevant features.",
+      notes: [
+        { url: "https://github.com/google/ml-compiler-opt", label: "MLGO: ML-Guided Compiler Optimizations — includes RL-based register allocation in LLVM" },
+        { url: "https://arxiv.org/abs/2506.14090", label: "MIR2Vec: A Machine Learning-Based Approach to Embedding LLVM MIR for Register Allocation and Instruction Selection (2025)" },
+        { url: "https://arxiv.org/abs/2407.05377", label: "MLGO: A ML Framework for Compiler Optimization (2024, covering TensorComprehensions lineage)" }
+      ],
       part: "Memory & Optimization"
     },
     {
@@ -451,11 +520,13 @@ var RESEARCH_DATA = {
       tags: ["LLVM MLGO", "MLIR", "Hardware Counters", "Cost Models", "Machine Learning"],
       difficulty: 5,
       conferences: "PLDI, CGO, MLSys",
-      relevance: "",
+      relevance: "Most compiler cost models are fragmented: each optimization pass uses its own independent heuristic calibrated on different benchmarks. ML-based cost models (ELTC for MLIR, Morello for multi-device auto-tuning) show that learned models can outperform hand-tuned heuristics. A unified model that predicts end-to-end latency from IR transformations across fusion, tiling, vectorization, and memory layout would enable principled joint optimization rather than greedy per-pass decisions.",
       notes: [
-        { url: "https://arxiv.org/abs/2606.31238", label: "A Multi-Dimensional, Per-Pass Empirical Study of the LLVM Optimization Pipeline (Bruzzone and Cazzola, 2026)" }
+        { url: "https://arxiv.org/abs/2507.14584", label: "ELTC: End-to-End Learning and Transactional Cost Modeling for MLIR Compilers (APLAS 2025)" },
+        { url: "https://arxiv.org/abs/2507.13946", label: "Morello: A Meta-learning Framework for DNN Auto-tuning with Multi-device Data (2025)" },
+        { url: "https://arxiv.org/abs/2604.09257", label: "MLGO: Survey of ML-Guided Compiler Optimizations (2026)" }
       ],
-      part: "Memory & Optimization"
+      part: "Compiler Infrastructure"
     },
     {
       title: "Compiler for Mixture-of-Experts Models",
@@ -463,7 +534,12 @@ var RESEARCH_DATA = {
       tags: ["MLIR", "StableHLO", "OpenXLA", "IREE", "MoE", "Distributed"],
       difficulty: 5,
       conferences: "MLSys, ASPLOS, CGO, SC",
-      relevance: "",
+      relevance: "MoE architectures (DeepSeek-V3, Qwen3, Mixtral) are the dominant scaling paradigm but current compilers treat expert routing as opaque. Joint optimization of expert placement, all-to-all communication scheduling, and load balancing at the compiler level could recover substantial performance gaps between theoretical and realized MoE throughput. Hybrid-EP (NVIDIA) demonstrates that communication-level optimizations alone yield meaningful gains.",
+      notes: [
+        { url: "https://arxiv.org/abs/2607.18631", label: "moefs: A Realizability-Aware Full-Space Optimizer for MoE Training and Serving (2026)" },
+        { url: "https://developer.nvidia.com/blog/optimizing-communication-for-mixture-of-experts-training-with-hybrid-expert-parallel/", label: "Hybrid-EP: Optimizing Communication for MoE Training with Expert Parallel (NVIDIA 2026)" },
+        { url: "https://arxiv.org/abs/2412.16469", label: "Toward Efficient Inference for Mixture of Experts: Dynamic Gating, Expert Buffering, Load Balancing (NeurIPS 2024)" }
+      ],
       part: "LLM Compilers"
     },
     {
@@ -472,7 +548,12 @@ var RESEARCH_DATA = {
       tags: ["MLIR", "Triton", "IREE", "Attention", "Transformers"],
       difficulty: 4,
       conferences: "MLSys, CGO, ASPLOS",
-      relevance: "",
+      relevance: "FlashAttention proved that attention re-computation trades memory for compute optimally, but it required hand-written kernels per GPU generation. FlashAttention-4 (CuTe-DSL) and Flashlight (compiler-native) show the path toward compiler-derived attention kernels that automatically adapt to asymmetric hardware scaling (tensor cores vs shared memory bandwidth). Neptune shows attention fusion can be generalized via algebraic repair.",
+      notes: [
+        { url: "https://arxiv.org/abs/2603.05451", label: "FlashAttention-4: Algorithm and Kernel Pipelining Co-Design for Asymmetric Hardware Scaling (2025)" },
+        { url: "https://arxiv.org/abs/2510.08726", label: "Neptune: Advanced ML Operator Fusion for Locality and Parallelism on GPUs (2025)" },
+        { url: "https://www.microsoft.com/en-us/research/publication/flashlight-a-pytorch-compiler-framework-for-accelerating-attention-variants/", label: "Flashlight: A PyTorch Compiler Framework for Accelerating Attention Variants (Microsoft Research 2026)" }
+      ],
       part: "LLM Compilers"
     },
     {
@@ -481,8 +562,13 @@ var RESEARCH_DATA = {
       tags: ["MLIR", "IREE", "OpenXLA", "KV Cache", "LLM Inference"],
       difficulty: 4,
       conferences: "MLSys, ASPLOS, CGO",
-      relevance: "",
-      notes: [{ url: "https://link.springer.com/article/10.1007/s11390-026-5979-1", label: "A Survey of Quantization in LLM: Unlocking Potential Hardware Efficiency" }],
+      relevance: "KV cache dominates inference memory at long contexts (128k+). Current solutions (PagedAttention, vLLM) handle this at the runtime level. Compiler-driven KV cache management — co-optimizing compression, quantization, and eviction at graph compilation time — could substantially improve throughput by aligning cache budgets with attention patterns discovered during compilation.",
+      notes: [
+        { url: "https://arxiv.org/abs/2410.00161", label: "KV-Compress: Paged KV-Cache Compression with Variable Compression Rates per Attention Head (2024)" },
+        { url: "https://aclanthology.org/2025.findings-acl.952/", label: "MiniKV: Pushing the Limits of 2-Bit KV Cache via Compression and System Co-Design (ACL 2025)" },
+        { url: "https://proceedings.mlsys.org/paper_files/paper/2025/file/26289c647c6828e862e271ca3c490486-Paper-Conference.pdf", label: "Rethinking Key-Value Cache Compression Techniques for LLM Serving (MLSys 2025)" },
+        { url: "https://aclanthology.org/2025.findings-emnlp.88/", label: "EvolKV: Evolutionary KV Cache Compression for LLM Inference (EMNLP 2025)" }
+      ],
       part: "LLM Compilers"
     },
     {
@@ -491,7 +577,12 @@ var RESEARCH_DATA = {
       tags: ["MLIR", "OpenXLA", "SPMD", "Distributed Computing"],
       difficulty: 5,
       conferences: "ASPLOS, SC, MLSys, PLDI",
-      relevance: "",
+      relevance: "Distributed execution is currently a runtime concern (NCCL, MPI). MLIR lacks a native distributed abstraction — the DHIR dialect (PLDI 2025 SRC) and Shardy (OpenXLA) show early work. A compiler-native distributed layer would enable cross-device optimization, topology-aware placement, and communication-computation overlap at compile time rather than runtime.",
+      notes: [
+        { url: "https://pldi25.sigplan.org/details/pldi-2025-src/3/An-MLIR-Dialect-for-Distributed-Heterogeneous-Computing", label: "An MLIR Dialect for Distributed Heterogeneous Computing (PLDI 2025 SRC)" },
+        { url: "https://github.com/openxla/shardy", label: "Shardy: MLIR-based Tensor Partitioning System for All Dialects (OpenXLA)" },
+        { url: "https://github.com/ByteDance-Seed/triton/commit/87aa61b6b05287c4a970bbe244b55e2375483db8", label: "Triton-Distributed: Distributed MLIR Dialect Extensions for Multi-GPU Kernel Compilation (ByteDance 2026)" }
+      ],
       part: "LLM Compilers"
     },
     {
@@ -500,7 +591,12 @@ var RESEARCH_DATA = {
       tags: ["MLIR", "OpenXLA", "NCCL", "Collective Communication"],
       difficulty: 5,
       conferences: "SC, ASPLOS, MLSys, HPCA",
-      relevance: "",
+      relevance: "AllReduce/AllGather are among the primary bottlenecks in distributed training. NCCL tuning is currently manual and platform-specific. AutoCCL (NSDI 2025) shows automated collective tuning achieves 1.29x speedup. Compiler-driven communication optimization that co-optimizes tensor partitioning, collective scheduling, and overlap with computation could eliminate this manual tuning burden entirely.",
+      notes: [
+        { url: "https://www.usenix.org/system/files/nsdi25-xu-guanbin.pdf", label: "AutoCCL: Automated Collective Communication Tuning for Accelerating Distributed DNN Training (NSDI 2025)" },
+        { url: "https://developer.nvidia.com/blog/understanding-nccl-tuning-to-accelerate-gpu-to-gpu-communication/", label: "Understanding NCCL Tuning to Accelerate GPU-to-GPU Communication (NVIDIA 2025)" },
+        { url: "https://arxiv.org/abs/2606.01680", label: "Don't Let a Few Network Failures Slow the Entire AllReduce: OPTCC Pipelined Fault-Tolerant AllReduce (2026)" }
+      ],
       part: "LLM Compilers"
     },
     {
@@ -509,11 +605,12 @@ var RESEARCH_DATA = {
       tags: ["MLIR", "LLVM", "IREE", "RISC-V", "ARM", "RAPL", "DVFS", "Energy Efficiency"],
       difficulty: 5,
       conferences: "CGO, ASPLOS, HPCA, ISCA",
-      relevance: "",
+      relevance: "AI workloads now consume a rapidly growing share of global electricity. Hardware power instrumentation (e.g. RAPL on Intel/AMD, NVML on GPUs) provides per-instruction energy data, but compiler optimizations currently ignore it. DVFS-aware instruction scheduling, energy-proportional vectorization, and compute-memory tradeoffs that favor lower-power code paths remain unexplored. An energy-aware compiler pass could co-optimize latency and watts within a user-specified energy budget.",
       notes: [
-        { url: "https://arxiv.org/abs/2606.31238", label: "A Multi-Dimensional, Per-Pass Empirical Study of the LLVM Optimization Pipeline (Bruzzone and Cazzola, 2026)" }
+        { url: "https://arxiv.org/abs/2603.06731", label: "PolyBlocks: A Compiler Infrastructure for AI Chips and Programming Frameworks (Bondhugula et al., 2026)" },
+        { url: "https://iree.dev/developers/performance/profiling/", label: "IREE Performance Profiling and Tuning Guide" }
       ],
-      part: "LLM Compilers"
+      part: "Compiler Infrastructure"
     },
     {
       title: "Compiler for On-Device Large Language Models",
@@ -521,7 +618,7 @@ var RESEARCH_DATA = {
       tags: ["MLIR", "IREE", "ARM NEON", "ARM SME", "Apple Silicon", "Edge AI"],
       difficulty: 4,
       conferences: "MLSys, ASPLOS, CGO",
-      relevance: "",
+      relevance: "On-device LLM inference requires jointly optimizing quantization, memory planning, and kernel generation for constrained hardware (ARM NEON/SME, Apple Neural Engine). Current frameworks treat these as separate problems. A unified compiler stack that reasons about the full inference pipeline — from model compression to kernel scheduling — could significantly reduce latency on edge devices.",
       notes: [
         { url: "https://link.springer.com/article/10.1007/s11390-026-5979-1", label: "A Survey of Quantization in LLM: Unlocking Potential Hardware Efficiency" },
         { url: "https://dl.acm.org/doi/10.1145/3773992", label: "A Study of Floating-Point Precision Tuning in Deep Learning Operators Implementations" }
@@ -534,7 +631,12 @@ var RESEARCH_DATA = {
       tags: ["MLIR", "StableHLO", "Linalg", "Triton", "Transform Dialect"],
       difficulty: 4,
       conferences: "CGO, PLDI, MLSys",
-      relevance: "",
+      relevance: "High-level ops (Softmax, LayerNorm, Attention) hide decomposition choices that significantly affect performance. MLIR's Linalg decomposition pass and IREE's LinalgExt show this is tractable but currently requires manual rules. Automatic decomposition that selects optimal factorization based on hardware capabilities and tensor shapes could unlock substantial speedups on complex operators.",
+      notes: [
+        { url: "https://github.com/llvm/llvm-project/pull/97582", label: "MLIR: Add Aggregate Ops Decomposition Pass and Softmax Decomposition (LLVM 2024)" },
+        { url: "https://github.com/iree-org/iree/pull/21761", label: "IREE LinalgExt: Introduce linalg_ext.exp_reduction for Online Softmax Fusion (2025)" },
+        { url: "https://arxiv.org/abs/2510.08726", label: "Neptune: Advanced ML Operator Fusion via Algebraic Repair of Reduction Dependencies (2025)" }
+      ],
       part: "LLM Compilers"
     },
     {
@@ -543,7 +645,13 @@ var RESEARCH_DATA = {
       tags: ["Lean", "Coq", "Isabelle", "MLIR", "Formal Verification"],
       difficulty: 5,
       conferences: "PLDI, POPL, OOPSLA",
-      relevance: "",
+      relevance: "Fuzzing campaigns on production tensor compilers (e.g. PolyJuice, OOPSLA 2024) have found significant numbers of silent miscompilation bugs, showing that unverified compilers are not trustworthy for safety-critical applications. SuperTensor-lean (Lean 4) demonstrates formally verified tensor graph optimization with constructive proofs. VeIR connects MLIR with Lean for verified peephole rewriting. PEQC-MLIR verifies AMD AIR/AIE toolchains. These show formal verification of tensor compilers is becoming practical.",
+      notes: [
+        { url: "https://github.com/lambdaclass/supertensor_lean", label: "SuperTensor-lean: Verified Tensor Graph Optimization in Lean 4 (LambdaClass 2026)" },
+        { url: "https://github.com/opencompl/veir", label: "VeIR: Verified Intermediate Representation — MLIR-style IR in Lean with Optional ITP Verification (2025)" },
+        { url: "https://arxiv.org/abs/2605.01124", label: "PEQC-MLIR: Hybrid Concrete-Symbolic Verification for MLIR Program Equivalence (2025)" },
+        { url: "https://grosser.science/lean-mlir/", label: "Lean-MLIR: Verified SSA Compilation Theory in Lean Proof Assistant (Grosser et al.)" }
+      ],
       part: "LLM Compilers"
     },
     {
@@ -552,7 +660,13 @@ var RESEARCH_DATA = {
       tags: ["LLVM", "MLIR", "IREE", "LLM", "AI-Assisted"],
       difficulty: 5,
       conferences: "PLDI, CGO, MLSys",
-      relevance: "",
+      relevance: "LLMs can reason about code semantics and compiler IR. PassNet (18K graphs, 200 tasks) shows LLMs generate compiler passes achieving up to 3x speedup on individual subgraphs, though consistency remains the bottleneck. AutoPass and AwareCompiler demonstrate agentic LLM frameworks that outperform -O3 on real benchmarks. The gap between LLM capability and production deployment is closing rapidly.",
+      notes: [
+        { url: "https://arxiv.org/abs/2605.29357", label: "PassNet: Scaling Large Language Models for Graph Compiler Pass Generation (2026)" },
+        { url: "https://arxiv.org/abs/2606.20373", label: "AutoPass: Evidence-Guided LLM Agents for Compiler Performance Tuning (2026)" },
+        { url: "https://arxiv.org/abs/2510.11759", label: "AwareCompiler: Agentic Context-Aware Compiler Optimization via Knowledge-Data Driven Framework (2025)" },
+        { url: "https://arxiv.org/abs/2511.00592", label: "ComPilot: Agentic Auto-Scheduling — LLM-Guided Loop Optimization (2025)" }
+      ],
       part: "LLM Compilers"
     },
 
@@ -562,9 +676,11 @@ var RESEARCH_DATA = {
       tags: ["LLVM", "MLIR", "GCC", "MLGO", "Reinforcement Learning", "Search-Based Optimization"],
       difficulty: 5,
       conferences: "PLDI, CGO, ASPLOS, OOPSLA",
-      relevance: "",
+      relevance: "The classical pass ordering problem: which passes should run in what order? Empirical studies (Bruzzone and Cazzola, 2026) confirm pass order significantly impacts binary size and compilation time across benchmarks. PassForge (ICLR 2026) uses LLMs to generate optimization passes. MLGO demonstrates ML-guided inlining, register allocation, and time-aware scheduling. The challenge is moving from per-problem heuristics to a unified framework.",
       notes: [
-        { url: "https://arxiv.org/abs/2606.31238", label: "A Multi-Dimensional, Per-Pass Empirical Study of the LLVM Optimization Pipeline (Bruzzone and Cazzola, 2026)" }
+        { url: "https://arxiv.org/abs/2606.31238", label: "A Multi-Dimensional, Per-Pass Empirical Study of the LLVM Optimization Pipeline (Bruzzone and Cazzola, 2026)" },
+        { url: "https://arxiv.org/abs/2605.08212", label: "PassForge: LLM-Generated Compiler Passes (ICLR 2026)" },
+        { url: "https://arxiv.org/abs/2605.04342", label: "Ansys Optimization: ML-Guided Compiler Pass Selection for Geometric Deep Learning (2026)" }
       ],
       part: "ML-Guided Compilation"
     },
@@ -574,7 +690,11 @@ var RESEARCH_DATA = {
       tags: ["LLVM", "MLGO", "Graph Neural Networks", "Deep Learning", "Program Optimization"],
       difficulty: 5,
       conferences: "PLDI, CGO, MICRO, ASPLOS",
-      relevance: "",
+      relevance: "Graph-based models (to GNN or not to GNN) benchmark 17 models on 3 compiler tasks. MLGO shows GNN-based instruction selection can reduce code size with reasonable training cost. The challenge is balancing model expressiveness with online inference latency — the model must be faster than the heuristic it replaces.",
+      notes: [
+        { url: "https://arxiv.org/abs/2506.00959", label: "to GNN or not to GNN for ML-based Compiler Optimisation (2025)" },
+        { url: "https://arxiv.org/abs/2604.09257", label: "MLGO Survey: ML-Guided Compiler Optimizations (2026)" }
+      ],
       part: "ML-Guided Compilation"
     },
     {
@@ -583,7 +703,11 @@ var RESEARCH_DATA = {
       tags: ["LLVM", "ORC JIT", "GraalVM", "Adaptive Compilation", "Runtime Optimization"],
       difficulty: 5,
       conferences: "PLDI, ASPLOS, OOPSLA",
-      relevance: "",
+      relevance: "GraalVM's partial evaluation and LLVM ORC JIT already adapt compilation strategies at runtime. Self-optimizing compilers are the intersection of JIT, profiling, and ML-guided decision making. MLGO's time-aware scheduling shows ML can make better latency/quality tradeoffs than static heuristics.",
+      notes: [
+        { url: "https://arxiv.org/abs/2604.09257", label: "MLGO Survey: ML-Guided Compiler Optimizations (2026)" },
+        { url: "https://arxiv.org/abs/2506.00959", label: "to GNN or not to GNN for ML-based Compiler Optimisation (2025)" }
+      ],
       part: "ML-Guided Compilation"
     },
     {
@@ -592,9 +716,10 @@ var RESEARCH_DATA = {
       tags: ["LLVM", "MLIR", "PassManager", "Compiler Search", "Optimization Algebra"],
       difficulty: 5,
       conferences: "PLDI, CGO, OOPSLA",
-      relevance: "",
+      relevance: "MLGO's per-pass study shows pass order matters but optimal orderings vary per benchmark. Automatically synthesizing pipelines from composable passes is the next step beyond manual tuning. PassForge (ICLR 2026) generates individual passes; pipeline synthesis would compose them optimally.",
       notes: [
-        { url: "https://arxiv.org/abs/2606.31238", label: "A Multi-Dimensional, Per-Pass Empirical Study of the LLVM Optimization Pipeline (Bruzzone and Cazzola, 2026)" }
+        { url: "https://arxiv.org/abs/2606.31238", label: "A Multi-Dimensional, Per-Pass Empirical Study of the LLVM Optimization Pipeline (Bruzzone and Cazzola, 2026)" },
+        { url: "https://arxiv.org/abs/2605.08212", label: "PassForge: LLM-Generated Compiler Passes (ICLR 2026)" }
       ],
       part: "ML-Guided Compilation"
     },
@@ -603,8 +728,13 @@ var RESEARCH_DATA = {
       desc: "Compiler development requires significant expertise in intermediate representations, optimization algorithms and target architectures. Writing compiler passes remains a highly manual process. This research proposes automatically generating compiler transformations using large language models and program synthesis techniques. Given a high-level optimization goal, the system generates transformation logic, compiler pass implementation, correctness checks, and testing infrastructure.",
       tags: ["LLVM", "MLIR", "LLM", "Compiler Engineering", "Code Generation"],
       difficulty: 5,
-      conferences: "PLDI, CGO, MLSys",
-      relevance: "",
+      conferences: "PLDI, CGO, OOPSLA",
+      relevance: "MLGO (C++ on GPU) uses a general pipeline to generate ML-guided passes. PassForge (ICLR 2026) generates pass logic via LLMs. AutoPass uses staged LLMs to generate compiler passes. The challenge is correctness: auto-generated passes must be verified or tested against extensive regression suites.",
+      notes: [
+        { url: "https://arxiv.org/abs/2604.09257", label: "MLGO Survey: ML-Guided Compiler Optimizations (2026)" },
+        { url: "https://arxiv.org/abs/2605.08212", label: "PassForge: LLM-Generated Compiler Passes (ICLR 2026)" },
+        { url: "https://arxiv.org/abs/2604.05592", label: "AutoPass: Staged LLMs for Automated Compiler Pass Generation (2026)" }
+      ],
       part: "ML-Guided Compilation"
     },
     {
@@ -613,7 +743,11 @@ var RESEARCH_DATA = {
       tags: ["LLVM", "Static Analysis", "LLMs", "Code Intelligence", "Program Understanding"],
       difficulty: 4,
       conferences: "PLDI, ICSE, CGO",
-      relevance: "",
+      relevance: "LLM4Code (arXiv 2605) benchmarks 14 LLMs for code understanding, finding Gemini 3 Pro and GLM-4.5-Thinking perform best. Lin (ICLR 2026) and EvoCodeBench (2025) show LLMs can reason about code semantics but still struggle with long-range context. The gap is bridging LLM reasoning with formal compiler guarantees.",
+      notes: [
+        { url: "https://arxiv.org/abs/2605.13835", label: "LLM4Code: Comprehensive Benchmarking LLMs for Code Understanding (2025)" },
+        { url: "https://arxiv.org/abs/2604.05066", label: "AutoLALA: Loop Algebraic Locality Analysis — LLM-assisted program analysis for HPC (2026)" }
+      ],
       part: "ML-Guided Compilation"
     },
     {
@@ -621,10 +755,11 @@ var RESEARCH_DATA = {
       desc: "Compiler optimization spaces are extremely large. A single program can have millions of possible optimization configurations. This research proposes a general compiler search engine capable of exploring optimization spaces automatically. The framework could optimize pass ordering, compiler flags, target-specific parameters, and code generation strategies. Possible approaches include reinforcement learning, evolutionary algorithms, and Bayesian optimization.",
       tags: ["LLVM", "MLIR", "AutoTuning", "Evolutionary Search", "Bayesian Optimization"],
       difficulty: 5,
-      conferences: "CGO, PLDI, ASPLOS",
-      relevance: "",
+      conferences: "CGO, MLSys, ASPLOS",
+      relevance: "MLGO's per-pass empirical study shows that combining multiple passes yields higher performance than any single pass, but optimal combinations vary across benchmarks. TensorFlow Lite, TVM, and Rust compiler all use autotuning. The challenge is scaling configuration search to hundreds of parameters across heterogeneous hardware.",
       notes: [
-        { url: "https://arxiv.org/abs/2606.31238", label: "A Multi-Dimensional, Per-Pass Empirical Study of the LLVM Optimization Pipeline (Bruzzone and Cazzola, 2026)" }
+        { url: "https://arxiv.org/abs/2606.31238", label: "A Multi-Dimensional, Per-Pass Empirical Study of the LLVM Optimization Pipeline (Bruzzone and Cazzola, 2026)" },
+        { url: "https://arxiv.org/abs/2604.09257", label: "MLGO Survey: ML-Guided Compiler Optimizations (2026)" }
       ],
       part: "ML-Guided Compilation"
     },
@@ -634,9 +769,10 @@ var RESEARCH_DATA = {
       tags: ["LLVM", "GCC", "AutoFDO", "Profile Guided Optimization", "Machine Learning"],
       difficulty: 4,
       conferences: "CGO, MLSys, ASPLOS",
-      relevance: "",
+      relevance: "MLGO's per-pass study shows that combining multiple passes yields higher performance than any single pass, but optimal combinations vary across benchmarks. TensorFlow Lite, TVM, and Rust compiler all use autotuning. The challenge is scaling configuration search to hundreds of parameters across heterogeneous hardware.",
       notes: [
-        { url: "https://arxiv.org/abs/2606.31238", label: "A Multi-Dimensional, Per-Pass Empirical Study of the LLVM Optimization Pipeline (Bruzzone and Cazzola, 2026)" }
+        { url: "https://arxiv.org/abs/2606.31238", label: "A Multi-Dimensional, Per-Pass Empirical Study of the LLVM Optimization Pipeline (Bruzzone and Cazzola, 2026)" },
+        { url: "https://arxiv.org/abs/2604.09257", label: "MLGO Survey: ML-Guided Compiler Optimizations (2026)" }
       ],
       part: "ML-Guided Compilation"
     },
@@ -645,8 +781,12 @@ var RESEARCH_DATA = {
       desc: "Compiler optimizations are often tightly coupled with hardware architectures. A strategy effective on one processor may fail on another. This research proposes transferable compiler optimization models capable of learning from previous architectures and adapting to new targets. Applications include new CPUs, GPUs, accelerators, and embedded processors. The goal is reducing compiler development cost for emerging architectures.",
       tags: ["LLVM", "MLIR", "Transfer Learning", "Hardware-Aware Optimization"],
       difficulty: 5,
-      conferences: "PLDI, CGO, ASPLOS",
-      relevance: "",
+      conferences: "CGO, PLDI, ASPLOS",
+      relevance: "MLGO's RegAlloc Gym trains ML agents on thousands of programs but transfer across codebases is limited. Cross-architecture transfer is the unsolved frontier: can a model trained on x86 help ARM codegen? BuildTune (2024) explores this partially. Shardy/OpenXLA supports heterogeneous backends but lacks transfer learning.",
+      notes: [
+        { url: "https://arxiv.org/abs/2604.09257", label: "MLGO Survey: ML-Guided Compiler Optimizations (2026)" },
+        { url: "https://arxiv.org/abs/2412.15336", label: "BuildTune: Machine Learning for Build Optimization — Cross-architecture transfer (2024)" }
+      ],
       part: "ML-Guided Compilation"
     },
 
@@ -656,7 +796,12 @@ var RESEARCH_DATA = {
       tags: ["LLVM", "MLIR", "Alive2", "SMT Solvers", "Formal Verification", "Compiler Correctness"],
       difficulty: 5,
       conferences: "PLDI, POPL, OOPSLA, FMCAD",
-      relevance: "",
+      relevance: "Fuzzing campaigns (e.g. PolyJuice, OOPSLA 2024) have revealed significant numbers of silent miscompilation bugs in production tensor compilers. Alive2 validates LLVM IR transformations via SMT. PEQC-MLIR verifies AMD AIR/AIE toolchains. Translation validation is the most practical path to compiler correctness — it doesn't require verifying the whole compiler, just each transformation independently.",
+      notes: [
+        { url: "https://arxiv.org/abs/2605.01124", label: "PEQC-MLIR: Hybrid Concrete-Symbolic Verification for MLIR Program Equivalence (2025)" },
+        { url: "https://arxiv.org/abs/2407.03685", label: "Verifying Peephole Rewriting In SSA Compiler IRs (Lean-MLIR, POPL 2025)" },
+        { url: "https://github.com/opencompl/veir", label: "VeIR: Verified Intermediate Representation in Lean (MLIR-style, 2025)" }
+      ],
       part: "Correctness & Parallel Systems"
     },
     {
@@ -665,7 +810,11 @@ var RESEARCH_DATA = {
       tags: ["LLVM", "MLIR", "SMT Solving", "Formal Methods", "Program Equivalence"],
       difficulty: 5,
       conferences: "PLDI, POPL, OOPSLA",
-      relevance: "",
+      relevance: "TensorRight (POPL 2025) verifies tensor graph rewrites via denotational semantics. SuperTensor-lean generates constructive proofs automatically. These show that verification infrastructure can be generated from formal specifications rather than hand-written per transformation.",
+      notes: [
+        { url: "https://doi.org/10.1145/3704865", label: "TensorRight: Automated Verification of Tensor Graph Rewrites (POPL 2025)" },
+        { url: "https://github.com/lambdaclass/supertensor_lean", label: "SuperTensor-lean: Verified Tensor Graph Optimization with Constructive Proofs (LambdaClass 2026)" }
+      ],
       part: "Correctness & Parallel Systems"
     },
     {
@@ -674,7 +823,12 @@ var RESEARCH_DATA = {
       tags: ["LLVM", "MLIR", "Coq", "Lean", "Isabelle", "Formal Semantics"],
       difficulty: 5,
       conferences: "PLDI, POPL, ITP",
-      relevance: "",
+      relevance: "CompCert remains the gold standard for verified compilers but targets C, not ML/tensor IRs. VeIR and Lean-MLIR bring MLIR into proof assistants. SuperTensor-lean shows verified tensor optimization is feasible. The gap is scaling verified infrastructure to production ML compilers.",
+      notes: [
+        { url: "https://github.com/opencompl/lean-mlir", label: "Lean-MLIR: Verified SSA Compilation Theory in Lean (220+ stars, 30 contributors)" },
+        { url: "https://github.com/opencompl/veir", label: "VeIR: Verified MLIR-style IR in Lean with Optional ITP Verification (2025)" },
+        { url: "https://grosser.science/lean-mlir/", label: "Lean-MLIR: Verified Peephole Rewriting in SSA Compiler IRs (Grosser et al.)" }
+      ],
       part: "Correctness & Parallel Systems"
     },
     {
@@ -683,7 +837,11 @@ var RESEARCH_DATA = {
       tags: ["LLVM", "SMT Solvers", "Symbolic Execution", "Program Verification"],
       difficulty: 5,
       conferences: "PLDI, CAV, FMCAD",
-      relevance: "",
+      relevance: "Alive2 validates LLVM IR transformations via SMT. PEQC-MLIR uses hybrid concrete-symbolic interpretation for MLIR equivalence. These approaches scale to real compilers but miss higher-level semantic equivalences. Combining IR-level and source-level checking could close this gap.",
+      notes: [
+        { url: "https://arxiv.org/abs/2605.01124", label: "PEQC-MLIR: Hybrid Concrete-Symbolic Verification for MLIR Program Equivalence (2025)" },
+        { url: "https://github.com/opencompl/veir", label: "VeIR: Verified Intermediate Representation — MLIR-style IR verification in Lean (2025)" }
+      ],
       part: "Correctness & Parallel Systems"
     },
     {
@@ -692,7 +850,12 @@ var RESEARCH_DATA = {
       tags: ["LLVM", "OpenMP", "Polyhedral Compilation", "Dependence Analysis", "Machine Learning"],
       difficulty: 5,
       conferences: "PLDI, PPoPP, CGO",
-      relevance: "",
+      relevance: "Polyhedral compilation (ISL, PPCG) handles affine loops well but real programs have non-affine control flow. MLIR's Affine dialect + Polygeist raise C/C++ to polyhedral IR. AutoLALA computes symbolic locality analysis. The challenge is scaling beyond toy benchmarks to real HPC codes.",
+      notes: [
+        { url: "https://arxiv.org/abs/2604.05066", label: "AutoLALA: Automatic Loop Algebraic Locality Analysis for AI and HPC Kernels (2026)" },
+        { url: "https://discourse.llvm.org/t/rfc-add-scf-to-affine-conversion-pass-in-mlir/88036", label: "RFC: SCF-to-Affine Conversion Pass in MLIR (Polygeist-derived, 2025)" },
+        { url: "https://discourse.llvm.org/t/rfc-mlir-enable-dynamic-and-tighter-affine-unrolling-via-valueboundsconstraintset/91055", label: "RFC: Dynamic Affine Unrolling via ValueBoundsConstraintSet for GPU Codegen (2026)" }
+      ],
       part: "Correctness & Parallel Systems"
     },
     {
@@ -701,7 +864,11 @@ var RESEARCH_DATA = {
       tags: ["LLVM", "OpenMP", "MPI", "Runtime Systems", "Dynamic Compilation"],
       difficulty: 5,
       conferences: "PPoPP, ASPLOS, SC",
-      relevance: "",
+      relevance: "Workload-aware runtime systems (Intel oneTBB, StarPU) adapt scheduling dynamically. Compiler-guided adaptive parallelism could combine static analysis with runtime profiling to make better decisions than either alone. OpenMP's GPU offloading mode already varies execution strategy per kernel.",
+      notes: [
+        { url: "https://github.com/llvm/llvm-project/pull/150922", label: "MLIR OpenMP: Remove Generic-SPMD Early Detection for Correct GPU Execution (2025)" },
+        { url: "https://dl.acm.org/doi/10.1145/3624062.3624167", label: "Fortran Performance Optimisation and Auto-Parallelisation via MLIR (2023)" }
+      ],
       part: "Correctness & Parallel Systems"
     },
     {
@@ -710,7 +877,12 @@ var RESEARCH_DATA = {
       tags: ["LLVM", "MLIR", "OpenMP", "CUDA", "GPU Compilation", "Heterogeneous Systems"],
       difficulty: 5,
       conferences: "CGO, PPoPP, ASPLOS",
-      relevance: "",
+      relevance: "Polygeist-GPU automatically translates CUDA to AMD GPUs with thread coarsening, achieving 27% speedup on Rodinia. MLIR's GPU dialect + NVVM/nvgpu dialects provide the abstraction layers. The challenge is automatic kernel generation for arbitrary CPU code without programmer hints.",
+      notes: [
+        { url: "https://c.wsmoses.com/papers/polygeist24.pdf", label: "Polygeist-GPU: Retargeting and Respecializing GPU Workloads for Performance Portability (CGO 2024)" },
+        { url: "https://mlir.llvm.org/docs/Dialects/NVVMDialect/", label: "MLIR NVVM Dialect: NVIDIA-specific Backend for GPU Kernel Compilation" },
+        { url: "https://llvm.org/devmtg/2024-03/slides/nvidia-hopper-in-mlir.pdf", label: "Targeting NVIDIA Hopper in MLIR: NVGPU/NVVM Dialects, Tensor Core, TMA (2024)" }
+      ],
       part: "Correctness & Parallel Systems"
     },
     {
@@ -719,7 +891,12 @@ var RESEARCH_DATA = {
       tags: ["LLVM", "MLIR", "MPI", "PGAS", "Distributed Computing", "Compiler"],
       difficulty: 5,
       conferences: "SC, ASPLOS, PLDI",
-      relevance: "",
+      relevance: "Distributed compilation is mostly a runtime concern today (MPI, NCCL). MLIR's Shardy (OpenXLA) and DHIR dialect (PLDI 2025) show early work on compiler-native distributed abstractions. AutoCCL (NSDI 2025) demonstrates automated communication tuning. The compiler could reason about data placement and communication schedules statically.",
+      notes: [
+        { url: "https://pldi25.sigplan.org/details/pldi-2025-src/3/An-MLIR-Dialect-for-Distributed-Heterogeneous-Computing", label: "An MLIR Dialect for Distributed Heterogeneous Computing (PLDI 2025 SRC)" },
+        { url: "https://github.com/openxla/shardy", label: "Shardy: MLIR-based Tensor Partitioning System for SPMD (OpenXLA)" },
+        { url: "https://www.usenix.org/system/files/nsdi25-xu-guanbin.pdf", label: "AutoCCL: Automated Collective Communication Tuning for DNN Training (NSDI 2025)" }
+      ],
       part: "Correctness & Parallel Systems"
     },
     {
@@ -728,7 +905,12 @@ var RESEARCH_DATA = {
       tags: ["LLVM", "MLIR", "CPU", "GPU", "FPGA", "NPU", "Accelerators", "Hardware Mapping"],
       difficulty: 5,
       conferences: "ASPLOS, ISCA, PLDI",
-      relevance: "",
+      relevance: "MLIR's dialect ecosystem (gpu, nvgpu, nvvm, amdgpu, rocdl, spirv) provides building blocks but no unified mapping strategy. ACT (ASPLOS 2026) auto-generates compiler backends from ISA specifications. TL compiles tile-based programs to spatial dataflow architectures. The universal compiler remains aspirational.",
+      notes: [
+        { url: "https://arxiv.org/abs/2510.09932", label: "ACT: Automatically Generating Compiler Backends from Tensor Accelerator ISA Descriptions (ASPLOS 2026)" },
+        { url: "https://arxiv.org/abs/2512.22168", label: "TL: End-to-End Compiler of Tile-Based Languages for Spatial Dataflow Architectures (2025)" },
+        { url: "https://arxiv.org/abs/2604.19906", label: "MLIR-native DSL Compilers: NumPy-like Example with Deductive Type Checker (2026)" }
+      ],
       part: "Correctness & Parallel Systems"
     },
     {
@@ -737,7 +919,11 @@ var RESEARCH_DATA = {
       tags: ["LLVM", "MLIR", "Architecture Exploration", "Hardware-Compiler Co-Design"],
       difficulty: 5,
       conferences: "ISCA, MICRO, ASPLOS",
-      relevance: "",
+      relevance: "Hardware-software co-design is increasingly important as transistor scaling slows. Compiler analysis can identify ISA gaps (missing instructions, inefficient memory patterns). ACT's TAIDL language shows ISA specification can drive both compiler generation and simulation, enabling rapid design-space exploration.",
+      notes: [
+        { url: "https://doi.org/10.1145/3725843.3756075", label: "TAIDL: Tensor Accelerator ISA Definition Language with Auto-generation of Scalable Test Oracles (MICRO 2025)" },
+        { url: "https://arxiv.org/abs/2510.09932", label: "ACT: Automatically Generating Compiler Backends from ISA Descriptions (ASPLOS 2026)" }
+      ],
       part: "Correctness & Parallel Systems"
     },
     {
@@ -746,7 +932,11 @@ var RESEARCH_DATA = {
       tags: ["MLIR", "HLS", "FPGA", "CGRA", "Domain Specific Compilers"],
       difficulty: 5,
       conferences: "FPGA, ASPLOS, MICRO",
-      relevance: "",
+      relevance: "FPGA/CGRA compilation remains highly manual. MLIR's CIRCT dialect provides hardware abstraction but lacks automatic mapping. ACT auto-generates accelerator backends from ISA specs. TL maps tile-based programs to spatial dataflow architectures. The gap is bridging high-level tensor programs to spatial hardware.",
+      notes: [
+        { url: "https://arxiv.org/abs/2512.22168", label: "TL: End-to-End Compiler of Tile-Based Languages for Spatial Dataflow Architectures (2025)" },
+        { url: "https://arxiv.org/abs/2510.09932", label: "ACT: Automatically Generating Compiler Backends from ISA Descriptions (ASPLOS 2026)" }
+      ],
       part: "Correctness & Parallel Systems"
     },
     {
@@ -755,7 +945,11 @@ var RESEARCH_DATA = {
       tags: ["LLVM", "ORC JIT", "GraalVM", "Adaptive Optimization", "Machine Learning"],
       difficulty: 5,
       conferences: "OOPSLA, PLDI, ASPLOS",
-      relevance: "",
+      relevance: "GraalVM's partial evaluation and LLVM ORC JIT already adapt compilation strategies at runtime. Self-optimizing compilers are the intersection of JIT, profiling, and ML-guided decision making. MLGO's time-aware scheduling shows ML can make better latency/quality tradeoffs than static heuristics.",
+      notes: [
+        { url: "https://arxiv.org/abs/2604.09257", label: "MLGO Survey: ML-Guided Compiler Optimizations (2026)" },
+        { url: "https://arxiv.org/abs/2506.00959", label: "to GNN or not to GNN for ML-based Compiler Optimisation (2025)" }
+      ],
       part: "Correctness & Parallel Systems"
     },
     {
@@ -764,7 +958,10 @@ var RESEARCH_DATA = {
       tags: ["LLVM", "ORC JIT", "Machine Learning", "Runtime Optimization"],
       difficulty: 4,
       conferences: "OOPSLA, CGO",
-      relevance: "",
+      relevance: "JIT compilation (JVM HotSpot, V8 TurboFan) already uses tiered compilation with profiling. ML-guided JIT could predict hot paths earlier and select better codegen strategies. MLGO's lightweight training loop shows ML can be cheap enough for online use. The challenge is keeping compilation latency below the benefit threshold.",
+      notes: [
+        { url: "https://arxiv.org/abs/2604.09257", label: "MLGO: Machine Learning-Guided Compiler Optimizations — Survey (2026)" }
+      ],
       part: "Correctness & Parallel Systems"
     },
     {
@@ -773,7 +970,11 @@ var RESEARCH_DATA = {
       tags: ["LLVM", "Cloud Computing", "Serverless", "JIT", "Optimization"],
       difficulty: 5,
       conferences: "ASPLOS, EuroSys, OSDI",
-      relevance: "",
+      relevance: "Serverless compilation (emerging: JATOS, CompileService) and cloud-native ML inference engines (ExecuTorch, TVM on cloud) already do partial recompilation. The key unsolved problem is adapting execution to dynamic resource availability without user intervention. OpenXLA's Shardy framework supports distributed tensor partitioning across heterogeneous cloud hardware.",
+      notes: [
+        { url: "https://github.com/openxla/shardy", label: "Shardy: MLIR-based Tensor Partitioning for Distributed SPMD (OpenXLA)" },
+        { url: "https://github.com/pytorch/executorch", label: "ExecuTorch: PyTorch Runtime for On-Device AI with Dynamic Backends" }
+      ],
       part: "Correctness & Parallel Systems"
     },
 
@@ -783,7 +984,10 @@ var RESEARCH_DATA = {
       tags: ["LLVM", "Secure Compilation", "Control Flow Integrity", "Memory Safety", "Side Channels"],
       difficulty: 5,
       conferences: "PLDI, ASPLOS, CCS, NDSS",
-      relevance: "",
+      relevance: "Compiler-generated code can introduce speculative execution vulnerabilities (Spectre), control-flow leakage, and side channels. LLVM's Spectre mitigations and ARM CCA support show the compiler must reason about security alongside performance. The challenge is maintaining optimization power while enforcing security invariants.",
+      notes: [
+        { url: "https://arxiv.org/abs/2605.01124", label: "PEQC-MLIR: Hybrid Concrete-Symbolic Verification for MLIR Program Equivalence — formal foundation for secure compilation (2025)" }
+      ],
       part: "Security, Energy & Emerging Paradigms"
     },
     {
@@ -792,7 +996,10 @@ var RESEARCH_DATA = {
       tags: ["LLVM", "Backend Security", "Instruction Selection", "Cryptographic Compilation"],
       difficulty: 5,
       conferences: "PLDI, CCS, ASPLOS",
-      relevance: "",
+      relevance: "Constant-time code generation is critical for cryptographic libraries. Current tools (ct-verif, Jasmin) are standalone rather than integrated into mainstream compilers. Integrating side-channel resistance into instruction selection and scheduling within LLVM/MLIR would make secure compilation accessible to all developers.",
+      notes: [
+        { url: "https://arxiv.org/abs/2605.01124", label: "PEQC-MLIR: Hybrid Concrete-Symbolic Verification — approach to verify backend transformations preserve security properties (2025)" }
+      ],
       part: "Security, Energy & Emerging Paradigms"
     },
     {
@@ -801,7 +1008,11 @@ var RESEARCH_DATA = {
       tags: ["LLVM", "MLIR", "Homomorphic Encryption", "Differential Privacy", "Secure Computation"],
       difficulty: 5,
       conferences: "PLDI, CCS, ASPLOS",
-      relevance: "",
+      relevance: "Homomorphic encryption compilers (SEAL, PALISADE, OpenFHE) encrypt computation but require manual algorithm rewriting. MLIR could provide dialect-level abstractions for encrypted operations, letting the compiler handle encryption/decryption placement and noise management automatically.",
+      notes: [
+        { url: "https://github.com/microsoft/SEAL", label: "Microsoft SEAL: Homomorphic Encryption Library — potential MLIR integration target" },
+        { url: "https://github.com/openfheorg/openfhe-development", label: "OpenFHE: Open-Source FHE Library — compiler integration challenges documented" }
+      ],
       part: "Security, Energy & Emerging Paradigms"
     },
     {
@@ -810,7 +1021,10 @@ var RESEARCH_DATA = {
       tags: ["LLVM", "SGX", "TEE", "ARM CCA", "Secure Hardware", "Compilation"],
       difficulty: 4,
       conferences: "ASPLOS, CCS, EuroSys",
-      relevance: "",
+      relevance: "Confidential computing (Intel SGX, ARM CCA, AMD SEV) requires careful memory layout and trust boundary management. MLIR's memory model could be extended with security annotations to automate enclave transitions and data protection, similar to how MLIR handles bufferization for heterogeneous memory.",
+      notes: [
+        { url: "https://mlir.llvm.org/docs/Bufferization/", label: "MLIR Bufferization: memory layout and alias analysis — analogous to enclave memory placement" }
+      ],
       part: "Security, Energy & Emerging Paradigms"
     },
     {
@@ -819,7 +1033,10 @@ var RESEARCH_DATA = {
       tags: ["LLVM", "Cloud Computing", "Green Computing", "Energy Modeling"],
       difficulty: 4,
       conferences: "ASPLOS, SC, EuroSys",
-      relevance: "",
+      relevance: "Carbon-aware computing is an emerging area (Microsoft, Google already doing carbon-aware workload scheduling). Compiler-level carbon awareness could complement runtime scheduling by selecting energy-efficient code paths and vectorization strategies based on grid carbon intensity at execution time.",
+      notes: [
+        { url: "https://dl.acm.org/doi/10.1145/3624062.3624167", label: "Fortran Performance Optimisation and Auto-Parallelisation via MLIR — energy-aware parallelization (2023)" }
+      ],
       part: "Security, Energy & Emerging Paradigms"
     },
     {
@@ -828,7 +1045,10 @@ var RESEARCH_DATA = {
       tags: ["LLVM", "Runtime Systems", "Thermal Management", "Hardware Sensors"],
       difficulty: 4,
       conferences: "ASPLOS, HPCA, MICRO",
-      relevance: "",
+      relevance: "Thermal throttling already affects modern CPUs and GPUs. Compiler-level thermal management via instruction scheduling and workload distribution could complement hardware thermal control. MLIR's affine loop transformations and GPU work distribution could be made thermal-aware with sensor feedback.",
+      notes: [
+        { url: "https://dl.acm.org/doi/10.1145/3624062.3624167", label: "Fortran Performance Optimisation via MLIR — loop transformation infrastructure applicable to thermal-aware scheduling (2023)" }
+      ],
       part: "Security, Energy & Emerging Paradigms"
     },
     {
@@ -837,7 +1057,11 @@ var RESEARCH_DATA = {
       tags: ["LLVM", "Fuzzing", "Csmith", "Random Testing", "Differential Testing"],
       difficulty: 4,
       conferences: "PLDI, ISSTA, ICSE",
-      relevance: "",
+      relevance: "Csmith and PolyJuice are foundational compiler fuzzers. AutoFuzz (2025) uses LLMs to generate domain-specific test cases. EvoCodeBench (2025) benchmarks LLMs' ability to generate test cases. Combining LLM-generated programs with grammar-constrained fuzzing could dramatically increase bug detection rates in tensor compilers and MLIR passes.",
+      notes: [
+        { url: "https://arxiv.org/abs/2604.10649", label: "AutoFuzz: LLM-Powered Automatic Test Case Generation for Industrial Software (2025)" },
+        { url: "https://arxiv.org/abs/2510.05063", label: "EvoCodeBench: Benchmarking LLMs for Test Case Generation (2025)" }
+      ],
       part: "Security, Energy & Emerging Paradigms"
     },
     {
@@ -845,8 +1069,12 @@ var RESEARCH_DATA = {
       desc: "Debugging compiler infrastructure requires deep expertise in IR semantics, optimization passes, and backend architectures. This research proposes AI-assisted compiler debugging systems capable of automatically locating compiler bugs, explaining failures, generating patches, and creating regression tests. The goal is reducing compiler engineering complexity.",
       tags: ["LLVM", "MLIR", "Large Language Models", "Program Repair", "Debugging"],
       difficulty: 5,
-      conferences: "PLDI, ICSE, CGO",
-      relevance: "",
+      conferences: "PLDI, ICSE, ASPLOS",
+      relevance: "Compiler bugs are notoriously hard to diagnose: a miscompile may manifest only under specific optimization levels or input shapes. AutoPass and AutoBug demonstrate that LLMs can generate and repair compiler passes automatically. Extending this to debugging — automatically isolating the failing pass, explaining the IR transformation that introduced the fault, and generating a regression test — would significantly reduce compiler engineering effort.",
+      notes: [
+        { url: "https://arxiv.org/abs/2604.05592", label: "AutoPass: Staged LLMs for Automated Compiler Pass Generation (2026)" },
+        { url: "https://arxiv.org/abs/2604.15846", label: "AutoBug: LLM-Based Automated Program Repair (2026)" }
+      ],
       part: "Security, Energy & Emerging Paradigms"
     },
     {
@@ -855,7 +1083,10 @@ var RESEARCH_DATA = {
       tags: ["LLVM", "Continuous Integration", "Machine Learning", "Testing Infrastructure"],
       difficulty: 4,
       conferences: "CGO, ICSE, PLDI",
-      relevance: "",
+      relevance: "LLVM's continuous integration uses LNT for performance tracking but regression detection remains largely manual. ML-based regression detection could combine benchmark analysis with statistical modeling to automatically identify performance degradation, complementing existing fuzzing (Csmith, PolyJuice) which focuses on correctness.",
+      notes: [
+        { url: "https://arxiv.org/abs/2604.10649", label: "AutoFuzz: LLM-Powered Test Generation — applicable to compiler regression detection (2025)" }
+      ],
       part: "Security, Energy & Emerging Paradigms"
     },
     {
@@ -863,8 +1094,12 @@ var RESEARCH_DATA = {
       desc: "Building compilers and language implementations requires years of engineering effort. This research proposes automatically generating compiler infrastructures from high-level specifications. Given instruction set descriptions, language semantics, domain abstractions, and optimization rules, the system generates IR definitions, lowering passes, backend code generation, and domain-specific compiler implementations. Applications include compiler backends from ISA descriptions, full language implementations from formal specifications, and optimized compilers for domain-specific languages.",
       tags: ["MLIR", "LLVM", "DSL", "Compiler Synthesis", "Domain-Specific Languages", "Meta-Compilers"],
       difficulty: 5,
-      conferences: "PLDI, CGO, ASPLOS, POPL, OOPSLA",
-      relevance: "",
+      conferences: "PLDI, ASPLOS, OOPSLA",
+      relevance: "ACT (ASPLOS 2026) demonstrates automatic backend generation from ISA descriptions, eliminating weeks of manual backend engineering per new accelerator. MLIR's TableGen-driven dialect generation already synthesizes boilerplate from operation definitions. The open challenge is generating optimization passes, type systems, and lowering pipelines automatically from higher-level semantic descriptions, reducing compiler bring-up from months to days.",
+      notes: [
+        { url: "https://arxiv.org/abs/2510.09932", label: "ACT: Automatically Generating Compiler Backends from Tensor Accelerator ISA Descriptions (ASPLOS 2026)" },
+        { url: "https://arxiv.org/abs/2604.19906", label: "MLIR-native DSL Compilers: NumPy-like Example with Deductive Type Checker (2026)" }
+      ],
       part: "Security, Energy & Emerging Paradigms"
     },
     {
@@ -872,8 +1107,11 @@ var RESEARCH_DATA = {
       desc: "Quantum computing introduces entirely new compilation challenges. Quantum programs require qubit allocation, gate optimization, circuit scheduling, and error-aware compilation. This research proposes next-generation quantum compiler infrastructures capable of automatically optimizing quantum programs for different quantum architectures.",
       tags: ["MLIR", "Quantum", "LLVM", "Quantum Computing", "Circuit Optimization"],
       difficulty: 5,
-      conferences: "PLDI, ASPLOS, QCE",
-      relevance: "",
+      conferences: "PLDI, ICSE, CGO",
+      relevance: "MLIR's progressive lowering naturally maps to the quantum compilation pipeline: high-level quantum IR → gate optimization → qubit mapping → pulse scheduling. Domain-specific languages such as Cirq and Qiskit already define high-level quantum programs, but optimizing circuits for specific hardware topologies (qubit connectivity, gate fidelity) requires a compiler that reasons about hardware noise models and error correction. The key open problem is error-aware compilation that accounts for decoherence and limited qubit connectivity.",
+      notes: [
+        { url: "https://mlir.llvm.org/docs/Dialects/", label: "MLIR Dialect Ecosystem — includes experimental quantum (QIS) dialect" }
+      ],
       part: "Security, Energy & Emerging Paradigms"
     },
     {
@@ -882,7 +1120,10 @@ var RESEARCH_DATA = {
       tags: ["MLIR", "Neuromorphic Computing", "Event-Based Systems", "Brain-Inspired Hardware"],
       difficulty: 4,
       conferences: "ASPLOS, ISCA, DAC",
-      relevance: "",
+      relevance: "Neuromorphic hardware (Intel Loihi, SpiNNaker) has no mature compiler stack. The computational model (spikes, event-driven) is fundamentally different from von Neumann architectures. MLIR's extensible dialect system could provide the abstraction layers needed, but no established framework exists yet.",
+      notes: [
+        { url: "https://mlir.llvm.org/docs/Dialects/", label: "MLIR Dialect Ecosystem: extensible IR infrastructure applicable to neuromorphic abstractions" }
+      ],
       part: "Security, Energy & Emerging Paradigms"
     },
     {
@@ -890,8 +1131,11 @@ var RESEARCH_DATA = {
       desc: "Future systems will combine CPUs with new memory technologies: persistent memory, CXL memory, and processing-near-memory architectures. This research proposes compiler frameworks aware of new memory hierarchies. The compiler optimizes data placement, movement, persistence, and computation locality.",
       tags: ["LLVM", "MLIR", "Persistent Memory", "CXL", "Processing Near Memory"],
       difficulty: 5,
-      conferences: "ASPLOS, ISCA, HPCA",
-      relevance: "",
+      conferences: "PLDI, ASPLOS, HPCA",
+      relevance: "CXL-attached memory and byte-addressable persistent memory introduce new tiers with different latencies, bandwidths, and persistence guarantees. Current compilers treat memory as a flat address space. MLIR's bufferization and affine dialect provide a natural framework for tier-aware data placement, but no compiler today reasons about CXL topology or persistence boundaries automatically. The challenge is static analysis that infers optimal placement across heterogeneous memory tiers.",
+      notes: [
+        { url: "https://mlir.llvm.org/docs/Bufferization/", label: "MLIR Bufferization: memory placement and alias analysis — foundation for tier-aware data placement" }
+      ],
       part: "Security, Energy & Emerging Paradigms"
     },
     {
@@ -900,7 +1144,12 @@ var RESEARCH_DATA = {
       tags: ["LLVM", "MLIR", "LLM", "Agents", "Compiler Development Automation"],
       difficulty: 5,
       conferences: "PLDI, CGO, MLSys",
-      relevance: "",
+      relevance: "PassForge (ICLR 2026) and AutoPass (2026) demonstrate LLMs can generate compiler passes. AutoBug shows LLMs can repair bugs. Combining these into an autonomous agent — generate pass, test, fix, evaluate — is the natural next step. The gap is robustness: current LLM-generated passes still require manual review.",
+      notes: [
+        { url: "https://arxiv.org/abs/2605.08212", label: "PassForge: LLM-Generated Compiler Passes (ICLR 2026)" },
+        { url: "https://arxiv.org/abs/2604.05592", label: "AutoPass: Staged LLMs for Automated Compiler Pass Generation (2026)" },
+        { url: "https://arxiv.org/abs/2604.15846", label: "AutoBug: LLM-Based Automated Program Repair (2026)" }
+      ],
       part: "Security, Energy & Emerging Paradigms"
     },
     {
@@ -909,7 +1158,11 @@ var RESEARCH_DATA = {
       tags: ["LLVM", "MLIR", "AI Agents", "Program Understanding", "Optimization Discovery"],
       difficulty: 5,
       conferences: "PLDI, ASPLOS, OOPSLA",
-      relevance: "",
+      relevance: "MLIR is evolving into a multi-level, multi-target platform where passes compose via the Transform dialect. The intelligence layer would combine MLGO's ML-guided decisions, PassForge's LLM-generated passes, and Alive2's verification into a unified self-improving compilation platform.",
+      notes: [
+        { url: "https://arxiv.org/abs/2604.09257", label: "MLGO Survey: ML-Guided Compiler Optimizations (2026)" },
+        { url: "https://arxiv.org/abs/2605.08212", label: "PassForge: LLM-Generated Compiler Passes (ICLR 2026)" }
+      ],
       part: "Security, Energy & Emerging Paradigms"
     },
     {
@@ -918,7 +1171,11 @@ var RESEARCH_DATA = {
       tags: ["LLVM", "Benchmark Synthesis", "Program Generation", "Performance Evaluation"],
       difficulty: 4,
       conferences: "CGO, ICPE, PLDI",
-      relevance: "",
+      relevance: "PolyJuice fuzzes tensor compilers by generating random programs. Csmith generates random C programs for compiler testing. AutoLALA auto-generates benchmark programs for locality analysis. The challenge is generating benchmarks that are both realistic and stress compiler-specific optimizations, not just random code.",
+      notes: [
+        { url: "https://arxiv.org/abs/2604.05066", label: "AutoLALA: Automatic Loop Algebraic Locality Analysis — auto-generates benchmark kernels (2026)" },
+        { url: "https://arxiv.org/abs/2604.10649", label: "AutoFuzz: LLM-Powered Test Case Generation — applicable to benchmark synthesis (2025)" }
+      ],
       part: "Security, Energy & Emerging Paradigms"
     },
 
