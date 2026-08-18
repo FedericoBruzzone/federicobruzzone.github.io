@@ -920,6 +920,91 @@ var RESEARCH_DATA = {
       conferences: "CGO, ICPE, PLDI",
       relevance: "",
       part: "Security, Energy & Emerging Paradigms"
+    },
+
+    {
+      title: "Mutation Testing of MLIR Compilation Passes",
+      desc: "MLIR compiler infrastructure contains hundreds of optimization and transformation passes, each tested through lit/FileCheck test suites. However, the adequacy of these test suites is largely unmeasured. This research proposes applying mutation testing to MLIR pass implementations (C++ code) to evaluate whether existing tests can detect faults introduced by small semantic changes in pass logic. The approach mutates pass implementations at the AST/IR level — modifying comparison operators, boundary conditions, transformation predicates, and data flow logic — then measures whether the existing lit/FileCheck test suite kills the resulting mutants. The challenge is handling equivalent mutants that arise from MLIR's multi-level IR structure, where some mutations are invisible to downstream passes. The goal is providing a quantitative measure of test suite quality and identifying gaps in MLIR's testing infrastructure.",
+      tags: ["MLIR", "Mutation Testing", "LLVM", "Compiler Testing", "Test Adequacy", "FileCheck"],
+      difficulty: 4,
+      conferences: "ISSTA, ICSE, ESEC/FSE",
+      relevance: "Closely aligned with MLIR testing research (MLIRSmith, SynthFuzz, FLEX, DESIL) but from the test quality perspective rather than test generation.",
+      notes: [
+        { url: "https://ieeexplore.ieee.org/document/10298562", label: "MLIRSmith: Random Program Generation for Fuzzing MLIR Compiler Infrastructure (Wang et al., 2023)" },
+        { url: "https://arxiv.org/abs/2601.02218", label: "MLIR-Smith: A Novel Random Program Generator for Evaluating Compiler Pipelines (2025)" },
+        { url: "https://arxiv.org/abs/2404.16947", label: "SynthFuzz: Fuzzing MLIR Compilers with Custom Mutation Synthesis (Limpanukorn et al., ICSE 2025)" },
+        { url: "https://dl.acm.org/doi/10.1145/3729372", label: "MLIRTracer: Directed Testing in MLIR (Tong et al., FSE 2025)" },
+        { url: "https://dl.acm.org/doi/10.1145/3238147.3240482", label: "SRCIROR: Mutation Testing of C Source Code and LLVM IR (Kazmi et al., ASE 2018)" }
+      ],
+      part: "Compiler Testing & Reliability"
+    },
+    {
+      title: "Mutation Testing of MLIR Dialect Definitions",
+      desc: "MLIR dialects are defined through TableGen specifications that encode operations, types, attributes, and verification rules. Errors in these definitions can lead to silent miscompilations or runtime failures. This research proposes applying mutation testing at the dialect definition level: mutating TableGen files to introduce faults in type constraints, operand counts, attribute definitions, and verifier logic, then checking whether the existing test suite detects the injected faults. This enables measuring how thoroughly the test suite covers the semantic contracts encoded in dialect definitions. The approach could reveal under-tested verification rules and guide targeted test generation for dialect-specific constraints.",
+      tags: ["MLIR", "TableGen", "Mutation Testing", "Dialect Verification", "CIRCT", "LLVM"],
+      difficulty: 4,
+      conferences: "ISSTA, SLE, ICSE",
+      relevance: "Novel angle — no existing work applies mutation testing to MLIR dialect definitions. Complementary to fuzzing approaches that focus on input generation.",
+      notes: [
+        { url: "https://arxiv.org/abs/2404.16947", label: "SynthFuzz: Fuzzing MLIR Compilers with Custom Mutation Synthesis (Limpanukorn et al., ICSE 2025)" },
+        { url: "https://arxiv.org/abs/2504.01379", label: "DESIL: Detecting Silent Bugs in MLIR Compiler Infrastructure (2025)" }
+      ],
+      part: "Compiler Testing & Reliability"
+    },
+    {
+      title: "Mutation-Based Test Suite Adequacy for LLVM Passes",
+      desc: "LLVM optimization passes are tested through lit tests with FileCheck verification. However, the relationship between test coverage (branch, line) and mutation score (percentage of mutants killed) is not well understood for compiler code. This research proposes a comprehensive mutation testing study on LLVM passes, measuring how well existing tests detect semantic faults. The study defines LLVM-specific mutation operators (modifying condition codes, swapping operands, altering constant folding logic, changing loop transformation predicates) and applies them across the LLVM optimization pipeline. The goal is establishing benchmarks for test suite adequacy, identifying passes with weak test coverage, and developing guidelines for writing more effective compiler tests.",
+      tags: ["LLVM", "Mutation Testing", "Compiler Optimization", "Test Adequacy", "FileCheck", "lit"],
+      difficulty: 3,
+      conferences: "ISSTA, ICSE, ESEC/FSE, MSR",
+      relevance: "Extends existing mutation testing work on C/LLVM (SRCIROR) with modern LLVM passes and quantifies the gap between coverage and mutation score.",
+      notes: [
+        { url: "https://dl.acm.org/doi/10.1145/3238147.3240482", label: "SRCIROR: Mutation Testing of C Source Code and LLVM IR (Kazmi et al., ASE 2018)" },
+        { url: "https://arxiv.org/abs/2606.31238", label: "A Multi-Dimensional, Per-Pass Empirical Study of the LLVM Optimization Pipeline (Bruzzone and Cazzola, 2026)" }
+      ],
+      part: "Compiler Testing & Reliability"
+    },
+    {
+      title: "Equivalent Mutant Detection in Multi-Level Compiler IRs",
+      desc: "Equivalent mutants — mutations that do not change program behavior — are a fundamental obstacle to practical mutation testing. In multi-level compiler IRs like MLIR, this problem is amplified because transformations at one level can eliminate or obscure mutations applied at another level. This research proposes techniques for detecting equivalent mutants specific to compiler infrastructure: mutations that are rendered semantically irrelevant by subsequent optimization passes, transformations that constant-fold the mutated code, or lowering passes that map the mutated and original IR to identical machine code. The approach combines static analysis of pass dependencies, abstract interpretation of IR semantics, and machine learning models trained on pass transformation patterns to predict mutant equivalence.",
+      tags: ["MLIR", "LLVM", "Mutation Testing", "Equivalent Mutants", "Abstract Interpretation", "Compiler Analysis"],
+      difficulty: 5,
+      conferences: "ISSTA, ICSE, OOPSLA",
+      relevance: "Addresses a key practical barrier to applying mutation testing in compiler contexts. No existing work targets equivalent mutant detection in MLIR/LLVM.",
+      notes: [
+        { url: "https://dl.acm.org/doi/10.1145/3238147.3240482", label: "SRCIROR: Mutation Testing of C Source Code and LLVM IR (Kazmi et al., ASE 2018)" },
+        { url: "https://dl.acm.org/doi/10.1145/3715747", label: "DuoReduce: Bug Isolation for Multi-layer Extensible Compilation (Wang et al., FSE 2025)" }
+      ],
+      part: "Compiler Testing & Reliability"
+    },
+    {
+      title: "Mutation Testing for Compiler Lowering Paths",
+      desc: "MLIR's progressive lowering architecture transforms programs through multiple dialect levels (e.g., TOSA to Linalg to Affine to LLVM). Each lowering pass must preserve semantics while correctly translating types, operations, and control flow. This research proposes applying mutation testing specifically to lowering passes: injecting faults in type conversion logic, operation mapping rules, and data layout transformations. The approach measures whether downstream compilation, execution, or verification detects the injected faults. The key insight is that lowering passes have unique fault detection challenges — a mutation in an early lowering step may be masked by later transformations, making traditional mutation testing metrics unreliable. The research develops lowering-aware mutation operators and measurement techniques.",
+      tags: ["MLIR", "Mutation Testing", "Lowering Passes", "Dialect Conversion", "Compiler Correctness"],
+      difficulty: 4,
+      conferences: "ISSTA, PLDI, ESEC/FSE",
+      relevance: "Targets the multi-level nature of MLIR, which is unique among mutation testing domains. Complementary to fuzzing approaches that test individual passes in isolation.",
+      notes: [
+        { url: "https://dl.acm.org/doi/10.1145/3715747", label: "DuoReduce: Bug Isolation for Multi-layer Extensible Compilation (Wang et al., FSE 2025)" },
+        { url: "https://arxiv.org/abs/2504.01379", label: "DESIL: Detecting Silent Bugs in MLIR Compiler Infrastructure (2025)" },
+        { url: "https://arxiv.org/abs/2510.07815", label: "FLEX: Self-Adaptive Fuzz Testing Framework for MLIR (2025)" }
+      ],
+      part: "Compiler Testing & Reliability"
+    },
+    {
+      title: "Mutation-Guided Test Generation for MLIR Passes",
+      desc: "Current MLIR fuzzing tools (MLIRSmith, SynthFuzz, FLEX) generate test inputs to maximize code coverage or dialect coverage. However, coverage alone does not guarantee test effectiveness. This research proposes using mutation testing as a feedback signal to guide test generation: instead of maximizing coverage, the fuzzer targets killing specific mutants in MLIR pass implementations. The system generates or mutates MLIR programs specifically designed to trigger code paths where mutations remain alive. This creates a closed loop between mutation analysis and test generation, producing test suites that are not only high-coverage but also high-mutation-score. The approach combines grammar-based generation (as in SynthFuzz) with mutation-aware fitness functions.",
+      tags: ["MLIR", "Mutation Testing", "Fuzzing", "Test Generation", "Coverage", "Feedback-Guided"],
+      difficulty: 4,
+      conferences: "ISSTA, ESEC/FSE, ICSE",
+      relevance: "Bridges the gap between fuzzing (input generation) and mutation testing (test quality measurement). Novel combination not explored by existing MLIR testing tools.",
+      notes: [
+        { url: "https://arxiv.org/abs/2404.16947", label: "SynthFuzz: Fuzzing MLIR Compilers with Custom Mutation Synthesis (Limpanukorn et al., ICSE 2025)" },
+        { url: "https://conf.researchr.org/details/icse-2025/icse-2025-research-track/22/Fuzzing-MLIR-Compilers-with-Custom-Mutation-Synthesis", label: "SynthFuzz — ICSE 2025 (official)" },
+        { url: "https://arxiv.org/abs/2510.07815", label: "FLEX: Self-Adaptive Fuzz Testing Framework for MLIR (2025)" },
+        { url: "https://arxiv.org/abs/2512.04344", label: "TargetFuzz: Targeted Testing of Compiler Optimizations via Grammar-Level Composition Styles (2025)" }
+      ],
+      part: "Compiler Testing & Reliability"
     }
   ],
 
