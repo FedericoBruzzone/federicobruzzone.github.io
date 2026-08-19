@@ -158,6 +158,12 @@ var RESEARCH_DATA = {
 
   disseminationActivities: [
     {
+      title: "A Multi-Dimensional, Per-Pass Empirical Study of the LLVM Optimization Pipeline",
+      url: "/presentations/llvm-optimization-pipeline.pdf",
+      desc: "Ph.D. Student's Activity Report, University of Milan.",
+      date: "2026/06/22"
+    },
+    {
       title: "MLIR: Scaling Compiler Infrastructure for Domain Specific Computation",
       url: "/presentations/MLIR.pdf",
       desc: "Presentation of the paper by Lattner et al., 2021.",
