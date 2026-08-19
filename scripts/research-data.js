@@ -1336,6 +1336,12 @@ var RESEARCH_DATA = {
 
   openSourceContributions: [
     {
+      title: "[mlir][vector] Verify non-unit strides on `masked/expand/compress` ops",
+      url: "https://github.com/llvm/llvm-project/pull/216485",
+      date: "2026/08/19",
+      project: "llvm-project"
+    },
+    {
       title: "[mlir][ArmSME] Enable native ArmSME integration testing on Darwin",
       url: "https://github.com/llvm/llvm-project/pull/215296",
       date: "2026/08/14",
