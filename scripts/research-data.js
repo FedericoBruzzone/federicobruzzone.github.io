@@ -1336,6 +1336,12 @@ var RESEARCH_DATA = {
 
   openSourceContributions: [
     {
+      title: "[mlir][ArmNeon] Enable native I8MM integration testing on Darwin",
+      url: "https://github.com/llvm/llvm-project/pull/216098",
+      date: "2026/08/21",
+      project: "llvm-project"
+    },
+    {
       title: "[mlir][vector] Verify non-unit strides on `masked/expand/compress` ops",
       url: "https://github.com/llvm/llvm-project/pull/216485",
       date: "2026/08/19",
