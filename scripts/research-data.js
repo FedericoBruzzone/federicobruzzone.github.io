@@ -1336,6 +1336,12 @@ var RESEARCH_DATA = {
 
   openSourceContributions: [
     {
+      title: "Fix failed tests on Darwin",
+      url: "https://github.com/llvm/lighthouse/pull/267",
+      date: "2026/08/26",
+      project: "lighthouse"
+    },
+    {
       title: "[mlir][SCF] Skip dynamic front-peeling for non-index loops",
       url: "https://github.com/llvm/llvm-project/pull/218238",
       date: "2026/08/26",

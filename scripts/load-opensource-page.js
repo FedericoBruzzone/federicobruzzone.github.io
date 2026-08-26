@@ -3,6 +3,7 @@
 
   var PROJECT_BADGES = {
     "llvm-project": "project-blue",
+    "lighthouse": "project-blue",
     "iree": "project-teal",
     "rustc": "project-orange",
     "rustworkx": "project-purple"
