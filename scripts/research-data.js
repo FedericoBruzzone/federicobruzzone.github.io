@@ -1336,6 +1336,12 @@ var RESEARCH_DATA = {
 
   openSourceContributions: [
     {
+      title: "[mlir][SCF] Skip dynamic front-peeling for non-index loops",
+      url: "https://github.com/llvm/llvm-project/pull/218238",
+      date: "2026/08/26",
+      project: "llvm-project"
+    },
+    {
       title: "[mlir][ArmNeon] Enable native I8MM integration testing on Darwin",
       url: "https://github.com/llvm/llvm-project/pull/216098",
       date: "2026/08/21",
