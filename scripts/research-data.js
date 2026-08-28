@@ -1336,6 +1336,12 @@ var RESEARCH_DATA = {
 
   openSourceContributions: [
     {
+      title: "[GlobalOpt][Flow][Quant] Fix segfault on unlowered `quant.uniform` types",
+      url: "https://github.com/iree-org/iree/pull/24824",
+      date: "2026/08/28",
+      project: "iree"
+    },
+    {
       title: "Fix failed tests on Darwin",
       url: "https://github.com/llvm/lighthouse/pull/267",
       date: "2026/08/26",
