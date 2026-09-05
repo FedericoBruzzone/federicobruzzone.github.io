@@ -277,7 +277,13 @@ var RESEARCH_DATA = {
       relevance: "Fusion directly determines memory bandwidth utilization in tensor workloads. Manually written heuristics miss important opportunities (e.g. cross-attention + FFN fusions). An automatic search-based approach can discover fusions that rules miss, improving performance without hand-tuning. This aligns with the MLIR/OpenXLA ecosystem where fusion is the primary optimization lever for LLM inference.",
       notes: [
         { url: "https://arxiv.org/abs/2603.06731", label: "PolyBlocks: A Compiler Infrastructure for AI Chips and Programming Frameworks (Bondhugula et al., 2026)" },
-        { url: "https://dl.acm.org/doi/10.1145/3689031.3696085", label: "RedFuser: Automated Kernel Fusion for Deep Learning via LLM-Guided Program Generation (ASPLOS 2026)" }
+        { url: "https://dl.acm.org/doi/10.1145/3689031.3696085", label: "RedFuser: Automated Kernel Fusion for Deep Learning via LLM-Guided Program Generation (ASPLOS 2026)" },
+        { url: "https://arxiv.org/abs/2603.10026", label: "RedFuser: An Automatic Operator Fusion Framework for Cascaded Reductions on AI Accelerators (Tang et al., 2026)" },
+        { url: "https://arxiv.org/abs/2608.03537", label: "ComFuse: Fusing Complex Memory-Intensive Subgraphs with Compute-Intensive Kernels for Modern GPU Architectures (Mu et al., 2026)" },
+        { url: "https://arxiv.org/abs/2510.08726", label: "Neptune: Advanced ML Operator Fusion for Locality and Parallelism on GPUs (Zhao et al., 2025)" },
+        { url: "https://doi.org/10.14778/3229863.3229865", label: "On Optimizing Operator Fusion Plans for Large-Scale Machine Learning in SystemML (Boehm et al., 2018)" },
+        { url: "https://doi.org/10.1016/j.sysarc.2026.103708", label: "SpaceFusion++: An Operator Fusion Scheduler for Neural Language Model Inference (Zhu et al., 2026)" },
+        { url: "https://www.scopus.com/pages/publications/105011649303", label: "PluS: Highly Efficient and Expandable ML Compiler with Pluggable Graph Schedules (Wu et al., 2025)" }
       ],
       part: "Compiler Infrastructure"
     },
@@ -290,7 +296,10 @@ var RESEARCH_DATA = {
       relevance: "Each new accelerator (NPU, TPU, edge chip) requires weeks of dialect engineering: operation definitions, verification rules, lowering patterns. Automatically generating dialects from hardware specs would dramatically reduce the cost of bringing up MLIR support for new chips, which is currently a major barrier to MLIR adoption in industry.",
       notes: [
         { url: "https://arxiv.org/abs/2604.13523", label: "ATLAAS: Automatic Tensor-Level Abstraction of Accelerator Semantics (arXiv 2026)" },
-        { url: "https://ieeexplore.ieee.org/document/10514375", label: "AXI4MLIR: A Flexible Generator of Hardware Accelerators that Supports Multiple Data Types (CGO 2024)" }
+        { url: "https://ieeexplore.ieee.org/document/10514375", label: "AXI4MLIR: A Flexible Generator of Hardware Accelerators that Supports Multiple Data Types (CGO 2024)" },
+        { url: "https://doi.org/10.1109/CGO57630.2024.10444801", label: "AXI4MLIR: User-Driven Automatic Host Code Generation for Custom AXI-Based Accelerators (Agostini et al., CGO 2024)" },
+        { url: "https://doi.org/10.1145/3785670", label: "From Loop Nests to Silicon: Mapping AI Workloads onto AMD NPUs with MLIR-AIR (Wang et al., 2026)" },
+        { url: "https://doi.org/10.1145/3508352.3549424", label: "An MLIR-based Compiler Flow for System-level Design and Hardware Acceleration (Agostini et al., 2022)" }
       ],
       part: "Compiler Infrastructure"
     },
@@ -306,7 +315,17 @@ var RESEARCH_DATA = {
         { url: "https://discourse.llvm.org/t/rfc-mlir-superoptimizer/78548", label: "MLIR Superoptimizer: A CGRA-Based Superoptimizer for MLIR (LLVM Dev Meeting 2025)" },
         { url: "https://arxiv.org/abs/2504.09489", label: "NiceToMeetYou: On the Use of LLMs to Generate Compiler Test Cases (PLDI 2025)" },
         { url: "https://michel-steuwer.github.io/files/publications/2025/CGO-2025-2.pdf", label: "The MLIR Transform Dialect: Your Compiler Is More Powerful Than You Think (CGO 2025)" },
-        { url: "https://arxiv.org/abs/2405.09979", label: "MLIR: Contextual Optimization via Programming-by-Examples (2024)" }
+        { url: "https://arxiv.org/abs/2405.09979", label: "MLIR: Contextual Optimization via Programming-by-Examples (2024)" },
+        { url: "https://arxiv.org/abs/2512.06442", label: "Nice to Meet You: Synthesizing Practical MLIR Abstract Transformers (Peng et al., 2026)" },
+        { url: "https://arxiv.org/abs/2404.19350", label: "Transform Dialect Tutorial (Zinenko, 2024)" },
+        { url: "https://arxiv.org/abs/2409.03864", label: "The MLIR Transform Dialect: Your Compiler Is More Powerful Than You Think (Lucke et al., 2024)" },
+        { url: "https://doi.org/10.1007/978-3-031-98208-8_13", label: "COMPASS: An Agent for MLIR Compilation Pass Pipeline Generation (Zhang et al., 2026)" },
+        { url: "https://ieeexplore.ieee.org/document/11394838", label: "A Reinforcement Learning Environment for Automatic Code Optimization in the MLIR Compiler (Tirichine et al., 2026)" },
+        { url: "https://doi.org/10.1145/3763062", label: "Mind the Abstraction Gap: Bringing Equality Saturation to Real-World ML Compilers (Vohra et al., 2025)" },
+        { url: "https://doi.org/10.1145/3696443.3708957", label: "DialEgg: Dialect-Agnostic MLIR Optimizer using Equality Saturation with Egglog (Zayed and Dubach, 2025)" },
+        { url: "https://doi.org/10.1109/ICSME58944.2024.00026", label: "OPASS: Orchestrating TVM's Passes for Lowering Memory Footprints of Computation Graphs (Nie et al., 2024)" },
+        { url: "https://arxiv.org/abs/2202.03293", label: "Composable and Modular Code Generation in MLIR (Vasilache et al., 2022)" },
+        { url: "https://www.scopus.com/pages/publications/105011649303", label: "PluS: Highly Efficient and Expandable ML Compiler with Pluggable Graph Schedules (Wu et al., 2025)" }
       ],
       part: "Compiler Infrastructure"
     },
@@ -318,7 +337,14 @@ var RESEARCH_DATA = {
       conferences: "CGO, MLSys, ASPLOS",
       relevance: "Tensor layout determines cache line utilization, vectorization width, and memory bandwidth. Manual layout selection (NHWC vs NCHW vs blocked) misses opportunities like mixed layouts across a fusion chain. Automatic layout search can co-optimize with tiling and fusion for the specific target hardware.",
       notes: [
-        { url: "https://arxiv.org/abs/2504.15616", label: "Analyzing Latency Hiding in MLIR-based AI Kernel Compiler for AMD NPUs (2026)" }
+        { url: "https://arxiv.org/abs/2504.15616", label: "Analyzing Latency Hiding in MLIR-based AI Kernel Compiler for AMD NPUs (2026)" },
+        { url: "https://arxiv.org/abs/2608.21555", label: "Tensor Seeks Layout: Formalizing Layout Selection for ML Compilers (Zhang et al., 2026)" },
+        { url: "https://arxiv.org/abs/2601.05972", label: "Categorical Foundations for CuTe Layouts (Brunetti et al., 2026)" },
+        { url: "https://arxiv.org/abs/2603.02298", label: "CuTe Layout Representation and Algebra (Cecka, 2026)" },
+        { url: "https://doi.org/10.1007/978-3-032-02436-7_9", label: "Performance-Portable Tensor Transpositions in MLIR (Lakshminarasimhan et al., 2026)" },
+        { url: "https://doi.org/10.1145/3552326.3587440", label: "ALT: Breaking the Wall between Data Layout and Loop Optimizations for Deep Learning Compilation (Xu et al., 2025)" },
+        { url: "https://arxiv.org/abs/2605.12445", label: "Scalable Packed Layouts for Vector-Length-Agnostic ML Code Generation (Beysel et al., 2026)" },
+        { url: "https://link.springer.com/chapter/10.1007/978-1-4757-3337-2_2", label: "An Efficient Semi-Hierarchical Array Layout (Drakenberg et al., 2001)" }
       ],
       part: "Compiler Infrastructure"
     },
@@ -333,7 +359,10 @@ var RESEARCH_DATA = {
         { url: "https://link.springer.com/article/10.1007/s11390-026-5979-1", label: "A Survey of Quantization in LLM: Unlocking Potential Hardware Efficiency" },
         { url: "https://dl.acm.org/doi/10.1145/3773992", label: "A Study of Floating-Point Precision Tuning in Deep Learning Operators Implementations" },
         { url: "https://arxiv.org/abs/2406.09266", label: "SySTeC: A Symmetric Sparse Tensor Compiler (CGO 2025)" },
-        { url: "https://dl.acm.org/doi/10.1145/3689031.3696093", label: "Compiler Support for Sparse Tensor Convolutions (OOPSLA 2024)" }
+        { url: "https://dl.acm.org/doi/10.1145/3689031.3696093", label: "Compiler Support for Sparse Tensor Convolutions (OOPSLA 2024)" },
+        { url: "https://dl.acm.org/doi/10.1145/3819816", label: "A Comprehensive Survey of Compression Algorithms for Language Models (Park et al., 2026)" },
+        { url: "https://arxiv.org/abs/2409.16694", label: "A Survey of Low-bit Large Language Models: Basics, Systems, and Algorithms (Gong et al., 2024)" },
+        { url: "https://doi.org/10.1137/07070111X", label: "Tensor Decompositions and Applications (Kolda and Bader, 2009)" }
       ],
       part: "Compiler Infrastructure"
     },
@@ -346,7 +375,17 @@ var RESEARCH_DATA = {
       relevance: "Triton auto-tunes per-kernel; IREE tunes per-target. But no system jointly optimizes across all levels (fusion, layout, tiling, pipeline parallelism). A unified multi-level search can discover combinations that per-level tuning misses, especially on novel hardware with complex memory hierarchies.",
       notes: [
         { url: "https://arxiv.org/abs/2603.06731", label: "PolyBlocks: A Compiler Infrastructure for AI Chips and Programming Frameworks (Bondhugula et al., 2026)" },
-        { url: "https://iree.dev/developers/performance/profiling/", label: "IREE Performance Profiling and Tuning Guide" }
+        { url: "https://iree.dev/developers/performance/profiling/", label: "IREE Performance Profiling and Tuning Guide" },
+        { url: "https://www.scopus.com/pages/publications/85096749068", label: "Ansor: Generating High-Performance Tensor Programs for Deep Learning (Zheng et al., 2020)" },
+        { url: "https://www.scopus.com/pages/publications/85076709967", label: "TVM: An Automated End-to-End Optimizing Compiler for Deep Learning (Chen et al., 2018)" },
+        { url: "https://www.scopus.com/pages/publications/85064818117", label: "Learning to Optimize Tensor Programs (Chen et al., 2018)" },
+        { url: "https://doi.org/10.1145/3306346.3322967", label: "Learning to Optimize Halide with Tree Search and Random Programs (Adams et al., 2022)" },
+        { url: "https://doi.org/10.1109/PACT52795.2021.00008", label: "A Flexible Approach to Autotuning Multi-Pass Machine Learning Compilers (Phothilimthana et al., 2021)" },
+        { url: "https://doi.org/10.1109/CGO.2019.8661197", label: "Tiramisu: A Polyhedral Compiler for Expressing Fast and Portable Code (Baghdadi et al., 2019)" },
+        { url: "https://arxiv.org/abs/1802.04730", label: "Tensor Comprehensions: Framework-Agnostic High-Performance Machine Learning Abstractions (Vasilache et al., 2018)" },
+        { url: "https://doi.org/10.1109/TC.2023.3288758", label: "HAOTuner: A Hardware Adaptive Operator Auto-Tuner for Dynamic Shape Tensor Compilers (Mu et al., 2023)" },
+        { url: "https://arxiv.org/abs/2404.15204", label: "Towards a High-Performance AI Compiler with Upstream MLIR (Golin et al., 2024)" },
+        { url: "https://doi.org/10.1038/s41598-026-41392-8", label: "Tensor Language Model Enables Generative Scheduling for Efficient Tensor Compilation (Mehmood et al., 2026)" }
       ],
       part: "Compiler Infrastructure"
     },
@@ -360,8 +399,15 @@ var RESEARCH_DATA = {
       notes: [
         { url: "https://arxiv.org/abs/2603.06731", label: "PolyBlocks: A Compiler Infrastructure for AI Chips and Programming Frameworks (Bondhugula et al., 2026)" },
         { url: "https://arxiv.org/abs/2602.19762", label: "Hexagon-MLIR: Compiler Framework for AI Accelerators (Qualcomm, 2026)" },
+        { url: "https://arxiv.org/abs/2602.20204", label: "Analyzing Latency Hiding and Parallelism in an MLIR-based AI Kernel Compiler (Absar et al., 2026)" },
         { url: "https://arxiv.org/abs/2504.15616", label: "Analyzing Latency Hiding in MLIR-based AI Kernel Compiler for AMD NPUs (2026)" },
-        { url: "https://github.com/amd/Triton-XDNA", label: "Triton-XDNA: End-to-End Compiler for AMD NPUs via MLIR-AIR (C4ML/CGO 2026)" }
+        { url: "https://github.com/amd/Triton-XDNA", label: "Triton-XDNA: End-to-End Compiler for AMD NPUs via MLIR-AIR (C4ML/CGO 2026)" },
+        { url: "https://doi.org/10.1145/3785670", label: "From Loop Nests to Silicon: Mapping AI Workloads onto AMD NPUs with MLIR-AIR (Wang et al., 2026)" },
+        { url: "https://doi.org/10.1109/TCAD.2025.3556967", label: "MATCH: Model-Aware TVM-Based Compilation for Heterogeneous Edge Devices (Hamdi et al., 2025)" },
+        { url: "https://www.scopus.com/pages/publications/85146693719", label: "Tensor Slicing and Optimization for Multicore NPUs (Sousa et al., 2023)" },
+        { url: "https://doi.org/10.1109/SBAC-PAD53543.2021.00020", label: "Efficient Tensor Slicing for Multicore NPUs using Memory Burst Modeling (Sousa et al., 2023)" },
+        { url: "https://ieeexplore.ieee.org/document/11395229", label: "Multidirectional Propagation of Sparsity Information across Tensor Slices (Ananias et al., 2026)" },
+        { url: "https://arxiv.org/abs/2404.15204", label: "Towards a High-Performance AI Compiler with Upstream MLIR (Golin et al., 2024)" }
       ],
       part: "Compiler Infrastructure"
     },
@@ -375,8 +421,11 @@ var RESEARCH_DATA = {
       notes: [
         { url: "https://link.springer.com/article/10.1007/s11390-026-5979-1", label: "A Survey of Quantization in LLM: Unlocking Potential Hardware Efficiency" },
         { url: "https://dl.acm.org/doi/10.1145/3676641", label: "ASaP: Towards Automatic Sparse Acceleration on Tensor Cores (SC 2025)" },
+        { url: "https://doi.org/10.1145/3731599.3767477", label: "ASaP: Automatic Software Prefetching for Sparse Tensor Computations in MLIR (Sotiropoulos et al., 2025)" },
         { url: "https://dl.acm.org/doi/10.1145/3719490", label: "Sparse Encoding Recovery Enables Efficient Format Selection (2024)" },
-        { url: "https://dl.acm.org/doi/10.1145/3689031.3696093", label: "Compiler Support for Sparse Tensor Convolutions (OOPSLA 2024)" }
+        { url: "https://dl.acm.org/doi/10.1145/3689031.3696093", label: "Compiler Support for Sparse Tensor Convolutions (OOPSLA 2024)" },
+        { url: "https://doi.org/10.1145/3133901", label: "The Tensor Algebra Compiler (Kjolstad et al., 2017)" },
+        { url: "https://ieeexplore.ieee.org/document/11395229", label: "Multidirectional Propagation of Sparsity Information across Tensor Slices (Ananias et al., 2026)" }
       ],
       part: "Compiler Infrastructure"
     },
@@ -388,7 +437,9 @@ var RESEARCH_DATA = {
       conferences: "CGO, ASPLOS, MLSys",
       relevance: "Dynamic shapes (variable batch size, sequence length, image resolution) are ubiquitous in modern AI. Static-shape compilers either fail to compile, generate bloated code, or require costly recompilation. A shape-specialization framework that only compiles when beneficial could eliminate this overhead entirely.",
       notes: [
-        { url: "https://iree.dev/", label: "IREE: Intermediate Representation Execution Environment — supports dynamic shapes" }
+        { url: "https://iree.dev/", label: "IREE: Intermediate Representation Execution Environment — supports dynamic shapes" },
+        { url: "https://doi.org/10.1109/TC.2023.3288758", label: "HAOTuner: A Hardware Adaptive Operator Auto-Tuner for Dynamic Shape Tensor Compilers (Mu et al., 2023)" },
+        { url: "https://doi.org/10.1145/3552326.3587440", label: "ALT: Breaking the Wall between Data Layout and Loop Optimizations for Deep Learning Compilation (Xu et al., 2025)" }
       ],
       part: "Compiler Infrastructure"
     },
@@ -400,7 +451,9 @@ var RESEARCH_DATA = {
       conferences: "PLDI, CGO, ASPLOS",
       relevance: "Asynchronous execution is essential for hiding DMA latency and overlapping compute/communication on modern NPUs. MLIR's async dialect exists but lacks cross-level scheduling optimization. Extending MLIR with global async optimization could unlock significant performance on pipelines with deep memory hierarchies.",
       notes: [
-        { url: "https://mlir.llvm.org/docs/Dialects/AsyncDialect/", label: "MLIR Async Dialect: Asynchronous Execution Support (LLVM/MLIR)" }
+        { url: "https://mlir.llvm.org/docs/Dialects/AsyncDialect/", label: "MLIR Async Dialect: Asynchronous Execution Support (LLVM/MLIR)" },
+        { url: "https://doi.org/10.1145/3785670", label: "From Loop Nests to Silicon: Mapping AI Workloads onto AMD NPUs with MLIR-AIR (Wang et al., 2026)" },
+        { url: "https://arxiv.org/abs/2602.20204", label: "Analyzing Latency Hiding and Parallelism in an MLIR-based AI Kernel Compiler (Absar et al., 2026)" }
       ],
       part: "Compiler Infrastructure"
     },
@@ -442,7 +495,10 @@ var RESEARCH_DATA = {
       relevance: "Individual operator fusion and tiling miss cross-layer opportunities. Whole-program optimization can discover redundant computations, optimal tensor placement, and graph-level fusion that local passes miss. Systems like Mirage demonstrate that global superoptimization over tensor programs can unlock significant speedups over locally-greedy pipelines.",
       notes: [
         { url: "https://arxiv.org/abs/2505.12721", label: "Mirage: A Multi-Level Superoptimizer for Tensor Programs (OSDI 2025)" },
-        { url: "https://arxiv.org/abs/2606.17505", label: "TritonRPC: Redefining AI Compiler Development via Large-Scale Program Analysis (2026)" }
+        { url: "https://arxiv.org/abs/2405.05751", label: "Mirage: A Multi-Level Superoptimizer for Tensor Programs (Wu et al., 2025)" },
+        { url: "https://arxiv.org/abs/2606.17505", label: "TritonRPC: Redefining AI Compiler Development via Large-Scale Program Analysis (2026)" },
+        { url: "https://proceedings.mlsys.org/paper_files/paper/2023/file/3e4e24f7e055320fa54c03f6e816775f-Paper-mlsys2023.pdf", label: "SIRIUS: Harvesting Whole-Program Optimization Opportunities for DNNs (Li et al., MLSys 2023)" },
+        { url: "https://doi.org/10.1145/3341301.3359630", label: "TASO: Optimizing Deep Learning Computation with Automatic Generation of Graph Substitutions (Jia et al., 2019)" }
       ],
       part: "Memory & Optimization"
     },
@@ -457,7 +513,9 @@ var RESEARCH_DATA = {
         { url: "https://arxiv.org/abs/2507.14584", label: "ELTC: End-to-End Learning and Transactional Cost Modeling for MLIR Compilers (APLAS 2025)" },
         { url: "https://arxiv.org/abs/2507.13946", label: "Morello: A Meta-learning Framework for DNN Auto-tuning with Multi-device Data (2025)" },
         { url: "https://arxiv.org/abs/2412.10834", label: "Pruner: Revisiting the Hardware Capability of ML Accelerators via Model Pruning (ASPLOS 2025)" },
-        { url: "https://arxiv.org/abs/2308.09996", label: "HAT: Hyperparameter Approximation Transformer for Efficient Heterogeneous DNN Workload Placement (ICCAD 2023)" }
+        { url: "https://arxiv.org/abs/2308.09996", label: "HAT: Hyperparameter Approximation Transformer for Efficient Heterogeneous DNN Workload Placement (ICCAD 2023)" },
+        { url: "https://doi.org/10.11896/jsjkx.230500220", label: "Study on Deep Learning Automatic Scheduling Optimization Based on Feature Importance (Yang et al., 2024)" },
+        { url: "https://dl.acm.org/doi/10.1145/2925987", label: "Analytical Modeling Is Enough for High-Performance BLIS (Low et al., 2016)" }
       ],
       part: "Memory & Optimization"
     },
@@ -469,10 +527,12 @@ var RESEARCH_DATA = {
       conferences: "MLSys, CGO, ASPLOS",
       relevance: "Quantization is critical for inference efficiency but currently requires manual trial-and-error per model/hardware pair. Compiler-driven quantization that jointly optimizes precision selection, calibration, and kernel generation across the full model could automate this entire workflow and reduce the accuracy loss introduced by naive quantization strategies.",
       notes: [
-
         { url: "https://link.springer.com/article/10.1007/s11390-026-5979-1", label: "A Survey of Quantization in LLM: Unlocking Potential Hardware Efficiency" },
         { url: "https://dl.acm.org/doi/10.1145/3773992", label: "A Study of Floating-Point Precision Tuning in Deep Learning Operators Implementations" },
-        { url: "https://mlir.llvm.org/docs/Dialects/QuantDialect/", label: "MLIR Quant Dialect: Quantization support in the MLIR compiler infrastructure" }
+        { url: "https://mlir.llvm.org/docs/Dialects/QuantDialect/", label: "MLIR Quant Dialect: Quantization support in the MLIR compiler infrastructure" },
+        { url: "https://arxiv.org/abs/2409.16694", label: "A Survey of Low-bit Large Language Models: Basics, Systems, and Algorithms (Gong et al., 2024)" },
+        { url: "https://dl.acm.org/doi/10.1145/3819816", label: "A Comprehensive Survey of Compression Algorithms for Language Models (Park et al., 2026)" },
+        { url: "https://ieeexplore.ieee.org/document/10946730", label: "Anda: Unlocking Efficient LLM Inference with a Variable-Length Grouped Activation Data Format (Fang et al., 2025)" }
       ],
       part: "Memory & Optimization"
     },
@@ -487,7 +547,11 @@ var RESEARCH_DATA = {
         { url: "https://mlir.llvm.org/docs/Dialects/Transform/", label: "MLIR Transform Dialect: Composable program-rewriting framework for progressive lowering" },
         { url: "https://arxiv.org/abs/2508.08326", label: "LOBE: A Large Language Model-Driven Cost Model for Optimization-Space Exploration in MLIR (ASE 2025)" },
         { url: "https://arxiv.org/abs/2407.16783", label: "ML-Triton: Optimizing ML Compilation Across Diverse Hardware with Program Synthesis (2024)" },
-        { url: "https://arxiv.org/abs/2410.16941", label: "Triton Level: An Abstraction for Portable Tiling Optimization on Diverse ML Accelerators (2024)" }
+        { url: "https://arxiv.org/abs/2410.16941", label: "Triton Level: An Abstraction for Portable Tiling Optimization on Diverse ML Accelerators (2024)" },
+        { url: "https://arxiv.org/abs/2404.19350", label: "Transform Dialect Tutorial (Zinenko, 2024)" },
+        { url: "https://arxiv.org/abs/2503.14985", label: "ML-Triton: A Multi-Level Compilation and Language Extension to Triton GPU Programming (Wang et al., 2025)" },
+        { url: "https://doi.org/10.1109/IPDPS64566.2025.00041", label: "PolyMorphous: An MLIR-Based Polyhedral Compiler with Loop Transformation Primitives (Zhao et al., 2025)" },
+        { url: "https://doi.org/10.1007/978-3-031-98208-8_13", label: "COMPASS: An Agent for MLIR Compilation Pass Pipeline Generation (Zhang et al., 2026)" }
       ],
       part: "Memory & Optimization"
     },
@@ -502,7 +566,20 @@ var RESEARCH_DATA = {
         { url: "https://arxiv.org/abs/2507.13771", label: "CUGeM: Automated Generation of GPU-Based Custom CUDA Operators using LLMs (2025)" },
         { url: "https://arxiv.org/abs/2505.20359", label: "CuTeGen: Machine Learning-Guided Compiler for Auto-Generating Tensor Core Kernels (2025)" },
         { url: "https://arxiv.org/abs/2602.02799", label: "KernelEvolve: Towards LLM-driven GPU Kernel Evolution with Dual-Fidelity Evaluation (2026)" },
-        { url: "https://arxiv.org/abs/2601.15727", label: "A Survey on LLM-Driven Generation of High-Performance GPU Kernels (2026)" }
+        { url: "https://arxiv.org/abs/2601.15727", label: "A Survey on LLM-Driven Generation of High-Performance GPU Kernels (2026)" },
+        { url: "https://link.springer.com/article/10.1007/s11227-024-05955-8", label: "Automatic Generation of ARM NEON Micro-kernels for Matrix Multiplication (Alaejos et al., 2025)" },
+        { url: "https://arxiv.org/abs/2409.18779", label: "Hello SME! Generating Fast Matrix Multiplication Kernels Using the Scalable Matrix Extension (Remke and Breuer, 2024)" },
+        { url: "https://link.springer.com/article/10.1007/s11227-022-05003-3", label: "Micro-kernels for Portable and Efficient Matrix Multiplication in Deep Learning (Alaejos et al., 2022)" },
+        { url: "https://doi.org/10.1145/3458817.3476217", label: "LibShalom: Optimizing Small and Irregular-Shaped Matrix Multiplications on ARMv8 Multi-cores (Yang et al., 2021)" },
+        { url: "https://arxiv.org/abs/2304.12576", label: "PARLOOPER: Harnessing Deep Learning and HPC Kernels via High-Level Loop and Tensor Abstractions on CPU Architectures (Georganas et al., 2023)" },
+        { url: "https://arxiv.org/abs/2104.05755", label: "Tensor Processing Primitives (TPP): A Programming Abstraction for Efficiency and Portability (Georganas et al., 2021)" },
+        { url: "https://arxiv.org/abs/1906.06440", label: "BRGEMM: High-Performance Deep Learning via a Single Building Block (Georganas et al., 2019)" },
+        { url: "https://ieeexplore.ieee.org/document/7877162", label: "LIBXSMM: Accelerating Small Matrix Multiplications by Runtime Code Generation (Heinecke et al., 2016)" },
+        { url: "https://dl.acm.org/doi/10.1145/2764454", label: "BLIS: A Framework for Rapidly Instantiating BLAS Functionality (Van Zee and van de Geijn, 2015)" },
+        { url: "https://dl.acm.org/doi/10.1145/1356052.1356053", label: "Anatomy of High-Performance Matrix Multiplication (Goto and van de Geijn, 2008)" },
+        { url: "https://arxiv.org/abs/2511.13764", label: "Library Liberation: Competitive Performance Matmul Through Compiler-composed Nanokernels (Thangamani et al., 2025)" },
+        { url: "https://arxiv.org/abs/2003.00532", label: "High Performance Code Generation in MLIR: An Early Case Study with GEMM (Bondhugula, 2020)" },
+        { url: "https://doi.org/10.1145/3315508.3329973", label: "Triton: An Intermediate Language and Compiler for Tiled Neural Network Computations (Tillet et al., 2019)" }
       ],
       part: "Memory & Optimization"
     },
@@ -530,7 +607,9 @@ var RESEARCH_DATA = {
       notes: [
         { url: "https://arxiv.org/abs/2507.14584", label: "ELTC: End-to-End Learning and Transactional Cost Modeling for MLIR Compilers (APLAS 2025)" },
         { url: "https://arxiv.org/abs/2507.13946", label: "Morello: A Meta-learning Framework for DNN Auto-tuning with Multi-device Data (2025)" },
-        { url: "https://arxiv.org/abs/2604.09257", label: "MLGO: Survey of ML-Guided Compiler Optimizations (2026)" }
+        { url: "https://arxiv.org/abs/2604.09257", label: "MLGO: Survey of ML-Guided Compiler Optimizations (2026)" },
+        { url: "https://arxiv.org/abs/2608.09530", label: "The Unseen Delta: Characterizing the Compiler Optimization Landscape via Top-Down Differential Analysis (Liu et al., 2026)" },
+        { url: "https://dl.acm.org/doi/10.1145/2925987", label: "Analytical Modeling Is Enough for High-Performance BLIS (Low et al., 2016)" }
       ],
       part: "Compiler Infrastructure"
     },
@@ -544,7 +623,8 @@ var RESEARCH_DATA = {
       notes: [
         { url: "https://arxiv.org/abs/2607.18631", label: "moefs: A Realizability-Aware Full-Space Optimizer for MoE Training and Serving (2026)" },
         { url: "https://developer.nvidia.com/blog/optimizing-communication-for-mixture-of-experts-training-with-hybrid-expert-parallel/", label: "Hybrid-EP: Optimizing Communication for MoE Training with Expert Parallel (NVIDIA 2026)" },
-        { url: "https://arxiv.org/abs/2412.16469", label: "Toward Efficient Inference for Mixture of Experts: Dynamic Gating, Expert Buffering, Load Balancing (NeurIPS 2024)" }
+        { url: "https://arxiv.org/abs/2412.16469", label: "Toward Efficient Inference for Mixture of Experts: Dynamic Gating, Expert Buffering, Load Balancing (NeurIPS 2024)" },
+        { url: "https://arxiv.org/abs/2412.14219", label: "A Survey on Inference Optimization Techniques for Mixture of Experts Models (Liu et al., 2024)" }
       ],
       part: "LLM Compilers"
     },
@@ -587,7 +667,8 @@ var RESEARCH_DATA = {
       notes: [
         { url: "https://pldi25.sigplan.org/details/pldi-2025-src/3/An-MLIR-Dialect-for-Distributed-Heterogeneous-Computing", label: "An MLIR Dialect for Distributed Heterogeneous Computing (PLDI 2025 SRC)" },
         { url: "https://github.com/openxla/shardy", label: "Shardy: MLIR-based Tensor Partitioning System for All Dialects (OpenXLA)" },
-        { url: "https://github.com/ByteDance-Seed/triton/commit/87aa61b6b05287c4a970bbe244b55e2375483db8", label: "Triton-Distributed: Distributed MLIR Dialect Extensions for Multi-GPU Kernel Compilation (ByteDance 2026)" }
+        { url: "https://github.com/ByteDance-Seed/triton/commit/87aa61b6b05287c4a970bbe244b55e2375483db8", label: "Triton-Distributed: Distributed MLIR Dialect Extensions for Multi-GPU Kernel Compilation (ByteDance 2026)" },
+        { url: "https://doi.org/10.1145/3519939.3523437", label: "DISTAL: The Distributed Tensor Algebra Compiler (Yadav et al., 2022)" }
       ],
       part: "LLM Compilers"
     },
@@ -627,7 +708,13 @@ var RESEARCH_DATA = {
       relevance: "On-device LLM inference requires jointly optimizing quantization, memory planning, and kernel generation for constrained hardware (ARM NEON/SME, Apple Neural Engine). Current frameworks treat these as separate problems. A unified compiler stack that reasons about the full inference pipeline — from model compression to kernel scheduling — could significantly reduce latency on edge devices.",
       notes: [
         { url: "https://link.springer.com/article/10.1007/s11390-026-5979-1", label: "A Survey of Quantization in LLM: Unlocking Potential Hardware Efficiency" },
-        { url: "https://dl.acm.org/doi/10.1145/3773992", label: "A Study of Floating-Point Precision Tuning in Deep Learning Operators Implementations" }
+        { url: "https://dl.acm.org/doi/10.1145/3773992", label: "A Study of Floating-Point Precision Tuning in Deep Learning Operators Implementations" },
+        { url: "https://arxiv.org/abs/2512.21473", label: "Demystifying ARM SME to Optimize General Matrix Multiplications (Deng et al., 2025)" },
+        { url: "https://arxiv.org/abs/2409.18779", label: "Hello SME! Generating Fast Matrix Multiplication Kernels Using the Scalable Matrix Extension (Remke and Breuer, 2024)" },
+        { url: "https://arxiv.org/abs/2605.12445", label: "Scalable Packed Layouts for Vector-Length-Agnostic ML Code Generation (Beysel et al., 2026)" },
+        { url: "https://arxiv.org/abs/1803.06185", label: "The ARM Scalable Vector Extension (Stephens et al., 2018)" },
+        { url: "https://doi.org/10.1109/MM.2022.3178068", label: "TinyIREE: An ML Execution Environment for Embedded Systems From Compilation to Deployment (Liu et al., 2022)" },
+        { url: "https://doi.org/10.1145/3696443.3708952", label: "A Multi-level Compiler Backend for Accelerated Micro-kernels Targeting RISC-V ISA Extensions (Lopoukhine et al., 2025)" }
       ],
       part: "LLM Compilers"
     },
@@ -656,7 +743,11 @@ var RESEARCH_DATA = {
         { url: "https://github.com/lambdaclass/supertensor_lean", label: "SuperTensor-lean: Verified Tensor Graph Optimization in Lean 4 (LambdaClass 2026)" },
         { url: "https://github.com/opencompl/veir", label: "VeIR: Verified Intermediate Representation — MLIR-style IR in Lean with Optional ITP Verification (2025)" },
         { url: "https://arxiv.org/abs/2605.01124", label: "PEQC-MLIR: Hybrid Concrete-Symbolic Verification for MLIR Program Equivalence (2025)" },
-        { url: "https://grosser.science/lean-mlir/", label: "Lean-MLIR: Verified SSA Compilation Theory in Lean Proof Assistant (Grosser et al.)" }
+        { url: "https://grosser.science/lean-mlir/", label: "Lean-MLIR: Verified SSA Compilation Theory in Lean Proof Assistant (Grosser et al.)" },
+        { url: "https://doi.org/10.1145/3793656.3793689", label: "TensorEgg: Formally Verifying Rewrite Rules and Applying Them to Tensor Programs (Kothari and Baronia, 2026)" },
+        { url: "https://doi.org/10.1145/3428234", label: "Verifying and Improving Halide's Term Rewriting System with Program Synthesis (Newcomb et al., 2020)" },
+        { url: "https://doi.org/10.1145/3729309", label: "First-Class Verification Dialects for MLIR (Fehr et al., 2025)" },
+        { url: "https://2026.ecoop.org/details/ecoop-2026-technical-papers/13/Compile-Time-Tensor-Shape-Checking-via-Staged-Shape-Dependent-Types", label: "Compile-Time Tensor Shape Checking via Staged Shape-Dependent Types (Suwa and Igarashi, 2026)" }
       ],
       part: "LLM Compilers"
     },
@@ -671,7 +762,9 @@ var RESEARCH_DATA = {
         { url: "https://arxiv.org/abs/2605.29357", label: "PassNet: Scaling Large Language Models for Graph Compiler Pass Generation (2026)" },
         { url: "https://arxiv.org/abs/2606.20373", label: "AutoPass: Evidence-Guided LLM Agents for Compiler Performance Tuning (2026)" },
         { url: "https://arxiv.org/abs/2510.11759", label: "AwareCompiler: Agentic Context-Aware Compiler Optimization via Knowledge-Data Driven Framework (2025)" },
-        { url: "https://arxiv.org/abs/2511.00592", label: "ComPilot: Agentic Auto-Scheduling — LLM-Guided Loop Optimization (2025)" }
+        { url: "https://arxiv.org/abs/2511.00592", label: "ComPilot: Agentic Auto-Scheduling — LLM-Guided Loop Optimization (2025)" },
+        { url: "https://arxiv.org/abs/2603.20075", label: "Agentic Harness for Real-World Compilers (Zheng et al., 2026)" },
+        { url: "https://arxiv.org/pdf/2606.05570", label: "TensorBench: Benchmarking Coding Agents on a Compiler-Based Tensor Framework (Yan and Kjolstad, 2026)" }
       ],
       part: "LLM Compilers"
     },
@@ -686,7 +779,12 @@ var RESEARCH_DATA = {
       notes: [
         { url: "https://arxiv.org/abs/2606.31238", label: "A Multi-Dimensional, Per-Pass Empirical Study of the LLVM Optimization Pipeline (Bruzzone and Cazzola, 2026)" },
         { url: "https://arxiv.org/abs/2605.08212", label: "PassForge: LLM-Generated Compiler Passes (ICLR 2026)" },
-        { url: "https://arxiv.org/abs/2605.04342", label: "Ansys Optimization: ML-Guided Compiler Pass Selection for Geometric Deep Learning (2026)" }
+        { url: "https://arxiv.org/abs/2605.04342", label: "Ansys Optimization: ML-Guided Compiler Pass Selection for Geometric Deep Learning (2026)" },
+        { url: "https://doi.org/10.1145/3763062", label: "Mind the Abstraction Gap: Bringing Equality Saturation to Real-World ML Compilers (Vohra et al., 2025)" },
+        { url: "https://arxiv.org/abs/2608.09530", label: "The Unseen Delta: Characterizing the Compiler Optimization Landscape via Top-Down Differential Analysis (Liu et al., 2026)" },
+        { url: "https://doi.org/10.1145/3696443.3708957", label: "DialEgg: Dialect-Agnostic MLIR Optimizer using Equality Saturation with Egglog (Zayed and Dubach, 2025)" },
+        { url: "https://ieeexplore.ieee.org/document/11394838", label: "A Reinforcement Learning Environment for Automatic Code Optimization in the MLIR Compiler (Tirichine et al., 2026)" },
+        { url: "https://doi.org/10.1109/DAC56929.2023.10247948", label: "Equality Saturation for Datapath Synthesis: A Pathway to Pareto Optimality (Ustun et al., 2023)" }
       ],
       part: "ML-Guided Compilation"
     },
@@ -739,7 +837,8 @@ var RESEARCH_DATA = {
       notes: [
         { url: "https://arxiv.org/abs/2604.09257", label: "MLGO Survey: ML-Guided Compiler Optimizations (2026)" },
         { url: "https://arxiv.org/abs/2605.08212", label: "PassForge: LLM-Generated Compiler Passes (ICLR 2026)" },
-        { url: "https://arxiv.org/abs/2604.05592", label: "AutoPass: Staged LLMs for Automated Compiler Pass Generation (2026)" }
+        { url: "https://arxiv.org/abs/2604.05592", label: "AutoPass: Staged LLMs for Automated Compiler Pass Generation (2026)" },
+        { url: "https://arxiv.org/abs/2603.20075", label: "Agentic Harness for Real-World Compilers (Zheng et al., 2026)" }
       ],
       part: "ML-Guided Compilation"
     },
@@ -752,7 +851,9 @@ var RESEARCH_DATA = {
       relevance: "LLM4Code (arXiv 2605) benchmarks 14 LLMs for code understanding, finding Gemini 3 Pro and GLM-4.5-Thinking perform best. Lin (ICLR 2026) and EvoCodeBench (2025) show LLMs can reason about code semantics but still struggle with long-range context. The gap is bridging LLM reasoning with formal compiler guarantees.",
       notes: [
         { url: "https://arxiv.org/abs/2605.13835", label: "LLM4Code: Comprehensive Benchmarking LLMs for Code Understanding (2025)" },
-        { url: "https://arxiv.org/abs/2604.05066", label: "AutoLALA: Loop Algebraic Locality Analysis — LLM-assisted program analysis for HPC (2026)" }
+        { url: "https://arxiv.org/abs/2604.05066", label: "AutoLALA: Loop Algebraic Locality Analysis — LLM-assisted program analysis for HPC (2026)" },
+        { url: "https://arxiv.org/pdf/2606.05570", label: "TensorBench: Benchmarking Coding Agents on a Compiler-Based Tensor Framework (Yan and Kjolstad, 2026)" },
+        { url: "https://arxiv.org/abs/2603.20075", label: "Agentic Harness for Real-World Compilers (Zheng et al., 2026)" }
       ],
       part: "ML-Guided Compilation"
     },
@@ -765,7 +866,8 @@ var RESEARCH_DATA = {
       relevance: "MLGO's per-pass empirical study shows that combining multiple passes yields higher performance than any single pass, but optimal combinations vary across benchmarks. TensorFlow Lite, TVM, and Rust compiler all use autotuning. The challenge is scaling configuration search to hundreds of parameters across heterogeneous hardware.",
       notes: [
         { url: "https://arxiv.org/abs/2606.31238", label: "A Multi-Dimensional, Per-Pass Empirical Study of the LLVM Optimization Pipeline (Bruzzone and Cazzola, 2026)" },
-        { url: "https://arxiv.org/abs/2604.09257", label: "MLGO Survey: ML-Guided Compiler Optimizations (2026)" }
+        { url: "https://arxiv.org/abs/2604.09257", label: "MLGO Survey: ML-Guided Compiler Optimizations (2026)" },
+        { url: "https://arxiv.org/abs/2608.09530", label: "The Unseen Delta: Characterizing the Compiler Optimization Landscape via Top-Down Differential Analysis (Liu et al., 2026)" }
       ],
       part: "ML-Guided Compilation"
     },
@@ -778,7 +880,10 @@ var RESEARCH_DATA = {
       relevance: "MLGO's per-pass study shows that combining multiple passes yields higher performance than any single pass, but optimal combinations vary across benchmarks. TensorFlow Lite, TVM, and Rust compiler all use autotuning. The challenge is scaling configuration search to hundreds of parameters across heterogeneous hardware.",
       notes: [
         { url: "https://arxiv.org/abs/2606.31238", label: "A Multi-Dimensional, Per-Pass Empirical Study of the LLVM Optimization Pipeline (Bruzzone and Cazzola, 2026)" },
-        { url: "https://arxiv.org/abs/2604.09257", label: "MLGO Survey: ML-Guided Compiler Optimizations (2026)" }
+        { url: "https://arxiv.org/abs/2604.09257", label: "MLGO Survey: ML-Guided Compiler Optimizations (2026)" },
+        { url: "https://arxiv.org/abs/2608.09530", label: "The Unseen Delta: Characterizing the Compiler Optimization Landscape via Top-Down Differential Analysis (Liu et al., 2026)" },
+        { url: "https://www.scopus.com/pages/publications/85096749068", label: "Ansor: Generating High-Performance Tensor Programs for Deep Learning (Zheng et al., 2020)" },
+        { url: "https://www.scopus.com/pages/publications/85064818117", label: "Learning to Optimize Tensor Programs (Chen et al., 2018)" }
       ],
       part: "ML-Guided Compilation"
     },
@@ -806,7 +911,15 @@ var RESEARCH_DATA = {
       notes: [
         { url: "https://arxiv.org/abs/2605.01124", label: "PEQC-MLIR: Hybrid Concrete-Symbolic Verification for MLIR Program Equivalence (2025)" },
         { url: "https://arxiv.org/abs/2407.03685", label: "Verifying Peephole Rewriting In SSA Compiler IRs (Lean-MLIR, POPL 2025)" },
-        { url: "https://github.com/opencompl/veir", label: "VeIR: Verified Intermediate Representation in Lean (MLIR-style, 2025)" }
+        { url: "https://github.com/opencompl/veir", label: "VeIR: Verified Intermediate Representation in Lean (MLIR-style, 2025)" },
+        { url: "https://doi.org/10.1145/3793656.3793689", label: "TensorEgg: Formally Verifying Rewrite Rules and Applying Them to Tensor Programs (Kothari and Baronia, 2026)" },
+        { url: "https://doi.org/10.1145/3704865", label: "TensorRight: Automated Verification of Tensor Graph Rewrites (Arora et al., POPL 2025)" },
+        { url: "https://doi.org/10.1145/3428234", label: "Verifying and Improving Halide's Term Rewriting System with Program Synthesis (Newcomb et al., 2020)" },
+        { url: "https://doi.org/10.1145/3676641.3716270", label: "Ratte: Fuzzing for Miscompilations in Multi-Level Compilers Using Composable Semantics (Yu et al., 2025)" },
+        { url: "https://doi.org/10.1142/S021819402450030X", label: "A Systematic Translation Validation Framework for MLIR-Based Compilers (Wang et al., 2024)" },
+        { url: "https://doi.org/10.1007/978-3-031-13188-2_19", label: "SMT-Based Translation Validation for Machine Learning Compiler (Bang et al., 2022)" },
+        { url: "https://doi.org/10.1145/3729309", label: "First-Class Verification Dialects for MLIR (Fehr et al., 2025)" },
+        { url: "https://arxiv.org/abs/2512.06442", label: "Nice to Meet You: Synthesizing Practical MLIR Abstract Transformers (Peng et al., 2026)" }
       ],
       part: "Correctness & Parallel Systems"
     },
@@ -819,7 +932,10 @@ var RESEARCH_DATA = {
       relevance: "TensorRight (POPL 2025) verifies tensor graph rewrites via denotational semantics. SuperTensor-lean generates constructive proofs automatically. These show that verification infrastructure can be generated from formal specifications rather than hand-written per transformation.",
       notes: [
         { url: "https://doi.org/10.1145/3704865", label: "TensorRight: Automated Verification of Tensor Graph Rewrites (POPL 2025)" },
-        { url: "https://github.com/lambdaclass/supertensor_lean", label: "SuperTensor-lean: Verified Tensor Graph Optimization with Constructive Proofs (LambdaClass 2026)" }
+        { url: "https://github.com/lambdaclass/supertensor_lean", label: "SuperTensor-lean: Verified Tensor Graph Optimization with Constructive Proofs (LambdaClass 2026)" },
+        { url: "https://doi.org/10.1145/3793656.3793689", label: "TensorEgg: Formally Verifying Rewrite Rules and Applying Them to Tensor Programs (Kothari and Baronia, 2026)" },
+        { url: "https://doi.org/10.1145/3428234", label: "Verifying and Improving Halide's Term Rewriting System with Program Synthesis (Newcomb et al., 2020)" },
+        { url: "https://doi.org/10.1145/3729309", label: "First-Class Verification Dialects for MLIR (Fehr et al., 2025)" }
       ],
       part: "Correctness & Parallel Systems"
     },
@@ -833,7 +949,9 @@ var RESEARCH_DATA = {
       notes: [
         { url: "https://github.com/opencompl/lean-mlir", label: "Lean-MLIR: Verified SSA Compilation Theory in Lean (220+ stars, 30 contributors)" },
         { url: "https://github.com/opencompl/veir", label: "VeIR: Verified MLIR-style IR in Lean with Optional ITP Verification (2025)" },
-        { url: "https://grosser.science/lean-mlir/", label: "Lean-MLIR: Verified Peephole Rewriting in SSA Compiler IRs (Grosser et al.)" }
+        { url: "https://grosser.science/lean-mlir/", label: "Lean-MLIR: Verified Peephole Rewriting in SSA Compiler IRs (Grosser et al.)" },
+        { url: "https://doi.org/10.1145/3729309", label: "First-Class Verification Dialects for MLIR (Fehr et al., 2025)" },
+        { url: "https://doi.org/10.1145/3597926.3605239", label: "Reasoning about MLIR Semantics through Effects and Handlers (Yu, 2023)" }
       ],
       part: "Correctness & Parallel Systems"
     },
@@ -846,7 +964,11 @@ var RESEARCH_DATA = {
       relevance: "Alive2 validates LLVM IR transformations via SMT. PEQC-MLIR uses hybrid concrete-symbolic interpretation for MLIR equivalence. These approaches scale to real compilers but miss higher-level semantic equivalences. Combining IR-level and source-level checking could close this gap.",
       notes: [
         { url: "https://arxiv.org/abs/2605.01124", label: "PEQC-MLIR: Hybrid Concrete-Symbolic Verification for MLIR Program Equivalence (2025)" },
-        { url: "https://github.com/opencompl/veir", label: "VeIR: Verified Intermediate Representation — MLIR-style IR verification in Lean (2025)" }
+        { url: "https://github.com/opencompl/veir", label: "VeIR: Verified Intermediate Representation — MLIR-style IR verification in Lean (2025)" },
+        { url: "https://doi.org/10.1145/3793656.3793689", label: "TensorEgg: Formally Verifying Rewrite Rules and Applying Them to Tensor Programs (Kothari and Baronia, 2026)" },
+        { url: "https://doi.org/10.1145/3704865", label: "TensorRight: Automated Verification of Tensor Graph Rewrites (Arora et al., POPL 2025)" },
+        { url: "https://doi.org/10.1142/S021819402450030X", label: "A Systematic Translation Validation Framework for MLIR-Based Compilers (Wang et al., 2024)" },
+        { url: "https://doi.org/10.1007/978-3-031-13188-2_19", label: "SMT-Based Translation Validation for Machine Learning Compiler (Bang et al., 2022)" }
       ],
       part: "Correctness & Parallel Systems"
     },
@@ -860,7 +982,18 @@ var RESEARCH_DATA = {
       notes: [
         { url: "https://arxiv.org/abs/2604.05066", label: "AutoLALA: Automatic Loop Algebraic Locality Analysis for AI and HPC Kernels (2026)" },
         { url: "https://discourse.llvm.org/t/rfc-add-scf-to-affine-conversion-pass-in-mlir/88036", label: "RFC: SCF-to-Affine Conversion Pass in MLIR (Polygeist-derived, 2025)" },
-        { url: "https://discourse.llvm.org/t/rfc-mlir-enable-dynamic-and-tighter-affine-unrolling-via-valueboundsconstraintset/91055", label: "RFC: Dynamic Affine Unrolling via ValueBoundsConstraintSet for GPU Codegen (2026)" }
+        { url: "https://discourse.llvm.org/t/rfc-mlir-enable-dynamic-and-tighter-affine-unrolling-via-valueboundsconstraintset/91055", label: "RFC: Dynamic Affine Unrolling via ValueBoundsConstraintSet for GPU Codegen (2026)" },
+        { url: "https://dl.acm.org/doi/10.1145/113446.113449", label: "A Data Locality Optimizing Algorithm (Wolf and Lam, 1991)" },
+        { url: "https://www.cs.colostate.edu/~cs560/Spring2011/Notes/FeautrierEDFAijpp91.pdf", label: "Dataflow Analysis of Array and Scalar References (Feautrier, 1991)" },
+        { url: "https://dl.acm.org/doi/10.1145/73560.73588", label: "Supernode Partitioning (Irigoin and Triolet, 1988)" },
+        { url: "https://doi.org/10.1142/S0129626412500107", label: "Polly: Performing Polyhedral Optimizations on a Low-Level Intermediate Representation (Grosser et al., 2012)" },
+        { url: "https://dl.acm.org/doi/10.1145/1375581.1375595", label: "A Practical Automatic Polyhedral Parallelizer and Locality Optimizer (Bondhugula et al., 2008)" },
+        { url: "https://dl.acm.org/doi/10.1145/29873.29875", label: "Automatic Translation of FORTRAN Programs to Vector Form (Allen and Kennedy, 1987)" },
+        { url: "https://dl.acm.org/doi/pdf/10.1145/567532.567555", label: "Dependence Graphs and Compiler Optimizations (Kuck et al., 1981)" },
+        { url: "https://dl.acm.org/doi/book/10.5555/502981", label: "Optimizing Compilers for Modern Architectures (Allen and Kennedy, 2001)" },
+        { url: "https://doi.org/10.1109/PACT52795.2021.00011", label: "Polygeist: Raising C to Polyhedral MLIR (Moses et al., 2021)" },
+        { url: "https://doi.org/10.1109/IPDPS64566.2025.00041", label: "PolyMorphous: An MLIR-Based Polyhedral Compiler with Loop Transformation Primitives (Zhao et al., 2025)" },
+        { url: "https://doi.org/10.1109/CGO.2019.8661197", label: "Tiramisu: A Polyhedral Compiler for Expressing Fast and Portable Code (Baghdadi et al., 2019)" }
       ],
       part: "Correctness & Parallel Systems"
     },
@@ -887,7 +1020,8 @@ var RESEARCH_DATA = {
       notes: [
         { url: "https://c.wsmoses.com/papers/polygeist24.pdf", label: "Polygeist-GPU: Retargeting and Respecializing GPU Workloads for Performance Portability (CGO 2024)" },
         { url: "https://mlir.llvm.org/docs/Dialects/NVVMDialect/", label: "MLIR NVVM Dialect: NVIDIA-specific Backend for GPU Kernel Compilation" },
-        { url: "https://llvm.org/devmtg/2024-03/slides/nvidia-hopper-in-mlir.pdf", label: "Targeting NVIDIA Hopper in MLIR: NVGPU/NVVM Dialects, Tensor Core, TMA (2024)" }
+        { url: "https://llvm.org/devmtg/2024-03/slides/nvidia-hopper-in-mlir.pdf", label: "Targeting NVIDIA Hopper in MLIR: NVGPU/NVVM Dialects, Tensor Core, TMA (2024)" },
+        { url: "https://doi.org/10.1109/PACT52795.2021.00011", label: "Polygeist: Raising C to Polyhedral MLIR (Moses et al., 2021)" }
       ],
       part: "Correctness & Parallel Systems"
     },
@@ -901,7 +1035,8 @@ var RESEARCH_DATA = {
       notes: [
         { url: "https://pldi25.sigplan.org/details/pldi-2025-src/3/An-MLIR-Dialect-for-Distributed-Heterogeneous-Computing", label: "An MLIR Dialect for Distributed Heterogeneous Computing (PLDI 2025 SRC)" },
         { url: "https://github.com/openxla/shardy", label: "Shardy: MLIR-based Tensor Partitioning System for SPMD (OpenXLA)" },
-        { url: "https://www.usenix.org/system/files/nsdi25-xu-guanbin.pdf", label: "AutoCCL: Automated Collective Communication Tuning for DNN Training (NSDI 2025)" }
+        { url: "https://www.usenix.org/system/files/nsdi25-xu-guanbin.pdf", label: "AutoCCL: Automated Collective Communication Tuning for DNN Training (NSDI 2025)" },
+        { url: "https://doi.org/10.1145/3519939.3523437", label: "DISTAL: The Distributed Tensor Algebra Compiler (Yadav et al., 2022)" }
       ],
       part: "Correctness & Parallel Systems"
     },
@@ -941,7 +1076,10 @@ var RESEARCH_DATA = {
       relevance: "FPGA/CGRA compilation remains highly manual. MLIR's CIRCT dialect provides hardware abstraction but lacks automatic mapping. ACT auto-generates accelerator backends from ISA specs. TL maps tile-based programs to spatial dataflow architectures. The gap is bridging high-level tensor programs to spatial hardware.",
       notes: [
         { url: "https://arxiv.org/abs/2512.22168", label: "TL: End-to-End Compiler of Tile-Based Languages for Spatial Dataflow Architectures (2025)" },
-        { url: "https://arxiv.org/abs/2510.09932", label: "ACT: Automatically Generating Compiler Backends from ISA Descriptions (ASPLOS 2026)" }
+        { url: "https://arxiv.org/abs/2510.09932", label: "ACT: Automatically Generating Compiler Backends from ISA Descriptions (ASPLOS 2026)" },
+        { url: "https://doi.org/10.1145/3519939.3523446", label: "Exocompilation for Productive Programming of Hardware Accelerators (Ikarashi et al., 2022)" },
+        { url: "https://doi.org/10.1145/3508352.3549424", label: "An MLIR-based Compiler Flow for System-level Design and Hardware Acceleration (Agostini et al., 2022)" },
+        { url: "https://doi.org/10.1145/3785670", label: "From Loop Nests to Silicon: Mapping AI Workloads onto AMD NPUs with MLIR-AIR (Wang et al., 2026)" }
       ],
       part: "Correctness & Parallel Systems"
     },
@@ -1066,7 +1204,22 @@ var RESEARCH_DATA = {
       relevance: "Csmith and PolyJuice are foundational compiler fuzzers. AutoFuzz (2025) uses LLMs to generate domain-specific test cases. EvoCodeBench (2025) benchmarks LLMs' ability to generate test cases. Combining LLM-generated programs with grammar-constrained fuzzing could dramatically increase bug detection rates in tensor compilers and MLIR passes.",
       notes: [
         { url: "https://arxiv.org/abs/2604.10649", label: "AutoFuzz: LLM-Powered Automatic Test Case Generation for Industrial Software (2025)" },
-        { url: "https://arxiv.org/abs/2510.05063", label: "EvoCodeBench: Benchmarking LLMs for Test Case Generation (2025)" }
+        { url: "https://arxiv.org/abs/2510.05063", label: "EvoCodeBench: Benchmarking LLMs for Test Case Generation (2025)" },
+        { url: "https://doi.org/10.1145/3676641.3716270", label: "Ratte: Fuzzing for Miscompilations in Multi-Level Compilers Using Composable Semantics (Yu et al., 2025)" },
+        { url: "https://arxiv.org/abs/2601.02218", label: "MLIR-Smith: A Novel Random Program Generator for Evaluating Compiler Pipelines (Ates et al., 2026)" },
+        { url: "https://researchr.org/publication/LiangHS25-0", label: "Finding Bugs in MLIR Compiler Infrastructure via Lowering Space Exploration (Liang et al., 2025)" },
+        { url: "https://arxiv.org/abs/2404.16947", label: "Fuzzing MLIR Compilers with Custom Mutation Synthesis (Limpanukorn et al., 2025)" },
+        { url: "https://arxiv.org/abs/2510.07815", label: "Interleaved Learning and Exploration: A Self-Adaptive Fuzz Testing Framework for MLIR (Sun et al., 2025)" },
+        { url: "https://doi.org/10.1145/3763161", label: "DESIL: Detecting Silent Bugs in MLIR Compiler Infrastructure (Suo et al., 2025)" },
+        { url: "https://doi.org/10.1145/3729372", label: "Directed Testing in MLIR: Unleashing Its Potential by Overcoming the Limitations of Random Fuzzing (Tong et al., 2025)" },
+        { url: "https://arxiv.org/abs/2512.04344", label: "Targeted Testing of Compiler Optimizations via Grammar-Level Composition Styles (Zhou et al., 2025)" },
+        { url: "https://doi.org/10.1109/ASE56229.2023.00120", label: "MLIRSmith: Random Program Generation for Fuzzing MLIR Compiler Infrastructure (Wang et al., 2023)" },
+        { url: "https://doi.org/10.1145/3650212.3680360", label: "Fuzzing MLIR Compiler Infrastructure via Operation Dependency Analysis (Suo et al., 2024)" },
+        { url: "https://doi.org/10.1145/3715747", label: "DuoReduce: Bug Isolation for Multi-layer Extensible Compilation (Wang et al., 2025)" },
+        { url: "https://doi.org/10.1145/3575693.3575707", label: "NNSmith: Generating Diverse and Valid Test Cases for Deep Learning Compilers (Liu et al., 2023)" },
+        { url: "https://doi.org/10.1109/QRS60937.2023.00066", label: "DeepDiffer: Find Deep Learning Compiler Bugs via Priority-guided Differential Fuzzing (Lin et al., 2023)" },
+        { url: "https://doi.org/10.1145/3705308", label: "Scuzer: A Scheduling Optimization Fuzzer for TVM (Chen et al., 2025)" },
+        { url: "https://arxiv.org/pdf/2606.05570", label: "TensorBench: Benchmarking Coding Agents on a Compiler-Based Tensor Framework (Yan and Kjolstad, 2026)" }
       ],
       part: "Security, Energy & Emerging Paradigms"
     },
@@ -1197,7 +1350,12 @@ var RESEARCH_DATA = {
         { url: "https://arxiv.org/abs/2601.02218", label: "MLIR-Smith: A Novel Random Program Generator for Evaluating Compiler Pipelines (2025)" },
         { url: "https://arxiv.org/abs/2404.16947", label: "SynthFuzz: Fuzzing MLIR Compilers with Custom Mutation Synthesis (Limpanukorn et al., ICSE 2025)" },
         { url: "https://dl.acm.org/doi/10.1145/3729372", label: "MLIRTracer: Directed Testing in MLIR (Tong et al., FSE 2025)" },
-        { url: "https://dl.acm.org/doi/10.1145/3238147.3240482", label: "SRCIROR: Mutation Testing of C Source Code and LLVM IR (Kazmi et al., ASE 2018)" }
+        { url: "https://dl.acm.org/doi/10.1145/3238147.3240482", label: "SRCIROR: Mutation Testing of C Source Code and LLVM IR (Kazmi et al., ASE 2018)" },
+        { url: "https://doi.org/10.1145/3763161", label: "DESIL: Detecting Silent Bugs in MLIR Compiler Infrastructure (Suo et al., 2025)" },
+        { url: "https://doi.org/10.1145/3650212.3680360", label: "Fuzzing MLIR Compiler Infrastructure via Operation Dependency Analysis (Suo et al., 2024)" },
+        { url: "https://doi.org/10.1145/3676641.3716270", label: "Ratte: Fuzzing for Miscompilations in Multi-Level Compilers Using Composable Semantics (Yu et al., 2025)" },
+        { url: "https://arxiv.org/abs/2512.04344", label: "Targeted Testing of Compiler Optimizations via Grammar-Level Composition Styles (Zhou et al., 2025)" },
+        { url: "https://arxiv.org/abs/2510.07815", label: "Interleaved Learning and Exploration: A Self-Adaptive Fuzz Testing Framework for MLIR (Sun et al., 2025)" }
       ],
       part: "Compiler Testing & Reliability"
     },
@@ -1210,7 +1368,9 @@ var RESEARCH_DATA = {
       relevance: "Novel angle — no existing work applies mutation testing to MLIR dialect definitions. Complementary to fuzzing approaches that focus on input generation.",
       notes: [
         { url: "https://arxiv.org/abs/2404.16947", label: "SynthFuzz: Fuzzing MLIR Compilers with Custom Mutation Synthesis (Limpanukorn et al., ICSE 2025)" },
-        { url: "https://arxiv.org/abs/2504.01379", label: "DESIL: Detecting Silent Bugs in MLIR Compiler Infrastructure (2025)" }
+        { url: "https://arxiv.org/abs/2504.01379", label: "DESIL: Detecting Silent Bugs in MLIR Compiler Infrastructure (2025)" },
+        { url: "https://doi.org/10.1109/ASE56229.2023.00120", label: "MLIRSmith: Random Program Generation for Fuzzing MLIR Compiler Infrastructure (Wang et al., 2023)" },
+        { url: "https://arxiv.org/abs/2601.02218", label: "MLIR-Smith: A Novel Random Program Generator for Evaluating Compiler Pipelines (Ates et al., 2026)" }
       ],
       part: "Compiler Testing & Reliability"
     },
@@ -1223,7 +1383,9 @@ var RESEARCH_DATA = {
       relevance: "Extends existing mutation testing work on C/LLVM (SRCIROR) with modern LLVM passes and quantifies the gap between coverage and mutation score.",
       notes: [
         { url: "https://dl.acm.org/doi/10.1145/3238147.3240482", label: "SRCIROR: Mutation Testing of C Source Code and LLVM IR (Kazmi et al., ASE 2018)" },
-        { url: "https://arxiv.org/abs/2606.31238", label: "A Multi-Dimensional, Per-Pass Empirical Study of the LLVM Optimization Pipeline (Bruzzone and Cazzola, 2026)" }
+        { url: "https://arxiv.org/abs/2606.31238", label: "A Multi-Dimensional, Per-Pass Empirical Study of the LLVM Optimization Pipeline (Bruzzone and Cazzola, 2026)" },
+        { url: "https://arxiv.org/abs/2608.09530", label: "The Unseen Delta: Characterizing the Compiler Optimization Landscape via Top-Down Differential Analysis (Liu et al., 2026)" },
+        { url: "https://doi.org/10.1145/3576641.3716270", label: "Ratte: Fuzzing for Miscompilations in Multi-Level Compilers Using Composable Semantics (Yu et al., 2025)" }
       ],
       part: "Compiler Testing & Reliability"
     },
@@ -1236,7 +1398,10 @@ var RESEARCH_DATA = {
       relevance: "Addresses a key practical barrier to applying mutation testing in compiler contexts. No existing work targets equivalent mutant detection in MLIR/LLVM.",
       notes: [
         { url: "https://dl.acm.org/doi/10.1145/3238147.3240482", label: "SRCIROR: Mutation Testing of C Source Code and LLVM IR (Kazmi et al., ASE 2018)" },
-        { url: "https://dl.acm.org/doi/10.1145/3715747", label: "DuoReduce: Bug Isolation for Multi-layer Extensible Compilation (Wang et al., FSE 2025)" }
+        { url: "https://dl.acm.org/doi/10.1145/3715747", label: "DuoReduce: Bug Isolation for Multi-layer Extensible Compilation (Wang et al., FSE 2025)" },
+        { url: "https://doi.org/10.1145/3763161", label: "DESIL: Detecting Silent Bugs in MLIR Compiler Infrastructure (Suo et al., 2025)" },
+        { url: "https://arxiv.org/abs/2601.02218", label: "MLIR-Smith: A Novel Random Program Generator for Evaluating Compiler Pipelines (Ates et al., 2026)" },
+        { url: "https://doi.org/10.1145/3676641.3716270", label: "Ratte: Fuzzing for Miscompilations in Multi-Level Compilers Using Composable Semantics (Yu et al., 2025)" }
       ],
       part: "Compiler Testing & Reliability"
     },
@@ -1250,7 +1415,10 @@ var RESEARCH_DATA = {
       notes: [
         { url: "https://dl.acm.org/doi/10.1145/3715747", label: "DuoReduce: Bug Isolation for Multi-layer Extensible Compilation (Wang et al., FSE 2025)" },
         { url: "https://arxiv.org/abs/2504.01379", label: "DESIL: Detecting Silent Bugs in MLIR Compiler Infrastructure (2025)" },
-        { url: "https://arxiv.org/abs/2510.07815", label: "FLEX: Self-Adaptive Fuzz Testing Framework for MLIR (2025)" }
+        { url: "https://arxiv.org/abs/2510.07815", label: "FLEX: Self-Adaptive Fuzz Testing Framework for MLIR (2025)" },
+        { url: "https://doi.org/10.1145/3676641.3716270", label: "Ratte: Fuzzing for Miscompilations in Multi-Level Compilers Using Composable Semantics (Yu et al., 2025)" },
+        { url: "https://doi.org/10.1109/ASE56229.2023.00120", label: "MLIRSmith: Random Program Generation for Fuzzing MLIR Compiler Infrastructure (Wang et al., 2023)" },
+        { url: "https://doi.org/10.1142/S021819402450030X", label: "A Systematic Translation Validation Framework for MLIR-Based Compilers (Wang et al., 2024)" }
       ],
       part: "Compiler Testing & Reliability"
     },
