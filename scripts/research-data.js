@@ -1504,6 +1504,12 @@ var RESEARCH_DATA = {
 
   openSourceContributions: [
     {
+      title: "[mlir][linalg] Support non-trailing dropped dims when vectorizing rank-reducing `InsertSliceOp`",
+      url: "https://github.com/llvm/llvm-project/pull/219192",
+      date: "2026/09/05",
+      project: "llvm-project"
+    },
+    {
       title: "[GlobalOpt][Flow][Quant] Fix segfault on unlowered `quant.uniform` types",
       url: "https://github.com/iree-org/iree/pull/24824",
       date: "2026/08/28",
