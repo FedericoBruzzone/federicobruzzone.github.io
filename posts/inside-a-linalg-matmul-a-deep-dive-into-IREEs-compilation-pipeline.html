@@ -11,16 +11,22 @@ SetEncodingPass (5_5): attacca l'etichetta iree_encoding.encoding a ogni operand
 Motivazione aggiunta in apertura della sezione: perché serve toccare il layout dei dati (SIMD, cache, data tiling) prima ancora di mostrare la meccanica.
 Formazione della prima dispatch region, e i workgroup: ConvertEncodingToFlowPass (annidato, 7_6) converte gli iree_encoding.set_encoding/unset_encoding nella forma flow.tensor.encode che vediamo nel dump—il vero pass dietro quella conversione, non semplicemente "outline". OutlineDispatchRegionsPass (radice, 10) poi outlina solo il matmul per ora (matmul_dispatch_0)—i tre flow.tensor.encode restano ancora inline nel chiamante. MaterializeDefaultWorkgroupCountRegionPass introduce la regione workgroups(), che si risolve banalmente a 1x1x1 col nostro flag.
 
-Risoluzione per la CPU target: SpecializeEncodingsPass risolve l'encoding astratto in numeri veri (innerDimsPos, innerTileSizes, outerDimsPerm) specifici per Apple M4. (Spiegheremo più avanti, al punto 10, esattamente come si legge questa terna—qui solo introdotti, con un accenno alla shape risultante come anticipo.)
+Risoluzione per la CPU target: SpecializeEncodingsPass risolve l'encoding astratto in numeri veri (innerDimsPos, innerTileSizes, outerDimsPerm) specifici per Apple M4.
 
 Verifica empirica: stesso target/size diverse → stessi tile; stesso size/target diversi (NEON vs AVX-512) → tile diversi (8→16). Confermato con compilazioni vere.
+
 Gli encode diventano dispatch a sé: MaterializeEncodingsPass promuove i tre flow.tensor.encode a dispatch indipendenti (_encoding_0/1/2). Da qui in poi: quattro dispatch a pieno titolo.
 
 Dimensioni già note: stream resource e slicing: SpecializeEncodingsPass (risolve solo i tipi) → EncodeHostTensorsPass (annidato, calcola per la prima volta i byte reali: 1.000.000 → 1.008.000 → 1.016.064) → MaterializeEncodingsPass (sostituisce l'operatore astratto con i tre dispatch/executable veri).
-LayoutSlicesPass, gli offset esatti: annidato a util_func_matmul/23_17_...—i tre buffer impacchettati diventano un'unica allocazione da 3.032.064 byte, con offset espliciti: LHS [0, 1.008.000), RHS [1.008.000, 2.016.000), accumulatore [2.016.000, 3.032.064). FuseDispatchBindingsPass (28, radice) adatta poi le firme delle dispatch a questo layout.
-Concorrenza tra dispatch: ScheduleConcurrencyPass (annidato, 19_15) introduce stream.async.concurrent, raggruppando le tre encode in un blocco parallelo. ScheduleExecutionPass (19_14) crea solo il contenitore stream.async.execute prima. Il passo radice 23 eredita la concorrenza già decisa e la converte in forma allocata stream.cmd.concurrent. Cronologicamente precede tutto il codegen dei punti 10-13.
 
-Housekeeping intermedio, e il gateway verso il codegen: bookkeeping a livello di modulo tra i passi 17 e 37. Il passo che conta: iree-hal-materialize-interfaces (37)—da qui in poi tutto vive nelle sottocartelle hal_executable_.../.
+Concorrenza tra dispatch: ScheduleConcurrencyPass (annidato, 20_15) introduce stream.async.concurrent, raggruppando le tre encode in un blocco parallelo. ScheduleExecutionPass (20_14) crea solo il contenitore stream.async.execute prima. Cronologicamente precede tutto il codegen dei punti 11-14.
+stream.resource.pack e LayoutSlicesPass, gli offset esatti: ScheduleAllocationPass (radice, 23) eredita la concorrenza già decisa e la converte in forma allocata stream.cmd.concurrent; poiché sa che le tre slice sono vive nello stesso istante, emette un stream.resource.pack che richiede il bin-packing (1.008.000 / 1.008.000 / 1.016.064) e riceve offset ancora simbolici. LayoutSlicesPass (annidato) li risolve in costanti concrete: LHS [0, 1.008.000), RHS [1.008.000, 2.016.000), accumulatore [2.016.000, 3.032.064), dentro un'unica allocazione da 3.032.064 byte.
+
+Annotating Dispatch Arguments (AnnotateDispatchArgumentsPass, radice, 29): il compilatore annota gli argomenti-offset introdotti da FuseDispatchBindingsPass (28) con due fatti che ormai conosce con certezza—stream.values, il valore esatto che quell'argomento avrà sempre (es. l'offset RHS sarà sempre 1.008.000), e stream.alignment, il miglior allineamento dimostrabile per quel valore (1.008.000 è multiplo di 128, 2.016.000 di 256)—utile al codegen successivo per usare accessi allineati invece di generici.
+
+Packing Dispatch Operands for the ABI (PackDispatchOperandsPass, radice, 31): ogni argomento scalare index (64 bit) viene spaccato in due i32, perché l'ABI dei dispatch di IREE richiede push-constant a 32 bit (vincolo ereditato dal mondo GPU, applicato anche su CPU per uniformità tra target)—ricostruzione a mano dentro la funzione (extui+shli+ori). Chiusura naturale della storia: FoldUniformOperandsPass (radice, 34) sfrutta il stream.values del punto precedente per eliminare del tutto gli argomenti dimostrabilmente costanti—diventano arith.constant dentro il corpo della funzione, spariscono sia dalla firma che dal sito di chiamata (matmul_dispatch_0 passa da 8 argomenti i32 a zero).
+
+Il gateway verso il codegen (MaterializeInterfacesPass, radice, 37): il resto del bookkeeping tra i passi 32 e 37 (fold-globals, generico, non specifico al nostro esempio) non merita sezioni proprie. Qui invece ogni stream.executable diventa un vero hal.executable, con un hal.executable.variant concreto per il target—da qui in poi tutto vive nelle sottocartelle hal_executable_.../.
 
 Materializzazione fisica: l'encoding risolto diventa linalg.pack/linalg.unpack, il matmul diventa linalg.mmt4d. Qui rientrano hal_executable__encoding_0/1/2 e in parte hal_executable_matmul_dispatch_0.
 
@@ -524,8 +530,114 @@ iree-compile /tmp/matmul_500.mlir \
                 This is decided at the whole-module level, entirely independently of anything we've seen so far about tiling or vectorization inside a single dispatch—in fact it happens well <em>before</em> any per-dispatch codegen even begins. It's also worth noting what this concurrency is <em>not</em>: it says nothing about which CPU core runs what, or how many threads are involved. That's a separate, later decision (the workgroup distribution we touched on earlier), about splitting the work <em>inside</em> one dispatch across a hardware grid. This is a different, coarser axis: whether the runtime can even start issuing multiple dispatches before earlier ones finish.
             </p>
             <p>
-                A little further down the pipeline, <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/Stream/Transforms/ScheduleAllocation.cpp">ScheduleAllocationPass</a> (<code class="language-shell">iree-stream-schedule-allocation</code>) inherits this same grouping and converts it into the buffer-allocated form, <code class="language-mlir">stream.cmd.concurrent</code>—same three dispatches, same structure, just with real memory behind it (the <code class="language-mlir">LayoutSlicesPass</code> offsets we saw in the previous section).
+                A little further down the pipeline, <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/Stream/Transforms/ScheduleAllocation.cpp">ScheduleAllocationPass</a> (<code class="language-shell">iree-stream-schedule-allocation</code>) inherits this same grouping and converts it into the buffer-allocated form, <code class="language-mlir">stream.cmd.concurrent</code>—same three dispatches, same structure, just with real memory behind it. And knowing that three buffers are all alive <em>at the same time</em> (because they run concurrently) is exactly what lets this pass do something clever: instead of three separate allocations, it issues a single <code class="language-mlir">stream.resource.pack</code>—a genuine bin-packing request: "here are three slices, these sizes, all alive during the same window, figure out where each one goes":
             </p>
+            <pre class="" data-language="MLIR"><code class="language-mlir">
+// FILE: /tmp/matmul_500/builtin_module_no-symbol-name/23_iree-stream-schedule-allocation.mlir
+%3:4 = stream.resource.pack on(...) slices({
+    [0, 1] = %c1008000,
+    [0, 1] = %c1008000,
+    [0, 1] = %c1016064
+}) : index
+// %3#0 = total size (3.032.064); %3#1, %3#2, %3#3 = one offset per slice, still symbolic here
+            </code></pre>
+            <p>
+                <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/Stream/Transforms/LayoutSlices.cpp">LayoutSlicesPass</a> then resolves those symbolic offsets into concrete constants:
+            </p>
+            <pre class="" data-language="MLIR"><code class="language-mlir">
+// FILE: /tmp/matmul_500/builtin_module_no-symbol-name/util_func_matmul/23_17_iree-stream-layout-slices.mlir
+stream.cmd.dispatch @_encoding_0::@..._0 { wo %arg7[%c0       for %c1008000] : ... }   // LHS:  [0, 1.008.000)
+stream.cmd.dispatch @_encoding_1::@..._1 { wo %arg7[%c1008000 for %c1008000] : ... }  // RHS:  [1.008.000, 2.016.000)
+stream.cmd.dispatch @_encoding_2::@..._2 { wo %arg7[%c2016000 for %c1016064] : ... }  // Acc:  [2.016.000, 3.032.064)
+            </code></pre>
+            <p>
+                One buffer, three tenants, laid out back to back—one fewer allocation for the runtime to manage, and a direct consequence of the concurrency we just established: only because these three are known to run together can the compiler safely pack them into one allocation.
+            </p>
+
+           <h2>Annotating Dispatch Arguments</h2>
+            <p>
+                Remember the offset arguments <code class="language-mlir">FuseDispatchBindingsPass</code> introduced back when the three encode operations became dispatches of their own? A pass called <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/Stream/Transforms/AnnotateDispatchArguments.cpp">AnnotateDispatchArgumentsPass</a> (<code class="language-shell">iree-stream-annotate-dispatch-arguments</code>) now records two facts about them that the compiler has just become certain of, thanks to <code class="language-mlir">LayoutSlicesPass</code> resolving their exact offsets:
+            </p>
+            <pre class="" data-language="MLIR"><code class="language-mlir">
+            // FILE: /tmp/matmul_500/builtin_module_no-symbol-name/29_iree-stream-annotate-dispatch-arguments.mlir
+            func.func @matmul_dispatch_0_matmul_like_500x500x500_f32(
+                %arg0: !stream.binding {stream.alignment = 64 : index},                           // the shared 3.032.064-byte input
+                %arg1: !stream.binding {stream.alignment = 64 : index},                           // the output
+                %arg2: index {stream.values = [0 : index]},                                       // LHS offset into %arg0
+                %arg3: index {stream.alignment = 128 : index, stream.values = [1008000 : index]}, // RHS offset into %arg0
+                %arg4: index {stream.alignment = 256 : index, stream.values = [2016000 : index]}, // accumulator offset into %arg0
+                %arg5: index {stream.values = [0 : index]}) {                                     // output offset into %arg1
+            </code></pre>
+            <p>
+                <code class="language-mlir">stream.values</code> records that a parameter isn't just <em>some</em> index passed at runtime—it will always be exactly this one, every single time this dispatch is called: the RHS offset will always be <code class="language-mlir">1.008.000</code>, the accumulator's always <code class="language-mlir">2.016.000</code>—the same numbers <code class="language-mlir">LayoutSlicesPass</code> computed one section ago. <code class="language-mlir">stream.alignment</code> records the strongest alignment the compiler can prove for that value: <code class="language-mlir">1.008.000</code> happens to be a multiple of 128, <code class="language-mlir">2.016.000</code> a multiple of 256. Later codegen can use this to emit aligned loads and stores instead of generic, unaligned ones.
+            </p>
+            <p>
+                This is a small, quiet pass—it doesn't change what the program computes, or even the shape of its arguments. It just writes down, in the type system, things the compiler now happens to know for certain. Those facts don't go to waste, as we're about to see.
+            </p>
+
+            <h2>Packing Dispatch Operands for the ABI</h2>
+            <p>
+                Right after those annotations, <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/Stream/Transforms/PackDispatchOperands.cpp">PackDispatchOperandsPass</a> (<code class="language-shell">iree-stream-pack-dispatch-operands</code>) does something that has nothing to do with our matmul specifically, and everything to do with how IREE talks to <em>any</em> compute target: it packs every dispatch operand into <code class="language-mlir">i32</code>-sized push constants—a constraint inherited from the GPU world (push-constant blocks are typically defined in terms of 32-bit words), applied uniformly across every backend, CPU included. Since <code class="language-mlir">index</code> is 64 bits, every one of our offset arguments gets split into two <code class="language-mlir">i32</code> halves:
+            </p>
+            <pre class="" data-line="5-8" data-language="MLIR"><code class="language-mlir">
+            // FILE: /tmp/matmul_500/builtin_module_no-symbol-name/31_iree-stream-pack-dispatch-operands.mlir
+            func.func @matmul_dispatch_0_matmul_like_500x500x500_f32(
+                %arg0: !stream.binding, %arg1: !stream.binding,
+                %arg2: i32, %arg3: i32, %arg4: i32, %arg5: i32, %arg6: i32, %arg7: i32, %arg8: i32, %arg9: i32) {
+                %0 = arith.extui %arg2 : i32 to i64      // low 32 bits
+                %1 = arith.extui %arg3 : i32 to i64      // high 32 bits
+                %2 = arith.shli %1, %c32_i64 : i64       // shift the high half into place
+                %3 = arith.ori %0, %2 : i64              // OR them back together
+                %4 = arith.index_castui %3 {stream.values = [0 : index]} : i64 to index
+                ...
+            </code></pre>
+            <p>
+                Every 64-bit offset becomes two 32-bit halves at the call site, and gets stitched back together—<code class="language-mlir">extui</code>, <code class="language-mlir">shli</code>, <code class="language-mlir">ori</code>—right at the top of the callee. Four <code class="language-mlir">index</code> arguments become eight <code class="language-mlir">i32</code> ones.
+            </p>
+            <p>
+                This sets up a satisfying payoff. Remember <code class="language-mlir">stream.values</code> from the previous section—the compiler's proof that some of these arguments are always the same constant? <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/Stream/Transforms/FoldUniformOperands.cpp">FoldUniformOperandsPass</a> (<code class="language-shell">iree-stream-fold-uniform-operands</code>) cashes it in: if an argument is provably uniform across every call site, there's no reason to pass it as an argument at all. It becomes a literal constant baked directly into the function body, and disappears from both the signature and the call site:
+            </p>
+            <pre class="" data-language="MLIR"><code class="language-mlir">
+            // FILE: /tmp/matmul_500/builtin_module_no-symbol-name/34_iree-stream-fold-uniform-operands.mlir
+            func.func @matmul_dispatch_0_matmul_like_500x500x500_f32(%arg0: !stream.binding {stream.alignment = 64 : index}, %arg1: !stream.binding {stream.alignment = 64 : index}) {
+                %c0_i32 = arith.constant 0 : i32
+                %c1008000_i32 = arith.constant 1008000 : i32
+                %c2016000_i32 = arith.constant 2016000 : i32
+                ...
+            }
+            ...
+            stream.cmd.dispatch @matmul_dispatch_0::@matmul_dispatch_0_matmul_like_500x500x500_f32 {
+                ...
+            }
+            </code></pre>
+            <p>
+                Eight <code class="language-mlir">i32</code> arguments become zero. This is the full arc, start to finish: <code class="language-mlir">FuseDispatchBindingsPass</code> turned per-operand buffers into a shared buffer plus offsets; <code class="language-mlir">AnnotateDispatchArgumentsPass</code> proved those offsets were always the same value; <code class="language-mlir">PackDispatchOperandsPass</code> reshaped them for the ABI; and now <code class="language-mlir">FoldUniformOperandsPass</code> removes them entirely, because a value the compiler can prove ahead of time doesn't need to travel through an argument list at all.
+            </p>
+
+            <h2>The Gateway to Codegen</h2>
+            <p>
+                Between what we just saw and the actual per-executable code generation, there's a little more whole-module bookkeeping (folding globals, mostly—generic cleanup, nothing specific to our matmul) that doesn't earn its own section. The pass that actually matters is <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/HAL/Transforms/MaterializeInterfaces.cpp">MaterializeInterfacesPass</a> (<code class="language-shell">iree-hal-materialize-interfaces</code>). This is where each <code class="language-mlir">stream.executable</code> we've been looking at finally becomes a proper <code class="language-mlir">hal.executable</code>, with a concrete <code class="language-mlir">hal.executable.variant</code> for our target:
+            </p>
+            <pre class="" data-language="MLIR"><code class="language-mlir">
+            // FILE: /tmp/matmul_500/builtin_module_no-symbol-name/37_iree-hal-materialize-interfaces.mlir
+            #pipeline_layout = #hal.pipeline.layout&lt;
+                bindings = [
+                    #hal.pipeline.binding&lt;storage_buffer, "ReadOnly|Indirect"&gt;, 
+                    #hal.pipeline.binding&lt;storage_buffer, Indirect&gt;], 
+                flags = Indirect&gt;
+            hal.executable public @_encoding_0 {
+                hal.executable.variant public @embedded_elf_arm_64 target(#executable_target_embedded_elf_arm_64) {
+                    ...
+                }
+            }
+            </code></pre>
+            <p>
+            This is the gateway: from here on, most of the passes we look at operate on <em>one executable at a time</em>—the dump tree reflects that, with everything nested inside its own <code class="language-mlir">hal_executable_.../hal_executable_variant_embedded_elf_arm_64/...</code> subdirectory. This is where data tiling (the <code class="language-mlir">linalg.pack</code>/<code class="language-mlir">unpack</code>/<code class="language-mlir">mmt4d</code> we've been promising since the very first section), loop tiling, workgroup distribution, and vectorization all happen. A few whole-module passes are still interleaved right alongside it, though—<code class="language-shell">iree-hal-conversion</code> is one, and it's where the <code class="language-mlir">hal.command_buffer.dispatch</code> calls we'll see much later actually get created.
+        </p>
+        <p>
+            It doesn't stay per-executable forever, either: once each executable's codegen is done, the pipeline returns to the whole-module level to link all four into one binary, memoize the command buffer, and set up device/resource caches—we'll get there later.
+        </p>
+
 
             <div class="bibtex" year="2026" month="Aug"></div>
         </div>
