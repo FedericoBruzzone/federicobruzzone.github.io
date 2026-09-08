@@ -15,11 +15,23 @@ var RESEARCH_DATA = {
       date: "September, 2026"
     },
     {
+      title: "The Minimal Essence of Higher-Order Functions in Maude",
+      url: "/publications/Bruzzone26c/Bruzzone26c.pdf",
+      authors: "F. Bruzzone, L. Capra, W. Cazzola, and C. Olarte",
+      venue: "<b>28th International Symposium on Symbolic and Numeric Algorithms for Scientific Computing (SYNASC '26)</b>",
+      note: 'Conference Ranked C (National) on CORE &middot; <a href="https://synasc.ro/2026/">SYNASC\'26</a>',
+      links: [
+        { label: "bib", url: "/publications/Bruzzone26c/Bruzzone26c.bib" },
+        { label: "pdf", url: "/publications/Bruzzone26c/Bruzzone26c.pdf" },
+      ],
+      date: "September, 2026"
+    },
+    {
       title: "Symmetry preservation in modular rewritable muliformalism models",
       url: "/publications/Bruzzone26b/Bruzzone26b.pdf",
       authors: "L. Capra and F. Bruzzone",
       venue: "<b>CEUR Workshop Proceedings, Vol. 4236</b>",
-      note: 'Workshop paper (poster) at PNAS\'26 &middot; <a href="https://ceur-ws.org/Vol-4236/">CEUR-WS.org</a>',
+      note: 'Conference Ranked B on CORE &middot; Workshop paper (poster) at PNAS\'26 &middot; <a href="https://ceur-ws.org/Vol-4236/">CEUR-WS.org</a>',
       links: [
         { label: "bib", url: "/publications/Bruzzone26b/Bruzzone26b.bib" },
         { label: "pdf", url: "/publications/Bruzzone26b/Bruzzone26b.pdf" },

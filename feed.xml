@@ -24,6 +24,14 @@
       <description><![CDATA[Journal Ranked Q1 &middot; DOI: <a href="https://doi.org/TBD">TBD</a>]]></description>
     </item>
     <item>
+      <title>The Minimal Essence of Higher-Order Functions in Maude</title>
+      <link>https://federicobruzzone.github.io/publications/Bruzzone26c/Bruzzone26c.pdf</link>
+      <guid isPermaLink="false">tag:federicobruzzone.github.io,September, 2026:publications/the-minimal-essence-of-higher-order-functions-in-maude</guid>
+      <category>Publication</category>
+      <pubDate>Invalid Date</pubDate>
+      <description><![CDATA[Conference Ranked C (National) on CORE &middot; <a href="https://synasc.ro/2026/">SYNASC'26</a>]]></description>
+    </item>
+    <item>
       <title>Generalized Software Product Line Extraction</title>
       <link>https://federicobruzzone.github.io/publications/Bruzzone26e-preprint/Bruzzone26e-preprint.pdf</link>
       <guid isPermaLink="false">tag:federicobruzzone.github.io,May, 2026:publications/generalized-software-product-line-extraction</guid>
@@ -77,7 +85,7 @@
       <guid isPermaLink="false">tag:federicobruzzone.github.io,August, 2026:publications/symmetry-preservation-in-modular-rewritable-muliformalism-models</guid>
       <category>Publication</category>
       <pubDate>Invalid Date</pubDate>
-      <description><![CDATA[Workshop paper (poster) at PNAS'26 &middot; <a href="https://ceur-ws.org/Vol-4236/">CEUR-WS.org</a>]]></description>
+      <description><![CDATA[Conference Ranked B on CORE &middot; Workshop paper (poster) at PNAS'26 &middot; <a href="https://ceur-ws.org/Vol-4236/">CEUR-WS.org</a>]]></description>
     </item>
     <item>
       <title>A Multi-Dimensional, Per-Pass Empirical Study of the LLVM Optimization Pipeline</title>
