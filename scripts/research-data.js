@@ -1,6 +1,20 @@
 var RESEARCH_DATA = {
   publications: [
     {
+      title: "Prioritizing Configuration Relevance via Compiler-Based Refined Feature Ranking",
+      url: "/publications/Bruzzone26d/Bruzzone26d.pdf",
+      authors: "F. Bruzzone, W. Cazzola, and L. Favini",
+      venue: "<b>Journal of Systems and Software (JSS)</b>",
+      note: 'Journal Ranked Q1 &middot; DOI: <a href="https://doi.org/TBD">TBD</a>',
+      links: [
+        { label: "bib", url: "/publications/Bruzzone26d/Bruzzone26d.bib" },
+        { label: "pdf", url: "/publications/Bruzzone26d/Bruzzone26d.pdf" },
+        { label: "SpringerLink", url: "https://doi.org/TBD" },
+        { label: "arXiv", url: "https://arxiv.org/abs/2601.16008" },
+      ],
+      date: "September, 2026"
+    },
+    {
       title: "Symmetry preservation in modular rewritable muliformalism models",
       url: "/publications/Bruzzone26g/Bruzzone26g.pdf",
       authors: "L. Capra and F. Bruzzone",
@@ -90,18 +104,6 @@ var RESEARCH_DATA = {
         { label: "arXiv", url: "https://arxiv.org/abs/2602.03777" },
       ],
       date: "February, 2026"
-    },
-    {
-      title: "Prioritizing Configuration Relevance via Compiler-Based Refined Feature Ranking",
-      url: "/publications/Bruzzone26-preprint/Bruzzone26-preprint.pdf",
-      authors: "F. Bruzzone, W. Cazzola, and L. Favini",
-      note: 'DOI: <a href="https://doi.org/10.48550/arXiv.2601.16008">10.48550/arXiv.2601.16008</a>',
-      links: [
-        { label: "bib", url: "/publications/Bruzzone26-preprint/Bruzzone26-preprint.bib" },
-        { label: "pdf", url: "/publications/Bruzzone26-preprint/Bruzzone26-preprint.pdf" },
-        { label: "arXiv", url: "https://arxiv.org/abs/2601.16008" },
-      ],
-      date: "January, 2026"
     }
   ],
 
