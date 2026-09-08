@@ -16,13 +16,13 @@ var RESEARCH_DATA = {
     },
     {
       title: "Symmetry preservation in modular rewritable muliformalism models",
-      url: "/publications/Bruzzone26g/Bruzzone26g.pdf",
+      url: "/publications/Bruzzone26b/Bruzzone26b.pdf",
       authors: "L. Capra and F. Bruzzone",
       venue: "<b>CEUR Workshop Proceedings, Vol. 4236</b>",
       note: 'Workshop paper (poster) at PNAS\'26 &middot; <a href="https://ceur-ws.org/Vol-4236/">CEUR-WS.org</a>',
       links: [
-        { label: "bib", url: "/publications/Bruzzone26g/Bruzzone26g.bib" },
-        { label: "pdf", url: "/publications/Bruzzone26g/Bruzzone26g.pdf" },
+        { label: "bib", url: "/publications/Bruzzone26b/Bruzzone26b.bib" },
+        { label: "pdf", url: "/publications/Bruzzone26b/Bruzzone26b.pdf" },
       ],
       date: "August, 2026"
     },
