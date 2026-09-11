@@ -1518,6 +1518,12 @@ var RESEARCH_DATA = {
 
   openSourceContributions: [
     {
+      title: "[mlir][linalg] Add `insert_slice` vectorization tests for leading/trailing dropped dims",
+      url: "https://github.com/llvm/llvm-project/pull/221966",
+      date: "2026/09/11",
+      project: "llvm-project"
+    },
+    {
       title: "[mlir][linalg] Support non-trailing dropped dims when vectorizing rank-reducing `InsertSliceOp`",
       url: "https://github.com/llvm/llvm-project/pull/219192",
       date: "2026/09/05",
