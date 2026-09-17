@@ -1518,6 +1518,12 @@ var RESEARCH_DATA = {
 
   openSourceContributions: [
     {
+      title: "[mlir][LowerToLLVM] Pass `DataLayoutAnalysis` to `LowerToLLVMOptions` in `ArithToLLVM`, `ControlFlowToLLVM`, and `VectorToLLVM` passes",
+      url: "https://github.com/llvm/llvm-project/pull/206380",
+      date: "2026/09/17",
+      project: "llvm-project"
+    },
+    {
       title: "[mlir][bufferization] Fix 32-bit overflow in `PromoteBuffersToStack` threshold check",
       url: "https://github.com/llvm/llvm-project/pull/223986",
       date: "2026/09/17",
