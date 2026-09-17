@@ -1518,6 +1518,12 @@ var RESEARCH_DATA = {
 
   openSourceContributions: [
     {
+      title: "[mlir][bufferization] Fix 32-bit overflow in `PromoteBuffersToStack` threshold check",
+      url: "https://github.com/llvm/llvm-project/pull/223986",
+      date: "2026/09/17",
+      project: "llvm-project"
+    },
+    {
       title: "[mlir][linalg] Add `insert_slice` vectorization tests for leading/trailing dropped dims",
       url: "https://github.com/llvm/llvm-project/pull/221966",
       date: "2026/09/11",
