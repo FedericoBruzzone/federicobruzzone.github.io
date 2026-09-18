@@ -1518,6 +1518,12 @@ var RESEARCH_DATA = {
 
   openSourceContributions: [
     {
+      title: "[TailRecElim] Handle discarded-call return conflicts with a shift accumulator",
+      url: "https://github.com/llvm/llvm-project/pull/221694",
+      date: "2026/09/18",
+      project: "llvm-project"
+    },
+    {
       title: "[mlir][LowerToLLVM] Pass `DataLayoutAnalysis` to `LowerToLLVMOptions` in `ArithToLLVM`, `ControlFlowToLLVM`, and `VectorToLLVM` passes",
       url: "https://github.com/llvm/llvm-project/pull/206380",
       date: "2026/09/17",
