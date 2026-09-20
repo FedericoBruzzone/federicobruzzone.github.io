@@ -28,7 +28,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 <a href="[FOLDER]/post.html" title="Posts" style="text-decoration: none; color:var(--header-color)">Posts</a>
                 <a href="[FOLDER]/proposals.html" title="Proposals" style="text-decoration: none; color:var(--header-color)">Proposals</a>
                 <a href="[FOLDER]/cv.pdf" title="CV" style="text-decoration: none; color:var(--header-color)">CV</a>
-                <a href="/feed.xml" title="RSS Feed" style="text-decoration: none; color:var(--header-color)"><img src="[FOLDER]/icons/rss.svg" width=16px height=16px style="vertical-align:middle"/></a>
             </nav>
         </header>
     `.replaceAll("[FOLDER]",folder);

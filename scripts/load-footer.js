@@ -24,4 +24,11 @@ document.addEventListener("DOMContentLoaded", function() {
     `.replaceAll("[FOLDER]",folder);
 
     footer.innerHTML = footerContent;
+
+    const socialLinks = document.getElementById('social-links');
+    if (socialLinks) {
+        socialLinks.innerHTML = `<div class="footer-contacts" style="margin-top:0; margin-bottom:0;">` +
+            document.querySelector('.footer-contacts').innerHTML +
+            `</div>`;
+    }
 });

@@ -537,7 +537,7 @@ tr:nth-child(even) {
 }
 
 .collapsible {
-    margin-top: 0.5em;
+    margin-top: 0.2em;
 }
 
 .collapsible summary {
@@ -580,7 +580,14 @@ tr:nth-child(even) {
 
 .about-intro p {
     margin-top: 0.5em;
+    margin-bottom: 0.2em;
     line-height: 1.65;
+}
+
+#social-links .footer-contacts {
+    height: auto;
+    margin-top: 0.2em;
+    margin-bottom: 0;
 }
 
 @media (max-width: 600px) {
