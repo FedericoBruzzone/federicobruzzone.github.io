@@ -5,11 +5,11 @@ var RESEARCH_DATA = {
       url: "/publications/Bruzzone26d/Bruzzone26d.pdf",
       authors: "F. Bruzzone, W. Cazzola, and L. Favini",
       venue: "<b>Journal of Systems and Software (JSS)</b>",
-      note: 'Journal Ranked Q1 &middot; DOI: <a href="https://doi.org/TBD">TBD</a>',
+      note: 'Journal Ranked Q1 &middot; DOI: <a href="https://doi.org/10.1016/j.jss.2026.113096">10.1016/j.jss.2026.113096</a>',
       links: [
         { label: "bib", url: "/publications/Bruzzone26d/Bruzzone26d.bib" },
         { label: "pdf", url: "/publications/Bruzzone26d/Bruzzone26d.pdf" },
-        { label: "SpringerLink", url: "https://doi.org/TBD" },
+        { label: "SpringerLink", url: "https://doi.org/10.1016/j.jss.2026.113096" },
         { label: "arXiv", url: "https://arxiv.org/abs/2601.16008" },
       ],
       date: "September, 2026"
