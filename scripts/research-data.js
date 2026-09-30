@@ -1518,6 +1518,12 @@ var RESEARCH_DATA = {
 
   openSourceContributions: [
     {
+      title: "[mlir][linalg] Document and diagnose pack/unpack memref limits",
+      url: "https://github.com/llvm/llvm-project/pull/225773",
+      date: "2026/09/30",
+      project: "llvm-project"
+    },
+    {
       title: "[TailRecElim] Handle discarded-call return conflicts with a shift accumulator",
       url: "https://github.com/llvm/llvm-project/pull/221694",
       date: "2026/09/18",
