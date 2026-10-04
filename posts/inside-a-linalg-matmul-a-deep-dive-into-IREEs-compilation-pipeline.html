@@ -641,6 +641,63 @@ stream.cmd.dispatch @_encoding_2::@..._2 { wo %arg7[%c2016000 for %c1016064] : .
         </p>
 
 
+            <h2>Materializing the Encoding: <code class="language-mlir">linalg.pack</code>, <code class="language-mlir">linalg.mmt4d</code>, and <code class="language-mlir">linalg.unpack</code></h2>
+            <p>
+                Time to make good on two promises: how to read <code class="language-mlir">innerDimsPos</code>, <code class="language-mlir">innerTileSizes</code> and <code class="language-mlir">outerDimsPerm</code>, and what actually turns <code class="language-mlir">1.000.000</code> bytes of plain data into <code class="language-mlir">1.008.000</code> bytes of tiled data. The first pass that runs inside each executable is <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Codegen/Common/MaterializeEncoding.cpp">MaterializeDeviceEncodingPass</a> (<code class="language-shell">iree-codegen-materialize-device-encoding</code>), which finally replaces the encoding with real operations. Here is the LHS encode dispatch, before and after:
+            </p>
+            <pre class="" data-language="MLIR"><code class="language-mlir">
+// FILE: /tmp/matmul_500/builtin_module_no-symbol-name/37_iree-hal-materialize-interfaces.mlir  (before)
+%3 = iree_encoding.set_encoding %2 : tensor&lt;500x500xf32&gt; -> tensor&lt;500x500xf32, #encoding&gt;
+
+// FILE: /tmp/matmul_500/builtin_module_no-symbol-name/hal_executable__encoding_0/hal_executable_variant_embedded_elf_arm_64/builtin_module_no-symbol-name/func_func__encoding_0_encode_500x500xf32_to_500x500xf32/37_0_0_0_0_iree-codegen-materialize-device-encoding.mlir  (after)
+%3 = tensor.empty() : tensor&lt;63x500x8x1xf32&gt;
+%pack = linalg.pack %2 padding_value(%cst : f32) outer_dims_perm = [0, 1] inner_dims_pos = [0, 1] inner_tiles = [8, 1]
+        into %3 : tensor&lt;500x500xf32&gt; -> tensor&lt;63x500x8x1xf32&gt;
+            </code></pre>
+
+            <h3>Reading the Tile Shape</h3>
+            <p>
+                The rule is mechanical. The <b>last</b> dimensions of the packed result are a verbatim copy of <code class="language-mlir">innerTileSizes</code>. The <b>leading</b> dimensions are <code class="language-mlir">original_size / tile_size</code>, rounded up, for each dimension named in <code class="language-mlir">innerDimsPos</code>, then reordered by <code class="language-mlir">outerDimsPerm</code>.
+            </p>
+            <p>
+                LHS: <code class="language-mlir">tensor&lt;500x500xf32&gt;</code> with dim0 = M and dim1 = K, and <code class="language-mlir">innerDimsPos = [0, 1]</code>, <code class="language-mlir">innerTileSizes = [8, 1]</code>, <code class="language-mlir">outerDimsPerm = [0, 1]</code>. Tiling M by 8 gives <code class="language-mlir">ceil(500/8) = 63</code> panels; tiling K by 1 leaves a trivial <code class="language-mlir">500</code>; the identity permutation keeps that order. Result: <code class="language-mlir">tensor&lt;63x500x8x1xf32&gt;</code>. Note that the leading <code class="language-mlir">63</code> counts <em>panels</em>, not rows.
+            </p>
+            <p>
+                The RHS is the interesting case, because <code class="language-mlir">innerDimsPos</code> and <code class="language-mlir">outerDimsPerm</code> are both <code class="language-mlir">[1, 0]</code>. Its shape is <code class="language-mlir">tensor&lt;500x500xf32&gt;</code> with dim0 = K and dim1 = N, so the first tile size (8) now applies to dim1: it is N that gets cut into panels of 8. Before reordering the outer dimensions are <code class="language-mlir">[500, 63]</code> (K, then N/8), and <code class="language-mlir">outerDimsPerm = [1, 0]</code> swaps them into <code class="language-mlir">[63, 500]</code>. The result is <code class="language-mlir">tensor&lt;63x500x8x1xf32&gt;</code>, exactly the shape of the LHS even though M and N are different dimensions. That is what lets <code class="language-mlir">linalg.mmt4d</code> pair a row-panel of the LHS with a column-panel of the RHS, one panel at a time.
+            </p>
+            <pre class="" data-language="MLIR"><code class="language-mlir">
+// FILE: .../hal_executable__encoding_1/.../37_0_0_0_0_iree-codegen-materialize-device-encoding.mlir   (RHS)
+%pack = linalg.pack %2 padding_value(%cst : f32) outer_dims_perm = [1, 0] inner_dims_pos = [1, 0] inner_tiles = [8, 1]
+        into %3 : tensor&lt;500x500xf32&gt; -> tensor&lt;63x500x8x1xf32&gt;
+
+// FILE: .../hal_executable__encoding_2/.../37_0_0_0_0_iree-codegen-materialize-device-encoding.mlir   (accumulator, tiled on both axes)
+%pack = linalg.pack %2 padding_value(%cst : f32) outer_dims_perm = [0, 1] inner_dims_pos = [0, 1] inner_tiles = [8, 8]
+        into %3 : tensor&lt;500x500xf32&gt; -> tensor&lt;63x63x8x8xf32&gt;
+            </code></pre>
+            <p>
+                Multiply those shapes by 4 bytes and the sizes from the earlier sections fall out: <code class="language-mlir">63 &times; 500 &times; 8 &times; 1 &times; 4 = 1.008.000</code> and <code class="language-mlir">63 &times; 63 &times; 8 &times; 8 &times; 4 = 1.016.064</code>.
+            </p>
+
+            <blockquote>
+                <b>Why <code class="language-mlir">padding_value</code>?</b> We picked <code class="language-mlir">500x500</code> because 500 is not a multiple of 8: <code class="language-mlir">500 / 8 = 62.5</code>, so the last of the 63 panels has only 4 real rows (or columns) and <code class="language-mlir">linalg.pack</code> fills the other 4 slots with <code class="language-mlir">0.0</code>.
+                <br><br>
+                This does not change the result, and not merely because the padding is zero. Only M and N are tiled by 8; K, the dimension we reduce over, has tile size 1, so it is never padded. A fake padded row of the LHS can only contribute to a fake row of the output, never to one of the 500 real ones. Those extra rows and columns are computed anyway, but <code class="language-mlir">linalg.unpack</code> extracts only the real <code class="language-mlir">500x500</code> region at the end.
+                <br><br>
+                Padding is not the only answer to "the size is not a multiple of the tile". <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Codegen/LLVMCPU/LLVMCPUPeel.cpp">LLVMCPUPeelPass</a> is used by pipelines that do <em>not</em> use data tiling: it splits the tiled loop into a main loop over full tiles plus a remainder loop. Here the irregularity is already absorbed by the padding, and indeed no peeling pass appears anywhere in our dump tree.
+            </blockquote>
+
+            <h3>The Multiplication, and Undoing the Tiling</h3>
+            <pre class="" data-language="MLIR"><code class="language-mlir">
+// FILE: /tmp/matmul_500/builtin_module_no-symbol-name/hal_executable_matmul_dispatch_0/hal_executable_variant_embedded_elf_arm_64/builtin_module_no-symbol-name/func_func_matmul_dispatch_0_matmul_like_500x500x500_f32/37_0_0_0_0_iree-codegen-materialize-device-encoding.mlir
+%7 = linalg.mmt4d ins(%4, %5 : tensor&lt;63x500x8x1xf32&gt;, tensor&lt;63x500x8x1xf32&gt;)
+                  outs(%6 : tensor&lt;63x63x8x8xf32&gt;) -> tensor&lt;63x63x8x8xf32&gt;
+%unpack = linalg.unpack %7 outer_dims_perm = [0, 1] inner_dims_pos = [0, 1] inner_tiles = [8, 8]
+          into %8 : tensor&lt;63x63x8x8xf32&gt; -> tensor&lt;500x500xf32&gt;
+            </code></pre>
+            <p>
+                With all three operands packed, the matmul dispatch no longer runs a generic loop nest. It runs <code class="language-mlir">linalg.mmt4d</code> ("matmul transposed 4D"), an operation built for exactly this layout: it computes one 8&times;8 output tile at a time from one 8-row panel of the LHS and one 8-column panel of the RHS. <code class="language-mlir">linalg.unpack</code> then flattens the tiled result back to a plain <code class="language-mlir">500x500xf32</code>, dropping the padded rows and columns. It needs no padding value of its own, because going from padded to real only ever discards elements.
+            </p>
+
             <div class="bibtex" year="2026" month="Aug"></div>
         </div>
     </main>
