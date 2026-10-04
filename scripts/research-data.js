@@ -1518,6 +1518,12 @@ var RESEARCH_DATA = {
 
   openSourceContributions: [
     {
+      title: "[mlir][ArmSME][NFC] Improving the readability of outer product fusion",
+      url: "https://github.com/llvm/llvm-project/pull/227140",
+      date: "2026/10/04",
+      project: "llvm-project"
+    },
+    {
       title: "[mlir][linalg] Document and diagnose pack/unpack memref limits",
       url: "https://github.com/llvm/llvm-project/pull/225773",
       date: "2026/09/30",
