@@ -1518,6 +1518,12 @@ var RESEARCH_DATA = {
 
   openSourceContributions: [
     {
+      title: "[mlir][ArmSME] Skip tile allocation for functions with no SME tile ops",
+      url: "https://github.com/llvm/llvm-project/pull/227153",
+      date: "2026/10/05",
+      project: "llvm-project"
+    },
+    {
       title: "[mlir][ArmSME][NFC] Improving the readability of outer product fusion",
       url: "https://github.com/llvm/llvm-project/pull/227140",
       date: "2026/10/04",

@@ -229,7 +229,7 @@ iree-compile /tmp/matmul_500.mlir \
                 </code></pre>
 
                 <p>
-                    For readers familiar with Armv9-A and the AArch64 architecture, this post focuses on a baseline AArch64 target using Advanced SIMD (NEON), without considering SVE- or SME-specific features, which IREE nonetheless supports through dedicated flags.
+                    For readers familiar with Armv9-A and the AArch64 architecture: the <code>apple-m4</code> target also lists SME among its features, but the code IREE generates for this matmul only uses Advanced SIMD (NEON), 128 bits wide. We will not discuss SVE or SME.
                 </p>
 
 
@@ -660,7 +660,7 @@ stream.cmd.dispatch @_encoding_2::@..._2 { wo %arg7[%c2016000 for %c1016064] : .
                 The rule is mechanical. The <b>last</b> dimensions of the packed result are a verbatim copy of <code class="language-mlir">innerTileSizes</code>. The <b>leading</b> dimensions are <code class="language-mlir">original_size / tile_size</code>, rounded up, for each dimension named in <code class="language-mlir">innerDimsPos</code>, then reordered by <code class="language-mlir">outerDimsPerm</code>.
             </p>
             <p>
-                LHS: <code class="language-mlir">tensor&lt;500x500xf32&gt;</code> with dim0 = M and dim1 = K, and <code class="language-mlir">innerDimsPos = [0, 1]</code>, <code class="language-mlir">innerTileSizes = [8, 1]</code>, <code class="language-mlir">outerDimsPerm = [0, 1]</code>. Tiling M by 8 gives <code class="language-mlir">ceil(500/8) = 63</code> panels; tiling K by 1 leaves a trivial <code class="language-mlir">500</code>; the identity permutation keeps that order. Result: <code class="language-mlir">tensor&lt;63x500x8x1xf32&gt;</code>. Note that the leading <code class="language-mlir">63</code> counts <em>panels</em>, not rows.
+                LHS: <code class="language-mlir">tensor&lt;500x500xf32&gt;</code> with dim0 = M and dim1 = K, and <code class="language-mlir">innerDimsPos = [0, 1]</code>, <code class="language-mlir">innerTileSizes = [8, 1]</code>, <code class="language-mlir">outerDimsPerm = [0, 1]</code>. Tiling M by 8 gives <code class="language-mlir">ceil(500/8) = 63</code> panels. Tiling K by 1 leaves a trivial <code class="language-mlir">500</code>, and the identity permutation keeps that order. Result: <code class="language-mlir">tensor&lt;63x500x8x1xf32&gt;</code>. Note that the leading <code class="language-mlir">63</code> counts <em>panels</em>, not rows.
             </p>
             <p>
                 The RHS is the interesting case, because <code class="language-mlir">innerDimsPos</code> and <code class="language-mlir">outerDimsPerm</code> are both <code class="language-mlir">[1, 0]</code>. Its shape is <code class="language-mlir">tensor&lt;500x500xf32&gt;</code> with dim0 = K and dim1 = N, so the first tile size (8) now applies to dim1: it is N that gets cut into panels of 8. Before reordering the outer dimensions are <code class="language-mlir">[500, 63]</code> (K, then N/8), and <code class="language-mlir">outerDimsPerm = [1, 0]</code> swaps them into <code class="language-mlir">[63, 500]</code>. The result is <code class="language-mlir">tensor&lt;63x500x8x1xf32&gt;</code>, exactly the shape of the LHS even though M and N are different dimensions. That is what lets <code class="language-mlir">linalg.mmt4d</code> pair a row-panel of the LHS with a column-panel of the RHS, one panel at a time.
@@ -681,7 +681,7 @@ stream.cmd.dispatch @_encoding_2::@..._2 { wo %arg7[%c2016000 for %c1016064] : .
             <blockquote>
                 <b>Why <code class="language-mlir">padding_value</code>?</b> We picked <code class="language-mlir">500x500</code> because 500 is not a multiple of 8: <code class="language-mlir">500 / 8 = 62.5</code>, so the last of the 63 panels has only 4 real rows (or columns) and <code class="language-mlir">linalg.pack</code> fills the other 4 slots with <code class="language-mlir">0.0</code>.
                 <br><br>
-                This does not change the result, and not merely because the padding is zero. Only M and N are tiled by 8; K, the dimension we reduce over, has tile size 1, so it is never padded. A fake padded row of the LHS can only contribute to a fake row of the output, never to one of the 500 real ones. Those extra rows and columns are computed anyway, but <code class="language-mlir">linalg.unpack</code> extracts only the real <code class="language-mlir">500x500</code> region at the end.
+                This does not change the result, and not merely because the padding is zero. Only M and N are tiled by 8. K, the dimension we reduce over, has tile size 1, so it is never padded. A fake padded row of the LHS can only contribute to a fake row of the output, never to one of the 500 real ones. Those extra rows and columns are computed anyway, but <code class="language-mlir">linalg.unpack</code> extracts only the real <code class="language-mlir">500x500</code> region at the end.
                 <br><br>
                 Padding is not the only answer to "the size is not a multiple of the tile". <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Codegen/LLVMCPU/LLVMCPUPeel.cpp">LLVMCPUPeelPass</a> is used by pipelines that do <em>not</em> use data tiling: it splits the tiled loop into a main loop over full tiles plus a remainder loop. Here the irregularity is already absorbed by the padding, and indeed no peeling pass appears anywhere in our dump tree.
             </blockquote>
@@ -696,6 +696,251 @@ stream.cmd.dispatch @_encoding_2::@..._2 { wo %arg7[%c2016000 for %c1016064] : .
             </code></pre>
             <p>
                 With all three operands packed, the matmul dispatch no longer runs a generic loop nest. It runs <code class="language-mlir">linalg.mmt4d</code> ("matmul transposed 4D"), an operation built for exactly this layout: it computes one 8&times;8 output tile at a time from one 8-row panel of the LHS and one 8-column panel of the RHS. <code class="language-mlir">linalg.unpack</code> then flattens the tiled result back to a plain <code class="language-mlir">500x500xf32</code>, dropping the padded rows and columns. It needs no padding value of its own, because going from padded to real only ever discards elements.
+            </p>
+
+            <h2>Three Small Rewrites Before Choosing a Strategy</h2>
+            <p>
+                Three more passes run on the matmul dispatch before the compiler decides how to lower it. None of them is glamorous, but together they leave the function in the shape the rest of the pipeline expects. All paths below are relative to <code>hal_executable_matmul_dispatch_0/hal_executable_variant_embedded_elf_arm_64/builtin_module_no-symbol-name/func_func_matmul_dispatch_0_matmul_like_500x500x500_f32/</code>.
+            </p>
+
+            <h3>From Accumulating GEMM to GEMM Plus Add</h3>
+            <p>
+                Right after the pack/mmt4d/unpack we just saw, <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Codegen/Common/ConvertAccGEMMToGEMM.cpp">ConvertAccGEMMToGEMMPass</a> (<code class="language-shell">iree-convert-accgemm-to-gemm</code>) changes how the accumulator is used. Our matmul computes <code class="language-mlir">C += A &times; B</code>, so until now the <code class="language-mlir">mmt4d</code> wrote straight into the loaded accumulator. Afterwards it multiplies into a fresh, zero-filled tensor, and a separate elementwise add combines the product with the old <code class="language-mlir">C</code>:
+            </p>
+            <pre class="" data-language="MLIR"><code class="language-mlir">
+// FILE: .../37_0_0_0_1_iree-convert-accgemm-to-gemm.mlir
+%6 = iree_tensor_ext.dispatch.tensor.load %2, ... -> tensor&lt;63x63x8x8xf32&gt;      // the old accumulator
+%7 = tensor.empty() : tensor&lt;63x63x8x8xf32&gt;
+%8 = linalg.fill ins(%cst : f32) outs(%7 : tensor&lt;63x63x8x8xf32&gt;) -> tensor&lt;63x63x8x8xf32&gt;
+%9 = linalg.mmt4d ins(%4, %5 : tensor&lt;63x500x8x1xf32&gt;, tensor&lt;63x500x8x1xf32&gt;)
+                  outs(%8 : tensor&lt;63x63x8x8xf32&gt;) -> tensor&lt;63x63x8x8xf32&gt;
+%10 = linalg.generic {...} ins(%9, %6 : tensor&lt;63x63x8x8xf32&gt;, tensor&lt;63x63x8x8xf32&gt;)
+                           outs(%7 : tensor&lt;63x63x8x8xf32&gt;) {
+  ^bb0(%in: f32, %in_0: f32, %out: f32):
+    %12 = arith.addf %in, %in_0 : f32
+    linalg.yield %12 : f32
+} -> tensor&lt;63x63x8x8xf32&gt;
+            </code></pre>
+            <p>
+                The pass's own summary only says "Convert accumulating GEMMs to GEMMs post dispatch creation", so I will not guess at its motivation. What the dump shows is the rewrite above. The practical consequence is that from here on the dispatch contains a <code class="language-mlir">linalg.fill</code> and a trailing <code class="language-mlir">arith.addf</code> that were never in our original program.
+            </p>
+
+            <h3>Bufferizing the Dispatch Boundary</h3>
+            <p>
+                <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Codegen/Common/BufferizeDispatchTensorLoadStore.cpp">BufferizeDispatchTensorLoadStorePass</a> (<code class="language-shell">iree-codegen-bufferize-dispatch-tensor-load-store</code>) handles only the edges of the dispatch: <code class="language-mlir">iree_tensor_ext.dispatch.tensor.load</code> becomes <code class="language-mlir">iree_codegen.load_from_buffer</code>, and <code class="language-mlir">dispatch.tensor.store</code> becomes <code class="language-mlir">iree_codegen.store_to_buffer</code>. The loads now name real memrefs, and the layout we computed earlier is visible in their types:
+            </p>
+            <pre class="" data-language="MLIR"><code class="language-mlir">
+// FILE: .../37_0_0_0_3_iree-codegen-combine-result-layout-transformation.mlir
+%4 = iree_codegen.load_from_buffer %0 : memref&lt;63x500x8x1xf32, #hal.descriptor_type&lt;storage_buffer&gt;&gt; -> tensor&lt;63x500x8x1xf32&gt;
+%5 = iree_codegen.load_from_buffer %1 : memref&lt;63x500x8x1xf32, strided&lt;[4000, 8, 1, 1], offset: ?&gt;, ...&gt; -> tensor&lt;63x500x8x1xf32&gt;
+%6 = iree_codegen.load_from_buffer %2 : memref&lt;63x63x8x8xf32, strided&lt;[4032, 64, 8, 1], offset: ?&gt;, ...&gt; -> tensor&lt;63x63x8x8xf32&gt;
+...
+iree_codegen.store_to_buffer %unpack, %3 : tensor&lt;500x500xf32&gt; into memref&lt;500x500xf32, #hal.descriptor_type&lt;storage_buffer&gt;&gt;
+            </code></pre>
+            <p>
+                The strides are the packed shapes written out in elements: for the <code class="language-mlir">63x500x8x1</code> panels, moving one panel along the first dimension skips <code class="language-mlir">500 &times; 8 &times; 1 = 4000</code> elements. For the <code class="language-mlir">63x63x8x8</code> accumulator, moving one row of blocks skips <code class="language-mlir">63 &times; 64 = 4032</code>. The <code class="language-mlir">offset: ?</code> in the type is left symbolic. The actual values are the constants in the matching <code class="language-mlir">hal.interface.binding.subspan</code> ops (<code class="language-mlir">offset(%c1008000)</code> and <code class="language-mlir">offset(%c2016000)</code>), the same ones <code class="language-mlir">FoldUniformOperandsPass</code> baked into the function body.
+            </p>
+
+            <h3>Nothing to Combine</h3>
+            <p>
+                Finally, <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Codegen/Common/CombineLayoutTransformation.cpp">CombineResultLayoutTransformationPass</a> looks for layout operations (<code class="language-mlir">linalg.transpose</code>, <code class="language-mlir">tensor.collapse_shape</code>, <code class="language-mlir">tensor.pad</code>...) feeding the stored result and merges them into a single <code class="language-mlir">iree_linalg_ext.map_store</code>. Our result goes through none of those, so there is nothing to merge. The only visible effect is housekeeping: the bufferize step had doubled the <code class="language-mlir">binding.subspan</code> ops from 4 to 8, and after this pass we are back to 4, one per operand.
+            </p>
+
+            <h2>Choosing a Lowering Strategy</h2>
+            <p>
+                Up to now the executables contain only <em>what</em> to compute. The next pass decides <em>how</em> to lower it. <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Codegen/LLVMCPU/LLVMCPUSelectLoweringStrategy.cpp">LLVMCPUSelectLoweringStrategyPass</a> (<code class="language-shell">iree-llvmcpu-select-lowering-strategy</code>) looks at each executable and annotates it with a pipeline, plus a <code class="language-mlir">lowering_config</code> on the operations that matter. Before this pass there is no <code class="language-mlir">translation_info</code> anywhere in the executable. Afterwards the four executables are labelled like this:
+            </p>
+            <table>
+                <tr><th>Executable</th><th>Selected pipeline</th></tr>
+                <tr><td><code>matmul_dispatch_0</code></td><td><code class="language-mlir">Mmt4dTilingExpert</code></td></tr>
+                <tr><td><code>_encoding_0</code>, <code>_encoding_1</code>, <code>_encoding_2</code></td><td><code class="language-mlir">DataTiling</code></td></tr>
+            </table>
+            <p>
+                The three pack dispatches get a pipeline of their own, and the matmul gets the one built around <code class="language-mlir">mmt4d</code>. Here is the configuration the matmul receives:
+            </p>
+            <pre class="" data-language="MLIR"><code class="language-mlir">
+// FILE: .../hal_executable_matmul_dispatch_0/hal_executable_variant_embedded_elf_arm_64/builtin_module_no-symbol-name/37_0_0_2_iree-llvmcpu-select-lowering-strategy.mlir
+translation_info = #iree_codegen.translation_info&lt;pipeline = #iree_cpu.pipeline&lt;Mmt4dTilingExpert&gt;&gt;
+...
+%9 = linalg.mmt4d {lowering_config = #iree_cpu.lowering_config&lt;
+        distribution          = [7, 7, 0, 0, 0, 0],
+        vector_common_parallel = [1, 1, 0, 8, 8, 0],
+        vector_reduction       = [0, 0, 1, 0, 0, 1]&gt;} ins(%4, %5 : ...) outs(%8 : ...)
+            </code></pre>
+            <p>
+                To read the six numbers we need the loop order of <code class="language-mlir">mmt4d</code>. Its iteration space is <code class="language-mlir">(M1, N1, K1, M0, N0, K0)</code>: first the three outer loops over panels, then the three inner ones inside a tile. You can see this order in the <code class="language-mlir">vector.contract</code> that appears later in the dump, whose indexing maps take the LHS as <code class="language-mlir">(d0, d2, d3, d5)</code>, the RHS as <code class="language-mlir">(d1, d2, d4, d5)</code> and the output as <code class="language-mlir">(d0, d1, d3, d4)</code>.
+            </p>
+            <ul>
+                <li><code class="language-mlir">vector_common_parallel = [1, 1, 0, 8, 8, 0]</code>: walk the panels of M and N one at a time, and handle the whole <code class="language-mlir">8x8</code> inner tile at once. The <code class="language-mlir">0</code> entries are the reduction loops, which are not tiled here.</li>
+                <li><code class="language-mlir">vector_reduction = [0, 0, 1, 0, 0, 1]</code>: the two reduction loops, <code class="language-mlir">K1</code> and <code class="language-mlir">K0</code>, advance by 1.</li>
+                <li><code class="language-mlir">distribution = [7, 7, 0, 0, 0, 0]</code>: if the work were split across workgroups, each one would take a block of 7&times;7 panels. With 63 panels per side that means <code class="language-mlir">ceil(63/7) = 9</code> blocks in each direction.</li>
+            </ul>
+            <p>
+                The <code class="language-mlir">8, 8</code> are not a separate decision. For static shapes, the selection code reads the inner tile sizes straight off the last two dimensions of the accumulator, and those are the <code class="language-mlir">8x8</code> that the encoding resolver chose several sections ago.
+            </p>
+            <p>
+                One detail is easy to miss. We compiled with <code class="language-shell">--iree-llvmcpu-disable-distribution=true</code>, yet the <code class="language-mlir">distribution</code> entry is still there. The flag does not stop the configuration from being computed. It stops the pass that would apply it, and indeed no pass with "distribute" in its name appears anywhere in our dump tree. The number stays in the IR and is never used.
+            </p>
+
+            <h3>Where the Configuration Dump Comes From</h3>
+            <p>
+                This is also the moment captured by the <code class="language-shell">--iree-hal-dump-executable-configurations-to</code> flag we met at the beginning. Right after strategy selection, a <code class="language-mlir">DumpExecutableSourcesPass</code> with <code class="language-shell">prefix=configured</code> writes one file per executable:
+            </p>
+            <pre class="" data-language="bash"><code class="language-bash">
+# root pass 38: iree-hal-dump-executable-sources{path=/tmp/iree/config prefix=configured}
+$ ls /tmp/iree/config
+configured_module__encoding_0.mlir
+configured_module__encoding_1.mlir
+configured_module__encoding_2.mlir
+configured_module_matmul_dispatch_0.mlir
+            </code></pre>
+            <p>
+                Each file already carries the <code class="language-mlir">translation_info</code> and the <code class="language-mlir">lowering_config</code> we just read, so it is the last snapshot before the actual tiling starts, and the first one you can feed back to <code class="language-shell">iree-opt</code> to experiment with a single dispatch.
+            </p>
+
+            <h2>Tiling the Compute Loop</h2>
+            <p>
+                The configuration we just read is a plan. The next passes turn it into loops. So far <code class="language-mlir">linalg.mmt4d</code> is a single operation over all <code class="language-mlir">63x63</code> blocks of the output. After this section it is a loop nest that handles one small tile at a time. Paths below are relative to <code>hal_executable_matmul_dispatch_0/hal_executable_variant_embedded_elf_arm_64/builtin_module_no-symbol-name/func_func_matmul_dispatch_0_matmul_like_500x500x500_f32/</code>.
+            </p>
+
+            <h3>Two Runs of the Same Pass, One per Tiling Level</h3>
+            <p>
+                <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Codegen/LLVMCPU/LLVMCPUTileAndFuseProducerConsumer.cpp">LLVMCPUTileAndFuseProducerConsumerPass</a> appears twice in the dump. The header of each file says which entry of the <code class="language-mlir">lowering_config</code> it consumes. The first run uses <code class="language-shell">tiling-level=vector_common_parallel</code>, that is <code class="language-mlir">[1, 1, 0, 8, 8, 0]</code>. It tiles the two outer parallel loops by 1 and wraps everything in an <code class="language-mlir">scf.forall</code> over the 63&times;63 blocks. The <code class="language-mlir">fill</code>, the add and the <code class="language-mlir">unpack</code> are pulled inside the loop, so each iteration produces one finished 8&times;8 block:
+            </p>
+            <pre class="" data-language="MLIR"><code class="language-mlir">
+// FILE: .../38_1_1_2_4_iree-llvmcpu-tile-and-fuse-producer-consumer.mlir
+%8 = scf.forall (%arg0, %arg1) in (63, 63) shared_outs(%arg2 = %7) -> (tensor&lt;500x500xf32&gt;) {
+  %extracted_slice   = tensor.extract_slice %4[%arg0, 0, 0, 0] [1, 500, 8, 1] ...   // one LHS panel
+  %extracted_slice_0 = tensor.extract_slice %5[%arg1, 0, 0, 0] [1, 500, 8, 1] ...   // one RHS panel
+  %10 = linalg.fill ... -> tensor&lt;1x1x8x8xf32&gt;
+  %11 = linalg.mmt4d ins(%extracted_slice, %extracted_slice_0 : tensor&lt;1x500x8x1xf32&gt;, ...) outs(%10 : ...)
+  %13 = linalg.generic {...} ... arith.addf ...                                      // add the old C
+  %15 = affine.min affine_map&lt;(d0) -> (d0 * -8 + 500, 8)&gt;(%arg0)
+  %unpack = linalg.unpack %13 ... into %extracted_slice_2 : tensor&lt;1x1x8x8xf32&gt; -> tensor&lt;?x?xf32&gt;
+  scf.forall.in_parallel { tensor.parallel_insert_slice %unpack into %arg2[...] }
+}
+            </code></pre>
+            <p>
+                The <code class="language-mlir">affine.min</code> is where the padding from the previous sections finally disappears. For all blocks but the last, it evaluates to 8. For the last one, <code class="language-mlir">500 - 62 &times; 8 = 4</code>, so the <code class="language-mlir">unpack</code> writes only the 4 real rows (or columns) and drops the 4 padded ones.
+            </p>
+            <p>
+                The second run uses <code class="language-shell">tiling-level=vector_reduction</code>, that is <code class="language-mlir">[0, 0, 1, 0, 0, 1]</code>. Inside each block it tiles the reduction loop <code class="language-mlir">K1</code> by 1, which gives a sequential <code class="language-mlir">scf.for</code> over the 500 values of K. Each step multiplies an <code class="language-mlir">8x1</code> slice of the LHS panel by an <code class="language-mlir">8x1</code> slice of the RHS panel and accumulates into the <code class="language-mlir">8x8</code> block:
+            </p>
+            <pre class="" data-language="MLIR"><code class="language-mlir">
+// FILE: .../38_1_1_2_5_iree-llvmcpu-tile-and-fuse-producer-consumer.mlir
+%11 = scf.for %arg3 = %c0 to %c500 step %c1 iter_args(%arg4 = %10) -> (tensor&lt;1x1x8x8xf32&gt;) {
+  %extracted_slice_1 = tensor.extract_slice %4[%arg0, %arg3, 0, 0] [1, 1, 8, 1] ...  : ... to tensor&lt;1x1x8x1xf32&gt;
+  %extracted_slice_2 = tensor.extract_slice %5[%arg1, %arg3, 0, 0] [1, 1, 8, 1] ...  : ... to tensor&lt;1x1x8x1xf32&gt;
+  %18 = linalg.mmt4d ins(%extracted_slice_1, %extracted_slice_2 : ...) outs(%arg4 : tensor&lt;1x1x8x8xf32&gt;)
+  scf.yield %18 : tensor&lt;1x1x8x8xf32&gt;
+}
+            </code></pre>
+
+            <h3>From <code class="language-mlir">forall</code> to <code class="language-mlir">for</code></h3>
+            <p>
+                An <code class="language-mlir">scf.forall</code> says that its iterations are independent and may run in parallel. Nothing will run them in parallel here, because distribution is disabled, so <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Codegen/Common/ForallToFor.cpp">ForallToForPass</a> (<code class="language-shell">iree-codegen-forall-to-for</code>) rewrites it as two plain nested <code class="language-mlir">scf.for</code> loops. The last tiling pass, <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Codegen/LLVMCPU/LLVMCPUTileToVectorSize.cpp">LLVMCPUTileToVectorSizePass</a>, only tiles dimensions that are still larger than the vector size. Everything is already at 8, so in our dump it changes nothing but the numbering of constants and values.
+            </p>
+
+            <h3>What We Have Now</h3>
+            <pre class="" data-language="MLIR"><code class="language-mlir">
+for i in 0 .. 63:                      // panel of the LHS
+  for j in 0 .. 63:                    // panel of the RHS
+    acc = fill 0                       // one 8x8 block
+    for k in 0 .. 500:
+      acc = mmt4d(LHS[i, k], RHS[j, k], acc)     // 8x1 times 8x1, accumulated
+    out[i, j] = unpack(acc + C[i, j])
+            </code></pre>
+            <p>
+                That is <code class="language-mlir">63 &times; 63 = 3969</code> blocks and <code class="language-mlir">3969 &times; 500 = 1.984.500</code> tiny <code class="language-mlir">mmt4d</code> calls, each doing 64 multiply-adds. The total is <code class="language-mlir">127.008.000</code> multiply-adds, which is <code class="language-mlir">504 &times; 504 &times; 500</code>: the padded problem. The real matmul needs <code class="language-mlir">500 &times; 500 &times; 500 = 125.000.000</code>, so the padding costs about 1,6% extra work, the same ratio as the <code class="language-mlir">1.016.064</code> to <code class="language-mlir">1.000.000</code> bytes we met earlier.
+            </p>
+            <p>
+                The layout pays off here. The packed LHS and RHS both have strides <code class="language-mlir">[4000, 8, 1, 1]</code> (explicit in the type of the RHS memref, implicit in the LHS one, which starts at offset 0), so stepping <code class="language-mlir">k</code> moves by 8 floats and the 8 values of one step are adjacent. The innermost loop therefore reads both panels sequentially from memory, which is what we wanted when we asked why a matrix needs to be touched at all.
+            </p>
+
+            <h2>Vectorization and Bufferization</h2>
+            <p>
+                The loop nest is in place and every tile is small enough to fit in vector registers. Next the operations inside it become vector operations, and the tensors become memory. Paths are relative to the same <code>func_func_matmul_dispatch_0_matmul_like_500x500x500_f32/</code> directory as before.
+            </p>
+
+            <h3>Vectorization</h3>
+            <p>
+                <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Codegen/Common/GenericVectorization.cpp">GenericVectorizationPass</a> rewrites each operation on a tile as vector operations. The inner <code class="language-mlir">mmt4d</code> is the interesting one:
+            </p>
+            <pre class="" data-language="MLIR"><code class="language-mlir">
+// FILE: .../38_1_1_2_8_iree-codegen-generic-vectorization.mlir
+%24 = vector.transfer_read %extracted_slice_1[...] : tensor&lt;1x1x8x1xf32&gt;, vector&lt;1x1x8x1xf32&gt;     // 8 floats of the LHS panel
+%25 = vector.transfer_read %extracted_slice_2[...] : tensor&lt;1x1x8x1xf32&gt;, vector&lt;1x1x8x1xf32&gt;     // 8 floats of the RHS panel
+%26 = vector.transfer_read %arg5[...]             : tensor&lt;1x1x8x8xf32&gt;, vector&lt;1x1x8x8xf32&gt;     // the accumulator
+%27 = vector.contract {...} %24, %25, %26 : vector&lt;1x1x8x1xf32&gt;, vector&lt;1x1x8x1xf32&gt; into vector&lt;1x1x8x8xf32&gt;
+            </code></pre>
+            <p>
+                Because the inner K tile is 1, the <code class="language-mlir">vector.contract</code> is an outer product: an 8-element vector times an 8-element vector, added to an <code class="language-mlir">8x8</code> accumulator. This is the NEON-sized operation the packing was designed to feed. The <code class="language-mlir">fill</code> becomes a write of a zero vector, the add becomes an <code class="language-mlir">arith.addf</code> on <code class="language-mlir">vector&lt;1x1x8x8xf32&gt;</code>, and the <code class="language-mlir">unpack</code> becomes a masked write:
+            </p>
+            <pre class="" data-language="MLIR"><code class="language-mlir">
+%18 = affine.min affine_map&lt;(d0) -> (d0 * -8 + 500, 8)&gt;(%arg0)
+%20 = affine.min affine_map&lt;(d0) -> (d0 * -8 + 500, 8)&gt;(%arg2)
+%21 = vector.shape_cast %16 : vector&lt;1x1x8x8xf32&gt; to vector&lt;8x8xf32&gt;
+%22 = vector.create_mask %18, %20 : vector&lt;8x8xi1&gt;
+%23 = vector.transfer_write %21, %extracted_slice_0[%c0, %c0], %22 : vector&lt;8x8xf32&gt;, tensor&lt;?x?xf32&gt;
+            </code></pre>
+            <p>
+                This is the same <code class="language-mlir">affine.min</code> from the previous section, now turned into a mask. For the last block it selects the top-left <code class="language-mlir">4x4</code> corner, so the padded rows and columns are computed and then simply not written.
+            </p>
+
+            <h3>Keeping the Accumulator in a Vector</h3>
+            <p>
+                <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Codegen/Common/OptimizeTensorInsertExtractSlices.cpp">OptimizeTensorInsertExtractSlicesPass</a> (the next file) removes a round trip through memory. Before it, every iteration of the K loop read the accumulator from a tensor, updated it, and wrote it back. After it, the accumulator is the loop-carried value itself, starting from a zero constant, and the panels are read straight from the full packed tensors:
+            </p>
+            <pre class="" data-language="MLIR"><code class="language-mlir">
+// FILE: .../38_1_1_2_9_iree-codegen-optimize-tensor-insert-extract-slices.mlir
+%13 = scf.for %arg4 = %c0 to %c500 step %c1 iter_args(%arg5 = %cst) -> (vector&lt;1x1x8x8xf32&gt;) {
+  %21 = vector.transfer_read %5[%arg0, %arg4, %c0, %c0], %0 ... : tensor&lt;63x500x8x1xf32&gt;, vector&lt;1x1x8x1xf32&gt;
+  %22 = vector.transfer_read %6[%arg2, %arg4, %c0, %c0], %0 ... : tensor&lt;63x500x8x1xf32&gt;, vector&lt;1x1x8x1xf32&gt;
+  %23 = vector.contract {...} %21, %22, %arg5 : ...
+  scf.yield %23 : vector&lt;1x1x8x8xf32&gt;
+}
+            </code></pre>
+            <p>
+                An <code class="language-mlir">8x8</code> block of <code class="language-mlir">f32</code> is 256 bytes, the contents of sixteen 128-bit NEON registers. Since it is now an SSA value rather than memory, nothing prevents the backend from keeping it in registers for all 500 iterations. Whether it actually does is LLVM's decision, which we have not reached yet.
+            </p>
+
+            <h3>From Tensors to Memory</h3>
+            <p>
+                Then come the bufferization passes: <code class="language-shell">iree-eliminate-empty-tensors</code> and <code class="language-shell">empty-tensor-to-alloc-tensor</code> deal with the leftover <code class="language-mlir">tensor.empty</code> that held the output, and <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Codegen/Common/IREEComprehensiveBufferize.cpp">IREEComprehensiveBufferizePass</a> replaces every tensor with a <code class="language-mlir">memref</code>. After it, the loop writes directly into the output buffer. In none of the files from this point on is there a single <code class="language-mlir">memref.alloc</code>: the only temporary, the accumulator, is a vector value.
+            </p>
+            <p>
+                Bufferization leaves two small <code class="language-mlir">linalg.generic</code> operations over memrefs in the function (file 12). Canonicalization and CSE remove them in the next few files, and in file 16 none is left, which gives the function its final shape before lowering:
+            </p>
+            <pre class="" data-language="MLIR"><code class="language-mlir">
+// FILE: .../38_1_1_2_16_iree-codegen-canonicalize.mlir
+scf.for %arg0 = %c0 to %c63 step %c1 {
+  scf.for %arg1 = %c0 to %c63 step %c1 {
+    %7 = scf.for %arg2 = %c0 to %c500 step %c1 iter_args(%arg3 = %cst) -> (vector&lt;1x1x8x8xf32&gt;) {
+      %14 = vector.transfer_read %assume_align[%arg0, %arg2, %c0, %c0], %0 ... : memref&lt;63x500x8x1xf32, ...&gt;, vector&lt;1x1x8x1xf32&gt;
+      %15 = vector.transfer_read %assume_align_0[%arg1, %arg2, %c0, %c0], %0 ... : memref&lt;63x500x8x1xf32, strided&lt;[4000, 8, 1, 1], offset: ?&gt;, ...&gt;, vector&lt;1x1x8x1xf32&gt;
+      %16 = vector.contract {...} %14, %15, %arg3 : ...
+      scf.yield %16 : vector&lt;1x1x8x8xf32&gt;
+    }
+    %8 = vector.transfer_read %assume_align_1[%arg0, %arg1, %c0, %c0], %0 ... : ..., vector&lt;1x1x8x8xf32&gt;   // the old C
+    %9 = arith.addf %7, %8 : vector&lt;1x1x8x8xf32&gt;
+    ... masked vector.transfer_write of %9 into the output ...
+  }
+}
+            </code></pre>
+
+            <h3>Telling LLVM About Alignment</h3>
+            <p>
+                The names <code class="language-mlir">%assume_align</code> above come from <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Codegen/Common/IREEInjectAssumeAlignment.cpp">IREEInjectAssumeAlignmentPass</a>, which runs right after bufferization (file 13). Its summary says it inserts <code class="language-mlir">memref.assume_alignment</code> after each <code class="language-mlir">hal.interface.binding.subspan</code> whose binding carries an alignment. Ours all do, so each of the four buffers gets one:
+            </p>
+            <pre class="" data-language="MLIR"><code class="language-mlir">
+// FILE: .../38_1_1_2_13_iree-codegen-inject-assume-alignment.mlir
+%assume_align   = memref.assume_alignment %1, 64 : memref&lt;63x500x8x1xf32, #hal.descriptor_type&lt;storage_buffer&gt;&gt;
+%assume_align_0 = memref.assume_alignment %2, 64 : memref&lt;63x500x8x1xf32, strided&lt;[4000, 8, 1, 1], offset: ?&gt;, ...&gt;
+%assume_align_1 = memref.assume_alignment %3, 64 : memref&lt;63x63x8x8xf32, strided&lt;[4032, 64, 8, 1], offset: ?&gt;, ...&gt;
+%assume_align_2 = memref.assume_alignment %4, 64 : memref&lt;500x500xf32, #hal.descriptor_type&lt;storage_buffer&gt;&gt;
+            </code></pre>
+            <p>
+                The 64 is the same <code class="language-mlir">stream.alignment = 64</code> we saw on the bindings in the section about annotating dispatch arguments. It now lets the backend assume that loads and stores through these buffers start on a 64-byte boundary.
             </p>
 
             <div class="bibtex" year="2026" month="Aug"></div>
