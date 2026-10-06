@@ -1518,6 +1518,24 @@ var RESEARCH_DATA = {
 
   openSourceContributions: [
     {
+      title: "Log the triggering conflict when Selector removes a rewrite",
+      url: "https://github.com/PGL-SMR/Source-Matching-and-Rewriting/pull/3",
+      date: "2026/10/06",
+      project: "source-matching"
+    },
+    {
+      title: "Visit CDG candidates in IR order instead of pointer order",
+      url: "https://github.com/PGL-SMR/Source-Matching-and-Rewriting/pull/4",
+      date: "2026/10/06",
+      project: "source-matching"
+    },
+    {
+      title: "Pick the replacement wrapper by the pattern's signature",
+      url: "https://github.com/PGL-SMR/Source-Matching-and-Rewriting/pull/5",
+      date: "2026/10/06",
+      project: "source-matching"
+    },
+    {
       title: "[mlir][ArmSME] Skip tile allocation for functions with no SME tile ops",
       url: "https://github.com/llvm/llvm-project/pull/227153",
       date: "2026/10/05",

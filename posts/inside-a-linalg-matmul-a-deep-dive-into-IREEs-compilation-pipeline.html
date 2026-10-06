@@ -22,15 +22,16 @@ SCRITTE
 19. Resource and Device Caches (46-52)
 20. From LLVM IR to an ELF File (53 e binario)
 21. Cleaning Up the Whole Module (53-67)
+22. From HAL to the Virtual Machine (68-72)
+
+23. Running It (iree-run-module, benchmark)
+24. Wrapping Up
 
 DA SCRIVERE
-22. From HAL to VM (68-72)
-23. Esecuzione a runtime (opzionale)
+(niente: il post e' completo)
 
 DA FARE ALLA FINE
-- ridurre gli em dash nelle sezioni vecchie
-- verifica finale dei // FILE: e dei link GitHub
-- togliere il banner Work in progress
+- FATTO: em dash ridotti, verifica // FILE: e link, banner rimosso
 -->
 
 <!DOCTYPE html>
@@ -120,11 +121,6 @@ DA FARE ALLA FINE
                 <b>Edit:</b> Take a look at the discussion in the <a href="https://www.reddit.com/r/Compilers/comments/1ublpjn/the_llvm_essence_of_lowering_mlir_to_aarch64_with/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button">Compilers subreddit</a>.
             </p> -->
 
-            <div style="display: flex; justify-content: center;">
-            <div class="alert-box">
-                ⚠️ Work in progress. Feedback is welcome! ⚠️
-            </div>
-            </div>
 
             <p>
                 As part of my research, I recently joined both the <a href="https://github.com/llvm">LLVM</a> and <a href="https://github.com/iree-org">IREE</a> communities on Github and started contributing to <a href="https://github.com/llvm/llvm-project">llvm-project</a> and <a href="https://github.com/iree-org/iree">iree</a>, respectively. 
@@ -377,16 +373,16 @@ iree-compile /tmp/matmul_500.mlir \
             #encoding5 = #iree_encoding.encoding&lt;operand_index = 2 : index, op_type = matmul, ...&gt;
             </code></pre>
             <p>
-                Notice both layers now coexist side by side: <code class="language-mlir">#encoding3</code>/<code class="language-mlir">#encoding4</code>/<code class="language-mlir">#encoding5</code> are still the same abstract, target-agnostic labels from before. <code class="language-mlir">#encoding</code>/<code class="language-mlir">#encoding1</code>/<code class="language-mlir">#encoding2</code> are new: a <code class="language-mlir">#iree_cpu.cpu_encoding_resolver</code>, specific to <code class="language-shell">apple-m4</code>, has decided the actual physical tile shape for each operand—<code class="language-mlir">innerTileSizes = [8, 1]</code> for the LHS and RHS (8 rows/columns per panel), <code class="language-mlir">[8, 8]</code> for the accumulator (8x8 output blocks), plus <code class="language-mlir">innerDimsPos</code>/<code class="language-mlir">outerDimsPerm</code> saying which axis gets tiled and in what order.
+                Notice both layers now coexist side by side: <code class="language-mlir">#encoding3</code>/<code class="language-mlir">#encoding4</code>/<code class="language-mlir">#encoding5</code> are still the same abstract, target-agnostic labels from before. <code class="language-mlir">#encoding</code>/<code class="language-mlir">#encoding1</code>/<code class="language-mlir">#encoding2</code> are new: a <code class="language-mlir">#iree_cpu.cpu_encoding_resolver</code>, specific to <code class="language-shell">apple-m4</code>, has decided the actual physical tile shape for each operand: <code class="language-mlir">innerTileSizes = [8, 1]</code> for the LHS and RHS (8 rows/columns per panel), <code class="language-mlir">[8, 8]</code> for the accumulator (8x8 output blocks), plus <code class="language-mlir">innerDimsPos</code>/<code class="language-mlir">outerDimsPerm</code> saying which axis gets tiled and in what order.
                 We'll come back to exactly how to read <code class="language-mlir">innerDimsPos</code>, <code class="language-mlir">innerTileSizes</code>, and <code class="language-mlir">outerDimsPerm</code> a bit later, once we see the actual <code class="language-mlir">linalg.pack</code> operation they produce.
             </p>
             <p>
-                These numbers come purely from the target's vector width and ISA—not from the <code class="language-mlir">500x500</code> size of our problem. Change the target CPU and these tile shapes can change; change the matrix size and they won't.
+                These numbers come purely from the target's vector width and ISA, not from the <code class="language-mlir">500x500</code> size of our problem. Change the target CPU and these tile shapes can change; change the matrix size and they won't.
             </p>
 
             <h2>The Encode Operations Become Dispatches of Their Own</h2>
             <p>
-                Now that the tile shapes are known, a pass called <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/Stream/Transforms/MaterializeEncodings.cpp">MaterializeEncodingsPass</a> gives the same treatment to the three <code class="language-mlir">flow.tensor.encode</code> ops we've been carrying around since the very first section—until now, plain inline operations in the caller. Each one is promoted into its own independent dispatch, exactly like the matmul already was:
+                Now that the tile shapes are known, a pass called <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/Stream/Transforms/MaterializeEncodings.cpp">MaterializeEncodingsPass</a> gives the same treatment to the three <code class="language-mlir">flow.tensor.encode</code> ops we've been carrying around since the very first section. Until now they were plain inline operations in the caller. Each one is promoted into its own independent dispatch, exactly like the matmul already was:
             </p>
             <pre class="" data-line="8-21" data-language="MLIR"><code class="language-mlir">
             // FILE: /tmp/matmul_500/builtin_module_no-symbol-name/17_iree-stream-materialize-encodings.mlir
@@ -421,7 +417,7 @@ iree-compile /tmp/matmul_500.mlir \
                 @matmul_dispatch_0::@matmul_dispatch_0_matmul_like_500x500x500_f32(%6, %7, %8) : (...) -> !stream.resource&lt;*&gt;{%c1000000}
             </code></pre>
             <p>
-                From here on, <code class="language-mlir">@_encoding_0</code>, <code class="language-mlir">@_encoding_1</code>, and <code class="language-mlir">@_encoding_2</code> are first-class dispatches, exactly like <code class="language-mlir">@matmul_dispatch_0</code>: each will get its own lowering strategy, its own tiling, its own compiled machine code—and, since <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/DispatchCreation/HoistEncodingOps.cpp">HoistEncodingOpsPass</a> already pulled them out of the matmul's region, its own opportunity to run concurrently with the others, as we'll see later.
+                From here on, <code class="language-mlir">@_encoding_0</code>, <code class="language-mlir">@_encoding_1</code>, and <code class="language-mlir">@_encoding_2</code> are first-class dispatches, exactly like <code class="language-mlir">@matmul_dispatch_0</code>: each will get its own lowering strategy, its own tiling, its own compiled machine code, and, since <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/DispatchCreation/HoistEncodingOps.cpp">HoistEncodingOpsPass</a> already pulled them out of the matmul's region, its own opportunity to run concurrently with the others, as we'll see later.
             </p>
             <p>
                 Our single <code class="language-mlir">linalg.matmul</code> is now, quite literally, four separate compiled kernels.
@@ -449,11 +445,11 @@ iree-compile /tmp/matmul_500.mlir \
                 %8[%c0 to %c1016064 for %c1016064]) : (...) -> !stream.resource&lt;*&gt;{%c1000000}
             </code></pre>
             <p>
-                The bracket syntax <code class="language-mlir">%resource[%offset to %end for %length]</code> is a <b>slice</b> of a <code class="language-mlir">!stream.resource</code>—IREE's underlying, untyped byte buffer abstraction. Note that the <code class="language-mlir">%resource</code> is different for each dispatch (<code class="language-mlir">%1</code>, <code class="language-mlir">%3</code>, and <code class="language-mlir">%5</code>).
+                The bracket syntax <code class="language-mlir">%resource[%offset to %end for %length]</code> is a <b>slice</b> of a <code class="language-mlir">!stream.resource</code>, IREE's underlying, untyped byte buffer abstraction. Note that the <code class="language-mlir">%resource</code> is different for each dispatch (<code class="language-mlir">%1</code>, <code class="language-mlir">%3</code>, and <code class="language-mlir">%5</code>).
                 Dispatches don't necessarily each get a fresh allocation; they read and write slices of resources that the stream layer manages and can reuse, and every value carries its exact byte size right in its type: <code class="language-mlir">!stream.resource&lt;*&gt;{%c1008000}</code> means <i>a resource of exactly 1.008.000 bytes</i>.
             </p>
             <p>
-                Those numbers aren't arbitrary, and tracing exactly where they first appear reveals one more step we haven't covered yet. <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/Stream/Transforms/SpecializeEncodings.cpp">SpecializeEncodingsPass</a>, from the previous section, only resolves the encoding on the <em>types</em>—no byte counts yet. It's the very next pass, <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/Stream/Transforms/EncodeTensors.cpp">EncodeHostTensorsPass</a>, that computes these byte counts for the first time and produces a single, abstract <code class="language-mlir">stream.tensor.encode</code> operation per operand:
+                Those numbers aren't arbitrary, and tracing exactly where they first appear reveals one more step we haven't covered yet. <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/Stream/Transforms/SpecializeEncodings.cpp">SpecializeEncodingsPass</a>, from the previous section, only resolves the encoding on the <em>types</em>, with no byte counts yet. It's the very next pass, <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/Stream/Transforms/EncodeTensors.cpp">EncodeHostTensorsPass</a>, that computes these byte counts for the first time and produces a single, abstract <code class="language-mlir">stream.tensor.encode</code> operation per operand:
             </p>
             <pre class="" data-language="MLIR"><code class="language-mlir">
             // FILE: /tmp/matmul_500/builtin_module_no-symbol-name/util_func_matmul/15_12_iree-stream-encode-host-tensors.mlir
@@ -467,30 +463,21 @@ iree-compile /tmp/matmul_500.mlir \
                 Worth checking these numbers by hand, since they already tell us most of the story we're about to see in detail:
             </p>
             <ul>
-                <li><code class="language-mlir">1.000.000</code> bytes = <code class="language-mlir">500 &times; 500 &times; 4</code>—a plain, unpacked <code class="language-mlir">f32</code> buffer.</li>
-                <li><code class="language-mlir">1.008.000</code> bytes = <code class="language-mlir">63 &times; 500 &times; 8 &times; 1 &times; 4</code>—exactly the packed LHS/RHS shape, padding included.</li>
-                <li><code class="language-mlir">1.016.064</code> bytes = <code class="language-mlir">63 &times; 63 &times; 8 &times; 8 &times; 4</code>—exactly the packed accumulator shape.</li>
+                <li><code class="language-mlir">1.000.000</code> bytes = <code class="language-mlir">500 &times; 500 &times; 4</code>: a plain, unpacked <code class="language-mlir">f32</code> buffer.</li>
+                <li><code class="language-mlir">1.008.000</code> bytes = <code class="language-mlir">63 &times; 500 &times; 8 &times; 1 &times; 4</code>: exactly the packed LHS/RHS shape, padding included.</li>
+                <li><code class="language-mlir">1.016.064</code> bytes = <code class="language-mlir">63 &times; 63 &times; 8 &times; 8 &times; 4</code>: exactly the packed accumulator shape.</li>
             </ul>
             <p>
                 In other words: by the time any dispatch exists at all, the compiler already knows exactly how big the padded, tiled buffers will be.
             </p>
             <p>
-                It goes further, actually: a pass called <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/Stream/Transforms/LayoutSlices.cpp">LayoutSlicesPass</a> decides that the three packed buffers don't each need their own allocation—they can share <b>one</b> physical buffer of <code class="language-mlir">3.032.064</code> bytes (<code class="language-mlir">1.008.000 + 1.008.000 + 1.016.064</code>), with each dispatch simply writing to its own offset within it:
-            </p>
-            <pre class="" data-language="MLIR"><code class="language-mlir">
-            // FILE: /tmp/matmul_500/builtin_module_no-symbol-name/util_func_matmul/23_17_iree-stream-layout-slices.mlir
-            stream.cmd.dispatch @_encoding_0::@..._0 { wo %arg7[%c0      for %c1008000] : ... }   // LHS:  [0, 1.008.000)
-            stream.cmd.dispatch @_encoding_1::@..._1 { wo %arg7[%c1008000 for %c1008000] : ... }  // RHS:  [1.008.000, 2.016.000)
-            stream.cmd.dispatch @_encoding_2::@..._2 { wo %arg7[%c2016000 for %c1016064] : ... }  // Acc:  [2.016.000, 3.032.064)
-            </code></pre>
-            <p>
-                One buffer, three tenants, laid out back to back—one fewer allocation for the runtime to manage. What's still missing is the actual operation that turns <code class="language-mlir">1.000.000</code> bytes of plain data into <code class="language-mlir">1.008.000</code> bytes of tiled data. That's exactly what we look at next.
+                What's still missing is the actual operation that turns <code class="language-mlir">1.000.000</code> bytes of plain data into <code class="language-mlir">1.008.000</code> bytes of tiled data. We will get to it when we look inside the executables.
             </p>
 
             <h2>Concurrency Between Dispatches</h2>
 
             <p>
-                Right after the four dispatches exist, but well before any of their internal codegen even starts, the compiler decides which of them can run at the same time. <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/Stream/Transforms/ScheduleExecution.cpp">ScheduleExecutionPass</a> first wraps everything—all four dispatches—inside a single <code class="language-mlir">stream.async.execute</code> region, one after another, with no notion yet of which ones are independent:
+                Right after the four dispatches exist, but well before any of their internal codegen even starts, the compiler decides which of them can run at the same time. <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/Stream/Transforms/ScheduleExecution.cpp">ScheduleExecutionPass</a> first wraps everything (all four dispatches) inside a single <code class="language-mlir">stream.async.execute</code> region, one after another, with no notion yet of which ones are independent:
             </p>
             <pre class="" data-language="MLIR"><code class="language-mlir">
             // FILE: /tmp/matmul_500/builtin_module_no-symbol-name/util_func_matmul/19_14_iree-stream-schedule-execution.mlir
@@ -502,7 +489,7 @@ iree-compile /tmp/matmul_500.mlir \
             }
             </code></pre>
             <p>
-                The very next pass, <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/Stream/Transforms/ScheduleConcurrency.cpp">ScheduleConcurrencyPass</a>, looks at the data dependencies between those four dispatches and notices something we already knew from way back: the three <code class="language-mlir">_encoding_N</code> dispatches don't read each other's output—each only reads one of the three original operands—while <code class="language-mlir">matmul_dispatch_0</code> needs all three of their results. So it wraps the three independent ones in a <code class="language-mlir">stream.async.concurrent</code> block, and leaves the matmul dispatch outside it, after:
+                The very next pass, <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/Stream/Transforms/ScheduleConcurrency.cpp">ScheduleConcurrencyPass</a>, looks at the data dependencies between those four dispatches and notices something we already knew from way back: the three <code class="language-mlir">_encoding_N</code> dispatches don't read each other's output (each only reads one of the three original operands), while <code class="language-mlir">matmul_dispatch_0</code> needs all three of their results. So it wraps the three independent ones in a <code class="language-mlir">stream.async.concurrent</code> block, and leaves the matmul dispatch outside it, after:
             </p>
             <pre class="" data-language="MLIR"><code class="language-mlir">
             // FILE: /tmp/matmul_500/builtin_module_no-symbol-name/util_func_matmul/19_15_iree-stream-schedule-concurrency.mlir
@@ -518,10 +505,10 @@ iree-compile /tmp/matmul_500.mlir \
             }
             </code></pre>
             <p>
-                This is decided at the whole-module level, entirely independently of anything we've seen so far about tiling or vectorization inside a single dispatch—in fact it happens well <em>before</em> any per-dispatch codegen even begins. It's also worth noting what this concurrency is <em>not</em>: it says nothing about which CPU core runs what, or how many threads are involved. That's a separate, later decision (the workgroup distribution we touched on earlier), about splitting the work <em>inside</em> one dispatch across a hardware grid. This is a different, coarser axis: whether the runtime can even start issuing multiple dispatches before earlier ones finish.
+                This is decided at the whole-module level, entirely independently of anything we've seen so far about tiling or vectorization inside a single dispatch. In fact it happens well <em>before</em> any per-dispatch codegen even begins. It's also worth noting what this concurrency is <em>not</em>: it says nothing about which CPU core runs what, or how many threads are involved. That's a separate, later decision (the workgroup distribution we touched on earlier), about splitting the work <em>inside</em> one dispatch across a hardware grid. This is a different, coarser axis: whether the runtime can even start issuing multiple dispatches before earlier ones finish.
             </p>
             <p>
-                A little further down the pipeline, <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/Stream/Transforms/ScheduleAllocation.cpp">ScheduleAllocationPass</a> (<code class="language-shell">iree-stream-schedule-allocation</code>) inherits this same grouping and converts it into the buffer-allocated form, <code class="language-mlir">stream.cmd.concurrent</code>—same three dispatches, same structure, just with real memory behind it. And since all three buffers are alive <em>at the same time</em>—written inside that concurrent block, and only released once the matmul has read them—this pass can do something clever: instead of three separate allocations, it issues a single <code class="language-mlir">stream.resource.pack</code>—a genuine bin-packing request: "here are three slices, these sizes, all alive during the same window, figure out where each one goes":
+                A little further down the pipeline, <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/Stream/Transforms/ScheduleAllocation.cpp">ScheduleAllocationPass</a> (<code class="language-shell">iree-stream-schedule-allocation</code>) inherits this same grouping and converts it into the buffer-allocated form, <code class="language-mlir">stream.cmd.concurrent</code>. It has the same three dispatches and the same structure, just with real memory behind it. And since all three buffers are alive <em>at the same time</em> (written inside that concurrent block, and only released once the matmul has read them), this pass can do something clever: instead of three separate allocations, it issues a single <code class="language-mlir">stream.resource.pack</code>, a genuine bin-packing request: "here are three slices, these sizes, all alive during the same window, figure out where each one goes":
             </p>
             <pre class="" data-language="MLIR"><code class="language-mlir">
 // FILE: /tmp/matmul_500/builtin_module_no-symbol-name/23_iree-stream-schedule-allocation.mlir
@@ -542,7 +529,7 @@ stream.cmd.dispatch @_encoding_1::@..._1 { wo %arg7[%c1008000 for %c1008000] : .
 stream.cmd.dispatch @_encoding_2::@..._2 { wo %arg7[%c2016000 for %c1016064] : ... }  // Acc:  [2.016.000, 3.032.064)
             </code></pre>
             <p>
-                One buffer, three tenants, laid out back to back—one fewer allocation for the runtime to manage. It works because the three slices are all alive over the same window, so none of them can reuse another's space, and they can simply sit side by side.
+                One buffer, three tenants, laid out back to back, one fewer allocation for the runtime to manage. It works because the three slices are all alive over the same window, so none of them can reuse another's space, and they can simply sit side by side.
             </p>
 
            <h2>Annotating Dispatch Arguments</h2>
@@ -560,10 +547,10 @@ stream.cmd.dispatch @_encoding_2::@..._2 { wo %arg7[%c2016000 for %c1016064] : .
                 %arg5: index {stream.values = [0 : index]}) {                                     // output offset into %arg1
             </code></pre>
             <p>
-                <code class="language-mlir">stream.values</code> records that a parameter isn't just <em>some</em> index passed at runtime—it will always be exactly this one, every single time this dispatch is called: the RHS offset will always be <code class="language-mlir">1.008.000</code>, the accumulator's always <code class="language-mlir">2.016.000</code>—the same numbers <code class="language-mlir">LayoutSlicesPass</code> computed one section ago. <code class="language-mlir">stream.alignment</code> records the strongest alignment the compiler can prove for that value: <code class="language-mlir">1.008.000</code> happens to be a multiple of 128, <code class="language-mlir">2.016.000</code> a multiple of 256. These are facts the compiler now carries along for later passes to use; the immediate payoff is the one we're about to see.
+                <code class="language-mlir">stream.values</code> records that a parameter isn't just <em>some</em> index passed at runtime. It will always be exactly this one, every single time this dispatch is called: the RHS offset will always be <code class="language-mlir">1.008.000</code>, the accumulator's always <code class="language-mlir">2.016.000</code>. These are the same numbers <code class="language-mlir">LayoutSlicesPass</code> computed one section ago. <code class="language-mlir">stream.alignment</code> records the strongest alignment the compiler can prove for that value: <code class="language-mlir">1.008.000</code> happens to be a multiple of 128, <code class="language-mlir">2.016.000</code> a multiple of 256. These are facts the compiler now carries along for later passes to use; the immediate payoff is the one we're about to see.
             </p>
             <p>
-                This is a small, quiet pass—it doesn't change what the program computes, or even the shape of its arguments. It just writes down, in the type system, things the compiler now happens to know for certain. Those facts don't go to waste, as we're about to see.
+                This is a small, quiet pass. It doesn't change what the program computes, or even the shape of its arguments. It just writes down, in the type system, things the compiler now happens to know for certain. Those facts don't go to waste, as we're about to see.
             </p>
 
             <h2>Packing Dispatch Operands for the ABI</h2>
@@ -583,10 +570,10 @@ stream.cmd.dispatch @_encoding_2::@..._2 { wo %arg7[%c2016000 for %c1016064] : .
                 ...
             </code></pre>
             <p>
-                Every 64-bit offset becomes two 32-bit halves at the call site, and gets stitched back together—<code class="language-mlir">extui</code>, <code class="language-mlir">shli</code>, <code class="language-mlir">ori</code>—right at the top of the callee. Four <code class="language-mlir">index</code> arguments become eight <code class="language-mlir">i32</code> ones.
+                Every 64-bit offset becomes two 32-bit halves at the call site, and gets stitched back together right at the top of the callee, with <code class="language-mlir">extui</code>, <code class="language-mlir">shli</code> and <code class="language-mlir">ori</code>. Four <code class="language-mlir">index</code> arguments become eight <code class="language-mlir">i32</code> ones.
             </p>
             <p>
-                This sets up a satisfying payoff. Remember <code class="language-mlir">stream.values</code> from the previous section—the compiler's proof that some of these arguments are always the same constant? <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/Stream/Transforms/FoldUniformOperands.cpp">FoldUniformOperandsPass</a> (<code class="language-shell">iree-stream-fold-uniform-operands</code>) cashes it in: if an argument is provably uniform across every call site, there's no reason to pass it as an argument at all. It becomes a literal constant baked directly into the function body, and disappears from both the signature and the call site:
+                This sets up a satisfying payoff. Remember <code class="language-mlir">stream.values</code> from the previous section, the compiler's proof that some of these arguments are always the same constant? <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/Stream/Transforms/FoldUniformOperands.cpp">FoldUniformOperandsPass</a> (<code class="language-shell">iree-stream-fold-uniform-operands</code>) cashes it in: if an argument is provably uniform across every call site, there's no reason to pass it as an argument at all. It becomes a literal constant baked directly into the function body, and disappears from both the signature and the call site:
             </p>
             <pre class="" data-language="MLIR"><code class="language-mlir">
             // FILE: /tmp/matmul_500/builtin_module_no-symbol-name/34_iree-stream-fold-uniform-operands.mlir
@@ -607,7 +594,7 @@ stream.cmd.dispatch @_encoding_2::@..._2 { wo %arg7[%c2016000 for %c1016064] : .
 
             <h2>The Gateway to Codegen</h2>
             <p>
-                Between what we just saw and the actual per-executable code generation, there's a little more whole-module bookkeeping (folding globals, mostly—generic cleanup, nothing specific to our matmul) that doesn't earn its own section. The pass that actually matters is <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/HAL/Transforms/MaterializeInterfaces.cpp">MaterializeInterfacesPass</a> (<code class="language-shell">iree-hal-materialize-interfaces</code>). This is where each <code class="language-mlir">stream.executable</code> we've been looking at finally becomes a proper <code class="language-mlir">hal.executable</code>, with a concrete <code class="language-mlir">hal.executable.variant</code> for our target:
+                Between what we just saw and the actual per-executable code generation, there's a little more whole-module bookkeeping (mostly folding globals, which is generic cleanup and nothing specific to our matmul) that doesn't earn its own section. The pass that actually matters is <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/HAL/Transforms/MaterializeInterfaces.cpp">MaterializeInterfacesPass</a> (<code class="language-shell">iree-hal-materialize-interfaces</code>). This is where each <code class="language-mlir">stream.executable</code> we've been looking at finally becomes a proper <code class="language-mlir">hal.executable</code>, with a concrete <code class="language-mlir">hal.executable.variant</code> for our target:
             </p>
             <pre class="" data-language="MLIR"><code class="language-mlir">
             // FILE: /tmp/matmul_500/builtin_module_no-symbol-name/37_iree-hal-materialize-interfaces.mlir
@@ -623,10 +610,10 @@ stream.cmd.dispatch @_encoding_2::@..._2 { wo %arg7[%c2016000 for %c1016064] : .
             }
             </code></pre>
             <p>
-            This is the gateway: from here on, most of the passes we look at operate on <em>one executable at a time</em>—the dump tree reflects that, with everything nested inside its own <code class="language-mlir">hal_executable_.../hal_executable_variant_embedded_elf_arm_64/...</code> subdirectory. This is where data tiling (the <code class="language-mlir">linalg.pack</code>/<code class="language-mlir">unpack</code>/<code class="language-mlir">mmt4d</code> we've been promising since the very first section), loop tiling, workgroup distribution, and vectorization all happen. A few whole-module passes are still interleaved right alongside it, though—<code class="language-shell">iree-hal-conversion</code> is one, and it's where the <code class="language-mlir">hal.command_buffer.dispatch</code> calls we'll see much later actually get created.
+            This is the gateway: from here on, most of the passes we look at operate on <em>one executable at a time</em>. The dump tree reflects that, with everything nested inside its own <code class="language-mlir">hal_executable_.../hal_executable_variant_embedded_elf_arm_64/...</code> subdirectory. This is where data tiling (the <code class="language-mlir">linalg.pack</code>/<code class="language-mlir">unpack</code>/<code class="language-mlir">mmt4d</code> we've been promising since the very first section), loop tiling, workgroup distribution, and vectorization all happen. A few whole-module passes are still interleaved right alongside it, though: <code class="language-shell">iree-hal-conversion</code> is one, and it's where the <code class="language-mlir">hal.command_buffer.dispatch</code> calls we'll see much later actually get created.
         </p>
         <p>
-            It doesn't stay per-executable forever, either: once each executable's codegen is done, the pipeline returns to the whole-module level to link all four into one binary, memoize the command buffer, and set up device/resource caches—we'll get there later.
+            It doesn't stay per-executable forever, either: once each executable's codegen is done, the pipeline returns to the whole-module level to link all four into one binary, memoize the command buffer, and set up device/resource caches. We will get there later.
         </p>
 
 
@@ -1483,6 +1470,139 @@ util.func public @matmul(%arg0: !hal.buffer_view, %arg1: !hal.buffer_view, %arg2
             </code></pre>
             <p>
                 Everything that follows is a change of language. This module is still written in the HAL dialect, which the compiler understands. The runtime does not, so the last step translates it into the instructions of the IREE virtual machine.
+            </p>
+
+            <h2>From HAL to the Virtual Machine</h2>
+            <p>
+                The last stretch, files 68 to 72, is a change of language. So far the host program has been written in <code>hal</code>, <code>util</code> and <code>arith</code>. A <code>.vmfb</code> file does not hold those. It holds a module for the IREE virtual machine, a small bytecode interpreter that ships with the runtime. The nested passes of the virtual machine module live in the folder <code>vm_module_module/</code>, numbered together with the root ones.
+            </p>
+
+            <h3>The Conversion</h3>
+            <p>
+                <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/VM/Transforms/Conversion.cpp">ConversionPass</a> (file 68) wraps everything in a <code class="language-mlir">vm.module</code> and converts each operation. The header of the dump lists its options, among them <code>index-bits=64</code>, so every <code class="language-mlir">index</code> becomes an <code class="language-mlir">i64</code>. What we had becomes:
+            </p>
+            <ul>
+                <li>The three globals become <code class="language-mlir">vm.global.ref</code>, holding a <code class="language-mlir">!vm.ref</code> to a device, an executable and a command buffer. Refs are reference-counted objects managed by the runtime.</li>
+                <li>Every HAL operation becomes a <code class="language-mlir">vm.call</code> to an <b>import</b>, a function that the runtime provides. The module declares 58 of them, with names like <code>hal.device.queue.alloca</code>, <code>hal.command_buffer.dispatch</code> and <code>hal.fence.await</code>.</li>
+                <li>The branches between blocks become <code class="language-mlir">vm.br</code> and <code class="language-mlir">vm.cond_br</code>, and the status checks become <code class="language-mlir">vm.cond_fail</code> with the same messages as before.</li>
+                <li>The strings used as arguments, like <code>"hal.executable.format"</code>, become <code class="language-mlir">vm.rodata.inline</code> buffers. The ELF is one of them, with <code>mime_type = "application/x-elf"</code>.</li>
+            </ul>
+            <p>
+                The function the user calls has the shape we followed since the HAL conversion, now as a sequence of calls. Here is the first part of the recording of the command buffer, the same four dispatches, with one new detail:
+            </p>
+            <pre class="" data-language="MLIR"><code class="language-mlir">
+// FILE: 68_iree-vm-conversion.mlir
+%buffer = vm.rodata.inline "_utf8_encoding_0_encode_500x500x_257118518F49E262" {alignment = 1 : i64} : !vm.buffer = "_encoding_0_encode_500x500xf32_to_500x500xf32"
+%0 = vm.call @hal.executable.lookup.function(%__device_0_executable_0_matmul_500_linked, %buffer) {nosideeffects} : (!vm.ref&lt;!hal.executable&gt;, !vm.buffer) -&gt; i64
+vm.call.variadic @hal.command_buffer.dispatch(%ref, %__device_0_executable_0_matmul_500_linked, %0, %c1_4, %c1_5, %c1_6, ...)
+            </code></pre>
+            <p>
+                The function id of each dispatch is found by <b>name</b>, with a string, not by ordinal. This happens in <code>__matmul_memoize_apply</code>, which runs once at startup, so the cost of the string lookup is paid once and not at every call. The names are the ones we saw in the ELF.
+            </p>
+            <p>
+                The function <code>@matmul</code> itself is a sequence of imports in the order we know: assert the three buffer views, allocate the two buffers with a fence each, join the fences, submit the memoized command buffer with five bindings, deallocate the transient buffer, wait for the final fence, and create a <code class="language-mlir">hal.buffer_view</code> over the result. Even the element type of the matrix has become a number, <code>553648160</code>, which is <code>0x21000020</code>, the runtime's code for <code>f32</code>.
+            </p>
+
+            <h3>Tidying the Virtual Machine Module</h3>
+            <p>
+                The passes inside the module (files <code>68_0</code> to <code>68_2</code>) deal with constants and calls. <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/VM/Transforms/HoistInlinedRodata.cpp">HoistInlinedRodataPass</a> moves the 18 inline buffers to module-level <code class="language-mlir">vm.rodata</code> constants. <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/VM/Transforms/DeduplicateRodata.cpp">DeduplicateRodataPass</a> then merges the equal ones, which brings 18 down to 13. The string <code>"tensor"</code>, used by three buffer assertions, is stored once. <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/VM/Transforms/DropUnusedCalls.cpp">DropUnusedCallsPass</a> removes calls without side effects whose result nobody uses.
+            </p>
+            <p>
+                At the root, <code>symbol-dce</code> (file 69) removes the imports that are never called. The module declared 58 and keeps 20. Those 20 are the runtime functions this program actually calls. Files 70 and 71 are <code>fold-globals</code> and <code>canonicalize</code>, and file 72 is <code>cse</code>. They do not change the structure.
+            </p>
+
+            <h3>Initialization and Unwinding</h3>
+            <p>
+                The remaining passes in the folder change how the module starts and how it can be suspended.
+            </p>
+            <p>
+                <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/VM/Transforms/GlobalInitialization.cpp">GlobalInitializationPass</a> (file <code>70_4</code>) creates module-level init and deinit functions, so that the runtime can start and stop everything with one call each. Our single <code class="language-mlir">vm.initializer</code> becomes a function <code>@__init</code>, and it is exported as <code class="language-mlir">vm.export @__init</code>. This is where the device is found, the executable is created and the command buffer is recorded, when the runtime loads the module. A matching <code>@__deinit</code> is created too, but ours would be empty, and <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/VM/Transforms/DropEmptyModuleInitializers.cpp">DropEmptyModuleInitializersPass</a> (file <code>72_5</code>) deletes it.
+            </p>
+            <p>
+                <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/VM/Transforms/AnnotateFunctions.cpp">AnnotateFunctionsPass</a> (file <code>72_6</code>) walks the call graph and marks which functions can yield. In our module <code>@matmul</code>, <code>@__init</code> and <code>__matmul_memoize_apply</code> get <code>vm.unwind</code>. The reason is in the next file. <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/VM/Transforms/ConvertToYieldableCalls.cpp">ConvertToYieldableCallsPass</a> (file <code>72_7</code>) turns the one call that may wait, <code>hal.fence.await</code>, into a <code class="language-mlir">vm.call.variadic.yieldable</code>:
+            </p>
+            <pre class="" data-language="MLIR"><code class="language-mlir">
+// before
+%0 = vm.call.variadic @hal.fence.await(%c-1_0, %zero, [%ref_10]) : (i32, i64, !vm.ref&lt;!hal.fence&gt; ...) -&gt; i32
+// after (file 72_7)
+vm.call.variadic.yieldable @hal.fence.await(%c-1_0, %zero, %ref_10) {...} : (i32, i64, !vm.ref&lt;!hal.fence&gt;) -&gt; ^bb1 (i32)
+            </code></pre>
+            <p>
+                A yieldable call has a continuation block, here <code>^bb1</code>, where execution resumes once the call returns its status. It makes the point where the virtual machine can suspend and resume explicit, without blocking a thread. For a CPU run that finishes immediately this never matters, but the same program has to work with a device that takes a long time.
+            </p>
+            <p>
+                The last pass, <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/VM/Transforms/MaterializeRefDiscards.cpp">MaterializeRefDiscardsPass</a> (file <code>72_8</code>), inserts <code class="language-mlir">vm.discard.refs</code> at the point where a reference is no longer needed, so the runtime can release the object right away. There are six in the module.
+            </p>
+
+            <h3>What the Compiler Hands Over</h3>
+            <p>
+                File 72_8 is the end of the pipeline. The module has two exported functions, <code>@matmul</code> and <code>@__init</code>, the 13 constants, the 20 imports and one private helper. The compiler serializes it into <code>module.fb</code>, puts it in a zip next to the ELF, and the result is <code>matmul_500.vmfb</code>. At runtime, the virtual machine loads <code>module.fb</code>, resolves the 20 imports, runs <code>@__init</code> and waits for calls to <code>@matmul</code>. That function does little work itself. It queues one command buffer, and the one that takes the time is the loop of <code>fmla</code> we found at the end of the executable.
+            </p>
+
+            <h2>Running It</h2>
+            <p>
+                The compiler is done, but we have never run the result. Everything we did, the packing, the tiling, the <code>fmla</code> loop, would be worthless if the answer were wrong. So the last step is to execute <code>matmul_500.vmfb</code> and check it. Three random inputs are written as NumPy files, together with the reference <code>A @ B + C</code> computed by NumPy:
+            </p>
+            <pre class="" data-language="python"><code class="language-python">
+import numpy as np
+rng = np.random.default_rng(0)
+A, B, C = (rng.standard_normal((500, 500), dtype=np.float32) for _ in range(3))
+for name, x in zip("ABC", (A, B, C)):
+    np.save(f"{name}.npy", x)
+np.save("ref.npy", (A @ B + C).astype(np.float32))
+            </code></pre>
+            <p>
+                Then we call the function with <code>iree-run-module</code>. The device <code>local-sync</code> is the CPU device that loads embedded ELF libraries like ours and runs them on the calling thread:
+            </p>
+            <pre class="" data-language="bash"><code class="language-bash">
+iree-run-module --device=local-sync --module=matmul_500.vmfb --function=matmul \
+  --input=@A.npy --input=@B.npy --input=@C.npy --output=@out.npy
+            </code></pre>
+            <p>
+                What happens in this call is what we followed through the last sections. The tool loads <code>module.fb</code>, resolves the 20 imports, and runs <code>@__init</code>, which finds the device, creates the executable from the ELF and records the command buffer. Then it calls <code>@matmul</code> with three buffer views. The comparison with the reference, in my run:
+            </p>
+            <pre class="" data-language="python"><code class="language-python">
+out, ref = np.load("out.npy"), np.load("ref.npy")
+print(np.abs(out - ref).max())    # 0.0
+ref64 = A.astype(np.float64) @ B.astype(np.float64) + C.astype(np.float64)
+print(np.abs(out - ref64).max())  # 0.00011...
+            </code></pre>
+            <p>
+                The result is identical to the NumPy one, bit by bit, on my machine. The distance from a float64 computation is about <code>1.1e-4</code>, which is what single precision accumulating 500 products gives. The identical result is not a guarantee. Two float32 matmuls can differ in the last digits when they add the products in a different order. Here, both add the 500 products of each element one after the other, and then add C, which may be why they agree. On another machine or with another NumPy, expect a small difference and compare with a tolerance.
+            </p>
+
+            <h3>How Fast</h3>
+            <p>
+                We can also time it, with <code>iree-benchmark-module</code> and the same device:
+            </p>
+            <pre class="" data-language="bash"><code class="language-bash">
+iree-benchmark-module --device=local-sync --module=matmul_500.vmfb --function=matmul \
+  --input=500x500xf32=1 --input=500x500xf32=1 --input=500x500xf32=1 \
+  --benchmark_repetitions=5 --benchmark_min_time=0.5s
+            </code></pre>
+            <p>
+                On my machine, the median is <b>2.41 ms</b> per call, with a spread of 0.3%. A 500x500x500 matmul is 250 million floating-point operations, so that is about 100 GFLOP/s. Some honest caveats apply. The measurement includes the three packings and the unpacking of the result, not only the <code>fmla</code> loop. It runs on one thread, since we disabled distribution and used <code>local-sync</code>. The benchmark tool prints a warning that the runtime library was built in debug mode, so the timing may include overhead that a release build would not have. And it is one machine. So treat this number as an order of magnitude, not as a benchmark.
+            </p>
+
+            <h2>Wrapping Up</h2>
+            <p>
+                We started with a few lines of MLIR, a <code class="language-mlir">linalg.matmul</code> on three 500x500 matrices, and ended with a zip file and a loop of sixteen <code>fmla</code> instructions. Here is the whole path, by the numbers of the files in the dump:
+            </p>
+            <ul>
+                <li><b>Files 4 to 10.</b> The matmul becomes a <code class="language-mlir">linalg.generic</code>, gets its own dispatch region, and every operand receives an abstract encoding.</li>
+                <li><b>Files 15 to 17.</b> The encoding is resolved for the Apple M4 into tile sizes, the byte size of each buffer is computed, and the three encode operations become dispatches of their own.</li>
+                <li><b>Files 19 to 34.</b> The three encodes are scheduled to run concurrently, the three buffers are packed into one allocation of 3,032,064 bytes, and the arguments of each dispatch are annotated, packed for the ABI and folded when they are constant.</li>
+                <li><b>File 37.</b> Each dispatch becomes an executable with an interface. From here the work is per executable.</li>
+                <li><b>Files 37 and 38, inside each executable.</b> The encoding becomes <code class="language-mlir">linalg.pack</code>, <code class="language-mlir">linalg.mmt4d</code> and <code class="language-mlir">linalg.unpack</code>. A strategy is chosen, the loops are tiled, the body is vectorized, the tensors become memory, the vectors are lowered to FMAs and the module becomes the LLVM dialect.</li>
+                <li><b>Files 39 to 52.</b> Back at the whole module: the host code moves from <code>stream</code> to <code>hal</code>, the command buffer is memoized, the four executables are linked into one, and the device and the executable become globals created at startup.</li>
+                <li><b>Files 53 and 54, and the binary.</b> LLVM turns the linked executable into an ELF file.</li>
+                <li><b>Files 55 to 72.</b> The host code is simplified until the generality is gone, and then converted to the instructions of the virtual machine.</li>
+            </ul>
+            <p>
+                Several choices of this example shaped what we saw. Distribution was disabled, so everything ran as one workgroup. Microkernels were disabled, so the loop in the ELF was generated by the compiler, not taken from a library. Data tiling was on, which is why the matmul turned into <code class="language-mlir">mmt4d</code>. The target also declares SME, but the code we read uses only NEON. With other flags, other targets or other shapes, the story changes in the places that depend on them. The structure of the pipeline, a whole-module phase around a per-executable one, does not.
+            </p>
+            <p>
+                If you want to explore further, the best tool is the one we used all along: the dump with <code>--mlir-print-ir-tree-dir</code>. Change one flag, dump again and compare the two folders with <code>diff</code>. The first time, it is surprising how much of a compiler fits in a folder of text files.
             </p>
 
             <div class="bibtex" year="2026" month="Aug"></div>
