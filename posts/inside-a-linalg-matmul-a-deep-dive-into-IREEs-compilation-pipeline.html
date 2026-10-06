@@ -1,51 +1,37 @@
-<!-- Input: un linalg.matmul semplice su tensori — nessuna nozione di hardware, nessun tiling.
+<!-- SCALETTA (stato attuale, in ordine cronologico dei file del dump)
 
-Da op "named" a op "generic": GeneralizeLinalgNamedOpsPass riscrive linalg.matmul in linalg.generic esplicito, prima ancora che esista una dispatch region. Perché: le trasformazioni successive si scrivono una sola volta contro la forma generica.
+SCRITTE
+1. From a Named Op to a Generic Op
+2. Setting the Encoding
+3. Formation of the First Dispatch Region, and Workgroups
+4. Resolving the Encoding for the Target CPU
+5. The Encode Operations Become Dispatches of Their Own
+6. Concurrency Between Dispatches (include stream.resource.pack e LayoutSlices)
+7. Annotating Dispatch Arguments
+8. Packing Dispatch Operands for the ABI (include FoldUniformOperands)
+9. The Gateway to Codegen (MaterializeInterfaces, file 37)
+10. Materializing the Encoding: linalg.pack, linalg.mmt4d, linalg.unpack
+11. Three Small Rewrites Before Choosing a Strategy
+12. Choosing a Lowering Strategy
+13. Tiling the Compute Loop
+14. Vectorization and Bufferization (file 38_1_1_2_8 ... _16)
+15. Lowering the Vectors (38_1_1_2_17 ... _23)
+16. Toward LLVM (38_1_1_4 ... 38_1_1_11)
+17. From Stream to HAL (39 hal-conversion, 40 outline-memoize-regions)
+18. Linking the Executables (41-45)
+19. Resource and Device Caches (46-52)
 
-Encoding astratto: quattro pass, in questo ordine cronologico reale, tutti annidati nella stessa finestra:
+DA SCRIVERE
+20. Global Cleanup (52-67), breve
+21. From HAL to VM (68-72)
+22. Serialization to ELF e istruzioni NEON reali (non nel dump)
+23. Esecuzione a runtime (opzionale)
 
-InsertTensorBarriersPass (4_1): inserisce marcatori iree_tensor_ext.compute_barrier.start/.end attorno alla regione di calcolo—puramente interni al compilatore, delimitano dove certe trasformazioni successive (es. propagazione di reshape) possono agire, nessun effetto a runtime. Sono i marcatori che si vedono già negli snippet di codice mostrati, senza mai essere stati spiegati finora. Vengono rimossi più avanti da RemoveTensorBarriersPass (8_7), una volta che la dispatch region è formata.
-FormDispatchRegionsPass (5_2): crea per la prima volta il flow.dispatch.region che avvolge il matmul—il vero pass dietro a qualcosa che finora mostravamo come se esistesse già.
-AnnotateDataTilingHintsPass (5_4): marca il linalg.generic del matmul con l'attributo {iree.opt.data_tiling}—è il meccanismo concreto con cui --iree-opt-data-tiling=true seleziona questa specifica operazione come candidata all'encoding.
-SetEncodingPass (5_5): attacca l'etichetta iree_encoding.encoding a ogni operando—solo il ruolo nel matmul, nessun numero concreto. HoistEncodingOpsPass (radice, file 7) tiene questi encoding fuori dalla regione, per permettere concorrenza più avanti.
-Motivazione aggiunta in apertura della sezione: perché serve toccare il layout dei dati (SIMD, cache, data tiling) prima ancora di mostrare la meccanica.
-Formazione della prima dispatch region, e i workgroup: ConvertEncodingToFlowPass (annidato, 7_6) converte gli iree_encoding.set_encoding/unset_encoding nella forma flow.tensor.encode che vediamo nel dump—il vero pass dietro quella conversione, non semplicemente "outline". OutlineDispatchRegionsPass (radice, 10) poi outlina solo il matmul per ora (matmul_dispatch_0)—i tre flow.tensor.encode restano ancora inline nel chiamante. MaterializeDefaultWorkgroupCountRegionPass introduce la regione workgroups(), che si risolve banalmente a 1x1x1 col nostro flag.
-
-Risoluzione per la CPU target: SpecializeEncodingsPass risolve l'encoding astratto in numeri veri (innerDimsPos, innerTileSizes, outerDimsPerm) specifici per Apple M4.
-
-Verifica empirica: stesso target/size diverse → stessi tile; stesso size/target diversi (NEON vs AVX-512) → tile diversi (8→16). Confermato con compilazioni vere.
-
-Gli encode diventano dispatch a sé: MaterializeEncodingsPass promuove i tre flow.tensor.encode a dispatch indipendenti (_encoding_0/1/2). Da qui in poi: quattro dispatch a pieno titolo.
-
-Dimensioni già note: stream resource e slicing: SpecializeEncodingsPass (risolve solo i tipi) → EncodeHostTensorsPass (annidato, calcola per la prima volta i byte reali: 1.000.000 → 1.008.000 → 1.016.064) → MaterializeEncodingsPass (sostituisce l'operatore astratto con i tre dispatch/executable veri).
-
-Concorrenza tra dispatch: ScheduleConcurrencyPass (annidato, 19_15) introduce stream.async.concurrent, raggruppando le tre encode in un blocco parallelo. ScheduleExecutionPass (19_14) crea solo il contenitore stream.async.execute prima. Cronologicamente precede tutto il codegen dei punti 11-14.
-stream.resource.pack e LayoutSlicesPass, gli offset esatti: ScheduleAllocationPass (radice, 23) eredita la concorrenza già decisa e la converte in forma allocata stream.cmd.concurrent; poiché sa che le tre slice sono vive nello stesso istante, emette un stream.resource.pack che richiede il bin-packing (1.008.000 / 1.008.000 / 1.016.064) e riceve offset ancora simbolici. LayoutSlicesPass (annidato) li risolve in costanti concrete: LHS [0, 1.008.000), RHS [1.008.000, 2.016.000), accumulatore [2.016.000, 3.032.064), dentro un'unica allocazione da 3.032.064 byte.
-
-Annotating Dispatch Arguments (AnnotateDispatchArgumentsPass, radice, 29): il compilatore annota gli argomenti-offset introdotti da FuseDispatchBindingsPass (28) con due fatti che ormai conosce con certezza—stream.values, il valore esatto che quell'argomento avrà sempre (es. l'offset RHS sarà sempre 1.008.000), e stream.alignment, il miglior allineamento dimostrabile per quel valore (1.008.000 è multiplo di 128, 2.016.000 di 256)—fatti che il compilatore si porta dietro per i pass successivi (il beneficio immediato è il fold del punto seguente).
-
-Packing Dispatch Operands for the ABI (PackDispatchOperandsPass, radice, 31): ogni argomento scalare index (64 bit) viene spaccato in due i32, perché l'ABI dei dispatch di IREE richiede push-constant a 32 bit (le push constant sono una risorsa scarsa, circa 32 i32 in totale, e un valore più largo ne consuma di più; il pass gira anche su CPU)—ricostruzione a mano dentro la funzione (extui+shli+ori). Chiusura naturale della storia: FoldUniformOperandsPass (radice, 34) sfrutta il stream.values del punto precedente per eliminare del tutto gli argomenti dimostrabilmente costanti—diventano arith.constant dentro il corpo della funzione, spariscono sia dalla firma che dal sito di chiamata (matmul_dispatch_0 passa da 8 argomenti i32 a zero).
-
-Il gateway verso il codegen (MaterializeInterfacesPass, radice, 37): il resto del bookkeeping tra i passi 32 e 37 (fold-globals, generico, non specifico al nostro esempio) non merita sezioni proprie. Qui invece ogni stream.executable diventa un vero hal.executable, con un hal.executable.variant concreto per il target—da qui in poi tutto vive nelle sottocartelle hal_executable_.../.
-
-Materializzazione fisica: l'encoding risolto diventa linalg.pack/linalg.unpack, il matmul diventa linalg.mmt4d. Qui rientrano hal_executable__encoding_0/1/2 e in parte hal_executable_matmul_dispatch_0.
-
-Come si legge innerDimsPos/innerTileSizes/outerDimsPerm: la formula meccanica, applicata a LHS e RHS.
-Il padding: perché 500 non multiplo di 8, perché non altera il risultato.
-Padding vs. peeling: LLVMCPUPeelPass come alternativa usata altrove, mai qui.
-Fusion (producer/consumer): perché l'unpack finale si fonde in matmul_dispatch_0, mentre il pack di LHS/RHS resta un dispatch a sé.
-
-Tiling del ciclo di calcolo: LLVMCPUTileAndFuseProducerConsumerPass + LLVMCPUTileToVectorSizePass spezzano l'mmt4d in un doppio scf.for (63×63 iterazioni).
-
-Distribuzione in workgroup: TileAndDistributeToWorkgroupsUsingForallOpPass—decide se le iterazioni girano su un thread o su una griglia di workgroup diversi.
-
-Vettorizzazione, bufferizzazione, lowering a LLVM: vector.contract (o ukernel), bufferizzazione, abbassamento a LLVM.
-
-Linking: quattro hal.executable fusi in un unico ELF, funzioni separate al suo interno.
-
-Esecuzione a runtime: hal.command_buffer.dispatch, ordinali, iree_hal_executable_library_query.
-
-Bonus—memoizzazione del command buffer: la sequenza di 4 dispatch registrata una volta sola a inizializzazione. -->
+DA FARE ALLA FINE
+- ridurre gli em dash nelle sezioni vecchie
+- verifica finale dei // FILE: e dei link GitHub
+- togliere il banner Work in progress
+-->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -223,10 +209,13 @@ iree-compile /tmp/matmul_500.mlir \
                 <pre class="" data-line="3-3" data-language="bash"><code class="language-bash">
         $ iree-compile --version
           IREE (https://iree.dev):
-          IREE compiler version dev @ 442c605b3f85b0728389abb83ad842db38d5108e
+          IREE compiler version (unknown)
           LLVM version 24.0.0git
           Optimized build with assertions
                 </code></pre>
+                <p>
+                    The compiler was built from source, so it cannot report its own revision. The checkout is at commit <code>442c605b3f85b0728389abb83ad842db38d5108e</code>, and every link to the IREE sources in this post points to that commit.
+                </p>
 
                 <p>
                     For readers familiar with Armv9-A and the AArch64 architecture: the <code>apple-m4</code> target also lists SME among its features, but the code IREE generates for this matmul only uses Advanced SIMD (NEON), 128 bits wide. We will not discuss SVE or SME.
@@ -270,14 +259,14 @@ iree-compile /tmp/matmul_500.mlir \
                     Before diving into the mechanics, it's worth asking a simple question: <i>why does a matrix need to be touched at all before multiplying it? Why can't the CPU just multiply <code class="language-mlir">%A</code> and <code class="language-mlir">%B</code> as they are, row by row?</i>
                 </p>
                 <p>
-                    A modern CPU can process more than one number at a time—it has SIMD registers that crunch several numbers together in a single instruction, and a cache that rewards reading memory in small, contiguous chunks. A plain row-major matrix doesn't give the CPU either of these for free: to compute one output element you need one row of <code class="language-mlir">%A</code> and one <em>column</em> of <code class="language-mlir">%B</code>, and a column of a row-major matrix is scattered across memory, one element every 500 floats apart in our case.
+                    A modern CPU can process more than one number at a time. It has SIMD registers that crunch several numbers together in a single instruction, and a cache that rewards reading memory in small, contiguous chunks. A plain row-major matrix doesn't give the CPU either of these for free: to compute one output element you need one row of <code class="language-mlir">%A</code> and one <em>column</em> of <code class="language-mlir">%B</code>, and a column of a row-major matrix is scattered across memory, one element every 500 floats apart in our case.
                 </p>
                 <p>
                     IREE's answer to this is <b>data tiling</b> (sometimes called <i>packing</i>): before the actual multiplication happens, it physically rewrites each operand into small, regular blocks so that everything needed for one step of the computation is already sitting contiguous in memory. This is what <code class="language-shell">--iree-opt-data-tiling=true</code> turns on, and the mechanism that drives it, end to end, is exactly what this and the next few sections walk through: an encoding. See <a href="https://iree.dev/community/blog/2025-08-25-data-tiling-walkthrough/">Data Tiling Walkthrough</a> for a more detailed explanation.
                 </p>
 
                 <p>
-                    Before any of that, though, a few smaller passes prepare the ground. Right after our matmul becomes a <code class="language-mlir">linalg.generic</code>, <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/DispatchCreation/InsertTensorBarriers.cpp">InsertTensorBarriersPass</a> wraps it with a pair of <code class="language-mlir">iree_tensor_ext.compute_barrier.start</code>/<code class="language-mlir">.end</code> markers—purely internal bookkeeping that fences off the boundaries of the computation region so that later passes (like reshape propagation) don't accidentally reach across it. They have no effect at runtime, and they're removed again once the dispatch region has settled. Then <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/DispatchCreation/FormDispatchRegions.cpp">FormDispatchRegionsPass</a> creates the very first <code class="language-mlir">flow.dispatch.region</code>, wrapping just the matmul for now:
+                    Before any of that, though, a few smaller passes prepare the ground. Right after our matmul becomes a <code class="language-mlir">linalg.generic</code>, <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/DispatchCreation/InsertTensorBarriers.cpp">InsertTensorBarriersPass</a> wraps it with a pair of <code class="language-mlir">iree_tensor_ext.compute_barrier.start</code>/<code class="language-mlir">.end</code> markers. They are purely internal bookkeeping that fences off the boundaries of the computation region so that later passes (like reshape propagation) don't accidentally reach across it. They have no effect at runtime, and they're removed again once the dispatch region has settled. Then <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/DispatchCreation/FormDispatchRegions.cpp">FormDispatchRegionsPass</a> creates the very first <code class="language-mlir">flow.dispatch.region</code>, wrapping just the matmul for now:
                 </p>
                 <pre class="" data-language="MLIR"><code class="language-mlir">
                 // FILE: /tmp/matmul_500/builtin_module_no-symbol-name/util_func_matmul/5_2_iree-dispatch-creation-form-dispatch-regions.mlir
@@ -298,7 +287,7 @@ iree-compile /tmp/matmul_500.mlir \
                 %9 = linalg.generic {...} ins(%1, %3 : ...) outs(%5 : ...) attrs = {iree.opt.data_tiling} { ... } -> tensor&lt;500x500xf32&gt;
                 </code></pre>
                 <p>
-                    Only now does <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/DispatchCreation/SetEncoding.cpp">SetEncodingPass</a> attach an <b>encoding</b> to each operand—a label that says nothing about hardware yet, only about the operand's role in the computation. Its immediate follow-up, <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/DispatchCreation/HoistEncodingOps.cpp">HoistEncodingOpsPass</a>, then pulls those three new operations out of the way, so they're free to become their own independent dispatches later:
+                    Only now does <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/DispatchCreation/SetEncoding.cpp">SetEncodingPass</a> attach an <b>encoding</b> to each operand. It is a label that says nothing about hardware yet, only about the operand's role in the computation. Its immediate follow-up, <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/DispatchCreation/HoistEncodingOps.cpp">HoistEncodingOpsPass</a>, then pulls those three new operations out of the way, so they're free to become their own independent dispatches later:
                 </p>
 
                 <pre class="" data-line="5-7, 12-14, 17" data-language="MLIR"><code class="language-mlir">
@@ -328,12 +317,12 @@ iree-compile /tmp/matmul_500.mlir \
                 </p>
                 <p>
                     Notice that the three <code class="language-mlir">iree_encoding.set_encoding</code> ops already sit <em>outside</em> the <code class="language-mlir">flow.dispatch.region</code>, while the matmul and the final <code class="language-mlir">iree_encoding.unset_encoding</code> stay inside it. 
-                    By hoisting them out, each op can instead become its own independent dispatch, allowing the three encoding operations to run concurrently with one another—as we'll see later.
+                    By hoisting them out, each op can instead become its own independent dispatch, allowing the three encoding operations to run concurrently with one another, as we'll see later.
                 </p>
 
                 <h2>Formation of the First Dispatch Region, and Workgroups</h2>
                 <p>
-                    A <b>dispatch</b> is IREE's basic unit of compiled, independently-invocable work—the closest analogy is a single kernel launch on a GPU, generalized to also run on CPU. One more small conversion happens first: <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/DispatchCreation/ConvertEncodingToFlow.cpp">ConvertEncodingToFlowPass</a> converts the encoding ops that sit <em>outside</em> a <code class="language-mlir">flow.dispatch.region</code>—exactly the <code class="language-mlir">iree_encoding.set_encoding</code> ops we just hoisted—into the <code class="language-mlir">flow.tensor.encode</code> form we're about to see below (which is why the hoisting had to come first). Only then does <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/Flow/Transforms/OutlineDispatchRegions.cpp">OutlineDispatchRegionsPass</a> run, and only <b>one</b> dispatch exists so far—the matmul itself, pulled out into its own compiled unit, <code class="language-mlir">@matmul_dispatch_0</code>:
+                    A <b>dispatch</b> is IREE's basic unit of compiled, independently-invocable work. The closest analogy is a single kernel launch on a GPU, generalized to also run on CPU. One more small conversion happens first: <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/DispatchCreation/ConvertEncodingToFlow.cpp">ConvertEncodingToFlowPass</a> converts the encoding ops that sit <em>outside</em> a <code class="language-mlir">flow.dispatch.region</code>, exactly the <code class="language-mlir">iree_encoding.set_encoding</code> ops we just hoisted, into the <code class="language-mlir">flow.tensor.encode</code> form we're about to see below (which is why the hoisting had to come first). Only then does <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/Flow/Transforms/OutlineDispatchRegions.cpp">OutlineDispatchRegionsPass</a> run, and only <b>one</b> dispatch exists so far: the matmul itself, pulled out into its own compiled unit, <code class="language-mlir">@matmul_dispatch_0</code>:
                 </p>
                 <pre class="" data-line="8-14, 23" data-language="MLIR"><code class="language-mlir">
                 // FILE: /tmp/matmul_500/builtin_module_no-symbol-name/10_iree-flow-outline-dispatch-regions.mlir
@@ -363,10 +352,10 @@ iree-compile /tmp/matmul_500.mlir \
                 }
                 </code></pre>
                 <p>
-                    Notice the three <code class="language-mlir">flow.tensor.encode</code> ops sitting right in the caller, <code class="language-mlir">util.func @matmul</code>—they are still plain, un-dispatched operations at this point (the same three ops introduced and hoisted in the previous section). Only the matmul's own computation was important enough to earn a dispatch of its own, straight away. We'll see why the other three catch up a bit later.
+                    Notice the three <code class="language-mlir">flow.tensor.encode</code> ops sitting right in the caller, <code class="language-mlir">util.func @matmul</code>. They are still plain, un-dispatched operations at this point (the same three ops introduced and hoisted in the previous section). Only the matmul's own computation was important enough to earn a dispatch of its own, straight away. We'll see why the other three catch up a bit later.
                 </p>
             <p>
-                You'll also notice every dispatch declares a <code class="language-mlir">workgroups() -> (index, index, index)</code> region, created a couple of passes earlier by <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/DispatchCreation/MaterializeDefaultWorkgroupCountRegion.cpp">MaterializeDefaultWorkgroupCountRegionPass</a>. A <b>workgroup</b> is one independent, parallel instance of the dispatch's body—the CPU equivalent of a <a href="https://en.wikipedia.org/wiki/Thread_block_(CUDA_programming)">thread block in CUDA</a>. This region computes <em>how many</em> such instances to launch before the dispatch actually runs. For now, don't worry about the details of how that count is chosen—we compiled with <code class="language-shell">--iree-llvmcpu-disable-distribution=true</code>, so it will always resolve to a trivial <code class="language-mlir">1x1x1</code>: one workgroup doing all the work. 
+                You'll also notice every dispatch declares a <code class="language-mlir">workgroups() -> (index, index, index)</code> region, created a couple of passes earlier by <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/DispatchCreation/MaterializeDefaultWorkgroupCountRegion.cpp">MaterializeDefaultWorkgroupCountRegionPass</a>. A <b>workgroup</b> is one independent, parallel instance of the dispatch's body. It is the CPU equivalent of a <a href="https://en.wikipedia.org/wiki/Thread_block_(CUDA_programming)">thread block in CUDA</a>. This region computes <em>how many</em> such instances to launch before the dispatch actually runs. For now, don't worry about the details of how that count is chosen. We compiled with <code class="language-shell">--iree-llvmcpu-disable-distribution=true</code>, so it will always resolve to a trivial <code class="language-mlir">1x1x1</code>: one workgroup doing all the work. 
                 However, see <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Codegen/Common/TileDispatchUsingForall.cpp">TileDispatchUsingForall.cpp</a> for more information.
             </p>
 
@@ -941,6 +930,388 @@ scf.for %arg0 = %c0 to %c63 step %c1 {
             </code></pre>
             <p>
                 The 64 is the same <code class="language-mlir">stream.alignment = 64</code> we saw on the bindings in the section about annotating dispatch arguments. It now lets the backend assume that loads and stores through these buffers start on a 64-byte boundary.
+            </p>
+
+            <h2>Lowering the Vectors</h2>
+            <p>
+                The loop body now holds one <code class="language-mlir">vector.contract</code> on 4-D vectors. That is a convenient shape for the compiler to reason about, but no instruction looks like it. The next seven files bring it down to operations that map to hardware, in the same <code>func_func_matmul_dispatch_0_matmul_like_500x500x500_f32/</code> directory.
+            </p>
+
+            <h3>Dropping the Unit Dimensions</h3>
+            <p>
+                <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Codegen/LLVMCPU/LLVMCPUMmt4dVectorLowering.cpp">LLVMCPUMmt4dVectorLoweringPass</a> (file 17) is the first to touch the contract. It runs with <code class="language-shell">vector-contract-custom-kernels=false</code>, so it does not replace the contract with a hand-written kernel. What it does here is flatten the outer <code class="language-mlir">1x1</code> dimensions. The contract now has three iterators instead of six, and the reads are <code class="language-mlir">vector&lt;8x1xf32&gt;</code>:
+            </p>
+            <pre class="" data-language="MLIR"><code class="language-mlir">
+// FILE: .../38_1_1_2_17_iree-llvmcpu-mmt4d-vector-lowering.mlir
+%17 = vector.contract {indexing_maps = [affine_map&lt;(d0, d1, d2) -> (d0, d2)&gt;, affine_map&lt;(d0, d1, d2) -> (d1, d2)&gt;, affine_map&lt;(d0, d1, d2) -> (d0, d1)&gt;],
+                       iterator_types = ["parallel", "parallel", "reduction"], kind = #vector.kind&lt;add&gt;} %14, %15, %16 : vector&lt;8x1xf32&gt;, vector&lt;8x1xf32&gt; into vector&lt;8x8xf32&gt;
+            </code></pre>
+            <p>
+                <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Codegen/Common/DropVectorUnitDims.cpp">DropVectorUnitDimsPass</a> (file 18) finishes the job. The loop now carries a plain <code class="language-mlir">vector&lt;8x8xf32&gt;</code>, and each panel is read as a flat <code class="language-mlir">vector&lt;8xf32&gt;</code>.
+            </p>
+
+            <h3>The Contract Becomes Eight FMAs</h3>
+            <p>
+                <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Codegen/LLVMCPU/LLVMCPUVirtualVectorLowering.cpp">LLVMCPUVirtualVectorLoweringPass</a> (file 19) lowers the contract itself. Since the reduction dimension has size 1, it is an outer product. Row <code class="language-mlir">i</code> of the accumulator receives element <code class="language-mlir">i</code> of the LHS panel times the whole RHS panel. The pass writes this out eight times:
+            </p>
+            <pre class="" data-language="MLIR"><code class="language-mlir">
+// FILE: .../38_1_1_2_19_iree-llvmcpu-virtual-vector-lowering.mlir (the first of eight rows)
+%18 = vector.extract %13[0] : f32 from vector&lt;8xf32&gt;                      // A[0]
+%19 = vector.broadcast %18 : f32 to vector&lt;8xf32&gt;                         // A[0] in all 8 lanes
+%20 = vector.extract %arg3[0] : vector&lt;8xf32&gt; from vector&lt;8x8xf32&gt;        // row 0 of the accumulator
+%21 = vector.fma %19, %17, %20 : vector&lt;8xf32&gt;                          // row0 += A[0] * B[0..7]
+            </code></pre>
+            <p>
+                Eight <code class="language-mlir">vector.fma</code> on <code class="language-mlir">vector&lt;8xf32&gt;</code> are 64 multiply-adds, which is exactly one iteration of the K loop. After this file no <code class="language-mlir">vector.contract</code> is left. Canonicalization (file 20) leaves the count of eight unchanged.
+            </p>
+
+            <h3>Transfers Become Loads and Stores</h3>
+            <p>
+                <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Codegen/Common/VectorTransferLowering.cpp">VectorTransferLoweringPass</a> (file 21) removes the last <code class="language-mlir">vector.transfer_read</code> and <code class="language-mlir">vector.transfer_write</code>. The loads inside the loop become <code class="language-mlir">vector.load</code> of 8 floats. The epilogue, which adds the old C and writes the result, becomes eight loads of the C rows, an <code class="language-mlir">arith.addf</code>, and eight masked stores:
+            </p>
+            <pre class="" data-language="MLIR"><code class="language-mlir">
+// FILE: .../38_1_1_2_23_iree-llvmcpu-lower-executable-target.mlir
+%27 = vector.create_mask %5, %26 : vector&lt;8x8xi1&gt;
+%28 = vector.extract %24[0] : vector&lt;8xf32&gt; from vector&lt;8x8xf32&gt;
+%29 = vector.extract %27[0] : vector&lt;8xi1&gt; from vector&lt;8x8xi1&gt;
+vector.maskedstore %subview[%c0, %c0], %29, %28 : memref&lt;?x?xf32, ...&gt;, vector&lt;8xi1&gt;, vector&lt;8xf32&gt;
+// ... the same for rows 1 to 7
+            </code></pre>
+            <p>
+                The mask is the same one from the vectorization section. For the 62 full blocks in each direction it is all true. In the last block, only the rows and columns inside the original 500x500 matrix are stored.
+            </p>
+
+            <h3>The End of the Codegen Pipeline</h3>
+            <p>
+                File 22 is another canonicalization, and file 23 is the pass that contained the whole sequence: <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Codegen/LLVMCPU/LLVMCPULowerExecutableTarget.cpp">LLVMCPULowerExecutableTargetPass</a>. Its dump has the same body as file 22, only the header differs. It simply marks the end of the pipeline selected by <code>translation_info</code>, which here was <code>Mmt4dTilingExpert</code>.
+            </p>
+            <p>
+                The inner loop is now a short, fixed sequence. Per iteration it has two loads, eight broadcasts and eight FMAs, and it carries the 8x8 accumulator from one iteration to the next. Everything left is about the form of the code, not its shape.
+            </p>
+
+            <h2>Toward LLVM</h2>
+            <p>
+                The vector code is final, but it is still MLIR with MLIR types, loops and index math. The rest of the executable's pipeline turns it into the LLVM dialect. Files now live one level up, in <code>hal_executable_matmul_dispatch_0/hal_executable_variant_embedded_elf_arm_64/builtin_module_no-symbol-name/</code>, except for the ones marked <code>func_func_.../</code>.
+            </p>
+
+            <h3>The Workgroup Count Becomes 1x1x1</h3>
+            <p>
+                <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Codegen/Common/ReconcileTranslationInfo.cpp">ReconcileTranslationInfoPass</a> (file 4) reconciles information such as workgroup size across the module. Nothing visible changes for us. The next one does. <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Codegen/Common/ResolveWorkgroupCountHints.cpp">ResolveWorkgroupCountHintsPass</a> (file 5) replaces the placeholder in the export's workgroup count region with constants:
+            </p>
+            <pre class="" data-language="MLIR"><code class="language-mlir">
+// FILE: .../38_1_1_4_iree-codegen-reconcile-translation-info.mlir
+%x, %y, %z = iree_tensor_ext.dispatch.workgroup_count_from_slice()
+iree_codegen.yield %x, %y, %z : index, index, index
+
+// FILE: .../38_1_1_5_iree-codegen-resolve-workgroup-count-hints.mlir
+%c1 = arith.constant 1 : index
+iree_codegen.yield %c1, %c1, %c1 : index, index, index
+            </code></pre>
+            <p>
+                This is the <code class="language-mlir">1x1x1</code> promised in the section about workgroups. Distribution was disabled, so the whole matmul runs as one workgroup.
+            </p>
+
+            <h3>Index Math and Descriptor Types</h3>
+            <p>
+                <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Transforms/IREELowerAffine.cpp">IREELowerAffinePass</a> (file 6) rewrites <code class="language-mlir">affine.apply</code> and <code class="language-mlir">affine.min</code> as plain arithmetic. The block offset <code class="language-mlir">d0 * 8</code> becomes a <code class="language-mlir">arith.muli</code>, and the edge size <code class="language-mlir">min(500 - d0 * 8, 8)</code> becomes a multiply, an add and an <code class="language-mlir">arith.minsi</code>.
+            </p>
+            <p>
+                <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Codegen/Common/EraseHALDescriptorTypeFromMemRef.cpp">EraseHALDescriptorTypeFromMemRefPass</a> (file 24, inside <code>func_func_.../</code>) removes <code class="language-mlir">#hal.descriptor_type&lt;storage_buffer&gt;</code> from every memref type. Every occurrence in the previous file is gone, and so is the <code>translation_info</code> attribute on the function. From here on a buffer is just a memref, which LLVM knows how to lower. File 25, <code>iree-linalg-ext-to-loops</code>, finds no <code>linalg_ext</code> operation to rewrite and only moves two constants.
+            </p>
+
+            <h3>Folding the Subviews</h3>
+            <p>
+                <code>fold-memref-alias-ops</code> (file 26) removes the three <code class="language-mlir">memref.subview</code> operations. Their offsets are added to the indices of the loads and stores that used them. Compare the load of the LHS panel before and after:
+            </p>
+            <pre class="" data-language="MLIR"><code class="language-mlir">
+// before (file 25)
+%subview_3 = memref.subview %assume_align[0, 0, 0, 0] [63, 500, 8, 1] [1, 1, 1, 1] : ... to memref&lt;63x500x8xf32, strided&lt;[4000, 8, 1]&gt;&gt;
+%48 = vector.load %subview_3[%arg0, %arg2, %c0] : memref&lt;63x500x8xf32, strided&lt;[4000, 8, 1]&gt;&gt;, vector&lt;8xf32&gt;
+
+// after (file 26)
+%55 = vector.load %assume_align[%arg0, %arg2, %c0, %c0] : memref&lt;63x500x8x1xf32&gt;, vector&lt;8xf32&gt;
+            </code></pre>
+            <p>
+                Some <code class="language-mlir">affine.apply</code> operations appear again in this file, since the folded indices are affine expressions. They are lowered together with everything else when we reach LLVM.
+            </p>
+
+            <h3>Loops Become Branches</h3>
+            <p>
+                <code>convert-scf-to-cf</code> (file 27) replaces the three <code class="language-mlir">scf.for</code> loops with basic blocks. The function now has labels <code>^bb0</code> to <code>^bb8</code> and each loop is a <code class="language-mlir">cf.cond_br</code> that either enters the body or leaves. The loop-carried accumulator becomes a block argument of the innermost loop header:
+            </p>
+            <pre class="" data-language="MLIR"><code class="language-mlir">
+// FILE: .../38_1_1_8_30_canonicalize.mlir
+^bb3(%10: index):  // 2 preds: ^bb2, ^bb6
+  %11 = arith.cmpi slt, %10, %c63 : index
+  cf.cond_br %11, ^bb4(%c0, %cst : index, vector&lt;8x8xf32&gt;), ^bb7
+^bb4(%12: index, %13: vector&lt;8x8xf32&gt;):  // 2 preds: ^bb3, ^bb5
+            </code></pre>
+            <p>
+                Files 28 to 30 are small. <code>arith-expand</code> (file 29) rewrites the <code class="language-mlir">arith.minsi</code> as a <code class="language-mlir">cmpi</code> plus a <code class="language-mlir">select</code>, and the canonicalization right after (file 30) folds it back into <code class="language-mlir">minsi</code>. The net effect of the pair is nothing.
+            </p>
+
+            <h3>Conversion to the LLVM Dialect</h3>
+            <p>
+                Now the view widens again, because <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Codegen/LLVMCPU/ConvertToLLVM.cpp">ConvertToLLVMPass</a> (file 10) runs on the whole module, not on one function. After it there is no <code class="language-mlir">func.func</code> and no <code class="language-mlir">hal.interface.binding.subspan</code>. The signature is the one every IREE CPU kernel has:
+            </p>
+            <pre class="" data-language="MLIR"><code class="language-mlir">
+// FILE: .../38_1_1_10_iree-convert-to-llvm.mlir
+llvm.func @matmul_dispatch_0_matmul_like_500x500x500_f32(%arg0: !llvm.ptr {...}, %arg1: !llvm.ptr {...}, %arg2: !llvm.ptr {...}) -> i32
+            </code></pre>
+            <p>
+                The three pointers match the runtime's <code>iree_hal_executable_dispatch_v0_t</code>: the environment, the dispatch state and the workgroup state. The four <code class="language-mlir">hal.interface.binding.subspan</code> operations have become loads from the dispatch state. Field 10 of <code>iree_hal_executable_dispatch_state_v0_t</code> is <code>binding_ptrs</code>, and each buffer pointer is read from it:
+            </p>
+            <pre class="" data-language="MLIR"><code class="language-mlir">
+%31 = llvm.load %arg1 : !llvm.ptr -&gt; !llvm.struct&lt;"iree_hal_executable_dispatch_state_v0_t", (i32, i32, i16, i16, i32, i32, i16, i8, i8, ptr, ptr, ptr)&gt;
+%32 = llvm.extractvalue %31[10] : ...
+%33 = llvm.load %32 : !llvm.ptr -&gt; !llvm.ptr
+llvm.intr.assume %13 ["align"(%33, %12 : !llvm.ptr, i64)] : i1     // %12 is the constant 64
+            </code></pre>
+            <p>
+                The last line is the <code class="language-mlir">memref.assume_alignment</code> from the bufferization section, now as an LLVM assumption. There are four, one per buffer. The loads themselves carry <code class="language-mlir">alignment = 4</code>, the alignment of a single <code class="language-mlir">f32</code>. The 64 lives in the assumption on the base pointer, not on each load.
+            </p>
+            <p>
+                The rest is a direct translation. The 8x8 accumulator becomes <code class="language-mlir">!llvm.array&lt;8 x vector&lt;8xf32&gt;&gt;</code>, a <code class="language-mlir">vector.fma</code> becomes <code class="language-mlir">llvm.intr.fmuladd</code>, the broadcasts become an <code class="language-mlir">insertelement</code> plus a <code class="language-mlir">shufflevector</code>, and the eight <code class="language-mlir">vector.maskedstore</code> become eight <code class="language-mlir">llvm.intr.masked.store</code>. Memory addressing is now explicit <code class="language-mlir">llvm.mul</code>, <code class="language-mlir">llvm.add</code> and <code class="language-mlir">llvm.getelementptr</code> on 64-bit integers. The function ends with <code class="language-mlir">llvm.return</code> of an <code class="language-mlir">i32</code>, which is the status code the runtime expects from a dispatch.
+            </p>
+            <p>
+                Two small passes follow. <code>cse</code> (file 11) merges repeated address computations. Then <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Codegen/Common/AddFastMathFlags.cpp">AddFastMathFlagsPass</a> (in <code>llvm_func_.../</code>) adds the <code class="language-mlir">contract</code> fast-math flag to the eight <code class="language-mlir">llvm.fadd</code>, the ones that add the old C to the accumulated result. In LLVM's terms, this flag allows contracting an add with a neighboring multiply into a fused operation.
+            </p>
+            <p>
+                This is the last MLIR we will read for this dispatch. What is left is to hand it to LLVM, which does register allocation, instruction selection and emits AArch64 code.
+            </p>
+
+            <h2>From Stream to HAL</h2>
+            <p>
+                The executables are done, so we go back to the whole module and to the function <code class="language-mlir">@matmul</code> that the user calls. Its body, last seen after <code>iree-hal-materialize-interfaces</code> (file 37), is still written in terms of <code>stream</code>: resources, timepoints and a <code class="language-mlir">stream.cmd.execute</code>. These files are at the root of the dump, with the others of the whole-module phase.
+            </p>
+
+            <h3>Conversion to the HAL Dialect</h3>
+            <p>
+                <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/HAL/Transforms/ConvertToHAL.cpp">ConvertToHALPass</a> (file 39) converts <code>stream</code> into <code>hal</code>. Its summary says that after it, host scheduling and allocation act on <code class="language-mlir">!hal.device</code> queues and <code class="language-mlir">!hal.buffer</code> resources. In our function, the conversion has five visible effects.
+            </p>
+            <p>
+                First, the imports. Each <code class="language-mlir">stream.tensor.import</code> becomes a <code class="language-mlir">hal.buffer_view.buffer</code> plus a <code class="language-mlir">hal.buffer.assert</code>, which checks at runtime that the buffer is visible to the device and has the usage flags the dispatches need:
+            </p>
+            <pre class="" data-language="MLIR"><code class="language-mlir">
+// FILE: 39_iree-hal-conversion.mlir
+%buffer = hal.buffer_view.buffer&lt;%arg0 : !hal.buffer_view&gt; : !hal.buffer
+%__device_0 = util.global.load immutable @__device_0 : !hal.device
+%allocator = hal.device.allocator&lt;%__device_0 : !hal.device&gt; : !hal.allocator
+hal.buffer.assert&lt;%buffer : !hal.buffer&gt; message("tensor") allocator(%allocator : !hal.allocator) minimum_length(%c1000000) type(DeviceVisible) usage(...)
+            </code></pre>
+            <p>
+                Second, the allocations. The two <code class="language-mlir">stream.resource.alloca</code> become <code class="language-mlir">hal.device.queue.alloca</code>, one of 1,000,000 bytes for the result and one of 3,032,064 bytes for the shared transient buffer we sized earlier. Each one signals a <code class="language-mlir">hal.fence</code>, which is the HAL version of a timepoint. The <code class="language-mlir">stream.timepoint.join</code> becomes a <code class="language-mlir">hal.fence.join</code> of the two.
+            </p>
+            <p>
+                Third, the work itself. The body of <code class="language-mlir">stream.cmd.execute</code> is recorded into a command buffer, wrapped in a <code class="language-mlir">hal.device.memoize</code> region:
+            </p>
+            <pre class="" data-language="MLIR"><code class="language-mlir">
+%2 = hal.device.memoize&lt;%__device_0_15 : !hal.device&gt; affinity(%c-1_i64_16) -&gt; !hal.command_buffer {
+  %cmd = hal.command_buffer.create device(%__device_0_15 : !hal.device) mode("None") categories("Transfer|Dispatch") affinity(%c-1_i64_16) bindings(%c5) : !hal.command_buffer
+  %exe = hal.executable.lookup device(%3 : !hal.device) executable(@_encoding_0) : !hal.executable
+  %function_id = hal.executable.lookup.function target(%exe : !hal.executable) function(@_encoding_0::@embedded_elf_arm_64::@_encoding_0_encode_500x500xf32_to_500x500xf32) : i64
+  hal.command_buffer.dispatch&lt;%cmd : !hal.command_buffer&gt; target(%exe : !hal.executable)[%function_id] workgroups([%c1_29, %c1_29, %c1_29]) bindings([
+    (%c0_17 : index)[%c0, %c1000000],
+    (%c4 : index)[%c0, %c3032064]
+  ]) flags("None")
+  ... the same for _encoding_1 and _encoding_2 ...
+  hal.command_buffer.execution_barrier&lt;%cmd : !hal.command_buffer&gt; source("Dispatch|Transfer|CommandRetire") target("CommandIssue|Dispatch|Transfer") flags("None")
+  ... the dispatch of matmul_dispatch_0 ...
+  hal.command_buffer.execution_barrier&lt;...&gt;
+  hal.command_buffer.finalize&lt;%cmd : !hal.command_buffer&gt;
+  hal.return %cmd : !hal.command_buffer
+}
+            </code></pre>
+            <p>
+                The structure of the earlier concurrency decision is still here. The three encode dispatches are recorded one after the other with no barrier between them, and there is one barrier before <code>matmul_dispatch_0</code>, which needs all three results. The workgroup count of each dispatch is <code class="language-mlir">[1, 1, 1]</code>. The buffers are not named but referenced by <b>binding slot</b>: slots 0 to 2 are the three inputs, slot 3 is the result, and slot 4 is the 3,032,064-byte transient buffer. Each encode reads its own input slot and writes slot 4. The matmul reads slot 4 and writes slot 3.
+            </p>
+            <p>
+                Fourth, the submission. The actual buffers are bound only when the command buffer is queued:
+            </p>
+            <pre class="" data-language="MLIR"><code class="language-mlir">
+hal.device.queue.execute.indirect&lt;%__device_0_15 : !hal.device&gt; affinity(%c-1_i64_16) wait(%fence_14) signal(%fence_18) commands(%2) bindings([
+  (%buffer : !hal.buffer)[%c0_17, %c1000000],
+  (%buffer_0 : !hal.buffer)[%c0_17, %c1000000],
+  (%buffer_3 : !hal.buffer)[%c0_17, %c1000000],
+  (%transient_buffer : !hal.buffer)[%c0_17, %c1000000],
+  (%transient_buffer_13 : !hal.buffer)[%c0_17, %c3032064]
+]) flags("None")
+            </code></pre>
+            <p>
+                The table has five entries, one per slot. This is what makes the command buffer reusable. It does not know which memory it will work on until each call tells it.
+            </p>
+            <p>
+                Fifth, the tail. <code class="language-mlir">stream.resource.dealloca</code> becomes <code class="language-mlir">hal.device.queue.dealloca</code> for the transient buffer, <code class="language-mlir">stream.timepoint.await</code> becomes <code class="language-mlir">hal.fence.await</code> followed by <code class="language-mlir">util.status.check_ok</code>, and <code class="language-mlir">stream.tensor.export</code> becomes a <code class="language-mlir">hal.buffer_view.create</code> over the result buffer.
+            </p>
+
+            <h3>Memoizing the Command Buffer</h3>
+            <p>
+                Recording a command buffer costs time, and the sequence of four dispatches is the same on every call. <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/HAL/Transforms/OutlineMemoizeRegions.cpp">OutlineMemoizeRegionsPass</a> (file 40) moves each <code class="language-mlir">hal.device.memoize</code> region out of the function, creating functions and per-device globals with initializers. In our module that gives three new pieces, which also explain the two extra folders <code>util_func___matmul_memoize_apply</code> and <code>util_func___matmul_memoize_lookup</code> in the dump tree:
+            </p>
+            <pre class="" data-language="MLIR"><code class="language-mlir">
+// FILE: 40_iree-hal-outline-memoize-regions.mlir
+util.func private @__matmul_memoize_apply(%arg0: !hal.device, %arg1: i64) -&gt; !hal.command_buffer { ... record the four dispatches ... }
+
+util.global private @__matmul_memoize_result_0_device_0 : !hal.command_buffer
+util.initializer {
+  %0 = util.call @__matmul_memoize_apply(%__device_0, %c-1_i64) : (!hal.device, i64) -&gt; !hal.command_buffer
+  util.global.store %0, @__matmul_memoize_result_0_device_0 : !hal.command_buffer
+  util.return
+}
+
+util.func private @__matmul_memoize_lookup(%arg0: !hal.device, %arg1: i64) -&gt; !hal.command_buffer {
+  ... if %arg0 is @__device_0, return the stored command buffer, else return null ...
+}
+            </code></pre>
+            <p>
+                The body that was inside the memoize region is now <code>__matmul_memoize_apply</code>. The initializer calls it once and stores the result in a global. And in <code class="language-mlir">@matmul</code>, the region is replaced by <code class="language-mlir">util.call @__matmul_memoize_lookup</code>, which compares the device it is given with <code>@__device_0</code> and returns the stored command buffer. At runtime, each call to the function submits the same recorded command buffer with new bindings.
+            </p>
+
+            <h2>Linking the Executables</h2>
+            <p>
+                After the outlining, files 41 and 42 only tidy up. The first simplifies <code>__matmul_memoize_apply</code>: the leftover <code class="language-mlir">cf.br</code> block disappears, duplicated constants are merged, and <code class="language-mlir">hal.executable.lookup</code> uses the function argument <code class="language-mlir">%arg0</code> directly instead of asking the command buffer for its device. The second, <code>fold-globals</code>, marks the loads of <code>@__device_0</code> and of the memoized command buffer as <code class="language-mlir">immutable</code>.
+            </p>
+            <p>
+                Then comes a change in how the module is organized. Up to file 42 there are still four separate <code class="language-mlir">hal.executable</code> operations, one per dispatch. Each has a single export with <code class="language-mlir">ordinal(0)</code> and its own <code class="language-mlir">llvm.func</code>. Files 43 to 45 merge them.
+            </p>
+
+            <h3>One Executable With Four Exports</h3>
+            <p>
+                <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Codegen/LLVMCPU/LLVMCPULinkExecutables.cpp">LLVMCPULinkExecutablesPass</a> (file 43) creates a new executable named after the module with the suffix <code>_linked</code>, here <code>matmul_500_linked</code>, and moves everything into it. Its variant has four exports, numbered in order, and one <code class="language-mlir">builtin.module</code> that holds the four <code class="language-mlir">llvm.func</code>:
+            </p>
+            <pre class="" data-language="MLIR"><code class="language-mlir">
+// FILE: 43_iree-llvmcpu-link-executables.mlir
+hal.executable private @matmul_500_linked {
+  hal.executable.variant public @embedded_elf_arm_64 target(#executable_target_embedded_elf_arm_64) {
+    hal.executable.export public @matmul_dispatch_0_matmul_like_500x500x500_f32 ordinal(0) ...
+    hal.executable.export public @_encoding_0_encode_500x500xf32_to_500x500xf32 ordinal(1) ...
+    hal.executable.export public @_encoding_1_encode_500x500xf32_to_500x500xf32 ordinal(2) ...
+    hal.executable.export public @_encoding_2_encode_500x500xf32_to_500x500xf32 ordinal(3) ...
+    builtin.module {
+      llvm.func @matmul_dispatch_0_matmul_like_500x500x500_f32(...) -&gt; i32 { ... }
+      llvm.func @_encoding_0_encode_500x500xf32_to_500x500xf32(...) -&gt; i32 { ... }
+      llvm.func @_encoding_1_encode_500x500xf32_to_500x500xf32(...) -&gt; i32 { ... }
+      llvm.func @_encoding_2_encode_500x500xf32_to_500x500xf32(...) -&gt; i32 { ... }
+    }
+  }
+}
+            </code></pre>
+            <p>
+                The ordinals identify each function inside the linked executable. Before, every function was alone in its executable and had ordinal 0.
+            </p>
+            <p>
+                The calling code changes too. In <code>__matmul_memoize_apply</code>, every <code class="language-mlir">hal.executable.lookup</code> used to name its own executable (<code>@_encoding_0</code>, <code>@_encoding_1</code> and so on). Now all four name the same one, and only the function differs:
+            </p>
+            <pre class="" data-language="MLIR"><code class="language-mlir">
+%exe = hal.executable.lookup device(%arg0 : !hal.device) executable(@matmul_500_linked) : !hal.executable
+%function_id = hal.executable.lookup.function target(%exe : !hal.executable) function(@matmul_500_linked::@embedded_elf_arm_64::@_encoding_0_encode_500x500xf32_to_500x500xf32) : i64
+            </code></pre>
+
+            <h3>Why Link</h3>
+            <p>
+                The description of <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/HAL/Transforms/LinkExecutables.cpp">LinkTargetExecutablesPass</a> gives the reason. Linking allows deduplication within the module and amortizes startup time, code size and the runtime cost of managing multiple hundreds or thousands of executables. For us it means one executable to load instead of four. A real model has many more dispatches, and the saving grows with them.
+            </p>
+            <p>
+                Files 44 and 45 are the generic HAL passes that drive this step: <code>iree-hal-link-target-executables</code> runs the linking for one target backend, here <code>llvm-cpu</code>, and <code>iree-hal-link-all-executables</code> runs a nested pipeline that links executables for the targets that want it. Their dumps differ from file 43 only in the header line, so the work was already done by the LLVM CPU pass.
+            </p>
+            <p>
+                One consequence is visible later. The linked executable has its own folder in the dump tree, <code>hal_executable_matmul_500_linked/</code>, and that is where the serialization to a binary happens. We will get there after the caches.
+            </p>
+
+            <h2>Resource and Device Caches</h2>
+            <p>
+                The next seven files (46 to 52) deal with a question the IR has ignored so far: who loads the executable, and who picks the device? The compiled code is not a global that exists by itself. Something has to create it on a device when the program starts, and that creation should happen once, not at every call.
+            </p>
+
+            <h3>The Executable Becomes a Global</h3>
+            <p>
+                <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/HAL/Transforms/MaterializeResourceCaches.cpp">MaterializeResourceCachesPass</a> (file 46) materializes cached globals for device resources. In our module there is one resource, the linked executable, and it gets a global with an initializer:
+            </p>
+            <pre class="" data-language="MLIR"><code class="language-mlir">
+// FILE: 46_iree-hal-materialize-resource-caches.mlir
+util.global private @__device_0_executable_0_matmul_500_linked : !hal.executable
+util.initializer {
+  %__device_0 = util.global.load @__device_0 : !hal.device
+  %ok, %value = hal.device.query&lt;%__device_0 : !hal.device&gt; key("hal.executable.format" :: "embedded-elf-arm_64") : i1, i1 = false
+  ...
+  case 0 {
+    %executable = hal.executable.create device(%__device_0 : !hal.device) affinity(%c-1_i64) target(@matmul_500_linked::@embedded_elf_arm_64) : !hal.executable
+    scf.yield %executable : !hal.executable
+  }
+  default {
+    util.status.check_ok %c14_i32, "HAL device `__device_0` does not support any variant of executable `matmul_500_linked`; available formats: [embedded-elf-arm_64]"
+    ...
+  }
+  util.global.store %1, @__device_0_executable_0_matmul_500_linked : !hal.executable
+}
+            </code></pre>
+            <p>
+                The initializer asks the device whether it understands the format <code>embedded-elf-arm_64</code>. If it does, it creates the executable. If not, the program stops at startup with an error that names the formats the module has. The calls in <code>__matmul_memoize_apply</code> change as well. The four <code class="language-mlir">hal.executable.lookup</code> become four loads of the same global, and <code class="language-mlir">hal.executable.lookup.function</code> and <code class="language-mlir">hal.command_buffer.dispatch</code> now use the loaded value.
+            </p>
+
+            <h3>Answering Questions at Compile Time</h3>
+            <p>
+                <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/HAL/Transforms/ResolveTopologyQueries.cpp">ResolveTopologyQueriesPass</a> (file 47) tries to answer, statically, queries that depend on the device topology. Here it resolves the two <code class="language-mlir">hal.allocator.resolve_memory_properties</code> that the allocations of the previous section used. They become constants:
+            </p>
+            <pre class="" data-language="MLIR"><code class="language-mlir">
+// before
+%memory_types, %buffer_usage = hal.allocator.resolve_memory_properties for(#hal.device.affinity&lt;@__device_0&gt;) lifetime(external) : i32, i32
+// after
+%memory_type = hal.memory_type&lt;"DeviceVisible|DeviceLocal"&gt; : i32
+%buffer_usage = hal.buffer_usage&lt;"TransferSource|TransferTarget|Transfer|DispatchStorageRead|DispatchStorageWrite|DispatchStorage"&gt; : i32
+            </code></pre>
+            <p>
+                The target device is known at compile time, and for this local CPU device both the external and the transient allocations resolve to the same <code>DeviceVisible|DeviceLocal</code> memory type.
+            </p>
+
+            <h3>Asking the Device Only Once</h3>
+            <p>
+                The format query inside the executable initializer is a question that has the same answer every time. <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/HAL/Transforms/MemoizeDeviceQueries.cpp">MemoizeDeviceQueriesPass</a> (file 48) finds <code class="language-mlir">hal.device.query</code> operations and creates variables initialized on startup. The query moves into a new initializer, and its two results are stored in two globals:
+            </p>
+            <pre class="" data-language="MLIR"><code class="language-mlir">
+// FILE: 48_iree-hal-memoize-device-queries.mlir
+util.global private @__device_0_query_0_hal_executable_format_embedded_elf_arm_64_ok : i1
+util.global private @__device_0_query_0_hal_executable_format_embedded_elf_arm_64 : i1
+util.initializer {
+  %ok, %value = hal.device.query&lt;%__device_0 : !hal.device&gt; key("hal.executable.format" :: "embedded-elf-arm_64") : i1, i1 = false
+  util.global.store %ok, @__device_0_query_0_hal_executable_format_embedded_elf_arm_64_ok : i1
+  util.global.store %value, @__device_0_query_0_hal_executable_format_embedded_elf_arm_64 : i1
+  util.return
+}
+            </code></pre>
+            <p>
+                The executable initializer now loads the stored answer instead of asking again. Files 49 and 50 clean up. The <code class="language-mlir">scf.index_switch</code> with a single case becomes an <code class="language-mlir">scf.if</code>, and <code>fold-globals</code> removes the <code>_ok</code> global, which nobody reads, and marks the executable global's loads as <code class="language-mlir">immutable</code>.
+            </p>
+
+            <h3>Choosing the Device at Startup</h3>
+            <p>
+                One thing is still a promise. Since <code>iree-hal-materialize-target-devices</code> (file 4), the module has declared its device as a global whose value describes the target:
+            </p>
+            <pre class="" data-language="MLIR"><code class="language-mlir">
+util.global private @__device_0 = #device_target_local
+            </code></pre>
+            <p>
+                <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/HAL/Transforms/InitializeDevices.cpp">InitializeDevicesPass</a> (file 51) turns the description into code that finds a real device when the module loads. The global loses its value and gains an initializer:
+            </p>
+            <pre class="" data-language="MLIR"><code class="language-mlir">
+// FILE: 51_iree-hal-initialize-devices.mlir
+util.global private @__device_0 : !hal.device
+util.initializer {
+  %device_count = hal.devices.count : index
+  %1:3 = scf.while (...) {
+    %device_n = hal.devices.get %arg0 : !hal.device
+    %ok, %value = hal.device.query&lt;%device_n : !hal.device&gt; key("hal.device.id" :: "local*") : i1, i1 = false
+    ... if it matches, also query "hal.executable.format" :: "embedded-elf-arm_64" ...
+  }
+  ... if no device matched: util.status.check_ok, "HAL device `__device_0` not found or unavailable: ..."
+  util.global.store %1#2, @__device_0 : !hal.device
+}
+            </code></pre>
+            <p>
+                The loop walks over the devices the runtime has, keeps the first one whose id matches <code>local*</code> and that supports <code>embedded-elf-arm_64</code>, and stores it. If none matches, the module fails to load with a message that prints the target description. This is the place where the build-time choice of <code>apple-m4</code> meets the machine that runs the program.
+            </p>
+            <p>
+                File 52, <code>iree-affine-expand-index-ops</code>, changes nothing we can read. It only moves two constants (<code class="language-mlir">%c18_i32</code> and <code class="language-mlir">%false</code>) in this initializer.
             </p>
 
             <div class="bibtex" year="2026" month="Aug"></div>

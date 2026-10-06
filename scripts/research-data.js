@@ -1536,6 +1536,12 @@ var RESEARCH_DATA = {
       project: "llvm-project"
     },
     {
+      title: "[mlir][ArmNeon] `matmul-i8.mlir` to `pack-unpack-mmt4d-i8.mlir` + box comments (NFC)",
+      url: "https://github.com/llvm/llvm-project/pull/227872",
+      date: "2026/09/30",
+      project: "llvm-project"
+    },
+    {
       title: "[TailRecElim] Handle discarded-call return conflicts with a shift accumulator",
       url: "https://github.com/llvm/llvm-project/pull/221694",
       date: "2026/09/18",
