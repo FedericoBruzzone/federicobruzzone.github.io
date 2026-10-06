@@ -20,11 +20,11 @@ SCRITTE
 17. From Stream to HAL (39 hal-conversion, 40 outline-memoize-regions)
 18. Linking the Executables (41-45)
 19. Resource and Device Caches (46-52)
+20. From LLVM IR to an ELF File (53 e binario)
+21. Cleaning Up the Whole Module (53-67)
 
 DA SCRIVERE
-20. Global Cleanup (52-67), breve
-21. From HAL to VM (68-72)
-22. Serialization to ELF e istruzioni NEON reali (non nel dump)
+22. From HAL to VM (68-72)
 23. Esecuzione a runtime (opzionale)
 
 DA FARE ALLA FINE
@@ -1312,6 +1312,177 @@ util.initializer {
             </p>
             <p>
                 File 52, <code>iree-affine-expand-index-ops</code>, changes nothing we can read. It only moves two constants (<code class="language-mlir">%c18_i32</code> and <code class="language-mlir">%false</code>) in this initializer.
+            </p>
+
+            <h2>From LLVM IR to an ELF File</h2>
+            <p>
+                The linked executable is still MLIR: four <code class="language-mlir">llvm.func</code> inside a <code class="language-mlir">hal.executable</code>. The next step turns it into machine code, and for the first time the interesting part does not happen in an MLIR pass.
+            </p>
+
+            <h3>The Executable Becomes Bytes</h3>
+            <p>
+                Two passes appear in the folder of the linked executable, <code>hal_executable_matmul_500_linked/</code>: <code>53_0_iree-hal-serialize-target-executables.mlir</code> and <code>53_1_iree-hal-serialize-all-executables.mlir</code>. They are tiny. The body of the executable is gone, replaced by one operation:
+            </p>
+            <pre class="" data-language="MLIR"><code class="language-mlir">
+// FILE: hal_executable_matmul_500_linked/53_0_iree-hal-serialize-target-executables.mlir
+hal.executable private @matmul_500_linked {
+  hal.executable.binary public @embedded_elf_arm_64 attributes {
+    data = dense&lt;"0x7F454C46020101000000..."&gt; : vector&lt;10416xi8&gt;,
+    format = "embedded-elf-arm_64", mime_type = "application/x-elf"}
+}
+            </code></pre>
+            <p>
+                The data starts with <code>7F 45 4C 46</code>, the magic number of an ELF file. In the dump, the whole shared library is 10,416 bytes. All the work happened inside <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/plugins/target/LLVMCPU/LLVMCPUTarget.cpp">LLVMCPUTarget.cpp</a>, which calls LLVM directly, so no pass dump shows it. To look inside, we ask the compiler to keep what it produces along the way:
+            </p>
+            <pre class="" data-language="bash"><code class="language-bash">
+iree-compile /tmp/matmul_500.mlir \
+  ... the same flags as before ... \
+  --iree-hal-dump-executable-intermediates-to=/tmp/matmul_500_intermediates \
+  --iree-hal-dump-executable-binaries-to=/tmp/matmul_500_binaries \
+  -o /tmp/matmul_500.vmfb
+            </code></pre>
+            <p>
+                The intermediates folder has one file for each stage. Using the line counts from my run:
+            </p>
+            <ul>
+                <li><code>.codegen.ll</code>: the LLVM dialect translated to LLVM IR. It has 5 functions, our four dispatches and <code>iree_hal_executable_library_query</code>. The eight FMAs are still <code>llvm.fmuladd</code> on <code>&lt;8 x float&gt;</code>.</li>
+                <li><code>.linked.ll</code>: the compiler links in a library of bitcode, which brings the total to 41 functions. They are support routines such as half-float conversions, math functions like <code>expf</code> and helpers for the Arm SME state.</li>
+                <li><code>.optimized.ll</code>: the result of the LLVM IR optimization passes.</li>
+                <li><code>.s</code> and <code>.o</code>: the AArch64 assembly and the object file. The assembly still has all of the 41 functions.</li>
+                <li>The <code>.so</code> in the binaries folder: the object file linked by <code>lld</code>, as <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/plugins/target/LLVMCPU/internal/EmbeddedLinkerTool.cpp">EmbeddedLinkerTool.cpp</a> shows. In the final library only the five functions of the first stage are left.</li>
+            </ul>
+
+            <h3>What Is Inside the Library</h3>
+            <p>
+                We can inspect the result with the LLVM tools (<code>llvm-readelf</code>, <code>llvm-nm</code> and <code>llvm-objdump</code>). It is a 64-bit shared object for AArch64, with a <code>.text</code> section of 4,024 bytes and no dependency on a C library. Exactly one symbol is exported:
+            </p>
+            <pre class="" data-language="bash"><code class="language-bash">
+$ llvm-nm -D --defined-only module_matmul_500_linked_embedded_elf_arm_64.so
+&lt;address&gt; T iree_hal_executable_library_query
+            </code></pre>
+            <p>
+                The four dispatch functions are not exported. The runtime finds them through this one function, which is declared in the runtime header <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/runtime/src/iree/hal/local/executable_library.h">executable_library.h</a>. The compiled version is a handful of instructions:
+            </p>
+            <pre class="" data-language="ASM"><code class="language-asm">
+adr   x8, &lt;library table&gt;
+cmp   w0, #0x6          // the version the caller asks for
+csel  x0, x8, xzr, eq   // return the table if it is 6, otherwise NULL
+ret
+            </code></pre>
+            <p>
+                The table has the library version, the name <code>matmul_500_linked</code> and the list of functions. The function pointers are stored in the file as four relative relocations, in the same order as the ordinals we saw in the linking section, and next to them are the four names. The order is the one of the ordinals: first the matmul, then the three encodes.
+            </p>
+
+            <h3>The Inner Loop in Machine Code</h3>
+            <p>
+                Now the moment we have been working toward. This is the loop over K of <code>matmul_dispatch_0</code>, as disassembled from the ELF. The addresses are omitted.
+            </p>
+            <pre class="" data-language="ASM"><code class="language-asm">
+// accumulator = 0, in 16 vector registers
+movi   v15.2d, #0
+movi   v0.2d,  #0
+...                                  // 16 movi in total
+// loop over k, 500 iterations
+lsl    x28, x27, #5
+add    x30, x9, x28
+ldp    q2, q1, [x30]                 // 8 floats of the LHS panel
+add    x28, x26, x28
+ldp    q3, q4, [x28]                 // 8 floats of the RHS panel
+fmla   v15.4s, v4.4s, v2.s[0]
+fmla   v0.4s,  v3.4s, v2.s[0]
+fmla   v11.4s, v4.4s, v2.s[1]
+fmla   v13.4s, v3.4s, v2.s[1]
+...                                  // 16 fmla in total, using lanes 0..3 of v2 and v1
+fmla   v7.4s,  v3.4s, v1.s[3]
+fmla   v6.4s,  v4.4s, v1.s[3]
+add    x27, x27, #1
+cmp    x27, #0x1f4                   // 500
+b.ne   loop
+            </code></pre>
+            <p>
+                Here is how this maps to what we built. Each iteration loads two panels of 8 floats, and each load is one <code>ldp</code> of two 128-bit registers. Each <code class="language-mlir">vector&lt;8xf32&gt;</code> FMA from the MLIR became two <code>fmla</code> on 4 lanes, because a NEON register holds four floats. Eight FMAs times two give the sixteen <code>fmla</code> we see, which is 64 multiply-adds, as computed in the section about vector lowering. The broadcast of one element of the LHS is not an instruction at all. It is folded into the <em>by element</em> form of <code>fmla</code>, <code>v2.s[0]</code>. The 8x8 accumulator takes sixteen 128-bit registers, and it stays in them for all 500 iterations. This confirms what the section about vectorization could only suggest. Nothing in the loop touches memory except the two loads.
+            </p>
+            <p>
+                Before the loop, one more line connects to an earlier section. The function receives the dispatch state in <code>x1</code>, and the first thing it does is <code>ldr x10, [x1, #0x20]</code>. Offset 0x20 is the field <code>binding_ptrs</code> of <code>iree_hal_executable_dispatch_state_v0_t</code>, the same field 10 we loaded in the LLVM dialect. The buffer addresses come from there.
+            </p>
+
+            <h3>The Edge of the Matrix</h3>
+            <p>
+                After the loop, the code adds the old C to the accumulator with <code>fadd v19.4s, v0.4s, v19.4s</code> and the like, still in registers. Then it writes the result, and here the mask matters. AArch64 NEON has no masked store, so each of the eight <code>llvm.intr.masked.store</code> was expanded by the backend into a test of every lane:
+            </p>
+            <pre class="" data-language="ASM"><code class="language-asm">
+tbnz  w30, #0x0, lane0      // is lane 0 inside the matrix?
+tbnz  w30, #0x1, lane1
+...
+st1   { v0.s }[3], [x14]    // store one lane
+            </code></pre>
+            <p>
+                Lane by lane, with a branch for each, is slower than a vector store. The tests run for every block, since the mask is computed at runtime. Their cost is small, about 64 tests against the 8,000 <code>fmla</code> of the loop (500 iterations times 16).
+            </p>
+
+            <h3>Into the Program File</h3>
+            <p>
+                Finally the ELF is placed in the output of the compiler. A <code>.vmfb</code> turns out to be a zip archive, and <code>unzip -l matmul_500.vmfb</code> lists two files: <code>module.fb</code>, the program for the IREE virtual machine, and <code>matmul_500_linked_embedded_elf_arm_64.so</code>, the library we just read. The program for the virtual machine is what the last passes of the pipeline build, and it is next.
+            </p>
+
+            <h2>Cleaning Up the Whole Module</h2>
+            <p>
+                The machine code is done. Files 53 to 67 work on what surrounds it, the host side of the module, and most of them make it smaller. Few of these files change something deep, so we go through them quickly. The interesting part is how a module with a lot of generality, a function that looks up a command buffer for any device, ends up as a very specific program for the one device we have.
+            </p>
+
+            <h3>Branches and the Binary</h3>
+            <p>
+                In file 53 the structured control flow of the initializers has become plain branches between blocks. The device search loop, a <code class="language-mlir">scf.while</code> in file 51, is now a set of labels <code>^bb1</code>, <code>^bb2</code> and so on with <code class="language-mlir">cf.cond_br</code>. The header of the dump only says <code>iree-op-pipeline-adaptor</code>, so the file does not name the pass. File 54 is the module-level view of the previous section: the <code class="language-mlir">hal.executable</code> with its four <code class="language-mlir">llvm.func</code> is gone, and in its place there is the <code class="language-mlir">hal.executable.binary</code> with the ELF as data. From this point the module carries the compiled code as a blob.
+            </p>
+
+            <h3>Interprocedural Optimization, to a Fixed Point</h3>
+            <p>
+                Files 55 to 61 are the same two steps repeated. The module header gives it away: <code class="language-mlir">iree.fixedpoint.iteration = 0</code>, then 1, 2 and 3. <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/Util/Transforms/FixedPointIterator.cpp">FixedPointIteratorPass</a> runs a small pipeline again and again, and stops when an iteration does not mark the module as modified. Inside the pipeline, <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/Util/Transforms/IPO.cpp">IPOPass</a> (files 55, 57 and 59) performs basic inter-procedural optimization, and the adaptor files in between tidy up. The memoization functions from the section about HAL conversion are the ones that change, in three steps.
+            </p>
+            <p>
+                First, unused flexibility goes away. <code>__matmul_memoize_apply</code> and <code>__matmul_memoize_lookup</code> took a device and an affinity as arguments, but the only caller always passes <code>@__device_0</code> and <code>-1</code>. IPO removes both arguments and loads the global inside the function:
+            </p>
+            <pre class="" data-language="MLIR"><code class="language-mlir">
+// before (file 54)
+util.func private @__matmul_memoize_apply(%arg0: !hal.device, %arg1: i64) -&gt; !hal.command_buffer
+// after (file 55)
+util.func private @__matmul_memoize_apply() -&gt; !hal.command_buffer
+            </code></pre>
+            <p>
+                Second, the lookup collapses. It compared its argument with <code>@__device_0</code> and returned null otherwise. With the argument gone, it compares the device with itself, the comparison folds, and the function (file 56) simply returns the global. Then IPO notices that the caller can read the global directly, and the function ends up with no result (file 57). In the last step (file 59) nothing calls it, and it is removed together with its call. The final <code>@matmul</code> loads the command buffer straight from the global:
+            </p>
+            <pre class="" data-language="MLIR"><code class="language-mlir">
+// FILE: 67_iree-util-fold-globals.mlir
+%__matmul_memoize_result_0_device_0 = util.global.load immutable @__matmul_memoize_result_0_device_0 : !hal.command_buffer
+hal.device.queue.execute.indirect&lt;%__device_0 : !hal.device&gt; ... commands(%__matmul_memoize_result_0_device_0) bindings([ ... ])
+            </code></pre>
+            <p>
+                The iteration count stops at 3 in file 60, because that iteration marks nothing as modified, and file 61 removes the bookkeeping attributes. The function with a device parameter is the right design for a program that may run on several devices. Here the compiler proved that there is only one and removed the generality.
+            </p>
+
+            <h3>One Initializer</h3>
+            <p>
+                The module has four <code class="language-mlir">util.initializer</code> operations at this point (file 61): one for the device, one for the format query, one for the executable and one for the command buffer. <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/Util/Transforms/CombineInitializers.cpp">CombineInitializersPass</a> (file 62) merges them into one, in dependency order: find the device, create the executable, record the command buffer. The global declarations move to the top of the module.
+            </p>
+            <p>
+                Now the query global is only stored to and never read, since the initializer uses the value directly. After the adaptor of file 66 replaces the load with the value that was just computed, <code>fold-globals</code> (file 67) removes it. <a href="https://github.com/iree-org/iree/blob/442c605b3f85b0728389abb83ad842db38d5108e/compiler/src/iree/compiler/Dialect/Util/Transforms/PropagateSubranges.cpp">PropagateSubrangesPass</a> (file 64) is the one pass in this range that does nothing for us. Its dump differs from the previous file only in the header, because the module has no resource subranges to propagate.
+            </p>
+
+            <h3>What Is Left</h3>
+            <p>
+                File 67 is the smallest the host side will get. The whole module has one binary, three globals, one initializer, one helper and the function the user calls:
+            </p>
+            <pre class="" data-language="MLIR"><code class="language-mlir">
+hal.executable private @matmul_500_linked { hal.executable.binary public @embedded_elf_arm_64 ... }
+util.global private @__device_0 : !hal.device
+util.global private @__device_0_executable_0_matmul_500_linked : !hal.executable
+util.global private @__matmul_memoize_result_0_device_0 : !hal.command_buffer
+util.initializer { ... find the device, create the executable, call @__matmul_memoize_apply ... }
+util.func private @__matmul_memoize_apply() -&gt; !hal.command_buffer { ... record the four dispatches ... }
+util.func public @matmul(%arg0: !hal.buffer_view, %arg1: !hal.buffer_view, %arg2: !hal.buffer_view) -&gt; !hal.buffer_view { ... }
+            </code></pre>
+            <p>
+                Everything that follows is a change of language. This module is still written in the HAL dialect, which the compiler understands. The runtime does not, so the last step translates it into the instructions of the IREE virtual machine.
             </p>
 
             <div class="bibtex" year="2026" month="Aug"></div>

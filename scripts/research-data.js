@@ -1530,6 +1530,12 @@ var RESEARCH_DATA = {
       project: "llvm-project"
     },
     {
+      title: "Reject overlapping matches instead of silently discarding one",
+      url: "https://github.com/PGL-SMR/Source-Matching-and-Rewriting/pull/2",
+      date: "2026/10/02",
+      project: "source-matching"
+    },
+    {
       title: "[mlir][linalg] Document and diagnose pack/unpack memref limits",
       url: "https://github.com/llvm/llvm-project/pull/225773",
       date: "2026/09/30",
@@ -1540,6 +1546,12 @@ var RESEARCH_DATA = {
       url: "https://github.com/llvm/llvm-project/pull/227872",
       date: "2026/09/30",
       project: "llvm-project"
+    },
+    {
+      title: "Add `.devcontainer/` to `.gitignore`",
+      url: "https://github.com/PGL-SMR/Source-Matching-and-Rewriting/pull/1",
+      date: "2026/09/23",
+      project: "source-matching"
     },
     {
       title: "[TailRecElim] Handle discarded-call return conflicts with a shift accumulator",

@@ -6,7 +6,8 @@
     "lighthouse": "project-blue",
     "iree": "project-teal",
     "rustc": "project-orange",
-    "rustworkx": "project-purple"
+    "rustworkx": "project-purple",
+    "source-matching": "project-red"
   };
 
   renderContainer("oss-contributions-container", renderSimpleItem, D.openSourceContributions);

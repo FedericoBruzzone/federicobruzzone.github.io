@@ -445,6 +445,12 @@ tr:nth-child(even) {
     color: rgb(120, 120, 120);
 }
 
+.project-red {
+    border: 1px solid rgba(200, 60, 60, 0.6);
+    background-color: rgba(200, 60, 60, 0.1);
+    color: rgb(200, 60, 60);
+}
+
 .link-badge {
     display: inline-block;
     vertical-align: middle;
