@@ -127,3 +127,31 @@ Prism.languages.mlir = {
   // =========================
   keyword: /\b(module|return|yield|cf|private|public)\b/
 };
+
+// =========================
+// AArch64 assembly (GNU/LLVM syntax, as printed by llvm-objdump)
+// =========================
+Prism.languages.aarch64 = {
+  comment: {
+    pattern: /\/\/[^\n]*|;[^\n]*/,
+    greedy: true
+  },
+
+  // mnemonic: first word of a line (b.ne, fmla, ldp, ...)
+  instruction: {
+    pattern: /(^[ \t]*)[a-z][a-z0-9]*(?:\.[a-z0-9]+)?(?=[ \t]|$)/m,
+    lookbehind: true,
+    greedy: true,
+    alias: "function"
+  },
+
+  // x0-x30, w0-w30, q/d/s/h/b0-31, sp, xzr, wzr, v0-v31 with arrangement/lane (v2.s[0], v15.4s)
+  register: {
+    pattern: /\b(?:v(?:[12]?\d|3[01])(?:\.\d*[bhsd](?:\[\d+\])?)?|[xwqdshb](?:[12]?\d|3[01])|sp|xzr|wzr)(?!\w)/,
+    alias: "variable"
+  },
+
+  number: /#-?(?:0x[\da-f]+|\d+)\b/i,
+
+  punctuation: /[,\[\]{}!]/
+};

@@ -2,10 +2,10 @@ var POSTS_DATA = [
   {
     url: "posts/inside-a-linalg-matmul-a-deep-dive-into-IREEs-compilation-pipeline.html",
     title: "Inside a <code>linalg.matmul</code>: A Deep Dive into IREE's Compilation Pipeline",
-    desc: "⚠️Work in progress. Feedback is welcome!️️⚠️",
-    date: "TBD",
-    dateDisplay: "TBD",
-    readTime: "TBD",
+    desc: "A step-by-step walk through the IREE compilation pipeline for a 500x500 f32 matmul on Apple M4: from linalg.matmul to dispatch regions, data tiling, vectorization, LLVM, an ELF library and the virtual machine module, following the real IR dump pass by pass.",
+    date: "2026-10-07",
+    dateDisplay: "7 October, 2026",
+    readTime: "~50 min",
     titlePrefix: '<img src="posts/images/IREE.png" alt="IREE logo" width="17px"/> <img src="posts/images/MLIR.png" alt="MLIR logo" width="17px"/> <img src="posts/images/LLVM.png" alt="LLVM logo" width="17px"/>',
     series: null,
     showOnIndex:true

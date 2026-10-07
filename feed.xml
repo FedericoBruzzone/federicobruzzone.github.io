@@ -8,14 +8,6 @@
     <language>en</language>
     <lastBuildDate>Invalid Date</lastBuildDate>
     <item>
-      <title>Inside a linalg.matmul: A Deep Dive into IREE&apos;s Compilation Pipeline</title>
-      <link>https://federicobruzzone.github.io/posts/inside-a-linalg-matmul-a-deep-dive-into-IREEs-compilation-pipeline.html</link>
-      <guid isPermaLink="false">tag:federicobruzzone.github.io,TBD:posts/inside-a-linalg-matmul-a-deep-dive-into-iree-s-compilation-pipeline</guid>
-      <category>Post</category>
-      <pubDate>Invalid Date</pubDate>
-      <description><![CDATA[⚠️Work in progress. Feedback is welcome!️️⚠️]]></description>
-    </item>
-    <item>
       <title>Prioritizing Configuration Relevance via Compiler-Based Refined Feature Ranking</title>
       <link>https://federicobruzzone.github.io/publications/Bruzzone26d/Bruzzone26d.pdf</link>
       <guid isPermaLink="false">tag:federicobruzzone.github.io,September, 2026:publications/prioritizing-configuration-relevance-via-compiler-based-refined-feature-ranking</guid>
@@ -86,6 +78,14 @@
       <category>Publication</category>
       <pubDate>Invalid Date</pubDate>
       <description><![CDATA[Conference Ranked B on CORE &middot; Workshop paper (poster) at PNAS'26 &middot; <a href="https://ceur-ws.org/Vol-4236/">CEUR-WS.org</a>]]></description>
+    </item>
+    <item>
+      <title>Inside a linalg.matmul: A Deep Dive into IREE&apos;s Compilation Pipeline</title>
+      <link>https://federicobruzzone.github.io/posts/inside-a-linalg-matmul-a-deep-dive-into-IREEs-compilation-pipeline.html</link>
+      <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-10-07:posts/inside-a-linalg-matmul-a-deep-dive-into-iree-s-compilation-pipeline</guid>
+      <category>Post</category>
+      <pubDate>Wed, 07 Oct 2026 00:00:00 GMT</pubDate>
+      <description><![CDATA[A step-by-step walk through the IREE compilation pipeline for a 500x500 f32 matmul on Apple M4: from linalg.matmul to dispatch regions, data tiling, vectorization, LLVM, an ELF library and the virtual machine module, following the real IR dump pass by pass.]]></description>
     </item>
     <item>
       <title>A Multi-Dimensional, Per-Pass Empirical Study of the LLVM Optimization Pipeline</title>
