@@ -1518,6 +1518,12 @@ var RESEARCH_DATA = {
 
   openSourceContributions: [
     {
+      title: "[mlir][ArmNeon] Add pack/mmt4d path to f32 `linalg.matmul` integration test",
+      url: "https://github.com/llvm/llvm-project/pull/225063",
+      date: "2026/10/09",
+      project: "llvm-project"
+    },
+    {
       title: "Log the triggering conflict when Selector removes a rewrite",
       url: "https://github.com/PGL-SMR/Source-Matching-and-Rewriting/pull/3",
       date: "2026/10/06",
