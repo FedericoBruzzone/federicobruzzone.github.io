@@ -1536,6 +1536,12 @@ var RESEARCH_DATA = {
       project: "source-matching"
     },
     {
+      title: "[mlir][ArmSME] Make tile allocation order deterministic",
+      url: "https://github.com/llvm/llvm-project/pull/229096",
+      date: "2026/10/05",
+      project: "llvm-project"
+    },
+    {
       title: "[mlir][ArmSME] Skip tile allocation for functions with no SME tile ops",
       url: "https://github.com/llvm/llvm-project/pull/227153",
       date: "2026/10/05",
