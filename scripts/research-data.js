@@ -1518,6 +1518,12 @@ var RESEARCH_DATA = {
 
   openSourceContributions: [
     {
+      title: "[mlir][vector] Document dimension kinds in `vector.contract` (NFC)",
+      url: "https://github.com/llvm/llvm-project/pull/230458",
+      date: "2026/10/14",
+      project: "llvm-project"
+    },
+    {
       title: "[mlir][ArmNeon] Add pack/mmt4d path to f32 `linalg.matmul` integration test",
       url: "https://github.com/llvm/llvm-project/pull/225063",
       date: "2026/10/09",
