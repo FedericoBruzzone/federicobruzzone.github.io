@@ -1518,6 +1518,18 @@ var RESEARCH_DATA = {
 
   openSourceContributions: [
     {
+      title: "[mlir][ArmSME] Mark integration tests unsupported under ASan on Darwin",
+      url: "https://github.com/llvm/llvm-project/pull/233445",
+      date: "2026/10/19",
+      project: "llvm-project"
+    },
+    {
+      title: "[mlir][linalg] Fix memory leak in `vectorize-insert-slice-rank-reducing` test",
+      url: "https://github.com/llvm/llvm-project/pull/233435",
+      date: "2026/10/19",
+      project: "llvm-project"
+    },
+    {
       title: "Register `artifacts` as a submodule",
       url: "https://github.com/PGL-SMR/Source-Matching-and-Rewriting/pull/6",
       date: "2026/10/19",
