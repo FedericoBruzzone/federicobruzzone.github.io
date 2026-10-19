@@ -1518,6 +1518,30 @@ var RESEARCH_DATA = {
 
   openSourceContributions: [
     {
+      title: "Register `artifacts` as a submodule",
+      url: "https://github.com/PGL-SMR/Source-Matching-and-Rewriting/pull/6",
+      date: "2026/10/19",
+      project: "source-matching"
+    },
+    {
+      title: "Add a script to build SMR inside the dev image",
+      url: "https://github.com/PGL-SMR/Source-Matching-and-Rewriting/pull/7",
+      date: "2026/10/19",
+      project: "source-matching"
+    },
+    {
+      title: "Add `lit` tests and a `check-smr` target",
+      url: "https://github.com/PGL-SMR/Source-Matching-and-Rewriting/pull/8",
+      date: "2026/10/19",
+      project: "source-matching"
+    },
+    {
+      title: "Add a regression script over the artifacts cases",
+      url: "https://github.com/PGL-SMR/Source-Matching-and-Rewriting/pull/9",
+      date: "2026/10/19",
+      project: "source-matching"
+    },
+    {
       title: "[mlir][vector] Document dimension kinds in `vector.contract` (NFC)",
       url: "https://github.com/llvm/llvm-project/pull/230458",
       date: "2026/10/14",
