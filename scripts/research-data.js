@@ -1518,6 +1518,12 @@ var RESEARCH_DATA = {
 
   openSourceContributions: [
     {
+      title: "Add a `$canonicalize` directive backed by CIR's own cleanup passes",
+      url: "https://github.com/PGL-SMR/Source-Matching-and-Rewriting/pull/11",
+      date: "2026/10/21",
+      project: "source-matching"
+    },
+    {
       title: "[mlir][ArmSME] Mark integration tests unsupported under ASan on Darwin",
       url: "https://github.com/llvm/llvm-project/pull/233445",
       date: "2026/10/19",
