@@ -13,7 +13,7 @@ var POSTS_DATA = [
   {
     url: "posts/a-multi-dimensional-per-pass-empirical-study-of-the-llvm-optimization-pipeline.html",
     title: "A Multi-Dimensional, Per-Pass Empirical Study of the LLVM Optimization Pipeline",
-    desc: "We ran every cumulative prefix of the LLVM -O3 pipeline on 30 PolyBench/C kernels (84,750 measurements). The pipeline is non-monotone, back-loaded, and -O3 is Pareto-dominated in 29/30 benchmarks. A per-pass look at runtime, binary size, hardware counters, and energy.",
+    desc: "We ran every cumulative prefix of the LLVM -O3 pipeline on 30 PolyBench/C kernels (84,750 measurements). The pipeline is non-monotone (36% of significant changes are slowdowns) and back-loaded, and most of the speedup comes from a small core of passes. A per-pass look at runtime, binary size, hardware counters, and energy.",
     date: "2026-07-01",
     dateDisplay: "1 July, 2026",
     readTime: "~15 min",

@@ -83,6 +83,14 @@
                 This post is a quick, friendly tour of what we found.
             </p>
 
+            <p>
+                <b>Update (October 2026):</b> we posted a revised version (v2) of the paper, and this post now follows it.
+                The main change is statistical. Many passes leave the binary byte-identical, so those transitions tell us exactly how large measurement noise is, and we now use them to calibrate every claim.
+                This changed some headline numbers: regressions are counted only when they are significant, the Pareto result is much thinner than v1 suggested, and the loss <em>L</em> is split into noise, transient dips, and persistent loss.
+                We also fixed an example in Finding 4 that mixed absolute and relative units.
+                The scripts that recompute every new number are in <a href="https://github.com/FedericoBruzzone/llvm-passview/tree/main/reanalysis">reanalysis</a>.
+            </p>
+
             <h2>Code and artifact</h2>
 
             <p>
@@ -120,12 +128,14 @@
             <h2>Finding 1 — marginal impact of individual passes</h2>
 
             <p>
-                The first surprise: <strong>-O3 is not monotonically improving</strong>. About 7–10% of pass-to-pass transitions actually <em>slow things down</em> before a later pass recovers. Here's what the runtime trajectory looks like across all 30 benchmarks:
+                The first surprise: <strong>-O3 is not monotonically improving</strong>. Of the 3,390 pass-to-pass transitions, 291 change runtime significantly (more than 1% and a Mann-Whitney test), and <strong>106 of them (36%) are slowdowns</strong>. They show up in 28 of 30 kernels, with a median of +2.7% and a maximum of +73%. Three passes cause 68% of them: <code>instcombine</code>, <code>simplifycfg</code>, and <code>licm</code>.
+                The same criterion fires on only 0.9% of the transitions whose binary does not change at all, so these are not noise. Using <em>p</em> &lt; 0.05 alone would flag 25.7% of those identical binaries!
+                Here's what the runtime trajectory looks like across all 30 benchmarks:
             </p>
 
             <figure class="paper-figure">
                 <img src="images/llvm-pipeline-evolution_runtime_ci95.png" alt="Runtime evolution with 95% confidence intervals across the -O3 pipeline"/>
-                <figcaption>Runtime evolution (normalized to -O0) with 95% confidence intervals. Each line is a benchmark. Note the non-monotone wiggles — those are real regressions, not noise.</figcaption>
+                <figcaption>Runtime evolution (normalized to -O0) with 95% confidence intervals. Each line is a benchmark. Note the non-monotone wiggles. Some are noise, but the significant ones are real regressions.</figcaption>
             </figure>
 
             <p>
@@ -138,27 +148,28 @@
             </figure>
 
             <p>
-                Decomposing the trajectory into per-pass deltas reveals a clear 80/20 structure: a handful of passes dominate, and the long tail is essentially noise. <code>early-cse</code>, <code>licm</code>, <code>instcombine</code>, <code>loop-vectorize</code>, and <code>loop-unroll</code> carry most of the weight, while the bottom half of the pipeline is statistically indistinguishable from doing nothing.
+                Decomposing the trajectory into per-pass deltas reveals a clear 80/20 structure. Most transitions are inert: only 32.6% change the IR and 28.2% change the binary, and 58 of the 112 pass positions never change the IR of any kernel.
+                Measured as relative change per pass, 14 positions (12.4%) account for 80% of the total impact. <code>loop-vectorize</code>, <code>licm</code>, <code>loop-rotate</code>, <code>loop-unroll</code>, <code>instcombine</code>, <code>early-cse</code>, and <code>sroa</code> carry most of the weight.
             </p>
 
             <figure class="paper-figure">
-                <img src="images/llvm-pipeline-waterfall_combined_median.png" alt="Marginal-utility waterfall plot"/>
-                <figcaption>Marginal utility of each pass (ΔT<sub>i</sub> = time before minus time after). Most lines hug zero; the real action concentrates in two bursts around passes 8–18 and 41–48.</figcaption>
+                <img style="max-width: 600px" src="images/llvm-pipeline-rel_delta_waterfall.png" alt="Relative runtime change of every transition"/>
+                <figcaption>Relative runtime change r<sub>i</sub> of every transition (above zero is slower). Grey dots are not significant, colored markers are significant changes. The action concentrates in three bursts: passes 8–18, 41–48, and 87–95.</figcaption>
             </figure>
 
             <p>
-                Aggregating those deltas across all benchmarks gives a clean cross-benchmark ranking of who actually did the work:
+                Aggregating those deltas across all benchmarks gives a cross-benchmark ranking of who actually did the work. Using relative instead of absolute deltas barely changes it (Spearman 0.79, 9 of the top 10 in common), so the ranking is not driven by the long-running kernels:
             </p>
 
             <figure class="paper-figure">
-                <img src="images/llvm-pipeline-fig19u_pass_impact_ranking_mean_median.png" alt="Top-20 pass impact ranking"/>
-                <figcaption>Top-20 passes ranked by mean absolute marginal impact. The top decile carries the majority of the total speedup. <code>early-cse</code> takes the crown (27/30 benchmarks).</figcaption>
+                <img style="max-width: 600px" src="images/llvm-pipeline-rel_pass_ranking.png" alt="Top-20 pass positions by relative impact"/>
+                <figcaption>Top-20 pass positions by mean relative impact, with their rank under the absolute measure and the number of kernels where they are significant. <code>sroa</code> and <code>early-cse</code> are the most universal (24/30), <code>gvn</code> is program-specific (7/30).</figcaption>
             </figure>
 
             <h2>Finding 2 — speed, compile time, and binary size trade-offs</h2>
 
             <p>
-                Runtime improvements don't come for free. Compile time grows near-monotonically, while binary size is non-monotone: early passes shrink it via dead-code elimination, late inlining and unrolling inflate it. The result is that the final <code>-O3</code> endpoint is <strong>Pareto-dominated</strong> in 29/30 benchmarks — there's an earlier pipeline checkpoint that is simultaneously smaller <em>and</em> faster. Also, static IR instruction count turns out to be a poor proxy for runtime: 27/30 benchmarks show a <em>negative</em> correlation between IR size and execution time, since passes like unrolling and vectorization expand the IR while reducing runtime.
+                Runtime improvements don't come for free. Compile time grows near-monotonically, while binary size is non-monotone: early passes shrink it via dead-code elimination, late inlining and unrolling inflate it. In 29 of 30 benchmarks an earlier prefix is nominally faster than the final <code>-O3</code> binary at no larger size, but the margin is thin: it is significant in 24, with a median gain of 0.8%, and above 1% in only 10. A prefix that is strictly <em>smaller and faster</em> exists for just four kernels: <code>correlation</code> (+6.5%), <code>covariance</code> (+5.1%), <code>seidel-2d</code> (+3.1%), and <code>symm</code> (+2.5%). Also, static IR instruction count turns out to be a poor proxy for runtime: 27/30 benchmarks show a <em>negative</em> correlation between IR size and execution time, since passes like unrolling and vectorization expand the IR while reducing runtime.
             </p>
 
             <figure class="paper-figure">
@@ -172,7 +183,7 @@
 
             <figure class="paper-figure">
                 <img src="images/llvm-pipeline-figP1_pareto_two.png" alt="Pareto fronts for compile time vs speedup and binary size vs speedup"/>
-                <figcaption>Pareto views of the trade-off space. Each dot is a pipeline prefix aggregated across benchmarks. In 29/30 cases, the full -O3 endpoint (rightmost dot) is dominated on the binary-size/speedup frontier.</figcaption>
+                <figcaption>Pareto views of the trade-off space. Each dot is a pipeline prefix aggregated across benchmarks. The full -O3 endpoint is nominally dominated in 29/30 cases, but by more than 1% in only 10.</figcaption>
             </figure>
 
             <h2>Finding 3 — vectorization saves energy (not just time)</h2>
@@ -202,12 +213,24 @@
             </p>
 
             <figure class="paper-figure">
-                <img src="images/llvm-pipeline-potential_loss_phase_interference_left.png" alt="Phase interference loss L per benchmark"/>
-                <figcaption>Phase-interference loss L per benchmark. Mean 46.35%, median 39.3%. On <code>correlation</code> (L=100%), -O3 ends up slower than -O0.</figcaption>
+                <img style="max-width: 600px" src="images/llvm-pipeline-L_decomposition.png" alt="Loss L per benchmark split into persistent, transient, and noise components"/>
+                <figcaption>Loss L per benchmark, split into persistent loss, transient dips recovered within three passes, and noise floor. Mean 46.35%, median 39.3%.</figcaption>
             </figure>
 
             <p>
-                The mean loss is <strong>46.35%</strong> (median 39.3%). The ceiling is unreachable — passes don't compose additively — but the number gives a concrete sense of how much intra-pipeline interference costs. On <code>correlation</code> (L=100%), <code>licm</code> at pass 41 drops performance by 26%, and the very next pass (<code>loop-rotate</code>) recovers most of it — the pipeline self-corrects in situ, but not fully. As far as we know, this is the first search-free, per-pass quantification of phase-interference loss in a production compiler's default pipeline.
+                The mean loss is <strong>46.35%</strong> (median 39.3%). This is an upper bound, since passes don't compose additively, and most of it is not really lost:
+            </p>
+
+            <ul>
+                <li><strong>9.7 points are noise.</strong> They disappear when we ignore the transitions whose binary is byte-identical.</li>
+                <li><strong>15.3 points are transient dips</strong> that a later pass repairs within three passes. On <code>correlation</code>, <code>licm</code> at pass 41 lowers the speedup over -O0 by 0.26, and the very next pass (<code>loop-rotate</code>) gives back 0.18 of it: the pipeline self-corrects in situ, but not fully.</li>
+                <li><strong>Only 21.3 points persist</strong> to the end of the pipeline.</li>
+            </ul>
+
+            <p>
+                The persistent part is largest on <code>seidel-2d</code>, <code>symm</code>, <code>covariance</code>, and <code>correlation</code>, the same four kernels where a strictly smaller and faster prefix exists.
+                It is also concentrated: the first <code>instcombine</code> (pass 16) causes 29.9% of it, <code>gvn</code> (pass 55) 18.5%, and the first <code>licm</code> (pass 41) 8.8%. These are the same canonicalization passes that deliver most of the speedup.
+                As far as we know, this is the first search-free, per-pass quantification of this loss in a production compiler's default pipeline.
             </p>
 
             <h2>So what?</h2>
@@ -217,9 +240,11 @@
             </p>
 
             <ul>
-                <li><strong>Pass pruning:</strong> if you're building a constrained compiler (embedded, compile-time budget), a study to find a systematic way to drop the bottom half of the passes is in order.</li>
+                <li><strong>Pass pruning and autotuning:</strong> 58 of 112 positions never touch the IR, and 71.8% of prefixes produce the same binary as the previous one. An autotuner can hash the IR or the binary to skip redundant measurements. Pruning still needs end-to-end checks, since a pass that does nothing in the default order may matter in another.</li>
                 <li><strong>Cost models:</strong> IR instruction count is a poor proxy for runtime. 27/30 benchmarks show a <em>negative</em> correlation between IR size and execution time — more IR often means faster code (unrolling, vectorization).</li>
-                <li><strong>Autotuning:</strong> the per-pass data gives a dense supervision signal for learned phase ordering, without needing to search over orderings.</li>
+                <li><strong>Phase ordering:</strong> the persistent loss sits in three positions. A repair search that only touches those positions explores a far smaller space than full reordering.</li>
+                <li><strong>Stopping early:</strong> truncating <code>-O3</code> is not a general win. It pays off (2.5–6.5%) only on the four kernels with large persistent loss, so it is a per-program tuning knob, not a default.</li>
+                <li><strong>Measuring passes:</strong> calibrate significance on a null. Here <em>p</em> &lt; 0.05 alone flags a quarter of the transitions whose binary did not change at all.</li>
                 <li><strong>Energy:</strong> if you're optimizing for power (mobile, HPC), just optimize for runtime — at least for compute-bound workloads, the two objectives align tightly.</li>
             </ul>
 
