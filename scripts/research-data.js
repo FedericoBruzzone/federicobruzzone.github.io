@@ -1518,6 +1518,18 @@ var RESEARCH_DATA = {
 
   openSourceContributions: [
     {
+      title: "[mlir][tensor] Verify that `tensor.pad` padding is non-negative",
+      url: "https://github.com/llvm/llvm-project/pull/231389",
+      date: "2026/10/23",
+      project: "llvm-project"
+    },
+    {
+      title: "[mlir][Vector] Fold chains of `vector.extract` with dynamic positions",
+      url: "https://github.com/llvm/llvm-project/pull/228686",
+      date: "2026/10/23",
+      project: "llvm-project"
+    },
+    {
       title: "[mlir][tosa] Emit a runtime assertion when lowering `tosa.pad` with negative padding",
       url: "https://github.com/llvm/llvm-project/pull/232221",
       date: "2026/10/23",
