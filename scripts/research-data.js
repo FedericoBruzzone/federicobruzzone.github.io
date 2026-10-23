@@ -1518,6 +1518,12 @@ var RESEARCH_DATA = {
 
   openSourceContributions: [
     {
+      title: "[mlir][tosa] Emit a runtime assertion when lowering `tosa.pad` with negative padding",
+      url: "https://github.com/llvm/llvm-project/pull/232221",
+      date: "2026/10/23",
+      project: "llvm-project"
+    },
+    {
       title: "Add a `$canonicalize` directive backed by CIR's own cleanup passes",
       url: "https://github.com/PGL-SMR/Source-Matching-and-Rewriting/pull/11",
       date: "2026/10/21",
