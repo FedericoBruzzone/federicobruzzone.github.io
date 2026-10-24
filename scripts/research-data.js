@@ -1523,6 +1523,15 @@ var RESEARCH_DATA = {
     }
   ],
 
+  openSourceSummary: [
+    { name: "MLIR/LLVM", repo: "llvm/llvm-project", project: "llvm-project", years: "2024\u2013present", prs: 47, merged: 36, reviews: 136, issues: 8 },
+    { name: "IREE", repo: "iree-org/iree", project: "iree", years: "2026\u2013present", prs: 6, merged: 5, reviews: 7, issues: 8 },
+    { name: "Source Matching and Rewriting", repo: "PGL-SMR/Source-Matching-and-Rewriting", project: "source-matching", years: "2026\u2013present", prs: 11, merged: 11, reviews: 1, issues: 0 },
+    { name: "LLVM Lighthouse", repo: "llvm/lighthouse", project: "lighthouse", years: "2026", prs: 2, merged: 1, reviews: 0, issues: 0 },
+    { name: "Rust", repo: "rust-lang/rust", project: "rustc", years: "2024\u20132025", prs: 4, merged: 2, reviews: 2, issues: 1 },
+    { name: "rustworkx", repo: "Qiskit/rustworkx", project: "rustworkx", years: "2025", prs: 1, merged: 1, reviews: 0, issues: 1 }
+  ],
+
   openSourceContributions: [
     {
       title: "[mlir][tensor] Verify that `tensor.pad` padding is non-negative",

@@ -10,8 +10,41 @@
     "source-matching": "project-red"
   };
 
+  renderSummary(D.openSourceSummary);
   renderContainer("oss-contributions-container", renderSimpleItem, D.openSourceContributions);
   renderContainer("personal-projects-container", renderPersonalProject, D.personalProjects);
+
+  function renderSummary(rows) {
+    var el = document.getElementById("oss-summary-container");
+    if (!el || !rows || !rows.length) return;
+
+    function countLink(n, label, href) {
+      if (!n) return "&ndash;";
+      return '<a href="' + href + '">' + n + " " + label + "</a>";
+    }
+
+    var html =
+      '<table class="post-table">\n' +
+      "  <thead><tr><th>Project</th><th>Pull requests</th><th>Reviews</th><th>Issues</th><th>Years</th></tr></thead>\n" +
+      "  <tbody>\n";
+    for (var i = 0; i < rows.length; i++) {
+      var r = rows[i];
+      var base = "https://github.com/" + r.repo;
+      var cls = "project-badge " + (PROJECT_BADGES[r.project] || "project-gray");
+      var prs = countLink(r.prs, "PRs", base + "/pulls?q=is:pr+author:FedericoBruzzone");
+      if (r.prs && r.merged !== r.prs) prs += " (" + r.merged + " merged)";
+      html +=
+        "    <tr>" +
+        '<td><a href="' + base + '" style="text-decoration:none;"><span class="' + cls + '">' + r.name + "</span></a></td>" +
+        "<td>" + prs + "</td>" +
+        "<td>" + countLink(r.reviews, "reviews", base + "/pulls?q=is:pr+reviewed-by:FedericoBruzzone+-author:FedericoBruzzone") + "</td>" +
+        "<td>" + countLink(r.issues, "issues", base + "/issues?q=is:issue+author:FedericoBruzzone") + "</td>" +
+        "<td>" + r.years + "</td>" +
+        "</tr>\n";
+    }
+    html += "  </tbody>\n</table>\n";
+    el.innerHTML = html;
+  }
 
   function renderContainer(id, renderFn, items, extra) {
     var el = document.getElementById(id);

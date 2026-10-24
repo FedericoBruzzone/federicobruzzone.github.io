@@ -44,7 +44,8 @@
 \begin{minipage}{0.7\textwidth}
 \centering
 Presently a PhD Candidate in Computer Science.
-I have a strong passion for \textbf{Programming Languages} and \textbf{Compilers}, and I'm currently diving into \textbf{AI compilers}.
+I have a strong passion for (AI) \textbf{Compilers} and \textbf{Programming Languages}.
+I'm an active contributor to the \textbf{MLIR}, \textbf{LLVM}, and \textbf{IREE} ecosystems, with a strong interest in Rust.
 For more information, just visit my personal \href{https://federicobruzzone.github.io}{\textbf{webpage}}.
 \end{minipage}
 \end{center}
@@ -135,109 +136,17 @@ For more information, just visit my personal \href{https://federicobruzzone.gith
 % ====================================
 \scribesection{Open Source Contributions}
 
-\scribeentry{2026}{MLIR/LLVM: \href{https://github.com/llvm/llvm-project/pull/231389}{[mlir][tensor] Verify that \texttt{tensor.pad} padding is non-negative}}{}
+\scribeentry{2024--Present}{\textbf{\href{https://github.com/llvm/llvm-project}{MLIR/LLVM}}: \href{https://github.com/llvm/llvm-project/pulls?q=is:pr+author:FedericoBruzzone}{47 PRs} (36 merged), \href{https://github.com/llvm/llvm-project/pulls?q=is:pr+reviewed-by:FedericoBruzzone+-author:FedericoBruzzone}{136 reviews}, \href{https://github.com/llvm/llvm-project/issues?q=is:issue+author:FedericoBruzzone}{8 issues}}{}
 
-\scribeentry{2026}{MLIR/LLVM: \href{https://github.com/llvm/llvm-project/pull/228686}{[mlir][Vector] Fold chains of \texttt{vector.extract} with dynamic positions}}{}
+\scribeentry{2026--Present}{\textbf{\href{https://github.com/iree-org/iree}{IREE}}: \href{https://github.com/iree-org/iree/pulls?q=is:pr+author:FedericoBruzzone}{6 PRs} (5 merged), \href{https://github.com/iree-org/iree/pulls?q=is:pr+reviewed-by:FedericoBruzzone+-author:FedericoBruzzone}{7 reviews}, \href{https://github.com/iree-org/iree/issues?q=is:issue+author:FedericoBruzzone}{8 issues}}{}
 
-\scribeentry{2026}{MLIR/LLVM: \href{https://github.com/llvm/llvm-project/pull/232221}{[mlir][tosa] Emit a runtime assertion when lowering \texttt{tosa.pad} with negative padding}}{}
+\scribeentry{2026--Present}{\textbf{\href{https://github.com/PGL-SMR/Source-Matching-and-Rewriting}{Source Matching and Rewriting}}: \href{https://github.com/PGL-SMR/Source-Matching-and-Rewriting/pulls?q=is:pr+author:FedericoBruzzone}{11 PRs}, \href{https://github.com/PGL-SMR/Source-Matching-and-Rewriting/pulls?q=is:pr+reviewed-by:FedericoBruzzone+-author:FedericoBruzzone}{1 review}}{}
 
-\scribeentry{2026}{Source Matching and Rewriting: \href{https://github.com/PGL-SMR/Source-Matching-and-Rewriting/pull/11}{Add a \texttt{\$canonicalize} directive backed by CIR's own cleanup passes}}{}
+\scribeentry{2026}{\textbf{\href{https://github.com/llvm/lighthouse}{LLVM Lighthouse}}: \href{https://github.com/llvm/lighthouse/pulls?q=is:pr+author:FedericoBruzzone}{2 PRs} (1 merged)}{}
 
-\scribeentry{2026}{MLIR/LLVM: \href{https://github.com/llvm/llvm-project/pull/233445}{[mlir][ArmSME] Mark integration tests unsupported under ASan on Darwin}}{}
+\scribeentry{2024--2025}{\textbf{\href{https://github.com/rust-lang/rust}{Rust}}: \href{https://github.com/rust-lang/rust/pulls?q=is:pr+author:FedericoBruzzone}{4 PRs} (2 merged), \href{https://github.com/rust-lang/rust/pulls?q=is:pr+reviewed-by:FedericoBruzzone+-author:FedericoBruzzone}{2 reviews}, \href{https://github.com/rust-lang/rust/issues?q=is:issue+author:FedericoBruzzone}{1 issue}}{}
 
-\scribeentry{2026}{MLIR/LLVM: \href{https://github.com/llvm/llvm-project/pull/233435}{[mlir][linalg] Fix memory leak in \texttt{vectorize-insert-slice-rank-reducing} test}}{}
-
-\scribeentry{2026}{Source Matching and Rewriting: \href{https://github.com/PGL-SMR/Source-Matching-and-Rewriting/pull/6}{Register \texttt{artifacts} as a submodule}}{}
-
-\scribeentry{2026}{Source Matching and Rewriting: \href{https://github.com/PGL-SMR/Source-Matching-and-Rewriting/pull/7}{Add a script to build SMR inside the dev image}}{}
-
-\scribeentry{2026}{Source Matching and Rewriting: \href{https://github.com/PGL-SMR/Source-Matching-and-Rewriting/pull/8}{Add \texttt{lit} tests and a \texttt{check-smr} target}}{}
-
-\scribeentry{2026}{Source Matching and Rewriting: \href{https://github.com/PGL-SMR/Source-Matching-and-Rewriting/pull/9}{Add a regression script over the artifacts cases}}{}
-
-\scribeentry{2026}{MLIR/LLVM: \href{https://github.com/llvm/llvm-project/pull/230458}{[mlir][vector] Document dimension kinds in \texttt{vector.contract} (NFC)}}{}
-
-\scribeentry{2026}{MLIR/LLVM: \href{https://github.com/llvm/llvm-project/pull/225063}{[mlir][ArmNeon] Add pack/mmt4d path to f32 \texttt{linalg.matmul} integration test}}{}
-
-\scribeentry{2026}{Source Matching and Rewriting: \href{https://github.com/PGL-SMR/Source-Matching-and-Rewriting/pull/3}{Log the triggering conflict when Selector removes a rewrite}}{}
-
-\scribeentry{2026}{Source Matching and Rewriting: \href{https://github.com/PGL-SMR/Source-Matching-and-Rewriting/pull/4}{Visit CDG candidates in IR order instead of pointer order}}{}
-
-\scribeentry{2026}{Source Matching and Rewriting: \href{https://github.com/PGL-SMR/Source-Matching-and-Rewriting/pull/5}{Pick the replacement wrapper by the pattern's signature}}{}
-
-\scribeentry{2026}{MLIR/LLVM: \href{https://github.com/llvm/llvm-project/pull/229096}{[mlir][ArmSME] Make tile allocation order deterministic}}{}
-
-\scribeentry{2026}{MLIR/LLVM: \href{https://github.com/llvm/llvm-project/pull/227153}{[mlir][ArmSME] Skip tile allocation for functions with no SME tile ops}}{}
-
-\scribeentry{2026}{MLIR/LLVM: \href{https://github.com/llvm/llvm-project/pull/227140}{[mlir][ArmSME][NFC] Improving the readability of outer product fusion}}{}
-
-\scribeentry{2026}{Source Matching and Rewriting: \href{https://github.com/PGL-SMR/Source-Matching-and-Rewriting/pull/2}{Reject overlapping matches instead of silently discarding one}}{}
-
-\scribeentry{2026}{MLIR/LLVM: \href{https://github.com/llvm/llvm-project/pull/225773}{[mlir][linalg] Document and diagnose pack/unpack memref limits}}{}
-
-\scribeentry{2026}{MLIR/LLVM: \href{https://github.com/llvm/llvm-project/pull/227872}{[mlir][ArmNeon] \texttt{matmul-i8.mlir} to \texttt{pack-unpack-mmt4d-i8.mlir} + box comments (NFC)}}{}
-
-\scribeentry{2026}{Source Matching and Rewriting: \href{https://github.com/PGL-SMR/Source-Matching-and-Rewriting/pull/1}{Add \texttt{.devcontainer/} to \texttt{.gitignore}}}{}
-
-\scribeentry{2026}{MLIR/LLVM: \href{https://github.com/llvm/llvm-project/pull/221694}{[TailRecElim] Handle discarded-call return conflicts with a shift accumulator}}{}
-
-\scribeentry{2026}{MLIR/LLVM: \href{https://github.com/llvm/llvm-project/pull/206380}{[mlir][LowerToLLVM] Pass \texttt{DataLayoutAnalysis} to \texttt{LowerToLLVMOptions} in \texttt{ArithToLLVM}, \texttt{ControlFlowToLLVM}, and \texttt{VectorToLLVM} passes}}{}
-
-\scribeentry{2026}{MLIR/LLVM: \href{https://github.com/llvm/llvm-project/pull/223986}{[mlir][bufferization] Fix 32-bit overflow in \texttt{PromoteBuffersToStack} threshold check}}{}
-
-\scribeentry{2026}{LLVM Lighthouse: \href{https://github.com/llvm/lighthouse/pull/267}{Fix failed tests on Darwin}}{}
-
-\scribeentry{2026}{MLIR/LLVM: \href{https://github.com/llvm/llvm-project/pull/221966}{[mlir][linalg] Add \texttt{insert\_slice} vectorization tests for leading/trailing dropped dims}}{}
-
-\scribeentry{2026}{MLIR/LLVM: \href{https://github.com/llvm/llvm-project/pull/219192}{[mlir][linalg] Support non-trailing dropped dims when vectorizing rank-reducing \texttt{InsertSliceOp}}}{}
-
-\scribeentry{2026}{MLIR/LLVM: \href{https://github.com/llvm/llvm-project/pull/218238}{[mlir][SCF] Skip dynamic front-peeling for non-index loops}}{}
-
-\scribeentry{2026}{MLIR/LLVM: \href{https://github.com/llvm/llvm-project/pull/216098}{[mlir][ArmNeon] Enable native I8MM integration testing on Darwin}}{}
-
-\scribeentry{2026}{MLIR/LLVM: \href{https://github.com/llvm/llvm-project/pull/216485}{[mlir][vector] Verify non-unit strides on \texttt{masked/expand/compress} ops}}{}
-
-\scribeentry{2026}{MLIR/LLVM: \href{https://github.com/llvm/llvm-project/pull/215296}{[mlir][ArmSME] Enable native ArmSME integration testing on Darwin}}{}
-
-\scribeentry{2026}{MLIR/LLVM: \href{https://github.com/llvm/llvm-project/pull/214959}{[mlir][ArmSME] Reject non-unit-stride \texttt{tile\_load/tile\_store} memrefs and pass \texttt{layout\{IdentityLayoutMap\}} to matmul tests}}{}
-
-\scribeentry{2026}{MLIR/LLVM: \href{https://github.com/llvm/llvm-project/pull/212809}{[mlir][ArmNeon] Add \texttt{linalg.matmul} e2e tests}}{}
-
-\scribeentry{2026}{MLIR/LLVM: \href{https://github.com/llvm/llvm-project/pull/214503}{[TailRecElim] Fix miscompile of returns using a non-eliminated recursive call}}{}
-
-\scribeentry{2026}{MLIR/LLVM: \href{https://github.com/llvm/llvm-project/pull/210952}{[mlir][vector] Verify non-unit strides on \texttt{masked/expand/compress} ops} (\textbf{reverted} by \href{https://github.com/llvm/llvm-project/pull/215224}{\#215224})}{}
-
-\scribeentry{2026}{MLIR/LLVM: \href{https://github.com/llvm/llvm-project/pull/213698}{[mlir][ArmNeon] Reject masked contractions in \texttt{I8MM/BFMMLA} lowering patterns}}{}
-
-\scribeentry{2026}{MLIR/LLVM: \href{https://github.com/llvm/llvm-project/pull/181331}{[TailRecElim] Introduce support for shift accumulator optimization}}{}
-
-\scribeentry{2026}{IREE: \href{https://github.com/iree-org/iree/pull/24824}{[GlobalOpt][Flow][Quant] Fix segfault on unlowered \texttt{quant.uniform} types}}{}
-
-\scribeentry{2026}{IREE: \href{https://github.com/iree-org/iree/pull/24749}{[Codegen][LLVMCPU] Hoist in-loop stack alloca}}{}
-
-\scribeentry{2026}{IREE: \href{https://github.com/iree-org/iree/pull/24693}{[LLVMCPU] Fix scalable vectorization fallback on SME-only (no +sve) targets}}{}
-
-\scribeentry{2026}{MLIR/LLVM: \href{https://github.com/llvm/llvm-project/pull/211004}{[mlir][sparse] Avoid vectorizing non-contiguous COO coordinate loads}}{}
-
-\scribeentry{2026}{MLIR/LLVM: \href{https://github.com/llvm/llvm-project/pull/210502}{[mlir][ArmSVE] Fix comment inconsistency for \texttt{pack\_lhs} in \texttt{ArmSVE/pack-unpack-mmt4d.mlir} (NFC)}}{}
-
-\scribeentry{2026}{MLIR/LLVM: \href{https://github.com/llvm/llvm-project/pull/205869}{[mlir][vector] add consistent stride verification to masked load/store and gather/scatter ops}}{}
-
-\scribeentry{2026}{MLIR/LLVM: \href{https://github.com/llvm/llvm-project/pull/207947}{[mlir][ArmSME] fix f64 scalable matmul crashes in \texttt{VectorLegalizationPass}}}{}
-
-\scribeentry{2026}{IREE: \href{https://github.com/iree-org/iree/pull/24661}{[LLVMCPU] Fix ArmSME requiring classic SVE, breaking SME-only targets (e.g., Apple Silicon)}}{}
-
-\scribeentry{2026}{IREE: \href{https://github.com/iree-org/iree/pull/24656}{[LLVMCPU] Add SME lowering-strategy tests for f64 and unsupported i8 matmuls}}{}
-
-\scribeentry{2026}{MLIR/LLVM: \href{https://github.com/llvm/llvm-project/pull/202118}{[mlir][VectorToLLVM] add opt-in \texttt{enable-gep-inbounds-nuw} pass flag for \texttt{vector.load/store}}}{}
-
-\scribeentry{2026}{MLIR/LLVM: \href{https://github.com/llvm/llvm-project/pull/204309}{[mlir][MemRefToLLVM] fix incorrect \texttt{nuw} on \texttt{GEP/mul} when lowering \texttt{memref.load/store} with negative strides}}{}
-
-\scribeentry{2026}{MLIR/LLVM: \href{https://github.com/llvm/llvm-project/pull/203916}{[NFC][mlir][linalg] add \texttt{toContractionDimensions} for healthy code reuse}}{}
-
-\scribeentry{2026}{MLIR/LLVM: \href{https://github.com/llvm/llvm-project/pull/202766}{[mlir][vector] extend \texttt{createReadOrMaskedRead/createWriteOrMaskedWrite} with permutation map support}}{}
-
-\scribeentry{2026}{MLIR/LLVM: \href{https://github.com/llvm/llvm-project/pull/201180}{[mlir][affine] emit \texttt{in\_bounds} on \texttt{transfer\_read/write} when statically provable in \texttt{affine-super-vectorize}}}{}
+\scribeentry{2025}{\textbf{\href{https://github.com/Qiskit/rustworkx}{rustworkx}}: \href{https://github.com/Qiskit/rustworkx/pulls?q=is:pr+author:FedericoBruzzone}{1 PR}, \href{https://github.com/Qiskit/rustworkx/issues?q=is:issue+author:FedericoBruzzone}{1 issue}}{}
 
 \scribeentry{From 2026}{\href{https://github.com/FedericoBruzzone/eter}{The Eter Programming Language}, a new programming language leveraging the MLIR/IREE ecosystem with tensors support.}{}
 
@@ -250,14 +159,6 @@ For more information, just visit my personal \href{https://federicobruzzone.gith
 \scribeentry{From 2025}{Maintainer of \href{https://github.com/FedericoBruzzone/scribe}{scribe}, a minimalist, opinionated LaTeX document class for technical writing and presentations.}{}
 
 \scribeentry{From 2025}{Maintainer of the \href{https://github.com/FedericoBruzzone/tide}{Tide Compiler}, a backend-agnostic IR and compiler framework written in \textbf{Rust}.}{}
-
-\scribeentry{2025}{\href{https://github.com/Qiskit/rustworkx/pull/1385}{Generalizing Closeness centrality to weighted networks using Newman method} (issue \href{https://github.com/Qiskit/rustworkx/issues/1384}{\#1384})}{}
-
-\scribeentry{2025}{Rust: \href{https://github.com/rust-lang/rust/pull/136430}{Use the type-level constant value \texttt{ty::Value} where needed}}{}
-
-\scribeentry{2025}{Rust: \href{https://github.com/rust-lang/rust/pull/135158}{Add \texttt{TooGeneric} variant to \texttt{LayoutError} and emit \texttt{Unknown}}}{}
-
-\scribeentry{2024}{Rust: \href{https://github.com/rust-lang/rust/pull/130123}{Report the \texttt{note} when specified in \texttt{diagnostic::on\_unimplemented}}}{}
 
 \scribeentry{From 2024}{Maintainer of the cross-platform \href{https://github.com/FedericoBruzzone/tgt}{tgt} project and \href{https://github.com/FedericoBruzzone/tdlib-rs}{tdlib-rs} TDLib bindings written in \textbf{Rust}.}{}
 
@@ -368,13 +269,13 @@ For more information, just visit my personal \href{https://federicobruzzone.gith
 % ====================================
 % ======== Technical Skills ==========
 % ====================================
-\scribesection{Technical Skills}
+% \scribesection{Technical Skills}
 
-\scribeentry{Languages}{Rust, C/C++, Python, Go, OCaml, Java, Scala, Kotlin, Erlang, Lua, Dart, PHP, HTML/CSS, SQL, Bash, TeX}{}
+% \scribeentry{Languages}{Rust, C/C++, Python, Go, OCaml, Java, Scala, Kotlin, Erlang, Lua, Dart, PHP, HTML/CSS, SQL, Bash, TeX}{}
 
-\scribeentry{Systems/Tooling}{Git, CI/CD, Docker, GDB, Valgrind, Build Systems (e.g., CMake, Cargo, Pip), Cross-language Linking, Static/Dynamic Libraries, and FFI (e.g., C bindgen)}{}
+% \scribeentry{Systems/Tooling}{Git, CI/CD, Docker, GDB, Valgrind, Build Systems (e.g., CMake, Cargo, Pip), Cross-language Linking, Static/Dynamic Libraries, and FFI (e.g., C bindgen)}{}
 
-\scribeentry{Area of Expertise}{Compiler Construction and Optimizations, Programming Languages Design, IR Design and Implementation, Type Systems, Language Support Tools (e.g., LSP), Static Analysis, Rustc Internals, MLIR, LLVM, Parsing Techniques and Parser Generators (e.g., ANTLR)}{}
+% \scribeentry{Area of Expertise}{Compiler Construction and Optimizations, Programming Languages Design, IR Design and Implementation, Type Systems, Language Support Tools (e.g., LSP), Static Analysis, Rustc Internals, MLIR, LLVM, Parsing Techniques and Parser Generators (e.g., ANTLR)}{}
 
 % ====================================
 % ======== Musical Activities =========
