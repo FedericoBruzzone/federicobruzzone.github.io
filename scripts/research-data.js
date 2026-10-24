@@ -1524,7 +1524,7 @@ var RESEARCH_DATA = {
   ],
 
   openSourceSummary: [
-    { name: "MLIR/LLVM", repo: "llvm/llvm-project", project: "llvm-project", years: "2024\u2013present", prs: 47, merged: 36, reviews: 136, issues: 8 },
+    { name: "MLIR/LLVM", repo: "llvm/llvm-project", project: "llvm-project", years: "2024\u2013present", prs: 47, merged: 37, reviews: 136, issues: 8 },
     { name: "IREE", repo: "iree-org/iree", project: "iree", years: "2026\u2013present", prs: 6, merged: 5, reviews: 7, issues: 8 },
     { name: "Source Matching and Rewriting", repo: "PGL-SMR/Source-Matching-and-Rewriting", project: "source-matching", years: "2026\u2013present", prs: 11, merged: 11, reviews: 1, issues: 0 },
     { name: "LLVM Lighthouse", repo: "llvm/lighthouse", project: "lighthouse", years: "2026", prs: 2, merged: 1, reviews: 0, issues: 0 },
@@ -1533,6 +1533,12 @@ var RESEARCH_DATA = {
   ],
 
   openSourceContributions: [
+    {
+      title: "[mlir][linalg] Handle `DropPadUnitDims` when padding value is defined inside the pad body",
+      url: "https://github.com/llvm/llvm-project/pull/223712",
+      date: "2026/10/24",
+      project: "llvm-project"
+    },
     {
       title: "[mlir][tensor] Verify that `tensor.pad` padding is non-negative",
       url: "https://github.com/llvm/llvm-project/pull/231389",
