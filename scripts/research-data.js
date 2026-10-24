@@ -121,10 +121,16 @@ var RESEARCH_DATA = {
 
   researchActivities: [
     {
+      title: "Reviewer for COLA",
+      url: "",
+      desc: 'Reviewer for the <a href="https://www.sciencedirect.com/journal/journal-of-computer-languages">Journal of Computer Languages</a> (COLA).',
+      date: "2026/10"
+    },
+    {
       title: "Committee Member at SLE 2026",
       url: "https://conf.researchr.org/home/sle-2026",
       desc: 'Artifact Evaluation Committee member at the 19th ACM SIGPLAN International Conference on Software Language Engineering (SLE 2026). <a href="https://conf.researchr.org/profile/sle-2026/federicobruzzone">Details.</a>',
-      date: "2025/05"
+      date: "2026/05"
     },
     {
       title: "Reviewer for ECOOP 2026",
@@ -264,6 +270,7 @@ var RESEARCH_DATA = {
       { when: "2025/02/24", name: "L. Favini", title: "RustyEx: Instrumenting `rustc` to Extract Feature Dependency Graphs", where: "BSc", score: "102" }
     ],
     graduateCourses: [
+      { when: "2026-2027", what: "Mathematical Logic (Art. 45)", details: ["BSc in Computer Science, University of Milan \u2014 S. Aguzzoli"] },
       { when: "2025-2026", what: "Mathematical Logic (Art. 45)", details: ["BSc in Computer Science, University of Milan \u2014 S. Aguzzoli"] },
       { when: "2024-2025", what: "Programming 1 (Art. 45)", details: ["BSc in Computer Science, University of Milan \u2014 L. Capra (coordinator W. Cazzola)"] },
       { when: "2024-2025", what: "Mathematical Logic (Art. 45)", details: ["BSc in Computer Science, University of Milan \u2014 S. Aguzzoli"] },
