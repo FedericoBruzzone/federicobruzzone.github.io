@@ -80,6 +80,14 @@
       <description><![CDATA[Conference Ranked B on CORE &middot; Workshop paper (poster) at PNAS'26 &middot; <a href="https://ceur-ws.org/Vol-4236/">CEUR-WS.org</a>]]></description>
     </item>
     <item>
+      <title>See You at the 2026 US LLVM Developers&apos; Meeting</title>
+      <link>https://federicobruzzone.github.io/posts/see-you-at-the-2026-us-llvm-developers-meeting.html</link>
+      <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-10-24:posts/see-you-at-the-2026-us-llvm-developers-meeting</guid>
+      <category>Post</category>
+      <pubDate>Sat, 24 Oct 2026 00:00:00 GMT</pubDate>
+      <description><![CDATA[My first LLVM Dev Meeting (October 26-28, Santa Clara). I will present a poster on the per-pass empirical study of the LLVM optimization pipeline, look forward to participating in the MLIR round table, and will attend part of the MLIR Meetup. Come say hi!]]></description>
+    </item>
+    <item>
       <title>Inside a linalg.matmul: A Deep Dive into IREE&apos;s Compilation Pipeline</title>
       <link>https://federicobruzzone.github.io/posts/inside-a-linalg-matmul-a-deep-dive-into-IREEs-compilation-pipeline.html</link>
       <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-10-07:posts/inside-a-linalg-matmul-a-deep-dive-into-iree-s-compilation-pipeline</guid>
