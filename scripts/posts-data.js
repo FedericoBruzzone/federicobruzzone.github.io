@@ -1,5 +1,16 @@
 var POSTS_DATA = [
   {
+    url: "posts/see-you-at-the-2026-us-llvm-developers-meeting.html",
+    title: "See You at the 2026 US LLVM Developers' Meeting",
+    desc: "My first LLVM Dev Meeting (October 26-28, Santa Clara). I will present a poster on the per-pass empirical study of the LLVM optimization pipeline, look forward to participating in the MLIR round table, and will attend part of the MLIR Meetup. Come say hi!",
+    date: "2026-10-24",
+    dateDisplay: "24 October, 2026",
+    readTime: "~2 min",
+    titlePrefix: '<img src="posts/images/MLIR.png" alt="MLIR logo" width="17px"/> <img src="posts/images/LLVM.png" alt="LLVM logo" width="17px"/>',
+    series: null,
+    showOnIndex: true
+  },
+  {
     url: "posts/inside-a-linalg-matmul-a-deep-dive-into-IREEs-compilation-pipeline.html",
     title: "Inside a <code>linalg.matmul</code>: A Deep Dive into IREE's Compilation Pipeline",
     desc: "A step-by-step walk through the IREE compilation pipeline for a 500x500 f32 matmul on Apple M4: from linalg.matmul to dispatch regions, data tiling, vectorization, LLVM, an ELF library and the virtual machine module, following the real IR dump pass by pass.",

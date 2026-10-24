@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../prism.css">
+    <link rel="stylesheet" href="../code.css">
+
+    <script src="../scripts/prism.js" defer></script>
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- RSS feed -->
+    <link rel="alternate" type="application/rss+xml" title="Federico Bruzzone — Feed" href="/feed.xml">
+
+    <title>See You at the 2026 US LLVM Developers' Meeting</title>
+</head>
+
+
+<body>
+    <div id="root-folder" value=".."></div>
+    <div id="header"></div>
+
+    <main>
+        <h1><img src="images/MLIR.png" alt="MLIR logo" width="20px"/> <img src="images/LLVM.png" alt="LLVM logo" width="20px"/> See You at the 2026 US LLVM Developers' Meeting</h1>
+
+        <p>
+        Next week I will be at the <a href="https://llvm.org/devmtg/2026-10/">2026 US LLVM Developers' Meeting</a>
+        (October 26&ndash;28, Santa Clara, CA). It is my first time there, and I am really looking forward to finally
+        meeting in person many of the people I have been talking to on Discourse, Discord, and in code reviews.
+        </p>
+
+        <p>
+        <b>The poster.</b>
+        I will present a poster on
+        <a href="a-multi-dimensional-per-pass-empirical-study-of-the-llvm-optimization-pipeline.html"><em>A Multi-Dimensional, Per-Pass Empirical Study of the LLVM Optimization Pipeline</em></a>
+        (<a href="https://arxiv.org/abs/2606.31238">arXiv</a>).
+        In short, we ran every cumulative prefix of the <code class="language-none">-O3</code> pipeline on 30 PolyBench/C
+        kernels and looked at runtime, binary size, hardware counters, and energy, pass by pass.
+        The pipeline turns out to be non-monotone and back-loaded, and most of the speedup comes from a small core of passes.
+        If you work on the pass pipeline, on performance tracking, or you simply disagree with the methodology,
+        please come by. I would love to hear your feedback.
+        </p>
+
+        <p>
+        <b>MLIR round table.</b>
+        I am also looking forward to participating in the MLIR round table. Most of my day-to-day work is on MLIR
+        (see for example <a href="inside-a-linalg-matmul-a-deep-dive-into-IREEs-compilation-pipeline.html">this deep dive into a <code class="language-none">linalg.matmul</code></a>
+        and <a href="the-llvm-essence-of-lowering-mlir-to-aarch64-with-sme-support.html">this post on lowering MLIR to AArch64 with SME</a>),
+        so I am happy to chat about linalg, vectorization, and code generation for CPUs.
+        </p>
+
+        <p>
+        <b>MLIR Meetup.</b>
+        On Thursday, October 29, right after the conference, I will also attend the first half of the morning of the
+        <a href="https://discourse.llvm.org/t/cfp-mlir-meetup-2026/91967">MLIR Meetup 2026</a>
+        at the Intel Customer Experience Center in Santa Clara.
+        </p>
+
+        <p>
+        <b>Thanks.</b>
+        This trip would not have happened without a few people.
+        A big thank you to <b>Andrzej</b> (<a href="https://github.com/banach-space">GitHub</a>, <a href="https://www.linkedin.com/in/andrzejw/">LinkedIn</a>)
+        for the mentorship, and to both <b>Ege</b> (<a href="https://github.com/egebeysel">GitHub</a>, <a href="https://www.linkedin.com/in/ege-beysel-a61133201/">LinkedIn</a>)
+        and Andrzej for the support.
+        Thanks also to the <a href="https://foundation.llvm.org/">LLVM Foundation</a> for fully funding my participation,
+        and in particular to <b>Tanya</b> and everyone working with her for all the effort behind the scenes to make it possible.
+        </p>
+
+        <p>
+        <b>Get in touch.</b>
+        If you are around and want to talk, just stop me in the hallway, or reach out beforehand on
+        <a href="https://discourse.llvm.org/u/federicobruzzone/summary">LLVM Discourse</a>,
+        by <a href="mailto:federico.bruzzone.i@gmail.com">email</a>,
+        on <a href="https://x.com/fedebruzzone7">X</a>,
+        <a href="https://www.linkedin.com/in/federico-bruzzone/">LinkedIn</a>, or
+        <a href="https://t.me/federicobruzzone">Telegram</a>.
+        </p>
+
+        <p>
+        See you in Santa Clara!
+        </p>
+    </main>
+
+    <div id="footer"></div>
+    <script src="../scripts/toggle-theme.js"></script>
+    <script src="../scripts/load-header.js"></script>
+    <script src="../scripts/load-footer.js"></script>
+    <script src="../scripts/load-cits.js"></script>
+    <script src="../scripts/load-bib.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.2/p5.js"></script>
+</body>
+
+</html>
