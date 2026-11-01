@@ -15,12 +15,9 @@
 % =====================================
 % ========== Class options ============
 % =====================================
-\newif\if@scribesectionfill
-\@scribesectionfillfalse
 \newif\if@scribeheader
 \@scribeheaderfalse
 
-\DeclareOption{sectionfill}{\@scribesectionfilltrue}
 \DeclareOption{header}{\@scribeheadertrue}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
 \ProcessOptions\relax
@@ -156,6 +153,7 @@
 % ========== Patches =========
 % ===========================
 \RequirePackage{etoolbox}
+\RequirePackage{needspace}
 
 % ===========================
 % ========== Commands ========
@@ -247,34 +245,39 @@
 	\vskip2pt
 }
 
-% --- Section heading ---
-\newsavebox{\scribesectionbox}
+% --- Section heading: accent small caps over a thin rule ---
 \newcommand{\scribesection}[1]{%
-	\vspace{8pt}
-	\if@scribesectionfill
-		% Fill style: NOME ---- ✧ ---- (fills to end)
-		\noindent
-		{\large\scshape #1}\enspace
-		\leaders\hbox{\hss\rule[0.75ex]{0.8em}{0.5pt}\hss}\hfill
-		\enspace\ding{71}\enspace
-		\leaders\hbox{\hss\rule[0.75ex]{0.8em}{0.5pt}\hss}\hfill
-		\hspace{0pt}%
-	\else
-		% Default: --- ✧ --- NOME --- ✧ ---
-		\noindent
-		\leaders\hbox{\hss\rule[0.75ex]{0.6em}{0.5pt}\hss}\hfill
-		\enspace\ding{71}\enspace
-		\leaders\hbox{\hss\rule[0.75ex]{0.6em}{0.5pt}\hss}\hfill
-		\enspace
-		{\large\scshape\bfseries #1}%
-		\enspace
-		\leaders\hbox{\hss\rule[0.75ex]{0.6em}{0.5pt}\hss}\hfill
-		\enspace\ding{71}\enspace
-		\leaders\hbox{\hss\rule[0.75ex]{0.6em}{0.5pt}\hss}\hfill
-		\hspace{0pt}%
-	\fi
-	\par\vspace{4pt}
+	\par\Needspace{6\baselineskip}%
+	\vspace{10pt}%
+	\noindent{\large\scshape\bfseries\color{MidnightBlue}#1}\par
+	\vspace{-3pt}%
+	\noindent{\color{MidnightBlue!60}\rule{\textwidth}{0.5pt}}\par
+	\vspace{5pt}%
 }
+
+% --- Subsection heading ---
+\newcommand{\scribesubsection}[1]{%
+	\par\Needspace{4\baselineskip}%
+	\vspace{4pt}%
+	\noindent{\scshape\bfseries\color{black!70}#1}\par
+	\vspace{4pt}%
+}
+
+% --- Badge: \scribetag{color}{text} ---
+\newtcbox{\scribetag}[1]{%
+	on line,
+	arc=1.2mm,
+	boxrule=0.4pt,
+	colframe=#1!60,
+	colback=#1!8,
+	colupper=#1!85!black,
+	boxsep=0pt,
+	left=2.5pt, right=2.5pt, top=1.2pt, bottom=1.2pt,
+	fontupper=\scriptsize\bfseries,
+}
+
+% --- Link badge, colored like the site: \scribelink{url}{label}{color} ---
+\newcommand{\scribelink}[3]{\href{#1}{\scribetag{#3}{#2}}}
 
 % --- Entry: date on left, content on right ---
 % \scribeentry{when}{what}{details}
@@ -283,8 +286,40 @@
 	\begin{tabularx}{\textwidth}{@{} >{\raggedleft\arraybackslash}p{2.8cm} @{\hspace{8pt}} X @{}}
 		\textbf{#1} & #2%
 		\ifblank{#3}{}{\\[1pt] & {\small\itshape #3}}%
-	\end{tabularx}\par\vspace{2pt}
+	\end{tabularx}\par\vspace{3pt}
 }
+
+% --- Sub-entry under an entry: \scribesub{color}{tag}{text} ---
+\newcommand{\scribesub}[3]{%
+	\noindent
+	\begin{tabularx}{\textwidth}{@{} p{2.8cm} @{\hspace{8pt}} X @{}}
+		& \small\scribetag{#1}{#2}\enspace #3
+	\end{tabularx}\par\vspace{1pt}
+}
+
+% --- Publication: \scribepub{when}{title}{authors}{venue}{tags and links} ---
+\newcommand{\scribepub}[5]{%
+	\noindent
+	\begin{tabularx}{\textwidth}{@{} >{\raggedleft\arraybackslash}p{2.8cm} @{\hspace{8pt}} X @{}}
+		\textbf{#1} & \textbf{#2}\\[1pt]
+		& {\small #3}\\[0pt]
+		& {\small\itshape #4}\\[2pt]
+		& #5
+	\end{tabularx}\par\vspace{5pt}
+}
+
+% --- Preprint: \scribepreprint{when}{title}{authors}{arXiv id}{category} ---
+\newcommand{\scribepreprint}[5]{%
+	\noindent
+	\begin{tabularx}{\textwidth}{@{} >{\raggedleft\arraybackslash}p{2.8cm} @{\hspace{8pt}} X @{}}
+		\textbf{#1} & \textbf{\href{https://arxiv.org/abs/#4}{#2}}\\[1pt]
+		& {\small #3}\\[0pt]
+		& {\small\itshape arXiv:#4 [#5]}\enspace\scribelink{https://arxiv.org/pdf/#4}{arXiv}{BurntOrange}
+	\end{tabularx}\par\vspace{4pt}
+}
+
+% --- Highlight the CV owner in author lists ---
+\newcommand{\me}{\textbf{Federico Bruzzone}}
 
 % --- Load bibliography data for inline citations ---
 % Usage: \scribenobibliography{cv.bib} in preamble
