@@ -1594,6 +1594,12 @@ var RESEARCH_DATA = {
       project: "source-matching"
     },
     {
+      title: "Add `smr-opt` and run `.pat` optimizations as an MLIR pass pipeline",
+      url: "https://github.com/PGL-SMR/Source-Matching-and-Rewriting/pull/10",
+      date: "2026/10/20",
+      project: "source-matching"
+    },
+    {
       title: "[mlir][ArmSME] Mark integration tests unsupported under ASan on Darwin",
       url: "https://github.com/llvm/llvm-project/pull/233445",
       date: "2026/10/19",
@@ -1851,6 +1857,18 @@ var RESEARCH_DATA = {
       url: "https://github.com/iree-org/iree/pull/24661",
       date: "2026/07/07",
       project: "iree"
+    },
+    {
+      title: "[mlir][vector] add consistent stride verification to `masked load/store` and `gather/scatter` ops",
+      url: "https://github.com/llvm/llvm-project/pull/204842",
+      date: "2026/06/25",
+      project: "llvm-project"
+    },
+    {
+      title: "[mlir][vector] reject negative strides for `vector.load`/`vector.store`",
+      url: "https://github.com/llvm/llvm-project/pull/204611",
+      date: "2026/06/24",
+      project: "llvm-project"
     },
     {
       title: "[mlir][VectorToLLVM] add opt-in `enable-gep-inbounds-nuw` pass flag for `vector.load/store`",
