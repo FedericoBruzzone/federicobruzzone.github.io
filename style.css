@@ -350,6 +350,10 @@ tr:nth-child(even) {
     padding: 8px 12px;
 }
 
+.post-inner .post-table {
+    margin: 0 0 0.25rem 0;
+}
+
 .post-table.bool-table th:not(:first-child),
 .post-table.bool-table td:not(:first-child) {
     text-align: center;
@@ -783,3 +787,23 @@ blockquote {
     font-size: 0.95em;
 }
 
+
+.oss-list {
+    margin: 0;
+    padding-left: 1.5rem;
+    text-align: left;
+}
+
+.oss-list li {
+    margin-bottom: 0.25rem;
+}
+
+.oss-date {
+    white-space: nowrap;
+}
+
+.oss-stats {
+    margin: 0 0 0.5rem 0;
+    color: var(--text-color);
+    font-size: var(--text-font-size);
+}

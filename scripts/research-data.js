@@ -179,6 +179,12 @@ var RESEARCH_DATA = {
   disseminationActivities: [
     {
       title: "A Multi-Dimensional, Per-Pass Empirical Study of the LLVM Optimization Pipeline",
+      url: "/presentations/llvm-dev-mtg-2026-poster.pdf",
+      desc: "Poster at the 2026 US LLVM Developers' Meeting, Santa Clara.",
+      date: "2026/10/26\u201328"
+    },
+    {
+      title: "A Multi-Dimensional, Per-Pass Empirical Study of the LLVM Optimization Pipeline",
       url: "/presentations/llvm-optimization-pipeline.pdf",
       desc: "Ph.D. Student's Activity Report, University of Milan.",
       date: "2026/06/22"
@@ -1524,12 +1530,55 @@ var RESEARCH_DATA = {
   ],
 
   openSourceSummary: [
-    { name: "MLIR/LLVM", repo: "llvm/llvm-project", project: "llvm-project", years: "2024\u2013present", prs: 48, merged: 38, reviews: 150, issues: 9 },
-    { name: "IREE", repo: "iree-org/iree", project: "iree", years: "2026\u2013present", prs: 6, merged: 5, reviews: 7, issues: 8 },
-    { name: "Source Matching and Rewriting", repo: "PGL-SMR/Source-Matching-and-Rewriting", project: "source-matching", years: "2026\u2013present", prs: 15, merged: 15, reviews: 1, issues: 0 },
-    { name: "LLVM Lighthouse", repo: "llvm/lighthouse", project: "lighthouse", years: "2026", prs: 2, merged: 1, reviews: 0, issues: 0 },
-    { name: "Rust", repo: "rust-lang/rust", project: "rustc", years: "2024\u20132025", prs: 4, merged: 2, reviews: 2, issues: 1 },
-    { name: "rustworkx", repo: "Qiskit/rustworkx", project: "rustworkx", years: "2025", prs: 1, merged: 1, reviews: 0, issues: 1 }
+    { name: "MLIR/LLVM", repo: "llvm/llvm-project", project: "llvm-project", prs: 48, merged: 38, reviews: 150, issues: 9 },
+    { name: "IREE", repo: "iree-org/iree", project: "iree", prs: 6, merged: 5, reviews: 7, issues: 8 },
+    { name: "Source Matching and Rewriting", repo: "PGL-SMR/Source-Matching-and-Rewriting", project: "source-matching", prs: 15, merged: 15, reviews: 1, issues: 0 },
+    { name: "LLVM Lighthouse", repo: "llvm/lighthouse", project: "lighthouse", prs: 2, merged: 1, reviews: 0, issues: 0 },
+    { name: "Rust", repo: "rust-lang/rust", project: "rustc", prs: 4, merged: 2, reviews: 2, issues: 1 },
+    { name: "rustworkx", repo: "Qiskit/rustworkx", project: "rustworkx", prs: 1, merged: 1, reviews: 0, issues: 1 }
+  ],
+
+  openSourcePapersRFCsTalks: [
+    {
+      title: "[RFC] Unify masking in the Vector dialect",
+      url: "https://discourse.llvm.org/t/rfc-unify-masking-in-the-vector-dialect/92675",
+      desc: "LLVM Discourse, MLIR",
+      type: "RFC",
+      date: "2026/11/01",
+      project: "llvm-project"
+    },
+    {
+      title: "A Multi-Dimensional, Per-Pass Empirical Study of the LLVM Optimization Pipeline",
+      url: "/presentations/llvm-dev-mtg-2026-poster.pdf",
+      desc: '2026 US LLVM Developers\' Meeting, Santa Clara',
+      type: "Poster",
+      date: "2026/10/26\u201328",
+      project: "llvm-project"
+    },
+    {
+      title: "[RFC] Transformation support for `linalg.pack`/`linalg.unpack` on memrefs",
+      url: "https://discourse.llvm.org/t/rfc-transformation-support-for-linalg-pack-linalg-unpack-on-memrefs/91832",
+      desc: "LLVM Discourse, MLIR",
+      type: "RFC",
+      date: "2026/09/15",
+      project: "llvm-project"
+    },
+    {
+      title: "Improving PR discoverability for aspiring reviewers",
+      url: "https://discourse.llvm.org/t/improving-pr-discoverability-for-aspiring-reviewers/91797",
+      desc: "LLVM Discourse, LLVM Project",
+      type: "RFC",
+      date: "2026/09/11",
+      project: "llvm-project"
+    },
+    {
+      title: "A Multi-Dimensional, Per-Pass Empirical Study of the LLVM Optimization Pipeline",
+      url: "https://arxiv.org/abs/2606.31238",
+      desc: "Preprint, arXiv:2606.31238",
+      type: "Paper",
+      date: "2026/06",
+      project: "llvm-project"
+    }
   ],
 
   openSourceContributions: [
