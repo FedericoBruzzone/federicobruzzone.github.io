@@ -395,6 +395,19 @@ tr:nth-child(even) {
     margin-bottom: 0.3rem;
 }
 
+.status-badge {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 0.5rem;
+    padding: 0.1rem 0.5rem;
+    border: 1px solid rgba(128, 128, 128, 0.6);
+    border-radius: 10px;
+    background-color: rgba(128, 128, 128, 0.1);
+    color: var(--post-foot-color);
+    font-size: 12px;
+    font-weight: 600;
+}
+
 .reverted-badge {
     display: inline-block;
     vertical-align: middle;

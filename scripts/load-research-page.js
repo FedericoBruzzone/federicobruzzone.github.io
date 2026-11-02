@@ -11,10 +11,51 @@
 
   renderContainer("publications-container", renderPubOrPreprint, D.publications, "publication");
   renderContainer("preprints-container", renderPubOrPreprint, D.preprints, "preprint");
-  renderContainer("research-activities-container", renderSimpleItem, D.researchActivities, "research-activity-theme");
-  renderContainer("dissemination-container", renderSimpleItem, D.disseminationActivities, "dissemination-theme");
+  renderListContainer("research-activities-container", D.researchActivities, "research-activity-theme");
+  renderListContainer("dissemination-container", D.disseminationActivities, "dissemination-theme");
   renderTeaching(D.teaching);
-  renderContainer("education-container", renderSimpleItem, D.education, "education-theme");
+  renderListContainer("education-container", D.education, "education-theme");
+
+  function renderListContainer(id, items, themeClass) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.innerHTML = renderListCard(items, themeClass, renderListItem);
+  }
+
+  function renderListCard(items, themeClass, itemFn) {
+    var html = "";
+    for (var i = 0; i < (items || []).length; i++) {
+      if (items[i].hidden) continue;
+      html += itemFn(items[i]);
+    }
+    if (!html) return "";
+    return (
+      '<article class="post-block ' + themeClass + '" style="margin-bottom: 1rem;">\n' +
+      '  <div class="post-inner">\n' +
+      '    <ul class="oss-list">\n' +
+      html +
+      "    </ul>\n" +
+      "  </div>\n" +
+      "</article>\n"
+    );
+  }
+
+  function renderListItem(item) {
+    var title = item.titleHtml || codeTitles(item.title || item.what || "");
+    if (item.url) title = '<a href="' + item.url + '" style="text-decoration:none;">' + title + "</a>";
+    var rest = [];
+    var desc = item.desc || (item.details && item.details.join(" \u00b7 "));
+    if (desc) rest.push("<em>" + desc + "</em>");
+    rest.push('<span class="oss-date">' + (item.date || item.when || "") + "</span>");
+    return "      <li><strong>" + title + "</strong> &middot; " + rest.join(" &middot; ") + "</li>\n";
+  }
+
+  function renderThesisItem(s) {
+    return (
+      "      <li><strong>" + s.name + "</strong> &middot; <em>" + codeTitles(s.title) + "</em> &middot; " +
+      s.where + ", " + s.score + ' &middot; <span class="oss-date">' + s.when + "</span></li>\n"
+    );
+  }
 
   function renderContainer(id, renderFn, items, extra) {
     var el = document.getElementById(id);
@@ -83,81 +124,24 @@
     return html;
   }
 
-  function renderSimpleItem(item, themeClass) {
-    var title = item.title || item.what || "";
-    var titleHtml = item.titleHtml || codeTitles(title);
-    if (item.url) {
-      titleHtml =
-        '<a href="' +
-        item.url +
-        '" style="text-decoration:none;">' +
-        titleHtml +
-        "</a>";
-    }
-
-    var desc = item.desc;
-    if (!desc && item.details) {
-      desc = item.details.join(" \u00b7 ");
-    }
-
-    var date = item.date || item.when || "";
-
-    var html =
-      '<article class="post-block ' + (themeClass || "") + '" style="margin-bottom: 1rem;">\n' +
-      '  <div class="post-inner">\n' +
-      '    <div class="post-title">' +
-      titleHtml +
-      "</div>\n";
-
-    if (desc) {
-      html +=
-        '    <div class="post-desc">' + desc + "</div>\n";
-    }
-
-    html +=
-      '    <div class="post-foot"><img src="icons/clock.svg" width="12px" height="12px"/> ' +
-      date +
-      "</div>\n" +
-      "  </div>\n" +
-      "</article>\n";
-    return html;
-  }
-
   function renderTeaching(data) {
     var el = document.getElementById("teaching-container");
     if (!el || !data) return;
     var html = "";
 
-    // Thesis Supervision
     if (data.thesisSupervision && data.thesisSupervision.length) {
       html += '<h2 style="margin-top:0;">Thesis Supervision</h2>';
-      for (var i = 0; i < data.thesisSupervision.length; i++) {
-        var s = data.thesisSupervision[i];
-        var titleHtml = s.name + ', <em>' + codeTitles(s.title) + '</em>';
-        html +=
-          '<article class="post-block teaching-theme" style="margin-bottom: 1rem;">\n' +
-          '  <div class="post-inner">\n' +
-          '    <div class="post-title">' + titleHtml + '</div>\n' +
-          '    <div class="post-foot">' + s.where + ' &middot; Score: ' + s.score + ' &middot; ' + s.when + '</div>\n' +
-          '  </div>\n' +
-          '</article>\n';
-      }
+      html += renderListCard(data.thesisSupervision, "teaching-theme", renderThesisItem);
     }
 
-    // Graduate Courses
     if (data.graduateCourses && data.graduateCourses.length) {
       html += '<h2>Graduate Courses</h2>';
-      for (var i = 0; i < data.graduateCourses.length; i++) {
-        html += renderSimpleItem(data.graduateCourses[i], "teaching-theme");
-      }
+      html += renderListCard(data.graduateCourses, "teaching-theme", renderListItem);
     }
 
-    // Additional Activities
     if (data.additionalActivities && data.additionalActivities.length) {
       html += '<h2>Additional Activities</h2>';
-      for (var i = 0; i < data.additionalActivities.length; i++) {
-        html += renderSimpleItem(data.additionalActivities[i], "teaching-theme");
-      }
+      html += renderListCard(data.additionalActivities, "teaching-theme", renderListItem);
     }
 
     el.innerHTML = html;

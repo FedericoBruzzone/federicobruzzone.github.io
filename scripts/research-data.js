@@ -64,7 +64,7 @@ var RESEARCH_DATA = {
         { label: "SpringerLink", url: "https://doi.org/10.1016/j.jss.2025.112554" },
         { label: "arXiv", url: "https://arxiv.org/abs/2509.15150" },
       ],
-      date: "June, 2025"
+      date: "September, 2025"
     }
   ],
 
@@ -120,6 +120,12 @@ var RESEARCH_DATA = {
   ],
 
   researchActivities: [
+    {
+      title: "Attendee at MLIR Meetup 2026",
+      url: "",
+      desc: 'Attended the <a href="https://discourse.llvm.org/t/cfp-mlir-meetup-2026/91967">MLIR Meetup 2026</a>, Santa Clara, California, co-located with the 2026 US LLVM Developers\' Meeting.',
+      date: "2026/10/29"
+    },
     {
       title: "Reviewer for COLA",
       url: "",
@@ -1468,12 +1474,6 @@ var RESEARCH_DATA = {
 
   personalProjects: [
     {
-      title: "Eter",
-      url: "https://github.com/eter-lang/eter",
-      desc: "A new programming language for heterogeneous computing \u2014 compiles to CPUs, GPUs, and specialized accelerators. Built on LLVM and MLIR.",
-      date: "2026/04 \u2013 present"
-    },
-    {
       title: "LLVM Passview",
       url: "https://github.com/FedericoBruzzone/llvm-passview",
       desc: "A framework to run an incremental, reproducible study of LLVM optimization passes \u2014 measuring runtime, compile-time, binary size, and hardware performance counters.",
@@ -1516,16 +1516,25 @@ var RESEARCH_DATA = {
       date: "2024/03 \u2013 present"
     },
     {
+      title: "Eter",
+      url: "https://github.com/eter-lang/eter",
+      desc: "A new programming language for heterogeneous computing \u2014 compiles to CPUs, GPUs, and specialized accelerators. Built on LLVM and MLIR.",
+      date: "2026/04 \u2013 2026/07",
+      status: "abandoned"
+    },
+    {
       title: "CHIP-8 STM32-Port",
       url: "https://github.com/CHIP-8-Org/STM32-Port",
       desc: "CHIP-8 and S-CHIP emulator ported to STM32 Cortex M4 microcontroller.",
-      date: "2024/02 \u2013 present"
+      date: "2024/02 \u2013 2024/03",
+      status: "no longer maintained"
     },
     {
       title: "CHIP-8 Core",
       url: "https://github.com/CHIP-8-Org/Core",
       desc: "Core CHIP-8 and S-CHIP emulator library, used as the foundation for platform ports.",
-      date: "2023/10 \u2013 present"
+      date: "2023/10 \u2013 2024/03",
+      status: "no longer maintained"
     }
   ],
 
@@ -1545,6 +1554,14 @@ var RESEARCH_DATA = {
       desc: "LLVM Discourse, MLIR",
       type: "RFC",
       date: "2026/11/01",
+      project: "llvm-project"
+    },
+    {
+      title: "Attendee at MLIR Meetup 2026",
+      url: "https://discourse.llvm.org/t/cfp-mlir-meetup-2026/91967",
+      desc: "Santa Clara",
+      type: "Event",
+      date: "2026/10/29",
       project: "llvm-project"
     },
     {

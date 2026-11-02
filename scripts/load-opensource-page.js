@@ -13,19 +13,20 @@
   var TYPE_BADGES = {
     "RFC": "project-teal",
     "Poster": "project-purple",
-    "Paper": "project-orange"
+    "Paper": "project-orange",
+    "Event": "project-blue"
   };
 
   renderSummary("oss-summary-container", D.openSourceSummary);
   renderIndex();
   renderProjects(D.openSourceSummary);
-  renderContainer("personal-projects-container", renderPersonalProject, D.personalProjects);
+  renderPersonalProjects();
 
   function renderIndex() {
     var el = document.getElementById("index-oss-container");
     if (!el) return;
     var rows = (D.openSourceSummary || []).filter(function (r) { return r.project === "llvm-project"; });
-    el.innerHTML = renderGroupCard('<img src="posts/images/MLIR.png" alt="MLIR logo" width="17px"/> <img src="posts/images/LLVM.png" alt="LLVM logo" width="17px"/> MLIR/LLVM: Papers, RFCs, and Talks', projectItems(D.openSourcePapersRFCsTalks, "llvm-project"), summaryLine(rows[0]));
+    el.innerHTML = renderGroupCard('<img src="posts/images/MLIR.png" alt="MLIR logo" width="17px"/> <img src="posts/images/LLVM.png" alt="LLVM logo" width="17px"/> Being Part of the MLIR/LLVM Community', projectItems(D.openSourcePapersRFCsTalks, "llvm-project"), summaryLine(rows[0]));
   }
 
   function projectItems(items, project) {
@@ -39,7 +40,7 @@
     var html =
       '<article class="post-block" style="margin-bottom: 1rem;">\n' +
       '  <div class="post-inner">\n' +
-      '    <div class="post-title">' + title + "</div>\n" +
+      (title ? '    <div class="post-title">' + title + "</div>\n" : "") +
       (intro || "") +
       '    <ul class="oss-list">\n';
     for (var i = 0; i < items.length; i++) {
@@ -96,7 +97,7 @@
     if (!el || !rows || !rows.length) return;
 
     var groups = [
-      { title: "Papers, RFCs, and Talks", items: D.openSourcePapersRFCsTalks },
+      { title: "Papers, RFCs, Talks, and Events", items: D.openSourcePapersRFCsTalks },
       { title: "Pull Requests", items: D.openSourceContributions }
     ];
 
@@ -121,110 +122,21 @@
     var revertedBadge = item.revertedBy
       ? ' <a class="reverted-badge" href="' + item.revertedBy + '" title="This contribution has been reverted">reverted</a>'
       : "";
+    var statusBadge = item.status ? ' <span class="status-badge">' + item.status + "</span>" : "";
     var rest = [];
     if (item.desc) rest.push("<em>" + item.desc + "</em>");
     rest.push('<span class="oss-date">' + item.date + "</span>");
-    return "  <li>" + typeBadge + title + revertedBadge + " &middot; " + rest.join(" &middot; ") + "</li>\n";
-  }
-
-  function renderContainer(id, renderFn, items, extra) {
-    var el = document.getElementById(id);
-    if (!el || !items || !items.length) return;
-    var html = "";
-    for (var i = 0; i < items.length; i++) {
-      if (items[i].hidden) continue;
-      html += renderFn(items[i], extra);
-    }
-    el.innerHTML = html;
+    return "  <li>" + typeBadge + title + revertedBadge + statusBadge + " &middot; " + rest.join(" &middot; ") + "</li>\n";
   }
 
   function codeTitles(s) {
     return s.replace(/`([^`]+)`/g, '<code>$1</code>');
   }
 
-  function renderSimpleItem(item, themeClass) {
-    var title = item.title || item.what || "";
-    var titleHtml = item.titleHtml || codeTitles(title);
-    if (item.url) {
-      titleHtml =
-        '<a href="' +
-        item.url +
-        '" style="text-decoration:none;">' +
-        titleHtml +
-        "</a>";
-    }
-
-    var revertedBadge = "";
-    if (item.revertedBy) {
-      revertedBadge =
-        ' <a class="reverted-badge" href="' +
-        item.revertedBy +
-        '" title="This contribution has been reverted">reverted</a>';
-    }
-
-    var desc = item.desc;
-    if (!desc && item.details) {
-      desc = item.details.join(" \u00b7 ");
-    }
-
-    var date = item.date || item.when || "";
-    var project = item.project || "";
-
-    var html =
-      '<article class="post-block ' + (themeClass || "") + '" style="margin-bottom: 1rem;">\n' +
-      '  <div class="post-inner">\n' +
-      '    <div class="post-title">' +
-      titleHtml +
-      revertedBadge +
-      "</div>\n";
-
-    if (desc) {
-      html +=
-        '    <div class="post-desc">' + desc + "</div>\n";
-    }
-
-    var foot = date;
-    if (project) {
-      var cls = "project-badge " + (PROJECT_BADGES[project] || "project-gray");
-      foot = date + ' <span class="' + cls + '">' + project + "</span>";
-    }
-    html +=
-      '    <div class="post-foot"><img src="icons/clock.svg" width="12px" height="12px"/> ' +
-      foot +
-      "</div>\n" +
-      "  </div>\n" +
-      "</article>\n";
-    return html;
-  }
-
-  function renderPersonalProject(item, themeClass) {
-    var titleHtml = item.titleHtml || item.title;
-    var url = item.url;
-    if (url) {
-      titleHtml =
-        '<a href="' +
-        url +
-        '" style="text-decoration:none;">' +
-        titleHtml +
-        "</a>";
-    }
-
-    var desc = item.desc || "";
-
-    return (
-      '<article class="post-block ' + (themeClass || "") + '" style="margin-bottom: 1rem;">\n' +
-      '  <div class="post-inner">\n' +
-      '    <div class="post-title">' +
-      titleHtml +
-      "</div>\n" +
-      '    <div class="post-desc">' +
-      desc +
-      "</div>\n" +
-      '    <div class="post-foot"><img src="icons/clock.svg" width="12px" height="12px"/> ' +
-      item.date +
-      "</div>\n" +
-      "  </div>\n" +
-      "</article>\n"
-    );
+  function renderPersonalProjects() {
+    var el = document.getElementById("personal-projects-container");
+    if (!el) return;
+    var items = (D.personalProjects || []).filter(function (it) { return !it.hidden; });
+    el.innerHTML = renderGroupCard("", items);
   }
 })();
