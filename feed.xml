@@ -24,6 +24,14 @@
       <description><![CDATA[Conference Ranked C (National) on CORE &middot; <a href="https://synasc.ro/2026/">SYNASC'26</a>]]></description>
     </item>
     <item>
+      <title>Code Less to Code More: Streamlining Language Server Protocol and type system development for language families</title>
+      <link>https://federicobruzzone.github.io/publications/Bruzzone25/Bruzzone25.pdf</link>
+      <guid isPermaLink="false">tag:federicobruzzone.github.io,September, 2025:publications/code-less-to-code-more-streamlining-language-server-protocol-and-type-system-dev</guid>
+      <category>Publication</category>
+      <pubDate>Invalid Date</pubDate>
+      <description><![CDATA[Journal Ranked Q1 &middot; DOI: <a href="https://doi.org/10.1016/j.jss.2025.112554">10.1016/j.jss.2025.112554</a>]]></description>
+    </item>
+    <item>
       <title>Generalized Software Product Line Extraction</title>
       <link>https://federicobruzzone.github.io/publications/Bruzzone26e-preprint/Bruzzone26e-preprint.pdf</link>
       <guid isPermaLink="false">tag:federicobruzzone.github.io,May, 2026:publications/generalized-software-product-line-extraction</guid>
@@ -46,14 +54,6 @@
       <category>Preprint</category>
       <pubDate>Invalid Date</pubDate>
       <description><![CDATA[DOI: <a href="https://doi.org/10.48550/arXiv.2606.31238">10.48550/arXiv.2606.31238</a>]]></description>
-    </item>
-    <item>
-      <title>Code Less to Code More: Streamlining Language Server Protocol and type system development for language families</title>
-      <link>https://federicobruzzone.github.io/publications/Bruzzone25/Bruzzone25.pdf</link>
-      <guid isPermaLink="false">tag:federicobruzzone.github.io,June, 2025:publications/code-less-to-code-more-streamlining-language-server-protocol-and-type-system-dev</guid>
-      <category>Publication</category>
-      <pubDate>Invalid Date</pubDate>
-      <description><![CDATA[Journal Ranked Q1 &middot; DOI: <a href="https://doi.org/10.1016/j.jss.2025.112554">10.1016/j.jss.2025.112554</a>]]></description>
     </item>
     <item>
       <title>Meta-Monomorphizing Specializations</title>
