@@ -8,14 +8,6 @@
     <language>en</language>
     <lastBuildDate>Invalid Date</lastBuildDate>
     <item>
-      <title>Statically Verifying Well-Definedness of Separately Compiled Attribute Grammars</title>
-      <link>https://federicobruzzone.github.io/publications/Bruzzone26e/Bruzzone26e.pdf</link>
-      <guid isPermaLink="false">tag:federicobruzzone.github.io,November, 2026:publications/statically-verifying-well-definedness-of-separately-compiled-attribute-grammars</guid>
-      <category>Publication</category>
-      <pubDate>Invalid Date</pubDate>
-      <description><![CDATA[Journal Ranked Q2]]></description>
-    </item>
-    <item>
       <title>Prioritizing Configuration Relevance via Compiler-Based Refined Feature Ranking</title>
       <link>https://federicobruzzone.github.io/publications/Bruzzone26d/Bruzzone26d.pdf</link>
       <guid isPermaLink="false">tag:federicobruzzone.github.io,September, 2026:publications/prioritizing-configuration-relevance-via-compiler-based-refined-feature-ranking</guid>
@@ -38,6 +30,14 @@
       <category>Publication</category>
       <pubDate>Invalid Date</pubDate>
       <description><![CDATA[Journal Ranked Q1 &middot; DOI: <a href="https://doi.org/10.1016/j.jss.2025.112554">10.1016/j.jss.2025.112554</a>]]></description>
+    </item>
+    <item>
+      <title>Statically Verifying Well-Definedness of Separately Compiled Attribute Grammars</title>
+      <link>https://federicobruzzone.github.io/publications/Bruzzone26e/Bruzzone26e.pdf</link>
+      <guid isPermaLink="false">tag:federicobruzzone.github.io,November, 2026:publications/statically-verifying-well-definedness-of-separately-compiled-attribute-grammars</guid>
+      <category>Publication</category>
+      <pubDate>Invalid Date</pubDate>
+      <description><![CDATA[Journal Ranked Q2]]></description>
     </item>
     <item>
       <title>Generalized Software Product Line Extraction</title>
