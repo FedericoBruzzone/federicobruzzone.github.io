@@ -1,6 +1,20 @@
 var RESEARCH_DATA = {
   publications: [
     {
+      title: "Statically Verifying Well-Definedness of Separately Compiled Attribute Grammars",
+      url: "/publications/Bruzzone26e/Bruzzone26e.pdf",
+      authors: "F. Bruzzone, W. Cazzola, and L. Favalli",
+      venue: "<b>ACM Transactions on Programming Languages and Systems (TOPLAS)</b>",
+      // TODO: add the DOI to the note and a publisher link once it is assigned
+      note: 'Journal Ranked Q2',
+      links: [
+        { label: "bib", url: "/publications/Bruzzone26e/Bruzzone26e.bib" },
+        { label: "pdf", url: "/publications/Bruzzone26e/Bruzzone26e.pdf" },
+        { label: "arXiv", url: "https://arxiv.org/abs/2602.03777" },
+      ],
+      date: "November, 2026"
+    },
+    {
       title: "Prioritizing Configuration Relevance via Compiler-Based Refined Feature Ranking",
       url: "/publications/Bruzzone26d/Bruzzone26d.pdf",
       authors: "F. Bruzzone, W. Cazzola, and L. Favini",
@@ -102,18 +116,6 @@ var RESEARCH_DATA = {
         { label: "bib", url: "/publications/Bruzzone26d-preprint/Bruzzone26d-preprint.bib" },
         { label: "pdf", url: "/publications/Bruzzone26d-preprint/Bruzzone26d-preprint.pdf" },
         { label: "arXiv", url: "https://arxiv.org/abs/2602.12973" },
-      ],
-      date: "February, 2026"
-    },
-    {
-      title: "From Separate Compilation to Sound Language Composition",
-      url: "/publications/Bruzzone26c-preprint/Bruzzone26c-preprint.pdf",
-      authors: "F. Bruzzone, W. Cazzola, and L. Favalli",
-      note: 'DOI: <a href="https://doi.org/10.48550/arXiv.2602.03777">10.48550/arXiv.2602.03777</a>',
-      links: [
-        { label: "bib", url: "/publications/Bruzzone26c-preprint/Bruzzone26c-preprint.bib" },
-        { label: "pdf", url: "/publications/Bruzzone26c-preprint/Bruzzone26c-preprint.pdf" },
-        { label: "arXiv", url: "https://arxiv.org/abs/2602.03777" },
       ],
       date: "February, 2026"
     }
