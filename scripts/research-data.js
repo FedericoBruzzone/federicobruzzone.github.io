@@ -1541,9 +1541,9 @@ var RESEARCH_DATA = {
   ],
 
   openSourceSummary: [
-    { name: "MLIR/LLVM", repo: "llvm/llvm-project", project: "llvm-project", prs: 48, merged: 38, reviews: 150, issues: 9 },
-    { name: "IREE", repo: "iree-org/iree", project: "iree", prs: 6, merged: 5, reviews: 7, issues: 8 },
-    { name: "Source Matching and Rewriting", repo: "PGL-SMR/Source-Matching-and-Rewriting", project: "source-matching", prs: 15, merged: 15, reviews: 1, issues: 0 },
+    { name: "MLIR/LLVM", repo: "llvm/llvm-project", project: "llvm-project", prs: 55, merged: 43, reviews: 181, issues: 11 },
+    { name: "IREE", repo: "iree-org/iree", project: "iree", prs: 7, merged: 5, reviews: 7, issues: 8 },
+    { name: "Source Matching and Rewriting", repo: "PGL-SMR/Source-Matching-and-Rewriting", project: "source-matching", prs: 20, merged: 20, reviews: 2, issues: 0 },
     { name: "LLVM Lighthouse", repo: "llvm/lighthouse", project: "lighthouse", prs: 2, merged: 1, reviews: 0, issues: 0 },
     { name: "Rust", repo: "rust-lang/rust", project: "rustc", prs: 4, merged: 2, reviews: 2, issues: 1 },
     { name: "rustworkx", repo: "Qiskit/rustworkx", project: "rustworkx", prs: 1, merged: 1, reviews: 0, issues: 1 }
@@ -1555,6 +1555,7 @@ var RESEARCH_DATA = {
       url: "https://discourse.llvm.org/t/rfc-unify-masking-in-the-vector-dialect/92675",
       desc: "LLVM Discourse, MLIR",
       type: "RFC",
+      metaIssue: "https://github.com/llvm/llvm-project/issues/239511",
       date: "2026/11/01",
       project: "llvm-project"
     },
@@ -1579,6 +1580,7 @@ var RESEARCH_DATA = {
       url: "https://discourse.llvm.org/t/rfc-transformation-support-for-linalg-pack-linalg-unpack-on-memrefs/91832",
       desc: "LLVM Discourse, MLIR",
       type: "RFC",
+      metaIssue: "https://github.com/llvm/llvm-project/issues/225650",
       date: "2026/09/15",
       project: "llvm-project"
     },
@@ -1601,6 +1603,66 @@ var RESEARCH_DATA = {
   ],
 
   openSourceContributions: [
+    {
+      title: "Add `licm` and `warn` when a loop directive changes nothing",
+      url: "https://github.com/PGL-SMR/Source-Matching-and-Rewriting/pull/22",
+      date: "2026/11/10",
+      project: "source-matching"
+    },
+    {
+      title: "Skip function declarations in tiling",
+      url: "https://github.com/PGL-SMR/Source-Matching-and-Rewriting/pull/21",
+      date: "2026/11/10",
+      project: "source-matching"
+    },
+    {
+      title: "[mlir][vector] Make `vector.gather` non-maskable and use its mask operand",
+      url: "https://github.com/llvm/llvm-project/pull/239602",
+      date: "2026/11/10",
+      project: "llvm-project"
+    },
+    {
+      title: "[mlir][vector] Allow 0-D vector acc/res in `vector.contract`",
+      url: "https://github.com/llvm/llvm-project/pull/234638",
+      date: "2026/11/10",
+      project: "llvm-project"
+    },
+    {
+      title: "[mlir][VectorToSCF] Helper for masked Xfer check (NFC)",
+      url: "https://github.com/llvm/llvm-project/pull/240357",
+      date: "2026/11/09",
+      project: "llvm-project"
+    },
+    {
+      title: "[mlir][linalg] Mask instead of `in_bounds` when vectorizing pack/unpack",
+      url: "https://github.com/llvm/llvm-project/pull/239599",
+      date: "2026/11/09",
+      project: "llvm-project"
+    },
+    {
+      title: "Tile nests with statements before the inner loop",
+      url: "https://github.com/PGL-SMR/Source-Matching-and-Rewriting/pull/19",
+      date: "2026/11/08",
+      project: "source-matching"
+    },
+    {
+      title: "Add `smr-cc`, a C compiler that goes through `smr`",
+      url: "https://github.com/PGL-SMR/Source-Matching-and-Rewriting/pull/18",
+      date: "2026/11/08",
+      project: "source-matching"
+    },
+    {
+      title: "Write optimizations and conditional keywords in .pat files without a dollar",
+      url: "https://github.com/PGL-SMR/Source-Matching-and-Rewriting/pull/17",
+      date: "2026/11/03",
+      project: "source-matching"
+    },
+    {
+      title: "[Github] Label Linalg `Vectorization.cpp` PRs as `mlir:vector` (NFC)",
+      url: "https://github.com/llvm/llvm-project/pull/238387",
+      date: "2026/11/03",
+      project: "llvm-project"
+    },
     {
       title: "Implement the `$tiling` directive",
       url: "https://github.com/PGL-SMR/Source-Matching-and-Rewriting/pull/16",

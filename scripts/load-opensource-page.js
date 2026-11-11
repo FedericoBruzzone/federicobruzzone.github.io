@@ -123,10 +123,13 @@
       ? ' <a class="reverted-badge" href="' + item.revertedBy + '" title="This contribution has been reverted">reverted</a>'
       : "";
     var statusBadge = item.status ? ' <span class="status-badge">' + item.status + "</span>" : "";
+    var metaIssue = item.metaIssue
+      ? ' <a class="status-badge" href="' + item.metaIssue + '" title="Meta issue tracking this RFC" style="text-decoration:none;">#' + item.metaIssue.split("/").pop() + "</a>"
+      : "";
     var rest = [];
     if (item.desc) rest.push("<em>" + item.desc + "</em>");
     rest.push('<span class="oss-date">' + item.date + "</span>");
-    return "  <li>" + typeBadge + title + revertedBadge + statusBadge + " &middot; " + rest.join(" &middot; ") + "</li>\n";
+    return "  <li>" + typeBadge + title + revertedBadge + statusBadge + metaIssue + " &middot; " + rest.join(" &middot; ") + "</li>\n";
   }
 
   function codeTitles(s) {
