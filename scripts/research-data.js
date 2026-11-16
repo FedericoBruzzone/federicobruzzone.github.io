@@ -1541,9 +1541,9 @@ var RESEARCH_DATA = {
   ],
 
   openSourceSummary: [
-    { name: "MLIR/LLVM", repo: "llvm/llvm-project", project: "llvm-project", prs: 55, merged: 43, reviews: 181, issues: 11 },
+    { name: "MLIR/LLVM", repo: "llvm/llvm-project", project: "llvm-project", prs: 59, merged: 45, reviews: 196, issues: 11 },
     { name: "IREE", repo: "iree-org/iree", project: "iree", prs: 7, merged: 5, reviews: 7, issues: 8 },
-    { name: "Source Matching and Rewriting", repo: "PGL-SMR/Source-Matching-and-Rewriting", project: "source-matching", prs: 20, merged: 20, reviews: 2, issues: 0 },
+    { name: "Source Matching and Rewriting", repo: "PGL-SMR/Source-Matching-and-Rewriting", project: "source-matching", prs: 22, merged: 22, reviews: 4, issues: 0 },
     { name: "LLVM Lighthouse", repo: "llvm/lighthouse", project: "lighthouse", prs: 2, merged: 1, reviews: 0, issues: 0 },
     { name: "Rust", repo: "rust-lang/rust", project: "rustc", prs: 4, merged: 2, reviews: 2, issues: 1 },
     { name: "rustworkx", repo: "Qiskit/rustworkx", project: "rustworkx", prs: 1, merged: 1, reviews: 0, issues: 1 }
@@ -1553,7 +1553,7 @@ var RESEARCH_DATA = {
     {
       title: "[RFC][MLIR] Align CODEOWNERS with active reviewing",
       url: "https://discourse.llvm.org/t/rfc-mlir-align-codeowners-with-active-reviewing/92830",
-      desc: 'LLVM Discourse, MLIR, joint with <a href="https://github.com/banach-space" style="text-decoration:none;">Andrzej Warzyński</a>',
+      desc: 'LLVM Discourse, MLIR, joint with <a href="https://github.com/banach-space">Andrzej Warzyński</a>',
       type: "RFC",
       date: "2026/11/14",
       project: "llvm-project"
