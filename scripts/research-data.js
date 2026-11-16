@@ -1551,6 +1551,14 @@ var RESEARCH_DATA = {
 
   openSourcePapersRFCsTalks: [
     {
+      title: "[RFC][MLIR] Align CODEOWNERS with active reviewing",
+      url: "https://discourse.llvm.org/t/rfc-mlir-align-codeowners-with-active-reviewing/92830",
+      desc: 'LLVM Discourse, MLIR, joint with <a href="https://github.com/banach-space" style="text-decoration:none;">Andrzej Warzyński</a>',
+      type: "RFC",
+      date: "2026/11/14",
+      project: "llvm-project"
+    },
+    {
       title: "[RFC] Unify masking in the Vector dialect",
       url: "https://discourse.llvm.org/t/rfc-unify-masking-in-the-vector-dialect/92675",
       desc: "LLVM Discourse, MLIR",
