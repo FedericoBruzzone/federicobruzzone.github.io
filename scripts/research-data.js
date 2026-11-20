@@ -1553,7 +1553,7 @@ var RESEARCH_DATA = {
     {
       title: "[RFC][MLIR] Align CODEOWNERS with active reviewing",
       url: "https://discourse.llvm.org/t/rfc-mlir-align-codeowners-with-active-reviewing/92830",
-      desc: 'LLVM Discourse, MLIR, joint with <a href="https://github.com/banach-space">Andrzej Warzyński</a>',
+      desc: 'LLVM Discourse, MLIR, drafted by <a href="https://github.com/banach-space">Andrzej Warzyński</a>',
       type: "RFC",
       date: "2026/11/14",
       project: "llvm-project"
