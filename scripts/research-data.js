@@ -1541,9 +1541,9 @@ var RESEARCH_DATA = {
   ],
 
   openSourceSummary: [
-    { name: "MLIR/LLVM", repo: "llvm/llvm-project", project: "llvm-project", prs: 59, merged: 45, reviews: 196, issues: 11 },
-    { name: "IREE", repo: "iree-org/iree", project: "iree", prs: 7, merged: 5, reviews: 7, issues: 8 },
-    { name: "Source Matching and Rewriting", repo: "PGL-SMR/Source-Matching-and-Rewriting", project: "source-matching", prs: 22, merged: 22, reviews: 4, issues: 0 },
+    { name: "MLIR/LLVM", repo: "llvm/llvm-project", project: "llvm-project", prs: 64, merged: 49, reviews: 214, issues: 12 },
+    { name: "IREE", repo: "iree-org/iree", project: "iree", prs: 7, merged: 6, reviews: 7, issues: 8 },
+    { name: "Source Matching and Rewriting", repo: "PGL-SMR/Source-Matching-and-Rewriting", project: "source-matching", prs: 26, merged: 25, reviews: 5, issues: 0 },
     { name: "LLVM Lighthouse", repo: "llvm/lighthouse", project: "lighthouse", prs: 2, merged: 1, reviews: 0, issues: 0 },
     { name: "Rust", repo: "rust-lang/rust", project: "rustc", prs: 4, merged: 2, reviews: 2, issues: 1 },
     { name: "rustworkx", repo: "Qiskit/rustworkx", project: "rustworkx", prs: 1, merged: 1, reviews: 0, issues: 1 }
@@ -1553,7 +1553,7 @@ var RESEARCH_DATA = {
     {
       title: "[RFC][MLIR] Align CODEOWNERS with active reviewing",
       url: "https://discourse.llvm.org/t/rfc-mlir-align-codeowners-with-active-reviewing/92830",
-      desc: 'LLVM Discourse, MLIR, drafted by <a href="https://github.com/banach-space">Andrzej Warzyński</a>',
+      desc: 'LLVM Discourse, MLIR, joint with <a href="https://github.com/banach-space">Andrzej Warzyński</a>',
       type: "RFC",
       date: "2026/11/14",
       project: "llvm-project"
@@ -1611,6 +1611,78 @@ var RESEARCH_DATA = {
   ],
 
   openSourceContributions: [
+    {
+      title: "[mlir][vector] Specify the masked-off lanes of `Xfer`s under `vector.mask` (NFC)",
+      url: "https://github.com/llvm/llvm-project/pull/242991",
+      date: "2026/11/19",
+      project: "llvm-project"
+    },
+    {
+      title: "Port SMR to upstream LLVM CIR",
+      url: "https://github.com/PGL-SMR/Source-Matching-and-Rewriting/pull/31",
+      date: "2026/11/18",
+      project: "source-matching"
+    },
+    {
+      title: "[docs] Ask for an indication in the title of `fuzzer-found` issues",
+      url: "https://github.com/llvm/llvm-project/pull/241580",
+      date: "2026/11/18",
+      project: "llvm-project"
+    },
+    {
+      title: "[mlir][vector] Dispatch contraction lowering on iterator type (NFC)",
+      url: "https://github.com/llvm/llvm-project/pull/231337",
+      date: "2026/11/18",
+      project: "llvm-project"
+    },
+    {
+      title: "Accept options in vectorize",
+      url: "https://github.com/PGL-SMR/Source-Matching-and-Rewriting/pull/28",
+      date: "2026/11/17",
+      project: "source-matching"
+    },
+    {
+      title: "[mlir][scf] Read the written tile of a `scf.forall` through block arg",
+      url: "https://github.com/llvm/llvm-project/pull/241838",
+      date: "2026/11/17",
+      project: "llvm-project"
+    },
+    {
+      title: "[VM] Fail to compile functions that exceed the block limit of the bytecode format",
+      url: "https://github.com/iree-org/iree/pull/25244",
+      date: "2026/11/17",
+      project: "iree"
+    },
+    {
+      title: "Add the fusion directive",
+      url: "https://github.com/PGL-SMR/Source-Matching-and-Rewriting/pull/27",
+      date: "2026/11/16",
+      project: "source-matching"
+    },
+    {
+      title: "Skip function declarations when looking for the pattern entry block",
+      url: "https://github.com/PGL-SMR/Source-Matching-and-Rewriting/pull/26",
+      date: "2026/11/15",
+      project: "source-matching"
+    },
+    {
+      title: "Tile j outside k in three loop nests",
+      url: "https://github.com/PGL-SMR/Source-Matching-and-Rewriting/pull/24",
+      date: "2026/11/12",
+      project: "source-matching"
+    },
+    {
+      title: "[Github] Label `VectorTo*` conversion PRs as `mlir:vector` (NFC)",
+      url: "https://github.com/llvm/llvm-project/pull/241352",
+      date: "2026/11/11",
+      project: "llvm-project"
+    },
+    {
+      title: "[mlir][vector] Reject `vector.mask` on Xfer ops that have a mask operand",
+      url: "https://github.com/llvm/llvm-project/pull/240797",
+      date: "2026/11/11",
+      project: "llvm-project"
+    },
     {
       title: "Add `licm` and `warn` when a loop directive changes nothing",
       url: "https://github.com/PGL-SMR/Source-Matching-and-Rewriting/pull/22",
