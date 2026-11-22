@@ -221,6 +221,10 @@ body {
     place-items: center;
 }
 
+body.dark-mode .footer-contacts img {
+    filter: brightness(2);
+}
+
 .header-item {
     font-size: 20px;
 }
@@ -700,6 +704,7 @@ body.dark-mode .alert-box {
 
 .toc {
     background-color: var(--post-bg-color);
+    color: var(--text-color);
     border: 1px solid rgba(0, 0, 0, 0.12);
     border-radius: 10px;
     box-shadow: 0 0.2em 0.4em rgba(0, 0, 0, 0.08);
@@ -717,8 +722,28 @@ body.dark-mode .alert-box {
 
 .toc-title {
     display: block;
-    margin-bottom: 6px;
+    color: var(--header-color);
     font-size: 0.95rem;
+    font-weight: bold;
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+}
+
+.toc-title::-webkit-details-marker {
+    display: none;
+}
+
+.toc-title::before {
+    content: "▸ ";
+}
+
+.toc details[open] > .toc-title {
+    margin-bottom: 6px;
+}
+
+.toc details[open] > .toc-title::before {
+    content: "▾ ";
 }
 
 .toc ul {
@@ -786,6 +811,13 @@ code {
 
 body.dark-mode code {
     background: rgba(255,255,255,0.1);
+}
+
+pre code,
+body.dark-mode pre code {
+    background: none;
+    padding: 0;
+    border-radius: 0;
 }
 
 .MathJax_CHTML {

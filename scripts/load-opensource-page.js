@@ -17,6 +17,8 @@
     "Event": "project-blue"
   };
 
+  var LLVM_COMMUNITY_TITLE = '<img src="posts/images/MLIR.png" alt="MLIR logo" width="17px"/> <img src="posts/images/LLVM.png" alt="LLVM logo" width="17px"/> Being Part of the MLIR/LLVM Community';
+
   renderSummary("oss-summary-container", D.openSourceSummary);
   renderIndex();
   renderProjects(D.openSourceSummary);
@@ -26,7 +28,7 @@
     var el = document.getElementById("index-oss-container");
     if (!el) return;
     var rows = (D.openSourceSummary || []).filter(function (r) { return r.project === "llvm-project"; });
-    el.innerHTML = renderGroupCard('<img src="posts/images/MLIR.png" alt="MLIR logo" width="17px"/> <img src="posts/images/LLVM.png" alt="LLVM logo" width="17px"/> Being Part of the MLIR/LLVM Community', projectItems(D.openSourcePapersRFCsTalks, "llvm-project"), summaryLine(rows[0]));
+    el.innerHTML = renderGroupCard(LLVM_COMMUNITY_TITLE, projectItems(D.openSourcePapersRFCsTalks, "llvm-project"), summaryLine(rows[0]));
   }
 
   function projectItems(items, project) {
@@ -105,7 +107,13 @@
     for (var i = 0; i < rows.length; i++) {
       var section = "";
       for (var g = 0; g < groups.length; g++) {
-        section += renderGroupCard(groups[g].title, projectItems(groups[g].items, rows[i].project));
+        var title = groups[g].title;
+        var intro = "";
+        if (g === 0 && rows[i].project === "llvm-project") {
+          title = LLVM_COMMUNITY_TITLE;
+          intro = summaryLine(rows[i]);
+        }
+        section += renderGroupCard(title, projectItems(groups[g].items, rows[i].project), intro);
       }
       if (section) html += "<h1>" + rows[i].name + "</h1>\n" + section;
     }

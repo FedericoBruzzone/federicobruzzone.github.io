@@ -38,13 +38,16 @@ document.addEventListener("DOMContentLoaded", function () {
     const nav = document.createElement("nav");
     nav.className = "toc";
 
-    const titleEl = document.createElement("strong");
+    const details = document.createElement("details");
+    nav.appendChild(details);
+
+    const titleEl = document.createElement("summary");
     titleEl.className = "toc-title";
     titleEl.textContent = "Contents";
-    nav.appendChild(titleEl);
+    details.appendChild(titleEl);
 
     const ul = document.createElement("ul");
-    nav.appendChild(ul);
+    details.appendChild(ul);
 
     let currentH1Li = null;
     let currentH2Li = null;
