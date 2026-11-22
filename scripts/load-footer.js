@@ -16,6 +16,7 @@ document.addEventListener("DOMContentLoaded", function() {
         <a href="https://www.linkedin.com/in/federico-bruzzone/">                          <img src="[FOLDER]/icons/linkedin.svg"  width=40px height=40px> </a>
         <a href="https://www.reddit.com/user/FedericoBruzzone/">                          <img src="[FOLDER]/icons/reddit.svg"    width=40px height=40px> </a>
         <a href="https://t.me/federicobruzzone">                                         <img src="[FOLDER]/icons/telegram.svg" width=40px height=40px> </a>
+        <a href="https://discord.com/users/643466108891824142">                           <img src="[FOLDER]/icons/discord.svg"   width=40px height=40px> </a>
         <a href="https://orcid.org/0009-0004-6086-8810">                                    <img src="[FOLDER]/icons/orcid.svg"     width=40px height=40px> </a>
         <a href="[FOLDER]/feed.xml" title="RSS feed">                                      <img src="[FOLDER]/icons/rss.svg"       width=40px height=40px> </a>
         </div>
