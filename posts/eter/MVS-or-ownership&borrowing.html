@@ -29,8 +29,8 @@
     <div id="header"></div>
 
     <main>
-        <h1><img src="https://raw.githubusercontent.com/eter-lang/eter/main/docsrc/logo/logo.png" alt="The Eter logo"
-                width="20px" /> Mutable Value Semantics (MVS) or Ownership & Borrowing: A Trade-off Analysis</h1>
+        <h1><!-- <img src="https://raw.githubusercontent.com/eter-lang/eter/main/docsrc/logo/logo.png" alt="The Eter logo"
+                width="20px" /> -->Mutable Value Semantics (MVS) or Ownership & Borrowing: A Trade-off Analysis</h1>
 
         <!-- <div style="display: flex; justify-content: center;">
             <div class="alert-box">
@@ -38,7 +38,7 @@
             </div>
         </div> -->
 
-        <div style="display: flex; justify-content: center;">
+        <!-- <div style="display: flex; justify-content: center;">
             <div class="alert-box">
                 <img src="https://raw.githubusercontent.com/eter-lang/eter/main/docsrc/logo/logo.png"
                     alt="The Eter logo" width="10px" /> This post is part of <i>The <a
@@ -47,13 +47,13 @@
                     src="https://raw.githubusercontent.com/eter-lang/eter/main/docsrc/logo/logo.png" alt="The Eter logo"
                     width="10px" />
             </div>
-        </div>
+        </div> -->
 
         <p>
             <b>Edit:</b> Take a look at the discussion in the <a href="https://www.reddit.com/r/ProgrammingLanguages/comments/1tjh9h6/mutable_value_semantics_mvs_or_ownership/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button">Programming Languages subreddit</a>.
         </p>
 
-        <p>
+        <!-- <p>
             This is the <strong>second post</strong> in the series dedicated to the <i>Eter programming language</i>, a side project I dedicate my free time to.
             The previous post is <a href="./MVS.html">The Mutable Value Semantics (MVS): A Non-superficial Study</a>.
             As the former, this post is not part of the Eter language itself. It's currently in the design and development phase.
@@ -64,11 +64,16 @@
             The <a href="https://eter-lang.github.io/eter/">Eter language reference</a> and the
             <a href="https://eter-lang.github.io/eter/api/">Eter Doxygen documentation</a>, although not yet complete,
             are also good starting points.
+        </p> -->
+        <p>
+            This is the <strong>second post</strong> of a series.
+            The previous post is <a href="./MVS.html">The Mutable Value Semantics (MVS): A Non-superficial Study</a>.
         </p>
 
         <p>
-            The first post, in its prelude, introduces what we are currently researching for the Eter language.
-            It discusses the mutable value semantics (MVS) <span class="cite" value="Racordon22"></span> and how the popular programming languages (e.g., Swift <span class="cite" value="Swift"></span>, Hylo <span class="cite" value="Hylo"></span>) implement it. 
+            <!-- The first post, in its prelude, introduces what we are currently researching for the Eter language.
+            It discusses -->
+            The first post discusses the mutable value semantics (MVS) <span class="cite" value="Racordon22"></span> and how the popular programming languages (e.g., Swift <span class="cite" value="Swift"></span>, Hylo <span class="cite" value="Hylo"></span>) implement it. 
             I strongly suggest you read the <a href="./MVS.html">first post</a> if you are not familiar with the MVS model.
         </p>
         <p>
@@ -81,7 +86,8 @@
         <p>
             I just want to say two things before we start. 
             First, this post is not intended as a dismissal of existing approaches—each language's choices are coherent with its design goals, and behind them are many researchers and experts who have worked on these topics for decades.
-            I'm simply exploring the ideas that will serve as a foundation for the Eter language.
+            <!-- I'm simply exploring the ideas that will serve as a foundation for the Eter language. -->
+            I'm simply exploring some ideas.
             Second, for now, I'm just thinking things through, and this post might seem like a list of problems and the solutions I'd like to see—without actually offering any solutions: after all, that's exactly the case, and I don't yet know if there will be any.
             The next post, hopefully, will provide a first sketch.
         </p>
@@ -183,7 +189,8 @@
 
         <div style="display: flex; justify-content: center;">
             <div class="alert-box">
-                I'd like to avoid this kind of complexity for Eter, both user side and compiler side.
+                <!-- I'd like to avoid this kind of complexity for Eter, both user side and compiler side. -->
+                I'd like to avoid this kind of complexity, both user side and compiler side.
                 That's why I'm trying to take refuge in MVS.
             </div>
         </div>
@@ -215,7 +222,8 @@
 
         <div style="display: flex; justify-content: center;">
             <div class="alert-box">
-                For Eter, I'd like to avoid both the explicitness and, in general, the possibility of catching panics in specific regions.
+                <!-- For Eter, I'd like to avoid both the explicitness and, in general, the possibility of catching panics in specific regions. -->
+                I'd like to avoid both the explicitness and, in general, the possibility of catching panics in specific regions.
                 A simple solution could be treating all the panics as aborts with transparent unwinding (assuming that the "destructuring" of the stack frames is not observable). Errors must be explicitly handled as return values, eventually propagating up the call stack.
                 I hope to have a blog post about this semantic model soon.
             </div>
@@ -444,7 +452,8 @@ type DoublyLinkedList {
         <div style="display: flex; justify-content: center;">
             <div class="alert-box">
                 This <b>asymmetry</b> is worth examining.
-                For Eter, I'm exploring a symmetric design, where "modifiers" are always the same for parameter passing conventions and binding semantics.
+                <!-- For Eter, I'm exploring a symmetric design, where "modifiers" are always the same for parameter passing conventions and binding semantics. -->
+                I'm exploring a symmetric design, where "modifiers" are always the same for parameter passing conventions and binding semantics.
                 To give you an idea of what I mean, I'd like every variable to exist within its own <b>regime</b>. The regime determines <i>ownership</i>, <i>mutability</i>, and <i>storage behavior</i>, and implies <i>stability</i>, <i>internal coherence</i>, and <i>governance</i>.
                 Something like a substructural type system, where substructural rules are extended with new kinds of rules (see <cite class="cite" value="Marshall22"></cite> <cite class="cite" value="Marshall24"></cite> and the <a href="https://clean.cs.ru.nl/Publications">Clean</a> language) and the compiler is responsible for enforcing a subset of the rules for a given regime.
                 I hope to have a blog post about this semantic model soon.
@@ -970,7 +979,8 @@ class Node {
 
         <div style="display: flex; justify-content: center;">
             <div class="alert-box">
-                I don't want to bore you with pointless conclusions. If there's another post, it will discuss a model somewhere between these two for Eter. I'm ruminating...
+                <!-- I don't want to bore you with pointless conclusions. If there's another post, it will discuss a model somewhere between these two for Eter. I'm ruminating... -->
+                I don't want to bore you with pointless conclusions. If there's another post, it will discuss a model somewhere between these two. I'm ruminating...
             </div>
         </div>
 

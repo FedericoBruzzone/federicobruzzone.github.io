@@ -149,7 +149,7 @@
       <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-05-22:posts/a-friendly-tour-of-substructural-uniqueness-ownership-and-capabilities-types-and</guid>
       <category>Post</category>
       <pubDate>Fri, 22 May 2026 00:00:00 GMT</pubDate>
-      <description><![CDATA[The third post of the <i>Eter programming language</i> series. A friendly tour of the type-theoretic landscape behind memory safety. Starting from the logical roots of substructural logic, it walks through linear, affine, and uniqueness types, then visits regions, effects, capabilities, typestate, and the latest work on reachability and separation types.]]></description>
+      <description><![CDATA[A friendly tour of the type-theoretic landscape behind memory safety. Starting from the logical roots of substructural logic, it walks through linear, affine, and uniqueness types, then visits regions, effects, capabilities, typestate, and the latest work on reachability and separation types.]]></description>
     </item>
     <item>
       <title>[TODO] Regime-Based Capability Semantics (RCS)</title>
@@ -165,7 +165,7 @@
       <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-05-03:posts/mutable-value-semantics-mvs-or-ownership-borrowing-a-trade-off-analysis</guid>
       <category>Post</category>
       <pubDate>Sun, 03 May 2026 00:00:00 GMT</pubDate>
-      <description><![CDATA[The second post of the <i>Eter programming language</i> series. It explores the trade-offs between Mutable Value Semantics and Ownership &amp; Borrowing, examining friction points in Rust, Hylo, and Swift while searching for common ground between the two memory models.]]></description>
+      <description><![CDATA[An exploration of the trade-offs between Mutable Value Semantics and Ownership &amp; Borrowing, examining friction points in Rust, Hylo, and Swift while searching for common ground between the two memory models.]]></description>
     </item>
     <item>
       <title>The Mutable Value Semantics (MVS): A Non-superficial Study</title>
@@ -173,7 +173,7 @@
       <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-04-27:posts/the-mutable-value-semantics-mvs-a-non-superficial-study</guid>
       <category>Post</category>
       <pubDate>Mon, 27 Apr 2026 00:00:00 GMT</pubDate>
-      <description><![CDATA[The first post of the <i>Eter programming language</i> series. While this post is part of the series, it is not a part of the Eter language itself. The post is a non-superficial study on the MVS, trying to understand its limitations.]]></description>
+      <description><![CDATA[A non-superficial study on the Mutable Value Semantics (MVS), trying to understand its limitations.]]></description>
     </item>
     <item>
       <title>Consume the Input Only When Some&lt;T&gt; is Returned</title>

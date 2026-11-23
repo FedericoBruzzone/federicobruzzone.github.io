@@ -32,8 +32,8 @@
     <div id="header"></div>
 
     <main>
-        <h1><img src="https://raw.githubusercontent.com/eter-lang/eter/main/docsrc/logo/logo.png" alt="The Eter logo"
-                width="20px" /> A Friendly Tour of Substructural, Uniqueness, Ownership, and Capabilities Types — and more!</h1>
+        <h1><!-- <img src="https://raw.githubusercontent.com/eter-lang/eter/main/docsrc/logo/logo.png" alt="The Eter logo"
+                width="20px" /> -->A Friendly Tour of Substructural, Uniqueness, Ownership, and Capabilities Types — and more!</h1>
 
         <!-- <div style="display: flex; justify-content: center;">
             <div class="alert-box">
@@ -41,7 +41,7 @@
             </div>
         </div> -->
 
-        <div style="display: flex; justify-content: center;">
+        <!-- <div style="display: flex; justify-content: center;">
             <div class="alert-box">
                 <img src="https://raw.githubusercontent.com/eter-lang/eter/main/docsrc/logo/logo.png"
                     alt="The Eter logo" width="10px" /> This post is part of <i>The <a
@@ -50,14 +50,14 @@
                     src="https://raw.githubusercontent.com/eter-lang/eter/main/docsrc/logo/logo.png" alt="The Eter logo"
                     width="10px" />
             </div>
-        </div>
+        </div> -->
 
         <p>
             <b>Edit:</b> Take a look at the discussion in the <a href="https://www.reddit.com/r/ProgrammingLanguages/comments/1tpezv2/a_friendly_tour_of_substructural_uniqueness/">Programming Languages subreddit</a>.
         </p>
 
 
-        <p>
+        <!-- <p>
             This is the <strong>third post</strong> in the series dedicated to the <i>Eter programming language</i>, a side project that allows me to take my mind off the research I have to conduct.
             The previous posts are <a href="./MVS-or-ownership&borrowing.html">Mutable Value Semantics (MVS) or Ownership & Borrowing: A Trade-off Analysis</a> and <a href="./MVS.html">The Mutable Value Semantics (MVS): A Non-superficial Study</a>.
             If you are interested in the project, you can find more information in the
@@ -65,17 +65,22 @@
             The <a href="https://eter-lang.github.io/eter/">Eter language reference</a> and the
             <a href="https://eter-lang.github.io/eter/api/">Eter Doxygen documentation</a>, although not yet complete,
             are also good starting points.
+        </p> -->
+        <p>
+            This is the <strong>third post</strong> of a series.
+            The previous posts are <a href="./MVS-or-ownership&borrowing.html">Mutable Value Semantics (MVS) or Ownership & Borrowing: A Trade-off Analysis</a> and <a href="./MVS.html">The Mutable Value Semantics (MVS): A Non-superficial Study</a>.
         </p>
 
         <p>
-            The <a href="./MVS.html">first post</a>, in its prelude, introduces what we are currently researching for the Eter language.
-            Then, it discusses the mutable value semantics (MVS) <span class="cite" value="Racordon22"></span> and how the popular programming languages (e.g., Swift <span class="cite" value="Swift"></span>, Hylo <span class="cite" value="Hylo"></span>) implement it.
+            <!-- The <a href="./MVS.html">first post</a>, in its prelude, introduces what we are currently researching for the Eter language.
+            Then, it discusses -->
+            The <a href="./MVS.html">first post</a> discusses the mutable value semantics (MVS) <span class="cite" value="Racordon22"></span> and how the popular programming languages (e.g., Swift <span class="cite" value="Swift"></span>, Hylo <span class="cite" value="Hylo"></span>) implement it.
             The <a href="./MVS-or-ownership&borrowing.html">second post</a> covers the trade-offs between MVS and ownership & borrowing, examining friction points in Rust, Hylo, and Swift while searching for common ground between the two memory models.
         </p>
 
-        <p>
+        <!-- <p>
             Contrary to what I mentioned in the previous two posts, this post is once again not part of the Eter language itself. I needed to provide this post to clarify some concepts I consider fundamental to the language's design, semantics, and type system. 
-        </p>
+        </p> -->
 
         <p>
             What follows is meant to be a <i>friendly</i> tour. We start from the logical roots of why ordinary type systems fall short, walk through linear, affine, and uniqueness types, and then visit the broader family—regions, effects, capabilities, typestate, and the very recent work on reachability and separation. I keep the theory light on purpose; the goal is intuition and a map of the landscape, with pointers to the literature for the details.

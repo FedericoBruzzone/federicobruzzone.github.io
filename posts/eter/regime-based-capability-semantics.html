@@ -38,8 +38,8 @@ Capability-Regime Graph Calculus (CRGC) -->
     <div id="header"></div>
 
     <main>
-        <h1><img src="https://raw.githubusercontent.com/eter-lang/eter/main/docsrc/logo/logo.png" alt="The Eter logo"
-                width="20px" /> Regime-Based Capability Semantics (RCS)</h1>
+        <h1><!-- <img src="https://raw.githubusercontent.com/eter-lang/eter/main/docsrc/logo/logo.png" alt="The Eter logo"
+                width="20px" /> -->Regime-Based Capability Semantics (RCS)</h1>
 
         <!-- <div style="display: flex; justify-content: center;">
             <div class="alert-box">
@@ -47,7 +47,7 @@ Capability-Regime Graph Calculus (CRGC) -->
             </div>
         </div> -->
 
-        <div style="display: flex; justify-content: center;">
+        <!-- <div style="display: flex; justify-content: center;">
             <div class="alert-box">
                 <img src="https://raw.githubusercontent.com/eter-lang/eter/main/docsrc/logo/logo.png"
                     alt="The Eter logo" width="10px" /> This post is part of <i>The <a
@@ -56,7 +56,7 @@ Capability-Regime Graph Calculus (CRGC) -->
                     src="https://raw.githubusercontent.com/eter-lang/eter/main/docsrc/logo/logo.png" alt="The Eter logo"
                     width="10px" />
             </div>
-        </div>
+        </div> -->
 
         <!-- <p>
             <b>Edit:</b> Take a look at the discussion in the <a href="">Programming Languages subreddit</a>.
@@ -64,7 +64,8 @@ Capability-Regime Graph Calculus (CRGC) -->
 
 
         <p>
-            This is the <strong>fourth post</strong> in the series dedicated to the <i>Eter programming language</i>, a side project that allows me to take my mind off the research I have to conduct.
+            <!-- This is the <strong>fourth post</strong> in the series dedicated to the <i>Eter programming language</i>, a side project that allows me to take my mind off the research I have to conduct. -->
+            This is the <strong>fourth post</strong> of a series.
             The previous posts are (from the most recent to the oldest):
             <ul>
                 <li><a href="./a-friendly-tour-of-substructural-uniqueness-ownership-and-capabilities-types-and-more.html">A Friendly Tour of Substructural, Uniqueness, Ownership, and Capabilities Types—and more!</a></li>
@@ -72,13 +73,14 @@ Capability-Regime Graph Calculus (CRGC) -->
                 <li><a href="./MVS.html">The Mutable Value Semantics (MVS): A Non-superficial Study</a></li>
             </ul>
         </p>
-        <p>
+        <!-- <p>
             If you are interested in the project, you can find more information in the <a href="https://github.com/eter-lang/eter">Eter compiler monorepo</a>.  The <a href="https://eter-lang.github.io/eter/">Eter language reference</a> and the <a href="https://eter-lang.github.io/eter/api/">Eter Doxygen documentation</a>, although not yet complete, are also good starting points.
-        </p>
+        </p> -->
 
         <p>
-            The <a href="./MVS.html">first post</a>, in its prelude, introduces what we are currently researching for the Eter language.
-            Then, it discusses the mutable value semantics (MVS) and how the popular programming languages (e.g., Swift, Hylo) implement it.
+            <!-- The <a href="./MVS.html">first post</a>, in its prelude, introduces what we are currently researching for the Eter language.
+            Then, it discusses -->
+            The <a href="./MVS.html">first post</a> discusses the mutable value semantics (MVS) and how the popular programming languages (e.g., Swift, Hylo) implement it.
             The <a href="./MVS-or-ownership&borrowing.html">second post</a> covers the trade-offs between MVS and ownership & borrowing, examining friction points in Rust, Hylo, and Swift while searching for common ground between the two memory models.
             The <a href="./a-friendly-tour-of-substructural-uniqueness-ownership-and-capabilities-types-and-more.html">third post</a> proposes a friendly tour of the type-theoretic landscape behind memory safety. Starting from the logical roots of substructural logic, it walks through linear, affine, and uniqueness types, then visits regions, effects, capabilities, typestate, and the latest work on reachability and separation types.
         </p>
@@ -94,7 +96,8 @@ Capability-Regime Graph Calculus (CRGC) -->
             I'm really excited to share this post with all of you. When this path started (2 month ago), I had no idea that I would end up here. 
             However, fundamental properties such as type soundness (or safety), via progress and preservation, require formalization of both <i>typing rules</i>, to define what is considered valid, and <i>operational semantics</i>, to describe how programs evolve. 
             However, I will not delve into this level of formalization here.
-            While we are currently starting the implementation of the Eter compiler, I'm interested formalizing the ideas as well—if someone wants to collaborate in this direction, please get in touch. 
+            <!-- While we are currently starting the implementation of the Eter compiler, I'm interested formalizing the ideas as well—if someone wants to collaborate in this direction, please get in touch. -->
+            I'm interested formalizing the ideas as well—if someone wants to collaborate in this direction, please get in touch.
             I'm familiar with Rocq theorem prover, but I'm open to using other tools or paper-and-pencil proofs as well.
             Additionally, while writing this post, I came across a very interesting discussion on a programming languages subreddit, pointed out by knue82 in the comments of the <a href="https://www.reddit.com/r/ProgrammingLanguages/comments/1tpezv2/comment/oocmbvi/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button">previous post</a>.
             Even if you're not already familiar with the regimes, they share similarities with the "universes" model that WittyStick proposed three years ago <a href="https://www.reddit.com/r/ProgrammingLanguages/comments/13i4nm0/unifying_uniqueness_and_substructural_linear/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button">in that discussion</a>.
@@ -236,7 +239,7 @@ x --(proj)--> y  // borrow y through x</code></pre>
             Made explicit, a chain of immutable aliases and their drops walks the share from \(1\) down through the co-owners and back up to \(1\) as they die—and the <i>last</i> drop, finding itself alone, is the one that actually frees:
         </p>
 
-        <pre class="line-numbers" data-language="Eter"><code class="language-rust">{
+        <pre class="line-numbers" data-language="RCS"><code class="language-rust">{
   let imm x = [1, 2, 3];   //  x ──imm──▶ ⟦[1,2,3]⟧        p(x) = 1
   let imm y = x;           //  + y                          p = 1/2, 1/2
   let imm z = y;           //  + z                          p = 1/3, 1/3, 1/3
@@ -250,7 +253,7 @@ x --(proj)--> y  // borrow y through x</code></pre>
             Now the payoff. If, instead of letting the value die, we hand it to a <code>mut</code> binding while its co-owners are already dead, the share has silently returned to \(p = 1\) at <code>x</code>—so the <code>imm → mut</code> upgrade is licensed, and it is a <i>move</i>, not a copy. The would-be drops become <i>placebo</i> (shares handed back, never the final one), and the terminal free is replaced by <i>reuse</i> of the very same node:
         </p>
 
-        <pre class="line-numbers" data-language="Eter"><code class="language-rust">{
+        <pre class="line-numbers" data-language="RCS"><code class="language-rust">{
   let imm x = [1, 2, 3];
   let imm y = x;
   let imm z = y;
@@ -266,7 +269,7 @@ x --(proj)--> y  // borrow y through x</code></pre>
             And because the decision rides on liveness, the very same line is a move or a copy depending on what comes after it:
         </p>
 
-        <pre class="line-numbers" data-language="Eter"><code class="language-rust">let imm x = [1, 2, 3];
+        <pre class="line-numbers" data-language="RCS"><code class="language-rust">let imm x = [1, 2, 3];
 let imm y = x;
 let mut m = x;   //  if y is dead here  ⇒  p(x) = 1    ⇒  move + upgrade (zero-copy)
 print(y);        //  if y is live here  ⇒  p(x) = 1/2  ⇒  `let mut m = x` COPIES instead</code></pre>
