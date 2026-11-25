@@ -1,5 +1,16 @@
 var POSTS_DATA = [
   {
+    url: "posts/what-the-llvm-mlir-community-gave-me-and-what-i-want-to-give-back.html",
+    title: "What the LLVM/MLIR Community Gave Me, and What I Want to Give Back",
+    desc: "I became a co-maintainer of the MLIR Vector dialect. A few words on my journey in the LLVM/MLIR community, why I do it, a big thank you to the folks who helped me, and an invitation to anyone thinking about joining.",
+    date: "2026-11-26",
+    dateDisplay: "26 November, 2026",
+    readTime: "~3 min",
+    titlePrefix: '<img src="posts/images/MLIR.png" alt="MLIR logo" width="17px"/> <img src="posts/images/LLVM.png" alt="LLVM logo" width="17px"/>',
+    series: null,
+    showOnIndex: true
+  },
+  {
     url: "posts/compiler-hpc-and-systems-venues-a-cheat-sheet.html",
     title: "Compiler, HPC, and Systems Venues: A Cheat Sheet",
     desc: "A simple list of conferences, workshops, and journals on compilers, programming languages, HPC, computer architecture, and ML systems, with ICORE2026 ranks, approximate deadlines, and when they are held.",
