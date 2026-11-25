@@ -80,6 +80,14 @@
       <description><![CDATA[Conference Ranked B on CORE &middot; Workshop paper (poster) at PNAS'26 &middot; <a href="https://ceur-ws.org/Vol-4236/">CEUR-WS.org</a>]]></description>
     </item>
     <item>
+      <title>What the LLVM/MLIR Community Gave Me, and What I Want to Give Back</title>
+      <link>https://federicobruzzone.github.io/posts/what-the-llvm-mlir-community-gave-me-and-what-i-want-to-give-back.html</link>
+      <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-11-26:posts/what-the-llvm-mlir-community-gave-me-and-what-i-want-to-give-back</guid>
+      <category>Post</category>
+      <pubDate>Thu, 26 Nov 2026 00:00:00 GMT</pubDate>
+      <description><![CDATA[I became a co-maintainer of the MLIR Vector dialect. A few words on my journey in the LLVM/MLIR community, why I do it, a big thank you to the folks who helped me, and an invitation to anyone thinking about joining.]]></description>
+    </item>
+    <item>
       <title>Compiler, HPC, and Systems Venues: A Cheat Sheet</title>
       <link>https://federicobruzzone.github.io/posts/compiler-hpc-and-systems-venues-a-cheat-sheet.html</link>
       <guid isPermaLink="false">tag:federicobruzzone.github.io,2026-11-23:posts/compiler-hpc-and-systems-venues-a-cheat-sheet</guid>
